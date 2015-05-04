@@ -1,0 +1,108 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro&subset=latin,latin-ext);
+ body {
+    margin: 0;
+    padding: 0;
+    max-width: inherit;
+    min-width: 200px;
+    height: 100%;
+    /*margin-right: 15px;*/
+    padding-top: 50px;
+    /*overflow: hidden;*/
+}
+html,
+form,
+.row,
+.row > * {
+    height: 100%;
+    min-height: 100%;
+}
+.CodeMirror {
+    font-family: 'Source Code Pro', Consolas, monaco, monospace;
+    line-height: 18px;
+    font-size: 16px;
+    height: auto;
+    min-height: 100%;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+}
+.CodeMirror-scroll {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+.CodeMirror-code {
+    padding-bottom: 100px;
+}
+.CodeMirror-linenumber {
+    opacity: 0.5;
+    width: 29px;
+}
+.CodeMirror-matchingtag {
+    background: rgba(255, 255, 255, .1);
+    line-height: 1em;
+}
+.CodeMirror-foldmarker {
+    color: #d0d0d0;
+    text-shadow: none;
+    font-family: arial;
+    line-height: .3;
+    cursor: pointer;
+    margin: 2px;
+}
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+.ui-edit-area {
+    /*padding-left: 15px;*/
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.ui-view-area {
+    /*overflow-y: scroll;*/
+    -webkit-overflow-scrolling: touch;
+}
+.ui-scrollable {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.ui-status * {
+    font-size: 16px;
+}
+.nav-status .ui-status * {
+    font-size: 14px;
+}
+.nav-mobile {
+    position: relative;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.nav-status {
+    float: right !important;
+    padding: 7px 8px;
+}
+.ui-status {
+    min-width: 120px;
+}
+.ui-short-status {
+    min-width: 40px;
+}
+.navbar-right {
+    margin-right: 0;
+}
+.other-cursors {
+    position:relative;
+    z-index:3;
+}
+.other-cursor {
+    width: 0px;
+    position: absolute;
+    border-right: none;
+}
+.fixfixed .navbar-fixed-top {
+    position: absolute !important;
+}
+div[contenteditable]:empty:not(:focus):before{
+    content:attr(data-ph);
+    color: gray;
+}

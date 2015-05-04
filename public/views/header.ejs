@@ -1,0 +1,105 @@
+<nav class="hidden-print navbar navbar-default navbar-fixed-top">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <h4 class="pull-right" style="margin-top: 17px; color: #777;">
+            <div class="visible-xs">&nbsp;</div>
+            <div class="visible-sm">&nbsp;</div>
+            <div class="visible-md">&nbsp;</div>
+            <div class="visible-lg">&nbsp;</div>
+        </h4>
+        <div class="nav-mobile nav-status visible-xs">
+            <div class="ui-short-status"><span class="label label-danger"><i class="fa fa-plug"></i></span>
+            </div>
+        </div>
+        <a class="navbar-brand" href="./"><i class="fa fa-file-text"></i> HackMD</a>
+        <div class="nav-mobile pull-right visible-xs">
+            <a data-target="#" data-toggle="dropdown" class="btn btn-link">
+                <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
+                <li role="presentation"><a role="menuitem" class="ui-new" tabindex="-1" href="./new" target="_blank"><i class="fa fa-plus fa-fw"></i> New</a>
+                </li>
+                <li role="presentation"><a role="menuitem" class="ui-pretty" tabindex="-1" href="#" target="_blank"><i class="fa fa-print fa-fw"></i> Pretty</a>
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Save</li>
+                <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Download</li>
+                <li role="presentation"><a role="menuitem" class="ui-download-markdown" tabindex="-1" href="#" target="_self"><i class="fa fa-file-text fa-fw"></i> Markdown</a>
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Import</li>
+                <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
+                </li>
+                <li role="presentation"><a role="menuitem" class="ui-import-clipboard" href="#" data-toggle="modal" data-target="#clipboardModal"><i class="fa fa-clipboard fa-fw"></i> Clipboard</a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="https://www.facebook.com/messages/866415986748945" class="ui-feedback" title="Feedback" target="_blank"><i class="fa fa-bullhorn fa-fw"></i> Feedback</a>
+                </li>
+            </ul>
+            <a class="btn btn-link ui-mode">
+                <i class="fa fa-toggle-on"></i>
+            </a>
+        </div>
+    </div>
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-form navbar-left" style="padding:0;">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default ui-edit" title="Edit">
+                    <input type="radio" name="mode" autocomplete="off"><i class="fa fa-edit"></i>
+                </label>
+                <label class="btn btn-default ui-view" title="View">
+                    <input type="radio" name="mode" autocomplete="off"><i class="fa fa-eye"></i>
+                </label>
+                <label class="btn btn-default ui-both" title="Both">
+                    <input type="radio" name="mode" autocomplete="off"><i class="fa fa-columns"></i>
+                </label>
+            </div>
+            <a href="https://www.facebook.com/messages/866415986748945" class="btn btn-link ui-feedback" title="Feedback" target="_blank">
+                <i class="fa fa-bullhorn"></i>
+            </a>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a>
+                    <div class="ui-status">
+                        <span class="label label-danger"><i class="fa fa-plug"></i> OFFLINE</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="navbar-form navbar-right" style="padding:0;">
+            <a href="./new" target="_blank" class="btn btn-link ui-new">
+                <i class="fa fa-plus"></i> New
+            </a>
+            <a href="#" target="_blank" class="btn btn-link ui-pretty">
+                <i class="fa fa-print"></i> Pretty
+            </a>
+            <span>
+                <a class="btn btn-link" data-target="#" data-toggle="dropdown">
+                    Save <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu" style="right: 230px;">
+                    <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
+                    </li>
+                    <li role="presentation"><a role="menuitem" class="ui-download-markdown" tabindex="-1" href="#" target="_self"><i class="fa fa-file-text fa-fw"></i> Markdown</a>
+                    </li>
+                </ul>
+            </span>
+            <span>
+                <a class="btn btn-link" data-target="#" data-toggle="dropdown">
+                    Import <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu" style="right: 150px;">
+                    <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
+                    </li>
+                    <li role="presentation"><a role="menuitem" class="ui-import-clipboard" href="#" data-toggle="modal" data-target="#clipboardModal"><i class="fa fa-clipboard fa-fw"></i> Clipboard</a>
+                    </li>
+                </ul>
+            </span>
+        </div>
+    </div>
+</nav>
+<div class="ui-spinner"></div>

@@ -1,0 +1,13 @@
+html,
+body,
+.container-fluid {
+    height: 98%;
+}
+.container-fluid {
+    display: table;
+    vertical-align: middle;
+}
+.vertical-center-row {
+    display: table-cell;
+    vertical-align: middle;
+}

@@ -1,0 +1,47 @@
+/* for extra features should include this */
+
+.vimeo,
+.youtube {
+    cursor: pointer;
+    display: table;
+    max-width: 540px;
+    text-align: center;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: black;
+}
+.vimeo .icon,
+.youtube .icon {
+    opacity: 0.5;
+    display: table-cell;
+    vertical-align: middle;
+    height: inherit;
+    margin: 0 auto;
+}
+.vimeo:hover .icon,
+.youtube:hover .icon {
+    opacity: 0.6;
+}
+h1:hover .header-link,
+h2:hover .header-link,
+h3:hover .header-link,
+h4:hover .header-link,
+h5:hover .header-link,
+h6:hover .header-link {
+    opacity: 1;
+    -webkit-transition: opacity 0.2s ease-in-out 0.1s;
+    -moz-transition: opacity 0.2s ease-in-out 0.1s;
+    -o-transition: opacity 0.2s ease-in-out 0.1s;
+    transition: opacity 0.2s ease-in-out 0.1s;
+}
+.header-link {
+    position: relative;
+    left: 0.5em;
+    opacity: 0;
+    font-size: 0.8em;
+    -webkit-transition: opacity 0.2s ease-in-out 0.1s;
+    -moz-transition: opacity 0.2s ease-in-out 0.1s;
+    -o-transition: opacity 0.2s ease-in-out 0.1s;
+    transition: opacity 0.2s ease-in-out 0.1s;
+}

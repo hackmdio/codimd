@@ -1,0 +1,89 @@
+/* for markdown-body */
+
+.markdown-body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    max-width: 758px;
+}
+/*fixed style for bootstrap comflict*/
+
+.markdown-body pre {
+    border: inherit !important;
+}
+
+.markdown-body code {
+    color: inherit !important;
+}
+
+.markdown-body pre code .wrapper {
+    display: -webkit-inline-flex;
+    display: -moz-inline-flex;
+    display: -ms-inline-flex;
+    display: -o-inline-flex;
+    display: inline-flex;
+}
+
+.markdown-body pre code .gutter {
+    float: left;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.markdown-body pre code .gutter .linenumber {
+    text-align: right;
+    position: relative;
+    display: inline-block;
+    float: right;
+    cursor: default;
+    z-index: 4;
+    padding: 0 8px 0 0;
+    min-width: 20px;
+    box-sizing: content-box;
+    color: #afafaf !important;
+    border-right: 3px solid #6ce26c !important;
+}
+
+.markdown-body pre code .code {
+    float: left;
+    margin: 0 0 0 16px;
+}
+
+.markdown-body .gist .line-numbers {
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+}
+
+.markdown-body .gist .line-data {
+    border: none;
+}
+
+.markdown-body .gist table {
+    border-spacing: 0;
+    border-collapse: inherit !important;
+}
+
+.markdown-body code[data-gist-id] {
+    background: none;
+    padding: 0;
+}
+
+.markdown-body code[data-gist-id]:before {
+    content: ''
+}
+
+.markdown-body code[data-gist-id]:after {
+    content: ''
+}
+
+.markdown-body .sequence-diagram, .markdown-body .flow-chart {
+    text-align: center;
+}
+.markdown-body .flow-chart {
+    margin-bottom: 40px;
+}
+svg {
+    width: 100%;
+    max-height: 70vh;
+}
