@@ -28,6 +28,8 @@ function renderFilename(view) {
     return filename;
 }
 
+var viewAjaxCallback = null;
+
 //dynamic event or object binding here
 function finishView(view) {
     //youtube
@@ -42,7 +44,7 @@ function finishView(view) {
         .each(function (key, value) {
             $.ajax({
                 type: 'GET',
-                url: 'http://vimeo.com/api/v2/video/' + $(value).attr('videoid') + '.json',
+                url: '//vimeo.com/api/v2/video/' + $(value).attr('videoid') + '.json',
                 jsonp: 'callback',
                 dataType: 'jsonp',
                 success: function (data) {
@@ -54,7 +56,7 @@ function finishView(view) {
     //gist
     view.find("code[data-gist-id]").each(function(key, value) {
         if($(value).children().length == 0)
-            $(value).gist();
+            $(value).gist(viewAjaxCallback);
     });
     //emojify
     emojify.run(view[0]);

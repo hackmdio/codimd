@@ -258,7 +258,7 @@
           var actual = line - offset;
           if (line == obj.end) head = Pos(actual, cm.getLine(actual).length + 1);
           if (actual < cm.lastLine()) {
-            cm.replaceRange(" ", Pos(actual), Pos(actual + 1, /^\s*/.exec(cm.getLine(actual + 1))[0].length));
+            cm.replaceRange(" ", Pos(actual), Pos(actual + 1, /^\s*/.exec(cm.getLine(actual + 1))[0].length), "+joinLines");
             ++offset;
           }
         }
@@ -274,9 +274,9 @@
       for (var i = 0; i < rangeCount; i++) {
         var range = cm.listSelections()[i];
         if (range.empty())
-          cm.replaceRange(cm.getLine(range.head.line) + "\n", Pos(range.head.line, 0));
+          cm.replaceRange(cm.getLine(range.head.line) + "\n", Pos(range.head.line, 0), null, "+duplicateLine");
         else
-          cm.replaceRange(cm.getRange(range.from(), range.to()), range.from());
+          cm.replaceRange(cm.getRange(range.from(), range.to()), range.from(), null, "+duplicateLine");
       }
       cm.scrollIntoView();
     });
@@ -311,7 +311,7 @@
             if (au != bu) { a = au; b = bu; }
             return a < b ? -1 : a == b ? 0 : 1;
           });
-        cm.replaceRange(lines, start, end);
+        cm.replaceRange(lines, start, end, "+sortLines");
         if (selected) ranges.push({anchor: start, head: end});
       }
       if (selected) cm.setSelections(ranges, 0);
@@ -402,7 +402,7 @@
         if (at && CodeMirror.cmpPos(range.head, at) > 0) continue;
         var word = wordAt(cm, range.head);
         at = word.from;
-        cm.replaceRange(mod(word.word), word.from, word.to);
+        cm.replaceRange(mod(word.word), word.from, word.to, "case");
       }
     });
   }
@@ -452,7 +452,7 @@
       var from = cm.getCursor(), to = found;
       if (CodeMirror.cmpPos(from, to) > 0) { var tmp = to; to = from; from = tmp; }
       cm.state.sublimeKilled = cm.getRange(from, to);
-      cm.replaceRange("", from, to);
+      cm.replaceRange("", from, to, "+delete");
     }
   };
   cmds[map[cK + ctrl + "X"] = "swapWithSublimeMark"] = function(cm) {

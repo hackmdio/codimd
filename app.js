@@ -1,6 +1,5 @@
 //app
 //external modules
-var connect = require('connect');
 var express = require('express');
 var toobusy = require('toobusy-js');
 var ejs = require('ejs');
@@ -11,24 +10,45 @@ var mongoose = require('mongoose');
 var compression = require('compression')
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+var fs = require('fs');
+var shortid = require('shortid');
+var imgur = require('imgur');
+var formidable = require('formidable');
 
 //core
 var config = require("./config.js");
 var User = require("./lib/user.js");
+var Temp = require("./lib/temp.js");
 var auth = require("./lib/auth.js");
 var response = require("./lib/response.js");
 
 //server setup
-var app = express();
-var server = require('http').createServer(app);
+if (config.usessl) {
+    var ca = (function () {
+        var i, len, results;
+        results = [];
+        for (i = 0, len = config.sslcapath.length; i < len; i++) {
+            results.push(fs.readFileSync(config.sslcapath[i], 'utf8'));
+        }
+        return results;
+    })();
+    var options = {
+        key: fs.readFileSync(config.sslkeypath, 'utf8'),
+        cert: fs.readFileSync(config.sslcertpath, 'utf8'),
+        ca: ca,
+        requestCert: false,
+        rejectUnauthorized: false
+    };
+    var app = express();
+    var server = require('https').createServer(options, app);
+} else {
+    var app = express();
+    var server = require('http').createServer(app);
+}
 var io = require('socket.io').listen(server);
-var port = process.env.PORT || config.testport;
 
 // connect to the mongodb
-if (config.debug)
-    mongoose.connect(config.mongodbstring);
-else
-    mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGOLAB_URI || config.mongodbstring);
 
 //others
 var db = require("./lib/db.js");
@@ -53,7 +73,7 @@ app.use(session({
     name: config.sessionname,
     secret: config.sessionsecret,
     resave: false, //don't save session if unmodified
-    saveUninitialized: true, //don't create session until something stored
+    saveUninitialized: false, //don't create session until something stored
     cookie: {
         maxAge: new Date(Date.now() + config.sessionlife),
         expires: new Date(Date.now() + config.sessionlife),
@@ -110,6 +130,59 @@ app.get("/status", function (req, res, next) {
     realtime.getStatus(function (data) {
         res.end(JSON.stringify(data));
     });
+});
+//get status
+app.get("/temp", function (req, res) {
+    var host = req.get('host');
+    if (config.alloworigin.indexOf(host) == -1)
+        response.errorForbidden(res);
+    else {
+        var tempid = req.query.tempid;
+        if (!tempid)
+            response.errorForbidden(res);
+        else {
+            Temp.findTemp(tempid, function (err, temp) {
+                if (err || !temp)
+                    response.errorForbidden(res);
+                else {
+                    res.header("Access-Control-Allow-Origin", "*");
+                    res.send({
+                        temp: temp.data
+                    });
+                    temp.remove(function (err) {
+                        if (err)
+                            console.log('remove temp failed: ' + err);
+                    });
+                }
+            });
+        }
+    }
+});
+//post status
+app.post("/temp", urlencodedParser, function (req, res) {
+    var host = req.get('host');
+    if (config.alloworigin.indexOf(host) == -1)
+        response.errorForbidden(res);
+    else {
+        var id = shortid.generate();
+        var data = req.body.data;
+        if (!id || !data)
+            response.errorForbidden(res);
+        else {
+            if (config.debug)
+                console.log('SERVER received temp from [' + host + ']: ' + req.body.data);
+            Temp.newTemp(id, data, function (err, temp) {
+                if (!err && temp) {
+                    res.header("Access-Control-Allow-Origin", "*");
+                    res.send({
+                        status: 'ok',
+                        id: temp.id
+                    });
+                } else
+                    response.errorInternalError(res);
+            });
+        }
+    }
 });
 //facebook auth
 app.get('/auth/facebook',
@@ -230,6 +303,29 @@ app.get('/me', function (req, res) {
         });
     }
 });
+//upload to imgur
+app.post('/uploadimage', function (req, res) {
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+        if (err || !files.image || !files.image.path) {
+            response.errorForbidden(res);
+        } else {
+            if (config.debug)
+                console.log('SERVER received uploadimage: ' + JSON.stringify(files.image));
+            imgur.setClientId(config.imgur.clientID);
+            imgur.uploadFile(files.image.path)
+                .then(function (json) {
+                    if (config.debug)
+                        console.log('SERVER uploadimage success: ' + JSON.stringify(json));
+                    res.send({link:json.data.link});
+                })
+                .catch(function (err) {
+                    console.error(err);
+                    res.send(err.message);
+                });
+        }
+    });
+});
 //get new note
 app.get("/new", response.newNote);
 //get features
@@ -248,6 +344,12 @@ io.set('heartbeat timeout', config.heartbeattimeout);
 io.sockets.on('connection', realtime.connection);
 
 //listen
-server.listen(port, function () {
-    console.log('Server listening at port %d', port);
-});
+if (config.usessl) {
+    server.listen(config.sslport, function () {
+        console.log('HTTPS Server listening at sslport %d', config.sslport);
+    });
+} else {
+    server.listen(config.port, function () {
+        console.log('HTTP Server listening at port %d', config.port);
+    });
+}

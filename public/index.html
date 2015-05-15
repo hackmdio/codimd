@@ -10,13 +10,6 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="description" content="Realtime collaborative markdown notes on all platforms.">
     <meta name="author" content="jackycute">
-    <!-- Open Graph data -->
-    <meta property="og:title" content="HackMD - Collaborative notes">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://hackmd.herokuapp.com/">
-    <meta property="og:description" content="Realtime collaborative markdown notes on all platforms.">
-    <meta property="og:site_name" content="HackMD">
-    <meta property="fb:admins" content="1463801565">
     <title>HackMD - Collaborative notes</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -24,7 +17,8 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/vendor/select2/select2.css">
+    <link rel="stylesheet" href="/vendor/select2/select2-bootstrap.css">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="/css/cover.css">
     <link rel="stylesheet" href="/css/bootstrap-social.css">
@@ -56,9 +50,7 @@
                     <div class="inner cover">
                         <h1 class="cover-heading"><i class="fa fa-file-text"></i> HackMD</h1>
                         <p class="lead">
-                            Realtime collaborate notes.
-                            <br> Using markdown syntax.
-                            <br> On all platforms.
+                            Realtime collaborative markdown notes on all platforms.
                         </p>
                         <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".bs-example-modal-sm" style="display:none;">Sign In</a>
                         <div class="ui-or" style="display:none;">Or</div>
@@ -76,12 +68,12 @@
                         <h4>
                             <a type="button" class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-sm">Sign In</a> to get own history!
                         </h4>
-                        <p>Below are history from cookie</p>
+                        <p>Below are history from browser</p>
                     </div>
                     <div class="ui-signout" style="display:none;">
                         <h4 class="ui-welcome">Welcome! <span class="ui-name"></span></h4>
                         <a href="/new" class="btn btn-default">Start new note</a> Or
-                        <a href="/logout" class="btn btn-danger">Sign Out</a>
+                        <a href="#" class="btn btn-danger ui-logout">Sign Out</a>
                         <br>
                         <br>
                         <a href="/features">See all features here <i class="fa fa-info-circle"></i></a>
@@ -90,23 +82,33 @@
                     <hr>
                     <form class="form-inline">
                         <div class="form-group">
+                            <input class="form-control ui-use-tags" style="width:172px;" />
+                        </div>
+                        <div class="form-group">
                             <input class="search form-control" placeholder="Search anything..." />
                         </div>
-                        <a href="#" class="sort btn btn-default" data-sort="text">
-                        Sort by title
+                        <a href="#" class="sort btn btn-default" data-sort="text" title="Sort by title">
+                        Title
                         </a>
-                        <a href="#" class="sort btn btn-default" data-sort="timestamp">
-                        Sort by time
+                        <a href="#" class="sort btn btn-default" data-sort="timestamp" title="Sort by time">
+                        Time
                         </a>
+                        <span class="hidden-xs hidden-sm">
+                            <a href="#" class="btn btn-default ui-save-history" title="Export history"><i class="fa fa-save"></i></a>
+                            <span class="btn btn-default btn-file ui-open-history" title="Import history">
+                                <i class="fa fa-folder-open-o"></i><input type="file" />
+                            </span>
+                        <a href="#" class="btn btn-default ui-clear-history" title="Clear history"><i class="fa fa-trash-o"></i></a>
+                        </span>
+                        <a href="#" class="btn btn-default ui-refresh-history" title="Refresh history"><i class="fa fa-refresh"></i></a>
                     </form>
-                    <h4 class="ui-nohistory">
+                    <h4 class="ui-nohistory" style="display:none;">
                         No history
                     </h4>
-                    <a href="#" class="btn btn-primary ui-import-from-cookie" style="display:none;">Import from cookie</a>
+                    <a href="#" class="btn btn-primary ui-import-from-browser" style="display:none;">Import from browser</a>
                     <ul id="history-list" class="list">
                     </ul>
                 </div>
-
                 <div id="releasenotes" class="section" style="display:none;">
                     <div id="template" style="display:none;">
                         {{#each release}}
@@ -140,6 +142,11 @@
 
                 <div class="mastfoot">
                     <div class="inner">
+                        <h6>
+                            <div class="fb-like" data-href="https://www.facebook.com/TakeHackMD" data-width="80" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false" style="vertical-align:middle;"></div>
+                            &nbsp;
+                            <iframe src="//ghbtns.com/github-btn.html?user=jackycute&repo=hackmd&type=star&count=true" frameborder="0" scrolling="0" width="80px" height="20px" style="vertical-align:middle;"></iframe>
+                        </h6>
                         <p>&copy; 2015 <a href="https://www.facebook.com/TakeHackMD" target="_blank"><i class="fa fa-facebook-square"></i> HackMD</a> by <a href="https://github.com/jackycute" target="_blank"><i class="fa fa-github-square"></i> jackycute</a>
                         </p>
                     </div>
@@ -174,21 +181,25 @@
             </div>
         </div>
     </div>
+    <div id="fb-root"></div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!--<script src="/js/ga.js"></script>-->
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="/vendor/select2/js/select2.min.js"></script>
-    <script src="/vendor/select2/js/i18n/en.js"></script>
-    <script src="/vendor/jquery.cookie-1.4.1.min.js"></script>
-    <script src="/vendor/moment-with-locales.js"></script>
-    <script src="/vendor/handlebars-v3.0.0.js"></script>
-    <script src="/vendor/list.min.js"></script>
-    <script src="/js/history.js"></script>
-    <script src="/js/cover.js"></script>
+    <script src="/js/fb.js" async defer></script>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js" defer></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" defer></script>
+    <script src="/vendor/select2/select2.min.js" defer></script>
+    <script src="/vendor/js.cookie.js" defer></script>
+    <script src="/vendor/moment-with-locales.js" defer></script>
+    <script src="/vendor/handlebars-v3.0.0.js" defer></script>
+    <script src="/vendor/list.min.js" defer></script>
+    <script src="/vendor/FileSaver.min.js" defer></script>
+    <script src="/vendor/store.min.js" defer></script>
+    <script src="/vendor/url.min.js" defer></script>
+    <script src="/js/common.js" defer></script>
+    <script src="/js/history.js" defer></script>
+    <script src="/js/cover.js" defer></script>
 </body>
 
 </html>

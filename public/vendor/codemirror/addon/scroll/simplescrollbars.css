@@ -38,8 +38,9 @@
 
 .CodeMirror-overlayscroll-horizontal div, .CodeMirror-overlayscroll-vertical div {
   position: absolute;
-  background: #bcd;
+  background: #ccc;
   border-radius: 3px;
+  margin: 2px;
 }
 
 .CodeMirror-overlayscroll-horizontal, .CodeMirror-overlayscroll-vertical {

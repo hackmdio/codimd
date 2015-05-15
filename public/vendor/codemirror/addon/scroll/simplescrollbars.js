@@ -75,14 +75,13 @@
     this.screen = clientSize;
     this.total = scrollSize;
     this.size = barSize;
-
     var buttonSize = this.screen * (this.size / this.total);
     if (buttonSize < minButtonSize) {
       this.size -= minButtonSize - buttonSize;
       buttonSize = minButtonSize;
     }
     this.inner.style[this.orientation == "horizontal" ? "width" : "height"] =
-      buttonSize + "px";
+      (buttonSize - 4) + "px";
     this.inner.style[this.orientation == "horizontal" ? "left" : "top"] =
       this.pos * (this.size / this.total) + "px";
   };

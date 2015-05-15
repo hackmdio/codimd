@@ -27,6 +27,10 @@
   font-family: monospace;
 }
 
+.CodeMirror-dialog input::selection {
+  color: white;
+}
+
 .CodeMirror-dialog button {
   font-size: 70%;
 }

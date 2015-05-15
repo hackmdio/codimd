@@ -118,7 +118,7 @@
   var doReplaceConfirm = "Replace? <button>Yes</button> <button>No</button> <button>Stop</button>";
   function replace(cm, all) {
     if (cm.getOption("readOnly")) return;
-    var query = cm.getSelection() || getSearchState().lastQuery;
+    var query = cm.getSelection() || getSearchState(cm).lastQuery;
     dialog(cm, replaceQueryDialog, "Replace:", query, function(query) {
       if (!query) return;
       query = parseQuery(query);
@@ -128,8 +128,8 @@
             for (var cursor = getSearchCursor(cm, query); cursor.findNext();) {
               if (typeof query != "string") {
                 var match = cm.getRange(cursor.from(), cursor.to()).match(query);
-                cursor.replace(text.replace(/\$(\d)/g, function(_, i) {return match[i];}));
-              } else cursor.replace(text);
+                cursor.replace(text.replace(/\$(\d)/g, function(_, i) {return match[i];}), "+input");
+              } else cursor.replace(text, "+input");
             }
           });
         } else {
@@ -149,7 +149,7 @@
           };
           var doReplace = function(match) {
             cursor.replace(typeof query == "string" ? text :
-                           text.replace(/\$(\d)/g, function(_, i) {return match[i];}));
+                           text.replace(/\$(\d)/g, function(_, i) {return match[i];}), "+input");
             advance();
           };
           advance();

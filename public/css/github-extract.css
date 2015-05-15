@@ -1,6 +1,5 @@
 .markdown-body {
     overflow: hidden;
-    font-family: "Helvetica Neue",  Helvetica,  "Segoe UI",  Arial,  freesans,  sans-serif;
     font-size: 16px;
     line-height: 1.6;
     word-wrap: break-word;
@@ -339,7 +338,7 @@
 }
 .task-list-item-checkbox {
     float: left;
-    margin: 0.4em 0 0.2em -1.3em !important;
+    margin: 0.31em 0 0.2em -1.3em !important;
     vertical-align: middle;
     cursor: default !important;
 }

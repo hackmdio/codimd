@@ -23,13 +23,15 @@ a:hover {
 /*
  * Base structure
  */
-
+html {
+    height: 100%;
+}
 html,
 body {
-    height: 100%;
     background-color: #333;
 }
 body {
+    min-height: 100%;
     color: #fff;
     text-align: center;
     text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
@@ -40,7 +42,7 @@ body {
     padding: 10px;
     display: table;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     /* For at least Firefox */
     min-height: 100%;
     -webkit-box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
@@ -156,7 +158,7 @@ body {
     .masthead,
     .mastfoot,
     .cover-container {
-        width: 700px;
+        width: 1000px;
     }
 }
 .section ul {
@@ -168,41 +170,14 @@ html,
 body {
     overflow-x: hidden;
 }
-.select2-selection,
-.select2-search__field {
-    outline: 0;
-}
-.select2-search__field:hover {
-    border: 1px solid #b9b9b9 !important;
-    border-top-color: #a0a0a0 !important;
-}
-.select2-search__field:focus {
-    border: 1px solid #4d90fe !important;
-}
 input {
     color: black;
 }
 .mastfoot {
     position: relative;
 }
-.select2 {
-    width: 100% !important;
-    max-width: 400px;
-}
-.select2-selection {
-    height: 32px !important;
-}
-.select2-selection__rendered {
-    line-height: 32px !important;
-}
-.select2-selection__arrow {
-    height: 30px !important;
-}
-.select2-selection__rendered,
-.select2-selection__placeholder,
-.select2-results__option {
-    color: #000;
-    text-shadow: none;
+.select2-container {
+    margin: 0 auto !important;
 }
 .list {
     width: 100%;
@@ -275,4 +250,24 @@ input {
 .modal-title {
     text-align: left;
     color: black;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
 }

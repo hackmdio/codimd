@@ -1,3 +1,47 @@
+var options = {
+    valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags'],
+    item: '<li class="col-xs-12 col-sm-6 col-md-6 col-lg-4">\
+            <span class="id" style="display:none;"></span>\
+            <a href="#">\
+                <div class="item">\
+                    <div class="ui-history-close fa fa-close fa-fw"></div>\
+                    <h4 class="text"></h4>\
+                    <p><i class="fromNow"><i class="fa fa-clock-o"></i></i>\
+                    <br>\
+                    <i class="timestamp" style="display:none;"></i><i class="time"></i></p>\
+                    <p class="tags"></p>\
+                </div>\
+            </a>\
+           </li>'
+};
+var historyList = new List('history', options);
+
+migrateHistoryFromTempCallback = pageInit;
+loginStateChangeEvent = pageInit;
+pageInit();
+
+function pageInit() {
+    checkIfAuth(
+        function (data) {
+            $('.ui-signin').hide();
+            $('.ui-or').hide();
+            $('.ui-welcome').show();
+            $('.ui-name').html(data.name);
+            $('.ui-signout').show();
+            $(".ui-history").click();
+            parseServerToHistory(historyList, parseHistoryCallback);
+        },
+        function () {
+            $('.ui-signin').slideDown();
+            $('.ui-or').slideDown();
+            $('.ui-welcome').hide();
+            $('.ui-name').html('');
+            $('.ui-signout').hide();
+            parseStorageToHistory(historyList, parseHistoryCallback);
+        }
+    );
+}
+
 $(".masthead-nav li").click(function () {
     $(this).siblings().removeClass("active");
     $(this).addClass("active");
@@ -19,63 +63,202 @@ $(".ui-releasenotes").click(function () {
 });
 
 function checkHistoryList() {
-    if ($("#history-list").children().length > 0)
+    if ($("#history-list").children().length > 0) {
         $(".ui-nohistory").hide();
-    else if ($("#history-list").children().length == 0) {
+        $(".ui-import-from-browser").hide();
+    } else if ($("#history-list").children().length == 0) {
         $(".ui-nohistory").slideDown();
-        var cookienotehistory = JSON.parse($.cookie('notehistory'));
-        if (login && cookienotehistory && cookienotehistory.length > 0) {
-            $(".ui-import-from-cookie").slideDown();
-        }
+        getStorageHistory(function (data) {
+            if (data && data.length > 0 && getLoginState() && historyList.items.length == 0) {
+                $(".ui-import-from-browser").slideDown();
+            }
+        });
     }
 }
 
-function parseHistoryCallback() {
+function parseHistoryCallback(list, notehistory) {
     checkHistoryList();
+    list.sort('timestamp', {
+        order: "desc"
+    });
+    var filtertags = [];
+    $(".item").each(function (key, value) {
+        var a = $(this).closest("a");
+        var id = a.siblings("span").html();
+        var tagsEl = $(this).find(".tags");
+        var item = historyList.get('id', id);
+        if (item.length > 0 && item[0]) {
+            var values = item[0].values();
+            //parse link to element a
+            a.attr('href', '/' + values.id);
+            //parse tags
+            if (values.tags) {
+                var tags = values.tags;
+                if (tags.length > 0) {
+                    var labels = [];
+                    for (var j = 0; j < tags.length; j++) {
+                        //push info filtertags if not found
+                        var found = false;
+                        if (filtertags.indexOf(tags[j]) != -1)
+                            found = true;
+                        if (!found)
+                            filtertags.push(tags[j]);
+                        //push into the item label
+                        labels.push("<span class='label label-default'>" + tags[j] + "</span>");
+                    }
+                    tagsEl.html(labels.join(' '));
+                }
+            }
+        }
+    });
     $(".ui-history-close").click(function (e) {
         e.preventDefault();
-        var id = $(this).closest("a").attr("href").split('/')[1];
+        var id = $(this).closest("a").siblings("span").html();
         getHistory(function (notehistory) {
             var newnotehistory = removeHistory(id, notehistory);
             saveHistory(newnotehistory);
         });
-        $(this).closest("li").remove();
+        list.remove('id', id);
         checkHistoryList();
     });
+    buildTagsFilter(filtertags);
 }
 
-var login = false;
-
-checkIfAuth(
-    function (data) {
-        $('.ui-signin').hide();
-        $('.ui-or').hide();
-        $('.ui-welcome').show();
-        $('.ui-name').html(data.name);
-        $('.ui-signout').show();
-        $(".ui-history").click();
-        login = true;
-    },
-    function () {
-        $('.ui-signin').slideDown();
-        $('.ui-or').slideDown();
-        login = false;
-    }
-);
-
-parseHistory(parseHistoryCallback);
-
-$(".ui-import-from-cookie").click(function () {
-    saveCookieHistoryToServer(function() {
-        parseCookieToHistory(parseHistoryCallback);
-        $(".ui-import-from-cookie").hide();
+$(".ui-import-from-browser").click(function () {
+    saveStorageHistoryToServer(function () {
+        parseStorageToHistory(historyList, parseHistoryCallback);
     });
+});
+
+$(".ui-save-history").click(function () {
+    getHistory(function (data) {
+        var history = JSON.stringify(data);
+        var blob = new Blob([history], {
+            type: "application/json;charset=utf-8"
+        });
+        saveAs(blob, 'hackmd_history_' + moment().format('YYYYMMDDHHmmss'));
+    });
+});
+
+$(".ui-open-history").bind("change", function (e) {
+    var files = e.target.files || e.dataTransfer.files;
+    var file = files[0];
+    var reader = new FileReader();
+    reader.onload = function () {
+        var notehistory = JSON.parse(reader.result);
+        //console.log(notehistory);
+        if (!reader.result) return;
+        getHistory(function (data) {
+            var mergedata = data.concat(notehistory);
+            mergedata = clearDuplicatedHistory(mergedata);
+            saveHistory(mergedata);
+            parseHistory(historyList, parseHistoryCallback);
+        });
+        $(".ui-open-history").replaceWith($(".ui-open-history").val('').clone(true));
+    };
+    reader.readAsText(file);
+});
+
+$(".ui-clear-history").click(function () {
+    saveHistory([]);
+    historyList.clear();
+    checkHistoryList();
+});
+
+$(".ui-refresh-history").click(function () {
+    resetCheckAuth();
+    historyList.clear();
+    parseHistory(historyList, parseHistoryCallback);
+});
+
+$(".ui-logout").click(function () {
+    clearLoginState();
+    location.href = '/logout';
+});
+
+var filtertags = [];
+$(".ui-use-tags").select2({
+    placeholder: 'Use tags...',
+    multiple: true,
+    data: function () {
+        return {
+            results: filtertags
+        };
+    }
+});
+$('.select2-input').css('width', 'inherit');
+buildTagsFilter([]);
+
+function buildTagsFilter(tags) {
+    for (var i = 0; i < tags.length; i++)
+        tags[i] = {
+            id: i,
+            text: tags[i]
+        };
+    filtertags = tags;
+}
+$(".ui-use-tags").on('change', function () {
+    var tags = [];
+    var data = $(this).select2('data');
+    for (var i = 0; i < data.length; i++)
+        tags.push(data[i].text);
+    if (tags.length > 0) {
+        historyList.filter(function (item) {
+            var values = item.values();
+            if (!values.tags) return false;
+            var found = false;
+            for (var i = 0; i < tags.length; i++) {
+                if (values.tags.indexOf(tags[i]) != -1) {
+                    found = true;
+                    break;
+                }
+            }
+            return found;
+        });
+    } else {
+        historyList.filter();
+    }
+    checkHistoryList();
+});
+
+$('.search').keyup(function () {
+    checkHistoryList();
 });
 
 var source = $("#template").html();
 var template = Handlebars.compile(source);
 var context = {
     release: [
+        {
+            version: "0.2.8",
+            tag: "flame",
+            date: moment("201505151200", 'YYYYMMDDhhmm').fromNow(),
+            detail: [
+                {
+                    title: "Features",
+                    item: [
+                            "+ Support drag-n-drop(exclude firefox) and paste image inline",
+                            "+ Support tags filter in history",
+                            "+ Support sublime-like shortcut keys"
+                        ]
+                    },
+                {
+                    title: "Enhancements",
+                    item: [
+                            "* Adjust index description",
+                            "* Adjust toolbar ui and view font",
+                            "* Remove scroll sync delay and gain accuracy"
+                        ]
+                    },
+                {
+                    title: "Fixes",
+                    item: [
+                            "* Partial update in the front and the end might not render properly",
+                            "* Server not handle some editor events"
+                        ]
+                    }
+                ]
+            },
         {
             version: "0.2.7",
             tag: "fuel",

@@ -2,12 +2,21 @@ uglifyjs --compress --mangle --output codemirror.min.js \
 lib/codemirror.js \
 addon/mode/overlay.js \
 addon/selection/active-line.js \
+addon/search/searchcursor.js \
+addon/search/search.js \
+addon/search/matchesonscrollbar.js \
+addon/scroll/simplescrollbars.js \
+addon/scroll/annotatescrollbar.js \
+addon/dialog/dialog.js \
 addon/edit/matchbrackets.js \
 addon/edit/closebrackets.js \
 addon/edit/matchtags.js \
 addon/edit/closetag.js \
 addon/edit/continuelist.js \
+addon/comment/comment.js \
+addon/wrap/hardwrap.js \
 addon/fold/foldcode.js \
+addon/fold/brace-fold.js \
 addon/fold/foldgutter.js \
 addon/fold/markdown-fold.js \
 addon/fold/xml-fold.js \
@@ -19,4 +28,5 @@ mode/css/css.js \
 mode/htmlmixed/htmlmixed.js \
 mode/clike/clike.js \
 mode/clojure/clojure.js \
-mode/ruby/ruby.js
+mode/ruby/ruby.js \
+keymap/sublime.js

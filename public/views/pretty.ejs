@@ -27,32 +27,23 @@
 </body>
 
 </html>
-<!--<script src="<%- url %>/js/ga.js"></script>-->
-<script src="<%- url %>/vendor/jquery-1.11.2.min.js"></script>
-<script src="<%- url %>/vendor/lz-string.min.js"></script>
-<script src="<%- url %>/vendor/remarkable.min.js"></script>
-<script src="<%- url %>/vendor/remarkable-regex.js"></script>
-<script src="<%- url %>/vendor/gist-embed.js"></script>
-<script src="<%- url %>/vendor/string.min.js"></script>
-<script src="<%- url %>/vendor/highlight-js/highlight.min.js"></script>
-<script src="<%- url %>/vendor/emojify/js/emojify.min.js"></script>
-<script src="<%- url %>/vendor/raphael-min.js"></script>
-<script src="<%- url %>/vendor/underscore-min.js"></script>
-<script src="<%- url %>/vendor/sequence-diagrams/sequence-diagram-min.js"></script>
-<script src="<%- url %>/vendor/flowchart/flowchart-1.4.0.min.js"></script>
+<!--<script src="<%- url %>/js/ga.js" async defer></script>-->
+<!--<script src="<%- url %>/js/newrelic.js" async defer></script>-->
+<script src="<%- url %>/vendor/jquery-1.11.2.min.js" defer></script>
+<script src="<%- url %>/vendor/lz-string.min.js" defer></script>
+<script src="<%- url %>/vendor/remarkable.min.js" defer></script>
+<script src="<%- url %>/vendor/remarkable-regex.js" defer></script>
+<script src="<%- url %>/vendor/gist-embed.js" defer></script>
+<script src="<%- url %>/vendor/string.min.js" defer></script>
+<script src="<%- url %>/vendor/highlight-js/highlight.min.js" defer></script>
+<script src="<%- url %>/vendor/emojify/js/emojify.min.js" defer></script>
+<script src="<%- url %>/vendor/raphael-min.js" defer></script>
+<script src="<%- url %>/vendor/underscore-min.js" defer></script>
+<script src="<%- url %>/vendor/sequence-diagrams/sequence-diagram-min.js" defer></script>
+<script src="<%- url %>/vendor/flowchart/flowchart-1.4.0.min.js" defer></script>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({ messageStyle: "none", skipStartupTypeset: true ,tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true }});
 </script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script src="<%- url %>/js/extra.js"></script>
-<script>
-    var raw = $(".markdown-body").text();
-    var markdown = LZString.decompressFromBase64(raw);
-    var result = postProcess(md.render(markdown));
-    var markdown = $(".markdown-body");
-    markdown.html(result);
-    markdown.show();
-    finishView(markdown);
-    autoLinkify(markdown);
-    scrollToHash();
-</script>
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
+<script src="<%- url %>/js/extra.js" defer></script>
+<script src="<%- url %>/js/pretty.js" defer></script>

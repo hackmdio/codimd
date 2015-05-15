@@ -1,16 +1,35 @@
-//common
-function checkIfAuth(yesCallback, noCallback) {
-    $.get('/me')
-        .done(function (data) {
-            if (data && data.status == 'ok') {
-                yesCallback(data);
-            } else {
-                noCallback();
-            }
-        })
-        .fail(function () {
-            noCallback();
-        });
+var migrateHistoryFromTempCallback = null;
+
+migrateHistoryFromTemp();
+
+function migrateHistoryFromTemp() {
+    if (url('#tempid')) {
+        $.get('/temp', {
+                tempid: url('#tempid')
+            })
+            .done(function (data) {
+                if (data && data.temp) {
+                    getStorageHistory(function (olddata) {
+                        if (!olddata || olddata.length == 0) {
+                            saveHistoryToStorage(JSON.parse(data.temp));
+                        }
+                    });
+                }
+            })
+            .always(function () {
+                var hash = location.hash.split('#')[1];
+                hash = hash.split('&');
+                for (var i = 0; i < hash.length; i++)
+                    if (hash[i].indexOf('tempid') == 0) {
+                        hash.splice(i, 1);
+                        i--;
+                    }
+                hash = hash.join('&');
+                location.hash = hash;
+                if (migrateHistoryFromTempCallback)
+                    migrateHistoryFromTempCallback();
+            });
+    }
 }
 
 function saveHistory(notehistory) {
@@ -19,13 +38,20 @@ function saveHistory(notehistory) {
             saveHistoryToServer(notehistory);
         },
         function () {
-            saveHistoryToCookie(notehistory);
+            saveHistoryToStorage(notehistory);
         }
     );
 }
 
+function saveHistoryToStorage(notehistory) {
+    if (store.enabled)
+        store.set('notehistory', JSON.stringify(notehistory));
+    else
+        saveHistoryToCookie(notehistory);
+}
+
 function saveHistoryToCookie(notehistory) {
-    $.cookie('notehistory', JSON.stringify(notehistory), {
+    Cookies.set('notehistory', notehistory, {
         expires: 365
     });
 }
@@ -36,12 +62,29 @@ function saveHistoryToServer(notehistory) {
     });
 }
 
+function saveCookieHistoryToStorage(callback) {
+    store.set('notehistory', Cookies.get('notehistory'));
+    callback();
+}
+
+function saveStorageHistoryToServer(callback) {
+    var data = store.get('notehistory');
+    if (data) {
+        $.post('/history', {
+                history: data
+            })
+            .done(function (data) {
+                callback(data);
+            });
+    }
+}
+
 function saveCookieHistoryToServer(callback) {
     $.post('/history', {
-            history: $.cookie('notehistory')
+            history: Cookies.get('notehistory')
         })
         .done(function (data) {
-            callback();
+            callback(data);
         });
 }
 
@@ -58,7 +101,7 @@ function clearDuplicatedHistory(notehistory) {
         if (!found)
             newnotehistory.push(notehistory[i]);
     }
-    return notehistory;
+    return newnotehistory;
 }
 
 function addHistory(id, text, time, tags, notehistory) {
@@ -86,7 +129,7 @@ function writeHistory(view) {
             writeHistoryToServer(view);
         },
         function () {
-            writeHistoryToCookie(view);
+            writeHistoryToStorage(view);
         }
     );
 }
@@ -113,13 +156,29 @@ function writeHistoryToServer(view) {
 
 function writeHistoryToCookie(view) {
     try {
-        var notehistory = JSON.parse($.cookie('notehistory'));
+        var notehistory = Cookies.getJSON('notehistory');
     } catch (err) {
         var notehistory = [];
     }
 
     var newnotehistory = generateHistory(view, notehistory);
     saveHistoryToCookie(newnotehistory);
+}
+
+function writeHistoryToStorage(view) {
+    if (store.enabled) {
+        var data = store.get('notehistory');
+        if (data) {
+            if (typeof data == "string")
+                data = JSON.parse(data);
+            var notehistory = data;
+        } else
+            var notehistory = [];
+        var newnotehistory = generateHistory(view, notehistory);
+        saveHistoryToStorage(newnotehistory);
+    } else {
+        writeHistoryToCookie(view);
+    }
 }
 
 function renderHistory(view) {
@@ -169,7 +228,7 @@ function getHistory(callback) {
             getServerHistory(callback);
         },
         function () {
-            getCookieHistory(callback);
+            getStorageHistory(callback);
         }
     );
 }
@@ -187,70 +246,76 @@ function getServerHistory(callback) {
 }
 
 function getCookieHistory(callback) {
-    callback(JSON.parse($.cookie('notehistory')));
+    callback(Cookies.getJSON('notehistory'));
 }
 
-function parseHistory(callback) {
+function getStorageHistory(callback) {
+    if (store.enabled) {
+        var data = store.get('notehistory');
+        if (data) {
+            if (typeof data == "string")
+                data = JSON.parse(data);
+            callback(data);
+        } else
+            getCookieHistory(callback);
+    } else {
+        getCookieHistory(callback);
+    }
+}
+
+function parseHistory(list, callback) {
     checkIfAuth(
         function () {
-            parseServerToHistory(callback);
+            parseServerToHistory(list, callback);
         },
         function () {
-            parseCookieToHistory(callback);
+            parseStorageToHistory(list, callback);
         }
     );
 }
 
-function parseServerToHistory(callback) {
+function parseServerToHistory(list, callback) {
     $.get('/history')
         .done(function (data) {
             if (data.history) {
-                //console.log(data.history);
-                parseToHistory(data.history, callback);
+                parseToHistory(list, data.history, callback);
             }
         })
         .fail(function () {
-            parseCookieToHistory(callback);
+            parseCookieToHistory(list, callback);
         });
 }
 
-function parseCookieToHistory(callback) {
-    var notehistory = JSON.parse($.cookie('notehistory'));
-    parseToHistory(notehistory, callback);
+function parseCookieToHistory(list, callback) {
+    var notehistory = Cookies.getJSON('notehistory');
+    parseToHistory(list, notehistory, callback);
 }
 
-function parseToHistory(notehistory, callback) {
-    if (notehistory && notehistory.length > 0) {
-        //console.log(notehistory);
+function parseStorageToHistory(list, callback) {
+    if (store.enabled) {
+        var data = store.get('notehistory');
+        if (data) {
+            if (typeof data == "string")
+                data = JSON.parse(data);
+            parseToHistory(list, data, callback);
+        } else
+            parseCookieToHistory(list, callback);
+    } else {
+        parseCookieToHistory(list, callback);
+    }
+}
+
+function parseToHistory(list, notehistory, callback) {
+    if (!callback) return;
+    else if (!list || !notehistory) callback(list, notehistory);
+    else if (notehistory && notehistory.length > 0) {
         for (var i = 0; i < notehistory.length; i++) {
+            //parse time to timestamp and fromNow
             notehistory[i].timestamp = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a').unix();
             notehistory[i].fromNow = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a').fromNow();
+            if (list.get('id', notehistory[i].id).length == 0)
+                list.add(notehistory[i]);
         }
-        $(notehistory).each(function (key, value) {
-            var close = "<div class='ui-history-close fa fa-close fa-fw'></div>";
-            var text = "<h4 class='text'>" + value.text + "</h2>";
-            var timestamp = "<i class='timestamp' style='display:none;'>" + value.timestamp + "</i>";
-            var fromNow = "<i class='fromNow'><i class='fa fa-clock-o'></i> " + value.fromNow + "</i>";
-            var time = "<i class='time'>" + value.time + "</i>";
-            var tags = "";
-            if (value.tags) {
-                var labels = [];
-                for (var j = 0; j < value.tags.length; j++)
-                    labels.push("<span class='label label-default'>" + value.tags[j] + "</span>");
-                tags = "<p class='tags'>" + labels.join(" ") + "</p>";
-            }
-            var li = "<li class='col-xs-12 col-sm-6 col-md-6 col-lg-6'><a href='" + "./" + value.id + "'><div class='item'>" + close + text + '<p>' + fromNow + '<br>' + timestamp + time + '</p>' + tags + "</div></a></li>"
-                //console.debug(li);
-            $("#history-list").append(li);
-        });
     }
-
-    var options = {
-        valueNames: ['text', 'timestamp', 'fromNow', 'time', 'tags']
-    };
-    var historyList = new List('history', options);
-    historyList.sort('timestamp', {
-        order: "desc"
-    });
-    callback();
+    callback(list, notehistory);
 }

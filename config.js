@@ -1,11 +1,33 @@
 //config
 var path = require('path');
 
+var domain = process.env.DOMAIN;
+var testport = '3000';
+var testsslport = '3001';
+var port = process.env.PORT || testport;
+var sslport = process.env.SSLPORT || testsslport;
+var usessl = false;
+var urladdport = true; //add port on getserverurl
+
 var config = {
     debug: true,
-    version: '0.2.7',
-    domain: 'http://localhost:3000',
-    testport: '3000',
+    version: '0.2.8',
+    domain: domain,
+    alloworigin: ['add here to allow origin to cross'],
+    testport: testport,
+    testsslport: testsslport,
+    port: port,
+    sslport: sslport,
+    sslkeypath: 'change this',
+    sslcertpath: 'change this',
+    sslcapath: ['change this'],
+    usessl: usessl,
+    getserverurl: function() {
+        if(usessl)
+            return 'https://' + domain + (sslport == 443 || !urladdport ? '' : ':' + sslport);
+        else
+            return 'http://' + domain + (port == 80 || !urladdport ? '' : ':' + port);
+    },
     //path
     tmppath: "./tmp/",
     defaultnotepath: path.join(__dirname, '/public', "default.md"),
@@ -14,36 +36,39 @@ var config = {
     errorpath: path.join(__dirname, '/public/views', "error.ejs"),
     prettypath: path.join(__dirname, '/public/views', 'pretty.ejs'),
     //db string
-    postgresqlstring: "postgresql://localhost:5432/hackmd",
-    mongodbstring: "mongodb://localhost/hackmd",
+    postgresqlstring: "change this",
+    mongodbstring: "change this",
     //constants
     featuresnotename: "features",
-    sessionname: 'please set this',
-    sessionsecret: 'please set this',
+    sessionname: 'change this',
+    sessionsecret: 'change this',
     sessionlife: 14 * 24 * 60 * 60 * 1000, //14 days
     sessiontouch: 1 * 3600, //1 hour
     heartbeatinterval: 5000,
     heartbeattimeout: 10000,
     //auth
     facebook: {
-        clientID: 'get yourself one',
-        clientSecret: 'get yourself one',
+        clientID: 'change this',
+        clientSecret: 'change this',
         callbackPath: '/auth/facebook/callback'
     },
     twitter: {
-        consumerKey: 'get yourself one',
-        consumerSecret: 'get yourself one',
+        consumerKey: 'change this',
+        consumerSecret: 'change this',
         callbackPath: '/auth/twitter/callback'
     },
     github: {
-        clientID: 'get yourself one',
-        clientSecret: 'get yourself one',
+        clientID: 'change this',
+        clientSecret: 'change this',
         callbackPath: '/auth/github/callback'
     },
     dropbox: {
-        clientID: 'get yourself one',
-        clientSecret: 'get yourself one',
+        clientID: 'change this',
+        clientSecret: 'change this',
         callbackPath: '/auth/dropbox/callback'
+    },
+    imgur: {
+        clientID: 'change this'
     }
 };
 

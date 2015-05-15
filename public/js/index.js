@@ -1,12 +1,10 @@
 //constant vars
 //settings
-var debug = false;
-var version = '0.2.7';
+var debug = true;
+var version = '0.2.8';
 var doneTypingDelay = 400;
 var finishChangeDelay = 400;
 var cursorActivityDelay = 50;
-var syncScrollDelay = 50;
-var scrollAnimatePeriod = 100;
 var cursorAnimatePeriod = 100;
 var modeType = {
     edit: {},
@@ -67,15 +65,20 @@ var lastInfo = {
 };
 
 //editor settings
-var editor = CodeMirror.fromTextArea(document.getElementById("textit"), {
+var textit = document.getElementById("textit");
+if (!textit) throw new Error("There was no textit area!");
+var editor = CodeMirror.fromTextArea(textit, {
     mode: 'gfm',
+    keyMap: "sublime",
     viewportMargin: 20,
     styleActiveLine: true,
     lineNumbers: true,
     lineWrapping: true,
+    showCursorWhenSelecting: true,
     theme: "monokai",
     autofocus: true,
     inputStyle: "textarea",
+    scrollbarStyle: "overlay",
     matchBrackets: true,
     autoCloseBrackets: true,
     matchTags: {
@@ -89,6 +92,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("textit"), {
     },
     readOnly: true
 });
+inlineAttachment.editors.codemirror4.attach(editor);
 
 //ui vars
 var ui = {
@@ -148,23 +152,33 @@ $(document).ready(function () {
     changeMode(currentMode);
     /* we need this only on touch devices */
     if (isTouchDevice) {
-        /* cache dom references */ 
-        var $body = jQuery('body'); 
+        /* cache dom references */
+        var $body = jQuery('body');
 
         /* bind events */
         $(document)
-        .on('focus', 'textarea, input', function() {
-            $body.addClass('fixfixed');
-        })
-        .on('blur', 'textarea, input', function() {
-            $body.removeClass('fixfixed');
-        });
+            .on('focus', 'textarea, input', function () {
+                $body.addClass('fixfixed');
+            })
+            .on('blur', 'textarea, input', function () {
+                $body.removeClass('fixfixed');
+            });
     }
 });
 //when page resize
+var windowResizeDelay = 200;
+var windowResizeTimer = null;
 $(window).resize(function () {
-    checkResponsive();
+    clearTimeout(windowResizeTimer);
+    windowResizeTimer = setTimeout(function () {
+        windowResize();
+    }, windowResizeDelay);
 });
+function windowResize() {
+    checkResponsive();
+    clearMap();
+    syncScrollToView();
+}
 //768-792px have a gap
 function checkResponsive() {
     visibleXS = $(".visible-xs").is(":visible");
@@ -176,6 +190,10 @@ function checkResponsive() {
             changeMode(modeType.edit);
         else
             changeMode(modeType.view);
+    if (visibleXS)
+        $('.CodeMirror').css('height', 'auto');
+    else
+        $('.CodeMirror').css('height', '');
 }
 
 function showStatus(type, num) {
@@ -220,7 +238,7 @@ function showStatus(type, num) {
 }
 
 function toggleMode() {
-    switch(currentMode) {
+    switch (currentMode) {
     case modeType.edit:
         changeMode(modeType.view);
         break;
@@ -297,26 +315,31 @@ var url = window.location.origin + '/' + noteId;
 ui.toolbar.pretty.attr("href", url + "/pretty");
 //download
 //markdown
-ui.toolbar.download.markdown.click(function() {
+ui.toolbar.download.markdown.click(function () {
     var filename = renderFilename(ui.area.markdown) + '.md';
     var markdown = editor.getValue();
-    var blob = new Blob([markdown], {type: "text/markdown;charset=utf-8"});
+    var blob = new Blob([markdown], {
+        type: "text/markdown;charset=utf-8"
+    });
     saveAs(blob, filename);
 });
 //save to dropbox
-ui.toolbar.save.dropbox.click(function() {
+ui.toolbar.save.dropbox.click(function () {
     var filename = renderFilename(ui.area.markdown) + '.md';
     var options = {
         files: [
-            {'url': url + "/download", 'filename': filename}
+            {
+                'url': url + "/download",
+                'filename': filename
+            }
         ]
     };
     Dropbox.save(options);
 });
 //import from dropbox
-ui.toolbar.import.dropbox.click(function() {
+ui.toolbar.import.dropbox.click(function () {
     var options = {
-        success: function(files) {
+        success: function (files) {
             ui.spinner.show();
             var url = files[0].link;
             importFromUrl(url);
@@ -328,64 +351,73 @@ ui.toolbar.import.dropbox.click(function() {
     Dropbox.choose(options);
 });
 //import from clipboard
-ui.toolbar.import.clipboard.click(function() {
+ui.toolbar.import.clipboard.click(function () {
     //na
 });
 //fix for wrong autofocus
-$('#clipboardModal').on('shown.bs.modal', function() {
+$('#clipboardModal').on('shown.bs.modal', function () {
     $('#clipboardModal').blur();
 });
-$("#clipboardModalClear").click(function() {
+$("#clipboardModalClear").click(function () {
     $("#clipboardModalContent").html('');
 });
-$("#clipboardModalConfirm").click(function() {
+$("#clipboardModalConfirm").click(function () {
     var data = $("#clipboardModalContent").html();
-    if(data) {
+    if (data) {
         parseToEditor(data);
         $('#clipboardModal').modal('hide');
         $("#clipboardModalContent").html('');
     }
 });
+
 function parseToEditor(data) {
     var parsed = toMarkdown(data);
-    if(parsed)
-        editor.replaceRange(parsed, {line:0, ch:0}, {line:editor.lastLine(), ch:editor.lastLine().length}, '+input');
+    if (parsed)
+        editor.replaceRange(parsed, {
+            line: 0,
+            ch: 0
+        }, {
+            line: editor.lastLine(),
+            ch: editor.lastLine().length
+        }, '+input');
 }
+
 function importFromUrl(url) {
     //console.log(url);
-    if(url == null) return;
-    if(!isValidURL(url)) {
+    if (url == null) return;
+    if (!isValidURL(url)) {
         alert('Not valid URL :(');
         return;
     }
     $.ajax({
         method: "GET",
         url: url,
-        success: function(data) {
+        success: function (data) {
             parseToEditor(data);
         },
-        error: function() {
+        error: function () {
             alert('Import failed :(');
         },
-        complete: function() {
+        complete: function () {
             ui.spinner.hide();
         }
     });
 }
+
 function isValidURL(str) {
-    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-    if(!pattern.test(str)) {
-        return false;
-    } else {
-        return true;
+        var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+        if (!pattern.test(str)) {
+            return false;
+        } else {
+            return true;
+        }
     }
-}
-//mode
+    //mode
 ui.toolbar.mode.click(function () {
     toggleMode();
 });
@@ -427,7 +459,7 @@ socket.on('version', function (data) {
 });
 socket.on('refresh', function (data) {
     saveInfo();
-    
+
     var body = data.body;
     body = LZString.decompressFromBase64(body);
     if (body)
@@ -455,7 +487,7 @@ socket.on('refresh', function (data) {
 
     if (editor.getOption('readOnly'))
         editor.setOption('readOnly', false);
-    
+
     restoreInfo();
 });
 socket.on('change', function (data) {
@@ -470,51 +502,65 @@ socket.on('online users', function (data) {
     if (debug)
         console.debug(data);
     showStatus(statusType.online, data.count);
-    $('.other-cursors').html('');
-    for(var i = 0; i < data.users.length; i++) {
+    $('.other-cursors').children().each(function (key, value) {
+        var found = false;
+        for (var i = 0; i < data.users.length; i++) {
+            var user = data.users[i];
+            if ($(this).attr('id') == user.id)
+                found = true;
+        }
+        if (!found)
+            $(this).remove();
+    });
+    for (var i = 0; i < data.users.length; i++) {
         var user = data.users[i];
-        if(user.id != socket.id)
+        if (user.id != socket.id)
             buildCursor(user.id, user.color, user.cursor);
     }
 });
 socket.on('cursor focus', function (data) {
-    if(debug)
+    if (debug)
         console.debug(data);
     var cursor = $('#' + data.id);
-    if(cursor.length > 0) {
+    if (cursor.length > 0) {
         cursor.fadeIn();
     } else {
-        if(data.id != socket.id)
+        if (data.id != socket.id)
             buildCursor(data.id, data.color, data.cursor);
     }
 });
 socket.on('cursor activity', function (data) {
-    if(debug)
+    if (debug)
         console.debug(data);
-    if(data.id != socket.id)
+    if (data.id != socket.id)
         buildCursor(data.id, data.color, data.cursor);
 });
 socket.on('cursor blur', function (data) {
-    if(debug)
+    if (debug)
         console.debug(data);
     var cursor = $('#' + data.id);
-    if(cursor.length > 0) {
+    if (cursor.length > 0) {
         cursor.fadeOut();
     }
 });
+
 function emitUserStatus() {
     checkIfAuth(
         function (data) {
-            socket.emit('user status', {login:true});
+            socket.emit('user status', {
+                login: true
+            });
         },
         function () {
-            socket.emit('user status', {login:false});
+            socket.emit('user status', {
+                login: false
+            });
         }
     );
 }
 
 function buildCursor(id, color, pos) {
-    if(!pos) return;
+    if (!pos) return;
     if ($('.other-cursors').length <= 0) {
         $("<div class='other-cursors'>").insertAfter('.CodeMirror-cursors');
     }
@@ -535,7 +581,10 @@ function buildCursor(id, color, pos) {
         cursor.attr('data-line', pos.line);
         cursor.attr('data-ch', pos.ch);
         var coord = editor.charCoords(pos, 'windows');
-        cursor.stop(true).css('opacity', 1).animate({"left":coord.left, "top":coord.top}, cursorAnimatePeriod);
+        cursor.stop(true).css('opacity', 1).animate({
+            "left": coord.left,
+            "top": coord.top
+        }, cursorAnimatePeriod);
         //cursor[0].style.left = coord.left + 'px';
         //cursor[0].style.top = coord.top + 'px';
         cursor[0].style.height = '18px';
@@ -566,6 +615,7 @@ editor.on('cursorActivity', function (cm) {
     clearTimeout(cursorActivityTimer);
     cursorActivityTimer = setTimeout(cursorActivity, cursorActivityDelay);
 });
+
 function cursorActivity() {
     socket.emit('cursor activity', editor.getCursor());
 }
@@ -578,8 +628,9 @@ function saveInfo() {
     var top = $(document.body).scrollTop();
     switch (currentMode) {
     case modeType.edit:
-        lastInfo.edit.scroll.left = left;
-        lastInfo.edit.scroll.top = top;
+        //lastInfo.edit.scroll.left = left;
+        //lastInfo.edit.scroll.top = top;
+        lastInfo.edit.scroll = editor.getScrollInfo();
         break;
     case modeType.view:
         lastInfo.view.scroll.left = left;
@@ -603,8 +654,12 @@ function restoreInfo() {
 
         switch (currentMode) {
         case modeType.edit:
-            $(document.body).scrollLeft(lastInfo.edit.scroll.left);
-            $(document.body).scrollTop(lastInfo.edit.scroll.top);
+            //$(document.body).scrollLeft(lastInfo.edit.scroll.left);
+            //$(document.body).scrollTop(lastInfo.edit.scroll.top);
+            var left = lastInfo.edit.scroll.left;
+            var top = lastInfo.edit.scroll.top;
+            editor.scrollIntoView();
+            editor.scrollTo(left, top);
             break;
         case modeType.view:
             $(document.body).scrollLeft(lastInfo.view.scroll.left);
@@ -652,9 +707,8 @@ function updateView() {
     finishView(ui.area.view);
     writeHistory(ui.area.markdown);
     isDirty = false;
-    // reset lines mapping cache on content update
-    scrollMap = null;
     emitUserStatus();
+    clearMap();
 }
 
 function partialUpdate(src, tar, des) {
@@ -702,7 +756,7 @@ function partialUpdate(src, tar, des) {
             }
         }
         //tar end
-        for (var i = 1; i <= tar.length; i++) {
+        for (var i = 1; i <= tar.length + 1; i++) {
             var srcLength = src.length;
             var tarLength = tar.length;
             copyAttribute(src[srcLength - i], des[srcLength - i], 'data-startline');
@@ -715,7 +769,7 @@ function partialUpdate(src, tar, des) {
             }
         }
         //src end
-        for (var i = 1; i <= src.length; i++) {
+        for (var i = 1; i <= src.length + 1; i++) {
             var srcLength = src.length;
             var tarLength = tar.length;
             copyAttribute(src[srcLength - i], des[srcLength - i], 'data-startline');
@@ -730,56 +784,75 @@ function partialUpdate(src, tar, des) {
         //check if tar end overlap tar start
         var overlap = 0;
         for (var i = start; i >= 0; i--) {
-            var rawTarStart = cloneAndRemoveDataAttr(tar[i-1]);
-            var rawTarEnd = cloneAndRemoveDataAttr(tar[tarEnd+1+start-i]);
-            if(rawTarStart && rawTarEnd && rawTarStart.outerHTML == rawTarEnd.outerHTML)
+            var rawTarStart = cloneAndRemoveDataAttr(tar[i - 1]);
+            var rawTarEnd = cloneAndRemoveDataAttr(tar[tarEnd + 1 + start - i]);
+            if (rawTarStart && rawTarEnd && rawTarStart.outerHTML == rawTarEnd.outerHTML)
                 overlap++;
             else
                 break;
         }
-        if(debug)
+        if (debug)
             console.log('overlap:' + overlap);
         //show diff content
-        if(debug) {
+        if (debug) {
             console.log('start:' + start);
             console.log('tarEnd:' + tarEnd);
             console.log('srcEnd:' + srcEnd);
-            console.log('des[start]:' + des[start]);
         }
         tarEnd += overlap;
         srcEnd += overlap;
-        //add new element
-        var newElements = "";
-        for (var j = start; j <= srcEnd; j++) {
-            if(debug)
-                srcChanged += src[j].outerHTML;
-            newElements += src[j].outerHTML;
+        var repeatAdd = (start - srcEnd) < (start - tarEnd);
+        var repeatDiff = Math.abs(srcEnd - tarEnd) - 1;
+        //push new elements
+        var newElements = [];
+        if(srcEnd >= start) {
+            for (var j = start; j <= srcEnd; j++) {
+                if (!src[j]) continue;
+                newElements.push(src[j].outerHTML);
+            }
+        } else if(repeatAdd) {
+            for (var j = srcEnd - repeatDiff; j <= srcEnd; j++) {
+                if (!des[j]) continue;
+                newElements.push(des[j].outerHTML);
+            }
         }
-        if(newElements && des[start]) {
-            $(newElements).insertBefore(des[start]);
-        } else {
-            $(newElements).insertAfter(des[des.length-1]);
+        //push remove elements
+        var removeElements = [];
+        if(tarEnd >= start) {
+            for (var j = start; j <= tarEnd; j++) {
+                if (!des[j]) continue;
+                removeElements.push(des[j]);
+            }
+        } else if(!repeatAdd) {
+            for (var j = start; j <= start + repeatDiff; j++) {
+                if (!des[j]) continue;
+                removeElements.push(des[j]);
+            }
         }
-        if(debug)
-            console.log(srcChanged);
-        //remove old element
-        if(debug)
-            var tarChanged = "";
-        for (var j = start; j <= tarEnd; j++) {
-            if(debug)
-                tarChanged += tar[j].outerHTML;
-            if(des[j])
-                des[j].remove();
+        //add elements
+        if (debug) {
+            console.log('ADD ELEMENTS');
+            console.log(newElements.join('\n'));
         }
-        if(debug) {
-            console.log(tarChanged);
-            var srcChanged = "";
+        if (des[start])
+            $(newElements.join('')).insertBefore(des[start]);
+        else
+            $(newElements.join('')).insertAfter(des[start - 1]);
+        //remove elements
+        if (debug)
+            console.log('REMOVE ELEMENTS');
+        for (var j = 0; j < removeElements.length; j++) {
+            if (debug) {
+                console.log(removeElements[j].outerHTML);
+            }
+            if (removeElements[j])
+                removeElements[j].remove();
         }
     }
 }
 
 function cloneAndRemoveDataAttr(el) {
-    if(!el) return;
+    if (!el) return;
     var rawEl = $(el).clone(true)[0];
     rawEl.removeAttribute('data-startline');
     rawEl.removeAttribute('data-endline');
@@ -789,152 +862,4 @@ function cloneAndRemoveDataAttr(el) {
 function copyAttribute(src, des, attr) {
     if (src && src.getAttribute(attr) && des)
         des.setAttribute(attr, src.getAttribute(attr));
-}
-
-//
-// Inject line numbers for sync scroll. Notes:
-//
-// - We track only headings and paragraphs on first level. That's enougth.
-// - Footnotes content causes jumps. Level limit filter it automatically.
-//
-md.renderer.rules.paragraph_open = function (tokens, idx) {
-    var line;
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<p class="part" data-startline="' + startline + '" data-endline="' + endline + '">';
-    }
-    return '';
-};
-
-md.renderer.rules.heading_open = function (tokens, idx) {
-    var line;
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<h' + tokens[idx].hLevel + ' class="part" data-startline="' + startline + '" data-endline="' + endline + '">';
-    }
-    return '<h' + tokens[idx].hLevel + '>';
-};
-
-editor.on('scroll', _.debounce(syncScrollToView, syncScrollDelay));
-//ui.area.view.on('scroll', _.debounce(syncScrollToEdit, 50));
-var scrollMap;
-// Build offsets for each line (lines can be wrapped)
-// That's a bit dirty to process each line everytime, but ok for demo.
-// Optimizations are required only for big texts.
-function buildScrollMap() {
-    var i, offset, nonEmptyList, pos, a, b, lineHeightMap, linesCount,
-        acc, sourceLikeDiv, textarea = ui.area.codemirror,
-        _scrollMap;
-
-    sourceLikeDiv = $('<div />').css({
-        position: 'absolute',
-        visibility: 'hidden',
-        height: 'auto',
-        width: editor.getScrollInfo().clientWidth,
-        'font-size': textarea.css('font-size'),
-        'font-family': textarea.css('font-family'),
-        'line-height': textarea.css('line-height'),
-        'white-space': textarea.css('white-space')
-    }).appendTo('body');
-
-    offset = ui.area.view.scrollTop() - ui.area.view.offset().top;
-    _scrollMap = [];
-    nonEmptyList = [];
-    lineHeightMap = [];
-
-    acc = 0;
-    editor.getValue().split('\n').forEach(function (str) {
-        var h, lh;
-
-        lineHeightMap.push(acc);
-
-        if (str.length === 0) {
-            acc++;
-            return;
-        }
-
-        sourceLikeDiv.text(str);
-        h = parseFloat(sourceLikeDiv.css('height'));
-        lh = parseFloat(sourceLikeDiv.css('line-height'));
-        acc += Math.round(h / lh);
-    });
-    sourceLikeDiv.remove();
-    lineHeightMap.push(acc);
-    linesCount = acc;
-
-    for (i = 0; i < linesCount; i++) {
-        _scrollMap.push(-1);
-    }
-
-    nonEmptyList.push(0);
-    _scrollMap[0] = 0;
-
-    ui.area.markdown.find('.part').each(function (n, el) {
-        var $el = $(el),
-            t = $el.data('startline');
-        if (t === '') {
-            return;
-        }
-        t = lineHeightMap[t];
-        if (t !== 0) {
-            nonEmptyList.push(t);
-        }
-        _scrollMap[t] = Math.round($el.offset().top + offset);
-    });
-
-    nonEmptyList.push(linesCount);
-    _scrollMap[linesCount] = ui.area.view[0].scrollHeight;
-
-    pos = 0;
-    for (i = 1; i < linesCount; i++) {
-        if (_scrollMap[i] !== -1) {
-            pos++;
-            continue;
-        }
-
-        a = nonEmptyList[pos];
-        b = nonEmptyList[pos + 1];
-        _scrollMap[i] = Math.round((_scrollMap[b] * (i - a) + _scrollMap[a] * (b - i)) / (b - a));
-    }
-
-    return _scrollMap;
-}
-
-function syncScrollToView() {
-    var lineNo, posTo;
-    var scrollInfo = editor.getScrollInfo();
-    if (!scrollMap) {
-        scrollMap = buildScrollMap();
-    }
-    lineNo = Math.floor(scrollInfo.top / editor.defaultTextHeight());
-    posTo = scrollMap[lineNo];
-    ui.area.view.stop(true).animate({scrollTop: posTo}, scrollAnimatePeriod);
-}
-
-function syncScrollToEdit() {
-    var lineNo, posTo;
-    if (!scrollMap) {
-        scrollMap = buildScrollMap();
-    }
-    var top = ui.area.view.scrollTop();
-    lineNo = closestIndex(top, scrollMap);
-    posTo = lineNo * editor.defaultTextHeight();
-    editor.scrollTo(0, posTo);
-}
-
-function closestIndex(num, arr) {
-    var curr = arr[0];
-    var index = 0;
-    var diff = Math.abs(num - curr);
-    for (var val = 0; val < arr.length; val++) {
-        var newdiff = Math.abs(num - arr[val]);
-        if (newdiff < diff) {
-            diff = newdiff;
-            curr = arr[val];
-            index = val;
-        }
-    }
-    return index;
 }
