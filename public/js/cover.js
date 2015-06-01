@@ -230,6 +230,44 @@ var template = Handlebars.compile(source);
 var context = {
     release: [
         {
+            version: "0.2.9",
+            tag: "wildfire",
+            date: moment("201505301400", 'YYYYMMDDhhmm').fromNow(),
+            detail: [
+                {
+                    title: "Features",
+                    item: [
+                            "+ Support text auto complete",
+                            "+ Support cursor tag and random last name",
+                            "+ Support online user list",
+                            "+ Support show user info in blockquote"
+                        ]
+                    },
+                {
+                    title: "Enhancements",
+                    item: [
+                            "* Added more code highlighting support",
+                            "* Added more continue list support",
+                            "* Adjust menu and history filter UI for better UX",
+                            "* Adjust sync scoll animte to gain performance",
+                            "* Change compression method of dynamic data",
+                            "* Optimized render script"
+                        ]
+                    },
+                {
+                    title: "Fixes",
+                    item: [
+                            "* Access history fallback might get wrong",
+                            "* Sync scroll not accurate",
+                            "* Sync scroll reach bottom range too much",
+                            "* Detect login state change not accurate",
+                            "* Detect editor focus not accurate",
+                            "* Server not handle some editor events"
+                        ]
+                    }
+                ]
+            },
+        {
             version: "0.2.8",
             tag: "flame",
             date: moment("201505151200", 'YYYYMMDDhhmm').fromNow(),

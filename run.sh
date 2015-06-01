@@ -1,3 +1,4 @@
+#!/bin/bash
 forever stop hackmd
 DATABASE_URL='change this' \
 MONGOLAB_URI='change this' \

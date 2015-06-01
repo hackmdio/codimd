@@ -1,6 +1,8 @@
 uglifyjs --compress --mangle --output codemirror.min.js \
 lib/codemirror.js \
 addon/mode/overlay.js \
+addon/mode/simple.js \
+addon/mode/multiplex.js \
 addon/selection/active-line.js \
 addon/search/searchcursor.js \
 addon/search/search.js \
@@ -14,6 +16,7 @@ addon/edit/matchtags.js \
 addon/edit/closetag.js \
 addon/edit/continuelist.js \
 addon/comment/comment.js \
+addon/comment/continuecomment.js \
 addon/wrap/hardwrap.js \
 addon/fold/foldcode.js \
 addon/fold/brace-fold.js \
@@ -26,7 +29,22 @@ mode/gfm/gfm.js \
 mode/javascript/javascript.js \
 mode/css/css.js \
 mode/htmlmixed/htmlmixed.js \
+mode/htmlembedded/htmlembedded.js \
 mode/clike/clike.js \
 mode/clojure/clojure.js \
 mode/ruby/ruby.js \
+mode/python/python.js \
+mode/shell/shell.js \
+mode/php/php.js \
+mode/sql/sql.js \
+mode/coffeescript/coffeescript.js \
+mode/yaml/yaml.js \
+mode/jade/jade.js \
+mode/lua/lua.js \
+mode/cmake/cmake.js \
+mode/nginx/nginx.js \
+mode/perl/perl.js \
+mode/sass/sass.js \
+mode/r/r.js \
+mode/dockerfile/dockerfile.js \
 keymap/sublime.js

@@ -144,10 +144,14 @@ md.renderer.rules.code = function (tokens, idx /*, options, env */ ) {
     return '<code>' + Remarkable.utils.escapeHtml(tokens[idx].content) + '</code>';
 };
 
+//var editorScrollThrottle = 100;
+var buildMapThrottle = 100;
+
 var viewScrolling = false;
 var viewScrollingDelay = 200;
 var viewScrollingTimer = null;
 
+//editor.on('scroll', _.throttle(syncScrollToView, editorScrollThrottle));
 editor.on('scroll', syncScrollToView);
 ui.area.view.on('scroll', function () {
     viewScrolling = true;
@@ -168,10 +172,12 @@ function clearMap() {
     lineHeightMap = null;
 }
 
+var buildMap = _.throttle(buildMapInner, buildMapThrottle);
+
 // Build offsets for each line (lines can be wrapped)
 // That's a bit dirty to process each line everytime, but ok for demo.
 // Optimizations are required only for big texts.
-function buildMap() {
+function buildMapInner(syncBack) {
     var i, offset, nonEmptyList, pos, a, b, _lineHeightMap, linesCount,
         acc, sourceLikeDiv, textarea = ui.area.codemirror,
         wrap = $('.CodeMirror-wrap pre'),
@@ -182,8 +188,6 @@ function buildMap() {
         visibility: 'hidden',
         height: 'auto',
         width: wrap.width(),
-        padding: wrap.css('padding'),
-        margin: wrap.css('margin'),
         'font-size': textarea.css('font-size'),
         'font-family': textarea.css('font-family'),
         'line-height': textarea.css('line-height'),
@@ -198,21 +202,23 @@ function buildMap() {
     _lineHeightMap = [];
 
     acc = 0;
-    editor.getValue().split('\n').forEach(function (str) {
+    var lines = editor.getValue().split('\n');
+    for (i = 0; i < lines.length; i++) {
+        var str = lines[i];
         var h, lh;
 
         _lineHeightMap.push(acc);
 
         if (str.length === 0) {
             acc++;
-            return;
+            continue;
         }
 
         sourceLikeDiv.text(str);
         h = parseFloat(sourceLikeDiv.css('height'));
         lh = parseFloat(sourceLikeDiv.css('line-height'));
         acc += Math.round(h / lh);
-    });
+    }
     sourceLikeDiv.remove();
     _lineHeightMap.push(acc);
     linesCount = acc;
@@ -224,9 +230,10 @@ function buildMap() {
     nonEmptyList.push(0);
     _scrollMap[0] = 0;
 
-    ui.area.markdown.find('.part').each(function (n, el) {
-        var $el = $(el),
-            t = $el.data('startline') - 1;
+    var parts = ui.area.markdown.find('.part').toArray();
+    for (i = 0; i < parts.length; i++) {
+        var $el = $(parts[i]),
+            t = $el.attr('data-startline') - 1;
         if (t === '') {
             return;
         }
@@ -235,7 +242,7 @@ function buildMap() {
             nonEmptyList.push(t);
         }
         _scrollMap[t] = Math.round($el.offset().top + offset);
-    });
+    }
 
     nonEmptyList.push(linesCount);
     _scrollMap[linesCount] = ui.area.view[0].scrollHeight;
@@ -256,6 +263,9 @@ function buildMap() {
 
     scrollMap = _scrollMap;
     lineHeightMap = _lineHeightMap;
+
+    if(loaded && syncBack)
+        syncScrollToView();
 }
 
 function getPartByEditorLineNo(lineNo) {
@@ -290,20 +300,20 @@ function getEditorLineNoByTop(top) {
     return null;
 }
 
-function syncScrollToView(_lineNo) {
+function syncScrollToView(event, _lineNo) {
+    if (currentMode != modeType.both) return;
     var lineNo, posTo;
     var scrollInfo = editor.getScrollInfo();
     if (!scrollMap || !lineHeightMap) {
-        buildMap();
+        buildMap(true);
+        return;
     }
-    if (typeof _lineNo != "number") {
+    if (!_lineNo) {
         var topDiffPercent, posToNextDiff;
         var textHeight = editor.defaultTextHeight();
         lineNo = Math.floor(scrollInfo.top / textHeight);
-        var lineCount = editor.lineCount();
-        var lastLineHeight = editor.getLineHandle(lineCount - 1).height;
-        //if reach last line, then scroll to end
-        if (scrollInfo.top + scrollInfo.clientHeight >= scrollInfo.height - lastLineHeight) {
+        //if reach bottom, then scroll to end
+        if (scrollInfo.top + scrollInfo.clientHeight >= scrollInfo.height - defaultTextHeight) {
             posTo = ui.area.view[0].scrollHeight - ui.area.view.height();
         } else {
             topDiffPercent = (scrollInfo.top % textHeight) / textHeight;
@@ -316,12 +326,18 @@ function syncScrollToView(_lineNo) {
         posTo = scrollMap[lineHeightMap[_lineNo]];
     }
     var posDiff = Math.abs(ui.area.view.scrollTop() - posTo);
+    var duration = posDiff / 50;
+    ui.area.view.stop(true, true).animate({
+        scrollTop: posTo
+    }, duration >= 100 ? duration : 100, "linear");
+    /*
     if (posDiff > scrollInfo.clientHeight / 5) {
         var duration = posDiff / 50;
-        ui.area.view.stop(true).animate({
+        ui.area.view.stop(true, true).animate({
             scrollTop: posTo
-        }, duration >= 50 ? duration : 100, "linear");
+        }, duration >= 100 ? duration : 100, "linear");
     } else {
-        ui.area.view.stop(true).scrollTop(posTo);
+        ui.area.view.stop(true, true).scrollTop(posTo);
     }
+    */
 }

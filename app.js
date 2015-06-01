@@ -5,6 +5,7 @@ var toobusy = require('toobusy-js');
 var ejs = require('ejs');
 var passport = require('passport');
 var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var compression = require('compression')
@@ -14,9 +15,12 @@ var fs = require('fs');
 var shortid = require('shortid');
 var imgur = require('imgur');
 var formidable = require('formidable');
+var morgan = require('morgan');
+var passportSocketIo = require("passport.socketio");
 
 //core
 var config = require("./config.js");
+var logger = require("./lib/logger.js");
 var User = require("./lib/user.js");
 var Temp = require("./lib/temp.js");
 var auth = require("./lib/auth.js");
@@ -45,7 +49,12 @@ if (config.usessl) {
     var app = express();
     var server = require('http').createServer(app);
 }
+//socket io listen
 var io = require('socket.io').listen(server);
+//logger
+app.use(morgan('combined', {
+    "stream": logger.stream
+}));
 
 // connect to the mongodb
 mongoose.connect(process.env.MONGOLAB_URI || config.mongodbstring);
@@ -65,6 +74,15 @@ var urlencodedParser = bodyParser.urlencoded({
     extended: false
 });
 
+//session store
+var sessionStore = new MongoStore({
+        mongooseConnection: mongoose.connection,
+        touchAfter: config.sessiontouch
+    },
+    function (err) {
+        console.log(err);
+    });
+
 //compression
 app.use(compression());
 
@@ -79,13 +97,7 @@ app.use(session({
         expires: new Date(Date.now() + config.sessionlife),
     },
     maxAge: new Date(Date.now() + config.sessionlife),
-    store: new MongoStore({
-            mongooseConnection: mongoose.connection,
-            touchAfter: config.sessiontouch
-        },
-        function (err) {
-            console.log(err);
-        })
+    store: sessionStore
 }));
 
 //middleware which blocks requests when we're too busy
@@ -293,6 +305,7 @@ app.get('/me', function (req, res) {
                 var profile = JSON.parse(user.profile);
                 res.send({
                     status: 'ok',
+                    id: req.session.passport.user,
                     name: profile.displayName || profile.username
                 });
             }
@@ -317,7 +330,9 @@ app.post('/uploadimage', function (req, res) {
                 .then(function (json) {
                     if (config.debug)
                         console.log('SERVER uploadimage success: ' + JSON.stringify(json));
-                    res.send({link:json.data.link});
+                    res.send({
+                        link: json.data.link
+                    });
                 })
                 .catch(function (err) {
                     console.error(err);
@@ -337,6 +352,15 @@ app.get("/:noteId/:action", response.noteActions);
 
 //socket.io secure
 io.use(realtime.secure);
+//socket.io auth
+io.use(passportSocketIo.authorize({
+    cookieParser: cookieParser,
+    key: config.sessionname,
+    secret: config.sessionsecret,
+    store: sessionStore,
+    success: realtime.onAuthorizeSuccess,
+    fail: realtime.onAuthorizeFail
+}));
 //socket.io heartbeat
 io.set('heartbeat interval', config.heartbeatinterval);
 io.set('heartbeat timeout', config.heartbeattimeout);

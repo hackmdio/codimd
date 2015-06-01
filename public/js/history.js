@@ -47,7 +47,7 @@ function saveHistoryToStorage(notehistory) {
     if (store.enabled)
         store.set('notehistory', JSON.stringify(notehistory));
     else
-        saveHistoryToCookie(notehistory);
+        saveHistoryToStorage(notehistory);
 }
 
 function saveHistoryToCookie(notehistory) {
@@ -146,11 +146,14 @@ function writeHistoryToServer(view) {
             } catch (err) {
                 var notehistory = [];
             }
+            if(!notehistory)
+                notehistory = [];
+        
             var newnotehistory = generateHistory(view, notehistory);
             saveHistoryToServer(newnotehistory);
         })
         .fail(function () {
-            writeHistoryToCookie(view);
+            writeHistoryToStorage(view);
         });
 }
 
@@ -160,7 +163,9 @@ function writeHistoryToCookie(view) {
     } catch (err) {
         var notehistory = [];
     }
-
+    if(!notehistory)
+        notehistory = [];
+    
     var newnotehistory = generateHistory(view, notehistory);
     saveHistoryToCookie(newnotehistory);
 }
@@ -174,6 +179,9 @@ function writeHistoryToStorage(view) {
             var notehistory = data;
         } else
             var notehistory = [];
+        if(!notehistory)
+            notehistory = [];
+        
         var newnotehistory = generateHistory(view, notehistory);
         saveHistoryToStorage(newnotehistory);
     } else {
@@ -241,7 +249,7 @@ function getServerHistory(callback) {
             }
         })
         .fail(function () {
-            getCookieHistory(callback);
+            getStorageHistory(callback);
         });
 }
 
@@ -282,7 +290,7 @@ function parseServerToHistory(list, callback) {
             }
         })
         .fail(function () {
-            parseCookieToHistory(list, callback);
+            parseStorageToHistory(list, callback);
         });
 }
 

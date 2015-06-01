@@ -63,7 +63,7 @@
     }
     for (var i = ranges.length - 1; i >= 0; i--) {
       var cur = ranges[i].head;
-      cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1));
+      cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1), "+delete");
     }
   }
 
@@ -79,7 +79,7 @@
       if (!around || explode.indexOf(around) % 2 != 0) return CodeMirror.Pass;
     }
     cm.operation(function() {
-      cm.replaceSelection("\n\n", null);
+      cm.replaceSelection("\n\n", null, "+input");
       cm.execCommand("goCharLeft");
       ranges = cm.listSelections();
       for (var i = 0; i < ranges.length; i++) {
@@ -144,12 +144,12 @@
         var sels = cm.getSelections();
         for (var i = 0; i < sels.length; i++)
           sels[i] = left + sels[i] + right;
-        cm.replaceSelections(sels, "around");
+        cm.replaceSelections(sels, "around", "+input");
       } else if (type == "both") {
-        cm.replaceSelection(left + right, null);
+        cm.replaceSelection(left + right, null, "+input");
         cm.execCommand("goCharLeft");
       } else if (type == "addFour") {
-        cm.replaceSelection(left + left + left + left, "before");
+        cm.replaceSelection(left + left + left + left, "before", "+input");
         cm.execCommand("goCharRight");
       }
     });

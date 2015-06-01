@@ -20,7 +20,6 @@ form,
     font-family: 'Source Code Pro', Consolas, monaco, monospace;
     line-height: 18px;
     font-size: 16px;
-    /*height: auto;*/
     min-height: 100%;
     overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch;
@@ -30,7 +29,7 @@ form,
     overflow-y: auto !important;
 }
 .CodeMirror-code {
-    /*padding-bottom: 72px;*/
+    padding-bottom: 36px;
 }
 .CodeMirror-linenumber {
     opacity: 0.5;
@@ -73,22 +72,81 @@ form,
     font-size: 14px;
 }
 .nav-mobile {
-    position: relative;
+    position: inherit;
     margin-top: 8px;
     margin-bottom: 8px;
+}
+.nav-mobile .dropdown-menu {
+    left: 40%;
+    right: 6px;
+    top: 42px;
 }
 .nav-status {
     float: right !important;
     padding: 7px 8px;
 }
 .ui-status {
+    cursor: auto !important;
     min-width: 120px;
+    background-color: transparent !important;
+}
+.ui-status span {
+    cursor: pointer;
 }
 .ui-short-status {
+    cursor: pointer;
     min-width: 40px;
+}
+.ui-short-status:hover {
+    text-decoration: none;
+}
+.ui-user-item {
+    /*na*/
+}
+.ui-user-name {
+    margin-top: 2px;
+}
+.ui-user-icon {
+    font-size: 20px;
+    margin-top: 2px;
+    margin-right: 5px;
+}
+.ui-user-status {
+    margin-top: 5px;
+}
+.ui-user-status-online {
+    color: rgb(92,184,92);
+}
+.ui-user-status-idle {
+    color: rgb(240,173,78);
+}
+.ui-user-status-offline {
+    color: rgb(119,119,119);
+}
+.list > li > a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#short-online-user-list .list .name {
+    max-width: 65%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: left;
+}
+#online-user-list .list .name {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: left;
 }
 .navbar-right {
     margin-right: 0;
+}
+.navbar-nav > li > a {
+    cursor: pointer;
+}
+.dropdown-menu > li > a {
+    cursor: pointer;
 }
 .other-cursors {
     position:relative;
@@ -99,10 +157,63 @@ form,
     position: absolute;
     border-right: none;
 }
+.cursortag {
+    cursor: pointer;
+    background: black;
+    position: absolute;
+    padding: 2px 7px 2px 8px;
+    font-size: 12px;
+    max-width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-family: inherit;
+    border-radius: .25em;
+    white-space: nowrap;
+}
 .fixfixed .navbar-fixed-top {
     position: absolute !important;
 }
 div[contenteditable]:empty:not(:focus):before{
     content:attr(data-ph);
     color: gray;
+}
+.dropdown-menu {
+    max-height: 80vh;
+    overflow: auto;
+}
+.dropdown-menu::-webkit-scrollbar { 
+    display: none; 
+}
+.dropdown-menu .emoji {
+    margin-bottom: 0 !important;
+}
+.dropdown-menu.other-cursor {
+    width: auto !important;
+}
+.CodeMirror-scrollbar-filler {
+    background: inherit;
+}
+.unselectable {
+    -moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none;
+    user-select: none;
+}
+
+.cm-trailing-space-a:before,
+.cm-trailing-space-b:before,
+.cm-trailing-space-new-line:before {
+  font-weight: bold;
+  color: hsl(30, 100%, 50%); /* a dark orange */
+  position: absolute;
+}
+
+.cm-trailing-space-a:before,
+.cm-trailing-space-b:before {
+  content: '·';
+}
+
+.cm-trailing-space-new-line:before {
+  content: '↵';
 }

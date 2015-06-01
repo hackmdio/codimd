@@ -388,7 +388,7 @@
       viewWidth: d.wrapper.clientWidth,
       barLeft: cm.options.fixedGutter ? gutterW : 0,
       docHeight: docH,
-      scrollHeight: docH + scrollGap(cm) + d.barHeight,
+      scrollHeight: docH + scrollGap(cm) + d.barHeight + textHeight(cm.display),
       nativeBarWidth: d.nativeBarWidth,
       gutterWidth: gutterW
     };
@@ -2287,9 +2287,13 @@
     }
       
     $('.other-cursor').each(function(key, value) {
-        var coord = cm.charCoords({line:$(value).attr('data-line'), ch:$(value).attr('data-ch')}, 'windows');
-        $(value)[0].style.left = coord.left + 'px';
-        $(value)[0].style.top = coord.top + 'px';
+        var line = parseInt($(value).attr('data-line'));
+        var ch = parseInt($(value).attr('data-ch'));
+        var offsetLeft = parseFloat($(value).attr('data-offset-left'));
+        var offsetTop = parseFloat($(value).attr('data-offset-top'));
+        var coord = cm.charCoords({line: line, ch: ch}, 'windows');
+        $(value)[0].style.left = coord.left + offsetLeft + 'px';
+        $(value)[0].style.top = coord.top + offsetTop + 'px';
     });
   }
 

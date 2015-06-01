@@ -65,6 +65,7 @@ function finishView(view) {
     try {
         for (var i = 0; i < mathjaxdivs.length; i++) {
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs[i].innerHTML]);
+            MathJax.Hub.Queue(viewAjaxCallback);
             $(mathjaxdivs[i]).removeClass("mathjax");
         }
     } catch(err) {
@@ -101,6 +102,18 @@ function finishView(view) {
     //render title
     document.title = renderTitle(view);
 }
+
+//regex for blockquote
+var spaceregex = /\s*/;
+var notinhtmltagregex = /(?![^<]*>|[^<>]*<\/)/;
+var coloregex = /\[color=([#|\(|\)|\s|\,|\w]*)\]/;
+coloregex = new RegExp(coloregex.source + notinhtmltagregex.source, "g");
+var nameregex = /\[name=([-|_|\s|\w]*)\]/;
+var timeregex = /\[time=([:|,|+|-|\(|\)|\s|\w]*)\]/;
+var nameandtimeregex = new RegExp(nameregex.source + spaceregex.source + timeregex.source + notinhtmltagregex.source, "g");
+nameregex = new RegExp(nameregex.source + notinhtmltagregex.source, "g");
+timeregex = new RegExp(timeregex.source + notinhtmltagregex.source, "g");
+
 //only static transform should be here
 function postProcess(code) {
     var result = $('<div>' + code + '</div>');
@@ -121,6 +134,20 @@ function postProcess(code) {
             lis[i].setAttribute('class', 'task-list-item');
         }
     }
+    //blockquote
+    var blockquote = result.find("blockquote");
+    blockquote.each(function (key, value) {
+        var html = $(value).html();
+        html = html.replace(coloregex, '<span class="color" data-color="$1"></span>');
+        html = html.replace(nameandtimeregex, '<small><i class="fa fa-user"></i> $1 <i class="fa fa-clock-o"></i> $2</small>');
+        html = html.replace(nameregex, '<small><i class="fa fa-user"></i> $1</small>');
+        html = html.replace(timeregex, '<small><i class="fa fa-clock-o"></i> $1</small>');
+        $(value).html(html);
+    });
+    var blockquotecolor = result.find("blockquote .color");
+    blockquotecolor.each(function (key, value) {
+        $(value).closest("blockquote").css('border-left-color', $(value).attr('data-color'));
+    });
     return result;
 }
 
@@ -195,7 +222,7 @@ function highlightRender(code, lang) {
     if (/\=$/.test(lang)) {
         var lines = result.value.split('\n');
         var linenumbers = [];
-        for (var i = 0; i < lines.length; i++) {
+        for (var i = 0; i < lines.length - 1; i++) {
             linenumbers[i] = "<div class='linenumber'>" + (i + 1) + "</div>";
         }
         var linegutter = "<div class='gutter'>" + linenumbers.join('\n') + "</div>";
