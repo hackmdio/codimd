@@ -1,0 +1,11 @@
+/home/hackmd/logs/*.log {
+  daily
+  rotate 365
+  missingok
+  notifempty
+  compress
+  sharedscripts
+  copytruncate
+  dateext
+  dateformat %Y-%m-%d
+}

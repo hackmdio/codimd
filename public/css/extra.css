@@ -13,15 +13,21 @@
 }
 .vimeo .icon,
 .youtube .icon {
-    opacity: 0.5;
+    opacity: 0.3;
     display: table-cell;
     vertical-align: middle;
     height: inherit;
     margin: 0 auto;
+    color: white;
+    -webkit-transition: opacity 0.2s; /* Safari */
+    transition: opacity 0.2s;
+    
 }
 .vimeo:hover .icon,
 .youtube:hover .icon {
     opacity: 0.6;
+    -webkit-transition: opacity 0.2s; /* Safari */
+    transition: opacity 0.2s;
 }
 h1:hover .header-link,
 h2:hover .header-link,
@@ -44,4 +50,168 @@ h6:hover .header-link {
     -moz-transition: opacity 0.2s ease-in-out 0.1s;
     -o-transition: opacity 0.2s ease-in-out 0.1s;
     transition: opacity 0.2s ease-in-out 0.1s;
+}
+
+.ui-infobar {
+    max-width: 758px;
+    margin-top: 25px;
+    margin-bottom: -25px;
+    color: #777;
+}
+
+.ui-toc {
+    position: fixed;
+    bottom: 20px;
+    z-index: 10000;
+}
+
+.ui-toc-label {
+    opacity: 0.3;
+    background-color: #ccc;
+    border: none;
+    -webkit-transition: opacity 0.2s; /* Safari */
+    transition: opacity 0.2s;
+}
+
+.ui-toc .open .ui-toc-label {
+    opacity: 1;
+    color: white;
+    -webkit-transition: opacity 0.2s; /* Safari */
+    transition: opacity 0.2s;
+}
+
+.ui-toc-label:focus {
+    opacity: 0.3;
+    background-color: #ccc;
+    color: black;
+}
+
+.ui-toc-label:hover {
+    opacity: 1;
+    background-color: #ccc;
+    -webkit-transition: opacity 0.2s; /* Safari */
+    transition: opacity 0.2s;
+}
+
+.ui-toc-dropdown {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    max-width: 45vw;
+    width: 25vw;
+    max-height: 65vh;
+    overflow: auto;
+}
+
+.ui-toc-dropdown a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+
+.ui-toc-dropdown .nav>li>a {
+    display: block;
+    padding: 4px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #767676;
+}
+
+.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover {
+    padding-left: 19px;
+    color: black;
+    text-decoration: none;
+    background-color: transparent;
+    border-left: 1px solid black;
+}
+
+.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a {
+    padding-left: 18px;
+    font-weight: 700;
+    color: black;
+    background-color: transparent;
+    border-left: 2px solid black;
+}
+
+.ui-toc-dropdown .nav .nav {
+    display: none;
+    padding-bottom: 10px;
+}
+
+.ui-toc-dropdown .nav>.active>ul {
+    display: block;
+}
+
+.ui-toc-dropdown .nav .nav>li>a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.ui-toc-dropdown .nav .nav>li>ul>li>a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 40px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover {
+    padding-left: 29px;
+}
+
+.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover {
+    padding-left: 39px;
+}
+
+.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a {
+    padding-left: 28px;
+    font-weight: 500;
+}
+
+.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a {
+    padding-left: 38px;
+    font-weight: 500;
+}
+
+.ui-affix-toc {
+    position: fixed;
+    top: 0;
+    max-width: 15vw;
+    max-height: 70vh;
+    overflow: auto;
+}
+
+.back-to-top, .go-to-bottom {
+    display: block;
+    padding: 4px 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #999;
+}
+
+.back-to-top:hover, .back-to-top:focus, .go-to-bottom:hover, .go-to-bottom:focus {
+    color: #563d7c;
+    text-decoration: none;
+}
+
+.go-to-bottom {
+    margin-top: 0;
+}
+
+small span {
+    line-height: 22px;
+}
+
+small .dropdown {
+    display: inline-block;
+}
+
+small .dropdown a:focus, small .dropdown a:hover {
+    text-decoration: none;
 }

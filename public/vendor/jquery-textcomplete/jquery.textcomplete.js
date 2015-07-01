@@ -250,9 +250,13 @@ if (typeof jQuery === 'undefined') {
         if (context || context === '') {
           if (isString(context)) { text = context; }
             var cursor = editor.getCursor();
-            text = editor.getLine(cursor.line).slice(0, cursor.ch);
-          var match = text.match(strategy.match);
-          if (match) { return [strategy, match[strategy.index], match]; }
+            var line = editor.getLine(cursor.line);
+            var linematch = line.match(strategy.match);
+            if(linematch) {
+                text = line.slice(0, cursor.ch);
+                var textmatch = text.match(strategy.match);
+                if (textmatch) { return [strategy, textmatch[strategy.index], textmatch]; }
+            }
         }
       }
       return []
@@ -315,12 +319,14 @@ if (typeof jQuery === 'undefined') {
   };
 
   var dropdownViews = {};
-  $(document).on('click', function (e) {
+    /*
+  $(document).on('mousedown', function (e) {
     var id = e.originalEvent && e.originalEvent.keepTextCompleteDropdown;
     $.each(dropdownViews, function (key, view) {
       if (key !== id) { view.deactivate(); }
     });
   });
+  */
 
   // Dropdown view
   // =============
@@ -335,6 +341,7 @@ if (typeof jQuery === 'undefined') {
     this._data     = []; // zipped data.
     this.$inputEl  = $(element);
     this.option    = option;
+    this.tap       = false;
 
     // Override setPosition method.
     if (option.listPosition) { this.setPosition = option.listPosition; }
@@ -499,7 +506,18 @@ if (typeof jQuery === 'undefined') {
     // ---------------
 
     _bindEvents: function () {
-      this.$el.on('touchstart.' + this.id, '.textcomplete-item', $.proxy(this._onClick, this));
+      this.$inputEl.on('blur', $.proxy(this.deactivate, this));
+      this.$el.on('touchstart.' + this.id, '.textcomplete-item', $.proxy(function(e) {
+          this.tap = true;
+      }, this));
+      this.$el.on('touchmove.' + this.id, '.textcomplete-item', $.proxy(function(e) {
+          this.tap = false;
+      }, this));
+      this.$el.on('touchend.' + this.id, '.textcomplete-item', $.proxy(function(e) {
+          if(e.cancelable && this.tap) {
+              this._onClick(e);
+          }
+      }, this));
       this.$el.on('mousedown.' + this.id, '.textcomplete-item', $.proxy(this._onClick, this));
       this.$el.on('mouseover.' + this.id, '.textcomplete-item', $.proxy(this._onMouseover, this));
       this.$inputEl.on('keydown.' + this.id, $.proxy(this._onKeydown, this));
@@ -819,6 +837,7 @@ if (typeof jQuery === 'undefined') {
       this.id        = completer.id + this.constructor.name;
       this.completer = completer;
       this.option    = option;
+      this.lastCurosr = null;
 
       if (this.option.debounce) {
         this._onKeyup = debounce(this._onKeyup, this.option.debounce);
@@ -866,12 +885,20 @@ if (typeof jQuery === 'undefined') {
     // ---------------
 
     _bindEvents: function () {
+      editor.on('cursorActivity', $.proxy(this._onKeyup, this));
+      $('.CodeMirror').on('touchend.' + this.id, $.proxy(this._onKeyup, this));
+      $('.CodeMirror').on('mouseup.' + this.id, $.proxy(this._onKeyup, this));
+      $(editor.getInputField()).on('focus', $.proxy(this._onKeyup, this));
       this.$el.on('keyup.' + this.id, $.proxy(this._onKeyup, this));
     },
 
     _onKeyup: function (e) {
+      var focus = (e.type == 'focus');
+      var cursor = editor.getCursor();
+      var samePos = (cursor == this.lastCursor);
       if (this._skipSearch(e)) { return; }
-      this.completer.trigger(this.getTextFromHeadToCaret(), true);
+      this.completer.trigger(this.getTextFromHeadToCaret(), focus ? false : samePos);
+      this.lastCursor = cursor;
     },
 
     // Suppress searching if it returns true.

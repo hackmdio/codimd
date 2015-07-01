@@ -14,3 +14,9 @@ body {
 ::-moz-focus-inner {
     border: 0 !important;
 }
+
+/* manual fix for bootstrap issue 14040, there is an unnecessary padding-right on modal open */
+body.modal-open {
+    overflow-y: auto;
+    padding-right: 0 !important;
+}

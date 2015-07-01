@@ -319,8 +319,9 @@ function parseToHistory(list, notehistory, callback) {
     else if (notehistory && notehistory.length > 0) {
         for (var i = 0; i < notehistory.length; i++) {
             //parse time to timestamp and fromNow
-            notehistory[i].timestamp = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a').unix();
+            notehistory[i].timestamp = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a').valueOf();
             notehistory[i].fromNow = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a').fromNow();
+            notehistory[i].time = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a').format('llll');
             if (list.get('id', notehistory[i].id).length == 0)
                 list.add(notehistory[i]);
         }

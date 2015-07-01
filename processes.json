@@ -1,0 +1,19 @@
+{
+    "apps": [{
+        "name": "hackmd",
+        "script": "app.js",
+        "exec_mode": "fork",
+        "instances": 1,
+        "error_file": "./logs/hackmd-err.log",
+        "out_file": "./logs/hackmd-out.log",
+        "pid_file": "./hackmd.pid",
+        "env": {
+            "NODE_ENV": "production",
+            "DATABASE_URL": "change this",
+            "MONGOLAB_URI": "change this",
+            "PORT": "80",
+            "SSLPORT": "443",
+            "DOMAIN": "change this"
+        }
+    }]
+}

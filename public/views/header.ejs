@@ -13,15 +13,18 @@
             <ul class="dropdown-menu list" role="menu" aria-labelledby="menu">
             </ul>
         </div>
-        <a class="navbar-brand" href="./"><i class="fa fa-file-text"></i> HackMD</a>
+        <a class="navbar-brand" href="/"><i class="fa fa-file-text"></i> HackMD</a>
         <div class="nav-mobile pull-right visible-xs">
+            <span class="btn btn-link btn-file ui-upload-image" title="Upload Image" style="display:none;">
+                <i class="fa fa-camera"></i><input type="file" accept="image/*" name="upload" multiple>
+            </span>
             <a data-target="#" data-toggle="dropdown" class="btn btn-link">
                 <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
                 <li role="presentation"><a role="menuitem" class="ui-new" tabindex="-1" href="./new" target="_blank"><i class="fa fa-plus fa-fw"></i> New</a>
                 </li>
-                <li role="presentation"><a role="menuitem" class="ui-pretty" tabindex="-1" href="#" target="_blank"><i class="fa fa-share-alt fa-fw"></i> Share</a>
+                <li role="presentation"><a role="menuitem" class="ui-share" tabindex="-1" href="#" target="_blank"><i class="fa fa-share-alt fa-fw"></i> Share</a>
                 </li>
                 <li class="divider"></li>
                 <li class="dropdown-header">Save</li>
@@ -62,6 +65,9 @@
             <a href="https://www.facebook.com/messages/866415986748945" class="btn btn-link ui-feedback" title="Feedback" target="_blank">
                 <i class="fa fa-bullhorn"></i>
             </a>
+            <span class="btn btn-link btn-file ui-upload-image" title="Upload Image" style="display:none;">
+                <i class="fa fa-camera"></i><input type="file" accept="image/*" name="upload" multiple>
+            </span>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li id="online-user-list">
@@ -79,7 +85,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" target="_blank" class="ui-pretty">
+                <a href="#" target="_blank" class="ui-share">
                     <i class="fa fa-share-alt"></i> Share
                 </a>
             </li>

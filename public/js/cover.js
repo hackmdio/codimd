@@ -4,12 +4,17 @@ var options = {
             <span class="id" style="display:none;"></span>\
             <a href="#">\
                 <div class="item">\
-                    <div class="ui-history-close fa fa-close fa-fw"></div>\
-                    <h4 class="text"></h4>\
-                    <p><i class="fromNow"><i class="fa fa-clock-o"></i></i>\
-                    <br>\
-                    <i class="timestamp" style="display:none;"></i><i class="time"></i></p>\
-                    <p class="tags"></p>\
+                    <div class="ui-history-close fa fa-close fa-fw" data-toggle="modal" data-target=".delete-modal"></div>\
+                    <div class="content">\
+                        <h4 class="text"></h4>\
+                        <p>\
+                            <i><i class="fa fa-clock-o"></i> visit </i><i class="fromNow"></i>\
+                            <br>\
+                            <i class="timestamp" style="display:none;"></i>\
+                            <i class="time"></i>\
+                        </p>\
+                        <p class="tags"></p>\
+                    </div>\
                 </div>\
             </a>\
            </li>'
@@ -114,15 +119,52 @@ function parseHistoryCallback(list, notehistory) {
     $(".ui-history-close").click(function (e) {
         e.preventDefault();
         var id = $(this).closest("a").siblings("span").html();
-        getHistory(function (notehistory) {
-            var newnotehistory = removeHistory(id, notehistory);
-            saveHistory(newnotehistory);
-        });
-        list.remove('id', id);
-        checkHistoryList();
+        var value = list.get('id', id)[0].values();
+        $('.ui-delete-modal-msg').text('Do you really want to delete below history?');
+        $('.ui-delete-modal-item').html('<i class="fa fa-file-text"></i> ' + value.text + '<br><i class="fa fa-clock-o"></i> ' + value.time);
+        clearHistory = false;
+        deleteId = id;
     });
     buildTagsFilter(filtertags);
 }
+
+//auto update item fromNow every minutes
+setInterval(updateItemFromNow, 60000);
+
+function updateItemFromNow() {
+    var items = $('.item').toArray();
+    for (var i = 0; i < items.length; i++) {
+        var item = $(items[i]);
+        var timestamp = parseInt(item.find('.timestamp').text());
+        item.find('.fromNow').text(moment(timestamp).fromNow());
+    }
+}
+
+var clearHistory = false;
+var deleteId = null;
+
+function deleteHistory() {
+    if (clearHistory) {
+        saveHistory([]);
+        historyList.clear();
+        checkHistoryList();
+    } else {
+        if (!deleteId) return;
+        getHistory(function (notehistory) {
+            var newnotehistory = removeHistory(deleteId, notehistory);
+            saveHistory(newnotehistory);
+        });
+        historyList.remove('id', deleteId);
+        checkHistoryList();
+    }
+    $('.delete-modal').modal('hide');
+    clearHistory = false;
+    deleteId = null;
+}
+
+$(".ui-delete-modal-confirm").click(function () {
+    deleteHistory();
+});
 
 $(".ui-import-from-browser").click(function () {
     saveStorageHistoryToServer(function () {
@@ -160,9 +202,10 @@ $(".ui-open-history").bind("change", function (e) {
 });
 
 $(".ui-clear-history").click(function () {
-    saveHistory([]);
-    historyList.clear();
-    checkHistoryList();
+    $('.ui-delete-modal-msg').text('Do you really want to clear all history?');
+    $('.ui-delete-modal-item').html('There is no turning back.');
+    clearHistory = true;
+    deleteId = null;
 });
 
 $(".ui-refresh-history").click(function () {
@@ -229,6 +272,67 @@ var source = $("#template").html();
 var template = Handlebars.compile(source);
 var context = {
     release: [
+        {
+            version: "0.3.1",
+            tag: "clearsky",
+            date: moment("201506301600", 'YYYYMMDDhhmm').fromNow(),
+            detail: [
+                {
+                    title: "Features",
+                    item: [
+                            "+ Added auto table of content",
+                            "+ Added basic permission control",
+                            "+ Added view count in share note"
+                        ]
+                    },
+                {
+                    title: "Enhancements",
+                    item: [
+                            "* Toolbar now will hide in single view",
+                            "* History time now will auto update",
+                            "* Smooth scroll on anchor changed",
+                            "* Updated video style"
+                        ]
+                    },
+                {
+                    title: "Fixes",
+                    item: [
+                            "* Note might not clear when all users disconnect",
+                            "* Blockquote tag not parsed properly",
+                            "* History style not correct"
+                        ]
+                    }
+                ]
+            },
+        {
+            version: "0.3.0",
+            tag: "sunrise",
+            date: moment("201506152400", 'YYYYMMDDhhmm').fromNow(),
+            detail: [
+                {
+                    title: "Enhancements",
+                    item: [
+                            "* Used short url in share notes",
+                            "* Added upload image button on toolbar",
+                            "* Share notes are now SEO and mobile friendly",
+                            "* Updated code block style",
+                            "* Newline now will cause line breaks",
+                            "* Image now will link out",
+                            "* Used otk to avoid race condition",
+                            "* Used hash to avoid data inconsistency",
+                            "* Optimized server realtime script"
+                        ]
+                    },
+                {
+                    title: "Fixes",
+                    item: [
+                            "* Composition input might lost or duplicated when other input involved",
+                            "* Note title might not save properly",
+                            "* Todo list not render properly"
+                        ]
+                    }
+                ]
+            },
         {
             version: "0.2.9",
             tag: "wildfire",

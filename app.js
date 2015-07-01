@@ -49,12 +49,14 @@ if (config.usessl) {
     var app = express();
     var server = require('http').createServer(app);
 }
-//socket io listen
-var io = require('socket.io').listen(server);
+
 //logger
 app.use(morgan('combined', {
     "stream": logger.stream
 }));
+
+//socket io
+var io = require('socket.io')(server);
 
 // connect to the mongodb
 mongoose.connect(process.env.MONGOLAB_URI || config.mongodbstring);
@@ -80,7 +82,7 @@ var sessionStore = new MongoStore({
         touchAfter: config.sessiontouch
     },
     function (err) {
-        console.log(err);
+        logger.info(err);
     });
 
 //compression
@@ -115,12 +117,12 @@ app.use(passport.session());
 
 //serialize and deserialize
 passport.serializeUser(function (user, done) {
-    //console.log('serializeUser: ' + user._id);
+    //logger.info('serializeUser: ' + user._id);
     done(null, user._id);
 });
 passport.deserializeUser(function (id, done) {
     User.model.findById(id, function (err, user) {
-        //console.log(user)
+        //logger.info(user)
         if (!err) done(null, user);
         else done(err, null);
     })
@@ -163,7 +165,7 @@ app.get("/temp", function (req, res) {
                     });
                     temp.remove(function (err) {
                         if (err)
-                            console.log('remove temp failed: ' + err);
+                            logger.error('remove temp failed: ' + err);
                     });
                 }
             });
@@ -182,7 +184,7 @@ app.post("/temp", urlencodedParser, function (req, res) {
             response.errorForbidden(res);
         else {
             if (config.debug)
-                console.log('SERVER received temp from [' + host + ']: ' + req.body.data);
+                logger.info('SERVER received temp from [' + host + ']: ' + req.body.data);
             Temp.newTemp(id, data, function (err, temp) {
                 if (!err && temp) {
                     res.header("Access-Control-Allow-Origin", "*");
@@ -247,7 +249,7 @@ app.get('/auth/dropbox/callback',
 //logout
 app.get('/logout', function (req, res) {
     if (config.debug && req.session.passport.user)
-        console.log('user logout: ' + req.session.passport.user);
+        logger.info('user logout: ' + req.session.passport.user);
     req.logout();
     res.redirect('/');
 });
@@ -256,7 +258,7 @@ app.get('/history', function (req, res) {
     if (req.isAuthenticated()) {
         User.model.findById(req.session.passport.user, function (err, user) {
             if (err) {
-                console.log('read history failed: ' + err);
+                logger.error('read history failed: ' + err);
             } else {
                 var history = [];
                 if (user.history)
@@ -274,18 +276,18 @@ app.get('/history', function (req, res) {
 app.post('/history', urlencodedParser, function (req, res) {
     if (req.isAuthenticated()) {
         if (config.debug)
-            console.log('SERVER received history from [' + req.session.passport.user + ']: ' + req.body.history);
+            logger.info('SERVER received history from [' + req.session.passport.user + ']: ' + req.body.history);
         User.model.findById(req.session.passport.user, function (err, user) {
             if (err) {
-                console.log('write history failed: ' + err);
+                logger.error('write history failed: ' + err);
             } else {
                 user.history = req.body.history;
                 user.save(function (err) {
                     if (err) {
-                        console.log('write user history failed: ' + err);
+                        logger.error('write user history failed: ' + err);
                     } else {
                         if (config.debug)
-                            console.log("write user history success: " + user._id);
+                            logger.info("write user history success: " + user._id);
                     };
                 });
             }
@@ -300,7 +302,7 @@ app.get('/me', function (req, res) {
     if (req.isAuthenticated()) {
         User.model.findById(req.session.passport.user, function (err, user) {
             if (err) {
-                console.log('read me failed: ' + err);
+                logger.error('read me failed: ' + err);
             } else {
                 var profile = JSON.parse(user.profile);
                 res.send({
@@ -324,20 +326,25 @@ app.post('/uploadimage', function (req, res) {
             response.errorForbidden(res);
         } else {
             if (config.debug)
-                console.log('SERVER received uploadimage: ' + JSON.stringify(files.image));
+                logger.info('SERVER received uploadimage: ' + JSON.stringify(files.image));
             imgur.setClientId(config.imgur.clientID);
-            imgur.uploadFile(files.image.path)
-                .then(function (json) {
-                    if (config.debug)
-                        console.log('SERVER uploadimage success: ' + JSON.stringify(json));
-                    res.send({
-                        link: json.data.link
+            try {
+                imgur.uploadFile(files.image.path)
+                    .then(function (json) {
+                        if (config.debug)
+                            logger.info('SERVER uploadimage success: ' + JSON.stringify(json));
+                        res.send({
+                            link: json.data.link
+                        });
+                    })
+                    .catch(function (err) {
+                        logger.error(err);
+                        res.send('upload image error');
                     });
-                })
-                .catch(function (err) {
-                    console.error(err);
-                    res.send(err.message);
-                });
+            } catch (err) {
+                logger.error(err);
+                res.send('upload image error');
+            }
         }
     });
 });
@@ -345,6 +352,10 @@ app.post('/uploadimage', function (req, res) {
 app.get("/new", response.newNote);
 //get features
 app.get("/features", response.showFeatures);
+//get share note
+app.get("/s/:shortid", response.showShareNote);
+//share note actions
+app.get("/s/:shortid/:action", response.shareNoteActions);
 //get note by id
 app.get("/:noteId", response.showNote);
 //note actions
@@ -370,10 +381,10 @@ io.sockets.on('connection', realtime.connection);
 //listen
 if (config.usessl) {
     server.listen(config.sslport, function () {
-        console.log('HTTPS Server listening at sslport %d', config.sslport);
+        logger.info('HTTPS Server listening at sslport %d', config.sslport);
     });
 } else {
     server.listen(config.port, function () {
-        console.log('HTTP Server listening at port %d', config.port);
+        logger.info('HTTP Server listening at port %d', config.port);
     });
 }

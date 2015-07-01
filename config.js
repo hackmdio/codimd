@@ -11,7 +11,7 @@ var urladdport = true; //add port on getserverurl
 
 var config = {
     debug: true,
-    version: '0.2.8',
+    version: '0.3.1',
     domain: domain,
     alloworigin: ['add here to allow origin to cross'],
     testport: testport,

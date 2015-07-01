@@ -8,7 +8,7 @@ md.renderer.rules.blockquote_open = function (tokens, idx /*, options, env */ ) 
     if (tokens[idx].lines && tokens[idx].level === 0) {
         var startline = tokens[idx].lines[0] + 1;
         var endline = tokens[idx].lines[1];
-        return '<blockquote class="part" data-startline="' + startline + '" data-endline="' + endline + '">\n';
+        return '<blockquote class="raw part" data-startline="' + startline + '" data-endline="' + endline + '">\n';
     }
     return '<blockquote>\n';
 };
@@ -55,9 +55,9 @@ md.renderer.rules.paragraph_open = function (tokens, idx) {
     if (tokens[idx].lines && tokens[idx].level === 0) {
         var startline = tokens[idx].lines[0] + 1;
         var endline = tokens[idx].lines[1];
-        return '<p class="part" data-startline="' + startline + '" data-endline="' + endline + '">';
+        return tokens[idx].tight ? '' : '<p class="part" data-startline="' + startline + '" data-endline="' + endline + '">';
     }
-    return '';
+    return tokens[idx].tight ? '' : '<p>';
 };
 
 md.renderer.rules.heading_open = function (tokens, idx) {
@@ -106,7 +106,7 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
         }
 
         langName = Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(Remarkable.utils.unescapeMd(fenceName)));
-        langClass = ' class="' + langPrefix + langName + '"';
+        langClass = ' class="' + langPrefix + langName.replace('=', '') + ' hljs"';
     }
 
     if (options.highlight) {
@@ -193,7 +193,8 @@ function buildMapInner(syncBack) {
         'line-height': textarea.css('line-height'),
         'word-wrap': wrap.css('word-wrap'),
         'white-space': wrap.css('white-space'),
-        'word-break': wrap.css('word-break')
+        'word-break': wrap.css('word-break'),
+        'tab-size': '38px'
     }).appendTo('body');
 
     offset = ui.area.view.scrollTop() - ui.area.view.offset().top;
@@ -313,7 +314,7 @@ function syncScrollToView(event, _lineNo) {
         var textHeight = editor.defaultTextHeight();
         lineNo = Math.floor(scrollInfo.top / textHeight);
         //if reach bottom, then scroll to end
-        if (scrollInfo.top + scrollInfo.clientHeight >= scrollInfo.height - defaultTextHeight) {
+        if (scrollInfo.height > scrollInfo.clientHeight && scrollInfo.top + scrollInfo.clientHeight >= scrollInfo.height - defaultTextHeight) {
             posTo = ui.area.view[0].scrollHeight - ui.area.view.height();
         } else {
             topDiffPercent = (scrollInfo.top % textHeight) / textHeight;

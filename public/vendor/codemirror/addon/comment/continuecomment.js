@@ -57,7 +57,7 @@
 
     cm.operation(function() {
       for (var i = ranges.length - 1; i >= 0; i--)
-        cm.replaceRange(inserts[i], ranges[i].from(), ranges[i].to(), "+insert");
+        cm.replaceRange(inserts[i], ranges[i].from(), ranges[i].to(), "+input");
     });
   }
 

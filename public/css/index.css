@@ -177,11 +177,11 @@ div[contenteditable]:empty:not(:focus):before{
     content:attr(data-ph);
     color: gray;
 }
-.dropdown-menu {
+.dropdown-menu.list {
     max-height: 80vh;
     overflow: auto;
 }
-.dropdown-menu::-webkit-scrollbar { 
+.dropdown-menu.list::-webkit-scrollbar { 
     display: none; 
 }
 .dropdown-menu .emoji {
@@ -199,6 +199,26 @@ div[contenteditable]:empty:not(:focus):before{
     -webkit-user-select: none; 
     -o-user-select: none;
     user-select: none;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
 }
 
 .cm-trailing-space-a:before,

@@ -352,7 +352,7 @@
   inlineAttachment.prototype.onFileInserted = function(file, id) {
     if (this.settings.onFileReceived.call(this, file) !== false) {
       this.lastValue = this.settings.progressText.replace(this.filenameTag, id);
-      this.editor.insertValue(this.lastValue);
+      this.editor.insertValue(this.lastValue + "\n");
     }
   };
 

@@ -223,9 +223,20 @@ input {
     border-radius: 5px;
     color: black;
     text-shadow: none;
+    min-height: 134px;
+    display: table;
+    min-width: 100%;
 }
-.list li .item .tags {
+.list li .item .content {
+    display: table-cell;
+    vertical-align: middle;
+}
+.list li .item .content .tags {
     line-height: 25px;
+}
+.list li .item .content .tags span {
+    display: inline-block;
+    line-height: 15px;
 }
 .form-inline {
     padding: 0 10px;
@@ -245,6 +256,10 @@ input {
 }
 .ui-history-close:hover {
     opacity: 1;
+}
+.ui-or {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .modal-title {

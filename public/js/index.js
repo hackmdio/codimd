@@ -1,16 +1,21 @@
 //constant vars
 //settings
 var debug = false;
-var version = '0.2.9';
+var version = '0.3.1';
 
 var defaultTextHeight = 18;
 var viewportMargin = 20;
 var defaultExtraKeys = {
+    "Cmd-S": function () {
+        return CodeMirror.PASS
+    },
+    "Ctrl-S": function () {
+        return CodeMirror.PASS
+    },
     "Enter": "newlineAndIndentContinueMarkdownList"
 };
 
 var idleTime = 300000; //5 mins
-var doneTypingDelay = 400;
 var finishChangeDelay = 400;
 var cursorActivityDelay = 50;
 var cursorAnimatePeriod = 100;
@@ -97,12 +102,27 @@ var supportExternals = [
         search: 'gist'
     }
 ];
-var supportGenerals = [
+var supportBlockquoteTags = [
     {
+        text: '[name tag]',
+        search: '[]',
         command: function () {
-            return moment().format('llll');
+            return '[name=' + personalInfo.name + ']';
         },
-        search: 'time'
+    },
+    {
+        text: '[time tag]',
+        search: '[]',
+        command: function () {
+            return '[time=' + moment().format('llll') + ']';
+        },
+    },
+    {
+        text: '[color tag]',
+        search: '[]',
+        command: function () {
+            return '[color=' + personalInfo.color + ']';
+        }
     }
 ];
 var modeType = {
@@ -131,6 +151,7 @@ var defaultMode = modeType.both;
 
 //global vars
 var loaded = false;
+var needRefresh = false;
 var isDirty = false;
 var editShown = false;
 var visibleXS = false;
@@ -192,7 +213,7 @@ var editor = CodeMirror.fromTextArea(textit, {
     extraKeys: defaultExtraKeys,
     readOnly: true
 });
-inlineAttachment.editors.codemirror4.attach(editor);
+var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor);
 defaultTextHeight = parseInt($(".CodeMirror").css('line-height'));
 
 //ui vars
@@ -203,7 +224,7 @@ var ui = {
         shortStatus: $(".ui-short-status"),
         status: $(".ui-status"),
         new: $(".ui-new"),
-        pretty: $(".ui-pretty"),
+        share: $(".ui-share"),
         download: {
             markdown: $(".ui-download-markdown")
         },
@@ -217,7 +238,24 @@ var ui = {
         mode: $(".ui-mode"),
         edit: $(".ui-edit"),
         view: $(".ui-view"),
-        both: $(".ui-both")
+        both: $(".ui-both"),
+        uploadImage: $(".ui-upload-image")
+    },
+    infobar: {
+        lastchange: $(".ui-lastchange"),
+        permission: {
+            permission: $(".ui-permission"),
+            label: $(".ui-permission-label"),
+            freely: $(".ui-permission-freely"),
+            editable: $(".ui-permission-editable"),
+            locked: $(".ui-permission-locked")
+        }
+    },
+    toc: {
+        toc: $('.ui-toc'),
+        affix: $('.ui-affix-toc'),
+        label: $('.ui-toc-label'),
+        dropdown: $('.ui-toc-dropdown')
     },
     area: {
         edit: $(".ui-edit-area"),
@@ -263,9 +301,15 @@ function idleStateChange() {
     updateOnlineStatus();
 }
 
-loginStateChangeEvent = function () {
-    location.reload(true);
+function setNeedRefresh() {
+    $('#refreshModal').modal('show');
+    needRefresh = true;
+    editor.setOption('readOnly', true);
+    socket.disconnect();
+    showStatus(statusType.offline);
 }
+
+loginStateChangeEvent = setNeedRefresh;
 
 //visibility
 var wasFocus = false;
@@ -315,6 +359,11 @@ $(document).ready(function () {
                 $body.removeClass('fixfixed');
             });
     }
+    //showup
+    $().showUp('.navbar', {
+        upClass: 'navbar-hide',
+        downClass: 'navbar-show'
+    });
 });
 //when page resize
 var windowResizeDelay = 200;
@@ -327,12 +376,38 @@ $(window).resize(function () {
 });
 //when page unload
 $(window).unload(function () {
-    emitRefresh();
+    emitUpdate();
 });
+
+//when page hash change
+window.onhashchange = locationHashChanged;
+
+function locationHashChanged(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (currentMode != modeType.both) {
+        return;
+    }
+    var hashtarget = $("[id$='" + location.hash.substr(1) + "']");
+    if (hashtarget.length > 0) {
+        var linenumber = hashtarget.attr('data-startline');
+        if (linenumber) {
+            editor.setOption('viewportMargin', Infinity);
+            editor.setOption('viewportMargin', viewportMargin);
+            var t = editor.charCoords({
+                line: linenumber,
+                ch: 0
+            }, "local").top;
+            editor.scrollTo(null, t - defaultTextHeight * 1.2);
+        }
+    }
+}
 
 function windowResize() {
     checkResponsive();
     checkEditorStyle();
+    checkTocStyle();
+    //refresh editor
     if (loaded) {
         editor.setOption('viewportMargin', Infinity);
         setTimeout(function () {
@@ -370,6 +445,39 @@ function checkEditorStyle() {
     } else if (scrollbarStyle == 'native') {
         ui.area.codemirror.css('height', 'auto');
         $('.CodeMirror-gutters').css('height', $('.CodeMirror-sizer').height());
+    }
+}
+
+function checkTocStyle() {
+    //toc right
+    var paddingRight = parseFloat(ui.area.markdown.css('padding-right'));
+    var right = ($(window).width() - (ui.area.markdown.offset().left + ui.area.markdown.outerWidth() - paddingRight));
+    ui.toc.toc.css('right', right + 'px');
+    //affix toc left
+    var newbool;
+    var rightMargin = (ui.area.markdown.parent().outerWidth() - ui.area.markdown.outerWidth()) / 2;
+    //for ipad or wider device
+    if (rightMargin >= 133) {
+        newbool = true;
+        var affixLeftMargin = (ui.toc.affix.outerWidth() - ui.toc.affix.width()) / 2;
+        var left = ui.area.markdown.offset().left + ui.area.markdown.outerWidth() - affixLeftMargin;
+        ui.toc.affix.css('left', left + 'px');
+    } else {
+        newbool = false;
+    }
+    //toc scrollspy
+    ui.toc.toc.removeClass('scrollspy-body, scrollspy-view');
+    ui.toc.affix.removeClass('scrollspy-body, scrollspy-view');
+    if (currentMode != modeType.both && !newbool) {
+        ui.toc.toc.addClass('scrollspy-body');
+        ui.toc.affix.addClass('scrollspy-body');
+    } else {
+        ui.toc.toc.addClass('scrollspy-view');
+        ui.toc.affix.addClass('scrollspy-body');
+    }
+    if (newbool != enoughForAffixToc) {
+        enoughForAffixToc = newbool;
+        generateScrollspy();
     }
 }
 
@@ -461,12 +569,21 @@ function changeMode(type) {
     }
     if (currentMode != modeType.view && visibleLG) {
         //editor.focus();
-        editor.refresh();
+        //editor.refresh();
     } else {
         editor.getInputField().blur();
     }
-    if (changeMode != modeType.edit)
+    if (currentMode == modeType.edit || currentMode == modeType.both) {
+        ui.toolbar.uploadImage.fadeIn();
+    } else {
+        ui.toolbar.uploadImage.fadeOut();
+    }
+    if (currentMode != modeType.edit) {
+        $(document.body).css('background-color', 'white');
         updateView();
+    } else {
+        $(document.body).css('background-color', ui.area.codemirror.css('background-color'));
+    }
     restoreInfo();
 
     windowResize();
@@ -489,10 +606,9 @@ function changeMode(type) {
 }
 
 //button actions
-var noteId = window.location.pathname.split('/')[1];
-var url = window.location.origin + '/' + noteId;
-//pretty
-ui.toolbar.pretty.attr("href", url + "/pretty");
+var url = window.location.pathname;
+//share
+ui.toolbar.share.attr("href", url + "/share");
 //download
 //markdown
 ui.toolbar.download.markdown.click(function () {
@@ -534,6 +650,73 @@ ui.toolbar.import.dropbox.click(function () {
 ui.toolbar.import.clipboard.click(function () {
     //na
 });
+//upload image
+ui.toolbar.uploadImage.bind('change', function (e) {
+    var files = e.target.files || e.dataTransfer.files;
+    e.dataTransfer = {};
+    e.dataTransfer.files = files;
+    inlineAttach.onDrop(e);
+});
+//toc
+ui.toc.dropdown.click(function (e) {
+    e.stopPropagation();
+});
+
+function scrollToTop() {
+    if (currentMode == modeType.both) {
+        if (editor.getScrollInfo().top != 0)
+            editor.scrollTo(0, 0);
+        else
+            ui.area.view.animate({
+                scrollTop: 0
+            }, 100, "linear");
+    } else {
+        $(document.body).animate({
+            scrollTop: 0
+        }, 100, "linear");
+    }
+}
+
+function scrollToBottom() {
+    if (currentMode == modeType.both) {
+        var scrollInfo = editor.getScrollInfo();
+        var scrollHeight = scrollInfo.height;
+        if (scrollInfo.top != scrollHeight)
+            editor.scrollTo(0, scrollHeight * 2);
+        else
+            ui.area.view.animate({
+                scrollTop: ui.area.view[0].scrollHeight
+            }, 100, "linear");
+    } else {
+        $(document.body).animate({
+            scrollTop: $(document.body)[0].scrollHeight
+        }, 100, "linear");
+    }
+}
+
+var enoughForAffixToc = true;
+
+//scrollspy
+function generateScrollspy() {
+    $(document.body).scrollspy({
+        target: '.scrollspy-body'
+    });
+    ui.area.view.scrollspy({
+        target: '.scrollspy-view'
+    });
+    $(document.body).scrollspy('refresh');
+    ui.area.view.scrollspy('refresh');
+    if (enoughForAffixToc) {
+        ui.toc.toc.hide();
+        ui.toc.affix.show();
+    } else {
+        ui.toc.affix.hide();
+        ui.toc.toc.show();
+    }
+    $(document.body).scroll();
+    ui.area.view.scroll();
+}
+
 //fix for wrong autofocus
 $('#clipboardModal').on('shown.bs.modal', function () {
     $('#clipboardModal').blur();
@@ -548,6 +731,9 @@ $("#clipboardModalConfirm").click(function () {
         $('#clipboardModal').modal('hide');
         $("#clipboardModalContent").html('');
     }
+});
+$('#refreshModalRefresh').click(function () {
+    location.reload(true);
 });
 
 function parseToEditor(data) {
@@ -585,19 +771,20 @@ function importFromUrl(url) {
 }
 
 function isValidURL(str) {
-        var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-        if (!pattern.test(str)) {
-            return false;
-        } else {
-            return true;
-        }
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    if (!pattern.test(str)) {
+        return false;
+    } else {
+        return true;
     }
-    //mode
+}
+
+//mode
 ui.toolbar.mode.click(function () {
     toggleMode();
 });
@@ -613,18 +800,63 @@ ui.toolbar.view.click(function () {
 ui.toolbar.both.click(function () {
     changeMode(modeType.both);
 });
+//permission
+//freely
+ui.infobar.permission.freely.click(function () {
+    updatePermission("freely");
+});
+//editable
+ui.infobar.permission.editable.click(function () {
+    updatePermission("editable");
+});
+//locked
+ui.infobar.permission.locked.click(function () {
+    updatePermission("locked");
+});
+
+function updatePermission(_permission) {
+    if (_permission != permission) {
+        socket.emit('permission', _permission);
+    }
+}
+
+function checkPermission() {
+    var label = null;
+    var title = null;
+    switch (permission) {
+    case "freely":
+        label = '<i class="fa fa-leaf"></i> Freely';
+        title = "Anyone can edit";
+        break;
+    case "editable":
+        label = '<i class="fa fa-pencil"></i> Editable';
+        title = "Signed people can edit";
+        break;
+    case "locked":
+        label = '<i class="fa fa-lock"></i> Locked';
+        title = "Only owner can edit";
+        break;
+    }
+    if (personalInfo.userid == owner) {
+        label += ' <i class="fa fa-caret-down"></i>';
+        ui.infobar.permission.label.removeClass('disabled');
+    } else {
+        ui.infobar.permission.label.addClass('disabled');
+    }
+    ui.infobar.permission.label.html(label).attr('title', title);
+}
 
 //socket.io actions
 var socket = io.connect();
 //overwrite original event for checking login state
 var on = socket.on;
 socket.on = function () {
-    if (!checkLoginStateChanged())
+    if (!checkLoginStateChanged() && !needRefresh)
         on.apply(socket, arguments);
 };
 var emit = socket.emit;
 socket.emit = function () {
-    if (!checkLoginStateChanged())
+    if (!checkLoginStateChanged() && !needRefresh)
         emit.apply(socket, arguments);
 };
 socket.on('info', function (data) {
@@ -653,17 +885,53 @@ socket.on('connect', function (data) {
 });
 socket.on('version', function (data) {
     if (data != version)
-        location.reload(true);
+        setNeedRefresh();
 });
+socket.on('check', function (data) {
+    if (data.id == socket.id) {
+        lastchangetime = data.updatetime;
+        lastchangeui = ui.infobar.lastchange;
+        updateLastChange();
+        return;
+    }
+    var currentHash = md5(LZString.compressToUTF16(editor.getValue()));
+    var hashMismatch = (currentHash != data.hash);
+    if (hashMismatch)
+        socket.emit('refresh');
+    else {
+        lastchangetime = data.updatetime;
+        lastchangeui = ui.infobar.lastchange;
+        updateLastChange();
+    }
+});
+socket.on('permission', function (data) {
+    permission = data.permission;
+    checkPermission();
+});
+var otk = null;
+var owner = null;
+var permission = null;
 socket.on('refresh', function (data) {
+    var currentHash = md5(LZString.compressToUTF16(editor.getValue()));
+    var hashMismatch = (currentHash != data.hash);
     saveInfo();
 
-    var body = data.body;
-    body = LZString.decompressFromUTF16(body);
-    if (body)
-        editor.setValue(body);
-    else
-        editor.setValue("");
+    otk = data.otk;
+    owner = data.owner;
+    permission = data.permission;
+
+    if (hashMismatch) {
+        var body = data.body;
+        body = LZString.decompressFromUTF16(body);
+        if (body)
+            editor.setValue(body);
+        else
+            editor.setValue("");
+    }
+
+    lastchangetime = data.updatetime;
+    lastchangeui = ui.infobar.lastchange;
+    updateLastChange();
 
     if (!loaded) {
         editor.clearHistory();
@@ -673,9 +941,19 @@ socket.on('refresh', function (data) {
         loaded = true;
         emitUserStatus(); //send first user status
         updateOnlineStatus(); //update first online status
+        setTimeout(function () {
+            //work around editor not refresh
+            editor.refresh();
+            //work around cursor not refresh
+            for (var i = 0; i < onlineUsers.length; i++) {
+                buildCursor(onlineUsers[i]);
+            }
+            //work around might not scroll to hash
+            scrollToHash();
+        }, 1);
     } else {
         //if current doc is equal to the doc before disconnect
-        if (LZString.compressToUTF16(editor.getValue()) !== data.body)
+        if (hashMismatch)
             editor.clearHistory();
         else {
             if (lastInfo.history)
@@ -684,21 +962,58 @@ socket.on('refresh', function (data) {
         lastInfo.history = null;
     }
 
-    updateView();
+    if (hashMismatch)
+        updateView();
 
     if (editor.getOption('readOnly'))
         editor.setOption('readOnly', false);
 
     restoreInfo();
+    checkPermission();
 });
+
+var changeStack = [];
+var changeBusy = false;
+
 socket.on('change', function (data) {
     data = LZString.decompressFromUTF16(data);
     data = JSON.parse(data);
-    editor.replaceRange(data.text, data.from, data.to, "ignoreHistory");
-    isDirty = true;
-    clearTimeout(finishChangeTimer);
-    finishChangeTimer = setTimeout(finishChange, finishChangeDelay);
+    changeStack.push(data);
+    if (!changeBusy)
+        executeChange();
 });
+
+function executeChange() {
+    if (changeStack.length > 0) {
+        changeBusy = true;
+        var data = changeStack.shift();
+        if (data.otk != otk) {
+            var found = false;
+            for (var i = 0, l = changeStack.length; i < l; i++) {
+                if (changeStack[i].otk == otk) {
+                    changeStack.unshift(data);
+                    data = changeStack[i];
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                socket.emit('refresh');
+                changeBusy = false;
+                return;
+            }
+        }
+        otk = data.nextotk;
+        if (data.id == personalInfo.id)
+            editor.replaceRange(data.text, data.from, data.to, 'self::' + data.origin);
+        else
+            editor.replaceRange(data.text, data.from, data.to, "ignoreHistory");
+        executeChange();
+    } else {
+        changeBusy = false;
+    }
+}
+
 socket.on('online users', function (data) {
     data = LZString.decompressFromUTF16(data);
     data = JSON.parse(data);
@@ -795,7 +1110,7 @@ var onlineUserList = new List('online-user-list', options);
 var shortOnlineUserList = new List('short-online-user-list', options);
 
 function updateOnlineStatus() {
-    if (!loaded) return;
+    if (!loaded || !socket.connected) return;
     var _onlineUsers = deduplicateOnlineUsers(onlineUsers);
     showStatus(statusType.online, _onlineUsers.length);
     var items = onlineUserList.items;
@@ -851,7 +1166,7 @@ function sortOnlineUserList(list) {
             var userbIsSelf = (userb.id == personalInfo.id || (userb.login && userb.userid == personalInfo.userid));
             if (useraIsSelf && !userbIsSelf) {
                 return -1;
-            } else if(!useraIsSelf && userbIsSelf) {
+            } else if (!useraIsSelf && userbIsSelf) {
                 return 1;
             } else {
                 if (usera.login && !userb.login)
@@ -975,7 +1290,7 @@ function checkCursorTag(coord, ele) {
     var offsetTop = defaultTextHeight;
     if (width > 0 && height > 0) {
         if (left + width + offsetLeft > editorWidth - curosrtagMargin) {
-            offsetLeft = -(width + 4);
+            offsetLeft = -(width + 10);
         }
         if (top + height + offsetTop > Math.max(viewportHeight, editorHeight) + curosrtagMargin && top - height > curosrtagMargin) {
             offsetTop = -(height);
@@ -1124,16 +1439,61 @@ function buildCursor(user) {
 editor.on('beforeChange', function (cm, change) {
     if (debug)
         console.debug(change);
+    var self = change.origin.split('self::');
+    if (self.length == 2) {
+        change.origin = self[1];
+        self = true;
+    } else {
+        self = false;
+    }
+    if (self) {
+        change.canceled = true;
+    } else {
+        var isIgnoreEmitEvent = (ignoreEmitEvents.indexOf(change.origin) != -1);
+        if (!isIgnoreEmitEvent) {
+            switch (permission) {
+            case "freely":
+                //na
+                break;
+            case "editable":
+                if (!personalInfo.login) {
+                    change.canceled = true;
+                    $('.signin-modal').modal('show');
+                }
+                break;
+            case "locked":
+                if (personalInfo.userid != owner) {
+                    change.canceled = true;
+                    $('.locked-modal').modal('show');
+                }
+                break;
+            }
+        }
+    }
 });
+
+var ignoreEmitEvents = ['setValue', 'ignoreHistory'];
 editor.on('change', function (i, op) {
     if (debug)
         console.debug(op);
-    if (op.origin != 'setValue' && op.origin != 'ignoreHistory') {
-        socket.emit('change', LZString.compressToUTF16(JSON.stringify(op)));
+    var isIgnoreEmitEvent = (ignoreEmitEvents.indexOf(op.origin) != -1);
+    if (!isIgnoreEmitEvent) {
+        var out = {
+            text: op.text,
+            from: op.from,
+            to: op.to,
+            origin: op.origin
+        };
+        socket.emit('change', LZString.compressToUTF16(JSON.stringify(out)));
     }
     isDirty = true;
-    clearTimeout(doneTypingTimer);
-    doneTypingTimer = setTimeout(doneTyping, doneTypingDelay);
+    clearTimeout(finishChangeTimer);
+    finishChangeTimer = setTimeout(function () {
+        if (!isIgnoreEmitEvent)
+            finishChange(true);
+        else
+            finishChange(false);
+    }, finishChangeDelay);
 });
 editor.on('focus', function (cm) {
     for (var i = 0; i < onlineUsers.length; i++) {
@@ -1236,22 +1596,17 @@ function restoreInfo() {
 }
 
 //view actions
-var doneTypingTimer = null;
 var finishChangeTimer = null;
-var input = editor.getInputField();
-//user is "finished typing," do something
-function doneTyping() {
-    emitRefresh();
+
+function finishChange(emit) {
+    if (emit)
+        emitUpdate();
     updateView();
 }
 
-function finishChange() {
-    updateView();
-}
-
-function emitRefresh() {
+function emitUpdate() {
     var value = editor.getValue();
-    socket.emit('refresh', LZString.compressToUTF16(value));
+    socket.emit('update', LZString.compressToUTF16(value));
 }
 
 var lastResult = null;
@@ -1267,6 +1622,11 @@ function updateView() {
         updateDataAttrs(result, ui.area.markdown.children().toArray());
     lastResult = $(result).clone();
     finishView(ui.area.view);
+    autoLinkify(ui.area.view);
+    generateToc('toc');
+    generateToc('toc-affix');
+    generateScrollspy();
+    smoothHashScroll();
     writeHistory(ui.area.markdown);
     isDirty = false;
     clearMap();
@@ -1535,7 +1895,7 @@ $(editor.getInputField())
                 return '$1```' + lang + '=\n\n```';
             },
             done: function () {
-                editor.doc.cm.moveV(-1, "line");
+                editor.doc.cm.execCommand("goLineUp");
             },
             context: function () {
                 return isInCode;
@@ -1547,6 +1907,28 @@ $(editor.getInputField())
                 callback($.map(supportHeaders, function (header) {
                     return header.search.indexOf(term) === 0 ? header.text : null;
                 }));
+                checkCursorMenu();
+            },
+            replace: function (value) {
+                return '$1' + value;
+            },
+            context: function (text) {
+                return !isInCode;
+            }
+    },
+        { //blockquote personal info & general info
+            match: /(?:^|\n|\s)(\>.*)(\[\])(\w*)$/,
+            search: function (term, callback) {
+                var list = [];
+                $.map(supportBlockquoteTags, function (blockquotetag) {
+                    if (blockquotetag.search.indexOf(term) === 0)
+                        list.push(blockquotetag.command());
+                });
+                $.map(supportReferrals, function (referral) {
+                    if (referral.search.indexOf(term) === 0)
+                        list.push(referral.text);
+                })
+                callback(list);
                 checkCursorMenu();
             },
             replace: function (value) {
@@ -1581,41 +1963,6 @@ $(editor.getInputField())
             },
             replace: function (value) {
                 return '$1' + value;
-            },
-            context: function (text) {
-                return !isInCode;
-            }
-    },
-        { //blockquote personal info & general info
-            match: /(^|\n|\s|\>.*)\[(\w*)=$/,
-            search: function (term, callback) {
-                var list = typeof personalInfo[term] != 'undefined' ? [personalInfo[term]] : [];
-                $.map(supportGenerals, function (general) {
-                    if (general.search.indexOf(term) === 0)
-                        list.push(general.command());
-                });
-                callback(list);
-                checkCursorMenu();
-            },
-            replace: function (value) {
-                return '$1[$2=' + value;
-            },
-            context: function (text) {
-                return !isInCode;
-            }
-    },
-        { //blockquote quick start tag
-            match: /(^.*(?!>)\n|)(\>\s{0,1})$/,
-            search: function (term, callback) {
-                var self = '[name=' + personalInfo.name + '] [time=' + moment().format('llll') + '] [color=' + personalInfo.color + ']';
-                callback([self]);
-                checkCursorMenu();
-            },
-            template: function (value) {
-                return '[Your name, time, color tags]';
-            },
-            replace: function (value) {
-                return '$1$2' + value;
             },
             context: function (text) {
                 return !isInCode;

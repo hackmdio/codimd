@@ -88,6 +88,8 @@
         return false;
       }
     });
+      
+    return inlineattach;
   };
 
   inlineAttachment.editors.codemirror4 = codeMirrorEditor4;

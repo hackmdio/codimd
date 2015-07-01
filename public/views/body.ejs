@@ -3,7 +3,31 @@
         <textarea id="textit"></textarea>
     </div>
     <div class="ui-view-area">
-        <div class="markdown-body container-fluid"></div>
+        <div class="ui-infobar container-fluid">
+            <small>
+                <span class="ui-lastchange text-uppercase"></span>
+                <span class="ui-permission dropdown pull-right">
+                    <a id="permissionLabel" class="ui-permission-label text-uppercase" data-target="#" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="permissionLabel">
+                        <li class="ui-permission-freely"><a><i class="fa fa-leaf fa-fw"></i> Freely - Anyone can edit</a></li>
+                        <li class="ui-permission-editable"><a><i class="fa fa-pencil fa-fw"></i> Editable - Signed people can edit</a></li>
+                        <li class="ui-permission-locked"><a><i class="fa fa-lock fa-fw"></i> Locked - Only owner can edit</a></li>
+                    </ul>
+                </span>
+            </small>
+        </div>
+        <div id="doc" class="markdown-body container-fluid"></div>
+        <div class="ui-toc dropup" style="display:none;">
+            <div class="pull-right dropdown">
+                <a id="tocLabel" class="ui-toc-label btn btn-default" data-target="#" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <ul id="toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                </ul>
+            </div>
+        </div>
+        <div id="toc-affix" class="ui-affix-toc ui-toc-dropdown" data-spy="affix" style="top:50px;display:none;"></div>
     </div>
 </div>
 <div class="modal fade" id="clipboardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -21,6 +45,68 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="clipboardModalClear">Clear</button>
                 <button type="button" class="btn btn-primary" id="clipboardModalConfirm">Import</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="refreshModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">This page need refresh</h4>
+            </div>
+            <div class="modal-body">
+                <h5>This page have a mismatch client version or incorrect user state.</h5>
+                <strong>Please refresh this page.</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="refreshModalRefresh">Refresh</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- signin modal -->
+<div class="modal fade signin-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="mySmallModalLabel">Please sign in to edit</h4>
+            </div>
+            <div class="modal-body">
+                <a href="/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
+                    <i class="fa fa-facebook"></i> Sign in via Facebook
+                </a>
+                <a href="/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
+                    <i class="fa fa-twitter"></i> Sign in via Twitter
+                </a>
+                <a href="/auth/github" class="btn btn-lg btn-block btn-social btn-github">
+                    <i class="fa fa-github"></i> Sign in via GitHub
+                </a>
+                <a href="/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
+                    <i class="fa fa-dropbox"></i> Sign in via Dropbox
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- locked modal -->
+<div class="modal fade locked-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-lock"></i> This note is locked</h4>
+            </div>
+            <div class="modal-body" style="color:black;">
+                <h5>Sorry, only owner can edit this note.</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
             </div>
         </div>
     </div>
