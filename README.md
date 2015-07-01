@@ -1,8 +1,8 @@
 HackMD 0.3.1
 ===
 
-HackMD is a realtime collaborative markdown notes on all platforms.
-Inspired by Hackpad, but more focusing on speed and flexibility.
+HackMD is a realtime collaborative markdown notes on all platforms.  
+Inspired by Hackpad, but more focusing on speed and flexibility.  
 Still in early stage, feel free to fork or contribute to this.
 
 Thanks for your using! :smile:
@@ -14,7 +14,7 @@ Database dependency
 
 Import database schema
 ---
-The notes are store in PostgreSQL, the schema is in the `hackmd_schema.sql`
+The notes are store in PostgreSQL, the schema is in the `hackmd_schema.sql`  
 To import the sql file in PostgreSQL, type `psql -i hackmd_schema.sql`
 
 The users, temps and sessions are store in MongoDB, which don't need schema, so just make sure you have the correct connection string.
@@ -48,7 +48,7 @@ There are some config you need to change in below files
 
 **From 0.3.1, we no longer recommend using `forever` to run your server.**
 
-We using `pm2` to run server.
+We using `pm2` to run server.  
 See [here](https://github.com/Unitech/pm2) for details.
 
 You can use SSL to encrypt your site by passing certificate path in the `config.js` and set `usessl=true`
