@@ -199,6 +199,8 @@ function buildMapInner(syncBack) {
 
     acc = 0;
     var lines = editor.getValue().split('\n');
+    var lineHeight = parseFloat(sourceLikeDiv.css('line-height'));
+    var div = sourceLikeDiv[0];
     for (i = 0; i < lines.length; i++) {
         var str = lines[i];
         var h, lh;
@@ -211,9 +213,8 @@ function buildMapInner(syncBack) {
         }
 
         sourceLikeDiv.text(str);
-        h = parseFloat(sourceLikeDiv.css('height'));
-        lh = parseFloat(sourceLikeDiv.css('line-height'));
-        acc += Math.round(h / lh);
+        h = parseFloat(div.clientHeight);
+        acc += Math.round(h / lineHeight);
     }
     sourceLikeDiv.remove();
     _lineHeightMap.push(acc);
@@ -260,7 +261,7 @@ function buildMapInner(syncBack) {
     scrollMap = _scrollMap;
     lineHeightMap = _lineHeightMap;
 
-    if(loaded && syncBack)
+    if (loaded && syncBack)
         syncScrollToView();
 }
 
