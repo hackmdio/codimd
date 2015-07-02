@@ -128,7 +128,7 @@ function finishView(view) {
         }
     });
     //image href new window(emoji not included)
-    var images = view.find("p > img[src]:not([class])");
+    var images = view.find("img.raw[src]").removeClass("raw");
     images.each(function (key, value) {
         var src = $(value).attr('src');
         var a = $('<a>');
@@ -136,7 +136,12 @@ function finishView(view) {
             a.attr('href', src);
             a.attr('target', "_blank");
         }
-        a.html($(value).clone());
+        var clone = $(value).clone();
+        clone[0].onload = function (e) {
+            if(viewAjaxCallback)
+                viewAjaxCallback();
+        };
+        a.html(clone);
         $(value).replaceWith(a);
     });
     //blockquote

@@ -74,13 +74,8 @@ md.renderer.rules.image = function (tokens, idx, options /*, env */ ) {
     var title = tokens[idx].title ? (' title="' + Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(tokens[idx].title)) + '"') : '';
     var alt = ' alt="' + (tokens[idx].alt ? Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(tokens[idx].alt)) : '') + '"';
     var suffix = options.xhtmlOut ? ' /' : '';
-    var image = $('<img' + src + alt + title + suffix + '>');
-    image[0].onload = function (e) {
-        if (viewAjaxCallback)
-            viewAjaxCallback();
-    };
-    return image[0].outerHTML;
-};
+    return '<img class="raw"' + src + alt + title + suffix + '>';
+}
 
 md.renderer.rules.fence = function (tokens, idx, options, env, self) {
     var token = tokens[idx];
