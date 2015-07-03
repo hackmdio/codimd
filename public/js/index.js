@@ -118,10 +118,20 @@ var supportBlockquoteTags = [
         },
     },
     {
-        text: '[color tag]',
+        text: '[my color tag]',
         search: '[]',
         command: function () {
             return '[color=' + personalInfo.color + ']';
+        }
+    },
+    {
+        text: '[random color tag]',
+        search: '[]',
+        command: function () {
+            var color = randomColor({
+                luminosity: 'light'
+            });
+            return '[color=' + color + ']';
         }
     }
 ];
