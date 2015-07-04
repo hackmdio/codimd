@@ -329,7 +329,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     if (type == "}") return popContext(state);
     if (type == "{" || type == ";") return popAndPass(type, stream, state);
     if (type == "word") override = "variable";
-    else if (type != "variable") override = "error";
+    else if (type != "variable" && type != "(" && type != ")") override = "error";
     return "interpolation";
   };
 
@@ -653,16 +653,6 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     return ["comment", "comment"];
   }
 
-  function tokenSGMLComment(stream, state) {
-    if (stream.skipTo("-->")) {
-      stream.match("-->");
-      state.tokenize = null;
-    } else {
-      stream.skipToEnd();
-    }
-    return ["comment", "comment"];
-  }
-
   CodeMirror.defineMIME("text/css", {
     documentTypes: documentTypes,
     mediaTypes: mediaTypes,
@@ -674,11 +664,6 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     colorKeywords: colorKeywords,
     valueKeywords: valueKeywords,
     tokenHooks: {
-      "<": function(stream, state) {
-        if (!stream.match("!--")) return false;
-        state.tokenize = tokenSGMLComment;
-        return tokenSGMLComment(stream, state);
-      },
       "/": function(stream, state) {
         if (!stream.eat("*")) return false;
         state.tokenize = tokenCComment;

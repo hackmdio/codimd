@@ -83,7 +83,7 @@
 
     for (var i = ranges.length - 1; i >= 0; i--) {
       var info = replacements[i];
-      cm.replaceRange(info.text, ranges[i].head, ranges[i].anchor, "+input");
+      cm.replaceRange(info.text, ranges[i].head, ranges[i].anchor, "+insert");
       var sel = cm.listSelections().slice(0);
       sel[i] = {head: info.newPos, anchor: info.newPos};
       cm.setSelections(sel);

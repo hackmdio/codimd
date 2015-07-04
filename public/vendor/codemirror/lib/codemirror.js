@@ -728,12 +728,9 @@
   }
 
   function postUpdateDisplay(cm, update) {
-    var force = update.force, viewport = update.viewport;
+    var viewport = update.viewport;
     for (var first = true;; first = false) {
-      if (first && cm.options.lineWrapping && update.oldDisplayWidth != displayWidth(cm)) {
-        force = true;
-      } else {
-        force = false;
+      if (!first || !cm.options.lineWrapping || update.oldDisplayWidth == displayWidth(cm)) {
         // Clip forced viewport to actual scrollable area.
         if (viewport && viewport.top != null)
           viewport = {top: Math.min(cm.doc.height + paddingVert(cm.display) - displayHeight(cm), viewport.top)};
@@ -1084,9 +1081,10 @@
     cm.display.shift = false;
     if (!sel) sel = doc.sel;
 
+    var paste = cm.state.pasteIncoming || origin == "paste";
     var textLines = splitLines(inserted), multiPaste = null;
     // When pasing N lines into N selections, insert one line per selection
-    if (cm.state.pasteIncoming && sel.ranges.length > 1) {
+    if (paste && sel.ranges.length > 1) {
       if (lastCopied && lastCopied.join("\n") == inserted)
         multiPaste = sel.ranges.length % lastCopied.length == 0 && map(lastCopied, splitLines);
       else if (textLines.length == sel.ranges.length)
@@ -1100,38 +1098,55 @@
       if (range.empty()) {
         if (deleted && deleted > 0) // Handle deletion
           from = Pos(from.line, from.ch - deleted);
-        else if (cm.state.overwrite && !cm.state.pasteIncoming) // Handle overwrite
+        else if (cm.state.overwrite && !paste) // Handle overwrite
           to = Pos(to.line, Math.min(getLine(doc, to.line).text.length, to.ch + lst(textLines).length));
       }
       var updateInput = cm.curOp.updateInput;
       var changeEvent = {from: from, to: to, text: multiPaste ? multiPaste[i % multiPaste.length] : textLines,
-                         origin: origin || (cm.state.pasteIncoming ? "paste" : cm.state.cutIncoming ? "cut" : "+input")};
+                         origin: origin || (paste ? "paste" : cm.state.cutIncoming ? "cut" : "+input")};
       makeChange(cm.doc, changeEvent);
       signalLater(cm, "inputRead", cm, changeEvent);
-      // When an 'electric' character is inserted, immediately trigger a reindent
-      if (inserted && !cm.state.pasteIncoming && cm.options.electricChars &&
-          cm.options.smartIndent && range.head.ch < 100 &&
-          (!i || sel.ranges[i - 1].head.line != range.head.line)) {
-        var mode = cm.getModeAt(range.head);
-        var end = changeEnd(changeEvent);
-        var indented = false;
-        if (mode.electricChars) {
-          for (var j = 0; j < mode.electricChars.length; j++)
-            if (inserted.indexOf(mode.electricChars.charAt(j)) > -1) {
-              indented = indentLine(cm, end.line, "smart");
-              break;
-            }
-        } else if (mode.electricInput) {
-          if (mode.electricInput.test(getLine(doc, end.line).text.slice(0, end.ch)))
-            indented = indentLine(cm, end.line, "smart");
-        }
-        if (indented) signalLater(cm, "electricInput", cm, end.line);
-      }
     }
+    if (inserted && !paste)
+      triggerElectric(cm, inserted);
+
     ensureCursorVisible(cm);
     cm.curOp.updateInput = updateInput;
     cm.curOp.typing = true;
     cm.state.pasteIncoming = cm.state.cutIncoming = false;
+  }
+
+  function handlePaste(e, cm) {
+    var pasted = e.clipboardData && e.clipboardData.getData("text/plain");
+    if (pasted) {
+      e.preventDefault();
+      runInOp(cm, function() { applyTextInput(cm, pasted, 0, null, "paste"); });
+      return true;
+    }
+  }
+
+  function triggerElectric(cm, inserted) {
+    // When an 'electric' character is inserted, immediately trigger a reindent
+    if (!cm.options.electricChars || !cm.options.smartIndent) return;
+    var sel = cm.doc.sel;
+
+    for (var i = sel.ranges.length - 1; i >= 0; i--) {
+      var range = sel.ranges[i];
+      if (range.head.ch > 100 || (i && sel.ranges[i - 1].head.line == range.head.line)) continue;
+      var mode = cm.getModeAt(range.head);
+      var indented = false;
+      if (mode.electricChars) {
+        for (var j = 0; j < mode.electricChars.length; j++)
+          if (inserted.indexOf(mode.electricChars.charAt(j)) > -1) {
+            indented = indentLine(cm, range.head.line, "smart");
+            break;
+          }
+      } else if (mode.electricInput) {
+        if (mode.electricInput.test(getLine(cm.doc, range.head.line).text.slice(0, range.head.ch)))
+          indented = indentLine(cm, range.head.line, "smart");
+      }
+      if (indented) signalLater(cm, "electricInput", cm, range.head.line);
+    }
   }
 
   function copyableRanges(cm) {
@@ -1206,21 +1221,9 @@
         input.poll();
       });
 
-      on(te, "paste", function() {
-        // Workaround for webkit bug https://bugs.webkit.org/show_bug.cgi?id=90206
-        // Add a char to the end of textarea before paste occur so that
-        // selection doesn't span to the end of textarea.
-        if (webkit && !cm.state.fakedLastChar && !(new Date - cm.state.lastMiddleDown < 200)) {
-          var start = te.selectionStart, end = te.selectionEnd;
-          te.value += "$";
-          // The selection end needs to be set before the start, otherwise there
-          // can be an intermediate non-empty selection between the two, which
-          // can override the middle-click paste buffer on linux and cause the
-          // wrong thing to get pasted.
-          te.selectionEnd = end;
-          te.selectionStart = start;
-          cm.state.fakedLastChar = true;
-        }
+      on(te, "paste", function(e) {
+        if (handlePaste(e, cm)) return true;
+
         cm.state.pasteIncoming = true;
         input.fastPoll();
       });
@@ -1386,14 +1389,11 @@
       // possible when it is clear that nothing happened. hasSelection
       // will be the case when there is a lot of text in the textarea,
       // in which case reading its value would be expensive.
-      if (!cm.state.focused || (hasSelection(input) && !prevInput) ||
+      if (this.contextMenuPending || !cm.state.focused ||
+          (hasSelection(input) && !prevInput) ||
           isReadOnly(cm) || cm.options.disableInput || cm.state.keySeq)
         return false;
-      // See paste handler for more on the fakedLastChar kludge
-      if (cm.state.pasteIncoming && cm.state.fakedLastChar) {
-        input.value = input.value.substring(0, input.value.length - 1);
-        cm.state.fakedLastChar = false;
-      }
+
       var text = input.value;
       // If nothing changed, bail.
       if (text == prevInput && !cm.somethingSelected()) return false;
@@ -1539,13 +1539,7 @@
       div.contentEditable = "true";
       disableBrowserMagic(div);
 
-      on(div, "paste", function(e) {
-        var pasted = e.clipboardData && e.clipboardData.getData("text/plain");
-        if (pasted) {
-          e.preventDefault();
-          cm.replaceSelection(pasted, null, "paste");
-        }
-      });
+      on(div, "paste", function(e) { handlePaste(e, cm); })
 
       on(div, "compositionstart", function(e) {
         var data = e.data;
@@ -1758,7 +1752,7 @@
       var toIndex = findViewIndex(cm, to.line);
       if (toIndex == display.view.length - 1) {
         var toLine = display.viewTo - 1;
-        var toNode = display.view[toIndex].node;
+        var toNode = display.lineDiv.lastChild;
       } else {
         var toLine = lineNo(display.view[toIndex + 1].line) - 1;
         var toNode = display.view[toIndex + 1].node.previousSibling;
@@ -1838,7 +1832,7 @@
       var partPos = getBidiPartAt(order, pos.ch);
       side = partPos % 2 ? "right" : "left";
     }
-    var result = nodeAndOffsetInLineMap(info.map, pos.ch, "left");
+    var result = nodeAndOffsetInLineMap(info.map, pos.ch, side);
     result.offset = result.collapse == "right" ? result.end : result.start;
     return result;
   }
@@ -3574,7 +3568,8 @@
     var sel = cm.doc.sel, modifier = mac ? e.metaKey : e.ctrlKey, contained;
     if (cm.options.dragDrop && dragAndDrop && !isReadOnly(cm) &&
         type == "single" && (contained = sel.contains(start)) > -1 &&
-        !sel.ranges[contained].empty())
+        (cmp((contained = sel.ranges[contained]).from(), start) < 0 || start.xRel > 0) &&
+        (cmp(contained.to(), start) > 0 || start.xRel < 0))
       leftButtonStartDrag(cm, e, start, modifier);
     else
       leftButtonSelect(cm, e, start, type, modifier);
@@ -5065,6 +5060,8 @@
         return commands[cmd](this);
     },
 
+    triggerElectric: methodOp(function(text) { triggerElectric(this, text); }),
+
     findPosH: function(from, amount, unit, visually) {
       var dir = 1;
       if (amount < 0) { dir = -1; amount = -amount; }
@@ -5732,7 +5729,7 @@
       for (var i = 0; i < keys.length; i++) {
         var val, name;
         if (i == keys.length - 1) {
-          name = keyname;
+          name = keys.join(" ");
           val = value;
         } else {
           name = keys.slice(0, i + 1).join(" ");
@@ -7592,7 +7589,7 @@
   Doc.prototype.eachLine = Doc.prototype.iter;
 
   // Set up methods on CodeMirror's prototype to redirect to the editor's document.
-  var dontDelegate = "iter insert remove copy getEditor".split(" ");
+  var dontDelegate = "iter insert remove copy getEditor constructor".split(" ");
   for (var prop in Doc.prototype) if (Doc.prototype.hasOwnProperty(prop) && indexOf(dontDelegate, prop) < 0)
     CodeMirror.prototype[prop] = (function(method) {
       return function() {return method.apply(this.doc, arguments);};
@@ -8745,7 +8742,7 @@
 
   // THE END
 
-  CodeMirror.version = "5.2.0";
+  CodeMirror.version = "5.4.0";
 
   return CodeMirror;
 });
