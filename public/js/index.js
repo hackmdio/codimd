@@ -1112,7 +1112,7 @@ var options = {
     item: '<li class="ui-user-item">\
             <span class="id" style="display:none;"></span>\
             <a href="#">\
-                <span class="pull-left"><i class="fa fa-square ui-user-icon"></i></span><span class="ui-user-name name"></span><span class="pull-right"><i class="fa fa-circle ui-user-status"></i></span>\
+                <span class="pull-left"><i class="ui-user-icon"></i></span><span class="ui-user-name name"></span><span class="pull-right"><i class="fa fa-circle ui-user-status"></i></span>\
             </a>\
            </li>'
 };
@@ -1214,7 +1214,14 @@ function renderUserStatusList(list) {
         var item = items[j];
         var userstatus = $(item.elm).find('.ui-user-status');
         var usericon = $(item.elm).find('.ui-user-icon');
-        usericon.css('color', item.values().color);
+        if(item.values().login && item.values().photo) {
+            usericon.css('background-image', 'url(' + item.values().photo + ')');
+            usericon.css('box-shadow', '0px 0px 2px ' + item.values().color);
+            //add 1px more to right, make it feel aligned
+            usericon.css('margin-right', '6px');
+        } else {
+            usericon.css('background-color', item.values().color);
+        }
         userstatus.removeClass('ui-user-status-offline ui-user-status-online ui-user-status-idle');
         if (item.values().idle)
             userstatus.addClass('ui-user-status-idle');
@@ -1240,6 +1247,7 @@ function deduplicateOnlineUsers(list) {
                     //keep idle state if any of self client not idle
                     if (!user.idle) {
                         _onlineUsers[j].idle = user.idle;
+                        _onlineUsers[j].color = user.color;
                     }
                     found = true;
                     break;
