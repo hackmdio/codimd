@@ -352,10 +352,10 @@ app.post('/uploadimage', function (req, res) {
 app.get("/new", response.newNote);
 //get features
 app.get("/features", response.showFeatures);
-//get share note
-app.get("/s/:shortid", response.showShareNote);
-//share note actions
-app.get("/s/:shortid/:action", response.shareNoteActions);
+//get publish note
+app.get("/s/:shortid", response.showPublishNote);
+//publish note actions
+app.get("/s/:shortid/:action", response.publishNoteActions);
 //get note by id
 app.get("/:noteId", response.showNote);
 //note actions

@@ -234,7 +234,7 @@ var ui = {
         shortStatus: $(".ui-short-status"),
         status: $(".ui-status"),
         new: $(".ui-new"),
-        share: $(".ui-share"),
+        publish: $(".ui-publish"),
         download: {
             markdown: $(".ui-download-markdown")
         },
@@ -618,7 +618,7 @@ function changeMode(type) {
 //button actions
 var url = window.location.pathname;
 //share
-ui.toolbar.share.attr("href", url + "/share");
+ui.toolbar.publish.attr("href", url + "/publish");
 //download
 //markdown
 ui.toolbar.download.markdown.click(function () {
