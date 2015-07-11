@@ -9,9 +9,10 @@ Thanks for your using! :smile:
 
 Operational Transformation
 ---
-From 0.3.2, we start support operational transformation.
-Which make concurrent editing safe and not break up other users' operations.
-Even more, now can show other clients' selections.
+From 0.3.2, we start support operational transformation.  
+Which make concurrent editing safe and not break up other users' operations.  
+Even more, now can show other clients' selections.  
+See more at http://operational-transformation.github.io/
 
 Database dependency
 ---
