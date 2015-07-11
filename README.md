@@ -1,4 +1,4 @@
-HackMD 0.3.1
+HackMD 0.3.2
 ===
 
 HackMD is a realtime collaborative markdown notes on all platforms.  
@@ -6,6 +6,12 @@ Inspired by Hackpad, but more focusing on speed and flexibility.
 Still in early stage, feel free to fork or contribute to this.
 
 Thanks for your using! :smile:
+
+Operational Transformation
+---
+From 0.3.2, we start support operational transformation.
+Which make concurrent editing safe and not break up other users' operations.
+Even more, now can show other clients' selections.
 
 Database dependency
 ---

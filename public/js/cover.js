@@ -273,6 +273,32 @@ var template = Handlebars.compile(source);
 var context = {
     release: [
         {
+            version: "0.3.2",
+            tag: "typhoon",
+            date: moment("201507111230", 'YYYYMMDDhhmm').fromNow(),
+            detail: [
+                {
+                    title: "Features",
+                    item: [
+                            "+ Support operational transformation",
+                            "+ Support show other user selections",
+                            "+ Support show user profile image if available"
+                        ]
+                    },
+                {
+                    title: "Enhancements",
+                    item: [
+                            "* Updated editor to 5.4.0",
+                            "* Change UI share to publish to avoid misleading",
+                            "* Added random color in blockquote tag",
+                            "* Optimized image renderer, avoid duplicated rendering",
+                            "* Optimized building syncscroll map, make it faster",
+                            "* Optimized SEO on publish and edit note"
+                        ]
+                    }
+                ]
+            },
+        {
             version: "0.3.1",
             tag: "clearsky",
             date: moment("201506301600", 'YYYYMMDDhhmm').fromNow(),

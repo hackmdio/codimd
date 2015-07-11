@@ -1,7 +1,7 @@
 //constant vars
 //settings
 var debug = false;
-var version = '0.3.1';
+var version = '0.3.2';
 
 var defaultTextHeight = 18;
 var viewportMargin = 20;
