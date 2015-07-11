@@ -386,7 +386,10 @@ $(window).resize(function () {
 });
 //when page unload
 $(window).unload(function () {
-    emitUpdate();
+    //na
+});
+$(window).error(function () {
+    setNeedRefresh();
 });
 
 //when page hash change
@@ -898,21 +901,9 @@ socket.on('version', function (data) {
         setNeedRefresh();
 });
 socket.on('check', function (data) {
-    if (data.id == socket.id) {
-        lastchangetime = data.updatetime;
-        lastchangeui = ui.infobar.lastchange;
-        updateLastChange();
-        return;
-    }
-    var currentHash = md5(LZString.compressToUTF16(editor.getValue()));
-    var hashMismatch = (currentHash != data.hash);
-    if (hashMismatch)
-        socket.emit('refresh');
-    else {
-        lastchangetime = data.updatetime;
-        lastchangeui = ui.infobar.lastchange;
-        updateLastChange();
-    }
+    lastchangetime = data.updatetime;
+    lastchangeui = ui.infobar.lastchange;
+    updateLastChange();
 });
 socket.on('permission', function (data) {
     permission = data.permission;
@@ -922,26 +913,46 @@ var otk = null;
 var owner = null;
 var permission = null;
 socket.on('refresh', function (data) {
-    var currentHash = md5(LZString.compressToUTF16(editor.getValue()));
-    var hashMismatch = (currentHash != data.hash);
-    saveInfo();
-
     otk = data.otk;
     owner = data.owner;
     permission = data.permission;
+    lastchangetime = data.updatetime;
+    lastchangeui = ui.infobar.lastchange;
+    updateLastChange();
+    checkPermission();
+});
 
-    if (hashMismatch) {
-        var body = data.body;
-        body = LZString.decompressFromUTF16(body);
+var EditorClient = ot.EditorClient;
+var SocketIOAdapter = ot.SocketIOAdapter;
+var CodeMirrorAdapter = ot.CodeMirrorAdapter;
+var cmClient = null;
+
+socket.on('doc', function (obj) {
+    obj = LZString.decompressFromUTF16(obj);
+    obj = JSON.parse(obj);
+    var body = obj.str;
+    var bodyMismatch = (editor.getValue() != body);
+
+    saveInfo();
+    if (bodyMismatch) {
         if (body)
             editor.setValue(body);
         else
             editor.setValue("");
     }
-
-    lastchangetime = data.updatetime;
-    lastchangeui = ui.infobar.lastchange;
-    updateLastChange();
+    if (!cmClient) {
+        cmClient = window.cmClient = new EditorClient(
+            obj.revision, obj.clients,
+            new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
+        );
+    } else {
+        cmClient.revision = obj.revision;
+        cmClient.initializeClients(obj.clients);
+        if (bodyMismatch) {
+            cmClient.undoManager.undoStack.length = 0;
+            cmClient.undoManager.redoStack.length = 0;
+        }
+    }
 
     if (!loaded) {
         editor.clearHistory();
@@ -963,7 +974,7 @@ socket.on('refresh', function (data) {
         }, 1);
     } else {
         //if current doc is equal to the doc before disconnect
-        if (hashMismatch)
+        if (bodyMismatch)
             editor.clearHistory();
         else {
             if (lastInfo.history)
@@ -972,57 +983,26 @@ socket.on('refresh', function (data) {
         lastInfo.history = null;
     }
 
-    if (hashMismatch)
+    if (bodyMismatch) {
+        isDirty = true;
         updateView();
+    }
 
     if (editor.getOption('readOnly'))
         editor.setOption('readOnly', false);
 
     restoreInfo();
-    checkPermission();
 });
 
-var changeStack = [];
-var changeBusy = false;
+socket.on('ack', _.debounce(function () {
+    isDirty = true;
+    updateView();
+}, finishChangeDelay));
 
-socket.on('change', function (data) {
-    data = LZString.decompressFromUTF16(data);
-    data = JSON.parse(data);
-    changeStack.push(data);
-    if (!changeBusy)
-        executeChange();
-});
-
-function executeChange() {
-    if (changeStack.length > 0) {
-        changeBusy = true;
-        var data = changeStack.shift();
-        if (data.otk != otk) {
-            var found = false;
-            for (var i = 0, l = changeStack.length; i < l; i++) {
-                if (changeStack[i].otk == otk) {
-                    changeStack.unshift(data);
-                    data = changeStack[i];
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                socket.emit('refresh');
-                changeBusy = false;
-                return;
-            }
-        }
-        otk = data.nextotk;
-        if (data.id == personalInfo.id)
-            editor.replaceRange(data.text, data.from, data.to, 'self::' + data.origin);
-        else
-            editor.replaceRange(data.text, data.from, data.to, "ignoreHistory");
-        executeChange();
-    } else {
-        changeBusy = false;
-    }
-}
+socket.on('operation', _.debounce(function () {
+    isDirty = true;
+    updateView();
+}, finishChangeDelay));
 
 socket.on('online users', function (data) {
     data = LZString.decompressFromUTF16(data);
@@ -1214,7 +1194,7 @@ function renderUserStatusList(list) {
         var item = items[j];
         var userstatus = $(item.elm).find('.ui-user-status');
         var usericon = $(item.elm).find('.ui-user-icon');
-        if(item.values().login && item.values().photo) {
+        if (item.values().login && item.values().photo) {
             usericon.css('background-image', 'url(' + item.values().photo + ')');
             usericon.css('box-shadow', '0px 0px 2px ' + item.values().color);
             //add 1px more to right, make it feel aligned
@@ -1420,6 +1400,7 @@ function buildCursor(user) {
         checkCursorTag(coord, cursortag);
     } else {
         var cursor = $('#' + user.id);
+        var lineDiff = Math.abs(cursor.attr('data-line') - user.cursor.line);
         cursor.attr('data-line', user.cursor.line);
         cursor.attr('data-ch', user.cursor.ch);
 
@@ -1454,64 +1435,30 @@ function buildCursor(user) {
 }
 
 //editor actions
+var ignoreEmitEvents = ['setValue', 'ignoreHistory'];
 editor.on('beforeChange', function (cm, change) {
     if (debug)
         console.debug(change);
-    var self = change.origin.split('self::');
-    if (self.length == 2) {
-        change.origin = self[1];
-        self = true;
-    } else {
-        self = false;
-    }
-    if (self) {
-        change.canceled = true;
-    } else {
-        var isIgnoreEmitEvent = (ignoreEmitEvents.indexOf(change.origin) != -1);
-        if (!isIgnoreEmitEvent) {
-            switch (permission) {
-            case "freely":
-                //na
-                break;
-            case "editable":
-                if (!personalInfo.login) {
-                    change.canceled = true;
-                    $('.signin-modal').modal('show');
-                }
-                break;
-            case "locked":
-                if (personalInfo.userid != owner) {
-                    change.canceled = true;
-                    $('.locked-modal').modal('show');
-                }
-                break;
+    var isIgnoreEmitEvent = (ignoreEmitEvents.indexOf(change.origin) != -1);
+    if (!isIgnoreEmitEvent) {
+        switch (permission) {
+        case "freely":
+            //na
+            break;
+        case "editable":
+            if (!personalInfo.login) {
+                change.canceled = true;
+                $('.signin-modal').modal('show');
             }
+            break;
+        case "locked":
+            if (personalInfo.userid != owner) {
+                change.canceled = true;
+                $('.locked-modal').modal('show');
+            }
+            break;
         }
     }
-});
-
-var ignoreEmitEvents = ['setValue', 'ignoreHistory'];
-editor.on('change', function (i, op) {
-    if (debug)
-        console.debug(op);
-    var isIgnoreEmitEvent = (ignoreEmitEvents.indexOf(op.origin) != -1);
-    if (!isIgnoreEmitEvent) {
-        var out = {
-            text: op.text,
-            from: op.from,
-            to: op.to,
-            origin: op.origin
-        };
-        socket.emit('change', LZString.compressToUTF16(JSON.stringify(out)));
-    }
-    isDirty = true;
-    clearTimeout(finishChangeTimer);
-    finishChangeTimer = setTimeout(function () {
-        if (!isIgnoreEmitEvent)
-            finishChange(true);
-        else
-            finishChange(false);
-    }, finishChangeDelay);
 });
 editor.on('focus', function (cm) {
     for (var i = 0; i < onlineUsers.length; i++) {
@@ -1617,14 +1564,7 @@ function restoreInfo() {
 var finishChangeTimer = null;
 
 function finishChange(emit) {
-    if (emit)
-        emitUpdate();
     updateView();
-}
-
-function emitUpdate() {
-    var value = editor.getValue();
-    socket.emit('update', LZString.compressToUTF16(value));
 }
 
 var lastResult = null;
@@ -1633,8 +1573,6 @@ function updateView() {
     if (currentMode == modeType.edit || !isDirty) return;
     var value = editor.getValue();
     var result = postProcess(md.render(value)).children().toArray();
-    //ui.area.markdown.html(result);
-    //finishView(ui.area.markdown);
     partialUpdate(result, lastResult, ui.area.markdown.children().toArray());
     if (result && lastResult && result.length != lastResult.length)
         updateDataAttrs(result, ui.area.markdown.children().toArray());
