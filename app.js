@@ -388,3 +388,6 @@ if (config.usessl) {
         logger.info('HTTP Server listening at port %d', config.port);
     });
 }
+process.on('uncaughtException', function (err) {
+    logger.error(err);
+});
