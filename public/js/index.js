@@ -16,7 +16,7 @@ var defaultExtraKeys = {
 };
 
 var idleTime = 300000; //5 mins
-var finishChangeDelay = 400;
+var finishChangeDelay = 200;
 var cursorActivityDelay = 50;
 var cursorAnimatePeriod = 100;
 var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile'];
