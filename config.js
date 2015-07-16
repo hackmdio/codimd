@@ -46,6 +46,7 @@ var config = {
     sessiontouch: 1 * 3600, //1 hour
     heartbeatinterval: 5000,
     heartbeattimeout: 10000,
+    documentmaxlength: 100000,
     //auth
     facebook: {
         clientID: 'change this',

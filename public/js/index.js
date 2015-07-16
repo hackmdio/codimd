@@ -909,10 +909,13 @@ socket.on('permission', function (data) {
     permission = data.permission;
     checkPermission();
 });
+var docmaxlength = null;
 var otk = null;
 var owner = null;
 var permission = null;
 socket.on('refresh', function (data) {
+    docmaxlength = data.docmaxlength;
+    editor.setOption("maxLength", docmaxlength);
     otk = data.otk;
     owner = data.owner;
     permission = data.permission;
@@ -1435,10 +1438,30 @@ function buildCursor(user) {
 }
 
 //editor actions
+function enforceMaxLength(cm, change) {
+    var maxLength = cm.getOption("maxLength");
+    if (maxLength && change.update) {
+        var str = change.text.join("\n");
+        var delta = str.length - (cm.indexFromPos(change.to) - cm.indexFromPos(change.from));
+        if (delta <= 0) {
+            return false;
+        }
+        delta = cm.getValue().length + delta - maxLength;
+        if (delta > 0) {
+            str = str.substr(0, str.length - delta);
+            change.update(change.from, change.to, str.split("\n"));
+            return true;
+        }
+    }
+    return false;
+}
 var ignoreEmitEvents = ['setValue', 'ignoreHistory'];
 editor.on('beforeChange', function (cm, change) {
     if (debug)
         console.debug(change);
+    if (enforceMaxLength(cm, change)) {
+        $('.limit-modal').modal('show');
+    }
     var isIgnoreEmitEvent = (ignoreEmitEvents.indexOf(change.origin) != -1);
     if (!isIgnoreEmitEvent) {
         switch (permission) {
