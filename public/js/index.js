@@ -386,7 +386,7 @@ $(window).resize(function () {
 });
 //when page unload
 $(window).unload(function () {
-    //na
+    writeHistory(ui.area.markdown);
 });
 $(window).error(function () {
     setNeedRefresh();
@@ -1863,7 +1863,7 @@ $(editor.getInputField())
     },
         { // Code block language strategy
             langs: supportCodeModes,
-            match: /(^|\n)```(\w*)$/,
+            match: /(^|\n)```(\w+)$/,
             search: function (term, callback) {
                 callback($.map(this.langs, function (lang) {
                     return lang.indexOf(term) === 0 ? lang : null;
