@@ -1,6 +1,8 @@
 HackMD 0.3.2
 ===
 
+[![Join the chat at https://gitter.im/hackmdio/hackmd](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 HackMD is a realtime collaborative markdown notes on all platforms.  
 Inspired by Hackpad, but more focusing on speed and flexibility.  
 Still in early stage, feel free to fork or contribute to this.
