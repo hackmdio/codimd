@@ -37,7 +37,7 @@ CREATE TABLE notes (
     id character varying(256) NOT NULL,
     owner character varying(256) NOT NULL,
     content text,
-    title character varying(256),
+    title text,
     create_time timestamp without time zone DEFAULT now() NOT NULL,
     update_time timestamp without time zone DEFAULT now() NOT NULL
 );
