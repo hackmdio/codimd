@@ -9,12 +9,13 @@ Still in early stage, feel free to fork or contribute to this.
 
 Thanks for your using! :smile:
 
-Operational Transformation
+Get started
 ---
-From 0.3.2, we start support operational transformation.  
-Which make concurrent editing safe and not break up other users' operations.  
-Even more, now can show other clients' selections.  
-See more at http://operational-transformation.github.io/
+1. Install PostgreSQL and MongoDB (yes, currently we need both)
+2. Import database schema, see more on below
+3. Setup the configs, see more on below
+4. Setup environment variables, which will overwrite the configs
+5. Run the server as you like (node, forever, pm2)
 
 Database dependency
 ---
@@ -32,8 +33,6 @@ Structure
 ---
 ```
 hackmd/
-├── logs/			--- server logs
-├── backups/		--- db backups
 ├── tmp/			--- temporary files
 ├── lib/			--- server libraries
 └── public/			--- client files
@@ -43,16 +42,12 @@ hackmd/
 	└── views/		--- view templates
 ```
 
-Configure
+Configuration files
 ---
 There are some config you need to change in below files
 ```
-./Procfile				--- for heroku start
-./run.sh				--- for forever start
-./processes.json		--- for pm2 start
 ./config.js				--- for server settings
-./public/js/common.js	--- for client settings
-./hackmd				--- for logrotate
+./public/js/index.js	--- for client settings
 ```
 
 Client-side index.js settings
@@ -99,25 +94,11 @@ Server-side config.js settings
 | documentmaxlength | `100000` | note max length |
 | facebook, twitter, github, dropbox, imgur | multiple values | your own api keys, see source code for details |
 
-**From 0.3.1, we no longer recommend using `forever` to run your server.**
-
-We using `pm2` to run server.  
-See [here](https://github.com/Unitech/pm2) for details.
-
-You can use SSL to encrypt your site by passing certificate path in the `config.js` and set `usessl=true`
-
-Run a server
+Operational Transformation
 ---
- - forever: `bash run.sh`
- - pm2: `pm2 start processes.json`
-
-Stop a server
----
- - forever: `forever stop hackmd`
- - pm2: `pm2 stop hackmd`
-
-Backup db
----
-To backup the db, type `bash backup.sh`
+From 0.3.2, we start support operational transformation.  
+Which make concurrent editing safe and not break up other users' operations.  
+Even more, now can show other clients' selections.  
+See more at http://operational-transformation.github.io/
 
 **License under MIT.**
