@@ -77,6 +77,7 @@ Server-side config.js settings
 | usessl | `true` or `false` | set to use ssl |
 | urladdport | `true` or `false` | set to add port on oauth callback url |
 | debug | `true` or `false` | set debug mode, show more logs |
+| usecdn | `true` or `false` | set to use CDN resources or not |
 | version | `0.3.2` | currnet version, must match same var in client side `index.js` |
 | alloworigin | `['localhost']` | domain name whitelist |
 | sslkeypath | `./cert/client.key` | ssl key path |

@@ -136,9 +136,7 @@ app.set('views', __dirname + '/public');
 //set render engine
 app.engine('html', ejs.renderFile);
 //get index
-app.get("/", function (req, res, next) {
-    res.render("index.html");
-});
+app.get("/", response.showIndex);
 //get status
 app.get("/status", function (req, res, next) {
     realtime.getStatus(function (data) {

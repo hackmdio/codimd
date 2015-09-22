@@ -7,8 +7,15 @@
 <title><%- title %></title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<% if(useCDN) { %>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.9.0/bootstrap-social.min.css">
+<% } else { %>
 <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bootstrap-social.css">
+<% } %>
 <link rel="stylesheet" href="/vendor/codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="/vendor/codemirror/addon/fold/foldgutter.css">
 <link rel="stylesheet" href="/vendor/codemirror/addon/dialog/dialog.css">
@@ -20,7 +27,6 @@
 <link rel="stylesheet" href="/vendor/highlight-js/github-gist.min.css">
 <link rel="stylesheet" href="/vendor/emojify/css/emojify.min.css">
 <link rel="stylesheet" href="/vendor/showup/showup.css">
-<link rel="stylesheet" href="/css/bootstrap-social.css">
 <link rel="stylesheet" href="/css/markdown.css">
 <link rel="stylesheet" href="/css/index.css">
 <link rel="stylesheet" href="/css/extra.css">

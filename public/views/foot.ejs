@@ -1,9 +1,18 @@
+<% if(useCDN) { %>
+<script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js" defer></script>
+<script src="//code.jquery.com/jquery-1.11.2.min.js" defer></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js" defer></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js" defer></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js" defer></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/jquery.gsap.min.js" defer></script>
+<% } else { %>
 <script src="/vendor/spin.min.js" defer></script>
 <script src="/vendor/jquery-1.11.2.min.js" defer></script>
 <script src="/vendor/jquery.mousewheel.min.js" defer></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js" defer></script>
 <script src="/vendor/greensock-js/TweenMax.min.js" defer></script>
 <script src="/vendor/greensock-js/jquery.gsap.min.js" defer></script>
+<% } %>
 <!--codemirror-->
 <script src="/vendor/codemirror/codemirror.min.js" defer></script>
 <script src="/vendor/inlineAttachment/inline-attachment.js" defer></script>

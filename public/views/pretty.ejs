@@ -10,9 +10,14 @@
     <meta name="mobile-web-app-capable" content="yes">
     <title><%- title %></title>
     <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
-<link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
-    <link rel="stylesheet" href='<%- url %>/vendor/bootstrap/css/bootstrap.min.css'>
+	<link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
+	<% if(useCDN) { %>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<% } else { %>
+	<link rel="stylesheet" href='<%- url %>/vendor/bootstrap/css/bootstrap.min.css'>
     <link rel="stylesheet" href='<%- url %>/vendor/font-awesome/css/font-awesome.min.css'>
+	<% } %>
     <link rel="stylesheet" href='<%- url %>/css/github-extract.css'>
     <link rel="stylesheet" href='<%- url %>/css/gist.css'>
     <link rel="stylesheet" href='<%- url %>/vendor/highlight-js/github-gist.min.css'>
@@ -45,8 +50,13 @@
 </body>
 
 </html>
+<% if(useCDN) { %>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js" defer></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js" defer></script>
+<% } else { %>
 <script src="<%- url %>/vendor/jquery-1.11.2.min.js" defer></script>
 <script src="<%- url %>/vendor/bootstrap/js/bootstrap.min.js" defer></script>
+<% } %>
 <script src="<%- url %>/vendor/lz-string.min.js" defer></script>
 <script src="<%- url %>/vendor/remarkable.min.js" defer></script>
 <script src="<%- url %>/vendor/remarkable-regex.js" defer></script>
