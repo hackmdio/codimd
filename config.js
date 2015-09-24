@@ -33,6 +33,7 @@ var config = {
     tmppath: "./tmp/",
     defaultnotepath: path.join(__dirname, '/public', "default.md"),
     defaultfeaturespath: path.join(__dirname, '/public', "features.md"),
+    indexpath: path.join(__dirname, '/public/', "index.ejs"),
     hackmdpath: path.join(__dirname, '/public/views', "index.ejs"),
     errorpath: path.join(__dirname, '/public/views', "error.ejs"),
     prettypath: path.join(__dirname, '/public/views', 'pretty.ejs'),
