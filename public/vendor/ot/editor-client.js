@@ -25,8 +25,8 @@ ot.EditorClient = (function () {
 
   SelfMeta.prototype.transform = function (operation) {
     return new SelfMeta(
-      this.selectionBefore.transform(operation),
-      this.selectionAfter.transform(operation)
+      (this.selectionBefore ? this.selectionBefore.transform(operation) : null),
+      (this.selectionAfter ? this.selectionAfter.transform(operation) : null)
     );
   };
 
