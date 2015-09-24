@@ -226,6 +226,53 @@ var editor = CodeMirror.fromTextArea(textit, {
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor);
 defaultTextHeight = parseInt($(".CodeMirror").css('line-height'));
 
+var statusBar = null;
+var statusCursor = null;
+var statusFile = null;
+var statusIndicators = null;
+
+function addStatusBar() {
+    var element = '<div class="status-bar"><div class="status-info"><div class="status-cursor"></div><div class="status-file"></div></div><div class="status-indicators"></div></div>';
+    statusBar = $(element);
+    statusCursor = statusBar.find('.status-cursor');
+    statusFile = statusBar.find('.status-file');
+    statusIndicators = statusBar.find('.status-indicators');
+    editor.addPanel(statusBar[0], {
+        position: "bottom"
+    });
+}
+
+var selection = null;
+
+function updateStatusBar() {
+    if (!statusBar) return;
+    var cursor = editor.getCursor();
+    var cursorText = 'Line ' + (cursor.line + 1) + ', Columns ' + (cursor.ch + 1);
+    if (selection) {
+        var anchor = selection.anchor;
+        var head = selection.head;
+        var start = head.line <= anchor.line ? head : anchor;
+        var end = head.line >= anchor.line ? head : anchor;
+        var selectionText = ' — Selected ';
+        var selectionCharCount = Math.abs(head.ch - anchor.ch);
+        // borrow from brackets EditorStatusBar.js
+        if (start.line !== end.line) {
+            var lines = end.line - start.line + 1;
+            if (end.ch === 0) {
+                lines--;
+            }
+            selectionText += lines + ' lines';
+        } else if (selectionCharCount > 0)
+            selectionText += selectionCharCount + ' columns';
+        if (start.line !== end.line || selectionCharCount > 0)
+            cursorText += selectionText;
+    }
+    statusCursor.text(cursorText);
+    var fileText = ' — ' + editor.lineCount() + ' Lines';
+    statusFile.text(fileText);
+    statusIndicators.text('Length ' + editor.getValue().length);
+}
+
 //ui vars
 var ui = {
     spinner: $(".ui-spinner"),
@@ -454,11 +501,23 @@ function checkResponsive() {
 function checkEditorStyle() {
     var scrollbarStyle = editor.getOption('scrollbarStyle');
     if (scrollbarStyle == 'overlay' || currentMode == modeType.both) {
+        //save last editor scroll top
+        var lastTop = editor.getScrollInfo().top;
         ui.area.codemirror.css('height', '');
+        //set editor size to keep status bar on the bottom
+        editor.setSize(null, ui.area.edit.height());
+        //restore last editor scroll top
+        editor.scrollTo(null, lastTop);
     } else if (scrollbarStyle == 'native') {
         ui.area.codemirror.css('height', 'auto');
         $('.CodeMirror-gutters').css('height', $('.CodeMirror-sizer').height());
     }
+    //set editor parent height to fill status bar
+    if (statusBar)
+        statusBar.parent().css('height', ui.area.edit.height() - statusBar.outerHeight() + 'px');
+    //set sizer height to make it at least height as editor
+    var editorSizerHeight = ui.area.edit.height() - (statusBar ? statusBar.outerHeight() : 0);
+    $('.CodeMirror-sizer').css('height', editorSizerHeight + 'px');
 }
 
 function checkTocStyle() {
@@ -589,6 +648,11 @@ function changeMode(type) {
     }
     if (currentMode == modeType.edit || currentMode == modeType.both) {
         ui.toolbar.uploadImage.fadeIn();
+        //add and update status bar
+        if (!statusBar) {
+            addStatusBar();
+            updateStatusBar();
+        }
     } else {
         ui.toolbar.uploadImage.fadeOut();
     }
@@ -1300,12 +1364,15 @@ function checkCursorTag(coord, ele) {
     var top = coord.top;
     var offsetLeft = -3;
     var offsetTop = defaultTextHeight;
+    var statusBarHeight = 0;
+    if (statusBar)
+        statusBarHeight = statusBar.outerHeight();
     if (width > 0 && height > 0) {
         if (left + width + offsetLeft > editorWidth - curosrtagMargin) {
             offsetLeft = -(width + 10);
         }
-        if (top + height + offsetTop > Math.max(viewportHeight, editorHeight) + curosrtagMargin && top - height > curosrtagMargin) {
             offsetTop = -(height);
+        if (top + height + offsetTop > Math.max(editor.doc.height, editorHeight) + curosrtagMargin - statusBarHeight * 2 && top - height > curosrtagMargin) {
         }
     }
     ele[0].style.left = offsetLeft + 'px';
@@ -1507,6 +1574,13 @@ var cursorActivityTimer = null;
 editor.on('cursorActivity', function (cm) {
     clearTimeout(cursorActivityTimer);
     cursorActivityTimer = setTimeout(cursorActivity, cursorActivityDelay);
+    updateStatusBar();
+editor.on('beforeSelectionChange', function (doc, selections) {
+    if (selections)
+        selection = selections.ranges[0];
+    else
+        selection = null;
+    updateStatusBar();
 });
 
 function cursorActivity() {
@@ -1813,10 +1887,13 @@ function checkCursorMenu() {
     var top = coord.top;
     var offsetLeft = 0;
     var offsetTop = defaultTextHeight;
+    var statusBarHeight = 0;
+    if (statusBar)
+        statusBarHeight = statusBar.outerHeight();
     if (left + width + offsetLeft > editorWidth - menuMargin)
         offsetLeft = -(left + width - editorWidth + menuMargin);
-    if (top + height + offsetTop > Math.max(viewportHeight, editorHeight) + menuMargin && top - height > menuMargin) {
         offsetTop = -(height + defaultTextHeight);
+    if (top + height + offsetTop > Math.max(editor.doc.height, editorHeight) + menuMargin - statusBarHeight * 2 && top - height > menuMargin) {
         upSideDown = true;
     } else {
         upSideDown = false;

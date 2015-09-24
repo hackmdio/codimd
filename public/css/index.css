@@ -238,4 +238,47 @@ div[contenteditable]:empty:not(:focus):before{
 
 .cm-trailing-space-new-line:before {
   content: '↵';
+
+.status-bar {
+    background: #1c1c1e;
+    border-top: 1px solid #343434;
+    color: #ccc;
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    font-size: 11px;
+    line-height: 25px;
+    height: 26px;
+    overflow: hidden;
+}
+
+.status-bar .status-info {
+    color: #ccc;
+    left: 10px;
+    position: absolute;
+    white-space: nowrap;
+    max-width: 65%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status-bar .status-info div {
+    display: inline;
+}
+
+.status-bar .status-file {
+    color: #9a9a9a;
+}
+
+.status-bar .status-indicators {
+    background: #1c1c1e;
+    color: #ccc;
+    position: absolute;
+    right: 10px;
+    text-align: right;
+    white-space: nowrap;
+    max-width: 30%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 }
