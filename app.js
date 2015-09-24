@@ -65,6 +65,9 @@ mongoose.connect(process.env.MONGOLAB_URI || config.mongodbstring);
 var db = require("./lib/db.js");
 var realtime = require("./lib/realtime.js");
 
+//assign socket io to realtime
+realtime.io = io;
+
 //methodOverride
 app.use(methodOverride('_method'));
 
