@@ -388,7 +388,7 @@
       viewWidth: d.wrapper.clientWidth,
       barLeft: cm.options.fixedGutter ? gutterW : 0,
       docHeight: docH,
-      scrollHeight: docH + scrollGap(cm) + d.barHeight + textHeight(cm.display),
+      scrollHeight: docH + scrollGap(cm) + d.barHeight,
       nativeBarWidth: d.nativeBarWidth,
       gutterWidth: gutterW
     };

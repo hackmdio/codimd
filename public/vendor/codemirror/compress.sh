@@ -7,8 +7,10 @@ addon/selection/active-line.js \
 addon/search/searchcursor.js \
 addon/search/search.js \
 addon/search/matchesonscrollbar.js \
+addon/search/match-highlighter.js \
 addon/scroll/simplescrollbars.js \
 addon/scroll/annotatescrollbar.js \
+addon/display/panel.js \
 addon/dialog/dialog.js \
 addon/edit/matchbrackets.js \
 addon/edit/closebrackets.js \
