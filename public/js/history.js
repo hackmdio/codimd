@@ -93,7 +93,14 @@ function clearDuplicatedHistory(notehistory) {
     for (var i = 0; i < notehistory.length; i++) {
         var found = false;
         for (var j = 0; j < newnotehistory.length; j++) {
-            if (notehistory[i].id == newnotehistory[j].id) {
+            var id = LZString.decompressFromBase64(notehistory[i].id);
+            var newId = LZString.decompressFromBase64(newnotehistory[j].id);
+            if (id == newId || notehistory[i].id == newnotehistory[j].id || !notehistory[i].id || !newnotehistory[j].id) {
+                var time = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a');
+                var newTime = moment(newnotehistory[j].time, 'MMMM Do YYYY, h:mm:ss a');
+                if(time >= newTime) {
+                    newnotehistory[j] = notehistory[i];
+                }
                 found = true;
                 break;
             }
@@ -146,9 +153,9 @@ function writeHistoryToServer(view) {
             } catch (err) {
                 var notehistory = [];
             }
-            if(!notehistory)
+            if (!notehistory)
                 notehistory = [];
-        
+
             var newnotehistory = generateHistory(view, notehistory);
             saveHistoryToServer(newnotehistory);
         })
@@ -163,9 +170,9 @@ function writeHistoryToCookie(view) {
     } catch (err) {
         var notehistory = [];
     }
-    if(!notehistory)
+    if (!notehistory)
         notehistory = [];
-    
+
     var newnotehistory = generateHistory(view, notehistory);
     saveHistoryToCookie(newnotehistory);
 }
@@ -179,9 +186,9 @@ function writeHistoryToStorage(view) {
             var notehistory = data;
         } else
             var notehistory = [];
-        if(!notehistory)
+        if (!notehistory)
             notehistory = [];
-        
+
         var newnotehistory = generateHistory(view, notehistory);
         saveHistoryToStorage(newnotehistory);
     } else {
@@ -223,9 +230,9 @@ function renderHistory(view) {
 
 function generateHistory(view, notehistory) {
     var info = renderHistory(view);
-    notehistory = clearDuplicatedHistory(notehistory);
     notehistory = removeHistory(info.id, notehistory);
     notehistory = addHistory(info.id, info.text, info.time, info.tags, notehistory);
+    notehistory = clearDuplicatedHistory(notehistory);
     return notehistory;
 }
 

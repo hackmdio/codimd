@@ -207,7 +207,7 @@ input {
     padding: 0 10px;
 }
 .list li * {
-    word-break: break-all;
+    word-break: break-word;
     word-wrap: break-word;
 }
 .list li a {

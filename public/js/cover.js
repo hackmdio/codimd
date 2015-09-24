@@ -8,7 +8,7 @@ var options = {
                     <div class="content">\
                         <h4 class="text"></h4>\
                         <p>\
-                            <i><i class="fa fa-clock-o"></i> visit </i><i class="fromNow"></i>\
+                            <i><i class="fa fa-clock-o"></i> visited </i><i class="fromNow"></i>\
                             <br>\
                             <i class="timestamp" style="display:none;"></i>\
                             <i class="time"></i>\
@@ -148,18 +148,19 @@ function deleteHistory() {
         saveHistory([]);
         historyList.clear();
         checkHistoryList();
+        deleteId = null;
     } else {
         if (!deleteId) return;
         getHistory(function (notehistory) {
             var newnotehistory = removeHistory(deleteId, notehistory);
             saveHistory(newnotehistory);
+            historyList.remove('id', deleteId);
+            checkHistoryList();
+            deleteId = null;
         });
-        historyList.remove('id', deleteId);
-        checkHistoryList();
     }
     $('.delete-modal').modal('hide');
     clearHistory = false;
-    deleteId = null;
 }
 
 $(".ui-delete-modal-confirm").click(function () {
