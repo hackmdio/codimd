@@ -550,6 +550,7 @@ function toggleMode() {
 }
 
 function changeMode(type) {
+    lockNavbar();
     saveInfo();
     if (type)
         currentMode = type;
@@ -616,6 +617,16 @@ function changeMode(type) {
         ui.toolbar.view.addClass("active");
         modeIcon.addClass('fa-toggle-on');
     }
+    unlockNavbar();
+}
+
+function lockNavbar() {
+    $('.navbar').addClass('locked');
+}
+
+var unlockNavbar = _.debounce(function () {
+    $('.navbar').removeClass('locked');
+}, 200);
 }
 
 //button actions

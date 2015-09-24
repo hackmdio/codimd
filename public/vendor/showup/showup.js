@@ -36,7 +36,7 @@
 		target.clearQueue();
 		target.stop();
 	  var currentScroll = $(this).scrollTop();
-      if (currentScroll > hideOffset) {
+      if (currentScroll > hideOffset && !target.hasClass('locked')) {
           if(Math.abs(previousScroll - currentScroll) < 50) return;
         if (currentScroll > previousScroll) {
           // Action on scroll down
