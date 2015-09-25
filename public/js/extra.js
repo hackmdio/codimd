@@ -429,8 +429,8 @@ var md = new Remarkable('full', {
     typographer: true,
     highlight: highlightRender
 });
-md.renderer.rules.list_item_open = function (/* tokens, idx, options, env */) {
-  return '<li class="raw">';
+md.renderer.rules.list_item_open = function ( /* tokens, idx, options, env */ ) {
+    return '<li class="raw">';
 };
 md.renderer.rules.blockquote_open = function (tokens, idx /*, options, env */ ) {
     return '<blockquote class="raw">\n';

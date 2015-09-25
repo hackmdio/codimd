@@ -31,6 +31,15 @@ md.renderer.rules.bullet_list_open = function (tokens, idx /*, options, env */ )
     return '<ul>\n';
 };
 
+md.renderer.rules.list_item_open = function (tokens, idx /*, options, env */ ) {
+    if (tokens[idx].lines) {
+        var startline = tokens[idx].lines[0] + 1;
+        var endline = tokens[idx].lines[1];
+        return '<li class="raw" data-startline="' + startline + '" data-endline="' + endline + '">\n';
+    }
+    return '<li class="raw">';
+};
+
 md.renderer.rules.ordered_list_open = function (tokens, idx /*, options, env */ ) {
     var token = tokens[idx];
     if (tokens[idx].lines && tokens[idx].level === 0) {
