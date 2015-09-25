@@ -221,7 +221,7 @@ function buildMapInner(syncBack) {
         if (t !== 0) {
             nonEmptyList.push(t);
         }
-        _scrollMap[t] = Math.round($el.offset().top + offset);
+        _scrollMap[t] = Math.round($el.offset().top + offset - 10);
     }
 
     nonEmptyList.push(linesCount);
@@ -297,7 +297,7 @@ function syncScrollToView(event, _lineNo) {
         var textHeight = editor.defaultTextHeight();
         lineNo = Math.floor(scrollInfo.top / textHeight);
         //if reach bottom, then scroll to end
-        if (scrollInfo.height > scrollInfo.clientHeight && scrollInfo.top + scrollInfo.clientHeight >= scrollInfo.height - defaultTextHeight) {
+        if (scrollInfo.height > scrollInfo.clientHeight && scrollInfo.top + scrollInfo.clientHeight >= scrollInfo.height - textHeight) {
             posTo = ui.area.view[0].scrollHeight - ui.area.view.height();
         } else {
             topDiffPercent = (scrollInfo.top % textHeight) / textHeight;
