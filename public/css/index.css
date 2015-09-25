@@ -209,13 +209,6 @@ div[contenteditable]:empty:not(:focus):before{
 .CodeMirror-scrollbar-filler {
     background: inherit;
 }
-.unselectable {
-    -moz-user-select: none; 
-    -khtml-user-select: none; 
-    -webkit-user-select: none; 
-    -o-user-select: none;
-    user-select: none;
-}
 
 .btn-file {
     position: relative;
@@ -295,4 +288,12 @@ div[contenteditable]:empty:not(:focus):before{
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+@media print {
+    body {
+        padding-top: 0 !important;
+    }
+    .CodeMirror {
+        height: auto !important;
+    }
 }

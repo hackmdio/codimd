@@ -1,9 +1,9 @@
 <div class="row ui-content" style="display: none;">
-    <div class="ui-edit-area">
+    <div class="ui-edit-area unselectable">
         <textarea id="textit"></textarea>
     </div>
     <div class="ui-view-area">
-        <div class="ui-infobar container-fluid">
+        <div class="ui-infobar container-fluid unselectable hidden-print">
             <small>
                 <span class="ui-lastchange text-uppercase"></span>
                 <span class="ui-permission dropdown pull-right">
@@ -18,7 +18,7 @@
             </small>
         </div>
         <div id="doc" class="markdown-body container-fluid"></div>
-        <div class="ui-toc dropup" style="display:none;">
+        <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
             <div class="pull-right dropdown">
                 <a id="tocLabel" class="ui-toc-label btn btn-default" data-target="#" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
                     <i class="fa fa-bars"></i>
@@ -27,7 +27,7 @@
                 </ul>
             </div>
         </div>
-        <div id="toc-affix" class="ui-affix-toc ui-toc-dropdown" data-spy="affix" style="top:50px;display:none;"></div>
+        <div id="toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:51px;display:none;"></div>
     </div>
 </div>
 <div class="modal fade" id="clipboardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -2,6 +2,7 @@
 
 .vimeo,
 .youtube {
+    position: relative;
     cursor: pointer;
     display: table;
     max-width: 540px;
@@ -11,17 +12,28 @@
     background-size: contain;
     background-color: black;
 }
+.vimeo img,
+.youtube img {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
 .vimeo .icon,
 .youtube .icon {
-    opacity: 0.3;
-    display: table-cell;
-    vertical-align: middle;
-    height: inherit;
-    margin: 0 auto;
+    position: absolute;
+    height: auto;
+    width: auto;
+    top: 50%;
+    left: 50%;
+    margin-top: -40px;
+    margin-left: -40px;
     color: white;
+    opacity: 0.3;
     -webkit-transition: opacity 0.2s; /* Safari */
     transition: opacity 0.2s;
-    
 }
 .vimeo:hover .icon,
 .youtube:hover .icon {
@@ -214,4 +226,21 @@ small .dropdown {
 
 small .dropdown a:focus, small .dropdown a:hover {
     text-decoration: none;
+}
+
+.unselectable {
+    -moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none;
+    user-select: none;
+}
+
+@media print {
+    div, table, img, pre, blockquote {
+        page-break-inside: avoid !important;
+    }
+    a[href]:after {
+        font-size: 12px !important;
+    }
 }

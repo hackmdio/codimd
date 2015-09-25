@@ -117,7 +117,8 @@ function finishView(view) {
                 dataType: 'jsonp',
                 success: function (data) {
                     var thumbnail_src = data[0].thumbnail_large;
-                    $(value).css('background-image', 'url(' + thumbnail_src + ')');
+                    var image = '<img src="' + thumbnail_src + '" />';
+                    $(value).prepend(image);
                 }
             });
         });
@@ -496,10 +497,11 @@ var youtubePlugin = new Plugin(
         var div = $('<div class="youtube raw"></div>');
         setSizebyAttr(div, div);
         div.attr('videoid', videoid);
+        var thumbnail_src = '//img.youtube.com/vi/' + videoid + '/hqdefault.jpg';
+        var image = '<img src="' + thumbnail_src + '" />';
+        div.append(image);
         var icon = '<i class="icon fa fa-youtube-play fa-5x"></i>';
         div.append(icon);
-        var thumbnail_src = '//img.youtube.com/vi/' + videoid + '/hqdefault.jpg';
-        div.css('background-image', 'url(' + thumbnail_src + ')');
         return div[0].outerHTML;
     }
 );

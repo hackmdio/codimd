@@ -28,7 +28,7 @@
 </head>
 
 <body style="display:none;">
-    <div class="ui-infobar container-fluid">
+    <div class="ui-infobar container-fluid unselectable hidden-print">
         <small>
             <span class="ui-lastchange text-uppercase"><%- updatetime %></span>
             <span class="pull-right"><%- viewcount %> views <a href="#" class="ui-edit" title="Edit this note"><i class="fa fa-pencil"></i></a></span>
@@ -37,7 +37,7 @@
     <div id="doc" class="container markdown-body">
 <%- body %>
     </div>
-    <div class="ui-toc dropup" style="display:none;">
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
         <div class="pull-right dropdown">
             <a id="tocLabel" class="ui-toc-label btn btn-default" data-target="#" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
                 <i class="fa fa-bars"></i>
@@ -46,7 +46,7 @@
             </ul>
         </div>
     </div>
-    <div id="toc-affix" class="ui-affix-toc ui-toc-dropdown" data-spy="affix" style="display:none;"></div>
+    <div id="toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="display:none;"></div>
 </body>
 
 </html>
