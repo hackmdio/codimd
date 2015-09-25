@@ -1126,7 +1126,7 @@ socket.on('cursor focus', function (data) {
         console.debug(data);
     for (var i = 0; i < onlineUsers.length; i++) {
         if (onlineUsers[i].id == data.id) {
-            onlineUsers[i].cursor = data;
+            onlineUsers[i].cursor = data.cursor;
         }
     }
     if (data.id != socket.id)
@@ -1142,7 +1142,7 @@ socket.on('cursor activity', function (data) {
         console.debug(data);
     for (var i = 0; i < onlineUsers.length; i++) {
         if (onlineUsers[i].id == data.id) {
-            onlineUsers[i].cursor = data;
+            onlineUsers[i].cursor = data.cursor;
         }
     }
     if (data.id != socket.id)
@@ -1384,6 +1384,7 @@ function checkCursorTag(coord, ele) {
 }
 
 function buildCursor(user) {
+    if (currentMode == modeType.view) return;
     if (!user.cursor) return;
     var coord = editor.charCoords(user.cursor, 'windows');
     coord.left = coord.left < 4 ? 4 : coord.left;
@@ -1497,6 +1498,9 @@ function buildCursor(user) {
         cursortag.find('i').removeClass().addClass('fa').addClass(iconClass);
         cursortag.find(".name").text(user.name);
 
+        cursor[0].style.left = coord.left + 'px';
+        cursor[0].style.top = coord.top + 'px';
+        /*
         if (cursor.css('display') === 'none') {
             cursor[0].style.left = coord.left + 'px';
             cursor[0].style.top = coord.top + 'px';
@@ -1509,6 +1513,7 @@ function buildCursor(user) {
                 queue: false
             });
         }
+        */
 
         if (user.idle && cursor.css('display') !== 'none')
             cursor.stop(true).fadeOut();
