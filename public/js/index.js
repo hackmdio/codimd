@@ -102,7 +102,7 @@ var supportExternals = [
         search: 'gist'
     }
 ];
-var supportBlockquoteTags = [
+var supportExtraTags = [
     {
         text: '[name tag]',
         search: '[]',
@@ -2031,13 +2031,35 @@ $(editor.getInputField())
                 return !isInCode;
             }
     },
-        { //blockquote personal info & general info
+        { //extra tags for blockquote
             match: /(?:^|\n|\s)(\>.*)(\[\])(\w*)$/,
             search: function (term, callback) {
                 var list = [];
-                $.map(supportBlockquoteTags, function (blockquotetag) {
-                    if (blockquotetag.search.indexOf(term) === 0)
-                        list.push(blockquotetag.command());
+                $.map(supportExtraTags, function (extratag) {
+                    if (extratag.search.indexOf(term) === 0)
+                        list.push(extratag.command());
+                });
+                $.map(supportReferrals, function (referral) {
+                    if (referral.search.indexOf(term) === 0)
+                        list.push(referral.text);
+                })
+                callback(list);
+                checkCursorMenu();
+            },
+            replace: function (value) {
+                return '$1' + value;
+            },
+            context: function (text) {
+                return !isInCode;
+            }
+    },
+        { //extra tags for list
+            match: /(^[>\s]*[\-\+\*]\s(?:\[[x ]\]|.*))(\[\])(\w*)$/,
+            search: function (term, callback) {
+                var list = [];
+                $.map(supportExtraTags, function (extratag) {
+                    if (extratag.search.indexOf(term) === 0)
+                        list.push(extratag.command());
                 });
                 $.map(supportReferrals, function (referral) {
                     if (referral.search.indexOf(term) === 0)

@@ -50,7 +50,7 @@ function slugifyWithUTF8(text) {
 
 var viewAjaxCallback = null;
 
-//regex for blockquote
+//regex for extra tags
 var spaceregex = /\s*/;
 var notinhtmltagregex = /(?![^<]*>|[^<>]*<\/)/;
 var coloregex = /\[color=([#|\(|\)|\s|\,|\w]*?)\]/;
@@ -61,8 +61,44 @@ var nameandtimeregex = new RegExp(nameregex.source + spaceregex.source + timereg
 nameregex = new RegExp(nameregex.source + notinhtmltagregex.source, "g");
 timeregex = new RegExp(timeregex.source + notinhtmltagregex.source, "g");
 
+function replaceExtraTags(html) {
+    html = html.replace(coloregex, '<span class="color" data-color="$1"></span>');
+    html = html.replace(nameandtimeregex, '<small><i class="fa fa-user"></i> $1 <i class="fa fa-clock-o"></i> $2</small>');
+    html = html.replace(nameregex, '<small><i class="fa fa-user"></i> $1</small>');
+    html = html.replace(timeregex, '<small><i class="fa fa-clock-o"></i> $1</small>');
+    return html;
+}
+
 //dynamic event or object binding here
 function finishView(view) {
+    //todo list
+    var lis = view.find('li.raw').removeClass("raw").sortByDepth().toArray();
+    for (var i = 0; i < lis.length; i++) {
+        var li = lis[i];
+        var html = $(li).clone()[0].innerHTML;
+        var p = $(li).children('p');
+        if (p.length == 1) {
+            html = p.html();
+            li = p[0];
+        }
+        html = replaceExtraTags(html);
+        li.innerHTML = html;
+        var disabled = 'disabled';
+        if(typeof editor !== 'undefined' && havePermission())
+            disabled = '';
+        if (/^\s*\[[x ]\]\s*/.test(html)) {
+            li.innerHTML = html.replace(/^\s*\[ \]\s*/, '<input type="checkbox" class="task-list-item-checkbox "' + disabled + '><label></label>')
+                .replace(/^\s*\[x\]\s*/, '<input type="checkbox" class="task-list-item-checkbox" checked ' + disabled + '><label></label>');
+            lis[i].setAttribute('class', 'task-list-item');
+        }
+        if (typeof editor !== 'undefined' && havePermission())
+            $(li).find('input').change(toggleTodoEvent);
+        //color tag in list will convert it to tag icon with color
+        var tag_color = $(li).closest('ul').find(".color");
+        tag_color.each(function (key, value) {
+            $(value).addClass('fa fa-tag').css('color', $(value).attr('data-color'));
+        });
+    }
     //youtube
     view.find(".youtube.raw").removeClass("raw")
         .click(function () {
@@ -149,12 +185,10 @@ function finishView(view) {
     var blockquote_p = blockquote.find("p");
     blockquote_p.each(function (key, value) {
         var html = $(value).html();
-        html = html.replace(coloregex, '<span class="color" data-color="$1"></span>');
-        html = html.replace(nameandtimeregex, '<small><i class="fa fa-user"></i> $1 <i class="fa fa-clock-o"></i> $2</small>');
-        html = html.replace(nameregex, '<small><i class="fa fa-user"></i> $1</small>');
-        html = html.replace(timeregex, '<small><i class="fa fa-clock-o"></i> $1</small>');
+        html = replaceExtraTags(html);
         $(value).html(html);
     });
+    //color tag in blockquote will change its left border color
     var blockquote_color = blockquote.find(".color");
     blockquote_color.each(function (key, value) {
         $(value).closest("blockquote").css('border-left-color', $(value).attr('data-color'));
@@ -173,23 +207,8 @@ function postProcess(code) {
     result.find("iframe").replaceWith(function () {
         return "<noiframe>" + $(this).html() + "</noiframe>"
     });
-    //todo list
-    var lis = result.find('li.raw').removeClass("raw").sortByDepth().toArray();
-    for (var i = 0; i < lis.length; i++) {
-        var li = lis[i];
-        var html = $(li).clone()[0].innerHTML;
-        var p = $(li).children('p');
-        if (p.length == 1) {
-            html = p.html();
-            li = p[0];
         }
-        if (/^\s*\[[x ]\]\s*/.test(html)) {
-            li.innerHTML = html.replace(/^\s*\[ \]\s*/, '<input type="checkbox" class="task-list-item-checkbox" disabled><label></label>')
-                .replace(/^\s*\[x\]\s*/, '<input type="checkbox" class="task-list-item-checkbox" checked disabled><label></label>');
-            lis[i].setAttribute('class', 'task-list-item');
         }
-    }
-    return result;
 }
 
 //jQuery sortByDepth
@@ -210,6 +229,27 @@ $.fn.sortByDepth = function () {
     }
     return $(result);
 };
+
+function toggleTodoEvent(e) {
+    var startline = $(this).closest('li').attr('data-startline') - 1;
+    var line = editor.getLine(startline);
+    var matches = line.match(/^[>\s]*[\-\+\*]\s\[([x ])\]/);
+    if (matches && matches.length >= 2) {
+        var checked = null;
+        if (matches[1] == 'x')
+            checked = true;
+        else if (matches[1] == ' ')
+            checked = false;
+        var replacements = matches[0].match(/(^[>\s]*[\-\+\*]\s\[)([x ])(\])/);
+        editor.replaceRange(checked ? ' ' : 'x', {
+            line: startline,
+            ch: replacements[1].length
+        }, {
+            line: startline,
+            ch: replacements[1].length + 1
+        }, '+input');
+    }
+}
 
 //remove hash
 function removeHash() {
