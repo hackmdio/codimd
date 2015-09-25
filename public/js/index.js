@@ -3,7 +3,7 @@
 var debug = false;
 var version = '0.3.2';
 
-var defaultTextHeight = 18;
+var defaultTextHeight = 20;
 var viewportMargin = 20;
 var defaultExtraKeys = {
     "Cmd-S": function () {
