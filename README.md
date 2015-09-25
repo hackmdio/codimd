@@ -62,8 +62,8 @@ Environment variables
 | variables | example values | description |
 | --------- | ------ | ----------- |
 | NODE_ENV  | `production` or `development` | show current environment status |
-| DATABASE_URL | `postgresql://localhost:5432/hackmd` | PostgreSQL connection string |
-| MONGOLAB_URI | `mongodb://localhost/hackmd` | MongoDB connection string |
+| DATABASE_URL | `postgresql://user:pass@host:port/hackmd` | PostgreSQL connection string |
+| MONGOLAB_URI | `mongodb://user:pass@host:port/hackmd` | MongoDB connection string |
 | PORT | `80` | web port |
 | SSLPORT | `443` | ssl web port |
 | DOMAIN | `localhost` | domain name |
@@ -84,8 +84,8 @@ Server-side config.js settings
 | sslcertpath | `./cert/hackmd_io.crt` | ssl cert path |
 | sslcapath | `['./cert/COMODORSAAddTrustCA.crt']` | ssl ca chain |
 | tmppath | `./tmp/` | temp file path |
-| postgresqlstring | `postgresql://localhost:5432/hackmd` | PostgreSQL connection string, fallback to this when not set in environment |
-| mongodbstring | `mongodb://localhost/hackmd` | MongoDB connection string, fallback to this when not set in environment |
+| postgresqlstring | `postgresql://user:pass@host:port/hackmd` | PostgreSQL connection string, fallback to this when not set in environment |
+| mongodbstring | `mongodb://user:pass@host:port/hackmd` | MongoDB connection string, fallback to this when not set in environment |
 | sessionname | `connect.sid` | cookie session name |
 | sessionsecret | `secret` | cookie session secret |
 | sessionlife | `14 * 24 * 60 * 60 * 1000` | cookie session life |
