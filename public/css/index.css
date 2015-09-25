@@ -42,14 +42,22 @@ body {
     cursor: pointer;
     margin: 2px;
 }
-.row {
+.ui-content {
+    height: 100%;
     margin-left: 0;
     margin-right: 0;
 }
 .ui-edit-area {
+    height: 100%;
     /*padding-left: 15px;*/
     padding-left: 0 !important;
     padding-right: 0 !important;
+}
+.ui-edit-area .ui-resizable-handle.ui-resizable-e {
+    cursor: col-resize;
+    width: 5px;
+    background-color: white;
+    box-shadow: 5px 0px 10px #e7e7e7;
 }
 .ui-view-area {
     /*overflow-y: scroll;*/

@@ -511,6 +511,8 @@ function checkResponsive() {
     emitUserStatus();
 }
 
+var lastEditorWidth = 0;
+
 function checkEditorStyle() {
     var scrollbarStyle = editor.getOption('scrollbarStyle');
     if (scrollbarStyle == 'overlay' || currentMode == modeType.both) {
@@ -531,6 +533,15 @@ function checkEditorStyle() {
     //set sizer height to make it at least height as editor
     var editorSizerHeight = ui.area.edit.height() - (statusBar ? statusBar.outerHeight() : 0);
     $('.CodeMirror-sizer').css('height', editorSizerHeight + 'px');
+    //make editor resizable
+    ui.area.edit.resizable({
+        handles: 'e',
+        maxWidth: $(window).width() * 0.7,
+        minWidth: $(window).width() * 0.2,
+        stop: function (e) {
+            lastEditorWidth = ui.area.edit.width();
+        }
+    });
 }
 
 function checkTocStyle() {
@@ -657,7 +668,7 @@ function changeMode(type) {
         ui.area.codemirror.addClass(scrollClass);
         ui.area.edit.addClass(responsiveClass).show();
         ui.area.view.addClass(scrollClass);
-        ui.area.view.addClass(responsiveClass).show();
+        ui.area.view.show();
         break;
     }
     if (currentMode != modeType.view && visibleLG) {
@@ -684,6 +695,17 @@ function changeMode(type) {
         updateView();
     } else {
         $(document.body).css('background-color', ui.area.codemirror.css('background-color'));
+    }
+    //check resizable editor style
+    if (currentMode == modeType.both) {
+        if (lastEditorWidth > 0)
+            ui.area.edit.css('width', lastEditorWidth + 'px');
+        else
+            ui.area.edit.css('width', '');
+        ui.area.edit.find('.ui-resizable-handle').show();
+    } else {
+        ui.area.edit.css('width', '');
+        ui.area.edit.find('.ui-resizable-handle').hide();
     }
 
     windowResizeInner();
