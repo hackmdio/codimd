@@ -1725,6 +1725,7 @@ function updateView() {
     lastResult = $(result).clone();
     finishView(ui.area.view);
     autoLinkify(ui.area.view);
+    deduplicatedHeaderId(ui.area.view);
     generateToc('toc');
     generateToc('toc-affix');
     generateScrollspy();

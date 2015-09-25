@@ -322,7 +322,26 @@ function autoLinkify(view) {
     for (var level = 1; level <= 6; level++) {
         linkifyAnchors(level, contentBlock);
     }
-};
+}
+
+function deduplicatedHeaderId(view) {
+    var headers = view.find(':header').toArray();
+    for (var i = 0; i < headers.length; i++) {
+        var id = $(headers[i]).attr('id');
+        if (!id) continue;
+        var duplicatedHeaders = view.find(':header[id=' + id + ']').toArray();
+        for (var j = 0; j < duplicatedHeaders.length; j++) {
+            if (duplicatedHeaders[j] != headers[i]) {
+                var newId = id + j;
+                var $duplicatedHeader = $(duplicatedHeaders[j]);
+                $duplicatedHeader.attr('id', newId);
+                var $headerLink = $duplicatedHeader.find('> .header-link');
+                $headerLink.attr('href', '#' + newId);
+                $headerLink.attr('title', newId);
+            }
+        }
+    }
+}
 
 function scrollToHash() {
     var hash = location.hash;
