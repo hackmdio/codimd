@@ -1739,7 +1739,7 @@ function updateViewInner() {
     smoothHashScroll();
     isDirty = false;
     clearMap();
-    buildMap();
+    //buildMap();
 
 var updateHistoryDebounce = 600;
 
