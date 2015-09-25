@@ -659,6 +659,9 @@ function changeMode(type) {
             addStatusBar();
             updateStatusBar();
         }
+        //work around foldGutter might not init properly
+        editor.setOption('foldGutter', false);
+        editor.setOption('foldGutter', true);
     } else {
         ui.toolbar.uploadImage.fadeOut();
     }
