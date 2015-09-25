@@ -63,6 +63,12 @@ body {
     /*overflow-y: scroll;*/
     -webkit-overflow-scrolling: touch;
 }
+@media (min-width: 768px) {
+    .ui-view-area {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
 .ui-scrollable {
     height: 100%;
     overflow-x: hidden;
