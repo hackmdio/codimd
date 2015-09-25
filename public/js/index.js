@@ -16,9 +16,8 @@ var defaultExtraKeys = {
 };
 
 var idleTime = 300000; //5 mins
-var finishChangeDelay = 200;
-var cursorActivityDelay = 50;
-var cursorAnimatePeriod = 100;
+var updateViewDebounce = 200;
+var cursorActivityDebounce = 50;
 var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile'];
 var supportHeaders = [
     {
@@ -423,13 +422,7 @@ $(document).ready(function () {
     });
 });
 //when page resize
-var windowResizeDelay = 200;
-var windowResizeTimer = null;
 $(window).resize(function () {
-    clearTimeout(windowResizeTimer);
-    windowResizeTimer = setTimeout(function () {
-        windowResize();
-    }, windowResizeDelay);
 });
 //when page unload
 $(window).unload(function () {
@@ -463,7 +456,10 @@ function locationHashChanged(e) {
     }
 }
 
-function windowResize() {
+var windowResizeDebounce = 200;
+var windowResize = _.debounce(windowResizeInner, windowResizeDebounce);
+
+function windowResizeInner() {
     checkResponsive();
     checkEditorStyle();
     checkTocStyle();
@@ -662,9 +658,11 @@ function changeMode(type) {
     } else {
         $(document.body).css('background-color', ui.area.codemirror.css('background-color'));
     }
+
+    windowResizeInner();
+
     restoreInfo();
 
-    windowResize();
 
     ui.toolbar.both.removeClass("active");
     ui.toolbar.edit.removeClass("active");
@@ -1101,15 +1099,15 @@ socket.on('doc', function (obj) {
     restoreInfo();
 });
 
-socket.on('ack', _.debounce(function () {
+socket.on('ack', function () {
     isDirty = true;
     updateView();
-}, finishChangeDelay));
+});
 
-socket.on('operation', _.debounce(function () {
+socket.on('operation', function () {
     isDirty = true;
     updateView();
-}, finishChangeDelay));
+});
 
 socket.on('online users', function (data) {
     data = LZString.decompressFromUTF16(data);
@@ -1608,11 +1606,10 @@ editor.on('focus', function (cm) {
     personalInfo['cursor'] = editor.getCursor();
     socket.emit('cursor focus', editor.getCursor());
 });
-var cursorActivityTimer = null;
 editor.on('cursorActivity', function (cm) {
-    clearTimeout(cursorActivityTimer);
-    cursorActivityTimer = setTimeout(cursorActivity, cursorActivityDelay);
     updateStatusBar();
+    cursorActivity();
+});
 editor.on('beforeSelectionChange', function (doc, selections) {
     if (selections)
         selection = selections.ranges[0];
@@ -1621,7 +1618,9 @@ editor.on('beforeSelectionChange', function (doc, selections) {
     updateStatusBar();
 });
 
-function cursorActivity() {
+var cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce);
+
+function cursorActivityInner() {
     if (editorHasFocus() && !Visibility.hidden()) {
         for (var i = 0; i < onlineUsers.length; i++) {
             if (onlineUsers[i].id == personalInfo.id) {
@@ -1707,15 +1706,17 @@ function restoreInfo() {
 }
 
 //view actions
-var finishChangeTimer = null;
-
-function finishChange(emit) {
-    updateView();
+function refreshView() {
+    ui.area.markdown.html('');
+    isDirty = true;
+    updateViewInner();
 }
+
+var updateView = _.debounce(updateViewInner, updateViewDebounce);
 
 var lastResult = null;
 
-function updateView() {
+function updateViewInner() {
     if (currentMode == modeType.edit || !isDirty) return;
     var value = editor.getValue();
     var result = postProcess(md.render(value)).children().toArray();
@@ -1734,6 +1735,13 @@ function updateView() {
     isDirty = false;
     clearMap();
     buildMap();
+
+var updateHistoryDebounce = 600;
+
+var updateHistory = _.debounce(updateHistoryInner, updateHistoryDebounce)
+
+function updateHistoryInner() {
+    writeHistory(ui.area.markdown);
 }
 
 function updateDataAttrs(src, des) {
