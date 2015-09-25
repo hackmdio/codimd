@@ -759,7 +759,7 @@ function scrollToTop() {
                 scrollTop: 0
             }, 100, "linear");
     } else {
-        $(document.body).animate({
+        $('body, html').stop(true, true).animate({
             scrollTop: 0
         }, 100, "linear");
     }
@@ -776,7 +776,7 @@ function scrollToBottom() {
                 scrollTop: ui.area.view[0].scrollHeight
             }, 100, "linear");
     } else {
-        $(document.body).animate({
+        $('body, html').stop(true, true).animate({
             scrollTop: $(document.body)[0].scrollHeight
         }, 100, "linear");
     }

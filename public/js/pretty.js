@@ -69,13 +69,13 @@ $(document).ready(function () {
 });
 
 function scrollToTop() {
-    $(document.body).animate({
+    $('body, html').stop(true, true).animate({
         scrollTop: 0
     }, 100, "linear");
 }
 
 function scrollToBottom() {
-    $(document.body).animate({
+    $('body, html').stop(true, true).animate({
         scrollTop: $(document.body)[0].scrollHeight
     }, 100, "linear");
 }
