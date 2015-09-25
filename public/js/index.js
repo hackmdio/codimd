@@ -998,6 +998,18 @@ socket.on('refresh', function (data) {
     lastchangeui = ui.infobar.lastchange;
     updateLastChange();
     checkPermission();
+    if (!loaded) {
+        changeMode(currentMode);
+        loaded = true;
+        emitUserStatus(); //send first user status
+        updateOnlineStatus(); //update first online status
+        setTimeout(function () {
+            //work around editor not refresh or doc not fully loaded
+            windowResizeInner();
+            //work around might not scroll to hash
+            scrollToHash();
+        }, 1);
+    }
 });
 
 var EditorClient = ot.EditorClient;
@@ -1013,43 +1025,18 @@ socket.on('doc', function (obj) {
 
     saveInfo();
     if (bodyMismatch) {
+        if (cmClient)
+            cmClient.editorAdapter.ignoreNextChange = true;
         if (body)
             editor.setValue(body);
         else
             editor.setValue("");
-    }
-    if (!cmClient) {
-        cmClient = window.cmClient = new EditorClient(
-            obj.revision, obj.clients,
-            new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
-        );
-    } else {
-        cmClient.revision = obj.revision;
-        cmClient.initializeClients(obj.clients);
-        if (bodyMismatch) {
-            cmClient.undoManager.undoStack.length = 0;
-            cmClient.undoManager.redoStack.length = 0;
-        }
     }
 
     if (!loaded) {
         editor.clearHistory();
         ui.spinner.hide();
         ui.content.fadeIn();
-        changeMode();
-        loaded = true;
-        emitUserStatus(); //send first user status
-        updateOnlineStatus(); //update first online status
-        setTimeout(function () {
-            //work around editor not refresh
-            editor.refresh();
-            //work around cursor not refresh
-            for (var i = 0; i < onlineUsers.length; i++) {
-                buildCursor(onlineUsers[i]);
-            }
-            //work around might not scroll to hash
-            scrollToHash();
-        }, 1);
     } else {
         //if current doc is equal to the doc before disconnect
         if (bodyMismatch)
@@ -1059,6 +1046,22 @@ socket.on('doc', function (obj) {
                 editor.setHistory(lastInfo.history);
         }
         lastInfo.history = null;
+    }
+
+    if (!cmClient) {
+        cmClient = window.cmClient = new EditorClient(
+            obj.revision, obj.clients,
+            new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
+        );
+    } else {
+        if (bodyMismatch) {
+            cmClient.undoManager.undoStack.length = 0;
+            cmClient.undoManager.redoStack.length = 0;
+        }
+        cmClient.revision = obj.revision;
+        cmClient.setState(new ot.Client.Synchronized());
+        cmClient.initializeClientList();
+        cmClient.initializeClients(obj.clients);
     }
 
     if (bodyMismatch) {
