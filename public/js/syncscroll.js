@@ -177,23 +177,7 @@ var buildMap = _.throttle(buildMapInner, buildMapThrottle);
 // Optimizations are required only for big texts.
 function buildMapInner(syncBack) {
     var i, offset, nonEmptyList, pos, a, b, _lineHeightMap, linesCount,
-        acc, sourceLikeDiv, textarea = ui.area.codemirror,
-        wrap = $('.CodeMirror-wrap pre'),
-        _scrollMap;
-
-    sourceLikeDiv = $('<div />').css({
-        position: 'absolute',
-        visibility: 'hidden',
-        height: 'auto',
-        width: wrap.width(),
-        'font-size': textarea.css('font-size'),
-        'font-family': textarea.css('font-family'),
-        'line-height': textarea.css('line-height'),
-        'word-wrap': wrap.css('word-wrap'),
-        'white-space': wrap.css('white-space'),
-        'word-break': wrap.css('word-break'),
-        'tab-size': '38px'
-    }).appendTo('body');
+        acc, _scrollMap;
 
     offset = ui.area.view.scrollTop() - ui.area.view.offset().top;
     _scrollMap = [];
@@ -202,11 +186,9 @@ function buildMapInner(syncBack) {
 
     acc = 0;
     var lines = editor.getValue().split('\n');
-    var lineHeight = parseFloat(sourceLikeDiv.css('line-height'));
-    var div = sourceLikeDiv[0];
+    var lineHeight = editor.defaultTextHeight();
     for (i = 0; i < lines.length; i++) {
         var str = lines[i];
-        var h, lh;
 
         _lineHeightMap.push(acc);
 
@@ -215,11 +197,9 @@ function buildMapInner(syncBack) {
             continue;
         }
 
-        sourceLikeDiv.text(str);
-        h = parseFloat(div.clientHeight);
+        var h = editor.heightAtLine(i + 1) - editor.heightAtLine(i);
         acc += Math.round(h / lineHeight);
     }
-    sourceLikeDiv.remove();
     _lineHeightMap.push(acc);
     linesCount = acc;
 
