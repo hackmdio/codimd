@@ -78,14 +78,6 @@ md.renderer.rules.heading_open = function (tokens, idx) {
     return '<h' + tokens[idx].hLevel + '>';
 };
 
-md.renderer.rules.image = function (tokens, idx, options /*, env */ ) {
-    var src = ' src="' + Remarkable.utils.escapeHtml(tokens[idx].src) + '"';
-    var title = tokens[idx].title ? (' title="' + Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(tokens[idx].title)) + '"') : '';
-    var alt = ' alt="' + (tokens[idx].alt ? Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(tokens[idx].alt)) : '') + '"';
-    var suffix = options.xhtmlOut ? ' /' : '';
-    return '<img class="raw"' + src + alt + title + suffix + '>';
-}
-
 md.renderer.rules.fence = function (tokens, idx, options, env, self) {
     var token = tokens[idx];
     var langClass = '';

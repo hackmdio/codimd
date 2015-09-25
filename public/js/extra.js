@@ -429,6 +429,13 @@ var md = new Remarkable('full', {
     typographer: true,
     highlight: highlightRender
 });
+md.renderer.rules.image = function (tokens, idx, options /*, env */ ) {
+    var src = ' src="' + Remarkable.utils.escapeHtml(tokens[idx].src) + '"';
+    var title = tokens[idx].title ? (' title="' + Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(tokens[idx].title)) + '"') : '';
+    var alt = ' alt="' + (tokens[idx].alt ? Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(tokens[idx].alt)) : '') + '"';
+    var suffix = options.xhtmlOut ? ' /' : '';
+    return '<img class="raw"' + src + alt + title + suffix + '>';
+}
 md.renderer.rules.list_item_open = function ( /* tokens, idx, options, env */ ) {
     return '<li class="raw">';
 };
