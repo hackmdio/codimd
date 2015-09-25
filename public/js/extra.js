@@ -212,8 +212,70 @@ function postProcess(code) {
     result.find('a:not([target])').attr('target', '_blank');
     return result;
 }
+
+//extract markdown body to html and compile to template
+function exportToHTML(view) {
+    var title = renderTitle(ui.area.markdown);
+    var filename = renderFilename(ui.area.markdown) + '.html';
+    var src = view.clone();
+    var eles = src.find('*');
+    //remove syncscroll parts
+    eles.removeClass('part');
+    src.find('*[class=""]').removeAttr('class');
+    eles.removeAttr('data-startline data-endline');
+    eles.find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll');
+    //remove gist content
+    src.find("code[data-gist-id]").children().remove();
+    //disable todo list
+    src.find("input.task-list-item-checkbox").attr('disabled', '');
+    //replace emoji image path
+    src.find("img.emoji").each(function (key, value) {
+        var name = $(value).attr('alt');
+        name = name.substr(1);
+        name = name.slice(0, name.length - 1);
+        $(value).attr('src', 'https://www.tortue.me/emoji/' + name + '.png');
+    });
+    //replace video to iframe
+    src.find("div[videoid]").each(function (key, value) {
+        var id = $(value).attr('videoid');
+        var style = $(value).attr('style');
+        var url = null;
+        if ($(value).hasClass('youtube')) {
+            url = 'https://www.youtube.com/embed/';
+        } else if ($(value).hasClass('vimeo')) {
+            url = 'https://player.vimeo.com/video/';
         }
+        if (url) {
+            var iframe = $('<iframe frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');
+            iframe.attr('src', url + id);
+            iframe.attr('style', style);
+            $(value).html(iframe);
         }
+    });
+    //generate toc
+    var toc = $('#toc').clone();
+    toc.find('*').removeClass('active');
+    var tocAffix = $('#toc-affix').clone();
+    tocAffix.find('*').removeClass('active');
+    //generate html via template
+    $.get('/css/html.min.css', function (css) {
+        $.get('/views/html.hbs', function (data) {
+            var template = Handlebars.compile(data);
+            var context = {
+                title: title,
+                css: css,
+                html: src[0].outerHTML,
+                toc: toc.html(),
+                'toc-affix': tocAffix.html()
+            };
+            var html = template(context);
+            //        console.log(html);
+            var blob = new Blob([html], {
+                type: "text/html;charset=utf-8"
+            });
+            saveAs(blob, filename);
+        });
+    });
 }
 
 //jQuery sortByDepth

@@ -285,9 +285,10 @@ var ui = {
         new: $(".ui-new"),
         publish: $(".ui-publish"),
         download: {
-            markdown: $(".ui-download-markdown")
+            markdown: $(".ui-download-markdown"),
+            html: $(".ui-download-html")
         },
-        save: {
+        export: {
             dropbox: $(".ui-save-dropbox")
         },
         import: {
@@ -801,8 +802,12 @@ ui.toolbar.download.markdown.click(function () {
     });
     saveAs(blob, filename);
 });
-//save to dropbox
-ui.toolbar.save.dropbox.click(function () {
+//html
+ui.toolbar.download.html.click(function () {
+    exportToHTML(ui.area.markdown);
+});
+//export to dropbox
+ui.toolbar.export.dropbox.click(function () {
     var filename = renderFilename(ui.area.markdown) + '.md';
     var options = {
         files: [
