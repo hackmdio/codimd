@@ -24,11 +24,15 @@ body {
     overflow-y: auto !important;
 }
 .CodeMirror-code {
-    padding-bottom: 36px;
+    /*padding-bottom: 36px;*/
+}
+.CodeMirror-gutter-elt {
+    text-align: center;
 }
 .CodeMirror-linenumber {
-    opacity: 0.5;
-    width: 29px;
+/*    opacity: 0.5;*/
+    min-width: 1.5em;
+    text-align: right;
 }
 .CodeMirror-matchingtag {
     background: rgba(255, 255, 255, .1);
@@ -38,9 +42,43 @@ body {
     color: #d0d0d0;
     text-shadow: none;
     font-family: Arial;
+    font-size: 1em;
     line-height: .3;
     cursor: pointer;
     margin: 2px;
+    padding-bottom: 2px;
+}
+.CodeMirror-foldgutter {
+    /*width: 1em;*/
+    cursor: default;
+    line-height: 100%;
+}
+.CodeMirror-foldgutter-open,
+.CodeMirror-foldgutter-folded {
+    line-height: 1em;
+    cursor: pointer;
+}
+.CodeMirror-foldgutter-open {
+    padding-top: 1px;
+}
+.CodeMirror-foldgutter-folded {
+    padding-top: 2px;
+}
+.CodeMirror-foldgutter-open:after {
+    content: "⌵";
+    font-size: 1em;
+/*    opacity: 0.5;*/
+}
+.CodeMirror-foldgutter-folded:after {
+    content: "+";
+    font-size: 1em;
+    font-weight: 700;
+}
+.CodeMirror-foldmarker, .CodeMirror-foldgutter-folded:after {
+    color: #78B2F2 !important;
+}
+.CodeMirror-sizer {
+    margin-bottom: 0px !important;
 }
 .ui-content {
     height: 100%;
@@ -256,6 +294,13 @@ div[contenteditable]:empty:not(:focus):before{
 
 .cm-trailing-space-new-line:before {
   content: '↵';
+}
+
+.cm-matchhighlight {
+/*    border-radius: 5px;*/
+/*    box-shadow: 0 1px 0 0 #ccc;*/
+    border-bottom: 1px solid #ccc;
+}
 
 .status-bar {
     background: #1c1c1e;
