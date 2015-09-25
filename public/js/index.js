@@ -969,7 +969,7 @@ function updatePermission(newPermission) {
         title = "Anyone can edit";
         break;
     case "editable":
-        label = '<i class="fa fa-pencil"></i> Editable';
+        label = '<i class="fa fa-shield"></i> Editable';
         title = "Signed people can edit";
         break;
     case "locked":
