@@ -206,10 +206,11 @@ var editor = CodeMirror.fromTextArea(textit, {
     lineNumbers: true,
     lineWrapping: true,
     showCursorWhenSelecting: true,
+    highlightSelectionMatches: true,
     indentUnit: 4,
     indentWithTabs: true,
     continueComments: "Enter",
-    theme: "monokai",
+    theme: "one-dark",
     inputStyle: "textarea",
     matchBrackets: true,
     autoCloseBrackets: true,
@@ -220,6 +221,8 @@ var editor = CodeMirror.fromTextArea(textit, {
     foldGutter: true,
     gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
     extraKeys: defaultExtraKeys,
+    flattenSpans: true,
+    addModeClass: true,
     readOnly: true
 });
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor);
