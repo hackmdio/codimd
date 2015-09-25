@@ -226,7 +226,7 @@ function generateToc(id) {
         'class': 'toc',
         'targetId': id
     });
-    if(target.text() == 'undefined')
+    if (target.text() == 'undefined')
         target.html('');
     var backtotop = $('<a class="back-to-top" href="#">Back to top</a>');
     var gotobottom = $('<a class="go-to-bottom" href="#">Go to bottom</a>');
@@ -262,7 +262,7 @@ function smoothHashScroll() {
                 // prevent default anchor click behavior
                 e.preventDefault();
                 // animate
-                $('html, body').animate({
+                $('body, html').stop(true, true).animate({
                     scrollTop: $(hash).offset().top
                 }, 100, "linear", function () {
                     // when done, add hash to url
