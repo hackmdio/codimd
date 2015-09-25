@@ -77,6 +77,9 @@ body {
 .ui-status * {
     font-size: 16px;
 }
+.navbar-brand {
+    font-weight: bold;
+}
 .nav-status .ui-status * {
     font-size: 14px;
 }
@@ -172,6 +175,10 @@ body {
     width: 0px;
     position: absolute;
     border-right: none;
+    transition: left 0.1s, top 0.1s;
+}
+.dropdown-menu.other-cursor {
+    transition: none;
 }
 .cursortag {
     cursor: pointer;
@@ -185,6 +192,7 @@ body {
     font-family: inherit;
     border-radius: .25em;
     white-space: nowrap;
+    transition: left 0.1s ease-in-out, top 0.1s ease-in-out;
 }
 .fixfixed .navbar-fixed-top {
     position: absolute !important;
@@ -204,7 +212,10 @@ div[contenteditable]:empty:not(:focus):before{
     margin-bottom: 0 !important;
 }
 .dropdown-menu.other-cursor {
+    max-height: 50vh;
     width: auto !important;
+    overflow: auto;
+    margin-bottom: 30px;
 }
 .CodeMirror-scrollbar-filler {
     background: inherit;
