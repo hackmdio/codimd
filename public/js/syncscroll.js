@@ -139,6 +139,8 @@ md.renderer.rules.code = function (tokens, idx /*, options, env */ ) {
     return '<code>' + Remarkable.utils.escapeHtml(tokens[idx].content) + '</code>';
 };
 
+var preventSyncScroll = false;
+
 //var editorScrollThrottle = 100;
 var buildMapThrottle = 100;
 
@@ -299,6 +301,10 @@ function getEditorLineNoByTop(top) {
 
 function syncScrollToView(event, _lineNo) {
     if (currentMode != modeType.both) return;
+    if (preventSyncScroll) {
+        preventSyncScroll = false;
+        return;
+    }
     var lineNo, posTo;
     var scrollInfo = editor.getScrollInfo();
     if (!scrollMap || !lineHeightMap) {

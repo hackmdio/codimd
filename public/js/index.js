@@ -1596,6 +1596,12 @@ editor.on('beforeChange', function (cm, change) {
             break;
         }
     }
+editor.on('changes', function (cm, changes) {
+    updateHistory();
+    preventSyncScroll = true;
+    var scrollInfo = editor.getScrollInfo();
+    editor.scrollTo(null, scrollInfo.top - 1);
+    editor.scrollTo(null, scrollInfo.top);
 });
 editor.on('focus', function (cm) {
     for (var i = 0; i < onlineUsers.length; i++) {
@@ -1731,7 +1737,6 @@ function updateViewInner() {
     generateToc('toc-affix');
     generateScrollspy();
     smoothHashScroll();
-    writeHistory(ui.area.markdown);
     isDirty = false;
     clearMap();
     buildMap();
