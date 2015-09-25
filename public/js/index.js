@@ -470,6 +470,11 @@ function windowResizeInner() {
             clearMap();
             syncScrollToView();
             editor.setOption('viewportMargin', viewportMargin);
+            //add or update user cursors
+            for (var i = 0; i < onlineUsers.length; i++) {
+                if (onlineUsers[i].id != personalInfo.id)
+                    buildCursor(onlineUsers[i]);
+            }
             updateScrollspy();
         }, 100);
     }
