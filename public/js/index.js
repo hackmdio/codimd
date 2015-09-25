@@ -400,7 +400,6 @@ $(document).ready(function () {
         clearMap();
     }
     checkEditorStyle();
-    changeMode(currentMode);
     /* we need this only on touch devices */
     if (isTouchDevice) {
         /* cache dom references */
@@ -423,13 +422,18 @@ $(document).ready(function () {
 });
 //when page resize
 $(window).resize(function () {
+    checkLayout();
+    checkEditorStyle();
+    checkTocStyle();
+    checkCursorMenu();
+    windowResize();
 });
 //when page unload
 $(window).unload(function () {
-    writeHistory(ui.area.markdown);
+    updateHistoryInner();
 });
 $(window).error(function () {
-    setNeedRefresh();
+    //setNeedRefresh();
 });
 
 //when page hash change
@@ -460,9 +464,11 @@ var windowResizeDebounce = 200;
 var windowResize = _.debounce(windowResizeInner, windowResizeDebounce);
 
 function windowResizeInner() {
+    checkLayout();
     checkResponsive();
     checkEditorStyle();
     checkTocStyle();
+    checkCursorMenu();
     //refresh editor
     if (loaded) {
         editor.setOption('viewportMargin', Infinity);
@@ -478,6 +484,11 @@ function windowResizeInner() {
             updateScrollspy();
         }, 100);
     }
+}
+
+function checkLayout() {
+    var navbarHieght = $('.navbar').outerHeight();
+    $('body').css('padding-top', navbarHieght + 'px');
 }
 
 function editorHasFocus() {
