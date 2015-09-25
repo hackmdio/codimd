@@ -207,6 +207,10 @@ function postProcess(code) {
     result.find("iframe").replaceWith(function () {
         return "<noiframe>" + $(this).html() + "</noiframe>"
     });
+    //link should open in new window or tab
+    result.find('a:not([target])').attr('target', '_blank');
+    return result;
+}
         }
         }
 }
