@@ -157,7 +157,7 @@ var statusType = {
         fa: "fa-plug"
     }
 }
-var defaultMode = modeType.both;
+var defaultMode = modeType.view;
 
 //global vars
 var loaded = false;
