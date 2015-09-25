@@ -1685,8 +1685,8 @@ editor.on('blur', function (cm) {
 
 function saveInfo() {
     var scrollbarStyle = editor.getOption('scrollbarStyle');
-    var left = $(document.body).scrollLeft();
-    var top = $(document.body).scrollTop();
+    var left = $(window).scrollLeft();
+    var top = $(window).scrollTop();
     switch (currentMode) {
     case modeType.edit:
         if (scrollbarStyle == 'native') {
@@ -1716,12 +1716,11 @@ function restoreInfo() {
         var line = lastInfo.edit.cursor.line;
         var ch = lastInfo.edit.cursor.ch;
         editor.setCursor(line, ch);
-
         switch (currentMode) {
         case modeType.edit:
             if (scrollbarStyle == 'native') {
-                $(document.body).scrollLeft(lastInfo.edit.scroll.left);
-                $(document.body).scrollTop(lastInfo.edit.scroll.top);
+                $(window).scrollLeft(lastInfo.edit.scroll.left);
+                $(window).scrollTop(lastInfo.edit.scroll.top);
             } else {
                 var left = lastInfo.edit.scroll.left;
                 var top = lastInfo.edit.scroll.top;
@@ -1730,8 +1729,8 @@ function restoreInfo() {
             }
             break;
         case modeType.view:
-            $(document.body).scrollLeft(lastInfo.view.scroll.left);
-            $(document.body).scrollTop(lastInfo.view.scroll.top);
+            $(window).scrollLeft(lastInfo.view.scroll.left);
+            $(window).scrollTop(lastInfo.view.scroll.top);
             break;
         case modeType.both:
             var left = lastInfo.edit.scroll.left;
