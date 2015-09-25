@@ -625,12 +625,15 @@ function toggleMode() {
     }
 }
 
+var lastMode = null;
+
 function changeMode(type) {
     lockNavbar();
     saveInfo();
-    if (type)
+    if (type) {
+        lastMode = currentMode;
         currentMode = type;
-    checkEditorStyle();
+    }
     var responsiveClass = "col-lg-6 col-md-6 col-sm-6";
     var scrollClass = "ui-scrollable";
     ui.area.codemirror.removeClass(scrollClass);
@@ -687,6 +690,14 @@ function changeMode(type) {
 
     restoreInfo();
 
+    if (lastMode == modeType.view && currentMode == modeType.both) {
+        if (!scrollMap || !lineHeightMap)
+            buildMapInner();
+        var scrollMapNearest = closestIndex(scrollMap, lastInfo.view.scroll.top);
+        var lineHeightMapNearest = closestIndex(lineHeightMap, scrollMapNearest);
+        var height = lineHeightMapNearest * defaultTextHeight;
+        editor.scrollTo(null, height);
+    }
 
     ui.toolbar.both.removeClass("active");
     ui.toolbar.edit.removeClass("active");
@@ -713,6 +724,17 @@ function lockNavbar() {
 var unlockNavbar = _.debounce(function () {
     $('.navbar').removeClass('locked');
 }, 200);
+
+function closestIndex(arr, closestTo) {
+    var closest = Math.max.apply(null, arr); //Get the highest number in arr in case it match nothing.
+    var index = 0;
+    for (var i = 0; i < arr.length; i++) { //Loop the array
+        if (arr[i] >= closestTo && arr[i] < closest) {
+            closest = arr[i]; //Check if it's higher than your number, but lower than your closest value
+            index = i;
+        }
+    }
+    return index; // return the value
 }
 
 //button actions
