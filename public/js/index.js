@@ -891,24 +891,28 @@ ui.toolbar.both.click(function () {
 //permission
 //freely
 ui.infobar.permission.freely.click(function () {
-    updatePermission("freely");
+    emitPermission("freely");
 });
 //editable
 ui.infobar.permission.editable.click(function () {
-    updatePermission("editable");
+    emitPermission("editable");
 });
 //locked
 ui.infobar.permission.locked.click(function () {
-    updatePermission("locked");
+    emitPermission("locked");
 });
 
-function updatePermission(_permission) {
+function emitPermission(_permission) {
     if (_permission != permission) {
         socket.emit('permission', _permission);
     }
 }
 
-function checkPermission() {
+function updatePermission(newPermission) {
+    if (permission != newPermission) {
+        permission = newPermission;
+        refreshView();
+    }
     var label = null;
     var title = null;
     switch (permission) {
@@ -932,6 +936,30 @@ function checkPermission() {
         ui.infobar.permission.label.addClass('disabled');
     }
     ui.infobar.permission.label.html(label).attr('title', title);
+}
+
+function havePermission() {
+    var bool = false;
+    switch (permission) {
+    case "freely":
+        bool = true;
+        break;
+    case "editable":
+        if (!personalInfo.login) {
+            bool = false;
+        } else {
+            bool = true;
+        }
+        break;
+    case "locked":
+        if (personalInfo.userid != owner) {
+            bool = false;
+        } else {
+            bool = true;
+        }
+        break;
+    }
+    return bool;
 }
 
 //socket.io actions
@@ -981,8 +1009,7 @@ socket.on('check', function (data) {
     updateLastChange();
 });
 socket.on('permission', function (data) {
-    permission = data.permission;
-    checkPermission();
+    updatePermission(data.permission);
 });
 var docmaxlength = null;
 var otk = null;
@@ -993,11 +1020,10 @@ socket.on('refresh', function (data) {
     editor.setOption("maxLength", docmaxlength);
     otk = data.otk;
     owner = data.owner;
-    permission = data.permission;
+    updatePermission(data.permission);
     lastchangetime = data.updatetime;
     lastchangeui = ui.infobar.lastchange;
     updateLastChange();
-    checkPermission();
     if (!loaded) {
         changeMode(currentMode);
         loaded = true;
