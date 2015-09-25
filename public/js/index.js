@@ -997,7 +997,9 @@ function havePermission() {
 }
 
 //socket.io actions
-var socket = io.connect();
+var socket = io.connect({
+    timeout: 10000 //10 secs to timeout
+});
 //overwrite original event for checking login state
 var on = socket.on;
 socket.on = function () {
