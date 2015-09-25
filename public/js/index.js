@@ -536,13 +536,17 @@ function checkTocStyle() {
         var affixLeftMargin = (ui.toc.affix.outerWidth() - ui.toc.affix.width()) / 2;
         var left = ui.area.markdown.offset().left + ui.area.markdown.outerWidth() - affixLeftMargin;
         ui.toc.affix.css('left', left + 'px');
+        ui.toc.affix.css('width', rightMargin + 'px');
     } else {
         newbool = false;
     }
     //toc scrollspy
     ui.toc.toc.removeClass('scrollspy-body, scrollspy-view');
     ui.toc.affix.removeClass('scrollspy-body, scrollspy-view');
-    if (currentMode != modeType.both && !newbool) {
+    if (currentMode == modeType.both) {
+        ui.toc.toc.addClass('scrollspy-view');
+        ui.toc.affix.addClass('scrollspy-view');
+    } else if (currentMode != modeType.both && !newbool) {
         ui.toc.toc.addClass('scrollspy-body');
         ui.toc.affix.addClass('scrollspy-body');
     } else {
