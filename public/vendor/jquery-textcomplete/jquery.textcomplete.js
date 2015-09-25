@@ -554,10 +554,16 @@ if (typeof jQuery === 'undefined') {
       if (!this.shown) { return; }
       if (this.isUp(e)) {
         e.preventDefault();
-        this._up();
+        if(typeof upSideDown != 'undefined' && upSideDown)
+          this._down();
+        else
+          this._up();
       } else if (this.isDown(e)) {
         e.preventDefault();
-        this._down();
+        if(typeof upSideDown != 'undefined' && upSideDown)
+          this._up();
+        else
+          this._down();
       } else if (this.isEnter(e)) {
         e.preventDefault();
         this._enter();
@@ -633,7 +639,7 @@ if (typeof jQuery === 'undefined') {
     },
 
     _getActiveElement: function () {
-      return this.$el.children('.textcomplete-item:nth(' + this._index + ')');
+      return this.$el.children('.textcomplete-item[data-index=' + this._index + ']');
     },
 
     _setScroll: function () {
@@ -661,20 +667,11 @@ if (typeof jQuery === 'undefined') {
             this.data.push(datum);
             item.push(datum.strategy.template(datum.value));
           }
-        if(typeof upSideDown != 'undefined' && upSideDown) {
-          for (i = item.length - 1; i >= 0; i--) {
-              html += '<li class="textcomplete-item" data-index="' + i + '"><a>';
-            html += item[i];
-            html += '</a></li>';
-          }
-            this._index = this.data.length - 1;
-        } else {
-            for (i = 0; i < item.length; i++) {
+          for (i = 0; i < item.length; i++) {
                 html += '<li class="textcomplete-item" data-index="' + i + '"><a>';
             html += item[i];
             html += '</a></li>';
-            }
-        }
+          }
       return html;
     },
 

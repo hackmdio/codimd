@@ -1353,15 +1353,19 @@ function emitUserStatus(force) {
 }
 
 function checkCursorTag(coord, ele) {
+    if (!ele) return;
     var curosrtagMargin = 60;
-    var viewport = editor.getViewport();
-    var viewportHeight = (viewport.to - viewport.from) * editor.defaultTextHeight();
+	var cursor = editor.getCursor();
+    //var viewport = editor.getViewport();
+    //var viewportHeight = (viewport.to - viewport.from) * editor.defaultTextHeight();
     var editorWidth = ui.area.codemirror.width();
     var editorHeight = ui.area.codemirror.height();
     var width = ele.width();
     var height = ele.height();
+    if (!lineHeightMap)
+        buildMapInner();
     var left = coord.left;
-    var top = coord.top;
+    var top = lineHeightMap[cursor.line] * defaultTextHeight; //coord.top;
     var offsetLeft = -3;
     var offsetTop = defaultTextHeight;
     var statusBarHeight = 0;
@@ -1371,8 +1375,8 @@ function checkCursorTag(coord, ele) {
         if (left + width + offsetLeft > editorWidth - curosrtagMargin) {
             offsetLeft = -(width + 10);
         }
-            offsetTop = -(height);
         if (top + height + offsetTop > Math.max(editor.doc.height, editorHeight) + curosrtagMargin - statusBarHeight * 2 && top - height > curosrtagMargin) {
+            offsetTop = -(height + 4);
         }
     }
     ele[0].style.left = offsetLeft + 'px';
@@ -1863,10 +1867,11 @@ if ($('.cursor-menu').length <= 0) {
 }
 
 var upSideDown = false;
-var menuMargin = 60;
 
 function checkCursorMenu() {
+    var menuMargin = 60;
     var dropdown = $('.cursor-menu .dropdown-menu');
+    if (dropdown.length <= 0) return;
     var cursor = editor.getCursor();
     var scrollInfo = editor.getScrollInfo();
     if (!dropdown.hasClass('other-cursor'))
@@ -1877,14 +1882,16 @@ function checkCursorMenu() {
         line: cursor.line,
         ch: cursor.ch
     }, 'windows');
-    var viewport = editor.getViewport();
-    var viewportHeight = (viewport.to - viewport.from) * editor.defaultTextHeight();
+    //var viewport = editor.getViewport();
+    //var viewportHeight = (viewport.to - viewport.from) * editor.defaultTextHeight();
     var editorWidth = ui.area.codemirror.width();
     var editorHeight = ui.area.codemirror.height();
-    var width = dropdown.width();
-    var height = dropdown.height();
+    var width = dropdown.outerWidth();
+    var height = dropdown.outerHeight();
+    if (!lineHeightMap)
+        buildMapInner();
     var left = coord.left;
-    var top = coord.top;
+    var top = lineHeightMap[cursor.line] * defaultTextHeight; //coord.top;
     var offsetLeft = 0;
     var offsetTop = defaultTextHeight;
     var statusBarHeight = 0;
@@ -1892,9 +1899,15 @@ function checkCursorMenu() {
         statusBarHeight = statusBar.outerHeight();
     if (left + width + offsetLeft > editorWidth - menuMargin)
         offsetLeft = -(left + width - editorWidth + menuMargin);
-        offsetTop = -(height + defaultTextHeight);
     if (top + height + offsetTop > Math.max(editor.doc.height, editorHeight) + menuMargin - statusBarHeight * 2 && top - height > menuMargin) {
+        offsetTop = -(height + 4);
         upSideDown = true;
+        var items = dropdown.find('.textcomplete-item');
+        items.sort(function (a, b) {
+            return $(b).attr('data-index') - $(a).attr('data-index');
+        });
+        dropdown.html(items);
+        dropdown.scrollTop(dropdown[0].scrollHeight);
     } else {
         upSideDown = false;
     }
