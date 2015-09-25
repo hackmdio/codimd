@@ -470,7 +470,8 @@ function windowResizeInner() {
             clearMap();
             syncScrollToView();
             editor.setOption('viewportMargin', viewportMargin);
-        }, windowResizeDelay);
+            updateScrollspy();
+        }, 100);
     }
 }
 
@@ -801,6 +802,32 @@ function generateScrollspy() {
     }
     $(document.body).scroll();
     ui.area.view.scroll();
+}
+
+function updateScrollspy() {
+    var headers = ui.area.markdown.find('h1, h2, h3').toArray();
+    var headerMap = [];
+    for (var i = 0; i < headers.length; i++) {
+        headerMap.push($(headers[i]).offset().top - parseInt($(headers[i]).css('margin-top')));
+    }
+    applyScrollspyActive($(window).scrollTop(), headerMap, headers, 
+    $('.scrollspy-body'), 0);
+    var offset = ui.area.view.scrollTop() - ui.area.view.offset().top;
+    applyScrollspyActive(ui.area.view.scrollTop(), headerMap, headers, 
+    $('.scrollspy-view'), offset - 10);
+}
+
+function applyScrollspyActive(top, headerMap, headers, target, offset) {
+    var index = 0;
+    for(var i = headerMap.length - 1; i >= 0; i--) {
+        if(top >= (headerMap[i] + offset) && headerMap[i + 1] && top < (headerMap[i + 1] + offset)) {
+            index = i;
+            break;
+        }
+    }
+    var header = $(headers[index]);
+    var active = target.find('a[href="#' + header.attr('id') + '"]');
+    active.closest('li').addClass('active').parent().closest('li').addClass('active').parent().closest('li').addClass('active');
 }
 
 //fix for wrong autofocus
@@ -1736,6 +1763,7 @@ function updateViewInner() {
     generateToc('toc');
     generateToc('toc-affix');
     generateScrollspy();
+    updateScrollspy();
     smoothHashScroll();
     isDirty = false;
     clearMap();
