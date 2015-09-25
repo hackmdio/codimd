@@ -413,9 +413,9 @@ function highlightRender(code, lang) {
         var lines = result.value.split('\n');
         var linenumbers = [];
         for (var i = 0; i < lines.length - 1; i++) {
-            linenumbers[i] = "<div class='linenumber'>" + (i + 1) + "</div>";
+            linenumbers[i] = "<span data-linenumber='" + (i + 1) + "'></span>";
         }
-        var linegutter = "<div class='gutter'>" + linenumbers.join('\n') + "</div>";
+        var linegutter = "<div class='gutter linenumber'>" + linenumbers.join('\n') + "</div>";
         result.value = "<div class='wrapper'>" + linegutter + "<div class='code'>" + result.value + "</div></div>";
     }
     return result.value;

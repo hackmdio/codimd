@@ -32,7 +32,7 @@
     user-select: none;
 }
 
-.markdown-body pre code .gutter .linenumber {
+.markdown-body pre code .gutter.linenumber {
     text-align: right;
     position: relative;
     display: inline-block;
@@ -44,6 +44,10 @@
     box-sizing: content-box;
     color: #afafaf !important;
     border-right: 3px solid #6ce26c !important;
+}
+
+.markdown-body pre code .gutter.linenumber > span:before {
+    content: attr(data-linenumber);
 }
 
 .markdown-body pre code .code {
