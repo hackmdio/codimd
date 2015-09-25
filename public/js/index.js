@@ -352,9 +352,32 @@ ui.area.codemirror.on('touchstart', function () {
     idle.onActive();
 });
 
+var haveUnreadChanges = false;
+
+function setHaveUnreadChanges(bool) {
+    if (!loaded) return;
+    if (bool && (idle.isAway || Visibility.hidden())) {
+        haveUnreadChanges = true;
+    } else if (!bool && !idle.isAway && !Visibility.hidden()) {
+        haveUnreadChanges = false;
+    }
+}
+
+function updateTitleReminder() {
+    if (!loaded) return;
+    if (haveUnreadChanges) {
+        document.title = '• ' + renderTitle(ui.area.view);
+    } else {
+        document.title = renderTitle(ui.area.view);
+    }
+}
+
 function idleStateChange() {
     emitUserStatus();
     updateOnlineStatus();
+    if (!idle.isAway)
+        setHaveUnreadChanges(false);
+    updateTitleReminder();
 }
 
 function setNeedRefresh() {
@@ -381,7 +404,9 @@ Visibility.change(function (e, state) {
             editor.focus();
             wasFocus = false;
         }
+        setHaveUnreadChanges(false);
     }
+    updateTitleReminder();
 });
 
 //when page ready
@@ -867,8 +892,8 @@ function generateScrollspy() {
         ui.toc.affix.hide();
         ui.toc.toc.show();
     }
-    $(document.body).scroll();
-    ui.area.view.scroll();
+    //$(document.body).scroll();
+    //ui.area.view.scroll();
 }
 
 function updateScrollspy() {
@@ -1674,24 +1699,19 @@ editor.on('beforeChange', function (cm, change) {
     }
     var isIgnoreEmitEvent = (ignoreEmitEvents.indexOf(change.origin) != -1);
     if (!isIgnoreEmitEvent) {
-        switch (permission) {
-        case "freely":
-            //na
-            break;
-        case "editable":
-            if (!personalInfo.login) {
-                change.canceled = true;
-                $('.signin-modal').modal('show');
-            }
-            break;
-        case "locked":
-            if (personalInfo.userid != owner) {
-                change.canceled = true;
-                $('.locked-modal').modal('show');
-            }
-            break;
+        if (!havePermission()) {
+            change.canceled = true;
+            $('.signin-modal').modal('show');
+        }
+    } else {
+        if (change.origin == 'ignoreHistory') {
+            setHaveUnreadChanges(true);
+            updateTitleReminder();
         }
     }
+    if (cmClient && !socket.connected)
+        cmClient.editorAdapter.ignoreNextChange = true;
+});
 editor.on('changes', function (cm, changes) {
     updateHistory();
     preventSyncScroll = true;
@@ -1836,6 +1856,8 @@ function updateViewInner() {
     isDirty = false;
     clearMap();
     //buildMap();
+    updateTitleReminder();
+}
 
 var updateHistoryDebounce = 600;
 
