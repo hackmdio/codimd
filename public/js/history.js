@@ -123,8 +123,10 @@ function addHistory(id, text, time, tags, notehistory) {
 
 function removeHistory(id, notehistory) {
     for (var i = 0; i < notehistory.length; i++) {
-        if (notehistory[i].id == id)
+        if (notehistory[i].id == id) {
             notehistory.splice(i, 1);
+			i--;
+		}
     }
     return notehistory;
 }
