@@ -273,6 +273,50 @@ var source = $("#template").html();
 var template = Handlebars.compile(source);
 var context = {
     release: [
+		{
+            version: "0.3.3",
+            tag: "moon-festival",
+            date: moment("201509271400", 'YYYYMMDDhhmm').fromNow(),
+            detail: [
+                {
+                    title: "Features",
+                    item: [
+                            "+ Added status bar below editor",
+                            "+ Added resizable grid in both mode",
+                            "+ Added title reminder if have unread changes",
+                            "+ Support todo list change in the view mode",
+                            "+ Support export to HTML",
+                            "+ Changed to a new theme, One Dark(modified version)"
+                        ]
+                    },
+                {
+                    title: "Enhancements",
+                    item: [
+                            "* Support extra tags in todo list",
+                            "* Changed overall font styles",
+                            "* Optimized build sync scroll map, gain lots better performance",
+                            "* Support and improved print styles",
+                            "* Support to use CDN",
+                            "* Image and link will href to new tab ors window",
+                            "* Support auto scroll to corresponding position when change mode from view to edit",
+                            "* Minor UI/UX tweaks"
+                        ]
+                    },
+				{
+                    title: "Fixes",
+                    item: [
+                            "* Change DB schema to support long title",
+                            "* Change editable permission icon to avoid misunderstanding",
+                            "* Fixed some issues in OT and reconnection",
+                            "* Fixed cursor menu and cursor tag are not calculate doc height properly",
+                            "* Fixed scroll top might not animate",
+                            "* Fixed scroll top not save and restore properly",
+                            "* Fixed history might not delete or clear properly",
+                            "* Fixed server might not clean client properly"
+                        ]
+                    }
+                ]
+            },
         {
             version: "0.3.2",
             tag: "typhoon",
