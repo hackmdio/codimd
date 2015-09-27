@@ -1,4 +1,4 @@
-HackMD 0.3.2
+HackMD 0.3.3
 ===
 
 [![Join the chat at https://gitter.im/hackmdio/hackmd](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -9,18 +9,21 @@ Still in early stage, feel free to fork or contribute to this.
 
 Thanks for your using! :smile:
 
+Prerequisite
+---
+- Node.js 0.10.x or up (not test in version 4)
+- PostgreSQL 9.3.x or 9.4.x
+- MongoDB 3.0.x
+
 Get started
 ---
-1. Install PostgreSQL and MongoDB (yes, currently we need both)
-2. Import database schema, see more on below
-3. Setup the configs, see more on below
-4. Setup environment variables, which will overwrite the configs
-5. Run the server as you like (node, forever, pm2)
-
-Database dependency
----
-- PostgreSQL 9.3.6 or 9.4.1
-- MongoDB 3.0.2
+1. Download a release and unzip or clone into a directory
+2. Enter the directory and type `npm install`, will install all the dependencies
+3. Install PostgreSQL and MongoDB (yes, currently we need both)
+4. Import database schema, see more on below
+5. Setup the configs, see more on below
+6. Setup environment variables, which will overwrite the configs
+7. Run the server as you like (node, forever, pm2)
 
 Import database schema
 ---
