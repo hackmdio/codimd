@@ -247,7 +247,7 @@ ot.CodeMirrorAdapter = (function (global) {
 
     CodeMirrorAdapter.prototype.setSelection = function (selection) {
         var ranges = [];
-        for (var i = 0; i < selection.ranges.length; i++) {
+        for (var i = 0; selection && i < selection.ranges.length; i++) {
             var range = selection.ranges[i];
             ranges[i] = {
                 anchor: this.cm.posFromIndex(range.anchor),
