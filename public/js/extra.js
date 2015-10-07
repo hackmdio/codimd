@@ -471,11 +471,16 @@ function highlightRender(code, lang) {
     } else {
         var result = hljs.highlight(reallang, code);
     }
-    if (/\=$/.test(lang)) {
+	var showlinenumbers = /\=$|(\d+)$/.test(lang);
+    if (showlinenumbers) {
+		var startnumber = 1;
+		var matches = lang.match(/\=(\d+)$/);
+		if (matches)
+			startnumber = parseInt(matches[1]);
         var lines = result.value.split('\n');
         var linenumbers = [];
         for (var i = 0; i < lines.length - 1; i++) {
-            linenumbers[i] = "<span data-linenumber='" + (i + 1) + "'></span>";
+            linenumbers[i] = "<span data-linenumber='" + (startnumber + i) + "'></span>";
         }
         var linegutter = "<div class='gutter linenumber'>" + linenumbers.join('\n') + "</div>";
         result.value = "<div class='wrapper'>" + linegutter + "<div class='code'>" + result.value + "</div></div>";
