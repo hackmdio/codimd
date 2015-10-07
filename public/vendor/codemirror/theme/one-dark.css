@@ -164,6 +164,7 @@ borrow some color from tomorrow-night-eighties
 .cm-s-one-dark .CodeMirror-overwrite .CodeMirror-cursor {
   border-left: none !important;
   border-bottom: 1px solid #fff;
+  width: 0.5em;
 }
 .cm-s-one-dark.CodeMirror .CodeMirror {
   background: transparent;
