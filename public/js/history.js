@@ -111,12 +111,13 @@ function clearDuplicatedHistory(notehistory) {
     return newnotehistory;
 }
 
-function addHistory(id, text, time, tags, notehistory) {
+function addHistory(id, text, time, tags, pinned, notehistory) {
     notehistory.push({
         id: id,
         text: text,
         time: time,
-        tags: tags
+        tags: tags,
+		pinned: pinned
     });
     return notehistory;
 }
@@ -232,8 +233,16 @@ function renderHistory(view) {
 
 function generateHistory(view, notehistory) {
     var info = renderHistory(view);
+	//keep any pinned data
+	var pinned = false;
+	for (var i = 0; i < notehistory.length; i++) {
+		if (notehistory[i].id == info.id && notehistory[i].pinned) {
+			pinned = true;
+			break;
+		}
+	}
     notehistory = removeHistory(info.id, notehistory);
-    notehistory = addHistory(info.id, info.text, info.time, info.tags, notehistory);
+    notehistory = addHistory(info.id, info.text, info.time, info.tags, pinned, notehistory);
     notehistory = clearDuplicatedHistory(notehistory);
     return notehistory;
 }

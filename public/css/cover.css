@@ -257,6 +257,22 @@ input {
 .ui-history-close:hover {
     opacity: 1;
 }
+.ui-history-pin {
+    position: absolute;
+    left: 14px;
+    top: 15px;
+    font-size: 16px;
+    opacity: 0.2;
+	transition: opacity 0.2s ease-in-out;
+	-webkit-transition: opacity 0.2s ease-in-out;
+}
+.item:hover .ui-history-pin:hover {
+    opacity: 1;
+}
+.item .ui-history-pin.active {
+	opacity: 1;
+    color: #d43f3a;
+}
 .ui-or {
     margin-top: 5px;
     margin-bottom: 5px;

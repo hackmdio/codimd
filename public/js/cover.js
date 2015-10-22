@@ -1,9 +1,10 @@
 var options = {
-    valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags'],
+    valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
     item: '<li class="col-xs-12 col-sm-6 col-md-6 col-lg-4">\
             <span class="id" style="display:none;"></span>\
             <a href="#">\
                 <div class="item">\
+					<div class="ui-history-pin fa fa-thumb-tack fa-fw"></div>\
                     <div class="ui-history-close fa fa-close fa-fw" data-toggle="modal" data-target=".delete-modal"></div>\
                     <div class="content">\
                         <h4 class="text"></h4>\
@@ -83,17 +84,41 @@ function checkHistoryList() {
 
 function parseHistoryCallback(list, notehistory) {
     checkHistoryList();
-    list.sort('timestamp', {
-        order: "desc"
-    });
+	//sort by pinned then timestamp
+	list.sort('', {
+        sortFunction: function (a, b) {
+			var notea = a.values();
+            var noteb = b.values();
+			if (notea.pinned && !noteb.pinned) {
+                return -1;
+            } else if (!notea.pinned && noteb.pinned) {
+                return 1;
+            } else {
+				if (notea.timestamp > noteb.timestamp) {
+                	return -1;
+				} else if (notea.timestamp < noteb.timestamp) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		}
+	});
     var filtertags = [];
     $(".item").each(function (key, value) {
         var a = $(this).closest("a");
+        var pin = $(this).find(".ui-history-pin");
         var id = a.siblings("span").html();
         var tagsEl = $(this).find(".tags");
         var item = historyList.get('id', id);
         if (item.length > 0 && item[0]) {
             var values = item[0].values();
+			//parse pinned
+			if (values.pinned) {
+				pin.addClass('active');
+			} else {
+				pin.removeClass('active');
+			}
             //parse link to element a
             a.attr('href', '/' + values.id);
             //parse tags
@@ -124,6 +149,34 @@ function parseHistoryCallback(list, notehistory) {
         $('.ui-delete-modal-item').html('<i class="fa fa-file-text"></i> ' + value.text + '<br><i class="fa fa-clock-o"></i> ' + value.time);
         clearHistory = false;
         deleteId = id;
+    });
+	$(".ui-history-pin").click(function (e) {
+        e.preventDefault();
+		var $this = $(this);
+        var id = $this.closest("a").siblings("span").html();
+		var item = list.get('id', id)[0];
+        var values = item.values();
+		var pinned = values.pinned;
+        if (!values.pinned) {
+			pinned = true;
+			item._values.pinned = true;
+		} else {
+			pinned = false;
+			item._values.pinned = false;
+		}
+		getHistory(function (notehistory) {
+			for(var i = 0; i < notehistory.length; i++) {
+				if (notehistory[i].id == id) {
+					notehistory[i].pinned = pinned;
+					break;
+				}
+			}
+            saveHistory(notehistory);
+            if (pinned)
+				$this.addClass('active');
+			else
+				$this.removeClass('active');
+        });
     });
     buildTagsFilter(filtertags);
 }
