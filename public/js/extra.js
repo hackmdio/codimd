@@ -210,6 +210,16 @@ function postProcess(code) {
     });
     //link should open in new window or tab
     result.find('a:not([target])').attr('target', '_blank');
+	//update continue line numbers
+	var linenumberdivs = result.find('.gutter.linenumber').toArray();
+	for (var i = 0; i < linenumberdivs.length; i++) {
+		if ($(linenumberdivs[i]).hasClass('continue')) {
+			var startnumber = linenumberdivs[i - 1] ? parseInt($(linenumberdivs[i - 1]).find('> span').last().attr('data-linenumber')) : 0;
+			$(linenumberdivs[i]).find('> span').each(function(key, value) {
+				$(value).attr('data-linenumber', startnumber + key + 1);
+			});
+		}
+	}
     return result;
 }
 
@@ -464,14 +474,14 @@ function highlightRender(code, lang) {
     } else if (lang == 'flow') {
         return '<div class="flow-chart raw">' + code + '</div>';
     }
-    var reallang = lang.replace('=', '');
+    var reallang = lang.replace(/\=$|\=\d+$|\=\+$/, '');
     var languages = hljs.listLanguages();
     if (languages.indexOf(reallang) == -1) {
         var result = hljs.highlightAuto(code);
     } else {
         var result = hljs.highlight(reallang, code);
     }
-	var showlinenumbers = /\=$|(\d+)$/.test(lang);
+	var showlinenumbers = /\=$|\=\d+$|\=\+$/.test(lang);
     if (showlinenumbers) {
 		var startnumber = 1;
 		var matches = lang.match(/\=(\d+)$/);
@@ -482,7 +492,8 @@ function highlightRender(code, lang) {
         for (var i = 0; i < lines.length - 1; i++) {
             linenumbers[i] = "<span data-linenumber='" + (startnumber + i) + "'></span>";
         }
-        var linegutter = "<div class='gutter linenumber'>" + linenumbers.join('\n') + "</div>";
+		var continuelinenumber = /\=\+$/.test(lang);
+        var linegutter = "<div class='gutter linenumber" + (continuelinenumber ? " continue" : "") + "'>" + linenumbers.join('\n') + "</div>";
         result.value = "<div class='wrapper'>" + linegutter + "<div class='code'>" + result.value + "</div></div>";
     }
     return result.value;
@@ -541,7 +552,7 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
         }
 
         langName = Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(Remarkable.utils.unescapeMd(fenceName)));
-        langClass = ' class="' + langPrefix + langName.replace('=', '') + ' hljs"';
+        langClass = ' class="' + langPrefix + langName.replace(/\=$|\=\d+$|\=\+$/, '') + ' hljs"';
     }
 
     if (options.highlight) {

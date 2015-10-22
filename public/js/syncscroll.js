@@ -102,7 +102,7 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
         }
 
         langName = Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(Remarkable.utils.unescapeMd(fenceName)));
-        langClass = ' class="' + langPrefix + langName.replace('=', '') + ' hljs"';
+        langClass = ' class="' + langPrefix + langName.replace(/\=$|\=\d+$|\=\+$/, '') + ' hljs"';
     }
 
     if (options.highlight) {
