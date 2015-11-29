@@ -1,0 +1,32 @@
+{
+  "name": "hackmd",
+  "description": "Realtime collaborative markdown notes on all platforms.",
+  "main": "app.js",
+  "authors": [
+    "jackycute"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/hackmdio/hackmd",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "jquery": "~2.1.4",
+    "font-awesome": "~4.5.0",
+    "reveal.js": "~3.2.0",
+    "gsap": "greensock#~1.18.0",
+    "jquery-mousewheel": "~3.1.13",
+    "spin.js": "~2.3.2",
+    "moment": "~2.10.6",
+    "handlebars": "~4.0.5",
+    "js-url": "~2.0.2"
+  }
+}
