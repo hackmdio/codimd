@@ -134,6 +134,7 @@ passport.deserializeUser(function (id, done) {
 //routes
 //static files
 app.use('/', express.static(__dirname + '/public'));
+app.use('/vendor/', express.static(__dirname + '/bower_components'));
 //template files
 app.set('views', __dirname + '/public');
 //set render engine
