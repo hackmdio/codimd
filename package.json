@@ -15,7 +15,7 @@
     "compression": "^1.4.3",
     "connect-mongo": "^0.8.1",
     "kerberos": "0.0.17",
-    "cookie": "0.1.2",
+    "cookie": "0.2.3",
     "cookie-parser": "1.4.0",
     "ejs": "^1.0.0",
     "emojify.js": "^1.0.1",
