@@ -18,7 +18,7 @@ Prerequisite
 Get started
 ---
 1. Download a release and unzip or clone into a directory
-2. Enter the directory and type `npm install`, will install all the dependencies
+2. Enter the directory and type `npm install && bower install`, will install all the dependencies
 3. Install PostgreSQL and MongoDB (yes, currently we need both)
 4. Import database schema, see more on below
 5. Setup the configs, see more on below
