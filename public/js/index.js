@@ -283,6 +283,7 @@ var ui = {
         shortStatus: $(".ui-short-status"),
         status: $(".ui-status"),
         new: $(".ui-new"),
+        slide: $(".ui-slide"),
         publish: $(".ui-publish"),
         download: {
             markdown: $(".ui-download-markdown"),
@@ -792,6 +793,7 @@ function closestIndex(arr, closestTo) {
 var url = window.location.pathname;
 //share
 ui.toolbar.publish.attr("href", url + "/publish");
+ui.toolbar.slide.attr("href", url + "/slide");
 //download
 //markdown
 ui.toolbar.download.markdown.click(function () {
