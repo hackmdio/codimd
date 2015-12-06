@@ -209,7 +209,7 @@ function postProcess(code) {
         return "<noiframe>" + $(this).html() + "</noiframe>"
     });
     //link should open in new window or tab
-    result.find('a:not([target])').attr('target', '_blank');
+    result.find('a:not([href^=#]):not([target])').attr('target', '_blank');
 	//update continue line numbers
 	var linenumberdivs = result.find('.gutter.linenumber').toArray();
 	for (var i = 0; i < linenumberdivs.length; i++) {
@@ -374,7 +374,7 @@ function smoothHashScroll() {
         if (hash) {
             $element.on('click', function (e) {
                 // store hash
-                var hash = this.hash;
+                var hash = decodeURIComponent(this.hash);
                 if ($(hash).length <= 0) return;
                 // prevent default anchor click behavior
                 e.preventDefault();
