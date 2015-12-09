@@ -19,7 +19,7 @@
     "cookie-parser": "1.4.0",
     "ejs": "^1.0.0",
     "emojify.js": "^1.0.1",
-    "express": "4.x",
+    "express": ">=4.5",
     "express-session": "^1.11.1",
     "formidable": "^1.0.17",
     "highlight.js": "^8.4.0",
