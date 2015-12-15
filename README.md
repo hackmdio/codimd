@@ -11,9 +11,10 @@ Thanks for your using! :smile:
 
 Prerequisite
 ---
-- Node.js 0.10.x or up (not test in version 4)
+- Node.js 0.10.x or up (test up to 5.2.0)
 - PostgreSQL 9.3.x or 9.4.x
 - MongoDB 3.0.x
+- npm and bower
 
 Get started
 ---
