@@ -790,7 +790,7 @@ function closestIndex(arr, closestTo) {
 }
 
 //button actions
-var url = window.location.pathname;
+var url = window.location.protocol + '//' + window.location.host + window.location.pathname;
 //share
 ui.toolbar.publish.attr("href", url + "/publish");
 ui.toolbar.slide.attr("href", url + "/slide");
@@ -817,7 +817,10 @@ ui.toolbar.export.dropbox.click(function () {
                 'url': url + "/download",
                 'filename': filename
             }
-        ]
+        ],
+        error: function (errorMessage) {
+            console.error(errorMessage);
+        }
     };
     Dropbox.save(options);
 });
