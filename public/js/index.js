@@ -1722,7 +1722,14 @@ editor.on('beforeChange', function (cm, change) {
     if (!isIgnoreEmitEvent) {
         if (!havePermission()) {
             change.canceled = true;
-            $('.signin-modal').modal('show');
+            switch (permission) {
+            case "editable":
+                $('.signin-modal').modal('show');
+                break;
+            case "locked":
+                $('.locked-modal').modal('show');
+                break;
+            }
         }
     } else {
         if (change.origin == 'ignoreHistory') {
