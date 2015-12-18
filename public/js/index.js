@@ -18,6 +18,7 @@ var defaultExtraKeys = {
 var idleTime = 300000; //5 mins
 var updateViewDebounce = 200;
 var cursorActivityDebounce = 50;
+var cursorAnimatePeriod = 100;
 var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile'];
 var supportHeaders = [
     {
@@ -1665,10 +1666,7 @@ function buildCursor(user) {
         var cursortag = cursor.find('.cursortag');
         cursortag.find('i').removeClass().addClass('fa').addClass(iconClass);
         cursortag.find(".name").text(user.name);
-
-        cursor[0].style.left = coord.left + 'px';
-        cursor[0].style.top = coord.top + 'px';
-        /*
+		
         if (cursor.css('display') === 'none') {
             cursor[0].style.left = coord.left + 'px';
             cursor[0].style.top = coord.top + 'px';
@@ -1681,7 +1679,6 @@ function buildCursor(user) {
                 queue: false
             });
         }
-        */
 
         if (user.idle && cursor.css('display') !== 'none')
             cursor.stop(true).fadeOut();
