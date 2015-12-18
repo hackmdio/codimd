@@ -799,7 +799,9 @@ var url = window.location.protocol + '//' + window.location.host + window.locati
 ui.toolbar.publish.attr("href", url + "/publish");
 //download
 //markdown
-ui.toolbar.download.markdown.click(function () {
+ui.toolbar.download.markdown.click(function (e) {
+	e.preventDefault();
+	e.stopPropagation();
     var filename = renderFilename(ui.area.markdown) + '.md';
     var markdown = editor.getValue();
     var blob = new Blob([markdown], {
@@ -808,7 +810,9 @@ ui.toolbar.download.markdown.click(function () {
     saveAs(blob, filename);
 });
 //html
-ui.toolbar.download.html.click(function () {
+ui.toolbar.download.html.click(function (e) {
+	e.preventDefault();
+	e.stopPropagation();
     exportToHTML(ui.area.markdown);
 });
 //export to dropbox
