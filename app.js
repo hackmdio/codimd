@@ -358,10 +358,8 @@ app.get("/features", response.showFeatures);
 app.get("/s/:shortid", response.showPublishNote);
 //publish note actions
 app.get("/s/:shortid/:action", response.publishNoteActions);
-
-//add p
+//get publish slide
 app.get("/p/:shortid", response.showPublishSlide);
-
 //get note by id
 app.get("/:noteId", response.showNote);
 //note actions

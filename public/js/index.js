@@ -283,7 +283,6 @@ var ui = {
         shortStatus: $(".ui-short-status"),
         status: $(".ui-status"),
         new: $(".ui-new"),
-        slide: $(".ui-slide"),
         publish: $(".ui-publish"),
         download: {
             markdown: $(".ui-download-markdown"),
@@ -295,6 +294,10 @@ var ui = {
         import: {
             dropbox: $(".ui-import-dropbox"),
             clipboard: $(".ui-import-clipboard")
+        },
+        beta: {
+            pdf: $(".ui-beta-pdf"),
+            slide: $(".ui-beta-slide")
         },
         mode: $(".ui-mode"),
         edit: $(".ui-edit"),
@@ -793,7 +796,6 @@ function closestIndex(arr, closestTo) {
 var url = window.location.protocol + '//' + window.location.host + window.location.pathname;
 //share
 ui.toolbar.publish.attr("href", url + "/publish");
-ui.toolbar.slide.attr("href", url + "/slide");
 //download
 //markdown
 ui.toolbar.download.markdown.click(function () {
@@ -853,6 +855,11 @@ ui.toolbar.uploadImage.bind('change', function (e) {
 ui.toc.dropdown.click(function (e) {
     e.stopPropagation();
 });
+//beta
+//pdf
+ui.toolbar.beta.pdf.attr("download", "").attr("href", url + "/pdf");
+//slide
+ui.toolbar.beta.slide.attr("href", url + "/slide");
 
 function scrollToTop() {
     if (currentMode == modeType.both) {

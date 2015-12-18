@@ -2,7 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Reveal.js</title>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="mobile-web-app-capable" content="yes">
+        <title>{{title}}</title>
+        <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+        <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+        
         <link rel="stylesheet" href="/vendor/reveal.js/css/reveal.css">
         <link rel="stylesheet" href="/vendor/reveal.js/{{{theme}}}" id="theme">
         <!-- For syntax highlighting -->
@@ -19,7 +25,7 @@
         <div class="reveal">
             <div class="slides">{{{slides}}}</div>
         </div>
-
+        
         <script src="/vendor/reveal.js/lib/js/head.min.js"></script>
         <script src="/vendor/reveal.js/js/reveal.js"></script>
         <script src="/vendor/string.min.js"></script>
@@ -57,7 +63,7 @@
               progress: true,
               history: true,
               center: true,
-              transition: 'default',
+              transition: 'slide',
               dependencies: deps
             };
 
