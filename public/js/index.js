@@ -2038,7 +2038,7 @@ function partialUpdate(src, tar, des) {
                 console.log(removeElements[j].outerHTML);
             }
             if (removeElements[j])
-                removeElements[j].remove();
+                $(removeElements[j]).remove();
         }
     }
 }
