@@ -1,0 +1,16 @@
+.reveal,
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft JhengHei", Meiryo, "ＭＳ ゴシック", "MS Gothic", sans-serif;
+}
+.reveal pre,
+.reveal code {
+    font-family: "Source Code Pro", Consolas, monaco, "Microsoft JhengHei", Meiryo, "ＭＳ ゴシック", "MS Gothic", monospace;
+    letter-spacing: 0.025em;
+    line-height: 1.25;
+    -webkit-overflow-scrolling: touch;
+}
