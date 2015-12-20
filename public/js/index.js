@@ -86,6 +86,10 @@ var supportReferrals = [
     {
         text: '![image text](url "title")',
         search: '![]()'
+    },
+    {
+        text: '[TOC]',
+        search: '[]'
     }
 ];
 var supportExternals = [
@@ -1876,6 +1880,7 @@ function updateViewInner() {
     finishView(ui.area.view);
     autoLinkify(ui.area.view);
     deduplicatedHeaderId(ui.area.view);
+    renderTOC(ui.area.view);
     generateToc('toc');
     generateToc('toc-affix');
     generateScrollspy();

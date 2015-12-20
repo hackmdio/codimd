@@ -10,6 +10,7 @@
         this.options = options || {};
         this.tocLevel = parseInt(options.level) || 0;
         this.tocClass = options['class'] || 'toc';
+        this.ulClass = options['ulClass'];
         this.tocTop = parseInt(options.top) || 0;
         this.elChilds = this.el.children;
         if (!this.elChilds.length) return;
@@ -80,7 +81,10 @@
                         this._tempLists.length = this._tempLists.length - y;
                     } else {
                         this._tempLists.push(this._elTitleElement);
-                        this.tocContent += '<ul class="nav">';
+                        if (this.ulClass)
+                            this.tocContent += '<ul class="' + this.ulClass + '">';
+                        else
+                            this.tocContent += '<ul>';
                     }
                 } else {
                     this.tocContent += '</li>';
@@ -93,7 +97,10 @@
                 }
             }
         }
-        this.tocContent = '<ul class="nav">' + this.tocContent + '</ul>';
+        if (this.ulClass)
+            this.tocContent = '<ul class="' + this.ulClass + '">' + this.tocContent + '</ul>';
+        else
+            this.tocContent = '<ul>' + this.tocContent + '</ul>';
     };
 
     Toc.prototype._showToc = function () {

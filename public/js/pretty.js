@@ -6,6 +6,7 @@ $(document.body).show();
 finishView(markdown);
 autoLinkify(markdown);
 deduplicatedHeaderId(markdown);
+renderTOC(markdown);
 generateToc('toc');
 generateToc('toc-affix');
 smoothHashScroll();

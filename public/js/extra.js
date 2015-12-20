@@ -341,6 +341,7 @@ function generateToc(id) {
         'level': 3,
         'top': -1,
         'class': 'toc',
+        'ulClass': 'nav',
         'targetId': id
     });
     if (target.text() == 'undefined')
@@ -457,6 +458,26 @@ function deduplicatedHeaderId(view) {
                 $headerLink.attr('title', newId);
             }
         }
+    }
+}
+
+function renderTOC(view) {
+    var tocs = view.find('.toc').toArray();
+	for (var i = 0; i < tocs.length; i++) {
+        var toc = $(tocs[i]);
+        var id = 'toc' + i;
+        toc.attr('id', id);
+        var target = $('#' + id);
+        target.html('');
+        new Toc('doc', {
+            'level': 3,
+            'top': -1,
+            'class': 'toc',
+            'targetId': id
+        });
+        if (target.text() == 'undefined')
+            target.html('');
+        target.replaceWith(target.html());
     }
 }
 
@@ -623,7 +644,18 @@ var mathjaxPlugin = new Plugin(
         return '<span class="mathjax raw">' + match[0] + '</span>';
     }
 );
+//TOC
+var tocPlugin = new Plugin(
+    // regexp to match
+    /^\[TOC\]$/,
+
+    // this function will be called when something matches
+    function (match, utils) {
+        return '<div class="toc"></div>';
+    }
+);
 md.use(youtubePlugin);
 md.use(vimeoPlugin);
 md.use(gistPlugin);
 md.use(mathjaxPlugin);
+md.use(tocPlugin);
