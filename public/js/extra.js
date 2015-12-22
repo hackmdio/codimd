@@ -640,8 +640,10 @@ var mathjaxPlugin = new Plugin(
 
     // this function will be called when something matches
     function (match, utils) {
-        //var code = $(match).text();
-        return '<span class="mathjax raw">' + match[0] + '</span>';
+        if (match.index == 0)
+            return '<span class="mathjax raw">' + match[0] + '</span>';
+        else
+            return match.input.slice(0, match[0].length);
     }
 );
 //TOC
