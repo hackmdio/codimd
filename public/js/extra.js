@@ -194,6 +194,45 @@ function finishView(view) {
     blockquote_color.each(function (key, value) {
         $(value).closest("blockquote").css('border-left-color', $(value).attr('data-color'));
     });
+    //slideshare
+    view.find(".slideshare.raw").removeClass("raw")
+        .each(function (key, value) {
+            $.ajax({
+                type: 'GET',
+                url: '//www.slideshare.net/api/oembed/2?url=http://www.slideshare.net/' + $(value).attr('slideshareid') + '&format=json',
+                jsonp: 'callback',
+                dataType: 'jsonp',
+                success: function (data) {
+                    $(value).html(data.html);
+                }
+            });
+        });
+    //speakerdeck
+    view.find(".speakerdeck.raw").removeClass("raw")
+        .each(function (key, value) {
+            var url = 'https://speakerdeck.com/oembed.json?url=https%3A%2F%2Fspeakerdeck.com%2F' + encodeURIComponent($(value).attr('speakerdeckid'));
+            //use yql because speakerdeck not support jsonp
+            $.ajax({
+                url: 'https://query.yahooapis.com/v1/public/yql',
+                data: {
+                    q: "select * from json where url ='" + url + "'",
+                    format: "json"
+                },
+                dataType: "jsonp",
+                success: function (data) {
+                    var json = data.query.results.json;
+                    var html = json.html;
+                    var ratio = json.height / json.width;
+                    $(value).html(html);
+                    var iframe = $(value).children('iframe');
+                    var src = iframe.attr('src');
+                    if (src.indexOf('//') == 0)
+                        iframe.attr('src', 'https:' + src);
+                    iframe.css('max-width', '100%');
+                    iframe.attr('width', '540').attr('height', (540 * ratio) + 15);
+                }
+            });
+        });
     //render title
     document.title = renderTitle(view);
 }
@@ -656,8 +695,36 @@ var tocPlugin = new Plugin(
         return '<div class="toc"></div>';
     }
 );
+//slideshare
+var slidesharePlugin = new Plugin(
+    // regexp to match
+    /{%slideshare\s*([\d\D]*?)\s*%}/,
+
+    // this function will be called when something matches
+    function (match, utils) {
+        var slideshareid = match[1];
+        var div = $('<div class="slideshare raw"></div>');
+        div.attr('slideshareid', slideshareid);
+        return div[0].outerHTML;
+    }
+);
+//speakerdeck
+var speakerdeckPlugin = new Plugin(
+    // regexp to match
+    /{%speakerdeck\s*([\d\D]*?)\s*%}/,
+
+    // this function will be called when something matches
+    function (match, utils) {
+        var speakerdeckid = match[1];
+        var div = $('<div class="speakerdeck raw"></div>');
+        div.attr('speakerdeckid', speakerdeckid);
+        return div[0].outerHTML;
+    }
+);
 md.use(youtubePlugin);
 md.use(vimeoPlugin);
 md.use(gistPlugin);
 md.use(mathjaxPlugin);
 md.use(tocPlugin);
+md.use(slidesharePlugin);
+md.use(speakerdeckPlugin);

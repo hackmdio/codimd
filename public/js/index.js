@@ -104,6 +104,14 @@ var supportExternals = [
     {
         text: '{%gist gistid %}',
         search: 'gist'
+    },
+    {
+        text: '{%slideshare slideshareid %}',
+        search: 'slideshare'
+    },
+    {
+        text: '{%speakerdeck speakerdeckid %}',
+        search: 'speakerdeck'
     }
 ];
 var supportExtraTags = [
