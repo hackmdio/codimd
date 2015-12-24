@@ -138,15 +138,18 @@ function finishView(view) {
         }
     } catch (err) {}
     //sequence diagram
-    var sequence = view.find(".sequence-diagram.raw").removeClass("raw");
-    try {
-        sequence.sequenceDiagram({
-            theme: 'simple'
-        });
-        sequence.parent().parent().replaceWith(sequence);
-    } catch (err) {
-        console.error(err);
-    }
+    var sequences = view.find(".sequence-diagram.raw").removeClass("raw");
+    sequences.each(function (key, value) {
+        try {
+            var sequence = $(value);
+            sequence.sequenceDiagram({
+                theme: 'simple'
+            });
+            sequence.parent().parent().replaceWith(sequence);
+        } catch (err) {
+            console.error(err);
+        }
+    });
     //flowchart
     var flow = view.find(".flow-chart.raw").removeClass("raw");
     flow.each(function (key, value) {
