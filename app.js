@@ -96,7 +96,7 @@ app.use(session({
     name: config.sessionname,
     secret: config.sessionsecret,
     resave: false, //don't save session if unmodified
-    saveUninitialized: false, //don't create session until something stored
+    saveUninitialized: true, //always create session to ensure the origin
     cookie: {
         maxAge: new Date(Date.now() + config.sessionlife),
         expires: new Date(Date.now() + config.sessionlife),
