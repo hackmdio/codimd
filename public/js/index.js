@@ -1133,7 +1133,11 @@ socket.emit = function () {
 };
 socket.on('info', function (data) {
     console.error(data);
-    location.href = "./404.html";
+    location.href = "./404";
+});
+socket.on('error', function (data) {
+    console.error(data);
+    location.href = "./403";
 });
 socket.on('disconnect', function (data) {
     showStatus(statusType.offline);

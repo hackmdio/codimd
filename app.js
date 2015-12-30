@@ -141,6 +141,14 @@ app.set('views', __dirname + '/public');
 app.engine('html', ejs.renderFile);
 //get index
 app.get("/", response.showIndex);
+//get 403 forbidden
+app.get("/403", function(req, res) {
+    response.errorForbidden(res);
+});
+//get 404 not found
+app.get("/404", function(req, res) {
+    response.errorNotFound(res);
+});
 //get status
 app.get("/status", function (req, res, next) {
     realtime.getStatus(function (data) {
