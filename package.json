@@ -22,7 +22,7 @@
     "express": ">=4.13",
     "express-session": "^1.12.1",
     "formidable": "^1.0.17",
-    "highlight.js": "^9.0.0",
+    "highlight.js": "^9.1.0",
     "imgur": "^0.1.7",
     "jsdom-nogyp": "^0.8.3",
     "lz-string": "1.4.4",
