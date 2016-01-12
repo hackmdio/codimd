@@ -20,7 +20,7 @@
     "ejs": "^2.3.4",
     "emojify.js": "^1.1.0",
     "express": ">=4.13",
-    "express-session": "^1.12.1",
+    "express-session": "^1.13.0",
     "formidable": "^1.0.17",
     "highlight.js": "^9.0.0",
     "imgur": "^0.1.7",
