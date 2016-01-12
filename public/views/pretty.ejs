@@ -8,6 +8,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="mobile-web-app-capable" content="yes">
+    <% if(typeof robots !== 'undefined' && robots) { %>
+    <meta name="robots" content="<%- robots %>">
+    <% } %>
     <title><%- title %></title>
     <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
 	<link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
@@ -37,13 +40,19 @@
 <body style="display:none;">
     <div class="ui-infobar container-fluid unselectable hidden-print">
         <small>
-            <span class="ui-lastchange text-uppercase"><%- updatetime %></span>
-            <span class="pull-right"><%- viewcount %> views <a href="#" class="ui-edit" title="Edit this note"><i class="fa fa-pencil"></i></a></span>
+            <span>
+                <% if(lastchangeuserprofile) { %>
+                    <span class="ui-lastchangeuser">&thinsp;<i class="ui-user-icon small" style="background-image: url(<%- lastchangeuserprofile.photo %>);" data-toggle="tooltip" data-placement="right" title="<%- lastchangeuserprofile.name %>"></i></span>
+                <% } else { %>
+                	<span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o"></i></span>
+                <% } %>
+                &nbsp;<span class="text-uppercase">changed</span>
+                <span class="ui-lastchange text-uppercase"><%- updatetime %></span>
+            </span>
+            <span class="pull-right"><%- viewcount %> views <a href="#" class="ui-edit" title="Edit this note"><i class="fa fa-fw fa-pencil"></i></a></span>
         </small>
     </div>
-    <div id="doc" class="container markdown-body">
-<%- body %>
-    </div>
+    <div id="doc" class="container markdown-body"><%- body %></div>
     <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
         <div class="pull-right dropdown">
             <a id="tocLabel" class="ui-toc-label btn btn-default" data-target="#" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
@@ -60,9 +69,11 @@
 <% if(useCDN) { %>
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.4.6/js-yaml.min.js" defer></script>
 <% } else { %>
 <script src="<%- url %>/vendor/jquery/dist/jquery.min.js"></script>
 <script src="<%- url %>/vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
+<script src="<%- url %>/vendor/js-yaml/dist/js-yaml.min.js" defer></script>
 <% } %>
 <script src="<%- url %>/vendor/lz-string.min.js" defer></script>
 <script src="<%- url %>/vendor/remarkable.min.js" defer></script>

@@ -36,7 +36,6 @@
     text-align: right;
     position: relative;
     display: inline-block;
-    float: right;
     cursor: default;
     z-index: 4;
     padding: 0 8px 0 0;
@@ -89,6 +88,18 @@
 .markdown-body .flow-chart {
     margin-bottom: 40px;
 }
+
+/*fixed style for rtl in pre and code*/
+
+.markdown-body[dir='rtl'] pre {
+    direction: ltr;
+}
+
+.markdown-body[dir='rtl'] code {
+    direction: ltr;
+    unicode-bidi: embed;
+}
+
 svg {
     width: 100%;
     max-height: 70vh;

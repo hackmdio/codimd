@@ -156,18 +156,7 @@ body {
 .ui-user-name {
     margin-top: 2px;
 }
-.ui-user-icon {
-    width: 20px;
-    height: 20px;
-    display: block;
-    border-radius: 3px;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    margin-right: 5px;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: contain;
-}
+
 .ui-user-status {
     margin-top: 5px;
 }
@@ -213,7 +202,6 @@ body {
     width: 0px;
     position: absolute;
     border-right: none;
-    transition: left 0.1s, top 0.1s;
 }
 .dropdown-menu.other-cursor {
     transition: none;
@@ -241,6 +229,10 @@ div[contenteditable]:empty:not(:focus):before{
 }
 .dropdown-menu.list {
     max-height: 80vh;
+    overflow: auto;
+}
+.dropdown-menu.list.small {
+    max-height: 40vh;
     overflow: auto;
 }
 .dropdown-menu.list::-webkit-scrollbar { 
@@ -277,6 +269,25 @@ div[contenteditable]:empty:not(:focus):before{
     background: white;
     cursor: inherit;
     display: block;
+}
+
+.info-label {
+	width: 36%;
+	text-align: right;
+	position: relative;
+    display: inline-block;
+	margin-right: 6px;
+}
+.popover {
+	width: 100%;
+	font-family: inherit !important;
+	line-height: 25px;
+}
+
+.text-ellipsis {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .cm-trailing-space-a:before,

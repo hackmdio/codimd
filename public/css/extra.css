@@ -56,6 +56,7 @@ h6:hover .header-link {
 .header-link {
     position: relative;
     left: 0.5em;
+    right: 0.5em;
     opacity: 0;
     font-size: 0.8em;
     -webkit-transition: opacity 0.2s ease-in-out 0.1s;
@@ -114,6 +115,12 @@ h6:hover .header-link {
     width: 25vw;
     max-height: 65vh;
     overflow: auto;
+    text-align: inherit;
+}
+
+.ui-toc-dropdown[dir='rtl'] .nav {
+    padding-right: 0;
+    letter-spacing: 0.0029em;
 }
 
 .ui-toc-dropdown a {
@@ -138,12 +145,24 @@ h6:hover .header-link {
     border-left: 1px solid black;
 }
 
+.ui-toc-dropdown[dir='rtl'] .nav>li>a:focus,.ui-toc-dropdown[dir='rtl'] .nav>li>a:hover {
+    padding-right: 19px;
+    border-left: none;
+    border-right: 1px solid black;
+}
+
 .ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a {
     padding-left: 18px;
     font-weight: 700;
     color: black;
     background-color: transparent;
     border-left: 2px solid black;
+}
+
+.ui-toc-dropdown[dir='rtl'] .nav>.active:focus>a,.ui-toc-dropdown[dir='rtl'] .nav>.active:hover>a,.ui-toc-dropdown[dir='rtl'] .nav>.active>a {
+    padding-right: 18px;
+    border-left: none;
+    border-right: 2px solid black;
 }
 
 .ui-toc-dropdown .nav .nav {
@@ -163,6 +182,10 @@ h6:hover .header-link {
     font-weight: 400;
 }
 
+.ui-toc-dropdown[dir='rtl'] .nav .nav>li>a {
+    padding-right: 30px;
+}
+
 .ui-toc-dropdown .nav .nav>li>ul>li>a {
     padding-top: 1px;
     padding-bottom: 1px;
@@ -171,12 +194,24 @@ h6:hover .header-link {
     font-weight: 400;
 }
 
+.ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>a {
+    padding-right: 40px;
+}
+
 .ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover {
     padding-left: 29px;
 }
 
+.ui-toc-dropdown[dir='rtl'] .nav .nav>li>a:focus,.ui-toc-dropdown[dir='rtl'] .nav .nav>li>a:hover {
+    padding-right: 29px;
+}
+
 .ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover {
     padding-left: 39px;
+}
+
+.ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>a:hover {
+    padding-right: 39px;
 }
 
 .ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a {
@@ -184,9 +219,17 @@ h6:hover .header-link {
     font-weight: 500;
 }
 
+.ui-toc-dropdown[dir='rtl'] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir='rtl'] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>a {
+    padding-right: 28px;
+}
+
 .ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a {
     padding-left: 38px;
     font-weight: 500;
+}
+
+.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.nav>.active>a {
+    padding-right: 38px;
 }
 
 .ui-affix-toc {
@@ -214,6 +257,26 @@ h6:hover .header-link {
 
 .go-to-bottom {
     margin-top: 0;
+}
+
+.ui-user-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    border-radius: 3px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-right: 5px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.ui-user-icon.small {
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 0 0.2em 0;
 }
 
 small span {

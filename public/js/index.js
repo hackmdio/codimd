@@ -320,6 +320,8 @@ var ui = {
     },
     infobar: {
         lastchange: $(".ui-lastchange"),
+        lastchangeuser: $(".ui-lastchangeuser"),
+        nolastchangeuser: $(".ui-no-lastchangeuser"),
         permission: {
             permission: $(".ui-permission"),
             label: $(".ui-permission-label"),
@@ -387,9 +389,9 @@ function setHaveUnreadChanges(bool) {
 function updateTitleReminder() {
     if (!loaded) return;
     if (haveUnreadChanges) {
-        document.title = '• ' + renderTitle(ui.area.view);
+        document.title = '• ' + renderTitle(ui.area.markdown);
     } else {
-        document.title = renderTitle(ui.area.view);
+        document.title = renderTitle(ui.area.markdown);
     }
 }
 
@@ -465,6 +467,8 @@ $(document).ready(function () {
         upClass: 'navbar-hide',
         downClass: 'navbar-show'
     });
+    //tooltip
+    $('[data-toggle="tooltip"]').tooltip();
 });
 //when page resize
 $(window).resize(function () {
@@ -1165,8 +1169,8 @@ socket.on('version', function (data) {
 });
 socket.on('check', function (data) {
     lastchangetime = data.updatetime;
-    lastchangeui = ui.infobar.lastchange;
     updateLastChange();
+    updateLastChangeUser(data);
 });
 socket.on('permission', function (data) {
     updatePermission(data.permission);
@@ -1182,8 +1186,8 @@ socket.on('refresh', function (data) {
     owner = data.owner;
     updatePermission(data.permission);
     lastchangetime = data.updatetime;
-    lastchangeui = ui.infobar.lastchange;
     updateLastChange();
+    updateLastChangeUser(data);
     if (!loaded) {
         changeMode(currentMode);
         loaded = true;
@@ -1884,15 +1888,18 @@ var lastResult = null;
 function updateViewInner() {
     if (currentMode == modeType.edit || !isDirty) return;
     var value = editor.getValue();
+    md.meta = {};
+    md.render(value); //only for get meta
+    parseMeta(md, ui.area.markdown, $('#toc'), $('#toc-affix'));
     var result = postProcess(md.render(value)).children().toArray();
     partialUpdate(result, lastResult, ui.area.markdown.children().toArray());
     if (result && lastResult && result.length != lastResult.length)
         updateDataAttrs(result, ui.area.markdown.children().toArray());
     lastResult = $(result).clone();
-    finishView(ui.area.view);
-    autoLinkify(ui.area.view);
-    deduplicatedHeaderId(ui.area.view);
-    renderTOC(ui.area.view);
+    finishView(ui.area.markdown);
+    autoLinkify(ui.area.markdown);
+    deduplicatedHeaderId(ui.area.markdown);
+    renderTOC(ui.area.markdown);
     generateToc('toc');
     generateToc('toc-affix');
     generateScrollspy();

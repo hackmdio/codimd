@@ -1,14 +1,31 @@
 //auto update last change
 var lastchangetime = null;
-var lastchangeui = null;
+var lastchangeui = {
+    time: $(".ui-lastchange"),
+    user: $(".ui-lastchangeuser"),
+    nouser: $(".ui-no-lastchangeuser")
+}
 
 function updateLastChange() {
     if (lastchangetime && lastchangeui) {
-        lastchangeui.html('&nbsp;<i class="fa fa-clock-o"></i> change ' + moment(lastchangetime).fromNow());
-        lastchangeui.attr('title', moment(lastchangetime).format('llll'));
+        lastchangeui.time.html(moment(lastchangetime).fromNow());
+        lastchangeui.time.attr('title', moment(lastchangetime).format('llll'));
     }
 }
 setInterval(updateLastChange, 60000);
+
+function updateLastChangeUser(data) {
+    if (data.lastchangeuserprofile) {
+        var icon = lastchangeui.user.children('i');
+        icon.attr('title', data.lastchangeuserprofile.name).tooltip('fixTitle');
+        icon.attr('style', 'background-image:url(' + data.lastchangeuserprofile.photo + ')');
+        lastchangeui.user.show();
+        lastchangeui.nouser.hide();
+    } else {
+        lastchangeui.user.hide();
+        lastchangeui.nouser.show();
+    }
+}
 
 //get title
 function getTitle(view) {
@@ -46,6 +63,57 @@ function slugifyWithUTF8(text) {
     var newText = S(text.toLowerCase()).trim().stripTags().dasherize().s;
     newText = newText.replace(/([\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\`\{\|\}\~])/g, '');
     return newText;
+}
+
+//parse meta
+function parseMeta(md, view, toc, tocAffix) {
+    var robots = null;
+    var lang = null;
+    var dir = null;
+    var breaks = true;
+    if (md && md.meta) {
+        var meta = md.meta;
+        robots = meta.robots;
+        lang = meta.lang;
+        dir = meta.dir;
+        breaks = meta.breaks;
+    }
+    //robots meta
+    var robotsMeta = $('meta[name=robots]');
+    if (robots) {
+        if (robotsMeta.length > 0)
+            robotsMeta.attr('content', robots);
+        else
+            $('head').prepend('<meta name="robots" content="' + robots + '">')
+    }
+    else
+        robotsMeta.remove();
+    //text language
+    if (lang) {
+        view.attr('lang', lang);
+        toc.attr('lang', lang);
+        tocAffix.attr('lang', lang);
+    } else {
+        view.removeAttr('lang');
+        toc.removeAttr('lang');
+        tocAffix.removeAttr('lang');
+    }
+    //text direction
+    if (dir) {
+        view.attr('dir', dir);
+        toc.attr('dir', dir);
+        tocAffix.attr('dir', dir);
+    } else {
+        view.removeAttr('dir');
+        toc.removeAttr('dir');
+        tocAffix.removeAttr('dir');
+    }
+    //breaks
+    if (typeof breaks === 'boolean' && !breaks) {
+        md.options.breaks = false;
+    } else {
+        md.options.breaks = true;
+    }
 }
 
 var viewAjaxCallback = null;
@@ -329,7 +397,10 @@ function exportToHTML(view) {
                 css: css,
                 html: src[0].outerHTML,
                 toc: toc.html(),
-                'toc-affix': tocAffix.html()
+                'toc-affix': tocAffix.html(),
+                robots: (md && md.meta && md.meta.robots) ? '<meta name="robots" content="' + md.meta.robots + '">' : null,
+                lang: (md && md.meta && md.meta.lang) ? 'lang="' + md.meta.lang + '"' : null,
+                dir: (md && md.meta && md.meta.dir) ? 'dir="' + md.meta.dir + '"' : null
             };
             var html = template(context);
             //        console.log(html);
@@ -737,6 +808,49 @@ var speakerdeckPlugin = new Plugin(
         return div[0].outerHTML;
     }
 );
+
+//yaml meta, from https://github.com/eugeneware/remarkable-meta
+function get(state, line) {
+    var pos = state.bMarks[line];
+    var max = state.eMarks[line];
+    return state.src.substr(pos, max - pos);
+}
+
+function meta(state, start, end, silent) {
+    if (start !== 0 || state.blkIndent !== 0) return false;
+    if (state.tShift[start] < 0) return false;
+    if (!get(state, start).match(/^---$/)) return false;
+
+    var data = [];
+    for (var line = start + 1; line < end; line++) {
+        var str = get(state, line);
+        if (str.match(/^(\.{3}|-{3})$/)) break;
+        if (state.tShift[line] < 0) break;
+        data.push(str);
+    }
+
+    if (line >= end) return false;
+
+    try {
+        md.meta = jsyaml.safeLoad(data.join('\n')) || {};
+    } catch(err) {
+        console.error(err);
+        return false;
+    }
+
+    state.line = line + 1;
+
+    return true;
+}
+
+function metaPlugin(md) {
+    md.meta = md.meta || {};
+    md.block.ruler.before('code', 'meta', meta, {
+        alt: []
+    });
+}
+
+md.use(metaPlugin);
 md.use(youtubePlugin);
 md.use(vimeoPlugin);
 md.use(gistPlugin);

@@ -1,5 +1,8 @@
 var markdown = $(".markdown-body");
 var text = $('<textarea/>').html(markdown.html()).text();
+md.meta = {};
+md.render(text); //only for get meta
+parseMeta(md, markdown, $('#toc'), $('#toc-affix'));
 var result = postProcess(md.render(text));
 markdown.html(result.html());
 $(document.body).show();
@@ -10,8 +13,7 @@ renderTOC(markdown);
 generateToc('toc');
 generateToc('toc-affix');
 smoothHashScroll();
-lastchangetime = $('.ui-lastchange').text();
-lastchangeui = $('.ui-lastchange');
+lastchangetime = lastchangeui.time.text();
 updateLastChange();
 var url = window.location.pathname;
 $('.ui-edit').attr('href', url + '/edit');
@@ -68,6 +70,8 @@ $(window).resize(function () {
 $(document).ready(function () {
     windowResize();
     generateScrollspy();
+    //tooltip
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 function scrollToTop() {
