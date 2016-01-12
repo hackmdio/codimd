@@ -218,7 +218,7 @@ function buildMapInner(syncBack) {
             return;
         }
         t = _lineHeightMap[t];
-        if (t !== 0) {
+        if (t !== 0 && t !== nonEmptyList[nonEmptyList.length - 1]) {
             nonEmptyList.push(t);
         }
         _scrollMap[t] = Math.round($el.offset().top + offset - 10);
