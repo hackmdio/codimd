@@ -985,13 +985,17 @@ $('#refreshModalRefresh').click(function () {
 function parseToEditor(data) {
     var parsed = toMarkdown(data);
     if (parsed)
-        editor.replaceRange(parsed, {
-            line: 0,
-            ch: 0
-        }, {
-            line: editor.lastLine(),
-            ch: editor.lastLine().length
-        }, '+input');
+        replaceAll(parsed);
+}
+
+function replaceAll(data) {
+    editor.replaceRange(data, {
+        line: 0,
+        ch: 0
+    }, {
+        line: editor.lastLine(),
+        ch: editor.lastLine().length
+    }, '+input');
 }
 
 function importFromUrl(url) {
@@ -1005,7 +1009,11 @@ function importFromUrl(url) {
         method: "GET",
         url: url,
         success: function (data) {
-            parseToEditor(data);
+            var extension = url.split('.').pop();
+            if (extension == 'html')
+                parseToEditor(data);
+            else
+                replaceAll(data);
         },
         error: function () {
             alert('Import failed :(');
