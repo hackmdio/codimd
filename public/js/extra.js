@@ -167,6 +167,17 @@ function finishView(view) {
             console.error(err);
         }
     });
+    //graphviz
+    var graphvizs = view.find(".graphviz.raw").removeClass("raw");
+    graphvizs.each(function (key, value) {
+        try {
+            var graphviz = Viz($(value).text());
+            $(value).html(graphviz);
+            $(value).parent().parent().replaceWith(value);
+        } catch (err) {
+            console.error(err);
+        }
+    });
     //image href new window(emoji not included)
     var images = view.find("img.raw[src]").removeClass("raw");
     images.each(function (key, value) {
@@ -536,6 +547,8 @@ function highlightRender(code, lang) {
         return '<div class="sequence-diagram raw">' + code + '</div>';
     } else if (lang == 'flow') {
         return '<div class="flow-chart raw">' + code + '</div>';
+    } else if (lang == 'graphviz') {
+        return '<div class="graphviz raw">' + code + '</div>';
     }
     var reallang = lang.replace(/\=$|\=\d+$|\=\+$/, '');
     var languages = hljs.listLanguages();
