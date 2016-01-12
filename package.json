@@ -31,7 +31,7 @@
     "meta-marked": "^0.4.0",
     "method-override": "^2.3.5",
     "moment": "^2.10.6",
-    "mongoose": "^4.3.1",
+    "mongoose": "^4.3.5",
     "morgan": "^1.6.1",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
