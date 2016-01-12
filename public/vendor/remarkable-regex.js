@@ -19,6 +19,28 @@ stuff.escape = function(html) {
     .replace(/>/g, '&gt;')
 }
 
+Object.setPrototypeOf = Object.setPrototypeOf || function (obj, proto) {
+    if (!isIE9()) {
+        obj.__proto__ = proto;
+    } else {
+        /** IE9 fix - copy object methods from the protype to the new object **/
+        for (var prop in proto) {
+            obj[prop] = proto[prop];
+        }
+    }
+
+    return obj;
+};
+
+var isIE9 = function() {
+    return navigator.appVersion.indexOf("MSIE") > 0;
+};
+
+/**
+ * Counter for multi usage.
+ */
+var counter = 0
+
 /**
  * Constructor function
  */
@@ -30,10 +52,10 @@ function Plugin(regexp, replacer) {
     self.options = options
     self.init(remarkable)
   }
-
+  
   // initialize plugin object
-  self.__proto__ = Plugin.prototype
-
+  Object.setPrototypeOf(self, Plugin.prototype)
+  
   // clone regexp with all the flags
   var flags = (regexp.global     ? 'g' : '')
             + (regexp.multiline  ? 'm' : '')
@@ -43,10 +65,11 @@ function Plugin(regexp, replacer) {
 
   // copy init options
   self.replacer = replacer
-
+  
   // this plugin can be inserted multiple times,
   // so we're generating unique name for it
-  self.id = 'regexp-' + JSON.stringify(Math.random()).slice(2)
+  self.id = 'regexp-' + counter
+  counter++
 
   return self
 }
