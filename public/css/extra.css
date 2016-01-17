@@ -5,21 +5,43 @@
     position: relative;
     cursor: pointer;
     display: table;
-    max-width: 540px;
+    width: 100%;
     text-align: center;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
     background-color: black;
+    overflow: hidden;
 }
-.vimeo img,
+/* youtube always use 16:9 aspect ratio video */
+.youtube {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+}
+.vimeo img {
+    width: 100%;
+    object-fit: contain;
+    z-index: 0;
+}
 .youtube img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     position: absolute;
-    margin: auto;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    z-index: 0;
+}
+.vimeo iframe,
+.youtube iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    z-index: 1;
 }
 .vimeo .icon,
 .youtube .icon {
@@ -34,6 +56,7 @@
     opacity: 0.3;
     -webkit-transition: opacity 0.2s; /* Safari */
     transition: opacity 0.2s;
+    z-index: 0;
 }
 .vimeo:hover .icon,
 .youtube:hover .icon {
@@ -41,6 +64,23 @@
     -webkit-transition: opacity 0.2s; /* Safari */
     transition: opacity 0.2s;
 }
+
+.slideshare .inner,
+.speakerdeck .inner {
+    position: relative;
+    width: 100%;
+}
+.slideshare .inner iframe,
+.speakerdeck .inner iframe {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
+
 h1:hover .header-link,
 h2:hover .header-link,
 h3:hover .header-link,

@@ -285,7 +285,15 @@ function finishView(view) {
                 jsonp: 'callback',
                 dataType: 'jsonp',
                 success: function (data) {
-                    $(value).html(data.html);
+                    var $html = $(data.html);
+                    var iframe = $html.closest('iframe');
+                    var caption = $html.closest('div');
+                    var inner = $('<div class="inner"></div>').append(iframe);
+                    var height = iframe.attr('height');
+                    var width = iframe.attr('width');
+                    var ratio = (height / width) * 100;
+                    inner.css('padding-bottom', ratio + '%');
+                    $(value).html(inner).append(caption);
                 }
             });
         });
@@ -310,8 +318,12 @@ function finishView(view) {
                     var src = iframe.attr('src');
                     if (src.indexOf('//') == 0)
                         iframe.attr('src', 'https:' + src);
-                    iframe.css('max-width', '100%');
-                    iframe.attr('width', '540').attr('height', (540 * ratio) + 15);
+                    var inner = $('<div class="inner"></div>').append(iframe);
+                    var height = iframe.attr('height');
+                    var width = iframe.attr('width');
+                    var ratio = (height / width) * 100;
+                    inner.css('padding-bottom', ratio + '%');
+                    $(value).html(inner);
                 }
             });
         });
@@ -517,19 +529,12 @@ function smoothHashScroll() {
     }
 }
 
-function setSizebyAttr(element, target) {
-    var width = $(element).attr("width") ? $(element).attr("width") : '100%';
-    var height = $(element).attr("height") ? $(element).attr("height") : '360px';
-    $(target).width(width);
-    $(target).height(height);
-}
-
 function imgPlayiframe(element, src) {
     if (!$(element).attr("videoid")) return;
     var iframe = $("<iframe frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>");
     $(iframe).attr("src", src + $(element).attr("videoid") + '?autoplay=1');
-    setSizebyAttr(element, iframe);
-    $(element).html(iframe);
+    $(element).find('img').css('visibility', 'hidden');
+    $(element).append(iframe);
 }
 
 var anchorForId = function (id) {
@@ -720,7 +725,6 @@ var youtubePlugin = new Plugin(
         var videoid = match[1];
         if (!videoid) return;
         var div = $('<div class="youtube raw"></div>');
-        setSizebyAttr(div, div);
         div.attr('videoid', videoid);
         var thumbnail_src = '//img.youtube.com/vi/' + videoid + '/hqdefault.jpg';
         var image = '<img src="' + thumbnail_src + '" />';
@@ -740,7 +744,6 @@ var vimeoPlugin = new Plugin(
         var videoid = match[1];
         if (!videoid) return;
         var div = $('<div class="vimeo raw"></div>');
-        setSizebyAttr(div, div);
         div.attr('videoid', videoid);
         var icon = '<i class="icon fa fa-vimeo-square fa-5x"></i>';
         div.append(icon);
