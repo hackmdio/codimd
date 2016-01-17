@@ -1228,6 +1228,7 @@ socket.on('refresh', function (data) {
             editor.refresh();
         }
         loaded = true;
+        updateHistory(); //update history whether have content or not
         emitUserStatus(); //send first user status
         updateOnlineStatus(); //update first online status
         setTimeout(function () {
