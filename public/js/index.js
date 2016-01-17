@@ -6,6 +6,12 @@ var version = '0.3.3';
 var defaultTextHeight = 20;
 var viewportMargin = 20;
 var defaultExtraKeys = {
+    "F11": function(cm) {
+      cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+    },
+    "Esc": function(cm) {
+      if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+    },
     "Cmd-S": function () {
         return CodeMirror.PASS
     },
@@ -237,6 +243,7 @@ var editor = CodeMirror.fromTextArea(textit, {
     flattenSpans: true,
     addModeClass: true,
     readOnly: true,
+    autoRefresh: true,
     placeholder: "← Start by enter title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
 });
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor);

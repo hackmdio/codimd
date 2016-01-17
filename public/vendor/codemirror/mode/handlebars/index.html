@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 
 <title>CodeMirror: Handlebars mode</title>
 <meta charset="utf-8"/>
@@ -61,22 +61,13 @@
 
 </textarea></form>
     <script>
-      CodeMirror.defineMode("htmlhandlebars", function(config) {
-        return CodeMirror.multiplexingMode(
-          CodeMirror.getMode(config, "text/html"),
-          {open: "{{", close: "}}",
-           mode: CodeMirror.getMode(config, "handlebars"),
-           parseDelimiters: true});
-      });
-
       var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         lineNumbers: true,
         matchBrackets: true,
-        mode: "htmlhandlebars"
+        mode: {name: "handlebars", base: "text/html"}
       });
     </script>
-    </script>
-
+    
     <p>Handlebars syntax highlighting for CodeMirror.</p>
 
     <p><strong>MIME types defined:</strong> <code>text/x-handlebars-template</code></p>

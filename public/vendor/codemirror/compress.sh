@@ -6,12 +6,15 @@ addon/mode/multiplex.js \
 addon/selection/active-line.js \
 addon/search/searchcursor.js \
 addon/search/search.js \
+addon/search/jump-to-line.js \
 addon/search/matchesonscrollbar.js \
 addon/search/match-highlighter.js \
 addon/scroll/simplescrollbars.js \
 addon/scroll/annotatescrollbar.js \
 addon/display/panel.js \
 addon/display/placeholder.js \
+addon/display/fullscreen.js \
+addon/display/autorefresh.js \
 addon/dialog/dialog.js \
 addon/edit/matchbrackets.js \
 addon/edit/closebrackets.js \

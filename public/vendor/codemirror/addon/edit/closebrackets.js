@@ -79,7 +79,7 @@
       if (!around || explode.indexOf(around) % 2 != 0) return CodeMirror.Pass;
     }
     cm.operation(function() {
-      cm.replaceSelection("\n\n", null, "+input");
+      cm.replaceSelection("\n\n", null);
       cm.execCommand("goCharLeft");
       ranges = cm.listSelections();
       for (var i = 0; i < ranges.length; i++) {
@@ -88,6 +88,12 @@
         cm.indentLine(line + 1, null, true);
       }
     });
+  }
+
+  function contractSelection(sel) {
+    var inverted = CodeMirror.cmpPos(sel.anchor, sel.head) > 0;
+    return {anchor: new Pos(sel.anchor.line, sel.anchor.ch + (inverted ? -1 : 1)),
+            head: new Pos(sel.head.line, sel.head.ch + (inverted ? 1 : -1))};
   }
 
   function handleChar(cm, ch) {
@@ -144,13 +150,17 @@
         var sels = cm.getSelections();
         for (var i = 0; i < sels.length; i++)
           sels[i] = left + sels[i] + right;
-        cm.replaceSelections(sels, "around", "+input");
+        cm.replaceSelections(sels, "around");
+        sels = cm.listSelections().slice();
+        for (var i = 0; i < sels.length; i++)
+          sels[i] = contractSelection(sels[i]);
+        cm.setSelections(sels);
       } else if (type == "both") {
-        cm.replaceSelection(left + right, null, "+input");
+        cm.replaceSelection(left + right, null);
         cm.triggerElectric(left + right);
         cm.execCommand("goCharLeft");
       } else if (type == "addFour") {
-        cm.replaceSelection(left + left + left + left, "before", "+input");
+        cm.replaceSelection(left + left + left + left, "before");
         cm.execCommand("goCharRight");
       }
     });

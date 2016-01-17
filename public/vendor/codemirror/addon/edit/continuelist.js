@@ -11,8 +11,8 @@
 })(function(CodeMirror) {
   "use strict";
 
-  var listRE = /^(\s*)(>[> ]*|[*+-]\s|(\d+)([.)]))(\[\s\]\s|\[x\]\s|\s*)/,
-      emptyListRE = /^(\s*)(>[> ]*|[*+-]\s|(\d+)[.)])(\[\s\]\s*|\[x\]\s|\s*)$/,
+  var listRE = /^(\s*)(>[> ]*|[*+-]\s|(\d+)([.)]))(\s*)/,
+      emptyListRE = /^(\s*)(>[> ]*|[*+-]|(\d+)[.)])(\s*)$/,
       unorderedListRE = /[*+-]\s/;
 
   CodeMirror.commands.newlineAndIndentContinueMarkdownList = function(cm) {
@@ -34,7 +34,7 @@
           line: pos.line, ch: 0
         }, {
           line: pos.line, ch: pos.ch + 1
-        }, "+delete");
+        });
         replacements[i] = "\n";
       } else {
         var indent = match[1], after = match[5];
@@ -46,6 +46,6 @@
       }
     }
 
-    cm.replaceSelections(replacements, null, "+input");
+    cm.replaceSelections(replacements);
   };
 });
