@@ -236,7 +236,8 @@ var editor = CodeMirror.fromTextArea(textit, {
     extraKeys: defaultExtraKeys,
     flattenSpans: true,
     addModeClass: true,
-    readOnly: true
+    readOnly: true,
+    placeholder: "← Start by enter title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
 });
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor);
 defaultTextHeight = parseInt($(".CodeMirror").css('line-height'));
@@ -1214,7 +1215,18 @@ socket.on('refresh', function (data) {
     updateLastChange();
     updateLastChangeUser(data);
     if (!loaded) {
+        var nocontent = editor.getValue().length <= 0;
+        if (nocontent) {
+            if (visibleXS)
+                currentMode = modeType.edit;
+            else
+                currentMode = modeType.both;
+        }
         changeMode(currentMode);
+        if (nocontent) {
+            editor.focus();
+            editor.refresh();
+        }
         loaded = true;
         emitUserStatus(); //send first user status
         updateOnlineStatus(); //update first online status

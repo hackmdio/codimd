@@ -19,6 +19,9 @@ body {
     overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch;
 }
+.CodeMirror-placeholder {
+    color: #777 !important;
+}
 .CodeMirror-scroll {
     overflow-x: hidden !important;
     overflow-y: auto !important;

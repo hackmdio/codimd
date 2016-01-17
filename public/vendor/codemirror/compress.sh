@@ -11,6 +11,7 @@ addon/search/match-highlighter.js \
 addon/scroll/simplescrollbars.js \
 addon/scroll/annotatescrollbar.js \
 addon/display/panel.js \
+addon/display/placeholder.js \
 addon/dialog/dialog.js \
 addon/edit/matchbrackets.js \
 addon/edit/closebrackets.js \
