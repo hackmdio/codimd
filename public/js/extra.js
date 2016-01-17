@@ -677,9 +677,6 @@ md.renderer.rules.list_item_open = function ( /* tokens, idx, options, env */ ) 
 md.renderer.rules.blockquote_open = function (tokens, idx /*, options, env */ ) {
     return '<blockquote class="raw">\n';
 };
-md.renderer.rules.hardbreak = function (tokens, idx, options /*, env */ ) {
-    return md.options.xhtmlOut ? '<br /><br />' : '<br><br>';
-};
 md.renderer.rules.fence = function (tokens, idx, options, env, self) {
     var token = tokens[idx];
     var langClass = '';
