@@ -327,7 +327,8 @@ var ui = {
             label: $(".ui-permission-label"),
             freely: $(".ui-permission-freely"),
             editable: $(".ui-permission-editable"),
-            locked: $(".ui-permission-locked")
+            locked: $(".ui-permission-locked"),
+            private: $(".ui-permission-private")
         }
     },
     toc: {
@@ -1067,6 +1068,10 @@ ui.infobar.permission.editable.click(function () {
 ui.infobar.permission.locked.click(function () {
     emitPermission("locked");
 });
+//private
+ui.infobar.permission.private.click(function () {
+    emitPermission("private");
+});
 
 function emitPermission(_permission) {
     if (_permission != permission) {
@@ -1094,6 +1099,10 @@ function updatePermission(newPermission) {
         label = '<i class="fa fa-lock"></i> Locked';
         title = "Only owner can edit";
         break;
+    case "private":
+        label = '<i class="fa fa-hand-stop-o"></i> Private';
+        title = "Only owner can view & edit";
+        break;
     }
     if (personalInfo.userid == owner) {
         label += ' <i class="fa fa-caret-down"></i>';
@@ -1118,6 +1127,7 @@ function havePermission() {
         }
         break;
     case "locked":
+    case "private":
         if (personalInfo.userid != owner) {
             bool = false;
         } else {
@@ -1145,7 +1155,14 @@ socket.emit = function () {
 };
 socket.on('info', function (data) {
     console.error(data);
-    location.href = "./404";
+    switch (data.code) {
+    case 404:
+        location.href = "./404";
+        break;
+    case 403:
+        location.href = "./403";
+        break;
+    }
 });
 socket.on('error', function (data) {
     console.error(data);
@@ -1755,6 +1772,7 @@ editor.on('beforeChange', function (cm, change) {
                 $('.signin-modal').modal('show');
                 break;
             case "locked":
+            case "private":
                 $('.locked-modal').modal('show');
                 break;
             }
