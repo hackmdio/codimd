@@ -1195,6 +1195,8 @@ socket.on('connect', function (data) {
     personalInfo['id'] = socket.id;
     showStatus(statusType.connected);
     socket.emit('version');
+    if (socket.id.indexOf('/') == -1)
+        socket.id = socket.nsp + '#' + socket.id;
 });
 socket.on('version', function (data) {
     if (data != version)
