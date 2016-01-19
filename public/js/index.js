@@ -26,6 +26,7 @@ var updateViewDebounce = 200;
 var cursorActivityDebounce = 50;
 var cursorAnimatePeriod = 100;
 var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile'];
+var supportCharts = ['sequence-diagram', 'flow-chart', 'graphviz'];
 var supportHeaders = [
     {
         text: '# h1',
@@ -2230,15 +2231,26 @@ $(editor.getInputField())
     },
         { // Code block language strategy
             langs: supportCodeModes,
+            charts: supportCharts,
             match: /(^|\n)```(\w+)$/,
             search: function (term, callback) {
-                callback($.map(this.langs, function (lang) {
-                    return lang.indexOf(term) === 0 ? lang : null;
-                }));
+                var list = [];
+                $.map(this.langs, function (lang) {
+                    if (lang.indexOf(term) === 0)
+                        list.push(lang);
+                });
+                $.map(this.charts, function (chart) {
+                    if (chart.indexOf(term) === 0)
+                        list.push(chart);
+                });
                 checkCursorMenu();
+                callback(list);
             },
             replace: function (lang) {
-                return '$1```' + lang + '=\n\n```';
+                if (this.langs.indexOf(lang) !== -1)
+                    return '$1```' + lang + '=\n\n```';
+                else if (this.charts.indexOf(lang) !== -1)
+                    return '$1```' + lang + '\n\n```';
             },
             done: function () {
                 editor.doc.cm.execCommand("goLineUp");
