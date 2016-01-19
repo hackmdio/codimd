@@ -326,6 +326,52 @@ var source = $("#template").html();
 var template = Handlebars.compile(source);
 var context = {
     release: [
+        {
+            version: "0.3.4",
+            tag: "techstars",
+            date: moment("201601190022", 'YYYYMMDDhhmm').fromNow(),
+            detail: [
+                {
+                    title: "Features",
+                    item: [
+                            "+ Beta Support slide mode",
+                            "+ Beta Support export to PDF",
+                            "+ Support TOC syntax",
+                            "+ Support embed slideshare and speakerdeck",
+                            "+ Support Graphviz charts",
+                            "+ Support YAML metadata",
+                            "+ Support private permission"
+                        ]
+                    },
+                {
+                    title: "Enhancements",
+                    item: [
+                            "* Support pin note in history",    
+                            "* Support IE9 and above",
+                            "* Support specifiy and continue line number in code block",
+                            "* Changed all embed layout to 100% width",
+                            "* Added auto detect default mode",
+                            "* Support show last change note user",
+                            "* Upgrade CodeMirror to 5.10.1 with some manaual patches",
+                            "* Improved server performance",
+                            "* Support autocomplete for code block languages of charts"
+                        ]
+                    },
+				{
+                    title: "Fixes",
+                    item: [
+                            "* Fixed some server connection issues",
+                            "* Fixed several issues cause scrollMap incorrect",
+                            "* Fixed cursor animation should not apply on scroll",
+                            "* Fixed a possible bug in partial update",
+                            "* Fixed internal href should not link out",
+                            "* Fixed dropbox saver url not correct",
+                            "* Fixed mathjax might not parse properly",
+                            "* Fixed sequence diagram might render multiple times"
+                        ]
+                    }
+                ]
+            },
 		{
             version: "0.3.3",
             tag: "moon-festival",
