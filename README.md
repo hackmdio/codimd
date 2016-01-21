@@ -29,7 +29,7 @@ Get started
 Import database schema
 ---
 The notes are store in PostgreSQL, the schema is in the `hackmd_schema.sql`  
-To import the sql file in PostgreSQL, type `psql -i hackmd_schema.sql`
+To import the sql file in PostgreSQL, see http://www.postgresql.org/docs/9.4/static/backup-dump.html
 
 The users, temps and sessions are store in MongoDB, which don't need schema, so just make sure you have the correct connection string.
 
