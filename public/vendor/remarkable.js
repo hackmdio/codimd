@@ -5239,37 +5239,55 @@ StateBlock.prototype.skipCharsBack = function skipCharsBack(pos, code, min) {
   }
   return pos;
 };
+    
+function isSpace(code) {
+  switch (code) {
+    case 0x09:
+    case 0x20:
+      return true;
+  }
+  return false;
+}
 
 // cut lines range from source.
 StateBlock.prototype.getLines = function getLines(begin, end, indent, keepLastLF) {
-  var i, first, last, queue, shift,
+  var i, lineIndent, ch, first, last, queue, lineStart,
       line = begin;
 
   if (begin >= end) {
     return '';
   }
 
-  // Opt: don't use push queue for single line;
-  if (line + 1 === end) {
-    first = this.bMarks[line] + Math.min(this.tShift[line], indent);
-    last = keepLastLF ? this.bMarks[end] : this.eMarks[end - 1];
-    return this.src.slice(first, last);
-  }
-
   queue = new Array(end - begin);
 
   for (i = 0; line < end; line++, i++) {
-    shift = this.tShift[line];
-    if (shift > indent) { shift = indent; }
-    if (shift < 0) { shift = 0; }
-
-    first = this.bMarks[line] + shift;
+    lineIndent = 0;
+    lineStart = first = this.bMarks[line];
 
     if (line + 1 < end || keepLastLF) {
       // No need for bounds check because we have fake entry on tail.
       last = this.eMarks[line] + 1;
     } else {
       last = this.eMarks[line];
+    }
+
+    while (first < last && lineIndent < indent) {
+      ch = this.src.charCodeAt(first);
+
+      if (isSpace(ch)) {
+        if (ch === 0x09) {
+          lineIndent += 4 - lineIndent % 4;
+        } else {
+          lineIndent++;
+        }
+      } else if (first - lineStart < this.tShift[line]) {
+        // patched tShift masked characters to look like spaces (blockquotes, list markers)
+        lineIndent++;
+      } else {
+        break;
+      }
+
+      first++;
     }
 
     queue[i] = this.src.slice(first, last);
