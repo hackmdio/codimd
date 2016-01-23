@@ -1373,7 +1373,7 @@ socket.on('cursor focus', function (data) {
     if (data.id != socket.id)
         buildCursor(data);
     //force show
-    var cursor = $('#' + data.id);
+    var cursor = $('div[data-clientid="' + data.id + '"]');
     if (cursor.length > 0) {
         cursor.stop(true).fadeIn();
     }
@@ -1400,7 +1400,7 @@ socket.on('cursor blur', function (data) {
     if (data.id != socket.id)
         buildCursor(data);
     //force hide
-    var cursor = $('#' + data.id);
+    var cursor = $('div[data-clientid="' + data.id + '"]');
     if (cursor.length > 0) {
         cursor.stop(true).fadeOut();
     }
@@ -1648,8 +1648,8 @@ function buildCursor(user) {
     if ($('.other-cursors').length <= 0) {
         $("<div class='other-cursors'>").insertAfter('.CodeMirror-cursors');
     }
-    if ($('#' + user.id).length <= 0) {
-        var cursor = $('<div id="' + user.id + '" class="other-cursor" style="display:none;"></div>');
+    if ($('div[data-clientid="' + user.id + '"]').length <= 0) {
+        var cursor = $('<div data-clientid="' + user.id + '" class="other-cursor" style="display:none;"></div>');
         cursor.attr('data-line', user.cursor.line);
         cursor.attr('data-ch', user.cursor.ch);
         cursor.attr('data-offset-left', 0);
@@ -1726,7 +1726,7 @@ function buildCursor(user) {
 
         checkCursorTag(coord, cursortag);
     } else {
-        var cursor = $('#' + user.id);
+        var cursor = $('div[data-clientid="' + user.id + '"]');
         var lineDiff = Math.abs(cursor.attr('data-line') - user.cursor.line);
         cursor.attr('data-line', user.cursor.line);
         cursor.attr('data-ch', user.cursor.ch);
