@@ -9,6 +9,15 @@ Still in early stage, feel free to fork or contribute to this.
 
 Thanks for your using! :smile:
 
+Browsers Requirement
+---
+- Chrome >= 45, Chrome for Android >= 47
+- Safari >= 9, iOS Safari >= 8.4
+- Firefox >= 44
+- IE >= 9, Edge >= 12
+- Opera >= 34, Opera Mini not supported
+- Android Browser >= 4.4
+
 Prerequisite
 ---
 - Node.js 0.10.x or up (test up to 5.2.0)
