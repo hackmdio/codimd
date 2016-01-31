@@ -311,7 +311,8 @@ var ui = {
             html: $(".ui-download-html")
         },
         export: {
-            dropbox: $(".ui-save-dropbox")
+            dropbox: $(".ui-save-dropbox"),
+            gist: $(".ui-save-gist")
         },
         import: {
             dropbox: $(".ui-import-dropbox"),
@@ -857,6 +858,8 @@ ui.toolbar.export.dropbox.click(function () {
     };
     Dropbox.save(options);
 });
+//export to gist
+ui.toolbar.export.gist.attr("href", url + "/gist");
 //import from dropbox
 ui.toolbar.import.dropbox.click(function () {
     var options = {

@@ -42,6 +42,7 @@
     "passport.socketio": "^3.6.1",
     "pg": "4.x",
     "randomcolor": "^0.4.3",
+    "request": "^2.69.0",
     "shortid": "2.2.4",
     "socket.io": "1.4.4",
     "string": "^3.3.1",

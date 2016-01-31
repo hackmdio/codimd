@@ -244,6 +244,8 @@ app.get('/auth/github/callback',
     function (req, res) {
         res.redirect('/');
     });
+//github callback actions
+app.get('/auth/github/callback/:noteId/:action', response.githubActions);
 //dropbox auth
 app.get('/auth/dropbox',
     passport.authenticate('dropbox-oauth2'),
