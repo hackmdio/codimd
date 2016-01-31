@@ -258,15 +258,15 @@ app.get('/auth/dropbox/callback',
     });
 //logout
 app.get('/logout', function (req, res) {
-    if (config.debug && req.session.passport.user)
-        logger.info('user logout: ' + req.session.passport.user);
+    if (config.debug && req.isAuthenticated())
+        logger.info('user logout: ' + req.user._id);
     req.logout();
     res.redirect('/');
 });
 //get history
 app.get('/history', function (req, res) {
     if (req.isAuthenticated()) {
-        User.model.findById(req.session.passport.user, function (err, user) {
+        User.model.findById(req.user._id, function (err, user) {
             if (err) {
                 logger.error('read history failed: ' + err);
             } else {
@@ -286,8 +286,8 @@ app.get('/history', function (req, res) {
 app.post('/history', urlencodedParser, function (req, res) {
     if (req.isAuthenticated()) {
         if (config.debug)
-            logger.info('SERVER received history from [' + req.session.passport.user + ']: ' + req.body.history);
-        User.model.findById(req.session.passport.user, function (err, user) {
+            logger.info('SERVER received history from [' + req.user._id + ']: ' + req.body.history);
+        User.model.findById(req.user._id, function (err, user) {
             if (err) {
                 logger.error('write history failed: ' + err);
             } else {
@@ -310,14 +310,14 @@ app.post('/history', urlencodedParser, function (req, res) {
 //get me info
 app.get('/me', function (req, res) {
     if (req.isAuthenticated()) {
-        User.model.findById(req.session.passport.user, function (err, user) {
+        User.model.findById(req.user._id, function (err, user) {
             if (err) {
                 logger.error('read me failed: ' + err);
             } else {
                 var profile = JSON.parse(user.profile);
                 res.send({
                     status: 'ok',
-                    id: req.session.passport.user,
+                    id: req.user._id,
                     name: profile.displayName || profile.username
                 });
             }
