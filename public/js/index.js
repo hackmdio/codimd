@@ -2186,23 +2186,42 @@ function checkCursorMenu() {
 
 var isInCode = false;
 
-function check(text) {
+function checkInCode() {
+    isInCode = checkAbove() && checkBelow();
+}
+
+function checkAbove() {
     var cursor = editor.getCursor();
-    text = [];
-    for (var i = 0; i < cursor.line; i++)
+    var text = [];
+    for (var i = 0; i < cursor.line; i++) //contain current line
         text.push(editor.getLine(i));
     text = text.join('\n') + '\n' + editor.getLine(cursor.line).slice(0, cursor.ch);
     //console.log(text);
+    return matchInCode(text);
+}
+
+function checkBelow() {
+    var cursor = editor.getCursor();
+    var count = editor.lineCount();
+    var text = [];
+    for (var i = cursor.line + 1; i < count; i++) //not contain current line
+        text.push(editor.getLine(i));
+    text = text.join('\n') + '\n' + editor.getLine(cursor.line).slice(0, cursor.ch);
+    //console.log(text);
+    return matchInCode(text);
+}
+
+function matchInCode(text) {
     var match;
     match = text.match(/`{3,}/g);
     if (match && match.length % 2) {
-        isInCode = true;
+        return true;
     } else {
         match = text.match(/`/g);
         if (match && match.length % 2) {
-            isInCode = true;
+            return true;
         } else {
-            isInCode = false;
+            return false;
         }
     }
 }
@@ -2212,9 +2231,16 @@ $(editor.getInputField())
         { // emoji strategy
             match: /(?:^|\n|)\B:([\-+\w]*)$/,
             search: function (term, callback) {
-                callback($.map(emojify.emojiNames, function (emoji) {
-                    return emoji.indexOf(term) === 0 ? emoji : null;
-                }));
+                var list = [];
+                $.map(emojify.emojiNames, function (emoji) {
+                    if (emoji.indexOf(term) === 0) //match at first character
+                      list.push(emoji);
+                });
+                $.map(emojify.emojiNames, function (emoji) {
+                    if (emoji.indexOf(term) !== -1) //match inside the word
+                      list.push(emoji);
+                });
+                callback(list);
                 checkCursorMenu();
             },
             template: function (value) {
@@ -2225,7 +2251,8 @@ $(editor.getInputField())
             },
             index: 1,
             context: function (text) {
-                check(text);
+                checkCursorMenu();
+                checkInCode();
                 return !isInCode;
             }
     },
@@ -2236,27 +2263,39 @@ $(editor.getInputField())
             search: function (term, callback) {
                 var list = [];
                 $.map(this.langs, function (lang) {
-                    if (lang.indexOf(term) === 0)
+                    if (lang.indexOf(term) === 0 && lang !== term)
                         list.push(lang);
                 });
                 $.map(this.charts, function (chart) {
-                    if (chart.indexOf(term) === 0)
+                    if (chart.indexOf(term) === 0 && chart !== term)
                         list.push(chart);
                 });
-                checkCursorMenu();
                 callback(list);
+                checkCursorMenu();
             },
             replace: function (lang) {
+                var ending = '';
+                if (isInCode) {
+                    ending = '\n\n```';
+                }
                 if (this.langs.indexOf(lang) !== -1)
-                    return '$1```' + lang + '=\n\n```';
+                    return '$1```' + lang + '=' + ending;
                 else if (this.charts.indexOf(lang) !== -1)
-                    return '$1```' + lang + '\n\n```';
+                    return '$1```' + lang + ending;
             },
             done: function () {
-                editor.doc.cm.execCommand("goLineUp");
+                var cursor = editor.getCursor();
+                var text = [];
+                text.push(editor.getLine(cursor.line - 1));
+                text.push(editor.getLine(cursor.line));
+                text = text.join('\n');
+                //console.log(text);
+                if (text == '\n```')
+                    editor.doc.cm.execCommand("goLineUp");
             },
-            context: function () {
-                return isInCode;
+            context: function (text) {
+                checkCursorMenu();
+                return true;
             }
     },
         { //header
@@ -2271,6 +2310,7 @@ $(editor.getInputField())
                 return '$1' + value;
             },
             context: function (text) {
+                checkCursorMenu();
                 return !isInCode;
             }
     },
@@ -2293,6 +2333,7 @@ $(editor.getInputField())
                 return '$1' + value;
             },
             context: function (text) {
+                checkCursorMenu();
                 return !isInCode;
             }
     },
@@ -2315,6 +2356,7 @@ $(editor.getInputField())
                 return '$1' + value;
             },
             context: function (text) {
+                checkCursorMenu();
                 return !isInCode;
             }
     },
@@ -2330,6 +2372,7 @@ $(editor.getInputField())
                 return '$1' + value;
             },
             context: function (text) {
+                checkCursorMenu();
                 return !isInCode;
             }
     },
@@ -2345,6 +2388,7 @@ $(editor.getInputField())
                 return '$1' + value;
             },
             context: function (text) {
+                checkCursorMenu();
                 return !isInCode;
             }
     }
