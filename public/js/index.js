@@ -1175,7 +1175,8 @@ socket.on('info', function (data) {
 });
 socket.on('error', function (data) {
     console.error(data);
-    location.href = "./403";
+    if (data.message.indexOf('AUTH failed') === 0)
+        location.href = "./403";
 });
 socket.on('disconnect', function (data) {
     showStatus(statusType.offline);
