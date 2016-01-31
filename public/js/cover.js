@@ -348,11 +348,11 @@ var context = {
                     item: [
                             "* Support pin note in history",    
                             "* Support IE9 and above",
-                            "* Support specifiy and continue line number in code block",
+                            "* Support specify and continue line number in code block",
                             "* Changed all embed layout to 100% width",
                             "* Added auto detect default mode",
                             "* Support show last change note user",
-                            "* Upgrade CodeMirror to 5.10.1 with some manaual patches",
+                            "* Upgrade CodeMirror to 5.10.1 with some manual patches",
                             "* Improved server performance",
                             "* Support autocomplete for code block languages of charts"
                         ]
