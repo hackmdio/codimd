@@ -26,7 +26,7 @@ var updateViewDebounce = 200;
 var cursorActivityDebounce = 50;
 var cursorAnimatePeriod = 100;
 var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile'];
-var supportCharts = ['sequence-diagram', 'flow-chart', 'graphviz'];
+var supportCharts = ['sequence', 'flow', 'graphviz'];
 var supportHeaders = [
     {
         text: '# h1',
