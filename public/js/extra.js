@@ -196,7 +196,11 @@ function finishView(view) {
             $(value).gist(viewAjaxCallback);
     });
     //emojify
-    emojify.run(view[0]);
+    try {
+        emojify.run(view[0]);   
+    } catch (err) {
+        console.error(err);
+    }
     //mathjax
     var mathjaxdivs = view.find('.mathjax.raw').removeClass("raw").toArray();
     try {
@@ -652,6 +656,10 @@ function highlightRender(code, lang) {
 }
 
 emojify.setConfig({
+    blacklist: {
+        elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
+        classes: ['no-emojify']
+    },
     img_dir: '/vendor/emojify/images',
     ignore_emoticons: true
 });
