@@ -7,7 +7,7 @@ body {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
     /*text-rendering: optimizeLegibility;*/
     -webkit-overflow-scrolling: touch;
-    font-family: "Source Sans Pro", Helvetica, Arial, "Microsoft JhengHei UI", "Meiryo UI", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
     letter-spacing: 0.025em;
 }
 :focus {
