@@ -2191,7 +2191,7 @@ function checkCursorMenu() {
 var isInCode = false;
 
 function checkInCode() {
-    isInCode = checkAbove() && checkBelow();
+    isInCode = checkAbove();
 }
 
 function checkAbove() {
@@ -2208,9 +2208,9 @@ function checkBelow() {
     var cursor = editor.getCursor();
     var count = editor.lineCount();
     var text = [];
-    for (var i = cursor.line + 1; i < count; i++) //not contain current line
+    for (var i = cursor.line + 1; i < count; i++) //contain current line
         text.push(editor.getLine(i));
-    text = text.join('\n') + '\n' + editor.getLine(cursor.line).slice(0, cursor.ch);
+    text = editor.getLine(cursor.line).slice(cursor.ch) + '\n' + text.join('\n');
     //console.log(text);
     return matchInCode(text);
 }
@@ -2279,7 +2279,7 @@ $(editor.getInputField())
             },
             replace: function (lang) {
                 var ending = '';
-                if (isInCode) {
+                if (!checkBelow()) {
                     ending = '\n\n```';
                 }
                 if (this.langs.indexOf(lang) !== -1)
@@ -2299,7 +2299,7 @@ $(editor.getInputField())
             },
             context: function (text) {
                 checkCursorMenu();
-                return true;
+                return isInCode;
             }
     },
         { //header
