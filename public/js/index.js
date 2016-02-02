@@ -1813,12 +1813,32 @@ editor.on('beforeChange', function (cm, change) {
     if (cmClient && !socket.connected)
         cmClient.editorAdapter.ignoreNextChange = true;
 });
+editor.on('cut', function() {
+    windowResize(); //workaround for scrollMap
+});
+editor.on('paste', function() {
+    windowResize(); //workaround for scrollMap
+});
 editor.on('changes', function (cm, changes) {
     updateHistory();
     preventSyncScroll = true;
     var scrollInfo = editor.getScrollInfo();
     editor.scrollTo(null, scrollInfo.top - 1);
     editor.scrollTo(null, scrollInfo.top);
+    var docLength = editor.getValue().length;
+    //workaround for big documents
+    var newViewportMargin = 20;
+    if (docLength > 20000) {
+        newViewportMargin = 1;
+    } else if (docLength > 10000) {
+        newViewportMargin = 10;
+    } else if (docLength > 5000) {
+        newViewportMargin = 15;
+    }
+    if (newViewportMargin != viewportMargin) {
+        viewportMargin = newViewportMargin;
+        windowResize();
+    }
 });
 editor.on('focus', function (cm) {
     for (var i = 0; i < onlineUsers.length; i++) {
