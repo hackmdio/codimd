@@ -326,7 +326,6 @@ div[contenteditable]:empty:not(:focus):before{
     font-size: 11px;
     line-height: 25px;
     height: 26px;
-    overflow: hidden;
 }
 
 .status-bar .status-info {
@@ -351,12 +350,88 @@ div[contenteditable]:empty:not(:focus):before{
     background: #1c1c1e;
     color: #ccc;
     position: absolute;
-    right: 10px;
+	right: 0;
     text-align: right;
     white-space: nowrap;
-    max-width: 30%;
-    overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.status-bar .status-indicators > div {
+	float: right;
+	padding: 0 10px;
+	border-left: 1px solid #343434;
+}
+
+.status-bar .status-indicators .status-keymap > a {
+	color: inherit;
+    text-decoration: none;
+}
+
+.status-bar .indent-type, .status-bar .indent-width-label {
+    cursor: pointer;
+/*    margin-right: 3px;*/
+}
+
+.status-bar .indent-width-input {
+    font-size: 12px;
+    font-weight: 500;
+    height: 18px;
+    line-height: 1;
+    vertical-align: middle;
+    color: #ccc;
+    margin: 0;
+    padding: 0 0 2px;
+    position: relative;
+    left: 0;
+    top: -1px;
+    width: 18px;
+    transition: .1s linear all;
+    background-color: #555;
+    border: 1px solid #202020;
+    color: #fff;
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.06);
+    border-radius: 3px;
+    text-align: center;
+}
+
+.status-bar .indent-width-input:focus {
+    border: 1px solid #2893ef;
+}
+
+.status-bar .indent-width-input::-webkit-inner-spin-button, 
+.status-bar .indent-width-input::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.status-bar .status-indent > * {
+    display: inline-block;
+}
+
+.status-bar .status-indent > *.hidden {
+    display: none;
+}
+
+.status-bar .status-overwrite:hover, .status-bar .indent-type:hover, .status-bar .indent-width-label:hover {
+    text-decoration: underline;
+}
+
+.status-bar .dropdown-menu {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.09) !important;
+}
+
+.status-bar .dropdown-menu .divider {
+    background-color: #343434;
+}
+
+.status-bar .dropdown-menu > li > a {
+    color: #ccc;
+}
+
+.status-bar .dropdown-menu > li > a:focus, .status-bar .dropdown-menu > li > a:hover {
+    background-color: #212121;
 }
 
 @media print {

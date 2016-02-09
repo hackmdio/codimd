@@ -140,6 +140,10 @@ borrow some color from tomorrow-night-eighties
 .cm-s-one-dark .CodeMirror-cursor {
   border-left: 2px solid #528bff !important;
 }
+.cm-fat-cursor .CodeMirror-cursor {
+  border-left: 2px solid #3C5B9E !important;
+  background: #3C5B9E;
+}
 .cm-s-one-dark .CodeMirror-gutters {
 /*  background-color: #282c34;*/
   background-color: #1e2126;

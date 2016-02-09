@@ -53,4 +53,6 @@ mode/perl/perl.js \
 mode/sass/sass.js \
 mode/r/r.js \
 mode/dockerfile/dockerfile.js \
-keymap/sublime.js
+keymap/emacs.js \
+keymap/sublime.js \
+keymap/vim.js

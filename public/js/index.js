@@ -18,7 +18,33 @@ var defaultExtraKeys = {
     "Ctrl-S": function () {
         return CodeMirror.PASS
     },
-    "Enter": "newlineAndIndentContinueMarkdownList"
+    "Enter": "newlineAndIndentContinueMarkdownList",
+    "Tab": function(cm) {
+        var tab = '\t';
+		var spaces = Array(parseInt(cm.getOption("indentUnit")) + 1).join(" ");
+        //auto indent whole line when in list or blockquote
+        var cursor = cm.getCursor();
+        var line = cm.getLine(cursor.line);
+        var regex = /^(\s*)(>[> ]*|[*+-]\s|(\d+)([.)]))/;
+        var match;
+        if ((match = regex.exec(line)) !== null) {
+            var ch = match[1].length;
+            var pos = {
+                line: cursor.line,
+                ch: ch
+            };
+			if (editor.getOption('indentWithTabs'))
+            	cm.replaceRange(tab, pos, pos, '+input');
+			else
+				cm.replaceRange(spaces, pos, pos, '+input');
+        } else {
+            if (editor.getOption('indentWithTabs'))
+                cm.execCommand('defaultTab');
+            else {
+        		cm.replaceSelection(spaces);
+			}
+        }
+    }
 };
 
 var idleTime = 300000; //5 mins
@@ -250,19 +276,163 @@ var editor = CodeMirror.fromTextArea(textit, {
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor);
 defaultTextHeight = parseInt($(".CodeMirror").css('line-height'));
 
+var statusBarTemplate = null;
 var statusBar = null;
 var statusCursor = null;
 var statusFile = null;
 var statusIndicators = null;
+var statusLength = null;
+var statusKeymap = null;
+var statusIndent = null;
+
+$.get('/views/statusbar.html', function (template) {
+    statusBarTemplate = template;
+});
 
 function addStatusBar() {
-    var element = '<div class="status-bar"><div class="status-info"><div class="status-cursor"></div><div class="status-file"></div></div><div class="status-indicators"></div></div>';
-    statusBar = $(element);
+    statusBar = $(statusBarTemplate);
     statusCursor = statusBar.find('.status-cursor');
     statusFile = statusBar.find('.status-file');
     statusIndicators = statusBar.find('.status-indicators');
+    statusIndent = statusBar.find('.status-indent');
+    statusKeymap = statusBar.find('.status-keymap');
+    statusLength = statusBar.find('.status-length');
     editor.addPanel(statusBar[0], {
         position: "bottom"
+    });
+    
+    setIndent();
+    setKeymap();
+}
+
+function setIndent() {
+    var cookieIndentType = Cookies.get('indent_type');
+    var cookieTabSize = parseInt(Cookies.get('tab_size'));
+    var cookieSpaceUnits = parseInt(Cookies.get('space_units'));
+    if (cookieIndentType) {
+        if (cookieIndentType == 'tab') {
+            editor.setOption('indentWithTabs', true);
+            if (cookieTabSize)
+                editor.setOption('indentUnit', cookieTabSize);
+        } else if (cookieIndentType == 'space') {
+            editor.setOption('indentWithTabs', false);
+            if (cookieSpaceUnits)
+                editor.setOption('indentUnit', cookieSpaceUnits);
+        }
+    }
+    if (cookieTabSize)
+        editor.setOption('tabSize', cookieTabSize);
+    
+    var type = statusIndicators.find('.indent-type');
+    var widthLabel = statusIndicators.find('.indent-width-label');
+    var widthInput = statusIndicators.find('.indent-width-input');
+    
+    function setType() {
+        if (editor.getOption('indentWithTabs')) {
+            Cookies.set('indent_type', 'tab', {
+                expires: 365
+            });
+            type.text('Tab Size:');
+        } else {
+            Cookies.set('indent_type', 'space', {
+                expires: 365
+            });
+            type.text('Spaces:');
+        }
+    }
+    setType();
+    
+    function setUnit() {
+        var unit = editor.getOption('indentUnit');
+        if (editor.getOption('indentWithTabs')) {
+            Cookies.set('tab_size', unit, {
+                expires: 365
+            });
+        } else {
+            Cookies.set('space_units', unit, {
+                expires: 365
+            });
+        }
+        widthLabel.text(unit);
+    }
+    setUnit();
+    
+    type.click(function() {
+        if (editor.getOption('indentWithTabs')) {
+            editor.setOption('indentWithTabs', false);
+            cookieSpaceUnits = parseInt(Cookies.get('space_units'));
+            if (cookieSpaceUnits)
+                editor.setOption('indentUnit', cookieSpaceUnits)
+        } else {
+            editor.setOption('indentWithTabs', true);
+            cookieTabSize = parseInt(Cookies.get('tab_size'));
+            if (cookieTabSize) {
+                editor.setOption('indentUnit', cookieTabSize);
+                editor.setOption('tabSize', cookieTabSize);
+            }
+        }
+        setType();
+		setUnit();
+    });
+    widthLabel.click(function() {
+        if (widthLabel.is(':visible')) {
+            widthLabel.addClass('hidden');
+            widthInput.removeClass('hidden');
+            widthInput.val(editor.getOption('indentUnit'));
+            widthInput.select();
+        } else {
+            widthLabel.removeClass('hidden');
+            widthInput.addClass('hidden');
+        }
+    });
+    widthInput.on('change', function() {
+        var val = widthInput.val();
+		if (!val) val = editor.getOption('indentUnit');
+        if (val < 1) val = 1;
+        else if (val > 10) val = 10;
+        
+        if (editor.getOption('indentWithTabs')) {
+            editor.setOption('tabSize', val);
+        }
+        editor.setOption('indentUnit', val);
+        setUnit();
+    });
+    widthInput.on('blur', function() {
+        widthLabel.removeClass('hidden');
+        widthInput.addClass('hidden');
+    });
+}
+
+function setKeymap() {
+    var cookieKeymap = Cookies.get('keymap');
+    if (cookieKeymap)
+        editor.setOption('keyMap', cookieKeymap);
+    
+    var label = statusIndicators.find('.ui-keymap-label');
+    var sublime = statusIndicators.find('.ui-keymap-sublime');
+    var emacs = statusIndicators.find('.ui-keymap-emacs');
+    var vim = statusIndicators.find('.ui-keymap-vim');
+    
+    function setKeymapLabel() {
+        var keymap = editor.getOption('keyMap');
+        Cookies.set('keymap', keymap, {
+            expires: 365
+        });
+        label.text(keymap);
+    }
+    setKeymapLabel();
+    
+    sublime.click(function() {
+        editor.setOption('keyMap', 'sublime');
+        setKeymapLabel();
+    });
+    emacs.click(function() {
+        editor.setOption('keyMap', 'emacs');
+        setKeymapLabel();
+    });
+    vim.click(function() {
+        editor.setOption('keyMap', 'vim');
+        setKeymapLabel();
     });
 }
 
@@ -294,7 +464,7 @@ function updateStatusBar() {
     statusCursor.text(cursorText);
     var fileText = ' — ' + editor.lineCount() + ' Lines';
     statusFile.text(fileText);
-    statusIndicators.text('Length ' + editor.getValue().length);
+    statusLength.text('Length ' + editor.getValue().length);
 }
 
 //ui vars
