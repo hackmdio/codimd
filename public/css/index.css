@@ -350,20 +350,20 @@ div[contenteditable]:empty:not(:focus):before{
     background: #1c1c1e;
     color: #ccc;
     position: absolute;
-	right: 0;
+    right: 0;
     text-align: right;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .status-bar .status-indicators > div {
-	float: right;
-	padding: 0 10px;
-	border-left: 1px solid #343434;
+    float: right;
+    padding: 0 10px;
+    border-left: 1px solid #343434;
 }
 
 .status-bar .status-indicators .status-keymap > a {
-	color: inherit;
+    color: inherit;
     text-decoration: none;
 }
 
