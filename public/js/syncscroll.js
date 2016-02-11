@@ -161,13 +161,15 @@ ui.area.view.on('scroll', function () {
 //editor.on('scroll', _.debounce(syncScrollToView, syncScrollDelay));
 //ui.area.view.on('scroll', _.debounce(syncScrollToEdit, 50));
 
-var scrollMap, lineHeightMap;
+var scrollMap, lineHeightMap, viewTop, viewBottom;
 
 viewAjaxCallback = clearMap;
 
 function clearMap() {
     scrollMap = null;
     lineHeightMap = null;
+    viewTop = null;
+    viewBottom = null;
 }
 
 var buildMap = _.throttle(buildMapInner, buildMapThrottle);
@@ -183,6 +185,8 @@ function buildMapInner(syncBack) {
     _scrollMap = [];
     nonEmptyList = [];
     _lineHeightMap = [];
+    viewTop = 0;
+    viewBottom = ui.area.view[0].scrollHeight - ui.area.view.height();
 
     acc = 0;
     var lines = editor.getValue().split('\n');
@@ -208,7 +212,8 @@ function buildMapInner(syncBack) {
     }
 
     nonEmptyList.push(0);
-    _scrollMap[0] = 0;
+    // make the first line go top
+    _scrollMap[0] = viewTop;
 
     var parts = ui.area.markdown.find('.part').toArray();
     for (i = 0; i < parts.length; i++) {
@@ -296,9 +301,13 @@ function syncScrollToView(event, _lineNo) {
         var topDiffPercent, posToNextDiff;
         var textHeight = editor.defaultTextHeight();
         lineNo = Math.floor(scrollInfo.top / textHeight);
-        //if reach bottom, then scroll to end
-        if (scrollInfo.height > scrollInfo.clientHeight && scrollInfo.top + scrollInfo.clientHeight >= scrollInfo.height - textHeight) {
-            posTo = ui.area.view[0].scrollHeight - ui.area.view.height();
+        // if reach the last line, will start lerp to the bottom
+        var diffToBottom = (scrollInfo.top + scrollInfo.clientHeight) - (scrollInfo.height - textHeight);
+        if (scrollInfo.height > scrollInfo.clientHeight && diffToBottom > 0) {
+            topDiffPercent = diffToBottom / textHeight;
+            posTo = scrollMap[lineNo + 1];
+            posToNextDiff = (viewBottom - posTo) * topDiffPercent;
+            posTo += Math.floor(posToNextDiff);
         } else {
             topDiffPercent = (scrollInfo.top % textHeight) / textHeight;
             posTo = scrollMap[lineNo];
