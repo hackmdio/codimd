@@ -73,9 +73,9 @@ md.renderer.rules.heading_open = function (tokens, idx) {
     if (tokens[idx].lines && tokens[idx].level === 0) {
         var startline = tokens[idx].lines[0] + 1;
         var endline = tokens[idx].lines[1];
-        return '<h' + tokens[idx].hLevel + ' class="part" data-startline="' + startline + '" data-endline="' + endline + '">';
+        return '<h' + tokens[idx].hLevel + ' class="part raw" data-startline="' + startline + '" data-endline="' + endline + '">';
     }
-    return '<h' + tokens[idx].hLevel + '>';
+    return '<h' + tokens[idx].hLevel + ' class="raw">';
 };
 
 md.renderer.rules.fence = function (tokens, idx, options, env, self) {

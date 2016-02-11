@@ -338,13 +338,6 @@ function finishView(view) {
 //only static transform should be here
 function postProcess(code) {
     var result = $('<div>' + code + '</div>');
-    //prevent XSS
-    result.find("script").replaceWith(function () {
-        return "<noscript>" + $(this).html() + "</noscript>"
-    });
-    result.find("iframe").replaceWith(function () {
-        return "<noiframe>" + $(this).html() + "</noiframe>"
-    });
     //link should open in new window or tab
     result.find('a:not([href^="#"]):not([target])').attr('target', '_blank');
 	//update continue line numbers
@@ -576,11 +569,11 @@ function autoLinkify(view) {
 }
 
 function deduplicatedHeaderId(view) {
-    var headers = view.find(':header').toArray();
+    var headers = view.find(':header.raw').removeClass('raw').toArray();
     for (var i = 0; i < headers.length; i++) {
         var id = $(headers[i]).attr('id');
         if (!id) continue;
-        var duplicatedHeaders = view.find(':header[id=' + id + ']').toArray();
+        var duplicatedHeaders = view.find(':header[id="' + id + '"]').toArray();
         for (var j = 0; j < duplicatedHeaders.length; j++) {
             if (duplicatedHeaders[j] != headers[i]) {
                 var newId = id + j;
@@ -684,6 +677,9 @@ md.renderer.rules.list_item_open = function ( /* tokens, idx, options, env */ ) 
 };
 md.renderer.rules.blockquote_open = function (tokens, idx /*, options, env */ ) {
     return '<blockquote class="raw">\n';
+};
+md.renderer.rules.heading_open = function (tokens, idx) {
+    return '<h' + tokens[idx].hLevel + ' class="raw">';
 };
 md.renderer.rules.fence = function (tokens, idx, options, env, self) {
     var token = tokens[idx];

@@ -1,9 +1,14 @@
 var markdown = $(".markdown-body");
 var text = $('<textarea/>').html(markdown.html()).text();
+var lastMeta = md.meta;
 md.meta = {};
-md.render(text); //only for get meta
-parseMeta(md, markdown, $('#toc'), $('#toc-affix'));
 var rendered = md.render(text);
+// only render again when meta changed
+if (JSON.stringify(md.meta) != JSON.stringify(lastMeta)) {
+    parseMeta(md, markdown, $('#toc'), $('#toc-affix'));
+    rendered = md.render(text);
+}
+// prevent XSS
 rendered = preventXSS(rendered);
 var result = postProcess(rendered);
 markdown.html(result.html());
