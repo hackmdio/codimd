@@ -14,7 +14,6 @@
     "cheerio": "^0.19.0",
     "compression": "^1.6.0",
     "connect-mongo": "^1.1.0",
-    "kerberos": "0.0.17",
     "cookie": "0.2.3",
     "cookie-parser": "1.4.1",
     "ejs": "^2.3.4",
@@ -25,6 +24,7 @@
     "highlight.js": "^9.1.0",
     "imgur": "^0.1.7",
     "jsdom-nogyp": "^0.8.3",
+    "kerberos": "0.0.17",
     "lz-string": "1.4.4",
     "markdown-pdf": "^6.0.0",
     "marked": "^0.3.5",
@@ -33,6 +33,7 @@
     "moment": "^2.11.1",
     "mongoose": "^4.3.6",
     "morgan": "^1.6.1",
+    "mustache": "2.2.1",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
     "passport-dropbox-oauth2": "^1.0.0",
@@ -43,13 +44,13 @@
     "pg": "4.x",
     "randomcolor": "^0.4.3",
     "request": "^2.69.0",
+    "reveal.js": "3.2.0",
     "shortid": "2.2.4",
     "socket.io": "1.4.4",
     "string": "^3.3.1",
     "toobusy-js": "^0.4.2",
     "winston": "^2.1.1",
-    "mustache": "2.2.1",
-    "reveal.js": "3.2.0"
+    "xss": "^0.2.10"
   },
   "engines": {
     "node": ">=4.x"

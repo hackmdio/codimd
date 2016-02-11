@@ -2131,6 +2131,7 @@ var lastResult = null;
 function updateViewInner() {
     if (currentMode == modeType.edit || !isDirty) return;
     var value = editor.getValue();
+    value = filterXSS(value); // prevent xss
     md.meta = {};
     md.render(value); //only for get meta
     parseMeta(md, ui.area.markdown, $('#toc'), $('#toc-affix'));
