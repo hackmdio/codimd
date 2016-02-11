@@ -2132,11 +2132,12 @@ var lastResult = null;
 function updateViewInner() {
     if (currentMode == modeType.edit || !isDirty) return;
     var value = editor.getValue();
-    value = filterXSS(value); // prevent xss
     md.meta = {};
     md.render(value); //only for get meta
     parseMeta(md, ui.area.markdown, $('#toc'), $('#toc-affix'));
-    var result = postProcess(md.render(value)).children().toArray();
+    var rendered = md.render(value);
+    rendered = preventXSS(rendered);
+    var result = postProcess(rendered).children().toArray();
     partialUpdate(result, lastResult, ui.area.markdown.children().toArray());
     if (result && lastResult && result.length != lastResult.length)
         updateDataAttrs(result, ui.area.markdown.children().toArray());

@@ -3,7 +3,9 @@ var text = $('<textarea/>').html(markdown.html()).text();
 md.meta = {};
 md.render(text); //only for get meta
 parseMeta(md, markdown, $('#toc'), $('#toc-affix'));
-var result = postProcess(md.render(text));
+var rendered = md.render(text);
+rendered = preventXSS(rendered);
+var result = postProcess(rendered);
 markdown.html(result.html());
 $(document.body).show();
 finishView(markdown);

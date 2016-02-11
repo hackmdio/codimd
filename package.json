@@ -49,8 +49,7 @@
     "socket.io": "1.4.4",
     "string": "^3.3.1",
     "toobusy-js": "^0.4.2",
-    "winston": "^2.1.1",
-    "xss": "^0.2.10"
+    "winston": "^2.1.1"
   },
   "engines": {
     "node": ">=4.x"

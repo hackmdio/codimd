@@ -180,7 +180,7 @@ function finishView(view) {
         .each(function (key, value) {
             $.ajax({
                 type: 'GET',
-                url: '//vimeo.com/api/v2/video/' + $(value).attr('videoid') + '.json',
+                url: '//vimeo.com/api/v2/video/' + $(value).attr('data-videoid') + '.json',
                 jsonp: 'callback',
                 dataType: 'jsonp',
                 success: function (data) {
@@ -285,7 +285,7 @@ function finishView(view) {
         .each(function (key, value) {
             $.ajax({
                 type: 'GET',
-                url: '//www.slideshare.net/api/oembed/2?url=http://www.slideshare.net/' + $(value).attr('slideshareid') + '&format=json',
+                url: '//www.slideshare.net/api/oembed/2?url=http://www.slideshare.net/' + $(value).attr('data-slideshareid') + '&format=json',
                 jsonp: 'callback',
                 dataType: 'jsonp',
                 success: function (data) {
@@ -304,7 +304,7 @@ function finishView(view) {
     //speakerdeck
     view.find(".speakerdeck.raw").removeClass("raw")
         .each(function (key, value) {
-            var url = 'https://speakerdeck.com/oembed.json?url=https%3A%2F%2Fspeakerdeck.com%2F' + encodeURIComponent($(value).attr('speakerdeckid'));
+            var url = 'https://speakerdeck.com/oembed.json?url=https%3A%2F%2Fspeakerdeck.com%2F' + encodeURIComponent($(value).attr('data-speakerdeckid'));
             //use yql because speakerdeck not support jsonp
             $.ajax({
                 url: 'https://query.yahooapis.com/v1/public/yql',
@@ -383,8 +383,8 @@ function exportToHTML(view) {
         $(value).attr('src', 'https://www.tortue.me/emoji/' + name + '.png');
     });
     //replace video to iframe
-    src.find("div[videoid]").each(function (key, value) {
-        var id = $(value).attr('videoid');
+    src.find("div[data-videoid]").each(function (key, value) {
+        var id = $(value).attr('data-videoid');
         var style = $(value).attr('style');
         var url = null;
         if ($(value).hasClass('youtube')) {
@@ -534,9 +534,9 @@ function smoothHashScroll() {
 }
 
 function imgPlayiframe(element, src) {
-    if (!$(element).attr("videoid")) return;
+    if (!$(element).attr("data-videoid")) return;
     var iframe = $("<iframe frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>");
-    $(iframe).attr("src", src + $(element).attr("videoid") + '?autoplay=1');
+    $(iframe).attr("src", src + $(element).attr("data-videoid") + '?autoplay=1');
     $(element).find('img').css('visibility', 'hidden');
     $(element).append(iframe);
 }
@@ -730,7 +730,7 @@ var youtubePlugin = new Plugin(
         var videoid = match[1];
         if (!videoid) return;
         var div = $('<div class="youtube raw"></div>');
-        div.attr('videoid', videoid);
+        div.attr('data-videoid', videoid);
         var thumbnail_src = '//img.youtube.com/vi/' + videoid + '/hqdefault.jpg';
         var image = '<img src="' + thumbnail_src + '" />';
         div.append(image);
@@ -749,7 +749,7 @@ var vimeoPlugin = new Plugin(
         var videoid = match[1];
         if (!videoid) return;
         var div = $('<div class="vimeo raw"></div>');
-        div.attr('videoid', videoid);
+        div.attr('data-videoid', videoid);
         var icon = '<i class="icon fa fa-vimeo-square fa-5x"></i>';
         div.append(icon);
         return div[0].outerHTML;
@@ -799,7 +799,7 @@ var slidesharePlugin = new Plugin(
     function (match, utils) {
         var slideshareid = match[1];
         var div = $('<div class="slideshare raw"></div>');
-        div.attr('slideshareid', slideshareid);
+        div.attr('data-slideshareid', slideshareid);
         return div[0].outerHTML;
     }
 );
@@ -812,7 +812,7 @@ var speakerdeckPlugin = new Plugin(
     function (match, utils) {
         var speakerdeckid = match[1];
         var div = $('<div class="speakerdeck raw"></div>');
-        div.attr('speakerdeckid', speakerdeckid);
+        div.attr('data-speakerdeckid', speakerdeckid);
         return div[0].outerHTML;
     }
 );
