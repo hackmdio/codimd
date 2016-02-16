@@ -27,18 +27,21 @@ var defaultExtraKeys = {
         var line = cm.getLine(cursor.line);
         var regex = /^(\s*)(>[> ]*|[*+-]\s|(\d+)([.)]))/;
         var match;
-        if ((match = regex.exec(line)) !== null) {
+        var multiple = cm.getSelection().split('\n').length > 1 || cm.getSelections().length > 1;
+        if (multiple) {
+            cm.execCommand('defaultTab');
+        } else if ((match = regex.exec(line)) !== null) {
             var ch = match[1].length;
             var pos = {
                 line: cursor.line,
                 ch: ch
             };
-			if (editor.getOption('indentWithTabs'))
+			if (cm.getOption('indentWithTabs'))
             	cm.replaceRange(tab, pos, pos, '+input');
 			else
 				cm.replaceRange(spaces, pos, pos, '+input');
         } else {
-            if (editor.getOption('indentWithTabs'))
+            if (cm.getOption('indentWithTabs'))
                 cm.execCommand('defaultTab');
             else {
         		cm.replaceSelection(spaces);
