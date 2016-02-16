@@ -968,7 +968,24 @@ if (typeof jQuery === 'undefined') {
         pre = match[0];
         var newSubstr = strategy.replace(value);
         newSubstr = pre.replace(strategy.match, newSubstr);
-        editor.replaceRange(newSubstr, {line:cursor.line, ch:match.index}, {line:cursor.line, ch:match.index + match[0].length}, "+input");
+        
+        editor.operation(function() {
+          var selections = editor.listSelections();
+          var bias = match.index - cursor.ch;
+          for (var i = 0, l = selections.length; i < l; i++) {
+            var sel = selections[i];
+            var start = {
+              line: sel.head.line,
+              ch: sel.head.ch + bias
+            };
+            var end = {
+              line: sel.head.line,
+              ch: sel.head.ch + bias + match[0].length
+            };
+            editor.replaceRange(newSubstr, start, end, "+input");
+          }
+        });
+        
         if(strategy.done)
             strategy.done();
     },
