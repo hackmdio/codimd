@@ -66,7 +66,7 @@ function slugifyWithUTF8(text) {
 }
 
 //parse meta
-function parseMeta(md, view, toc, tocAffix) {
+function parseMeta(md, edit, view, toc, tocAffix) {
     var robots = null;
     var lang = null;
     var dir = null;
@@ -93,10 +93,14 @@ function parseMeta(md, view, toc, tocAffix) {
         view.attr('lang', lang);
         toc.attr('lang', lang);
         tocAffix.attr('lang', lang);
+        if (edit)
+            edit.attr('lang', lang);
     } else {
         view.removeAttr('lang');
         toc.removeAttr('lang');
         tocAffix.removeAttr('lang');
+        if (edit)
+            edit.removeAttr('lang', lang);
     }
     //text direction
     if (dir) {

@@ -11,13 +11,25 @@ body {
     /*overflow: hidden;*/
 }
 .CodeMirror {
-    font-family: "Source Code Pro", Consolas, monaco, "Microsoft JhengHei", Meiryo, "ＭＳ ゴシック", "MS Gothic", monospace;
+    font-family: "Source Code Pro", Consolas, monaco, monospace;
     letter-spacing: 0.025em;
     line-height: 1.25;
     font-size: 18px;
     min-height: 100%;
     overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch;
+}
+/* support japanese font */
+.CodeMirror[lang^="ja"] {
+    font-family: "Source Code Pro", Consolas, monaco, Meiryo, "ＭＳ ゴシック", "MS Gothic", monospace;
+}
+/* support zh-tw font */
+.CodeMirror[lang="zh-tw"] {
+    font-family: "Source Code Pro", Consolas, monaco, "Microsoft JhengHei", "微軟正黑", monospace;
+}
+/* support zh-cn font */
+.CodeMirror[lang="zh-cn"] {
+    font-family: "Source Code Pro", Consolas, monaco, "Microsoft YaHei", "微软雅黑", monospace;
 }
 .CodeMirror-placeholder {
     color: #777 !important;

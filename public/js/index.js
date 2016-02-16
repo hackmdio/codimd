@@ -2137,7 +2137,7 @@ function updateViewInner() {
     var rendered = md.render(value);
     // only render again when meta changed
     if (JSON.stringify(md.meta) != JSON.stringify(lastMeta)) {
-        parseMeta(md, ui.area.markdown, $('#toc'), $('#toc-affix'));
+        parseMeta(md, ui.area.codemirror, ui.area.markdown, $('#toc'), $('#toc-affix'));
         rendered = md.render(value);
     }
     // prevent XSS

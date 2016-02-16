@@ -5,7 +5,7 @@ md.meta = {};
 var rendered = md.render(text);
 // only render again when meta changed
 if (JSON.stringify(md.meta) != JSON.stringify(lastMeta)) {
-    parseMeta(md, markdown, $('#toc'), $('#toc-affix'));
+    parseMeta(md, null, markdown, $('#toc'), $('#toc-affix'));
     rendered = md.render(text);
 }
 // prevent XSS
