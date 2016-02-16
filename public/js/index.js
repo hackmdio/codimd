@@ -1781,7 +1781,7 @@ function checkCursorTag(coord, ele) {
         buildMapInner();
     var left = coord.left;
     var top = lineHeightMap[cursor.line] * defaultTextHeight; //coord.top;
-    top -= dropdown.closest('.CodeMirror-sizer > *').position().top;
+    top -= ele.closest('.CodeMirror-sizer > *').position().top;
     var offsetLeft = -3;
     var offsetTop = defaultTextHeight;
     var statusBarHeight = 0;
