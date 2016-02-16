@@ -1,10 +1,11 @@
+var whiteListTag = ['style', '!--'];
 var whiteListAttr = ['id', 'class', 'style'];
 
 var filterXSSOptions = {
     allowCommentTag: true,
     onIgnoreTag: function (tag, html, options) {
         // allow style in html
-        if (tag === 'style') {
+        if (whiteListTag.indexOf(tag) !== -1) {
             // do not filter its attributes
             return html;
         }
