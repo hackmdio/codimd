@@ -389,7 +389,7 @@ function setIndent() {
         }
     });
     widthInput.on('change', function() {
-        var val = widthInput.val();
+        var val = parseInt(widthInput.val());
 		if (!val) val = editor.getOption('indentUnit');
         if (val < 1) val = 1;
         else if (val > 10) val = 10;
