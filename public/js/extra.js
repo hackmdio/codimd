@@ -402,10 +402,11 @@ function exportToHTML(view) {
     var tocAffix = $('#toc-affix').clone();
     tocAffix.find('*').removeClass('active');
     //generate html via template
-    $.get('/css/html.min.css', function (css) {
-        $.get('/views/html.hbs', function (data) {
+    $.get(serverurl + '/css/html.min.css', function (css) {
+        $.get(serverurl + '/views/html.hbs', function (data) {
             var template = Handlebars.compile(data);
             var context = {
+                url: serverurl,
                 title: title,
                 css: css,
                 html: src[0].outerHTML,
@@ -657,7 +658,7 @@ emojify.setConfig({
         elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
         classes: ['no-emojify']
     },
-    img_dir: '/vendor/emojify/images',
+    img_dir: serverurl + '/vendor/emojify/images',
     ignore_emoticons: true
 });
 

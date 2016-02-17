@@ -288,7 +288,7 @@ var statusLength = null;
 var statusKeymap = null;
 var statusIndent = null;
 
-$.get('/views/statusbar.html', function (template) {
+$.get(serverurl + '/views/statusbar.html', function (template) {
     statusBarTemplate = template;
 });
 
@@ -994,9 +994,8 @@ function closestIndex(arr, closestTo) {
 }
 
 //button actions
-var url = window.location.protocol + '//' + window.location.host + window.location.pathname;
 //share
-ui.toolbar.publish.attr("href", url + "/publish");
+ui.toolbar.publish.attr("href", noteurl + "/publish");
 //download
 //markdown
 ui.toolbar.download.markdown.click(function (e) {
@@ -1021,7 +1020,7 @@ ui.toolbar.export.dropbox.click(function () {
     var options = {
         files: [
             {
-                'url': url + "/download",
+                'url': noteurl + "/download",
                 'filename': filename
             }
         ],
@@ -1032,7 +1031,7 @@ ui.toolbar.export.dropbox.click(function () {
     Dropbox.save(options);
 });
 //export to gist
-ui.toolbar.export.gist.attr("href", url + "/gist");
+ui.toolbar.export.gist.attr("href", noteurl + "/gist");
 //import from dropbox
 ui.toolbar.import.dropbox.click(function () {
     var options = {
@@ -1064,9 +1063,9 @@ ui.toc.dropdown.click(function (e) {
 });
 //beta
 //pdf
-ui.toolbar.beta.pdf.attr("download", "").attr("href", url + "/pdf");
+ui.toolbar.beta.pdf.attr("download", "").attr("href", noteurl + "/pdf");
 //slide
-ui.toolbar.beta.slide.attr("href", url + "/slide");
+ui.toolbar.beta.slide.attr("href", noteurl + "/slide");
 
 function scrollToTop() {
     if (currentMode == modeType.both) {
@@ -1325,6 +1324,7 @@ function havePermission() {
 
 //socket.io actions
 var socket = io.connect({
+    path: urlpath ? '/' + urlpath + '/socket.io/' : '',
     timeout: 10000 //10 secs to timeout
 });
 //overwrite original event for checking login state
@@ -2450,7 +2450,7 @@ $(editor.getInputField())
                 checkCursorMenu();
             },
             template: function (value) {
-                return '<img class="emoji" src="/vendor/emojify/images/' + value + '.png"></img> ' + value;
+                return '<img class="emoji" src="' + serverurl + '/vendor/emojify/images/' + value + '.png"></img> ' + value;
             },
             replace: function (value) {
                 return ':' + value + ':';

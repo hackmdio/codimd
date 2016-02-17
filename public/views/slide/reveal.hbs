@@ -6,19 +6,19 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="mobile-web-app-capable" content="yes">
         <title>{{title}}</title>
-        <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
-        <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+        <link rel="icon" type="image/png" href="{{{url}}}/favicon.png">
+        <link rel="apple-touch-icon" href="{{{url}}}/apple-touch-icon.png">
         
-        <link rel="stylesheet" href="/vendor/reveal.js/css/reveal.css">
-        <link rel="stylesheet" href="/vendor/reveal.js/{{{theme}}}" id="theme">
+        <link rel="stylesheet" href="{{{url}}}/vendor/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="{{{url}}}/vendor/reveal.js/{{{theme}}}" id="theme">
         <!-- For syntax highlighting -->
-        <link rel="stylesheet" href="/vendor/reveal.js/lib/css/{{{highlightTheme}}}.css">
-        <link rel="stylesheet" href="/css/site.css">
-        <link rel="stylesheet" href="/css/slide.css">
+        <link rel="stylesheet" href="{{{url}}}/vendor/reveal.js/lib/css/{{{highlightTheme}}}.css">
+        <link rel="stylesheet" href="{{{url}}}/css/site.css">
+        <link rel="stylesheet" href="{{{url}}}/css/slide.css">
 
         <!-- If the query includes 'print-pdf', use the PDF print sheet -->
         <script>
-          document.write( '<link rel="stylesheet" href="/vendor/reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+          document.write( '<link rel="stylesheet" href="{{{url}}}/vendor/reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
         </script>
 		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     </head>
@@ -27,12 +27,12 @@
         <div class="reveal">
             <div class="slides">{{{slides}}}</div>
         </div>
-        
-        <script src="/vendor/reveal.js/lib/js/head.min.js"></script>
-        <script src="/vendor/reveal.js/js/reveal.js"></script>
-        <script src="/vendor/string.min.js"></script>
-        <script src="/vendor/xss/dist/xss.min.js"></script>
-        <script src="/js/render.js"></script>
+
+        <script src="{{{url}}}/vendor/reveal.js/lib/js/head.min.js"></script>
+        <script src="{{{url}}}/vendor/reveal.js/js/reveal.js"></script>
+        <script src="{{{url}}}/vendor/string.min.js"></script>
+        <script src="{{{url}}}/vendor/xss/dist/xss.min.js"></script>
+        <script src="{{{url}}}/js/render.js"></script>
 
         <script>
             var body = $(".slides").html();
@@ -53,12 +53,12 @@
 
             // Optional libraries used to extend on reveal.js
             var deps = [
-              { src: '/vendor/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-              { src: '/vendor/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
-              { src: '/js/reveal-markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
-              { src: '/vendor/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-              { src: '/vendor/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
-              { src: '/vendor/reveal.js/plugin/math/math.js', async: true }
+              { src: '{{{url}}}/vendor/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+              { src: '{{{url}}}/vendor/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: '{{{url}}}/js/reveal-markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: '{{{url}}}/vendor/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+              { src: '{{{url}}}/vendor/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+              { src: '{{{url}}}/vendor/reveal.js/plugin/math/math.js', async: true }
             ];
 
             // default options to init reveal.js

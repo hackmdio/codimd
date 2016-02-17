@@ -61,6 +61,7 @@ There are some config you need to change in below files
 ```
 ./config.js				--- for server settings
 ./public/js/index.js	--- for client settings
+./public/js/common.js	--- for client settings
 ```
 
 Client-side index.js settings
@@ -69,6 +70,13 @@ Client-side index.js settings
 | --------- | ------ | ----------- |
 | debug | `true` or `false` | set debug mode, show more logs |
 | version | `0.3.2` | current version, must match same var in server side `config.js` |
+
+Client-side common.js settings
+---
+| variables | example values | description |
+| --------- | ------ | ----------- |
+| domain | `localhost` | domain name |
+| urlpath | `hackmd` | sub url path, like: `www.example.com/<urlpath>` |
 
 Environment variables
 ---
@@ -80,6 +88,7 @@ Environment variables
 | PORT | `80` | web port |
 | SSLPORT | `443` | ssl web port |
 | DOMAIN | `localhost` | domain name |
+| URL_PATH | `hackmd` | sub url path, like `www.example.com/<URL_PATH>` |
 
 Server-side config.js settings
 ---

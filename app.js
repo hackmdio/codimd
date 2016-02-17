@@ -215,10 +215,10 @@ app.get('/auth/facebook',
 //facebook auth callback
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
-        failureRedirect: '/'
+        failureRedirect: config.getserverurl()
     }),
     function (req, res) {
-        res.redirect('/');
+        res.redirect(config.getserverurl());
     });
 //twitter auth
 app.get('/auth/twitter',
@@ -227,10 +227,10 @@ app.get('/auth/twitter',
 //twitter auth callback
 app.get('/auth/twitter/callback',
     passport.authenticate('twitter', {
-        failureRedirect: '/'
+        failureRedirect: config.getserverurl()
     }),
     function (req, res) {
-        res.redirect('/');
+        res.redirect(config.getserverurl());
     });
 //github auth
 app.get('/auth/github',
@@ -239,10 +239,10 @@ app.get('/auth/github',
 //github auth callback
 app.get('/auth/github/callback',
     passport.authenticate('github', {
-        failureRedirect: '/'
+        failureRedirect: config.getserverurl()
     }),
     function (req, res) {
-        res.redirect('/');
+        res.redirect(config.getserverurl());
     });
 //github callback actions
 app.get('/auth/github/callback/:noteId/:action', response.githubActions);
@@ -253,17 +253,17 @@ app.get('/auth/dropbox',
 //dropbox auth callback
 app.get('/auth/dropbox/callback',
     passport.authenticate('dropbox-oauth2', {
-        failureRedirect: '/'
+        failureRedirect: config.getserverurl()
     }),
     function (req, res) {
-        res.redirect('/');
+        res.redirect(config.getserverurl());
     });
 //logout
 app.get('/logout', function (req, res) {
     if (config.debug && req.isAuthenticated())
         logger.info('user logout: ' + req.user._id);
     req.logout();
-    res.redirect('/');
+    res.redirect(config.getserverurl());
 });
 //get history
 app.get('/history', function (req, res) {

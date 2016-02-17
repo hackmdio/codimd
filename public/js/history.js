@@ -4,7 +4,7 @@ migrateHistoryFromTemp();
 
 function migrateHistoryFromTemp() {
     if (url('#tempid')) {
-        $.get('/temp', {
+        $.get(serverurl + '/temp', {
                 tempid: url('#tempid')
             })
             .done(function (data) {
@@ -57,7 +57,7 @@ function saveHistoryToCookie(notehistory) {
 }
 
 function saveHistoryToServer(notehistory) {
-    $.post('/history', {
+    $.post(serverurl + '/history', {
         history: JSON.stringify(notehistory)
     });
 }
@@ -70,7 +70,7 @@ function saveCookieHistoryToStorage(callback) {
 function saveStorageHistoryToServer(callback) {
     var data = store.get('notehistory');
     if (data) {
-        $.post('/history', {
+        $.post(serverurl + '/history', {
                 history: data
             })
             .done(function (data) {
@@ -80,7 +80,7 @@ function saveStorageHistoryToServer(callback) {
 }
 
 function saveCookieHistoryToServer(callback) {
-    $.post('/history', {
+    $.post(serverurl + '/history', {
             history: Cookies.get('notehistory')
         })
         .done(function (data) {
@@ -112,13 +112,16 @@ function clearDuplicatedHistory(notehistory) {
 }
 
 function addHistory(id, text, time, tags, pinned, notehistory) {
-    notehistory.push({
-        id: id,
-        text: text,
-        time: time,
-        tags: tags,
-		pinned: pinned
-    });
+    // only add when note id exists
+    if (id) {
+      notehistory.push({
+          id: id,
+          text: text,
+          time: time,
+          tags: tags,
+          pinned: pinned
+      });
+    }
     return notehistory;
 }
 
@@ -145,7 +148,7 @@ function writeHistory(view) {
 }
 
 function writeHistoryToServer(view) {
-    $.get('/history')
+    $.get(serverurl + '/history')
         .done(function (data) {
             try {
                 if (data.history) {
@@ -223,8 +226,9 @@ function renderHistory(view) {
             tags.push(rawtags[i].innerHTML);
     }
     //console.debug(tags);
+    var id = urlpath ? location.pathname.slice(urlpath.length + 1, location.pathname.length).split('/')[1] : location.pathname.split('/')[1];
     return {
-        id: location.pathname.split('/')[1],
+        id: id,
         text: title,
         time: moment().format('MMMM Do YYYY, h:mm:ss a'),
         tags: tags
@@ -260,7 +264,7 @@ function getHistory(callback) {
 }
 
 function getServerHistory(callback) {
-    $.get('/history')
+    $.get(serverurl + '/history')
         .done(function (data) {
             if (data.history) {
                 callback(data.history);
@@ -301,7 +305,7 @@ function parseHistory(list, callback) {
 }
 
 function parseServerToHistory(list, callback) {
-    $.get('/history')
+    $.get(serverurl + '/history')
         .done(function (data) {
             if (data.history) {
                 parseToHistory(list, data.history, callback);
@@ -340,7 +344,7 @@ function parseToHistory(list, notehistory, callback) {
             notehistory[i].timestamp = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a').valueOf();
             notehistory[i].fromNow = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a').fromNow();
             notehistory[i].time = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a').format('llll');
-            if (list.get('id', notehistory[i].id).length == 0)
+            if (notehistory[i].id && list.get('id', notehistory[i].id).length == 0)
                 list.add(notehistory[i]);
         }
     }

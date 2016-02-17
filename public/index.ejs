@@ -11,8 +11,8 @@
     <meta name="description" content="Realtime collaborative markdown notes on all platforms.">
     <meta name="author" content="jackycute">
     <title>HackMD - Collaborative notes</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
+    <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
 
     <!-- Bootstrap core CSS -->
     <% if(useCDN) { %>
@@ -20,15 +20,15 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.9.0/bootstrap-social.min.css">
 	<% } else { %>
-	<link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/css/bootstrap-social.css">
+	<link rel="stylesheet" href="<%- url %>/vendor/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<%- url %>/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%- url %>/css/bootstrap-social.css">
 	<% } %>
-    <link rel="stylesheet" href="/vendor/select2/select2.css">
-    <link rel="stylesheet" href="/vendor/select2/select2-bootstrap.css">
+    <link rel="stylesheet" href="<%- url %>/vendor/select2/select2.css">
+    <link rel="stylesheet" href="<%- url %>/vendor/select2/select2-bootstrap.css">
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="/css/cover.css">
-    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="<%- url %>/css/cover.css">
+    <link rel="stylesheet" href="<%- url %>/css/site.css">
 </head>
 
 <body>
@@ -61,9 +61,9 @@
                         <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="display:none;">Sign In</a>
                         <div class="ui-or" style="display:none;">Or</div>
                         <p class="lead">
-                            <a href="/new" class="btn btn-lg btn-default">Start new note</a>
+                            <a href="<%- url %>/new" class="btn btn-lg btn-default">Start new note</a>
                         </p>
-                        <a href="/features">See all features here <i class="fa fa-info-circle"></i></a>
+                        <a href="<%- url %>/features">See all features here <i class="fa fa-info-circle"></i></a>
                         <br> Share note via the links <i class="fa fa-link"></i> directly!
                     </div>
                     <br>
@@ -78,11 +78,11 @@
                     </div>
                     <div class="ui-signout" style="display:none;">
                         <h4 class="ui-welcome">Welcome! <span class="ui-name"></span></h4>
-                        <a href="/new" class="btn btn-default">Start new note</a> Or
+                        <a href="<%- url %>/new" class="btn btn-default">Start new note</a> Or
                         <a href="#" class="btn btn-danger ui-logout">Sign Out</a>
                         <br>
                         <br>
-                        <a href="/features">See all features here <i class="fa fa-info-circle"></i></a>
+                        <a href="<%- url %>/features">See all features here <i class="fa fa-info-circle"></i></a>
                         <br> Share note via the links <i class="fa fa-link"></i> directly!
                     </div>
                     <hr>
@@ -169,16 +169,16 @@
                     <h4 class="modal-title" id="mySmallModalLabel">Choose method</h4>
                 </div>
                 <div class="modal-body">
-                    <a href="/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
+                    <a href="<%- url %>/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
                         <i class="fa fa-facebook"></i> Sign in via Facebook
                     </a>
-                    <a href="/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
+                    <a href="<%- url %>/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
                         <i class="fa fa-twitter"></i> Sign in via Twitter
                     </a>
-                    <a href="/auth/github" class="btn btn-lg btn-block btn-social btn-github">
+                    <a href="<%- url %>/auth/github" class="btn btn-lg btn-block btn-social btn-github">
                         <i class="fa fa-github"></i> Sign in via GitHub
                     </a>
-                    <a href="/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
+                    <a href="<%- url %>/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
                         <i class="fa fa-dropbox"></i> Sign in via Dropbox
                     </a>
                 </div>
@@ -219,23 +219,23 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js" defer></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/js-url/2.0.2/url.min.js" defer></script>
 	<% } else { %>
-	<script src="/vendor/jquery/dist/jquery.min.js" defer></script>
-	<script src="/vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
-    <script src="/vendor/gsap/src/minified/TweenMax.min.js" defer></script>
-    <script src="/vendor/gsap/src/minified/jquery.gsap.min.js" defer></script>
-	<script src="/vendor/select2/select2.min.js" defer></script>
-	<script src="/vendor/moment/min/moment-with-locales.min.js" defer></script>
-    <script src="/vendor/handlebars/handlebars.min.js" defer></script>
-	<script src="/vendor/js-url/url.min.js" defer></script>
+	<script src="<%- url %>/vendor/jquery/dist/jquery.min.js" defer></script>
+	<script src="<%- url %>/vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
+    <script src="<%- url %>/vendor/gsap/src/minified/TweenMax.min.js" defer></script>
+    <script src="<%- url %>/vendor/gsap/src/minified/jquery.gsap.min.js" defer></script>
+	<script src="<%- url %>/vendor/select2/select2.min.js" defer></script>
+	<script src="<%- url %>/vendor/moment/min/moment-with-locales.min.js" defer></script>
+    <script src="<%- url %>/vendor/handlebars/handlebars.min.js" defer></script>
+	<script src="<%- url %>/vendor/js-url/url.min.js" defer></script>
 	<% } %>
-    <script src="/vendor/js.cookie.js" defer></script>
-    <script src="/vendor/list.min.js" defer></script>
-    <script src="/vendor/FileSaver.min.js" defer></script>
-    <script src="/vendor/store.min.js" defer></script>
-    <script src="/vendor/lz-string/libs/lz-string.min.js" defer></script>
-    <script src="/js/common.js" defer></script>
-    <script src="/js/history.js" defer></script>
-    <script src="/js/cover.js" defer></script>
+    <script src="<%- url %>/vendor/js.cookie.js" defer></script>
+    <script src="<%- url %>/vendor/list.min.js" defer></script>
+    <script src="<%- url %>/vendor/FileSaver.min.js" defer></script>
+    <script src="<%- url %>/vendor/store.min.js" defer></script>
+    <script src="<%- url %>/vendor/lz-string/libs/lz-string.min.js" defer></script>
+    <script src="<%- url %>/js/common.js" defer></script>
+    <script src="<%- url %>/js/history.js" defer></script>
+    <script src="<%- url %>/js/cover.js" defer></script>
 </body>
 
 </html>

@@ -33,7 +33,8 @@
     "js-yaml": "~3.5.2",
     "to-markdown": "~1.3.0",
     "lz-string": "~1.4.4",
-    "flowchart": "~1.6.1",
+    "raphael": "~2.1.4",
+    "flowchart": "~1.6.2",
     "xss": "~0.2.10"
   }
 }

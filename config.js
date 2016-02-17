@@ -2,6 +2,7 @@
 var path = require('path');
 
 var domain = process.env.DOMAIN;
+var urlpath = process.env.URL_PATH;
 var testport = '3000';
 var testsslport = '3001';
 var port = process.env.PORT || testport;
@@ -15,6 +16,7 @@ var config = {
     version: '0.3.4',
     domain: domain,
     alloworigin: ['add here to allow origin to cross'],
+    urlpath: urlpath,
     testport: testport,
     testsslport: testsslport,
     port: port,
@@ -24,10 +26,14 @@ var config = {
     sslcapath: ['change this'],
     usessl: usessl,
     getserverurl: function() {
-        if(usessl)
-            return 'https://' + domain + (sslport == 443 || !urladdport ? '' : ':' + sslport);
+        var url = domain;
+        if (usessl)
+            url = 'https://' + url + (sslport == 443 || !urladdport ? '' : ':' + sslport);
         else
-            return 'http://' + domain + (port == 80 || !urladdport ? '' : ':' + port);
+            url = 'http://' + url + (port == 80 || !urladdport ? '' : ':' + port);
+        if (urlpath)
+            url = url + '/' + urlpath;
+        return url;
     },
     //path
     tmppath: "./tmp/",

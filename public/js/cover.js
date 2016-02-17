@@ -120,7 +120,7 @@ function parseHistoryCallback(list, notehistory) {
 				pin.removeClass('active');
 			}
             //parse link to element a
-            a.attr('href', '/' + values.id);
+            a.attr('href', serverurl + '/' + values.id);
             //parse tags
             if (values.tags) {
                 var tags = values.tags;

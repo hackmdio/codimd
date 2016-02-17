@@ -13,7 +13,7 @@
             <ul class="dropdown-menu list" role="menu" aria-labelledby="menu">
             </ul>
         </div>
-        <a class="navbar-brand" href="/"><i class="fa fa-file-text"></i> HackMD</a>
+        <a class="navbar-brand" href="<%- url %>"><i class="fa fa-file-text"></i> HackMD</a>
         <div class="nav-mobile pull-right visible-xs">
             <span class="btn btn-link btn-file ui-upload-image" title="Upload Image" style="display:none;">
                 <i class="fa fa-camera"></i><input type="file" accept="image/*" name="upload" multiple>
@@ -22,7 +22,7 @@
                 <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu list" role="menu" aria-labelledby="menu">
-                <li role="presentation"><a role="menuitem" class="ui-new" tabindex="-1" href="./new" target="_blank"><i class="fa fa-plus fa-fw"></i> New</a>
+                <li role="presentation"><a role="menuitem" class="ui-new" tabindex="-1" href="<%- url %>/new" target="_blank"><i class="fa fa-plus fa-fw"></i> New</a>
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-publish" tabindex="-1" href="#" target="_blank"><i class="fa fa-print fa-fw"></i> Publish</a>
                 </li>
@@ -90,7 +90,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right" style="padding:0;">
             <li>
-                <a href="./new" target="_blank" class="ui-new">
+                <a href="<%- url %>/new" target="_blank" class="ui-new">
                     <i class="fa fa-plus"></i> New
                 </a>
             </li>
