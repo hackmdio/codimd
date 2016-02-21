@@ -775,7 +775,7 @@ var mathjaxPlugin = new Plugin(
 
     // this function will be called when something matches
     function (match, utils) {
-        if (match.index == 0)
+        if (match.index == 0 && (md.meta.mathjax || typeof md.meta.mathjax == "undefined"))
             return '<span class="mathjax raw">' + match[0] + '</span>';
         else
             return match.input.slice(0, match[0].length);
