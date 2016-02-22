@@ -1,8 +1,20 @@
 /*!
- * remarkable-regexp
+ * markdown-it-regexp
  * Copyright (c) 2014 Alex Kocharin
  * MIT Licensed
  */
+
+var inherits = function(ctor, superCtor) {
+  ctor.super_ = superCtor;
+  ctor.prototype = Object.create(superCtor.prototype, {
+    constructor: {
+      value: ctor,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+};
 
 /**
  * Escape special characters in the given string of html.
@@ -47,15 +59,15 @@ var counter = 0
 
 function Plugin(regexp, replacer) {
   // return value should be a callable function
-  // with strictly defined options passed by remarkable
-  var self = function(remarkable, options) {
+  // with strictly defined options passed by markdown-it
+  var self = function (md, options) {
     self.options = options
-    self.init(remarkable)
+    self.init(md)
   }
-  
+
   // initialize plugin object
   Object.setPrototypeOf(self, Plugin.prototype)
-  
+
   // clone regexp with all the flags
   var flags = (regexp.global     ? 'g' : '')
             + (regexp.multiline  ? 'm' : '')
@@ -65,7 +77,7 @@ function Plugin(regexp, replacer) {
 
   // copy init options
   self.replacer = replacer
-  
+
   // this plugin can be inserted multiple times,
   // so we're generating unique name for it
   self.id = 'regexp-' + counter
@@ -74,14 +86,16 @@ function Plugin(regexp, replacer) {
   return self
 }
 
-// function that registers plugin with remarkable
-Plugin.prototype.init = function(remarkable) {
-  remarkable.inline.ruler.push(this.id, this.parse.bind(this))
+inherits(Plugin, Function)
 
-  remarkable.renderer.rules[this.id] = this.render.bind(this)
+// function that registers plugin with markdown-it
+Plugin.prototype.init = function (md) {
+  md.inline.ruler.push(this.id, this.parse.bind(this))
+
+  md.renderer.rules[this.id] = this.render.bind(this)
 }
 
-Plugin.prototype.parse = function(state, silent) {
+Plugin.prototype.parse = function (state, silent) {
   // slowwww... maybe use an advanced regexp engine for this
   var match = this.regexp.exec(state.src.slice(state.pos))
   if (!match) return false
@@ -92,15 +106,12 @@ Plugin.prototype.parse = function(state, silent) {
   // don't insert any tokens in silent mode
   if (silent) return true
 
-  state.push({
-    type  : this.id,
-    level : state.level,
-    match : match,
-  })
+  var token = state.push(this.id, '', 0)
+  token.meta = { match: match }
 
   return true
 }
 
-Plugin.prototype.render = function(tokens, id, options, env) {
-  return this.replacer(tokens[id].match, stuff)
+Plugin.prototype.render = function (tokens, id, options, env) {
+  return this.replacer(tokens[id].meta.match, stuff)
 }

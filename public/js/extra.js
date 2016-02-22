@@ -662,7 +662,7 @@ emojify.setConfig({
     ignore_emoticons: true
 });
 
-var md = new Remarkable('full', {
+var md = window.markdownit('default', {
     html: true,
     breaks: true,
     langPrefix: "",
@@ -670,57 +670,57 @@ var md = new Remarkable('full', {
     typographer: true,
     highlight: highlightRender
 });
-md.renderer.rules.image = function (tokens, idx, options /*, env */ ) {
-    var src = ' src="' + Remarkable.utils.escapeHtml(tokens[idx].src) + '"';
-    var title = tokens[idx].title ? (' title="' + Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(tokens[idx].title)) + '"') : '';
-    var alt = ' alt="' + (tokens[idx].alt ? Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(tokens[idx].alt)) : '') + '"';
-    var suffix = options.xhtmlOut ? ' /' : '';
-    return '<img class="raw"' + src + alt + title + suffix + '>';
-}
-md.renderer.rules.list_item_open = function ( /* tokens, idx, options, env */ ) {
-    return '<li class="raw">';
+md.use(window.markdownitAbbr);
+md.use(window.markdownitFootnote);
+md.use(window.markdownitDeflist);
+md.use(window.markdownitMark);
+md.use(window.markdownitIns);
+md.use(window.markdownitSub);
+md.use(window.markdownitSup);
+
+md.renderer.rules.image = function (tokens, idx, options, env, self) {
+    tokens[idx].attrJoin('class', 'raw');
+    return self.renderToken.apply(self, arguments);
 };
-md.renderer.rules.blockquote_open = function (tokens, idx /*, options, env */ ) {
-    return '<blockquote class="raw">\n';
+md.renderer.rules.list_item_open = function (tokens, idx, options, env, self) {
+    tokens[idx].attrJoin('class', 'raw');
+    return self.renderToken.apply(self, arguments);
 };
-md.renderer.rules.heading_open = function (tokens, idx) {
-    return '<h' + tokens[idx].hLevel + ' class="raw">';
+md.renderer.rules.blockquote_open = function (tokens, idx, options, env, self) {
+    tokens[idx].attrJoin('class', 'raw');
+    return self.renderToken.apply(self, arguments);
+};
+md.renderer.rules.heading_open = function (tokens, idx, options, env, self) {
+    tokens[idx].attrJoin('class', 'raw');
+    return self.renderToken.apply(self, arguments);
 };
 md.renderer.rules.fence = function (tokens, idx, options, env, self) {
-    var token = tokens[idx];
-    var langClass = '';
-    var langPrefix = options.langPrefix;
-    var langName = '',
-        fenceName;
-    var highlighted;
+    var token = tokens[idx],
+      info = token.info ? md.utils.unescapeAll(token.info).trim() : '',
+      langName = '',
+      highlighted;
 
-    if (token.params) {
-
-        //
-        // ```foo bar
-        //
-        // Try custom renderer "foo" first. That will simplify overwrite
-        // for diagrams, latex, and any other fenced block with custom look
-        //
-
-        fenceName = token.params.split(/\s+/g)[0];
-
-        if (Remarkable.utils.has(self.rules.fence_custom, fenceName)) {
-            return self.rules.fence_custom[fenceName](tokens, idx, options, env, self);
-        }
-
-        langName = Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(Remarkable.utils.unescapeMd(fenceName)));
-        langClass = ' class="' + langPrefix + langName.replace(/\=$|\=\d+$|\=\+$/, '') + ' hljs"';
+    if (info) {
+        langName = info.split(/\s+/g)[0];
+        token.attrJoin('class', options.langPrefix + langName.replace(/\=$|\=\d+$|\=\+$/, ''));
+        token.attrJoin('class', 'hljs');
     }
 
     if (options.highlight) {
-        highlighted = options.highlight(token.content, langName) || Remarkable.utils.escapeHtml(token.content);
+        highlighted = options.highlight(token.content, langName) || md.utils.escapeHtml(token.content);
     } else {
-        highlighted = Remarkable.utils.escapeHtml(token.content);
+        highlighted = md.utils.escapeHtml(token.content);
     }
 
-    return '<pre><code' + langClass + '>' + highlighted + '</code></pre>' + md.renderer.getBreak(tokens, idx);
+    if (highlighted.indexOf('<pre') === 0) {
+        return highlighted + '\n';
+    }
+
+    return  '<pre><code' + self.renderAttrs(token) + '>'
+        + highlighted
+        + '</code></pre>\n';
 };
+
 //youtube
 var youtubePlugin = new Plugin(
     // regexp to match

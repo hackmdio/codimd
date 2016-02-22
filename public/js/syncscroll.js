@@ -1,143 +1,91 @@
-//
-// Inject line numbers for sync scroll. Notes:
-//
-// - We track only headings and paragraphs on first level. That's enougth.
-// - Footnotes content causes jumps. Level limit filter it automatically.
-//
-md.renderer.rules.blockquote_open = function (tokens, idx /*, options, env */ ) {
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<blockquote class="raw part" data-startline="' + startline + '" data-endline="' + endline + '">\n';
-    }
-    return '<blockquote>\n';
-};
+// Inject line numbers for sync scroll.
 
-md.renderer.rules.table_open = function (tokens, idx /*, options, env */ ) {
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<table class="part" data-startline="' + startline + '" data-endline="' + endline + '">\n';
+function addPart(tokens, idx) {
+    if (tokens[idx].map && tokens[idx].level === 0) {
+        var startline = tokens[idx].map[0] + 1;
+        var endline = tokens[idx].map[1];
+        tokens[idx].attrJoin('class', 'part');
+        tokens[idx].attrJoin('data-startline', startline);
+        tokens[idx].attrJoin('data-endline', endline);
     }
-    return '<table>\n';
-};
+}
 
-md.renderer.rules.bullet_list_open = function (tokens, idx /*, options, env */ ) {
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<ul class="part" data-startline="' + startline + '" data-endline="' + endline + '">\n';
-    }
-    return '<ul>\n';
+md.renderer.rules.blockquote_open = function (tokens, idx, options, env, self) {
+    tokens[idx].attrJoin('class', 'raw');
+    addPart(tokens, idx);
+    return self.renderToken.apply(self, arguments);
 };
-
-md.renderer.rules.list_item_open = function (tokens, idx /*, options, env */ ) {
-    if (tokens[idx].lines) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<li class="raw" data-startline="' + startline + '" data-endline="' + endline + '">\n';
-    }
-    return '<li class="raw">';
+md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
+    addPart(tokens, idx);
+    return self.renderToken.apply(self, arguments);
 };
-
-md.renderer.rules.ordered_list_open = function (tokens, idx /*, options, env */ ) {
-    var token = tokens[idx];
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<ol class="part" data-startline="' + startline + '" data-endline="' + endline + '"' + (token.order > 1 ? ' start="' + token.order + '"' : '') + '>\n';
-    }
-    return '<ol' + (token.order > 1 ? ' start="' + token.order + '"' : '') + '>\n';
+md.renderer.rules.bullet_list_open = function (tokens, idx, options, env, self) {
+    addPart(tokens, idx);
+    return self.renderToken.apply(self, arguments);
 };
-
-md.renderer.rules.link_open = function (tokens, idx /*, options, env */ ) {
-    var title = tokens[idx].title ? (' title="' + Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(tokens[idx].title)) + '"') : '';
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<a class="part" data-startline="' + startline + '" data-endline="' + endline + '" href="' + Remarkable.utils.escapeHtml(tokens[idx].href) + '"' + title + '>';
-    }
-    return '<a href="' + Remarkable.utils.escapeHtml(tokens[idx].href) + '"' + title + '>';
+md.renderer.rules.list_item_open = function (tokens, idx, options, env, self) {
+    tokens[idx].attrJoin('class', 'raw');
+    addPart(tokens, idx);
+    return self.renderToken.apply(self, arguments);
 };
-
-md.renderer.rules.paragraph_open = function (tokens, idx) {
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return tokens[idx].tight ? '' : '<p class="part" data-startline="' + startline + '" data-endline="' + endline + '">';
-    }
-    return tokens[idx].tight ? '' : '<p>';
+md.renderer.rules.ordered_list_open = function (tokens, idx, options, env, self) {
+    addPart(tokens, idx);
+    return self.renderToken.apply(self, arguments);
 };
-
-md.renderer.rules.heading_open = function (tokens, idx) {
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<h' + tokens[idx].hLevel + ' class="part raw" data-startline="' + startline + '" data-endline="' + endline + '">';
-    }
-    return '<h' + tokens[idx].hLevel + ' class="raw">';
+md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+    addPart(tokens, idx);
+    return self.renderToken.apply(self, arguments);
 };
-
+md.renderer.rules.paragraph_open = function (tokens, idx, options, env, self) {
+    addPart(tokens, idx);
+    return self.renderToken.apply(self, arguments);
+};
+md.renderer.rules.heading_open = function (tokens, idx, options, env, self) {
+    tokens[idx].attrJoin('class', 'raw');
+    addPart(tokens, idx);
+    return self.renderToken.apply(self, arguments);
+};
 md.renderer.rules.fence = function (tokens, idx, options, env, self) {
-    var token = tokens[idx];
-    var langClass = '';
-    var langPrefix = options.langPrefix;
-    var langName = '',
-        fenceName;
-    var highlighted;
+    var token = tokens[idx],
+      info = token.info ? md.utils.unescapeAll(token.info).trim() : '',
+      langName = '',
+      highlighted;
 
-    if (token.params) {
-
-        //
-        // ```foo bar
-        //
-        // Try custom renderer "foo" first. That will simplify overwrite
-        // for diagrams, latex, and any other fenced block with custom look
-        //
-
-        fenceName = token.params.split(/\s+/g)[0];
-
-        if (Remarkable.utils.has(self.rules.fence_custom, fenceName)) {
-            return self.rules.fence_custom[fenceName](tokens, idx, options, env, self);
-        }
-
-        langName = Remarkable.utils.escapeHtml(Remarkable.utils.replaceEntities(Remarkable.utils.unescapeMd(fenceName)));
-        langClass = ' class="' + langPrefix + langName.replace(/\=$|\=\d+$|\=\+$/, '') + ' hljs"';
+    if (info) {
+        langName = info.split(/\s+/g)[0];
+        token.attrJoin('class', options.langPrefix + langName.replace(/\=$|\=\d+$|\=\+$/, ''));
+        token.attrJoin('class', 'hljs');
     }
 
     if (options.highlight) {
-        highlighted = options.highlight(token.content, langName) || Remarkable.utils.escapeHtml(token.content);
+        highlighted = options.highlight(token.content, langName) || md.utils.escapeHtml(token.content);
     } else {
-        highlighted = Remarkable.utils.escapeHtml(token.content);
+        highlighted = md.utils.escapeHtml(token.content);
     }
 
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<pre class="part" data-startline="' + startline + '" data-endline="' + endline + '"><code' + langClass + '>' + highlighted + '</code></pre>' + md.renderer.getBreak(tokens, idx);
+    if (highlighted.indexOf('<pre') === 0) {
+        return highlighted + '\n';
+    }
+    
+    if (tokens[idx].map && tokens[idx].level === 0) {
+        var startline = tokens[idx].map[0] + 1;
+        var endline = tokens[idx].map[1];
+        return '<pre class="part" data-startline="' + startline + '" data-endline="' + endline + '"><code' + self.renderAttrs(token) + '>'
+        + highlighted
+        + '</code></pre>\n';
     }
 
-    return '<pre><code' + langClass + '>' + highlighted + '</code></pre>' + md.renderer.getBreak(tokens, idx);
+    return '<pre><code' + self.renderAttrs(token) + '>'
+        + highlighted
+        + '</code></pre>\n';
 };
-
-md.renderer.rules.code = function (tokens, idx /*, options, env */ ) {
-    if (tokens[idx].block) {
-        if (tokens[idx].lines && tokens[idx].level === 0) {
-            var startline = tokens[idx].lines[0] + 1;
-            var endline = tokens[idx].lines[1];
-            return '<pre class="part" data-startline="' + startline + '" data-endline="' + endline + '"><code>' + Remarkable.utils.escapeHtml(tokens[idx].content) + '</code></pre>' + md.renderer.getBreak(tokens, idx);
-        }
-
-        return '<pre><code>' + Remarkable.utils.escapeHtml(tokens[idx].content) + '</code></pre>' + md.renderer.getBreak(tokens, idx);
+md.renderer.rules.code_block = function (tokens, idx, options, env, self) {
+    if (tokens[idx].map && tokens[idx].level === 0) {
+        var startline = tokens[idx].map[0] + 1;
+        var endline = tokens[idx].map[1];
+        return '<pre class="part" data-startline="' + startline + '" data-endline="' + endline + '"><code>' + md.utils.escapeHtml(tokens[idx].content) + '</code></pre>\n';
     }
-
-    if (tokens[idx].lines && tokens[idx].level === 0) {
-        var startline = tokens[idx].lines[0] + 1;
-        var endline = tokens[idx].lines[1];
-        return '<code class="part" data-startline="' + startline + '" data-endline="' + endline + '">' + Remarkable.utils.escapeHtml(tokens[idx].content) + '</code>';
-    }
-
-    return '<code>' + Remarkable.utils.escapeHtml(tokens[idx].content) + '</code>';
+    return '<pre><code>' + md.utils.escapeHtml(tokens[idx].content) + '</code></pre>\n';
 };
 
 var preventSyncScroll = false;
