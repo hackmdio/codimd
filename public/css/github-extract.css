@@ -315,6 +315,20 @@
     border-top: 0;
 }
 
+.markdown-body kbd {
+    display: inline-block;
+    padding: 3px 5px;
+    font-size: 11px;
+    line-height: 10px;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fcfcfc;
+    border: solid 1px #ccc;
+    border-bottom-color: #bbb;
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 #bbb
+}
+
 .news .alert .markdown-body blockquote {
     padding: 0 0 0 40px;
     border: 0 none;

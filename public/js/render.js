@@ -1,4 +1,4 @@
-var whiteListTag = ['style', '!--'];
+var whiteListTag = ['style', '!--', 'kbd'];
 var whiteListAttr = ['id', 'class', 'style'];
 
 var filterXSSOptions = {
