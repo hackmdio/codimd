@@ -208,8 +208,13 @@ function finishView(view) {
     //mathjax
     var mathjaxdivs = view.find('.mathjax.raw').removeClass("raw").toArray();
     try {
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs]);
-        MathJax.Hub.Queue(viewAjaxCallback);
+        if (mathjaxdivs.length > 1) {
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs]);
+            MathJax.Hub.Queue(viewAjaxCallback);
+        } else if (mathjaxdivs.length > 0) {
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs[0]]);
+            MathJax.Hub.Queue(viewAjaxCallback);
+        }
     } catch (err) {}
     //sequence diagram
     var sequences = view.find(".sequence-diagram.raw").removeClass("raw");
