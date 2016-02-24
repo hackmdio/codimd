@@ -677,6 +677,7 @@ md.use(window.markdownitMark);
 md.use(window.markdownitIns);
 md.use(window.markdownitSub);
 md.use(window.markdownitSup);
+md.use(window.markdownitMathjax);
 
 md.renderer.rules.image = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');
@@ -768,19 +769,6 @@ var gistPlugin = new Plugin(
         return code;
     }
 );
-//mathjax
-var mathjaxPlugin = new Plugin(
-    // regexp to match
-    /^\$\$\n([\d\D]*?)\n\$\$$|\$([\d\D]*?)\$/,
-
-    // this function will be called when something matches
-    function (match, utils) {
-        if (match.index == 0 && (md.meta.mathjax || typeof md.meta.mathjax == "undefined"))
-            return '<span class="mathjax raw">' + match[0] + '</span>';
-        else
-            return match.input.slice(0, match[0].length);
-    }
-);
 //TOC
 var tocPlugin = new Plugin(
     // regexp to match
@@ -863,7 +851,6 @@ md.use(metaPlugin);
 md.use(youtubePlugin);
 md.use(vimeoPlugin);
 md.use(gistPlugin);
-md.use(mathjaxPlugin);
 md.use(tocPlugin);
 md.use(slidesharePlugin);
 md.use(speakerdeckPlugin);
