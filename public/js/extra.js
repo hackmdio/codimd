@@ -208,10 +208,8 @@ function finishView(view) {
     //mathjax
     var mathjaxdivs = view.find('.mathjax.raw').removeClass("raw").toArray();
     try {
-        for (var i = 0; i < mathjaxdivs.length; i++) {
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs[i].innerHTML]);
-            MathJax.Hub.Queue(viewAjaxCallback);
-        }
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs]);
+        MathJax.Hub.Queue(viewAjaxCallback);
     } catch (err) {}
     //sequence diagram
     var sequences = view.find(".sequence-diagram.raw").removeClass("raw");
