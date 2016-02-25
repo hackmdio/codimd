@@ -52,6 +52,7 @@ var defaultExtraKeys = {
 
 var idleTime = 300000; //5 mins
 var updateViewDebounce = 200;
+var cursorMenuThrottle = 100;
 var cursorActivityDebounce = 50;
 var cursorAnimatePeriod = 100;
 var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile'];
@@ -2340,7 +2341,9 @@ if ($('.cursor-menu').length <= 0) {
 
 var upSideDown = false;
 
-function checkCursorMenu() {
+var checkCursorMenu = _.throttle(checkCursorMenuInner, cursorMenuThrottle);
+
+function checkCursorMenuInner() {
     var menuMargin = 60;
     var dropdown = $('.cursor-menu .dropdown-menu');
     if (dropdown.length <= 0) return;
