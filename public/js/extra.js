@@ -203,7 +203,7 @@ function finishView(view) {
     try {
         emojify.run(view[0]);   
     } catch (err) {
-        console.error(err);
+        console.warn(err);
     }
     //mathjax
     var mathjaxdivs = view.find('.mathjax.raw').removeClass("raw").toArray();
@@ -226,7 +226,7 @@ function finishView(view) {
             });
             sequence.parent().parent().replaceWith(sequence);
         } catch (err) {
-            console.error(err);
+            console.warn(err);
         }
     });
     //flowchart
@@ -243,7 +243,7 @@ function finishView(view) {
             });
             $(value).parent().parent().replaceWith(value);
         } catch (err) {
-            console.error(err);
+            console.warn(err);
         }
     });
     //graphviz
@@ -254,7 +254,7 @@ function finishView(view) {
             $(value).html(graphviz);
             $(value).parent().parent().replaceWith(value);
         } catch (err) {
-            console.error(err);
+            console.warn(err);
         }
     });
     //image href new window(emoji not included)
@@ -837,7 +837,7 @@ function meta(state, start, end, silent) {
     try {
         md.meta = jsyaml.safeLoad(data.join('\n')) || {};
     } catch(err) {
-        console.error(err);
+        console.warn(err);
         return false;
     }
 
