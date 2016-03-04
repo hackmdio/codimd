@@ -270,7 +270,7 @@ $(".ui-refresh-history").click(function () {
 
 $(".ui-logout").click(function () {
     clearLoginState();
-    location.href = '/logout';
+    location.href = serverurl + '/logout';
 });
 
 var filtertags = [];
