@@ -128,7 +128,7 @@ body {
     overflow-y: auto;
 }
 .ui-status * {
-    font-size: 16px;
+    font-size: 16px !important;
 }
 .navbar-brand {
     font-weight: bold;

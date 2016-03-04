@@ -56,7 +56,7 @@ var cursorMenuThrottle = 100;
 var cursorActivityDebounce = 50;
 var cursorAnimatePeriod = 100;
 var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile'];
-var supportCharts = ['sequence', 'flow', 'graphviz'];
+var supportCharts = ['sequence', 'flow', 'graphviz', 'mermaid'];
 var supportHeaders = [
     {
         text: '# h1',

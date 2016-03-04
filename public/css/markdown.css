@@ -82,13 +82,6 @@
     content: ''
 }
 
-.markdown-body .sequence-diagram, .markdown-body .flow-chart {
-    text-align: center;
-}
-.markdown-body .flow-chart {
-    margin-bottom: 40px;
-}
-
 /*fixed style for rtl in pre and code*/
 
 .markdown-body[dir='rtl'] pre {
@@ -100,7 +93,27 @@
     unicode-bidi: embed;
 }
 
-svg {
-    width: 100%;
-    max-height: 70vh;
+.markdown-body pre.flow-chart,
+.markdown-body pre.sequence-diagram,
+.markdown-body pre.graphviz,
+.markdown-body pre.mermaid {
+    text-align: center;
+    background-color: inherit;
+    border-radius: 0;
+    white-space: inherit;
+}
+
+.markdown-body pre.flow-chart > code,
+.markdown-body pre.sequence-diagram > code,
+.markdown-body pre.graphviz > code,
+.markdown-body pre.mermaid > code {
+    text-align: left;
+}
+
+.markdown-body pre.flow-chart > svg,
+.markdown-body pre.sequence-diagram > svg,
+.markdown-body pre.graphviz > svg,
+.markdown-body pre.mermaid > svg {
+    max-width: 100%;
+    height: 100%;
 }

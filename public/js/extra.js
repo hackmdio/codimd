@@ -220,11 +220,16 @@ function finishView(view) {
     var sequences = view.find(".sequence-diagram.raw").removeClass("raw");
     sequences.each(function (key, value) {
         try {
-            var sequence = $(value);
+            var $value = $(value);
+            var $ele = $(value).parent().parent();
+            
+            var sequence = $value;
             sequence.sequenceDiagram({
                 theme: 'simple'
             });
-            sequence.parent().parent().replaceWith(sequence);
+            
+            $ele.addClass('sequence-diagram');
+            $value.children().unwrap().unwrap();
         } catch (err) {
             console.warn(err);
         }
@@ -233,15 +238,20 @@ function finishView(view) {
     var flow = view.find(".flow-chart.raw").removeClass("raw");
     flow.each(function (key, value) {
         try {
-            var chart = flowchart.parse($(value).text());
-            $(value).html('');
+            var $value = $(value);
+            var $ele = $(value).parent().parent();
+            
+            var chart = flowchart.parse($value.text());
+            $value.html('');
             chart.drawSVG(value, {
                 'line-width': 2,
                 'fill': 'none',
                 'font-size': '16px',
                 'font-family': "'Andale Mono', monospace"
             });
-            $(value).parent().parent().replaceWith(value);
+            
+            $ele.addClass('flow-chart');
+            $value.children().unwrap().unwrap();
         } catch (err) {
             console.warn(err);
         }
@@ -250,9 +260,37 @@ function finishView(view) {
     var graphvizs = view.find(".graphviz.raw").removeClass("raw");
     graphvizs.each(function (key, value) {
         try {
-            var graphviz = Viz($(value).text());
-            $(value).html(graphviz);
-            $(value).parent().parent().replaceWith(value);
+            var $value = $(value);
+            var $ele = $(value).parent().parent();
+            
+            var graphviz = Viz($value.text());
+            $value.html(graphviz);
+            
+            $ele.addClass('graphviz');
+            $value.children().unwrap().unwrap();
+        } catch (err) {
+            console.warn(err);
+        }
+    });
+    //mermaid
+    var mermaids = view.find(".mermaid.raw").removeClass("raw");
+    mermaids.each(function (key, value) {
+        try {
+            var $value = $(value);
+            var $ele = $(value).parent().parent();
+            
+            var mermaidError = null;
+            mermaid.parseError = function (err, hash) {
+                mermaidError = err;
+            };
+            
+            if (mermaidAPI.parse($value.text())) {
+                $ele.addClass('mermaid');
+                $ele.html($value.text());
+                mermaid.init(undefined, $ele);
+            } else {
+                console.warn(mermaidError);
+            }
         } catch (err) {
             console.warn(err);
         }
@@ -633,6 +671,8 @@ function highlightRender(code, lang) {
         return '<div class="flow-chart raw">' + code + '</div>';
     } else if (lang == 'graphviz') {
         return '<div class="graphviz raw">' + code + '</div>';
+    } else if (lang == 'mermaid') {
+        return '<div class="mermaid raw">' + code + '</div>';
     }
     var reallang = lang.replace(/\=$|\=\d+$|\=\+$/, '');
     var languages = hljs.listLanguages();
