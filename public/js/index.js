@@ -486,10 +486,12 @@ var ui = {
         },
         export: {
             dropbox: $(".ui-save-dropbox"),
+            googleDrive: $(".ui-save-google-drive"),
             gist: $(".ui-save-gist")
         },
         import: {
             dropbox: $(".ui-import-dropbox"),
+            googleDrive: $(".ui-import-google-drive"),
             clipboard: $(".ui-import-clipboard")
         },
         beta: {
@@ -994,6 +996,22 @@ function closestIndex(arr, closestTo) {
     return index; // return the value
 }
 
+function showMessageModal(title, header, href, text, success) {
+    var modal = $('.message-modal');
+    modal.find('.modal-title').html(title);
+    modal.find('.modal-body h5').html(header);
+    if (href)
+        modal.find('.modal-body a').attr('href', href).text(text);
+    else
+        modal.find('.modal-body a').removeAttr('href').text(text);
+    modal.find('.modal-footer button').removeClass('btn-default btn-success btn-danger')
+    if (success)
+        modal.find('.modal-footer button').addClass('btn-success');
+    else
+        modal.find('.modal-footer button').addClass('btn-danger');
+    modal.modal('show');
+}
+
 //button actions
 //share
 ui.toolbar.publish.attr("href", noteurl + "/publish");
@@ -1031,6 +1049,53 @@ ui.toolbar.export.dropbox.click(function () {
     };
     Dropbox.save(options);
 });
+function uploadToGoogleDrive(accessToken) {
+    ui.spinner.show();
+    var filename = renderFilename(ui.area.markdown) + '.md';
+    var markdown = editor.getValue();
+    var blob = new Blob([markdown], {
+        type: "text/markdown;charset=utf-8"
+    });
+    blob.name = filename;
+    var uploader = new MediaUploader({
+        file: blob,
+        token: accessToken,
+        onComplete: function(data) {
+            data = JSON.parse(data);
+            showMessageModal('<i class="fa fa-cloud-upload"></i> Export to Google Drive', 'Export Complete!', data.alternateLink, 'Click here to view your file', true);
+            ui.spinner.hide();
+        },
+        onError: function(data) {
+            var modal = $('.export-modal');
+            showMessageModal('<i class="fa fa-cloud-upload"></i> Export to Google Drive', 'Export Error :(', '', data, false);
+            ui.spinner.hide();
+        }
+    });
+    uploader.upload();
+}
+function googleApiAuth(immediate, callback) {
+    gapi.auth.authorize(
+    {
+        'client_id': GOOGLE_CLIENT_ID,
+        'scope': 'https://www.googleapis.com/auth/drive.file',
+        'immediate': immediate
+    }, callback ? callback : function() {});
+}
+function onGoogleClientLoaded() {
+    googleApiAuth(true);
+    buildImportFromGoogleDrive();
+}
+// export to google drive
+ui.toolbar.export.googleDrive.click(function (e) {
+    var token = gapi.auth.getToken();
+    if (token) {
+        uploadToGoogleDrive(token.access_token);
+    } else {
+        googleApiAuth(false, function(result) {
+            uploadToGoogleDrive(result.access_token);
+        });
+    }
+});
 //export to gist
 ui.toolbar.export.gist.attr("href", noteurl + "/gist");
 //import from dropbox
@@ -1047,6 +1112,41 @@ ui.toolbar.import.dropbox.click(function () {
     };
     Dropbox.choose(options);
 });
+// import from google drive
+var picker = null;
+function buildImportFromGoogleDrive() {
+    picker = new FilePicker({
+        apiKey: GOOGLE_API_KEY,
+        clientId: GOOGLE_CLIENT_ID,
+        buttonEl: ui.toolbar.import.googleDrive,
+        onSelect: function(file) {
+            if (file.downloadUrl) {
+                ui.spinner.show();
+                var accessToken = gapi.auth.getToken().access_token;
+                $.ajax({
+                    type: 'GET',
+                    beforeSend: function (request)
+                    {
+                        request.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                    },
+                    url: file.downloadUrl,
+                    success: function(data) {
+                        if (file.fileExtension == 'html')
+                            parseToEditor(data);
+                        else
+                            replaceAll(data);
+                    },
+                    error: function (data) {
+                        showMessageModal('<i class="fa fa-cloud-download"></i> Import from Google Drive', 'Import failed :(', '', data, false);
+                    },
+                    complete: function () {
+                        ui.spinner.hide();
+                    }
+                });
+            }
+        }
+    });
+}
 //import from clipboard
 ui.toolbar.import.clipboard.click(function () {
     //na
@@ -1188,7 +1288,7 @@ function importFromUrl(url) {
     //console.log(url);
     if (url == null) return;
     if (!isValidURL(url)) {
-        alert('Not valid URL :(');
+        showMessageModal('<i class="fa fa-cloud-download"></i> Import from URL', 'Not valid URL :(', '', '', false);
         return;
     }
     $.ajax({
@@ -1201,8 +1301,8 @@ function importFromUrl(url) {
             else
                 replaceAll(data);
         },
-        error: function () {
-            alert('Import failed :(');
+        error: function (data) {
+            showMessageModal('<i class="fa fa-cloud-download"></i> Import from URL', 'Import failed :(', '', data, false);
         },
         complete: function () {
             ui.spinner.hide();
