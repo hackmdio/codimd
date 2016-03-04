@@ -25,7 +25,13 @@ md.renderer.rules.bullet_list_open = function (tokens, idx, options, env, self) 
 };
 md.renderer.rules.list_item_open = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');
-    addPart(tokens, idx);
+    if (tokens[idx].map) {
+        var startline = tokens[idx].map[0] + 1;
+        var endline = tokens[idx].map[1];
+        tokens[idx].attrJoin('class', 'part');
+        tokens[idx].attrJoin('data-startline', startline);
+        tokens[idx].attrJoin('data-endline', endline);
+    }
     return self.renderToken.apply(self, arguments);
 };
 md.renderer.rules.ordered_list_open = function (tokens, idx, options, env, self) {
