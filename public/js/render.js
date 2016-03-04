@@ -16,6 +16,10 @@ var filterXSSOptions = {
             // escape its value using built-in escapeAttrValue function
             return name + '="' + filterXSS.escapeAttrValue(value) + '"';
         }
+        // allow ol specify start number
+        if (tag === 'ol' && name === 'start') {
+            return name + '="' + filterXSS.escapeAttrValue(value) + '"';
+        }
     }
 };
 
