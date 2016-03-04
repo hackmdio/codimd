@@ -8,6 +8,9 @@
 	}
 })(this, function() {
 	function math(state, silent) {
+        if (state.md.meta.mathjax === false) {
+            return false
+        }
 		var startMathPos = state.pos
 		if (state.src.charCodeAt(startMathPos) !== 0x5C /* \ */) {
 			return false
@@ -47,6 +50,9 @@
 	}
 
 	function texMath(state, silent) {
+        if (state.md.meta.mathjax === false) {
+            return false
+        }
 		var startMathPos = state.pos
 		if (state.src.charCodeAt(startMathPos) !== 0x24 /* $ */) {
 			return false
