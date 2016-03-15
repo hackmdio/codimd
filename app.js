@@ -114,6 +114,16 @@ app.use(session({
     store: sessionStore
 }));
 
+// session resumption
+var tlsSessionStore = {};
+server.on('newSession', function (id, data, cb) {
+    tlsSessionStore[id.toString('hex')] = data;
+    cb();
+});
+server.on('resumeSession', function (id, cb) {
+    cb(null, tlsSessionStore[id.toString('hex')] || null);
+});
+
 //middleware which blocks requests when we're too busy
 app.use(function (req, res, next) {
     if (toobusy()) {
