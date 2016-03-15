@@ -47,7 +47,9 @@ var defaultExtraKeys = {
         		cm.replaceSelection(spaces);
 			}
         }
-    }
+    },
+    "Cmd-Left":  "goLineLeftSmart",
+    "Cmd-Right": "goLineRight"
 };
 
 var idleTime = 300000; //5 mins
