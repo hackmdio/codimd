@@ -54,7 +54,7 @@ var defaultExtraKeys = {
 
 var idleTime = 300000; //5 mins
 var updateViewDebounce = 200;
-var cursorMenuThrottle = 100;
+var cursorMenuThrottle = 50;
 var cursorActivityDebounce = 50;
 var cursorAnimatePeriod = 100;
 var supportContainers = ['success', 'info', 'warning', 'danger'];
@@ -531,6 +531,8 @@ var ui = {
         view: $(".ui-view-area"),
         codemirror: $(".ui-edit-area .CodeMirror"),
         codemirrorScroll: $(".ui-edit-area .CodeMirror .CodeMirror-scroll"),
+        codemirrorSizer: $(".ui-edit-area .CodeMirror .CodeMirror-sizer"),
+        codemirrorSizerInner: $(".ui-edit-area .CodeMirror .CodeMirror-sizer > div"),
         markdown: $(".ui-view-area .markdown-body")
     }
 };
@@ -1897,33 +1899,41 @@ function emitUserStatus(force) {
 }
 
 function checkCursorTag(coord, ele) {
-    if (!ele) return;
-    var curosrtagMargin = 60;
-	var cursor = editor.getCursor();
-    //var viewport = editor.getViewport();
-    //var viewportHeight = (viewport.to - viewport.from) * editor.defaultTextHeight();
+    if (!ele) return; // return if element not exists
+    // set margin
+    var tagRightMargin = 0;
+    var tagBottomMargin = 2;
+    // use sizer to get the real doc size (won't count status bar and gutters)
+    var docWidth = ui.area.codemirrorSizer.width();
+    var docHeight = ui.area.codemirrorSizer.height();
+    // get editor size (status bar not count in)
     var editorWidth = ui.area.codemirror.width();
     var editorHeight = ui.area.codemirror.height();
-    var width = ele.width();
-    var height = ele.height();
-    if (!lineHeightMap)
-        buildMapInner();
+    // get element size
+    var width = ele.outerWidth();
+    var height = ele.outerHeight();
+    var padding = (ele.outerWidth() - ele.width()) / 2;
+    // get coord position
     var left = coord.left;
-    var top = lineHeightMap[cursor.line] * defaultTextHeight; //coord.top;
-    top -= ele.closest('.CodeMirror-sizer > *').position().top;
+    var top = coord.top;
+    // get doc top offset (to workaround with viewport)
+    var docTopOffset = ui.area.codemirrorSizerInner.position().top;
+    // set offset
     var offsetLeft = -3;
     var offsetTop = defaultTextHeight;
-    var statusBarHeight = 0;
-    if (statusBar)
-        statusBarHeight = statusBar.outerHeight();
+    // only do when have width and height
     if (width > 0 && height > 0) {
-        if (left + width + offsetLeft > editorWidth - curosrtagMargin) {
-            offsetLeft = -(width + 10);
+        // flip x when element right bound larger than doc width
+        if (left + width + offsetLeft + tagRightMargin > docWidth) {
+            offsetLeft = -(width + tagRightMargin) + padding + offsetLeft;
         }
-        if (top + height + offsetTop > Math.max(editor.doc.height, editorHeight) + curosrtagMargin - statusBarHeight * 2 && top - height > curosrtagMargin) {
-            offsetTop = -(height + 4);
+        // flip y when element bottom bound larger than doc height
+        // and element top position is larger than element height
+        if (top + docTopOffset + height + offsetTop + tagBottomMargin > Math.max(editor.doc.height, editorHeight) && top + docTopOffset > height + tagBottomMargin) {
+            offsetTop = -(height);
         }
     }
+    // set position
     ele[0].style.left = offsetLeft + 'px';
     ele[0].style.top = offsetTop + 'px';
 }
@@ -2464,56 +2474,80 @@ if ($('.cursor-menu').length <= 0) {
     $("<div class='cursor-menu'>").insertAfter('.CodeMirror-cursors');
 }
 
+function reverseSortCursorMenu(dropdown) {
+    var items = dropdown.find('.textcomplete-item');
+    items.sort(function (a, b) {
+        return $(b).attr('data-index') - $(a).attr('data-index');
+    });
+    return items;
+}
+
+var lastUpSideDown = false;
 var upSideDown = false;
 
 var checkCursorMenu = _.throttle(checkCursorMenuInner, cursorMenuThrottle);
 
 function checkCursorMenuInner() {
-    var menuMargin = 60;
-    var dropdown = $('.cursor-menu .dropdown-menu');
+    // get element
+    var dropdown = $('.cursor-menu > .dropdown-menu');
+    // return if not exists
     if (dropdown.length <= 0) return;
+    // set margin
+    var menuRightMargin = 10;
+    var menuBottomMargin = 4;
+    // use sizer to get the real doc size (won't count status bar and gutters)
+    var docWidth = ui.area.codemirrorSizer.width();
+    var docHeight = ui.area.codemirrorSizer.height();
+    // get editor size (status bar not count in)
+    var editorWidth = ui.area.codemirror.width();
+    var editorHeight = ui.area.codemirror.height();
+    // get element size
+    var width = dropdown.outerWidth();
+    var height = dropdown.outerHeight();
+    // get cursor
     var cursor = editor.getCursor();
-    var scrollInfo = editor.getScrollInfo();
+    // set element cursor data
     if (!dropdown.hasClass('other-cursor'))
         dropdown.addClass('other-cursor');
     dropdown.attr('data-line', cursor.line);
     dropdown.attr('data-ch', cursor.ch);
+    // get coord position
     var coord = editor.charCoords({
         line: cursor.line,
         ch: cursor.ch
     }, 'windows');
-    //var viewport = editor.getViewport();
-    //var viewportHeight = (viewport.to - viewport.from) * editor.defaultTextHeight();
-    var editorWidth = ui.area.codemirror.width();
-    var editorHeight = ui.area.codemirror.height();
-    var width = dropdown.outerWidth();
-    var height = dropdown.outerHeight();
-    if (!lineHeightMap)
-        buildMapInner();
     var left = coord.left;
-    var top = lineHeightMap[cursor.line] * defaultTextHeight; //coord.top;
-    top -= dropdown.closest('.CodeMirror-sizer > *').position().top;
+    var top = coord.top;
+    // get doc top offset (to workaround with viewport)
+    var docTopOffset = ui.area.codemirrorSizerInner.position().top;
+    // set offset
     var offsetLeft = 0;
     var offsetTop = defaultTextHeight;
-    var statusBarHeight = 0;
-    if (statusBar)
-        statusBarHeight = statusBar.outerHeight();
-    if (left + width + offsetLeft > editorWidth - menuMargin)
-        offsetLeft = -(left + width - editorWidth + menuMargin);
-    if (top + height + offsetTop > Math.max(editor.doc.height, editorHeight) + menuMargin - statusBarHeight * 2 && top - height > menuMargin) {
-        offsetTop = -(height + 4);
-        upSideDown = true;
-        var items = dropdown.find('.textcomplete-item');
-        items.sort(function (a, b) {
-            return $(b).attr('data-index') - $(a).attr('data-index');
-        });
-        dropdown.html(items);
-        dropdown.scrollTop(dropdown[0].scrollHeight);
-    } else {
-        upSideDown = false;
+    // only do when have width and height
+    if (width > 0 && height > 0) {
+        // make element right bound not larger than doc width
+        if (left + width + offsetLeft + menuRightMargin > docWidth)
+            offsetLeft = -(left + width - docWidth + menuRightMargin);
+        // flip y when element bottom bound larger than doc height
+        // and element top position is larger than element height
+        if (top + docTopOffset + height + offsetTop + menuBottomMargin > Math.max(editor.doc.height, editorHeight) && top + docTopOffset > height + menuBottomMargin) {
+            offsetTop = -(height + menuBottomMargin);
+            // reverse sort menu because upSideDown
+            dropdown.html(reverseSortCursorMenu(dropdown));
+            lastUpSideDown = upSideDown;
+            upSideDown = true;
+        } else {
+            lastUpSideDown = upSideDown;
+            upSideDown = false;
+        }
     }
+    // make menu scroll top only if upSideDown changed
+    if (upSideDown !== lastUpSideDown)
+        dropdown.scrollTop(dropdown[0].scrollHeight);
+    // set element offset data
     dropdown.attr('data-offset-left', offsetLeft);
     dropdown.attr('data-offset-top', offsetTop);
+    // set position
     dropdown[0].style.left = left + offsetLeft + 'px';
     dropdown[0].style.top = top + offsetTop + 'px';
 }
