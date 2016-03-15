@@ -20,7 +20,7 @@ Browsers Requirement
 
 Prerequisite
 ---
-- Node.js 4.x or up (test up to 5.2.0)
+- Node.js 4.x or up (test up to 5.8.0)
 - PostgreSQL 9.3.x or 9.4.x
 - MongoDB 3.0.x
 - npm and bower
@@ -122,10 +122,10 @@ Third-party integration api key settings
 ---
 | service | file path | description |
 | ------- | --------- | ----------- |
-| facebook, twitter, github, dropbox | config.js | for signin |
-| imgur | config.js | for image upload |
-| dropbox | public/views/foot.ejs | for chooser and saver |
-| google drive | public/js/common.js | for export and import |
+| facebook, twitter, github, dropbox | `config.js` | for signin |
+| imgur | `config.js` | for image upload |
+| dropbox | `public/views/foot.ejs` | for chooser and saver |
+| google drive | `public/js/common.js` | for export and import |
 
 Operational Transformation
 ---
