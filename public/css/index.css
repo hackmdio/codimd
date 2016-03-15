@@ -15,7 +15,7 @@ body {
     letter-spacing: 0.025em;
     line-height: 1.25;
     font-size: 18px;
-    min-height: 100%;
+    height: auto !important;
     overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch;
 }

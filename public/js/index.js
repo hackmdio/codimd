@@ -530,6 +530,7 @@ var ui = {
         edit: $(".ui-edit-area"),
         view: $(".ui-view-area"),
         codemirror: $(".ui-edit-area .CodeMirror"),
+        codemirrorScroll: $(".ui-edit-area .CodeMirror .CodeMirror-scroll"),
         markdown: $(".ui-view-area .markdown-body")
     }
 };
@@ -703,7 +704,7 @@ function locationHashChanged(e) {
 var windowResizeDebounce = 200;
 var windowResize = _.debounce(windowResizeInner, windowResizeDebounce);
 
-function windowResizeInner() {
+function windowResizeInner(callback) {
     checkLayout();
     checkResponsive();
     checkEditorStyle();
@@ -711,18 +712,29 @@ function windowResizeInner() {
     checkCursorMenu();
     //refresh editor
     if (loaded) {
-        editor.setOption('viewportMargin', Infinity);
-        setTimeout(function () {
+        if (editor.getOption('scrollbarStyle') === 'native') {
             clearMap();
             syncScrollToView();
-            editor.setOption('viewportMargin', viewportMargin);
-            //add or update user cursors
-            for (var i = 0; i < onlineUsers.length; i++) {
-                if (onlineUsers[i].id != personalInfo.id)
-                    buildCursor(onlineUsers[i]);
-            }
             updateScrollspy();
-        }, 100);
+            if (callback && typeof callback === 'function')
+                callback();
+        } else {
+            // force it load all docs at once to prevent scroll knob blink
+            editor.setOption('viewportMargin', Infinity);
+            setTimeout(function () {
+                clearMap();
+                syncScrollToView();
+                editor.setOption('viewportMargin', viewportMargin);
+                //add or update user cursors
+                for (var i = 0; i < onlineUsers.length; i++) {
+                    if (onlineUsers[i].id != personalInfo.id)
+                        buildCursor(onlineUsers[i]);
+                }
+                updateScrollspy();
+                if (callback && typeof callback === 'function')
+                    callback();
+            }, 1);
+        }
     }
 }
 
@@ -754,25 +766,16 @@ function checkResponsive() {
 var lastEditorWidth = 0;
 
 function checkEditorStyle() {
+    var desireHeight = statusBar ? (ui.area.edit.height() - statusBar.outerHeight()) : ui.area.edit.height();
+    // set editor height and min height based on scrollbar style and mode
     var scrollbarStyle = editor.getOption('scrollbarStyle');
     if (scrollbarStyle == 'overlay' || currentMode == modeType.both) {
-        //save last editor scroll top
-        var lastTop = editor.getScrollInfo().top;
-        ui.area.codemirror.css('height', '');
-        //set editor size to keep status bar on the bottom
-        editor.setSize(null, ui.area.edit.height());
-        //restore last editor scroll top
-        editor.scrollTo(null, lastTop);
+        ui.area.codemirrorScroll.css('height', desireHeight + 'px');
+        ui.area.codemirrorScroll.css('min-height', '');
     } else if (scrollbarStyle == 'native') {
-        ui.area.codemirror.css('height', 'auto');
-        $('.CodeMirror-gutters').css('height', $('.CodeMirror-sizer').height());
+        ui.area.codemirrorScroll.css('height', '');
+        ui.area.codemirrorScroll.css('min-height', desireHeight + 'px');
     }
-    //set editor parent height to fill status bar
-    if (statusBar)
-        statusBar.parent().css('height', ui.area.edit.height() - statusBar.outerHeight() + 'px');
-    //set sizer height to make it at least height as editor
-    var editorSizerHeight = ui.area.edit.height() - (statusBar ? statusBar.outerHeight() : 0);
-    $('.CodeMirror-sizer').css('height', editorSizerHeight + 'px');
     //make editor resizable
     ui.area.edit.resizable({
         handles: 'e',
@@ -879,6 +882,7 @@ function toggleMode() {
 var lastMode = null;
 
 function changeMode(type) {
+    // lock navbar to prevent it hide after changeMode
     lockNavbar();
     saveInfo();
     if (type) {
@@ -949,16 +953,15 @@ function changeMode(type) {
     }
 
     windowResizeInner();
-
+    
     restoreInfo();
-
+    
     if (lastMode == modeType.view && currentMode == modeType.both) {
-        if (!scrollMap || !lineHeightMap)
-            buildMapInner();
-        var scrollMapNearest = closestIndex(scrollMap, lastInfo.view.scroll.top);
-        var lineHeightMapNearest = closestIndex(lineHeightMap, scrollMapNearest);
-        var height = lineHeightMapNearest * defaultTextHeight;
-        editor.scrollTo(null, height);
+        syncScrollToEdit();
+    }
+    
+    if (lastMode != modeType.edit && currentMode == modeType.edit) {
+        editor.refresh();
     }
 
     ui.toolbar.both.removeClass("active");
@@ -986,6 +989,15 @@ function lockNavbar() {
 var unlockNavbar = _.debounce(function () {
     $('.navbar').removeClass('locked');
 }, 200);
+
+function syncScrollToEdit() {
+    if (!scrollMap || !lineHeightMap)
+        buildMapInner();
+    var scrollMapNearest = closestIndex(scrollMap, lastInfo.view.scroll.top);
+    var lineHeightMapNearest = closestIndex(lineHeightMap, scrollMapNearest);
+    var height = lineHeightMapNearest * defaultTextHeight;
+    editor.scrollTo(null, height);
+}
 
 function closestIndex(arr, closestTo) {
     var closest = Math.max.apply(null, arr); //Get the highest number in arr in case it match nothing.

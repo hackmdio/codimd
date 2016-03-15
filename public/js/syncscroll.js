@@ -116,6 +116,7 @@ var viewScrollingTimer = null;
 
 //editor.on('scroll', _.throttle(syncScrollToView, editorScrollThrottle));
 editor.on('scroll', syncScrollToView);
+ui.area.codemirrorScroll.on('scroll', syncScrollToView);
 ui.area.view.on('scroll', function () {
     viewScrolling = true;
     clearTimeout(viewScrollingTimer);
