@@ -55,6 +55,7 @@ var updateViewDebounce = 200;
 var cursorMenuThrottle = 100;
 var cursorActivityDebounce = 50;
 var cursorAnimatePeriod = 100;
+var supportContainers = ['success', 'info', 'warning', 'danger'];
 var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile'];
 var supportCharts = ['sequence', 'flow', 'graphviz', 'mermaid'];
 var supportHeaders = [
@@ -2615,6 +2616,42 @@ $(editor.getInputField())
             context: function (text) {
                 checkCursorMenu();
                 return isInCode;
+            }
+    },
+        { // Container strategy
+            containers: supportContainers,
+            match: /(^|\n):::(\s*)(\w*)$/,
+            search: function (term, callback) {
+                var line = editor.getLine(editor.getCursor().line);
+                term = line.match(this.match)[3];
+                var list = [];
+                term = term.trim();
+                $.map(this.containers, function (container) {
+                    if (container.indexOf(term) === 0 && container !== term)
+                        list.push(container);
+                });
+                callback(list);
+            },
+            replace: function (lang) {
+                var ending = '';
+                if (!checkBelow(matchInContainer)) {
+                    ending = '\n\n:::';
+                }
+                if (this.containers.indexOf(lang) !== -1)
+                    return '$1:::$2' + lang + ending;
+            },
+            done: function () {
+                var cursor = editor.getCursor();
+                var text = [];
+                text.push(editor.getLine(cursor.line - 1));
+                text.push(editor.getLine(cursor.line));
+                text = text.join('\n');
+                //console.log(text);
+                if (text == '\n:::')
+                    editor.doc.cm.execCommand("goLineUp");
+            },
+            context: function (text) {
+                return !isInCode && isInContainer;
             }
     },
         { //header
