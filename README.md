@@ -117,7 +117,15 @@ Server-side config.js settings
 | heartbeatinterval | `5000` | socket.io heartbeat interval |
 | heartbeattimeout | `10000` | socket.io heartbeat timeout |
 | documentmaxlength | `100000` | note max length |
-| facebook, twitter, github, dropbox, imgur | multiple values | your own api keys, see source code for details |
+
+Third-party integration api key settings
+---
+| service | file path | description |
+| ------- | --------- | ----------- |
+| facebook, twitter, github, dropbox | config.js | for signin |
+| imgur | config.js | for image upload |
+| dropbox | public/views/foot.ejs | for chooser and saver |
+| google drive | public/js/common.js | for export and import |
 
 Operational Transformation
 ---
