@@ -105,6 +105,7 @@ Server-side config.js settings
 | sslkeypath | `./cert/client.key` | ssl key path |
 | sslcertpath | `./cert/hackmd_io.crt` | ssl cert path |
 | sslcapath | `['./cert/COMODORSAAddTrustCA.crt']` | ssl ca chain |
+| dhparampath | `./cert/dhparam.pem` | ssl dhparam path |
 | tmppath | `./tmp/` | temp file path |
 | postgresqlstring | `postgresql://user:pass@host:port/hackmd` | PostgreSQL connection string, fallback to this when not set in environment |
 | mongodbstring | `mongodb://user:pass@host:port/hackmd` | MongoDB connection string, fallback to this when not set in environment |

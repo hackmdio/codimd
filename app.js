@@ -40,6 +40,7 @@ if (config.usessl) {
         key: fs.readFileSync(config.sslkeypath, 'utf8'),
         cert: fs.readFileSync(config.sslcertpath, 'utf8'),
         ca: ca,
+        dhparam: fs.readFileSync(config.dhparampath, 'utf8'),
         requestCert: false,
         rejectUnauthorized: false
     };

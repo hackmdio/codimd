@@ -24,6 +24,7 @@ var config = {
     sslkeypath: 'change this',
     sslcertpath: 'change this',
     sslcapath: ['change this'],
+    dhparampath: 'change this',
     usessl: usessl,
     getserverurl: function() {
         var url = domain;
