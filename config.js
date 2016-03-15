@@ -7,11 +7,12 @@ var testport = '3000';
 var testsslport = '3001';
 var port = process.env.PORT || testport;
 var sslport = process.env.SSLPORT || testsslport;
-var usessl = false;
+var usessl = false; // use node https server
+var protocolusessl = false; // use ssl protocol
 var urladdport = true; //add port on getserverurl
 
 var config = {
-    debug: true,
+    debug: false,
     usecdn: false,
     version: '0.3.4',
     domain: domain,
@@ -26,12 +27,14 @@ var config = {
     sslcapath: ['change this'],
     dhparampath: 'change this',
     usessl: usessl,
+    protocolusessl: protocolusessl,
     getserverurl: function() {
+        var protocol = protocolusessl ? 'https://' : 'http://';
         var url = domain;
         if (usessl)
-            url = 'https://' + url + (sslport == 443 || !urladdport ? '' : ':' + sslport);
+            url = protocol + url + (sslport == 443 || !urladdport ? '' : ':' + sslport);
         else
-            url = 'http://' + url + (port == 80 || !urladdport ? '' : ':' + port);
+            url = protocol + url + (port == 80 || !urladdport ? '' : ':' + port);
         if (urlpath)
             url = url + '/' + urlpath;
         return url;

@@ -97,6 +97,7 @@ Server-side config.js settings
 | testport  | `3000` | debug web port, fallback to this when not set in environment |
 | testsslport | `3001` | debug web ssl port, fallback to this when not set in environment |
 | usessl | `true` or `false` | set to use ssl |
+| protocolusessl | `true` or `false` | set to use ssl protocol |
 | urladdport | `true` or `false` | set to add port on oauth callback url |
 | debug | `true` or `false` | set debug mode, show more logs |
 | usecdn | `true` or `false` | set to use CDN resources or not |
