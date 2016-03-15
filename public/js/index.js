@@ -1481,10 +1481,21 @@ socket.on('version', function (data) {
     if (data != version)
         setNeedRefresh();
 });
+function updateLastInfo(data) {
+    //console.log(data);
+    if (lastchangetime !== data.updatetime) {
+        lastchangetime = data.updatetime;
+        updateLastChange();
+    }
+    if (lastchangeuser !== data.lastchangeuser) {
+        lastchangeuser = data.lastchangeuser;
+        lastchangeuserprofile = data.lastchangeuserprofile;
+        updateLastChangeUser();
+    }
+}
 socket.on('check', function (data) {
-    lastchangetime = data.updatetime;
-    updateLastChange();
-    updateLastChangeUser(data);
+    //console.log(data);
+    updateLastInfo(data);
 });
 socket.on('permission', function (data) {
     updatePermission(data.permission);
@@ -1494,14 +1505,13 @@ var otk = null;
 var owner = null;
 var permission = null;
 socket.on('refresh', function (data) {
+    //console.log(data);
     docmaxlength = data.docmaxlength;
     editor.setOption("maxLength", docmaxlength);
     otk = data.otk;
     owner = data.owner;
     updatePermission(data.permission);
-    lastchangetime = data.updatetime;
-    updateLastChange();
-    updateLastChangeUser(data);
+    updateLastInfo(data);
     if (!loaded) {
         var nocontent = editor.getValue().length <= 0;
         if (nocontent) {

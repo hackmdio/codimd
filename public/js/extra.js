@@ -14,16 +14,20 @@ function updateLastChange() {
 }
 setInterval(updateLastChange, 60000);
 
-function updateLastChangeUser(data) {
-    if (data.lastchangeuserprofile) {
-        var icon = lastchangeui.user.children('i');
-        icon.attr('title', data.lastchangeuserprofile.name).tooltip('fixTitle');
-        icon.attr('style', 'background-image:url(' + data.lastchangeuserprofile.photo + ')');
-        lastchangeui.user.show();
-        lastchangeui.nouser.hide();
-    } else {
-        lastchangeui.user.hide();
-        lastchangeui.nouser.show();
+var lastchangeuser = null;
+var lastchangeuserprofile = null;
+function updateLastChangeUser() {
+    if (lastchangeui) {
+      if (lastchangeuser && lastchangeuserprofile) {
+          var icon = lastchangeui.user.children('i');
+          icon.attr('title', lastchangeuserprofile.name).tooltip('fixTitle');
+          icon.attr('style', 'background-image:url(' + lastchangeuserprofile.photo + ')');
+          lastchangeui.user.show();
+          lastchangeui.nouser.hide();
+      } else {
+          lastchangeui.user.hide();
+          lastchangeui.nouser.show();
+      }
     }
 }
 
