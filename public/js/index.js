@@ -615,7 +615,10 @@ Visibility.change(function (e, state) {
         }
     } else {
         if (wasFocus) {
-            editor.focus();
+            if (!visibleXS) {
+                editor.focus();
+                editor.refresh();
+            }
             wasFocus = false;
         }
         setHaveUnreadChanges(false);
@@ -915,10 +918,7 @@ function changeMode(type) {
         ui.area.view.show();
         break;
     }
-    if (currentMode != modeType.view && visibleLG) {
-        //editor.focus();
-        //editor.refresh();
-    } else {
+    if (currentMode == modeType.view) {
         editor.getInputField().blur();
     }
     if (currentMode == modeType.edit || currentMode == modeType.both) {
@@ -1536,7 +1536,7 @@ socket.on('refresh', function (data) {
                 currentMode = modeType.both;
         }
         changeMode(currentMode);
-        if (nocontent) {
+        if (nocontent && !visibleXS) {
             editor.focus();
             editor.refresh();
         }
