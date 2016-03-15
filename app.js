@@ -17,6 +17,7 @@ var imgur = require('imgur');
 var formidable = require('formidable');
 var morgan = require('morgan');
 var passportSocketIo = require("passport.socketio");
+var helmet = require('helmet');
 
 //core
 var config = require("./config.js");
@@ -91,6 +92,13 @@ var sessionStore = new MongoStore({
 
 //compression
 app.use(compression());
+
+// use hsts to tell https users stick to this
+app.use(helmet.hsts({
+    maxAge: 31536000 * 1000, // 365 days
+    includeSubdomains: true,
+    preload: true
+}));
 
 //session
 app.use(session({
