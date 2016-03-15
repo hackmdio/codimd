@@ -1,3 +1,6 @@
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ messageStyle: "none", skipStartupTypeset: true ,tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true }});
+</script>
 <% if(useCDN) { %>
 <script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js" defer></script>
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -7,6 +10,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/jquery.gsap.min.js" defer></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.min.js" defer></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/js-yaml/3.4.6/js-yaml.min.js" defer></script>
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
 <% } else { %>
 <script src="<%- url %>/vendor/spin.js/spin.min.js" defer></script>
 <script src="<%- url %>/vendor/jquery/dist/jquery.min.js"></script>
@@ -16,6 +20,7 @@
 <script src="<%- url %>/vendor/gsap/src/minified/jquery.gsap.min.js" defer></script>
 <script src="<%- url %>/vendor/socket.io-client/socket.io.js" defer></script>
 <script src="<%- url %>/vendor/js-yaml/dist/js-yaml.min.js" defer></script>
+<script type="text/javascript" src="<%- url %>/vendor/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
 <% } %>
 <script src="<%- url %>/vendor/jquery-ui/jquery-ui.min.js" defer></script>
 <!--codemirror-->
@@ -66,10 +71,6 @@
 <script src="https://www.google.com/jsapi" defer></script>
 <script src="<%- url %>/js/google-drive-upload.js" defer></script>
 <script src="<%- url %>/js/google-drive-picker.js" defer></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ messageStyle: "none", skipStartupTypeset: true ,tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true }});
-</script>
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
 <script src="<%- url %>/js/common.js" defer></script>
 <script src="<%- url %>/js/extra.js" defer></script>
 <script src="<%- url %>/js/render.js" defer></script>
