@@ -728,6 +728,16 @@ md.use(window.markdownitIns);
 md.use(window.markdownitSub);
 md.use(window.markdownitSup);
 md.use(window.markdownitMathjax);
+function renderContainer(tokens, idx, options, env, self) {
+    tokens[idx].attrJoin('role', 'alert');
+    tokens[idx].attrJoin('class', 'alert');
+    tokens[idx].attrJoin('class', 'alert-' + tokens[idx].info.trim());
+    return self.renderToken.apply(self, arguments);
+}
+md.use(window.markdownitContainer, 'success', { render: renderContainer });
+md.use(window.markdownitContainer, 'info', { render: renderContainer });
+md.use(window.markdownitContainer, 'warning', { render: renderContainer });
+md.use(window.markdownitContainer, 'danger', { render: renderContainer });
 
 md.renderer.rules.image = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');

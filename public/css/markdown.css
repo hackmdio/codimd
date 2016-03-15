@@ -93,6 +93,10 @@
     unicode-bidi: embed;
 }
 
+.markdown-body .alert > p {
+    margin-bottom: 0;
+}
+
 .markdown-body pre.flow-chart,
 .markdown-body pre.sequence-diagram,
 .markdown-body pre.graphviz,

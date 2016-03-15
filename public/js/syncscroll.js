@@ -93,6 +93,17 @@ md.renderer.rules.code_block = function (tokens, idx, options, env, self) {
     }
     return '<pre><code>' + md.utils.escapeHtml(tokens[idx].content) + '</code></pre>\n';
 };
+function renderContainer(tokens, idx, options, env, self) {
+    tokens[idx].attrJoin('role', 'alert');
+    tokens[idx].attrJoin('class', 'alert');
+    tokens[idx].attrJoin('class', 'alert-' + tokens[idx].info.trim());
+    addPart(tokens, idx);
+    return self.renderToken.apply(self, arguments);
+}
+md.use(window.markdownitContainer, 'success', { render: renderContainer });
+md.use(window.markdownitContainer, 'info', { render: renderContainer });
+md.use(window.markdownitContainer, 'warning', { render: renderContainer });
+md.use(window.markdownitContainer, 'danger', { render: renderContainer });
 
 var preventSyncScroll = false;
 
