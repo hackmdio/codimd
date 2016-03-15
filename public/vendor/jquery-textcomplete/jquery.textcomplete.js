@@ -202,7 +202,9 @@ if (typeof jQuery === 'undefined') {
         // Ignore shift-key, ctrl-key and so on.
         if (skipUnchangedTerm && this._term === term) { return; }
         this._term = term;
+        this.fire('textComplete:beforeSearch');
         this._search.apply(this, searchQuery);
+        this.fire('textComplete:afterSearch');
       } else {
         this._term = null;
         this.dropdown.deactivate();

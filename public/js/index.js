@@ -2504,23 +2504,30 @@ function checkCursorMenuInner() {
     dropdown[0].style.top = top + offsetTop + 'px';
 }
 
+function checkInIndentCode() {
+    // if line starts with tab or four spaces is a code block
+    var line = editor.getLine(editor.getCursor().line);
+    var isIndentCode = ((line.substr(0, 4) === '    ') || (line.substr(0, 1) === '\t'));
+    return isIndentCode;
+}
+
 var isInCode = false;
 
 function checkInCode() {
-    isInCode = checkAbove();
+    isInCode = checkAbove(matchInCode) || checkInIndentCode();
 }
 
-function checkAbove() {
+function checkAbove(method) {
     var cursor = editor.getCursor();
     var text = [];
     for (var i = 0; i < cursor.line; i++) //contain current line
         text.push(editor.getLine(i));
     text = text.join('\n') + '\n' + editor.getLine(cursor.line).slice(0, cursor.ch);
     //console.log(text);
-    return matchInCode(text);
+    return method(text);
 }
 
-function checkBelow() {
+function checkBelow(method) {
     var cursor = editor.getCursor();
     var count = editor.lineCount();
     var text = [];
@@ -2528,7 +2535,7 @@ function checkBelow() {
         text.push(editor.getLine(i));
     text = editor.getLine(cursor.line).slice(cursor.ch) + '\n' + text.join('\n');
     //console.log(text);
-    return matchInCode(text);
+    return method(text);
 }
 
 function matchInCode(text) {
@@ -2543,6 +2550,29 @@ function matchInCode(text) {
         } else {
             return false;
         }
+    }
+}
+
+var isInContainer = false;
+var isInContainerSyntax = false;
+
+function checkInContainer() {
+    isInContainer = checkAbove(matchInContainer) && !checkInIndentCode();
+}
+
+function checkInContainerSyntax() {
+    // if line starts with :::, it's in container syntax
+    var line = editor.getLine(editor.getCursor().line);
+    isInContainerSyntax = (line.substr(0, 3) === ':::');
+}
+
+function matchInContainer(text) {
+    var match;
+    match = text.match(/:{3,}/g);
+    if (match && match.length % 2) {
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -2561,7 +2591,6 @@ $(editor.getInputField())
                       list.push(emoji);
                 });
                 callback(list);
-                checkCursorMenu();
             },
             template: function (value) {
                 return '<img class="emoji" src="' + serverurl + '/vendor/emojify/images/' + value + '.png"></img> ' + value;
@@ -2571,9 +2600,10 @@ $(editor.getInputField())
             },
             index: 1,
             context: function (text) {
-                checkCursorMenu();
                 checkInCode();
-                return !isInCode;
+                checkInContainer();
+                checkInContainerSyntax();
+                return !isInCode && !isInContainerSyntax;
             }
     },
         { // Code block language strategy
@@ -2581,6 +2611,8 @@ $(editor.getInputField())
             charts: supportCharts,
             match: /(^|\n)```(\w+)$/,
             search: function (term, callback) {
+                var line = editor.getLine(editor.getCursor().line);
+                term = line.match(this.match)[2];
                 var list = [];
                 $.map(this.langs, function (lang) {
                     if (lang.indexOf(term) === 0 && lang !== term)
@@ -2591,11 +2623,10 @@ $(editor.getInputField())
                         list.push(chart);
                 });
                 callback(list);
-                checkCursorMenu();
             },
             replace: function (lang) {
                 var ending = '';
-                if (!checkBelow()) {
+                if (!checkBelow(matchInCode)) {
                     ending = '\n\n```';
                 }
                 if (this.langs.indexOf(lang) !== -1)
@@ -2614,7 +2645,6 @@ $(editor.getInputField())
                     editor.doc.cm.execCommand("goLineUp");
             },
             context: function (text) {
-                checkCursorMenu();
                 return isInCode;
             }
     },
@@ -2660,13 +2690,11 @@ $(editor.getInputField())
                 callback($.map(supportHeaders, function (header) {
                     return header.search.indexOf(term) === 0 ? header.text : null;
                 }));
-                checkCursorMenu();
             },
             replace: function (value) {
                 return '$1' + value;
             },
             context: function (text) {
-                checkCursorMenu();
                 return !isInCode;
             }
     },
@@ -2683,13 +2711,11 @@ $(editor.getInputField())
                         list.push(referral.text);
                 })
                 callback(list);
-                checkCursorMenu();
             },
             replace: function (value) {
                 return '$1' + value;
             },
             context: function (text) {
-                checkCursorMenu();
                 return !isInCode;
             }
     },
@@ -2706,13 +2732,11 @@ $(editor.getInputField())
                         list.push(referral.text);
                 })
                 callback(list);
-                checkCursorMenu();
             },
             replace: function (value) {
                 return '$1' + value;
             },
             context: function (text) {
-                checkCursorMenu();
                 return !isInCode;
             }
     },
@@ -2722,13 +2746,11 @@ $(editor.getInputField())
                 callback($.map(supportReferrals, function (referral) {
                     return referral.search.indexOf(term) === 0 ? referral.text : null;
                 }));
-                checkCursorMenu();
             },
             replace: function (value) {
                 return '$1' + value;
             },
             context: function (text) {
-                checkCursorMenu();
                 return !isInCode;
             }
     },
@@ -2738,13 +2760,11 @@ $(editor.getInputField())
                 callback($.map(supportExternals, function (external) {
                     return external.search.indexOf(term) === 0 ? external.text : null;
                 }));
-                checkCursorMenu();
             },
             replace: function (value) {
                 return '$1' + value;
             },
             context: function (text) {
-                checkCursorMenu();
                 return !isInCode;
             }
     }
@@ -2752,11 +2772,16 @@ $(editor.getInputField())
         appendTo: $('.cursor-menu')
     })
     .on({
+        'textComplete:beforeSearch': function (e) {
+            //NA
+        },
+        'textComplete:afterSearch': function (e) {
+            checkCursorMenu();
+        },
         'textComplete:select': function (e, value, strategy) {
             //NA
         },
         'textComplete:show': function (e) {
-            checkCursorMenu();
             $(this).data('autocompleting', true);
             editor.setOption("extraKeys", {
                 "Up": function () {
@@ -2776,7 +2801,6 @@ $(editor.getInputField())
                 },
                 "Backspace": function () {
                     editor.doc.cm.execCommand("delCharBefore");
-                    checkCursorMenu();
                 }
             });
         },
