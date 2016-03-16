@@ -292,11 +292,19 @@ var statusLength = null;
 var statusKeymap = null;
 var statusIndent = null;
 
-$.get(serverurl + '/views/statusbar.html', function (template) {
-    statusBarTemplate = template;
-});
+function getStatusBarTemplate(callback) {
+    $.get(serverurl + '/views/statusbar.html', function (template) {
+        statusBarTemplate = template;
+        if (callback) callback();
+    });
+}
+getStatusBarTemplate();
 
 function addStatusBar() {
+    if (!statusBarTemplate) {
+        getStatusBarTemplate(addStatusBar);
+        return;
+    }
     statusBar = $(statusBarTemplate);
     statusCursor = statusBar.find('.status-cursor');
     statusFile = statusBar.find('.status-file');
@@ -1469,7 +1477,7 @@ socket.on('info', function (data) {
 });
 socket.on('error', function (data) {
     console.error(data);
-    if (data.message.indexOf('AUTH failed') === 0)
+    if (data.message && data.message.indexOf('AUTH failed') === 0)
         location.href = "./403";
 });
 socket.on('disconnect', function (data) {

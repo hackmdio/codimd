@@ -366,6 +366,7 @@ function finishView(view) {
                 },
                 dataType: "jsonp",
                 success: function (data) {
+                    if (!data.query || !data.query.results) return;
                     var json = data.query.results.json;
                     var html = json.html;
                     var ratio = json.height / json.width;
