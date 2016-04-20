@@ -14,6 +14,12 @@ var filterXSSOptions = {
             return html;
         }
     },
+    onTagAttr: function (tag, name, value, isWhiteAttr) {
+        // allow href starts with '.' or '/'
+        if (isWhiteAttr && name === 'href' && (value.indexOf('.') == 0 || value.indexOf('/') == 0)) {
+            return name + '="' + filterXSS.escapeAttrValue(value) + '"';
+        }
+    },
     onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
         // allow attr start with 'data-' or in the whiteListAttr
         if (name.substr(0, 5) === 'data-' || whiteListAttr.indexOf(name) !== -1) {
