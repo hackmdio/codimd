@@ -153,7 +153,6 @@ passport.deserializeUser(function (id, done) {
 app.use(function(req, res, next) {
     if ("GET" == req.method && req.path.substr(-1) == '/' && req.path.length > 1) {
         var query = req.url.slice(req.path.length);
-        console.log(config.serverurl + req.path.slice(0, -1) + query);
         res.redirect(301, config.serverurl + req.path.slice(0, -1) + query);
     } else {
         next();
