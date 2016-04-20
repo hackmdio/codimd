@@ -1,8 +1,3 @@
-//constant vars
-//settings
-var debug = false;
-var version = '0.3.4';
-
 var defaultTextHeight = 20;
 var viewportMargin = 20;
 var defaultExtraKeys = {
