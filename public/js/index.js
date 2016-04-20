@@ -786,10 +786,18 @@ function checkEditorStyle() {
     if (scrollbarStyle == 'overlay' || currentMode == modeType.both) {
         ui.area.codemirrorScroll.css('height', desireHeight + 'px');
         ui.area.codemirrorScroll.css('min-height', '');
+        // workaround simple scroll bar knob
+        // will get wrong position when editor height changed
+        var scrollInfo = editor.getScrollInfo();
+        preventSyncScroll = true;
+        editor.scrollTo(null, scrollInfo.top - 1);
+        editor.scrollTo(null, scrollInfo.top);
     } else if (scrollbarStyle == 'native') {
         ui.area.codemirrorScroll.css('height', '');
         ui.area.codemirrorScroll.css('min-height', desireHeight + 'px');
     }
+    // workaround editor will have wrong doc height when editor height changed
+    editor.setSize(null, ui.area.edit.height());
     //make editor resizable
     ui.area.edit.resizable({
         handles: 'e',
