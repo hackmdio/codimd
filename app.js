@@ -101,10 +101,9 @@ app.use(session({
     resave: false, //don't save session if unmodified
     saveUninitialized: true, //always create session to ensure the origin
     cookie: {
-        maxAge: new Date(Date.now() + config.sessionlife),
+        maxAge: config.sessionlife,
         expires: new Date(Date.now() + config.sessionlife),
     },
-    maxAge: new Date(Date.now() + config.sessionlife),
     store: sessionStore
 }));
 
