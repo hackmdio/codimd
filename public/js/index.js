@@ -2139,10 +2139,6 @@ editor.on('paste', function() {
 });
 editor.on('changes', function (cm, changes) {
     updateHistory();
-    preventSyncScroll = true;
-    var scrollInfo = editor.getScrollInfo();
-    editor.scrollTo(null, scrollInfo.top - 1);
-    editor.scrollTo(null, scrollInfo.top);
     var docLength = editor.getValue().length;
     //workaround for big documents
     var newViewportMargin = 20;

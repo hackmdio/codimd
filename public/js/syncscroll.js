@@ -115,8 +115,11 @@ var viewScrollingDelay = 200;
 var viewScrollingTimer = null;
 
 //editor.on('scroll', _.throttle(syncScrollToView, editorScrollThrottle));
-editor.on('scroll', syncScrollToView);
-ui.area.codemirrorScroll.on('scroll', syncScrollToView);
+if (editor.getOption('scrollbarStyle') === 'native') {
+    ui.area.codemirrorScroll.on('scroll', syncScrollToView);
+} else {
+    editor.on('scroll', syncScrollToView);
+}
 ui.area.view.on('scroll', function () {
     viewScrolling = true;
     clearTimeout(viewScrollingTimer);
