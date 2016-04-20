@@ -12,4 +12,7 @@ hackmd_io
 newrelic_agent.log
 logs/
 tmp/
+backups/
 *.pid
+*.log
+*.sqlite
