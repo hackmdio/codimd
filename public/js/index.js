@@ -285,6 +285,7 @@ defaultTextHeight = parseInt($(".CodeMirror").css('line-height'));
 
 var statusBarTemplate = null;
 var statusBar = null;
+var statusPanel = null;
 var statusCursor = null;
 var statusFile = null;
 var statusIndicators = null;
@@ -312,7 +313,7 @@ function addStatusBar() {
     statusIndent = statusBar.find('.status-indent');
     statusKeymap = statusBar.find('.status-keymap');
     statusLength = statusBar.find('.status-length');
-    editor.addPanel(statusBar[0], {
+    statusPanel = editor.addPanel(statusBar[0], {
         position: "bottom"
     });
     
