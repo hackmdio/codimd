@@ -7,12 +7,10 @@ var passport = require('passport');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 var compression = require('compression')
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var fs = require('fs');
-var shortid = require('shortid');
 var imgur = require('imgur');
 var formidable = require('formidable');
 var morgan = require('morgan');
@@ -20,12 +18,11 @@ var passportSocketIo = require("passport.socketio");
 var helmet = require('helmet');
 
 //core
-var config = require("./config.js");
+var config = require("./lib/config.js");
 var logger = require("./lib/logger.js");
-var User = require("./lib/user.js");
-var Temp = require("./lib/temp.js");
 var auth = require("./lib/auth.js");
 var response = require("./lib/response.js");
+var models = require("./lib/models");
 
 //server setup
 if (config.usessl) {
@@ -60,11 +57,7 @@ app.use(morgan('combined', {
 //socket io
 var io = require('socket.io')(server);
 
-// connect to the mongodb
-mongoose.connect(process.env.MONGOLAB_URI || config.mongodbstring);
-
 //others
-var db = require("./lib/db.js");
 var realtime = require("./lib/realtime.js");
 
 //assign socket io to realtime
@@ -82,13 +75,9 @@ var urlencodedParser = bodyParser.urlencoded({
 });
 
 //session store
-var sessionStore = new MongoStore({
-        mongooseConnection: mongoose.connection,
-        touchAfter: config.sessiontouch
-    },
-    function (err) {
-        logger.info(err);
-    });
+var sessionStore = new SequelizeStore({
+    db: models.sequelize
+});
 
 //compression
 app.use(compression());
@@ -139,15 +128,21 @@ app.use(passport.session());
 
 //serialize and deserialize
 passport.serializeUser(function (user, done) {
-    //logger.info('serializeUser: ' + user._id);
-    done(null, user._id);
+    logger.info('serializeUser: ' + user.id);
+    return done(null, user.id);
 });
 passport.deserializeUser(function (id, done) {
-    User.model.findById(id, function (err, user) {
-        //logger.info(user)
-        if (!err) done(null, user);
-        else done(err, null);
-    })
+    models.User.findOne({
+        where: {
+            id: id
+        }
+    }).then(function (user) {
+        logger.info('deserializeUser: ' + user.id);
+        return done(null, user);
+    }).catch(function (err) {
+        logger.error(err);
+        return done(err, null);
+    });
 });
 
 //routes
@@ -161,12 +156,16 @@ app.engine('html', ejs.renderFile);
 //get index
 app.get("/", response.showIndex);
 //get 403 forbidden
-app.get("/403", function(req, res) {
+app.get("/403", function (req, res) {
     response.errorForbidden(res);
 });
 //get 404 not found
-app.get("/404", function(req, res) {
+app.get("/404", function (req, res) {
     response.errorNotFound(res);
+});
+//get 500 internal error
+app.get("/500", function (req, res) {
+    response.errorInternalError(res);
 });
 //get status
 app.get("/status", function (req, res, next) {
@@ -184,19 +183,26 @@ app.get("/temp", function (req, res) {
         if (!tempid)
             response.errorForbidden(res);
         else {
-            Temp.findTemp(tempid, function (err, temp) {
-                if (err || !temp)
-                    response.errorForbidden(res);
+            models.Temp.findOne({
+                where: {
+                    id: tempid
+                }
+            }).then(function (temp) {
+                if (!temp)
+                    response.errorNotFound(res);
                 else {
                     res.header("Access-Control-Allow-Origin", "*");
                     res.send({
                         temp: temp.data
                     });
-                    temp.remove(function (err) {
+                    temp.destroy().catch(function (err) {
                         if (err)
                             logger.error('remove temp failed: ' + err);
                     });
                 }
+            }).catch(function (err) {
+                logger.error(err);
+                return response.errorInternalError(res);
             });
         }
     }
@@ -207,15 +213,16 @@ app.post("/temp", urlencodedParser, function (req, res) {
     if (config.alloworigin.indexOf(host) == -1)
         response.errorForbidden(res);
     else {
-        var id = shortid.generate();
         var data = req.body.data;
-        if (!id || !data)
+        if (!data)
             response.errorForbidden(res);
         else {
             if (config.debug)
                 logger.info('SERVER received temp from [' + host + ']: ' + req.body.data);
-            Temp.newTemp(id, data, function (err, temp) {
-                if (!err && temp) {
+            models.Temp.create({
+                data: data
+            }).then(function (temp) {
+                if (temp) {
                     res.header("Access-Control-Allow-Origin", "*");
                     res.send({
                         status: 'ok',
@@ -223,125 +230,149 @@ app.post("/temp", urlencodedParser, function (req, res) {
                     });
                 } else
                     response.errorInternalError(res);
+            }).catch(function (err) {
+                logger.error(err);
+                return response.errorInternalError(res);
             });
         }
     }
 });
 //facebook auth
-app.get('/auth/facebook',
-    passport.authenticate('facebook'),
-    function (req, res) {});
-//facebook auth callback
-app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-        failureRedirect: config.getserverurl()
-    }),
-    function (req, res) {
-        res.redirect(config.getserverurl());
-    });
+if (config.facebook) {
+    app.get('/auth/facebook',
+        passport.authenticate('facebook'),
+        function (req, res) {});
+    //facebook auth callback
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            failureRedirect: config.serverurl
+        }),
+        function (req, res) {
+            res.redirect(config.serverurl);
+        });
+}
 //twitter auth
-app.get('/auth/twitter',
-    passport.authenticate('twitter'),
-    function (req, res) {});
-//twitter auth callback
-app.get('/auth/twitter/callback',
-    passport.authenticate('twitter', {
-        failureRedirect: config.getserverurl()
-    }),
-    function (req, res) {
-        res.redirect(config.getserverurl());
-    });
+if (config.twitter) {
+    app.get('/auth/twitter',
+        passport.authenticate('twitter'),
+        function (req, res) {});
+    //twitter auth callback
+    app.get('/auth/twitter/callback',
+        passport.authenticate('twitter', {
+            failureRedirect: config.serverurl
+        }),
+        function (req, res) {
+            res.redirect(config.serverurl);
+        });
+}
 //github auth
-app.get('/auth/github',
-    passport.authenticate('github'),
-    function (req, res) {});
-//github auth callback
-app.get('/auth/github/callback',
-    passport.authenticate('github', {
-        failureRedirect: config.getserverurl()
-    }),
-    function (req, res) {
-        res.redirect(config.getserverurl());
-    });
-//github callback actions
-app.get('/auth/github/callback/:noteId/:action', response.githubActions);
+if (config.github) {
+    app.get('/auth/github',
+        passport.authenticate('github'),
+        function (req, res) {});
+    //github auth callback
+    app.get('/auth/github/callback',
+        passport.authenticate('github', {
+            failureRedirect: config.serverurl
+        }),
+        function (req, res) {
+            res.redirect(config.serverurl);
+        });
+    //github callback actions
+    app.get('/auth/github/callback/:noteId/:action', response.githubActions);
+}
 //dropbox auth
-app.get('/auth/dropbox',
-    passport.authenticate('dropbox-oauth2'),
-    function (req, res) {});
-//dropbox auth callback
-app.get('/auth/dropbox/callback',
-    passport.authenticate('dropbox-oauth2', {
-        failureRedirect: config.getserverurl()
-    }),
-    function (req, res) {
-        res.redirect(config.getserverurl());
-    });
+if (config.dropbox) {
+    app.get('/auth/dropbox',
+        passport.authenticate('dropbox-oauth2'),
+        function (req, res) {});
+    //dropbox auth callback
+    app.get('/auth/dropbox/callback',
+        passport.authenticate('dropbox-oauth2', {
+            failureRedirect: config.serverurl
+        }),
+        function (req, res) {
+            res.redirect(config.serverurl);
+        });
+}
 //logout
 app.get('/logout', function (req, res) {
     if (config.debug && req.isAuthenticated())
-        logger.info('user logout: ' + req.user._id);
+        logger.info('user logout: ' + req.user.id);
     req.logout();
-    res.redirect(config.getserverurl());
+    res.redirect(config.serverurl);
 });
 //get history
 app.get('/history', function (req, res) {
     if (req.isAuthenticated()) {
-        User.model.findById(req.user._id, function (err, user) {
-            if (err) {
-                logger.error('read history failed: ' + err);
-            } else {
-                var history = [];
-                if (user.history)
-                    history = JSON.parse(user.history);
-                res.send({
-                    history: history
-                });
+        models.User.findOne({
+            where: {
+                id: req.user.id
             }
+        }).then(function (user) {
+            if (!user)
+                return response.errorNotFound(res);
+            var history = [];
+            if (user.history)
+                history = JSON.parse(user.history);
+            res.send({
+                history: history
+            });
+            if (config.debug)
+                logger.info('read history success: ' + user.id);
+        }).catch(function (err) {
+            logger.error('read history failed: ' + err);
+            return response.errorInternalError(res);
         });
     } else {
-        response.errorForbidden(res);
+        return response.errorForbidden(res);
     }
 });
 //post history
 app.post('/history', urlencodedParser, function (req, res) {
     if (req.isAuthenticated()) {
         if (config.debug)
-            logger.info('SERVER received history from [' + req.user._id + ']: ' + req.body.history);
-        User.model.findById(req.user._id, function (err, user) {
-            if (err) {
-                logger.error('write history failed: ' + err);
-            } else {
-                user.history = req.body.history;
-                user.save(function (err) {
-                    if (err) {
-                        logger.error('write user history failed: ' + err);
-                    } else {
-                        if (config.debug)
-                            logger.info("write user history success: " + user._id);
-                    };
-                });
+            logger.info('SERVER received history from [' + req.user.id + ']: ' + req.body.history);
+        models.User.update({
+            history: req.body.history
+        }, {
+            where: {
+                id: req.user.id
             }
+        }).then(function (count) {
+            if (!count)
+                return response.errorNotFound(res);
+            if (config.debug)
+                logger.info("write user history success: " + req.user.id);
+        }).catch(function (err) {
+            logger.error('write history failed: ' + err);
+            return response.errorInternalError(res);
         });
         res.end();
     } else {
-        response.errorForbidden(res);
+        return response.errorForbidden(res);
     }
 });
 //get me info
 app.get('/me', function (req, res) {
     if (req.isAuthenticated()) {
-        User.model.findById(req.user._id, function (err, user) {
-            if (err) {
-                logger.error('read me failed: ' + err);
-            } else {
-                var profile = JSON.parse(user.profile);
-                res.send({
-                    status: 'ok',
-                    id: req.user._id,
-                    name: profile.displayName || profile.username
-                });
+        models.User.findOne({
+            where: {
+                id: req.user.id
             }
+        }).then(function (user) {
+            if (!user)
+                return response.errorNotFound(res);
+            var profile = models.User.parseProfile(user.profile);
+            res.send({
+                status: 'ok',
+                id: req.user.id,
+                name: profile.name,
+                photo: profile.photo
+            });
+        }).catch(function (err) {
+            logger.error('read me failed: ' + err);
+            return response.errorInternalError(res);
         });
     } else {
         res.send({
@@ -370,19 +401,17 @@ app.post('/uploadimage', function (req, res) {
                     })
                     .catch(function (err) {
                         logger.error(err);
-                        res.send('upload image error');
+                        return res.send('upload image error');
                     });
             } catch (err) {
                 logger.error(err);
-                res.send('upload image error');
+                return res.send('upload image error');
             }
         }
     });
 });
 //get new note
 app.get("/new", response.newNote);
-//get features
-app.get("/features", response.showFeatures);
 //get publish note
 app.get("/s/:shortid", response.showPublishNote);
 //publish note actions
@@ -412,15 +441,22 @@ io.set('heartbeat timeout', config.heartbeattimeout);
 io.sockets.on('connection', realtime.connection);
 
 //listen
-if (config.usessl) {
-    server.listen(config.sslport, function () {
-        logger.info('HTTPS Server listening at sslport %d', config.sslport);
-    });
-} else {
-    server.listen(config.port, function () {
-        logger.info('HTTP Server listening at port %d', config.port);
-    });
+function startListen() {
+    if (config.usessl) {
+        server.listen(config.port, function () {
+            logger.info('HTTPS Server listening at port %d', config.port);
+        });
+    } else {
+        server.listen(config.port, function () {
+            logger.info('HTTP Server listening at port %d', config.port);
+        });
+    }
 }
+
+// sync db then start listen
+models.sequelize.sync().then(startListen);
+
+// log uncaught exception
 process.on('uncaughtException', function (err) {
     logger.error(err);
 });

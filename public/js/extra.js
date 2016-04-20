@@ -1,15 +1,24 @@
 //auto update last change
+var createtime = null;
 var lastchangetime = null;
 var lastchangeui = {
+    status: $(".ui-status-lastchange"),
     time: $(".ui-lastchange"),
     user: $(".ui-lastchangeuser"),
     nouser: $(".ui-no-lastchangeuser")
 }
 
 function updateLastChange() {
-    if (lastchangetime && lastchangeui) {
-        lastchangeui.time.html(moment(lastchangetime).fromNow());
-        lastchangeui.time.attr('title', moment(lastchangetime).format('llll'));
+    if (!lastchangeui) return;
+    if (createtime) {
+        if (createtime && !lastchangetime) {
+            lastchangeui.status.text('created');
+        } else {
+            lastchangeui.status.text('changed');
+        }
+        var time = lastchangetime || createtime;
+        lastchangeui.time.html(moment(time).fromNow());
+        lastchangeui.time.attr('title', moment(time).format('llll'));
     }
 }
 setInterval(updateLastChange, 60000);

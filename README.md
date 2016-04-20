@@ -9,6 +9,17 @@ Still in early stage, feel free to fork or contribute to this.
 
 Thanks for your using! :smile:
 
+[docker-hackmd](https://github.com/hackmdio/docker-hackmd)
+---
+Before you going too far, here is the great docker repo for HackMD.  
+With docker, you can deploy a server in minutes without any hardtime.
+
+[migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
+---
+We've dropped MongoDB after version 0.4.0.  
+So here is the migration tool for you to transfer old DB data to new DB.  
+This tool is also used for official service.
+
 Browsers Requirement
 ---
 - Chrome >= 45, Chrome for Android >= 47
@@ -20,33 +31,24 @@ Browsers Requirement
 
 Prerequisite
 ---
-- Node.js 4.x or up (test up to 5.8.0)
-- PostgreSQL 9.3.x or 9.4.x
-- MongoDB 3.0.x
+- Node.js 4.x or up (test up to 5.10.1)
+- Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL)
 - npm and bower
 
 Get started
 ---
 1. Download a release and unzip or clone into a directory
 2. Enter the directory and type `npm install && bower install`, will install all the dependencies
-3. Install PostgreSQL and MongoDB (yes, currently we need both)
-4. Import database schema, see more on below
-5. Setup the configs, see more on below
-6. Setup environment variables, which will overwrite the configs
-7. Run the server as you like (node, forever, pm2)
-
-Import database schema
----
-The notes are store in PostgreSQL, the schema is in the `hackmd_schema.sql`  
-To import the sql file in PostgreSQL, see http://www.postgresql.org/docs/9.4/static/backup-dump.html
-
-The users, temps and sessions are store in MongoDB, which don't need schema, so just make sure you have the correct connection string.
+3. Setup the configs, see more on below
+4. Setup environment variables, which will overwrite the configs
+5. Run the server as you like (node, forever, pm2)
 
 Structure
 ---
 ```
 hackmd/
 ├── tmp/			--- temporary files
+├── docs/			--- document files
 ├── lib/			--- server libraries
 └── public/			--- client files
 	├── css/		--- css styles
@@ -57,63 +59,58 @@ hackmd/
 
 Configuration files
 ---
-There are some config you need to change in below files
+There are some configs you need to change in below files
 ```
-./config.js				--- for server settings
-./public/js/index.js	--- for client settings
+./config.json			--- for server settings
 ./public/js/common.js	--- for client settings
 ```
 
-Client-side index.js settings
+Client settings `common.js`
 ---
 | variables | example values | description |
 | --------- | ------ | ----------- |
 | debug | `true` or `false` | set debug mode, show more logs |
-| version | `0.3.2` | current version, must match same var in server side `config.js` |
-
-Client-side common.js settings
----
-| variables | example values | description |
-| --------- | ------ | ----------- |
 | domain | `localhost` | domain name |
 | urlpath | `hackmd` | sub url path, like: `www.example.com/<urlpath>` |
 
-Environment variables
+Environment variables (will overwrite other server configs)
 ---
 | variables | example values | description |
 | --------- | ------ | ----------- |
-| NODE_ENV  | `production` or `development` | show current environment status |
-| DATABASE_URL | `postgresql://user:pass@host:port/hackmd` | PostgreSQL connection string |
-| MONGOLAB_URI | `mongodb://user:pass@host:port/hackmd` | MongoDB connection string |
-| PORT | `80` | web port |
-| SSLPORT | `443` | ssl web port |
-| DOMAIN | `localhost` | domain name |
-| URL_PATH | `hackmd` | sub url path, like `www.example.com/<URL_PATH>` |
+| NODE_ENV  | `production` or `development` | set current environment (will apply correspond settings in the `config.json`) |
+| PORT | `80` | web app port |
+| DEBUG | `true` or `false` | set debug mode, show more logs |
 
-Server-side config.js settings
+Server settings `config.json`
 ---
 | variables | example values | description |
 | --------- | ------ | ----------- |
-| testport  | `3000` | debug web port, fallback to this when not set in environment |
-| testsslport | `3001` | debug web ssl port, fallback to this when not set in environment |
-| usessl | `true` or `false` | set to use ssl |
-| protocolusessl | `true` or `false` | set to use ssl protocol |
-| urladdport | `true` or `false` | set to add port on oauth callback url |
 | debug | `true` or `false` | set debug mode, show more logs |
-| usecdn | `true` or `false` | set to use CDN resources or not |
-| version | `0.3.2` | currnet version, must match same var in client side `index.js` |
+| domain | `localhost` | domain name |
+| urlpath | `hackmd` | sub url path, like `www.example.com/<urlpath>` |
+| port | `80` | web app port |
 | alloworigin | `['localhost']` | domain name whitelist |
-| sslkeypath | `./cert/client.key` | ssl key path |
-| sslcertpath | `./cert/hackmd_io.crt` | ssl cert path |
-| sslcapath | `['./cert/COMODORSAAddTrustCA.crt']` | ssl ca chain |
-| dhparampath | `./cert/dhparam.pem` | ssl dhparam path |
-| tmppath | `./tmp/` | temp file path |
-| postgresqlstring | `postgresql://user:pass@host:port/hackmd` | PostgreSQL connection string, fallback to this when not set in environment |
-| mongodbstring | `mongodb://user:pass@host:port/hackmd` | MongoDB connection string, fallback to this when not set in environment |
+| usessl | `true` or `false` | set to use ssl server (if true will auto turn on `protocolusessl`) |
+| protocolusessl | `true` or `false` | set to use ssl protocol for resources path |
+| urladdport | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) |
+| usecdn | `true` or `false` | set to use CDN resources or not |
+| db | `{ "dialect": "sqlite", "storage": "./db.hackmd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
+| sslkeypath | `./cert/client.key` | ssl key path (only need when you set usessl) |
+| sslcertpath | `./cert/hackmd_io.crt` | ssl cert path (only need when you set usessl) |
+| sslcapath | `['./cert/COMODORSAAddTrustCA.crt']` | ssl ca chain (only need when you set usessl) |
+| dhparampath | `./cert/dhparam.pem` | ssl dhparam path (only need when you set usessl) |
+| tmppath | `./tmp/` | temp directory path |
+| defaultnotepath | `./public/default.md` | default note file path |
+| docspath | `./public/docs` | docs directory path |
+| indexpath | `./public/views/index.ejs` | index template file path |
+| hackmdpath | `./public/views/hackmd.ejs` | hackmd template file path |
+| errorpath | `./public/views/error.ejs` | error template file path |
+| prettypath | `./public/views/pretty.ejs` | pretty template file path |
+| slidepath | `./public/views/slide.hbs` | slide template file path |
 | sessionname | `connect.sid` | cookie session name |
 | sessionsecret | `secret` | cookie session secret |
 | sessionlife | `14 * 24 * 60 * 60 * 1000` | cookie session life |
-| sessiontouch | `1 * 3600` | cookie session touch |
+| staticcachetime | `1 * 24 * 60 * 60 * 1000` | static file cache time |
 | heartbeatinterval | `5000` | socket.io heartbeat interval |
 | heartbeattimeout | `10000` | socket.io heartbeat timeout |
 | documentmaxlength | `100000` | note max length |
@@ -122,8 +119,8 @@ Third-party integration api key settings
 ---
 | service | file path | description |
 | ------- | --------- | ----------- |
-| facebook, twitter, github, dropbox | `config.js` | for signin |
-| imgur | `config.js` | for image upload |
+| facebook, twitter, github, dropbox | `config.json` | for signin |
+| imgur | `config.json` | for image upload |
 | dropbox | `public/views/foot.ejs` | for chooser and saver |
 | google drive | `public/js/common.js` | for export and import |
 

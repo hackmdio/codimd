@@ -1423,7 +1423,7 @@ function updatePermission(newPermission) {
         title = "Only owner can view & edit";
         break;
     }
-    if (personalInfo.userid == owner) {
+    if (personalInfo.userid && personalInfo.userid == owner) {
         label += ' <i class="fa fa-caret-down"></i>';
         ui.infobar.permission.label.removeClass('disabled');
     } else {
@@ -1476,11 +1476,14 @@ socket.emit = function () {
 socket.on('info', function (data) {
     console.error(data);
     switch (data.code) {
+    case 403:
+        location.href = "./403";
+        break;
     case 404:
         location.href = "./404";
         break;
-    case 403:
-        location.href = "./403";
+    case 500:
+        location.href = "./500";
         break;
     }
 });
@@ -1517,11 +1520,15 @@ socket.on('version', function (data) {
 });
 function updateLastInfo(data) {
     //console.log(data);
-    if (lastchangetime !== data.updatetime) {
+    if (data.hasOwnProperty('createtime') && createtime !== data.createtime) {
+        createtime = data.createtime;
+        updateLastChange();
+    }
+    if (data.hasOwnProperty('updatetime') && lastchangetime !== data.updatetime) {
         lastchangetime = data.updatetime;
         updateLastChange();
     }
-    if (lastchangeuser !== data.lastchangeuser) {
+    if (data.hasOwnProperty('lastchangeuser') && lastchangeuser !== data.lastchangeuser) {
         lastchangeuser = data.lastchangeuser;
         lastchangeuserprofile = data.lastchangeuserprofile;
         updateLastChangeUser();

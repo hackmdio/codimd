@@ -3,7 +3,7 @@ Features
 
 Introduction
 ===
-<i class="fa fa-file-text"></i> HackMD is a realtime collaborate markdown note in all platforms.
+<i class="fa fa-file-text"></i> **HackMD** is a realtime collaborate markdown note in all platforms.
 This mean you can do some notes with any other in **Desktop, Tablet or even Phone**.
 You can Sign in via **Facebook, Twitter, GitHub, Dropbox** in the **[homepage](/)**.
 
@@ -37,11 +37,11 @@ If you want to share a **editable** note, just copy the url.
 If you want to share a **read-only** note, simply press share button <i class="fa fa-share-alt"></i> and copy the url.
 
 ## Save
-Currently, you can save to **dropbox** <i class="fa fa-dropbox"></i> or save as **.md** <i class="fa fa-file-text"></i> to local.
+Currently, you can save to **Dropbox** <i class="fa fa-dropbox"></i> or save as **.md** <i class="fa fa-file-text"></i> to local.
 
 ## Import
-Like save feature, you can also import **.md** from **dropbox** <i class="fa fa-dropbox"></i>.
-Or import from your **clipboard** <i class="fa fa-clipboard"></i>, and that can parse some **html** which might be useful :smiley:
+Like save feature, you can also import **.md** from **Dropbox** <i class="fa fa-dropbox"></i>.
+Or import from your **Clipboard** <i class="fa fa-clipboard"></i>, and that can parse some **html** which might be useful :smiley:
 
 ## Permission
 There is a little button on the top right of the view.
@@ -59,6 +59,11 @@ It might be one of below:
 ```xml
 <iframe width="100%" height="500" src="http://hackmd.io/features" frameborder="0"></iframe>
 ```
+
+## [Slide Mode](./slide-example)
+You can use some syntax to divide your note into slides.
+Then use **Slide Mode** <i class="fa fa-tv"></i> to made a presentation.
+Visit above link for detail.
 
 View
 ===
@@ -93,12 +98,13 @@ This will take the first **level 1 header** as the note title.
 Using tags like below, these will show in your **history**.
 ###### tags: `features` `cool` `updated`
 
-## [YAML metadata](https://hackmd.io/IwFgZgxiBsBGCsBaAnPYAORJm07gDMImGAKYnrwDsUI8QA==)
+## [YAML metadata](./yaml-metadata)
 Provide advanced note information to set the browse behavior, visit above link for detail
-- robots: set search engine to index or not
+- robots: set web robots meta
 - lang: set browse language
 - dir: set text direction
-- breaks: set to use line breaks
+- breaks: set to use line breaks or not
+- mathjax: set to parse mathjax or not
 
 ## Emoji
 You can type any emoji like this :smile: :smiley: :cry: :wink:
@@ -241,9 +247,41 @@ digraph hierarchy {
 }
 ```
 
+### Mermaid
+```mermaid
+gantt
+    title A Gantt Diagram
+
+    section Section
+    A task           :a1, 2014-01-01, 30d
+    Another task     :after a1  , 20d
+    section Another
+    Task in sec      :2014-01-12  , 12d
+    anther task      : 24d
+```
+
 > More information about **Sequence diagrams** syntax [here](http://bramp.github.io/js-sequence-diagrams/).
 > More information about **Flow charts** syntax [here](http://adrai.github.io/flowchart.js/).
 > More information about **Graphviz** syntax [here](http://www.tonyballantyne.com/graphs.html)
+> More information about **Mermaid** syntax [here](http://knsv.github.io/mermaid)
+
+Alert area
+---
+:::success
+Yes :tada:
+:::
+
+:::info
+This is a message :mega:
+:::
+
+:::warning
+Watch out :zap:
+:::
+
+:::danger
+Oh No :fire:
+:::
 
 ## Typography
 

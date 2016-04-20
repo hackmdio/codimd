@@ -49,8 +49,8 @@
                 <% } else { %>
                 	<span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o"></i></span>
                 <% } %>
-                &nbsp;<span class="text-uppercase">changed</span>
-                <span class="ui-lastchange text-uppercase"><%- updatetime %></span>
+                &nbsp;<span class="text-uppercase ui-status-lastchange"></span>
+                <span class="ui-lastchange text-uppercase" data-createtime="<%- createtime %>" data-updatetime="<%- updatetime %>"></span>
             </span>
             <span class="pull-right"><%- viewcount %> views <a href="#" class="ui-edit" title="Edit this note"><i class="fa fa-fw fa-pencil"></i></a></span>
         </small>

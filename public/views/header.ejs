@@ -38,8 +38,10 @@
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-save-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-upload fa-fw"></i> Google Drive</a>
                 </li>
+                <% if(typeof github !== 'undefined' && github) { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
+                <% } %>
                 <li class="divider"></li>
                 <li class="dropdown-header">Import</li>
                 <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
@@ -119,8 +121,10 @@
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-save-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-upload fa-fw"></i> Google Drive</a>
                     </li>
+                    <% if(typeof github !== 'undefined' && github) { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank"><i class="fa fa-github fa-fw"></i> Gist</a>
-                </li>
+                    </li>
+                    <% } %>
                     <li class="divider"></li>
                     <li class="dropdown-header">Import</li>
                     <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>

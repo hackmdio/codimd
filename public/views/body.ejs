@@ -8,7 +8,7 @@
                 <span>
                 	<span class="ui-lastchangeuser" style="display: none;">&thinsp;<i class="ui-user-icon small" data-toggle="tooltip" data-placement="right"></i></span>
                 	<span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o"></i></span>
-                	&nbsp;<span class="text-uppercase">changed</span>
+                	&nbsp;<span class="text-uppercase ui-status-lastchange"></span>
                 	<span class="ui-lastchange text-uppercase"></span>
                 </span>
                 <span class="ui-permission dropdown pull-right">
@@ -69,32 +69,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="refreshModalRefresh">Refresh</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- signin modal -->
-<div class="modal fade signin-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="mySmallModalLabel">Please sign in to edit</h4>
-            </div>
-            <div class="modal-body">
-                <a href="<%- url %>/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
-                    <i class="fa fa-facebook"></i> Sign in via Facebook
-                </a>
-                <a href="<%- url %>/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
-                    <i class="fa fa-twitter"></i> Sign in via Twitter
-                </a>
-                <a href="<%- url %>/auth/github" class="btn btn-lg btn-block btn-social btn-github">
-                    <i class="fa fa-github"></i> Sign in via GitHub
-                </a>
-                <a href="<%- url %>/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
-                    <i class="fa fa-dropbox"></i> Sign in via Dropbox
-                </a>
             </div>
         </div>
     </div>
