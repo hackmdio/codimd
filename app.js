@@ -89,6 +89,11 @@ app.use(helmet.hsts({
     preload: true
 }));
 
+// routes without sessions
+// static files
+app.use('/', express.static(__dirname + '/public', { maxAge: config.staticcachetime }));
+app.use('/vendor/', express.static(__dirname + '/bower_components', { maxAge: config.staticcachetime }));
+
 //session
 app.use(session({
     name: config.sessionname,
@@ -145,10 +150,7 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
-//routes
-//static files
-app.use('/', express.static(__dirname + '/public'));
-app.use('/vendor/', express.static(__dirname + '/bower_components'));
+// routes need sessions
 //template files
 app.set('views', __dirname + '/public');
 //set render engine
