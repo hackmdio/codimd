@@ -81,30 +81,6 @@
     height: 100%;
 }
 
-h1:hover .header-link,
-h2:hover .header-link,
-h3:hover .header-link,
-h4:hover .header-link,
-h5:hover .header-link,
-h6:hover .header-link {
-    opacity: 1;
-    -webkit-transition: opacity 0.2s ease-in-out 0.1s;
-    -moz-transition: opacity 0.2s ease-in-out 0.1s;
-    -o-transition: opacity 0.2s ease-in-out 0.1s;
-    transition: opacity 0.2s ease-in-out 0.1s;
-}
-.header-link {
-    position: relative;
-    left: 0.5em;
-    right: 0.5em;
-    opacity: 0;
-    font-size: 0.8em;
-    -webkit-transition: opacity 0.2s ease-in-out 0.1s;
-    -moz-transition: opacity 0.2s ease-in-out 0.1s;
-    -o-transition: opacity 0.2s ease-in-out 0.1s;
-    transition: opacity 0.2s ease-in-out 0.1s;
-}
-
 .ui-infobar {
     max-width: 758px;
     margin-top: 25px;

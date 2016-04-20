@@ -613,9 +613,9 @@ function imgPlayiframe(element, src) {
 
 var anchorForId = function (id) {
     var anchor = document.createElement("a");
-    anchor.className = "header-link hidden-xs";
+    anchor.className = "anchor hidden-xs";
     anchor.href = "#" + id;
-    anchor.innerHTML = "<span class=\"sr-only\"></span><i class=\"fa fa-link\"></i>";
+    anchor.innerHTML = "<span class=\"octicon octicon-link\"></span>";
     anchor.title = id;
     return anchor;
 };
@@ -624,13 +624,13 @@ var linkifyAnchors = function (level, containingElement) {
     var headers = containingElement.getElementsByTagName("h" + level);
     for (var h = 0; h < headers.length; h++) {
         var header = headers[h];
-        if (header.getElementsByClassName("header-link").length == 0) {
+        if (header.getElementsByClassName("anchor").length == 0) {
             if (typeof header.id == "undefined" || header.id == "") {
                 //to escape characters not allow in css and humanize
                 var id = slugifyWithUTF8(header.innerHTML);
                 header.id = id;
             }
-            header.appendChild(anchorForId(header.id));
+            header.insertBefore(anchorForId(header.id), header.firstChild);
         }
     }
 };

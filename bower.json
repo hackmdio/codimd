@@ -47,6 +47,7 @@
     "markdown-it-sup": "^1.0.0",
     "markdown-it-container": "^2.0.0",
     "mermaid": "^0.5.8",
-    "MathJax": "^2.6.1"
+    "MathJax": "^2.6.1",
+    "octicons": "^3.5.0"
   }
 }
