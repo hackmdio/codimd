@@ -434,6 +434,10 @@ app.get("/p/:shortid", response.showPublishSlide);
 app.get("/:noteId", response.showNote);
 //note actions
 app.get("/:noteId/:action", response.noteActions);
+// response not found if no any route matches
+app.get('*', function (req, res) {
+    response.errorNotFound(res);
+});
 
 //socket.io secure
 io.use(realtime.secure);
