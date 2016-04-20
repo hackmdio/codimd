@@ -84,12 +84,14 @@ function parseMeta(md, edit, view, toc, tocAffix) {
     var lang = null;
     var dir = null;
     var breaks = true;
+    var spellcheck = false;
     if (md && md.meta) {
         var meta = md.meta;
         robots = meta.robots;
         lang = meta.lang;
         dir = meta.dir;
         breaks = meta.breaks;
+        spellcheck = meta.spellcheck;
     }
     //robots meta
     var robotsMeta = $('meta[name=robots]');
@@ -130,6 +132,18 @@ function parseMeta(md, edit, view, toc, tocAffix) {
         md.options.breaks = false;
     } else {
         md.options.breaks = true;
+    }
+    // spell check
+    if (typeof editor === 'object') {
+        var mode = null;
+        if (typeof spellcheck === 'boolean' && spellcheck) {
+            mode = 'spell-checker';
+        } else {
+            mode = 'gfm';
+        }
+        if (mode && mode !== editor.getOption('mode')) {
+            editor.setOption('mode', mode);
+        }
     }
 }
 

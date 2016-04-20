@@ -253,6 +253,7 @@ var textit = document.getElementById("textit");
 if (!textit) throw new Error("There was no textit area!");
 var editor = CodeMirror.fromTextArea(textit, {
     mode: 'gfm',
+    backdrop: 'gfm',
     keyMap: "sublime",
     viewportMargin: viewportMargin,
     styleActiveLine: true,

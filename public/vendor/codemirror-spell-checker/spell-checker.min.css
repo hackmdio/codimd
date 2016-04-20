@@ -1,0 +1,7 @@
+/**
+ * codemirror-spell-checker v1.0.6
+ * Copyright Next Step Webs, Inc.
+ * @link https://github.com/NextStepWebs/codemirror-spell-checker
+ * @license MIT
+ */
+.CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word){border-bottom:1px dashed rgba(255,0,0,.8)}
