@@ -327,6 +327,68 @@ var template = Handlebars.compile(source);
 var context = {
     release: [
         {
+            version: "0.4.0",
+            tag: "first-year",
+            date: moment("201604201430", 'YYYYMMDDhhmm').fromNow(),
+            detail: [
+                {
+                    title: "Features",
+                    item: [
+                            "+ Support docs",
+                            "+ Support Ionicons and Octicons",
+                            "+ Support mermaid diagram",
+                            "+ Support import and export with Gist",
+                            "+ Support import and export with Google Drive",
+                            "+ Support more options in YAML metadata",
+                            "+ Support change keymap and indentation size/type"
+                        ]
+                    },
+                {
+                    title: "Enhancements",
+                    item: [
+                            "* Change header anchor styles",
+                            "* Refactor server code and configs",
+                            "* Support experimental spell checking",
+                            "* Upgrade CodeMirror to 5.13.5",
+                            "* Update to emit info and disconnect clients if updater get errors",
+                            "* Support to indicate if the note status is created or updated",
+                            "* Support more DB types",
+                            "* Server now use ORM for DBs",
+                            "* Support static file cache",
+                            "* Support more ssl settings",
+                            "* Improve server stablilty",
+                            "* Improve server performance",
+                            "* Support Ionicons",
+                            "* Support container syntax and styles",
+                            "* Improve input performance",
+                            "* Change markdown engine from remarkable to markdown-it",
+                            "* Server now support set sub url path",
+                            "* Support textcomplete in multiple editing",
+                            "* Update to filter XSS on rendering",
+                            "* Update to make sync scroll lerp on last line",
+                            "* Update to make continue list in todo list default as unchecked",
+                            "* Support auto indent whole line in list or blockquote"
+                        ]
+                    },
+				{
+                    title: "Fixes",
+                    item: [
+                            "* Fix status bar might be inserted before loaded",
+                            "* Fix mobile layout and focus issues",
+                            "* Fix editor layout and styles might not handle correctly",
+                            "* Fix all diagram rendering method and styles to avoid partial update gets wrong",
+                            "* Fix to ignore process image which already wrapped by link node",
+                            "* Fix when cut or patse scroll map might get wrong",
+                            "* Fix to handle more socket error and info status",
+                            "* Fix textcomplete not matching properly",
+                            "* Fix and refactor cursor tag and cursor menu",
+                            "* Fix Japanese, Chinese font styles",
+                            "* Fix minor bugs of UI and seletor syntaxes"
+                        ]
+                    }
+                ]
+            },
+        {
             version: "0.3.4",
             tag: "techstars",
             date: moment("201601190022", 'YYYYMMDDhhmm').fromNow(),
