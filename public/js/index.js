@@ -504,6 +504,7 @@ var ui = {
         import: {
             dropbox: $(".ui-import-dropbox"),
             googleDrive: $(".ui-import-google-drive"),
+            gist: $(".ui-import-gist"),
             clipboard: $(".ui-import-clipboard")
         },
         beta: {
@@ -1181,6 +1182,10 @@ function buildImportFromGoogleDrive() {
         }
     });
 }
+//import from gist
+ui.toolbar.import.gist.click(function () {
+    //na
+});
 //import from clipboard
 ui.toolbar.import.clipboard.click(function () {
     //na
@@ -1283,6 +1288,7 @@ function applyScrollspyActive(top, headerMap, headers, target, offset) {
     active.closest('li').addClass('active').parent().closest('li').addClass('active').parent().closest('li').addClass('active');
 }
 
+// clipboard modal
 //fix for wrong autofocus
 $('#clipboardModal').on('shown.bs.modal', function () {
     $('#clipboardModal').blur();
@@ -1298,8 +1304,53 @@ $("#clipboardModalConfirm").click(function () {
         $("#clipboardModalContent").html('');
     }
 });
+
+// refresh modal
 $('#refreshModalRefresh').click(function () {
     location.reload(true);
+});
+
+// gist import modal
+$("#gistImportModalClear").click(function () {
+    $("#gistImportModalContent").val('');
+});
+$("#gistImportModalConfirm").click(function () {
+    var gisturl = $("#gistImportModalContent").val();
+    if (!gisturl) return;
+    $('#gistImportModal').modal('hide');
+    $("#gistImportModalContent").val('');
+    if (!isValidURL(gisturl)) {
+        showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid URL :(', '', '', false);
+        return;
+    } else {
+        var hostname = url('hostname', gisturl)
+        if (hostname !== 'gist.github.com') {
+            showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', '', false);
+        } else {
+            ui.spinner.show();
+            $.get('https://api.github.com/gists/' + url('-1', gisturl))
+                .success(function (data) {
+                    if (data.files) {
+                        var contents = "";
+                        Object.keys(data.files).forEach(function (key) {
+                            contents += key;
+                            contents += '\n---\n';
+                            contents += data.files[key].content;
+                            contents += '\n\n';
+                        });
+                        replaceAll(contents);
+                    } else {
+                        showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Unable to fetch gist files :(', '', '', false);
+                    }
+                })
+                .error(function (data) {
+                    showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', JSON.stringify(data), false);
+                })
+                .complete(function () {
+                    ui.spinner.hide();
+                });
+        }
+    }
 });
 
 function parseToEditor(data) {
@@ -1320,9 +1371,9 @@ function replaceAll(data) {
 
 function importFromUrl(url) {
     //console.log(url);
-    if (url == null) return;
+    if (!url) return;
     if (!isValidURL(url)) {
-        showMessageModal('<i class="fa fa-cloud-download"></i> Import from URL', 'Not valid URL :(', '', '', false);
+        showMessageModal('<i class="fa fa-cloud-download"></i> Import from URL', 'Not a valid URL :(', '', '', false);
         return;
     }
     $.ajax({
@@ -1336,7 +1387,7 @@ function importFromUrl(url) {
                 replaceAll(data);
         },
         error: function (data) {
-            showMessageModal('<i class="fa fa-cloud-download"></i> Import from URL', 'Import failed :(', '', data, false);
+            showMessageModal('<i class="fa fa-cloud-download"></i> Import from URL', 'Import failed :(', '', JSON.stringify(data), false);
         },
         complete: function () {
             ui.spinner.hide();
