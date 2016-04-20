@@ -3,6 +3,10 @@ var whiteListAttr = ['id', 'class', 'style'];
 
 var filterXSSOptions = {
     allowCommentTag: true,
+    escapeHtml: function (html) {
+        // to allow html comment in multiple lines
+        return html.replace(/<(.*?)>/g, '&lt;$1&gt;');
+    },
     onIgnoreTag: function (tag, html, options) {
         // allow style in html
         if (whiteListTag.indexOf(tag) !== -1) {
