@@ -78,6 +78,8 @@ Environment variables (will overwrite other server configs)
 | variables | example values | description |
 | --------- | ------ | ----------- |
 | NODE_ENV  | `production` or `development` | set current environment (will apply correspond settings in the `config.json`) |
+| DOMAIN | `hackmd.io` | domain name |
+| URL_PATH | `hackmd` | sub url path, like `www.example.com/<URL_PATH>` |
 | PORT | `80` | web app port |
 | DEBUG | `true` or `false` | set debug mode, show more logs |
 
