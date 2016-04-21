@@ -1,5 +1,5 @@
 //common
-var domain = 'change this'; // domain name
+var domain = ''; // domain name
 var urlpath = ''; // sub url path, like: www.example.com/<urlpath>
 //settings
 var debug = false;
@@ -8,7 +8,7 @@ var GOOGLE_API_KEY = 'change this';
 var GOOGLE_CLIENT_ID = 'change this';
 
 var port = window.location.port;
-var serverurl = window.location.protocol + '//' + domain + (port ? ':' + port : '') + (urlpath ? '/' + urlpath : '');
+var serverurl = window.location.protocol + '//' + (domain ? domain : window.location.hostname) + (port ? ':' + port : '') + (urlpath ? '/' + urlpath : '');
 var noteid = urlpath ? window.location.pathname.slice(urlpath.length + 1, window.location.pathname.length).split('/')[1] : window.location.pathname.split('/')[1];
 var noteurl = serverurl + '/' + noteid;
 
