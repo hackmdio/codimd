@@ -5,13 +5,14 @@ var defaultExtraKeys = {
       cm.setOption("fullScreen", !cm.getOption("fullScreen"));
     },
     "Esc": function(cm) {
-      if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+       if (cm.getOption('keyMap').substr(0, 3) === 'vim') return CodeMirror.Pass;
+       else if(cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
     },
     "Cmd-S": function () {
-        return CodeMirror.PASS
+        return CodeMirror.Pass
     },
     "Ctrl-S": function () {
-        return CodeMirror.PASS
+        return CodeMirror.Pass
     },
     "Enter": "newlineAndIndentContinueMarkdownList",
     "Tab": function(cm) {
