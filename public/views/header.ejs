@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top unselectable hidden-print">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-		<span class="pull-right" style="margin-top: 17px; color: #777;">
+        <span class="pull-right" style="margin-top: 17px; color: #777;">
             <div class="visible-xs">&nbsp;</div>
             <div class="visible-sm">&nbsp;</div>
             <div class="visible-md">&nbsp;</div>
@@ -33,21 +33,31 @@
                 <li role="presentation"><a role="menuitem" class="ui-beta-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> Slide Mode</a>
                 </li>
                 <li class="divider"></li>
+                <% if(googleDrive || googleDrive || github) { %>
                 <li class="dropdown-header">Export</li>
+                <% if(typeof dropbox !== 'undefined' && dropbox) { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                 </li>
+                <% } %>
+                <% if(typeof googleDrive !== 'undefined' && googleDrive) { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-upload fa-fw"></i> Google Drive</a>
                 </li>
+                <% } %>
                 <% if(typeof github !== 'undefined' && github) { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
                 <% } %>
                 <li class="divider"></li>
+                <% } %>
                 <li class="dropdown-header">Import</li>
+                <% if(typeof dropbox !== 'undefined' && dropbox) { %>
                 <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                 </li>
+                <% } %>
+                <% if(typeof googleDrive !== 'undefined' && googleDrive) { %>
                 <li role="presentation"><a role="menuitem" class="ui-import-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-download fa-fw"></i> Google Drive</a>
                 </li>
+                <% } %>
                 <li role="presentation"><a role="menuitem" class="ui-import-gist" href="#" data-toggle="modal" data-target="#gistImportModal"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-import-clipboard" href="#" data-toggle="modal" data-target="#clipboardModal"><i class="fa fa-clipboard fa-fw"></i> Clipboard</a>
@@ -118,21 +128,31 @@
                     <li role="presentation"><a role="menuitem" class="ui-beta-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> Slide Mode</a>
                     </li>
                     <li class="divider"></li>
+                    <% if(googleDrive || googleDrive || github) { %>
                     <li class="dropdown-header">Export</li>
+                    <% if(typeof dropbox !== 'undefined' && dropbox) { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                     </li>
+                    <% } %>
+                    <% if(typeof googleDrive !== 'undefined' && googleDrive) { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-upload fa-fw"></i> Google Drive</a>
                     </li>
+                    <% } %>
                     <% if(typeof github !== 'undefined' && github) { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
                     <% } %>
                     <li class="divider"></li>
+                    <% } %>
                     <li class="dropdown-header">Import</li>
+                    <% if(typeof dropbox !== 'undefined' && dropbox) { %>
                     <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                     </li>
+                    <% } %>
+                    <% if(typeof googleDrive !== 'undefined' && googleDrive) { %>
                     <li role="presentation"><a role="menuitem" class="ui-import-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-download fa-fw"></i> Google Drive</a>
                     </li>
+                    <% } %>
                     <li role="presentation"><a role="menuitem" class="ui-import-gist" href="#" data-toggle="modal" data-target="#gistImportModal"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-import-clipboard" href="#" data-toggle="modal" data-target="#clipboardModal"><i class="fa fa-clipboard fa-fw"></i> Clipboard</a>
