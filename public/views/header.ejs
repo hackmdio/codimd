@@ -33,13 +33,13 @@
                 <li role="presentation"><a role="menuitem" class="ui-beta-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> Slide Mode</a>
                 </li>
                 <li class="divider"></li>
-                <% if(googleDrive || googleDrive || github) { %>
+                <% if((googleDrive == "true") || (typeof dropbox !== 'undefined' && dropbox) || (typeof github !== 'undefined' && github)) { %>
                 <li class="dropdown-header">Export</li>
                 <% if(typeof dropbox !== 'undefined' && dropbox) { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                 </li>
                 <% } %>
-                <% if(typeof googleDrive !== 'undefined' && googleDrive) { %>
+                <% if(googleDrive == "true") { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-upload fa-fw"></i> Google Drive</a>
                 </li>
                 <% } %>
@@ -54,7 +54,7 @@
                 <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                 </li>
                 <% } %>
-                <% if(typeof googleDrive !== 'undefined' && googleDrive) { %>
+                <% if(googleDrive == "true") { %>
                 <li role="presentation"><a role="menuitem" class="ui-import-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-download fa-fw"></i> Google Drive</a>
                 </li>
                 <% } %>
@@ -128,13 +128,13 @@
                     <li role="presentation"><a role="menuitem" class="ui-beta-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> Slide Mode</a>
                     </li>
                     <li class="divider"></li>
-                    <% if(googleDrive || googleDrive || github) { %>
+                    <% if((googleDrive == "true") || (typeof dropbox !== 'undefined' && dropbox) || (typeof github !== 'undefined' && github)) { %>
                     <li class="dropdown-header">Export</li>
                     <% if(typeof dropbox !== 'undefined' && dropbox) { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                     </li>
                     <% } %>
-                    <% if(typeof googleDrive !== 'undefined' && googleDrive) { %>
+                    <% if(googleDrive == "true") { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-upload fa-fw"></i> Google Drive</a>
                     </li>
                     <% } %>
@@ -149,7 +149,7 @@
                     <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                     </li>
                     <% } %>
-                    <% if(typeof googleDrive !== 'undefined' && googleDrive) { %>
+                    <% if(googleDrive == "true") { %>
                     <li role="presentation"><a role="menuitem" class="ui-import-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-download fa-fw"></i> Google Drive</a>
                     </li>
                     <% } %>
