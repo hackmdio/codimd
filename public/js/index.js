@@ -2,11 +2,11 @@ var defaultTextHeight = 20;
 var viewportMargin = 20;
 var defaultExtraKeys = {
     "F11": function(cm) {
-      cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+        cm.setOption("fullScreen", !cm.getOption("fullScreen"));
     },
     "Esc": function(cm) {
-       if (cm.getOption('keyMap').substr(0, 3) === 'vim') return CodeMirror.Pass;
-       else if(cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+        if (cm.getOption('keyMap').substr(0, 3) === 'vim') return CodeMirror.Pass;
+        else if(cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
     },
     "Cmd-S": function () {
         return CodeMirror.Pass
