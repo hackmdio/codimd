@@ -2906,19 +2906,19 @@ $(editor.getInputField())
             $(this).data('autocompleting', true);
             editor.setOption("extraKeys", {
                 "Up": function () {
-                    return CodeMirror.PASS;
+                    return CodeMirror.Pass;
                 },
                 "Right": function () {
                     editor.doc.cm.execCommand("goCharRight");
                 },
                 "Down": function () {
-                    return CodeMirror.PASS;
+                    return CodeMirror.Pass;
                 },
                 "Left": function () {
                     editor.doc.cm.execCommand("goCharLeft");
                 },
                 "Enter": function () {
-                    return CodeMirror.PASS;
+                    return CodeMirror.Pass;
                 },
                 "Backspace": function () {
                     editor.doc.cm.execCommand("delCharBefore");
