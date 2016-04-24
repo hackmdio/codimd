@@ -4,9 +4,9 @@ var defaultExtraKeys = {
     "F10": function (cm) {
         cm.setOption("fullScreen", !cm.getOption("fullScreen"));
     },
-    "Esc": function(cm) {
+    "Esc": function (cm) {
         if (cm.getOption('keyMap').substr(0, 3) === 'vim') return CodeMirror.Pass;
-        else if(cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+        else if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
     },
     "Cmd-S": function () {
         return CodeMirror.Pass
@@ -15,9 +15,9 @@ var defaultExtraKeys = {
         return CodeMirror.Pass
     },
     "Enter": "newlineAndIndentContinueMarkdownList",
-    "Tab": function(cm) {
+    "Tab": function (cm) {
         var tab = '\t';
-		var spaces = Array(parseInt(cm.getOption("indentUnit")) + 1).join(" ");
+        var spaces = Array(parseInt(cm.getOption("indentUnit")) + 1).join(" ");
         //auto indent whole line when in list or blockquote
         var cursor = cm.getCursor();
         var line = cm.getLine(cursor.line);
@@ -32,19 +32,19 @@ var defaultExtraKeys = {
                 line: cursor.line,
                 ch: ch
             };
-			if (cm.getOption('indentWithTabs'))
-            	cm.replaceRange(tab, pos, pos, '+input');
-			else
-				cm.replaceRange(spaces, pos, pos, '+input');
+            if (cm.getOption('indentWithTabs'))
+                cm.replaceRange(tab, pos, pos, '+input');
+            else
+                cm.replaceRange(spaces, pos, pos, '+input');
         } else {
             if (cm.getOption('indentWithTabs'))
                 cm.execCommand('defaultTab');
             else {
-        		cm.replaceSelection(spaces);
-			}
+                cm.replaceSelection(spaces);
+            }
         }
     },
-    "Cmd-Left":  "goLineLeftSmart",
+    "Cmd-Left": "goLineLeftSmart",
     "Cmd-Right": "goLineRight"
 };
 
@@ -313,7 +313,7 @@ function addStatusBar() {
     statusPanel = editor.addPanel(statusBar[0], {
         position: "bottom"
     });
-    
+
     setIndent();
     setKeymap();
 }
@@ -335,11 +335,11 @@ function setIndent() {
     }
     if (cookieTabSize)
         editor.setOption('tabSize', cookieTabSize);
-    
+
     var type = statusIndicators.find('.indent-type');
     var widthLabel = statusIndicators.find('.indent-width-label');
     var widthInput = statusIndicators.find('.indent-width-input');
-    
+
     function setType() {
         if (editor.getOption('indentWithTabs')) {
             Cookies.set('indent_type', 'tab', {
@@ -354,7 +354,7 @@ function setIndent() {
         }
     }
     setType();
-    
+
     function setUnit() {
         var unit = editor.getOption('indentUnit');
         if (editor.getOption('indentWithTabs')) {
@@ -369,8 +369,8 @@ function setIndent() {
         widthLabel.text(unit);
     }
     setUnit();
-    
-    type.click(function() {
+
+    type.click(function () {
         if (editor.getOption('indentWithTabs')) {
             editor.setOption('indentWithTabs', false);
             cookieSpaceUnits = parseInt(Cookies.get('space_units'));
@@ -385,9 +385,9 @@ function setIndent() {
             }
         }
         setType();
-		setUnit();
+        setUnit();
     });
-    widthLabel.click(function() {
+    widthLabel.click(function () {
         if (widthLabel.is(':visible')) {
             widthLabel.addClass('hidden');
             widthInput.removeClass('hidden');
@@ -398,19 +398,19 @@ function setIndent() {
             widthInput.addClass('hidden');
         }
     });
-    widthInput.on('change', function() {
+    widthInput.on('change', function () {
         var val = parseInt(widthInput.val());
-		if (!val) val = editor.getOption('indentUnit');
+        if (!val) val = editor.getOption('indentUnit');
         if (val < 1) val = 1;
         else if (val > 10) val = 10;
-        
+
         if (editor.getOption('indentWithTabs')) {
             editor.setOption('tabSize', val);
         }
         editor.setOption('indentUnit', val);
         setUnit();
     });
-    widthInput.on('blur', function() {
+    widthInput.on('blur', function () {
         widthLabel.removeClass('hidden');
         widthInput.addClass('hidden');
     });
@@ -420,12 +420,12 @@ function setKeymap() {
     var cookieKeymap = Cookies.get('keymap');
     if (cookieKeymap)
         editor.setOption('keyMap', cookieKeymap);
-    
+
     var label = statusIndicators.find('.ui-keymap-label');
     var sublime = statusIndicators.find('.ui-keymap-sublime');
     var emacs = statusIndicators.find('.ui-keymap-emacs');
     var vim = statusIndicators.find('.ui-keymap-vim');
-    
+
     function setKeymapLabel() {
         var keymap = editor.getOption('keyMap');
         Cookies.set('keymap', keymap, {
@@ -434,16 +434,16 @@ function setKeymap() {
         label.text(keymap);
     }
     setKeymapLabel();
-    
-    sublime.click(function() {
+
+    sublime.click(function () {
         editor.setOption('keyMap', 'sublime');
         setKeymapLabel();
     });
-    emacs.click(function() {
+    emacs.click(function () {
         editor.setOption('keyMap', 'emacs');
         setKeymapLabel();
     });
-    vim.click(function() {
+    vim.click(function () {
         editor.setOption('keyMap', 'vim');
         setKeymapLabel();
     });
@@ -861,22 +861,22 @@ function showStatus(type, num) {
     status.html("");
 
     switch (currentStatus) {
-    case statusType.connected:
-        label.addClass(statusType.connected.label);
-        fa.addClass(statusType.connected.fa);
-        msg = statusType.connected.msg;
-        break;
-    case statusType.online:
-        label.addClass(statusType.online.label);
-        fa.addClass(statusType.online.fa);
-        shortMsg = num;
-        msg = num + " " + statusType.online.msg;
-        break;
-    case statusType.offline:
-        label.addClass(statusType.offline.label);
-        fa.addClass(statusType.offline.fa);
-        msg = statusType.offline.msg;
-        break;
+        case statusType.connected:
+            label.addClass(statusType.connected.label);
+            fa.addClass(statusType.connected.fa);
+            msg = statusType.connected.msg;
+            break;
+        case statusType.online:
+            label.addClass(statusType.online.label);
+            fa.addClass(statusType.online.fa);
+            shortMsg = num;
+            msg = num + " " + statusType.online.msg;
+            break;
+        case statusType.offline:
+            label.addClass(statusType.offline.label);
+            fa.addClass(statusType.offline.fa);
+            msg = statusType.offline.msg;
+            break;
     }
 
     label.append(fa);
@@ -891,15 +891,15 @@ function showStatus(type, num) {
 
 function toggleMode() {
     switch (currentMode) {
-    case modeType.edit:
-        changeMode(modeType.view);
-        break;
-    case modeType.view:
-        changeMode(modeType.edit);
-        break;
-    case modeType.both:
-        changeMode(modeType.view);
-        break;
+        case modeType.edit:
+            changeMode(modeType.view);
+            break;
+        case modeType.view:
+            changeMode(modeType.edit);
+            break;
+        case modeType.both:
+            changeMode(modeType.view);
+            break;
     }
 }
 
@@ -920,24 +920,24 @@ function changeMode(type) {
     ui.area.view.removeClass(scrollClass);
     ui.area.view.removeClass(responsiveClass);
     switch (currentMode) {
-    case modeType.edit:
-        ui.area.edit.show();
-        ui.area.view.hide();
-        if (!editShown) {
-            editor.refresh();
-            editShown = true;
-        }
-        break;
-    case modeType.view:
-        ui.area.edit.hide();
-        ui.area.view.show();
-        break;
-    case modeType.both:
-        ui.area.codemirror.addClass(scrollClass);
-        ui.area.edit.addClass(responsiveClass).show();
-        ui.area.view.addClass(scrollClass);
-        ui.area.view.show();
-        break;
+        case modeType.edit:
+            ui.area.edit.show();
+            ui.area.view.hide();
+            if (!editShown) {
+                editor.refresh();
+                editShown = true;
+            }
+            break;
+        case modeType.view:
+            ui.area.edit.hide();
+            ui.area.view.show();
+            break;
+        case modeType.both:
+            ui.area.codemirror.addClass(scrollClass);
+            ui.area.edit.addClass(responsiveClass).show();
+            ui.area.view.addClass(scrollClass);
+            ui.area.view.show();
+            break;
     }
     if (currentMode == modeType.view) {
         editor.getInputField().blur();
@@ -974,13 +974,13 @@ function changeMode(type) {
     }
 
     windowResizeInner();
-    
+
     restoreInfo();
-    
+
     if (lastMode == modeType.view && currentMode == modeType.both) {
         syncScrollToEdit();
     }
-    
+
     if (lastMode != modeType.edit && currentMode == modeType.edit) {
         editor.refresh();
     }
@@ -1054,8 +1054,8 @@ ui.toolbar.publish.attr("href", noteurl + "/publish");
 //download
 //markdown
 ui.toolbar.download.markdown.click(function (e) {
-	e.preventDefault();
-	e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
     var filename = renderFilename(ui.area.markdown) + '.md';
     var markdown = editor.getValue();
     var blob = new Blob([markdown], {
@@ -1065,8 +1065,8 @@ ui.toolbar.download.markdown.click(function (e) {
 });
 //html
 ui.toolbar.download.html.click(function (e) {
-	e.preventDefault();
-	e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
     exportToHTML(ui.area.markdown);
 });
 //export to dropbox
@@ -1096,12 +1096,12 @@ function uploadToGoogleDrive(accessToken) {
     var uploader = new MediaUploader({
         file: blob,
         token: accessToken,
-        onComplete: function(data) {
+        onComplete: function (data) {
             data = JSON.parse(data);
             showMessageModal('<i class="fa fa-cloud-upload"></i> Export to Google Drive', 'Export Complete!', data.alternateLink, 'Click here to view your file', true);
             ui.spinner.hide();
         },
-        onError: function(data) {
+        onError: function (data) {
             var modal = $('.export-modal');
             showMessageModal('<i class="fa fa-cloud-upload"></i> Export to Google Drive', 'Export Error :(', '', data, false);
             ui.spinner.hide();
@@ -1111,11 +1111,11 @@ function uploadToGoogleDrive(accessToken) {
 }
 function googleApiAuth(immediate, callback) {
     gapi.auth.authorize(
-    {
-        'client_id': GOOGLE_CLIENT_ID,
-        'scope': 'https://www.googleapis.com/auth/drive.file',
-        'immediate': immediate
-    }, callback ? callback : function() {});
+        {
+            'client_id': GOOGLE_CLIENT_ID,
+            'scope': 'https://www.googleapis.com/auth/drive.file',
+            'immediate': immediate
+        }, callback ? callback : function () { });
 }
 function onGoogleClientLoaded() {
     googleApiAuth(true);
@@ -1127,7 +1127,7 @@ ui.toolbar.export.googleDrive.click(function (e) {
     if (token) {
         uploadToGoogleDrive(token.access_token);
     } else {
-        googleApiAuth(false, function(result) {
+        googleApiAuth(false, function (result) {
             uploadToGoogleDrive(result.access_token);
         });
     }
@@ -1155,18 +1155,17 @@ function buildImportFromGoogleDrive() {
         apiKey: GOOGLE_API_KEY,
         clientId: GOOGLE_CLIENT_ID,
         buttonEl: ui.toolbar.import.googleDrive,
-        onSelect: function(file) {
+        onSelect: function (file) {
             if (file.downloadUrl) {
                 ui.spinner.show();
                 var accessToken = gapi.auth.getToken().access_token;
                 $.ajax({
                     type: 'GET',
-                    beforeSend: function (request)
-                    {
+                    beforeSend: function (request) {
                         request.setRequestHeader('Authorization', 'Bearer ' + accessToken);
                     },
                     url: file.downloadUrl,
-                    success: function(data) {
+                    success: function (data) {
                         if (file.fileExtension == 'html')
                             parseToEditor(data);
                         else
@@ -1269,17 +1268,17 @@ function updateScrollspy() {
     for (var i = 0; i < headers.length; i++) {
         headerMap.push($(headers[i]).offset().top - parseInt($(headers[i]).css('margin-top')));
     }
-    applyScrollspyActive($(window).scrollTop(), headerMap, headers, 
-    $('.scrollspy-body'), 0);
+    applyScrollspyActive($(window).scrollTop(), headerMap, headers,
+        $('.scrollspy-body'), 0);
     var offset = ui.area.view.scrollTop() - ui.area.view.offset().top;
-    applyScrollspyActive(ui.area.view.scrollTop(), headerMap, headers, 
-    $('.scrollspy-view'), offset - 10);
+    applyScrollspyActive(ui.area.view.scrollTop(), headerMap, headers,
+        $('.scrollspy-view'), offset - 10);
 }
 
 function applyScrollspyActive(top, headerMap, headers, target, offset) {
     var index = 0;
-    for(var i = headerMap.length - 1; i >= 0; i--) {
-        if(top >= (headerMap[i] + offset) && headerMap[i + 1] && top < (headerMap[i + 1] + offset)) {
+    for (var i = headerMap.length - 1; i >= 0; i--) {
+        if (top >= (headerMap[i] + offset) && headerMap[i + 1] && top < (headerMap[i + 1] + offset)) {
             index = i;
             break;
         }
@@ -1365,9 +1364,9 @@ function replaceAll(data) {
         line: 0,
         ch: 0
     }, {
-        line: editor.lastLine(),
-        ch: editor.lastLine().length
-    }, '+input');
+            line: editor.lastLine(),
+            ch: editor.lastLine().length
+        }, '+input');
 }
 
 function importFromUrl(url) {
@@ -1458,22 +1457,22 @@ function updatePermission(newPermission) {
     var label = null;
     var title = null;
     switch (permission) {
-    case "freely":
-        label = '<i class="fa fa-leaf"></i> Freely';
-        title = "Anyone can edit";
-        break;
-    case "editable":
-        label = '<i class="fa fa-shield"></i> Editable';
-        title = "Signed people can edit";
-        break;
-    case "locked":
-        label = '<i class="fa fa-lock"></i> Locked';
-        title = "Only owner can edit";
-        break;
-    case "private":
-        label = '<i class="fa fa-hand-stop-o"></i> Private';
-        title = "Only owner can view & edit";
-        break;
+        case "freely":
+            label = '<i class="fa fa-leaf"></i> Freely';
+            title = "Anyone can edit";
+            break;
+        case "editable":
+            label = '<i class="fa fa-shield"></i> Editable';
+            title = "Signed people can edit";
+            break;
+        case "locked":
+            label = '<i class="fa fa-lock"></i> Locked';
+            title = "Only owner can edit";
+            break;
+        case "private":
+            label = '<i class="fa fa-hand-stop-o"></i> Private';
+            title = "Only owner can view & edit";
+            break;
     }
     if (personalInfo.userid && personalInfo.userid == owner) {
         label += ' <i class="fa fa-caret-down"></i>';
@@ -1487,24 +1486,24 @@ function updatePermission(newPermission) {
 function havePermission() {
     var bool = false;
     switch (permission) {
-    case "freely":
-        bool = true;
-        break;
-    case "editable":
-        if (!personalInfo.login) {
-            bool = false;
-        } else {
+        case "freely":
             bool = true;
-        }
-        break;
-    case "locked":
-    case "private":
-        if (personalInfo.userid != owner) {
-            bool = false;
-        } else {
-            bool = true;
-        }
-        break;
+            break;
+        case "editable":
+            if (!personalInfo.login) {
+                bool = false;
+            } else {
+                bool = true;
+            }
+            break;
+        case "locked":
+        case "private":
+            if (personalInfo.userid != owner) {
+                bool = false;
+            } else {
+                bool = true;
+            }
+            break;
     }
     return bool;
 }
@@ -1528,15 +1527,15 @@ socket.emit = function () {
 socket.on('info', function (data) {
     console.error(data);
     switch (data.code) {
-    case 403:
-        location.href = "./403";
-        break;
-    case 404:
-        location.href = "./404";
-        break;
-    case 500:
-        location.href = "./500";
-        break;
+        case 403:
+            location.href = "./403";
+            break;
+        case 404:
+            location.href = "./404";
+            break;
+        case 500:
+            location.href = "./500";
+            break;
     }
 });
 socket.on('error', function (data) {
@@ -2022,18 +2021,18 @@ function buildCursor(user) {
     coord.top = coord.top < 0 ? 0 : coord.top;
     var iconClass = 'fa-user';
     switch (user.type) {
-    case 'xs':
-        iconClass = 'fa-mobile';
-        break;
-    case 'sm':
-        iconClass = 'fa-tablet';
-        break;
-    case 'md':
-        iconClass = 'fa-desktop';
-        break;
-    case 'lg':
-        iconClass = 'fa-desktop';
-        break;
+        case 'xs':
+            iconClass = 'fa-mobile';
+            break;
+        case 'sm':
+            iconClass = 'fa-tablet';
+            break;
+        case 'md':
+            iconClass = 'fa-desktop';
+            break;
+        case 'lg':
+            iconClass = 'fa-desktop';
+            break;
     }
     if ($('.other-cursors').length <= 0) {
         $("<div class='other-cursors'>").insertAfter('.CodeMirror-cursors');
@@ -2128,7 +2127,7 @@ function buildCursor(user) {
         var cursortag = cursor.find('.cursortag');
         cursortag.find('i').removeClass().addClass('fa').addClass(iconClass);
         cursortag.find(".name").text(user.name);
-		
+
         if (cursor.css('display') === 'none') {
             cursor[0].style.left = coord.left + 'px';
             cursor[0].style.top = coord.top + 'px';
@@ -2137,9 +2136,9 @@ function buildCursor(user) {
                 "left": coord.left,
                 "top": coord.top
             }, {
-                duration: cursorAnimatePeriod,
-                queue: false
-            });
+                    duration: cursorAnimatePeriod,
+                    queue: false
+                });
         }
 
         if (user.idle && cursor.css('display') !== 'none')
@@ -2181,13 +2180,13 @@ editor.on('beforeChange', function (cm, change) {
         if (!havePermission()) {
             change.canceled = true;
             switch (permission) {
-            case "editable":
-                $('.signin-modal').modal('show');
-                break;
-            case "locked":
-            case "private":
-                $('.locked-modal').modal('show');
-                break;
+                case "editable":
+                    $('.signin-modal').modal('show');
+                    break;
+                case "locked":
+                case "private":
+                    $('.locked-modal').modal('show');
+                    break;
             }
         }
     } else {
@@ -2199,10 +2198,10 @@ editor.on('beforeChange', function (cm, change) {
     if (cmClient && !socket.connected)
         cmClient.editorAdapter.ignoreNextChange = true;
 });
-editor.on('cut', function() {
+editor.on('cut', function () {
     windowResize(); //workaround for scrollMap
 });
-editor.on('paste', function() {
+editor.on('paste', function () {
     windowResize(); //workaround for scrollMap
 });
 editor.on('changes', function (cm, changes) {
@@ -2272,23 +2271,23 @@ function saveInfo() {
     var left = $(window).scrollLeft();
     var top = $(window).scrollTop();
     switch (currentMode) {
-    case modeType.edit:
-        if (scrollbarStyle == 'native') {
-            lastInfo.edit.scroll.left = left;
-            lastInfo.edit.scroll.top = top;
-        } else {
+        case modeType.edit:
+            if (scrollbarStyle == 'native') {
+                lastInfo.edit.scroll.left = left;
+                lastInfo.edit.scroll.top = top;
+            } else {
+                lastInfo.edit.scroll = editor.getScrollInfo();
+            }
+            break;
+        case modeType.view:
+            lastInfo.view.scroll.left = left;
+            lastInfo.view.scroll.top = top;
+            break;
+        case modeType.both:
             lastInfo.edit.scroll = editor.getScrollInfo();
-        }
-        break;
-    case modeType.view:
-        lastInfo.view.scroll.left = left;
-        lastInfo.view.scroll.top = top;
-        break;
-    case modeType.both:
-        lastInfo.edit.scroll = editor.getScrollInfo();
-        lastInfo.view.scroll.left = ui.area.view.scrollLeft();
-        lastInfo.view.scroll.top = ui.area.view.scrollTop();
-        break;
+            lastInfo.view.scroll.left = ui.area.view.scrollLeft();
+            lastInfo.view.scroll.top = ui.area.view.scrollTop();
+            break;
     }
     lastInfo.edit.cursor = editor.getCursor();
     lastInfo.needRestore = true;
@@ -2301,29 +2300,29 @@ function restoreInfo() {
         var ch = lastInfo.edit.cursor.ch;
         editor.setCursor(line, ch);
         switch (currentMode) {
-        case modeType.edit:
-            if (scrollbarStyle == 'native') {
-                $(window).scrollLeft(lastInfo.edit.scroll.left);
-                $(window).scrollTop(lastInfo.edit.scroll.top);
-            } else {
+            case modeType.edit:
+                if (scrollbarStyle == 'native') {
+                    $(window).scrollLeft(lastInfo.edit.scroll.left);
+                    $(window).scrollTop(lastInfo.edit.scroll.top);
+                } else {
+                    var left = lastInfo.edit.scroll.left;
+                    var top = lastInfo.edit.scroll.top;
+                    editor.scrollIntoView();
+                    editor.scrollTo(left, top);
+                }
+                break;
+            case modeType.view:
+                $(window).scrollLeft(lastInfo.view.scroll.left);
+                $(window).scrollTop(lastInfo.view.scroll.top);
+                break;
+            case modeType.both:
                 var left = lastInfo.edit.scroll.left;
                 var top = lastInfo.edit.scroll.top;
                 editor.scrollIntoView();
                 editor.scrollTo(left, top);
-            }
-            break;
-        case modeType.view:
-            $(window).scrollLeft(lastInfo.view.scroll.left);
-            $(window).scrollTop(lastInfo.view.scroll.top);
-            break;
-        case modeType.both:
-            var left = lastInfo.edit.scroll.left;
-            var top = lastInfo.edit.scroll.top;
-            editor.scrollIntoView();
-            editor.scrollTo(left, top);
-            ui.area.view.scrollLeft(lastInfo.view.scroll.left);
-            ui.area.view.scrollTop(lastInfo.view.scroll.top);
-            break;
+                ui.area.view.scrollLeft(lastInfo.view.scroll.left);
+                ui.area.view.scrollTop(lastInfo.view.scroll.top);
+                break;
         }
 
         lastInfo.needRestore = false;
@@ -2705,11 +2704,11 @@ $(editor.getInputField())
                 var list = [];
                 $.map(emojify.emojiNames, function (emoji) {
                     if (emoji.indexOf(term) === 0) //match at first character
-                      list.push(emoji);
+                        list.push(emoji);
                 });
                 $.map(emojify.emojiNames, function (emoji) {
                     if (emoji.indexOf(term) !== -1) //match inside the word
-                      list.push(emoji);
+                        list.push(emoji);
                 });
                 callback(list);
             },
@@ -2726,7 +2725,7 @@ $(editor.getInputField())
                 checkInContainerSyntax();
                 return !isInCode && !isInContainerSyntax;
             }
-    },
+        },
         { // Code block language strategy
             langs: supportCodeModes,
             charts: supportCharts,
@@ -2768,7 +2767,7 @@ $(editor.getInputField())
             context: function (text) {
                 return isInCode;
             }
-    },
+        },
         { // Container strategy
             containers: supportContainers,
             match: /(^|\n):::(\s*)(\w*)$/,
@@ -2804,7 +2803,7 @@ $(editor.getInputField())
             context: function (text) {
                 return !isInCode && isInContainer;
             }
-    },
+        },
         { //header
             match: /(?:^|\n)(\s{0,3})(#{1,6}\w*)$/,
             search: function (term, callback) {
@@ -2818,7 +2817,7 @@ $(editor.getInputField())
             context: function (text) {
                 return !isInCode;
             }
-    },
+        },
         { //extra tags for blockquote
             match: /(?:^|\n|\s)(\>.*)(\[\])(\w*)$/,
             search: function (term, callback) {
@@ -2839,7 +2838,7 @@ $(editor.getInputField())
             context: function (text) {
                 return !isInCode;
             }
-    },
+        },
         { //extra tags for list
             match: /(^[>\s]*[\-\+\*]\s(?:\[[x ]\]|.*))(\[\])(\w*)$/,
             search: function (term, callback) {
@@ -2860,7 +2859,7 @@ $(editor.getInputField())
             context: function (text) {
                 return !isInCode;
             }
-    },
+        },
         { //referral
             match: /(^|\n|\s)(\!|\!|\[\])(\w*)$/,
             search: function (term, callback) {
@@ -2874,7 +2873,7 @@ $(editor.getInputField())
             context: function (text) {
                 return !isInCode;
             }
-    },
+        },
         { //externals
             match: /(^|\n|\s)\{\}(\w*)$/,
             search: function (term, callback) {
@@ -2888,8 +2887,8 @@ $(editor.getInputField())
             context: function (text) {
                 return !isInCode;
             }
-    }
-], {
+        }
+    ], {
         appendTo: $('.cursor-menu')
     })
     .on({
