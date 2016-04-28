@@ -9,10 +9,10 @@ var defaultExtraKeys = {
         else if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
     },
     "Cmd-S": function () {
-        return CodeMirror.Pass
+        return false;
     },
     "Ctrl-S": function () {
-        return CodeMirror.Pass
+        return false;
     },
     "Enter": "newlineAndIndentContinueMarkdownList",
     "Tab": function (cm) {
@@ -2905,19 +2905,19 @@ $(editor.getInputField())
             $(this).data('autocompleting', true);
             editor.setOption("extraKeys", {
                 "Up": function () {
-                    return CodeMirror.Pass;
+                    return false;
                 },
                 "Right": function () {
                     editor.doc.cm.execCommand("goCharRight");
                 },
                 "Down": function () {
-                    return CodeMirror.Pass;
+                    return false;
                 },
                 "Left": function () {
                     editor.doc.cm.execCommand("goCharLeft");
                 },
                 "Enter": function () {
-                    return CodeMirror.Pass;
+                    return false;
                 },
                 "Backspace": function () {
                     editor.doc.cm.execCommand("delCharBefore");
