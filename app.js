@@ -407,7 +407,7 @@ app.post('/uploadimage', function (req, res) {
                         if (config.debug)
                             logger.info('SERVER uploadimage success: ' + JSON.stringify(json));
                         res.send({
-                            link: json.data.link
+                            link: json.data.link.replace(/^http:\/\//i, 'https://')
                         });
                     })
                     .catch(function (err) {
