@@ -32,6 +32,10 @@
             "clientID": "change this",
             "clientSecret": "change this"
         },
+        "gitlab": {
+            "clientID": "change this",
+            "clientSecret": "change this"
+        },
         "dropbox": {
             "clientID": "change this",
             "clientSecret": "change this"

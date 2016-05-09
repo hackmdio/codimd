@@ -28,6 +28,11 @@
                     <i class="fa fa-dropbox"></i> Sign in via Dropbox
                 </a>
                 <% } %>
+                <% if(gitlab) { %>
+                <a href="<%- url %>/auth/gitlab" class="btn btn-lg btn-block btn-social btn-dropbox">
+                    <i class="fa fa-gitlab"></i> Sign in via GitLab
+                </a>
+                <% } %>
             </div>
         </div>
     </div>
