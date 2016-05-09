@@ -33,6 +33,7 @@
             "clientSecret": "change this"
         },
         "gitlab": {
+            "baseURL": "change this",
             "clientID": "change this",
             "clientSecret": "change this"
         },
