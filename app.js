@@ -306,7 +306,7 @@ if (config.gitlab) {
             res.redirect(config.serverurl);
         });
     //gitlab callback actions
-    // TODO: Needed?
+    // TODO: Maybe in the future
     //app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions);
 }
 //dropbox auth
