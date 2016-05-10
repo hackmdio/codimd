@@ -1136,6 +1136,8 @@ ui.toolbar.export.googleDrive.click(function (e) {
 });
 //export to gist
 ui.toolbar.export.gist.attr("href", noteurl + "/gist");
+//export to snippet
+ui.toolbar.export.snippet.attr("href", noteurl + "/snippet");
 //import from dropbox
 ui.toolbar.import.dropbox.click(function () {
     var options = {
@@ -1186,6 +1188,10 @@ function buildImportFromGoogleDrive() {
 }
 //import from gist
 ui.toolbar.import.gist.click(function () {
+    //na
+});
+//import from snippet
+ui.toolbar.import.snippet.click(function () {
     //na
 });
 //import from clipboard
@@ -1352,6 +1358,45 @@ $("#gistImportModalConfirm").click(function () {
                     ui.spinner.hide();
                 });
         }
+    }
+});
+
+// snippet import modal
+$("#snippetImportModalClear").click(function () {
+    $("#snippetImportModalContent").val('');
+});
+$("#snippetImportModalConfirm").click(function () {
+    var snippeturl = $("#snippetImportModalContent").val();
+    if (!snippeturl) return;
+    $('#snippetImportModal').modal('hide');
+    $("#snippetImportModalContent").val('');
+    if (!isValidURL(snippeturl)) {
+        showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid URL :(', '', '', false);
+        return;
+    } else {
+        // TODO: Validate against config.gitlab.baseURL
+        ui.spinner.show();
+        $.get(snippeturl)
+            .success(function (data) {
+                if (data.files) {
+                    var contents = "";
+                    Object.keys(data.files).forEach(function (key) {
+                        contents += key;
+                        contents += '\n---\n';
+                        contents += data.files[key].content;
+                        contents += '\n\n';
+                    });
+                    replaceAll(contents);
+                } else {
+                    showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch snippet files :(', '', '', false);
+                }
+            })
+            .error(function (data) {
+                showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false);
+            })
+            .complete(function () {
+                ui.spinner.hide();
+            });
     }
 });
 
