@@ -20,7 +20,7 @@
   "dependencies": {
     "bootstrap": "~3.3.6",
     "jquery": "~1.11.3",
-    "font-awesome": "~4.5.0",
+    "font-awesome": "~4.6.2",
     "Ionicons": "ionicons#~2.0.1",
     "reveal.js": "~3.2.0",
     "gsap": "greensock#~1.18.0",
