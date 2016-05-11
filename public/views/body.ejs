@@ -158,15 +158,17 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Import from Snippet</h4>
+                <h4 class="modal-title" id="myModalLabel">Import from Snippet <i class="fa fa-refresh fa-spin" id="snippetImportModalLoading"></i></h4>
             </div>
             <div class="modal-body">
-                <input type="url" class="form-control" placeholder="Paste your snippet url here... (like: /projects/:id/snippets/:snippet_id)" id="snippetImportModalContent">
+                <input type="hidden" id="snippetImportModalAccessToken" />
+                <input type="hidden" id="snippetImportModalBaseURL" />
+                <input type="url" class="form-control" placeholder="Paste your snippet url here... (like: /projects/:id/snippets/:snippet_id)" id="snippetImportModalContent" disabled="disabled">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="snippetImportModalClear">Clear</button>
-                <button type="button" class="btn btn-primary" id="snippetImportModalConfirm">Import</button>
+                <button type="button" class="btn btn-primary" id="snippetImportModalConfirm" disabled="disabled">Import</button>
             </div>
         </div>
     </div>
