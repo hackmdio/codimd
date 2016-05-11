@@ -243,6 +243,15 @@ var lastInfo = {
 };
 var personalInfo = {};
 var onlineUsers = [];
+var fileTypes = {
+    "pl": "perl",
+    "cgi": "perl",
+    "js": "javascript",
+    "php": "php",
+    "sh": "bash",
+    "rb": "ruby",
+    "html": "html"
+}
 
 //editor settings
 var textit = document.getElementById("textit");
@@ -1192,7 +1201,22 @@ ui.toolbar.import.gist.click(function () {
 });
 //import from snippet
 ui.toolbar.import.snippet.click(function () {
-    //na
+    $.get(serverurl + '/gitlab')
+        .success(function (data) {
+            $("#snippetImportModalAccessToken").val(data.accesstoken);
+            $("#snippetImportModalBaseURL").val(data.baseURL);
+            $("#snippetImportModalContent").prop('disabled', false);
+            $("#snippetImportModalConfirm").prop('disabled', false);
+            $("#snippetImportModalLoading").hide();
+            $("#snippetImportModal").modal('toggle');
+        })
+        .error(function (data) {
+            showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false);
+        })
+        .complete(function () {
+            //na
+        });
+    return false;
 });
 //import from clipboard
 ui.toolbar.import.clipboard.click(function () {
@@ -1370,32 +1394,35 @@ $("#snippetImportModalConfirm").click(function () {
     if (!snippeturl) return;
     $('#snippetImportModal').modal('hide');
     $("#snippetImportModalContent").val('');
-    if (!isValidURL(snippeturl)) {
-        showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid URL :(', '', '', false);
-        return;
+    if (!/^.+\/snippets\/.+$/.test(snippeturl)) {
+        showMessageModal('<i class="fa fa-github"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', '', false);
     } else {
-        // TODO: Validate against config.gitlab.baseURL
         ui.spinner.show();
-        $.get(snippeturl)
-            .success(function (data) {
-                if (data.files) {
-                    var contents = "";
-                    Object.keys(data.files).forEach(function (key) {
-                        contents += key;
-                        contents += '\n---\n';
-                        contents += data.files[key].content;
-                        contents += '\n\n';
+        var accessToken = '?access_token=' + $("#snippetImportModalAccessToken").val();
+        var fullURL = $("#snippetImportModalBaseURL").val() + '/api/v3' + snippeturl;
+        $.get(fullURL + accessToken)
+            .success(function(data) {
+                var content = '# ' + (data.title || "Snippet Import");
+                var fileInfo = data.file_name.split('.');
+                $.get(fullURL + '/raw' + accessToken)
+                    .success(function (raw) {
+                        if (raw) {
+                            content += "\n\n```";
+                            content += fileTypes[fileInfo[1]] + "=\n";
+                            content += raw;
+                            content += "\n```";
+                            replaceAll(content);
+                        }
+                    })
+                    .error(function (data) {
+                        showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false);
+                    })
+                    .complete(function () {
+                        ui.spinner.hide();
                     });
-                    replaceAll(contents);
-                } else {
-                    showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch snippet files :(', '', '', false);
-                }
             })
             .error(function (data) {
                 showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false);
-            })
-            .complete(function () {
-                ui.spinner.hide();
             });
     }
 });
