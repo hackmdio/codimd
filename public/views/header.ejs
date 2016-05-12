@@ -43,7 +43,7 @@
                 </li>
                 <% } %>
                 <% if(typeof gitlab !== 'undefined' && gitlab) { %>
-                <li role="presentation"><a role="menuitem" class="ui-save-snippet" tabindex="-1" href="#" target="_blank"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
+                <li role="presentation"><a role="menuitem" class="ui-save-snippet" href="#" data-toggle="modal" data-target="#snippetExportModal"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
                 </li>
                 <% } %>
                 <li class="divider"></li>
@@ -136,7 +136,7 @@
                     </li>
                     <% } %>
                     <% if(typeof gitlab !== 'undefined' && gitlab) { %>
-                    <li role="presentation"><a role="menuitem" class="ui-save-snippet" tabindex="-1" href="#" target="_blank"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
+                    <li role="presentation"><a role="menuitem" class="ui-save-snippet" href="#" data-toggle="modal" data-target="#snippetExportModal"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
                     </li>
                     <% } %>
                     <li class="divider"></li>

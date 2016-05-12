@@ -189,4 +189,49 @@
         </div>
     </div>
 </div>
+<!-- snippet export modal -->
+<div class="modal fade" id="snippetExportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Export to Snippet</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="snippetExportModalAccessToken" />
+                <input type="hidden" id="snippetExportModalBaseURL" />
+                <div class="ui-field-contain" style="display:table;margin-bottom:10px;width:100%;">
+                    <div style="display:table-row;margin-bottom:5px;">
+                        <label style="display:table-cell;">Title:</label>
+                        <input class="form-control" placeholder="new snippet" type="text" id="snippetExportModalTitle" />
+                    </div>
+                    <div style="display:table-row;margin-bottom:5px;">
+                        <label style="display:table-cell;">File Name:</label>
+                        <input class="form-control" placeholder="new_snippet.md" type="text" id="snippetExportModalFileName" />
+                    </div>
+                    <div style="display:table-row;margin-bottom:5px;">
+                        <label style="display:table-cell;">Project:</label>
+                        <select class="form-control" id="snippetExportModalProjects" style="display:table-cell;">
+                            <option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>
+                        </select>
+                    </div>
+                    <div style="display:table-row;margin-bottom:5px;">
+                        <label style="display:table-cell;">Visibility:</label>
+                        <select class="form-control" id="snippetExportModalVisibility" style="display:table-cell;">
+                            <option value="" selected="selected" disabled="disabled">Select Visibility Level</option>
+                            <option value="0">Private</option>
+                            <option value="10">Internal</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span id="snippetExportModalLoading"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="snippetExportModalConfirm">Export</button>
+            </div>
+        </div>
+    </div>
+</div>
 <%- include modal %>
