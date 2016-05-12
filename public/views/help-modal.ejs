@@ -1,0 +1,132 @@
+<!-- help modal -->
+<div class="modal fade help-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="mySmallModalLabel"><i class="fa fa-question-circle"></i> Help</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Contacts</h3>
+                            </div>
+                            <div class="panel-body">
+                                <a href="https://github.com/hackmdio/hackmd/issues" title="Report an issue" target="_blank"><i class="fa fa-tag fa-fw"></i> Report an issue</a> 
+                                <br>
+                                <a href="mailto:hackmdio@gmail.com" title="Send us email"><i class="fa fa-envelope fa-fw"></i> Send us email</a>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Documents</h3>
+                            </div>
+                            <div class="panel-body">
+                                <a href="./features" title="Features" target="_blank"><i class="fa fa-dot-circle-o fa-fw"></i> Features</a>
+                                <br>
+                                <a href="./yaml-metadata" title="YAML Metadata" target="_blank"><i class="fa fa-dot-circle-o fa-fw"></i> YAML Metadata</a>
+                                <br>
+                                <a href="./slide-example" title="Slide Example" target="_blank"><i class="fa fa-dot-circle-o fa-fw"></i> Slide Example</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Cheatsheet</h3>
+                            </div>
+                            <div class="panel-body" style="max-height: 470px; overflow: auto;">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Example</th>
+                                            <th>Syntax</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="markdown-body" style="font-family: inherit; font-size: 14px; padding: 0; max-width: inherit;">
+                                        <tr>
+                                            <td>Header</td>
+                                            <td># Header</td>
+                                        </tr>
+                                        <tr>
+                                            <td><ul><li>Unordered List</li></ul><ol><li>Ordered List</li></ol><ul><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled><label></label>Todo List</li></ul></td>
+                                            <td>- Unordered List<br>1. Ordered List<br>- [ ] Todo List</td>
+                                        </tr>
+                                        <tr>
+                                            <td><blockquote> Blockquote</blockquote></td>
+                                            <td>> Blockquote</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Bold font</strong></td>
+                                            <td>**Bold font**</td>
+                                        </tr>
+                                        <tr>
+                                            <td><i>Italics font</i></td>
+                                            <td>*Italics font*</td>
+                                        </tr>
+                                        <tr>
+                                            <td><s>Strikethrough</s></td>
+                                            <td>~~strikethrough~~</td>
+                                        </tr>
+                                        <tr>
+                                            <td>19<sup>th</sup></td>
+                                            <td>19^th^</td>
+                                        </tr>
+                                        <tr>
+                                            <td>H<sub>2</sub>O</td>
+                                            <td>H~2~O</td>
+                                        </tr>
+                                        <tr>
+                                            <td><ins>Inserted text</ins></td>
+                                            <td>++Inserted text++</td>
+                                        </tr>
+                                        <tr>
+                                            <td><mark>Marked text</mark></td>
+                                            <td>==Marked text==</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a>Link</a></td>
+                                            <td>[title](http://)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Image</td>
+                                            <td>![alt](http:// title)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>Code</code></td>
+                                            <td>`code`</td>
+                                        </tr>
+                                        <tr>
+                                            <td><pre style="border:none !important;"><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span></div><div class="code"><span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+</div></div></code></pre></td>
+                                            <td>```javascript<br>var i = 0;<br>```</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img align="absmiddle" alt=":smile:" class="emoji" src="./vendor/emojify/images/smile.png" title=":smile:"></img></td>
+                                            <td>:smile:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Externals</td>
+                                            <td>{%youtube youtube_id %}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>L<sup>a</sup>T<sub>e</sub>X</td>
+                                            <td>$L^aT_eX$</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="alert alert-info"><p>This is a alert area.</p></div></td>
+                                            <td>:::info<br>This is a alert area.<br>:::</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

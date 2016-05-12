@@ -516,5 +516,8 @@ models.sequelize.sync().then(startListen);
 
 // log uncaught exception
 process.on('uncaughtException', function (err) {
+    logger.error('An uncaught exception has occured.');
     logger.error(err);
+    logger.error('Process will exit now.');
+    process.exit(1);
 });
