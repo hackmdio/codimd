@@ -1163,6 +1163,9 @@ ui.toolbar.export.snippet.click(function() {
                     return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0);
                 });
                 data.projects.forEach(function(project) {
+                    if (!project.snippets_enabled) {
+                        return;
+                    }
                     $('<option>').val(project.id).text(project.path_with_namespace).appendTo("#snippetExportModalProjects");
                 });
                 $("#snippetExportModalProjects").prop('disabled',false);
