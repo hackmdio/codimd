@@ -448,10 +448,20 @@ app.get('/gitlab', function (req, res) {
     models.User.findById(req.cookies.userid)
         .then(function(user) {
             ret.accesstoken = user.accessToken;
-            return res.send(ret);
+            request(
+                config.gitlab.baseURL + '/api/v3/projects?access_token=' + user.accessToken,
+                function(error, httpResponse, body) {
+                    if (!error && httpResponse.statusCode == 200) {
+                        ret.projects = JSON.parse(body);
+                        return res.send(ret);
+                    } else {
+                        return res.send(ret);
+                    }
+                }
+            );
         }).catch(function(err) {
         logger.error('user search failed: ' + err);
-        return done(err, null);
+        return response.errorInternalError(res);
     });
 });
 //get new note

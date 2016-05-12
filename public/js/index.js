@@ -552,6 +552,10 @@ var ui = {
         codemirrorSizer: $(".ui-edit-area .CodeMirror .CodeMirror-sizer"),
         codemirrorSizerInner: $(".ui-edit-area .CodeMirror .CodeMirror-sizer > div"),
         markdown: $(".ui-view-area .markdown-body")
+    },
+    modal: {
+        snippetProjects: $("#snippetImportModalProjects"),
+        snippetSnippets: $("#snippetImportModalSnippets")
     }
 };
 
@@ -1209,6 +1213,17 @@ ui.toolbar.import.snippet.click(function () {
             $("#snippetImportModalConfirm").prop('disabled', false);
             $("#snippetImportModalLoading").hide();
             $("#snippetImportModal").modal('toggle');
+            $("#snippetImportModalProjects").find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>');
+            if (data.projects) {
+                data.projects.sort(function(a,b) {
+                    return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0);
+                });
+                data.projects.forEach(function(project) {
+                    $('<option>').val(project.id).text(project.path_with_namespace).appendTo("#snippetImportModalProjects");
+                });
+                $("#snippetImportModalProjects").prop('disabled',false);
+            }
+            $("#snippetImportModalLoading").hide();
         })
         .error(function (data) {
             showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false);
@@ -1238,6 +1253,39 @@ ui.toc.dropdown.click(function (e) {
 ui.toolbar.beta.pdf.attr("download", "").attr("href", noteurl + "/pdf");
 //slide
 ui.toolbar.beta.slide.attr("href", noteurl + "/slide");
+
+//modal actions
+//snippet projects
+ui.modal.snippetProjects.change(function() {
+    var accesstoken = $("#snippetImportModalAccessToken").val(),
+        baseURL     = $("#snippetImportModalBaseURL").val(),
+        project     = $("#snippetImportModalProjects").val();
+
+    $("#snippetImportModalLoading").show();
+    $("#snippetImportModalContent").val('/projects/' + project);
+    $.get(baseURL + '/api/v3/projects/' + project + '/snippets?access_token=' + accesstoken)
+        .success(function(data) {
+            $("#snippetImportModalSnippets").find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Snippets</option>');
+            data.forEach(function(snippet) {
+                $('<option>').val(snippet.id).text(snippet.title).appendTo($("#snippetImportModalSnippets"));
+            });
+            $("#snippetImportModalLoading").hide();
+            $("#snippetImportModalSnippets").prop('disabled',false);
+        })
+        .error(function(err) {
+
+        })
+        .complete(function() {
+            //na
+        });
+});
+//snippet snippets
+ui.modal.snippetSnippets.change(function() {
+    var project = $("#snippetImportModalProjects").val(),
+        snippet = $("#snippetImportModalSnippets").val();
+
+    $("#snippetImportModalContent").val($("#snippetImportModalContent").val() + '/snippets/' + snippet);
+})
 
 function scrollToTop() {
     if (currentMode == modeType.both) {
@@ -1388,6 +1436,9 @@ $("#gistImportModalConfirm").click(function () {
 // snippet import modal
 $("#snippetImportModalClear").click(function () {
     $("#snippetImportModalContent").val('');
+    $("#snippetImportModalProjects").val('init');
+    $("#snippetImportModalSnippets").val('init');
+    $("#snippetImportModalSnippets").prop('disabled',true);
 });
 $("#snippetImportModalConfirm").click(function () {
     var snippeturl = $("#snippetImportModalContent").val();
