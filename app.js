@@ -449,7 +449,7 @@ app.get('/gitlab', function (req, res) {
         .then(function(user) {
             ret.accesstoken = user.accessToken;
             request(
-                config.gitlab.baseURL + '/api/v3/projects?access_token=' + user.accessToken,
+                config.gitlab.baseURL + '/api/v3/projects/owned?access_token=' + user.accessToken,
                 function(error, httpResponse, body) {
                     if (!error && httpResponse.statusCode == 200) {
                         ret.projects = JSON.parse(body);
