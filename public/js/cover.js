@@ -32,6 +32,7 @@ function pageInit() {
             $('.ui-signin').hide();
             $('.ui-or').hide();
             $('.ui-welcome').show();
+            $('.ui-avatar').prop('src',data.photo);
             $('.ui-name').html(data.name);
             $('.ui-signout').show();
             $(".ui-history").click();
@@ -41,6 +42,7 @@ function pageInit() {
             $('.ui-signin').slideDown();
             $('.ui-or').slideDown();
             $('.ui-welcome').hide();
+            $('.ui-avatar').prop('src','');
             $('.ui-name').html('');
             $('.ui-signout').hide();
             parseStorageToHistory(historyList, parseHistoryCallback);
