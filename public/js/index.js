@@ -250,8 +250,9 @@ var fileTypes = {
     "php": "php",
     "sh": "bash",
     "rb": "ruby",
-    "html": "html"
-}
+    "html": "html",
+    "py": "python"
+};
 
 //editor settings
 var textit = document.getElementById("textit");
@@ -1248,6 +1249,9 @@ ui.toolbar.import.snippet.click(function () {
                     return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0);
                 });
                 data.projects.forEach(function(project) {
+                    if (!project.snippets_enabled) {
+                        return;
+                    }
                     $('<option>').val(project.id).text(project.path_with_namespace).appendTo("#snippetImportModalProjects");
                 });
                 $("#snippetImportModalProjects").prop('disabled',false);
@@ -1484,13 +1488,18 @@ $("#snippetImportModalConfirm").click(function () {
             .success(function(data) {
                 var content = '# ' + (data.title || "Snippet Import");
                 var fileInfo = data.file_name.split('.');
+                fileInfo[1] = (fileInfo[1]) ? fileInfo[1] : "md";
                 $.get(fullURL + '/raw' + accessToken)
                     .success(function (raw) {
                         if (raw) {
-                            content += "\n\n```";
-                            content += fileTypes[fileInfo[1]] + "=\n";
+                            content += "\n\n";
+                            if (fileInfo[1] != "md") {
+                                content += "```" + fileTypes[fileInfo[1]] + "\n";
+                            }
                             content += raw;
-                            content += "\n```";
+                            if (fileInfo[1] != "md") {
+                                content += "\n```";
+                            }
                             replaceAll(content);
                         }
                     })
