@@ -448,6 +448,7 @@ app.get('/gitlab', function (req, res) {
     models.User.findById(req.cookies.userid)
         .then(function(user) {
             ret.accesstoken = user.accessToken;
+            ret.profileid = user.profileid;
             request(
                 config.gitlab.baseURL + '/api/v3/projects?access_token=' + user.accessToken,
                 function(error, httpResponse, body) {

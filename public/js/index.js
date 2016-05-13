@@ -1164,7 +1164,10 @@ ui.toolbar.export.snippet.click(function() {
                     return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0);
                 });
                 data.projects.forEach(function(project) {
-                    if (!project.snippets_enabled) {
+                    if (!project.snippets_enabled
+                        || (project.permissions.project_access === null && project.permissions.group_access === null)
+                        || (project.permissions.project_access !== null && project.permissions.project_access.access_level < 20))
+                    {
                         return;
                     }
                     $('<option>').val(project.id).text(project.path_with_namespace).appendTo("#snippetExportModalProjects");
@@ -1249,7 +1252,10 @@ ui.toolbar.import.snippet.click(function () {
                     return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0);
                 });
                 data.projects.forEach(function(project) {
-                    if (!project.snippets_enabled) {
+                    if (!project.snippets_enabled
+                        || (project.permissions.project_access === null && project.permissions.group_access === null)
+                        || (project.permissions.project_access !== null && project.permissions.project_access.access_level < 20))
+                    {
                         return;
                     }
                     $('<option>').val(project.id).text(project.path_with_namespace).appendTo("#snippetImportModalProjects");
