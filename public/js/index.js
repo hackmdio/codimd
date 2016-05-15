@@ -1202,7 +1202,7 @@ ui.toolbar.export.snippet.click(function() {
                     }
                     $('<option>').val(project.id).text(project.path_with_namespace).appendTo("#snippetExportModalProjects");
                 });
-                $("#snippetExportModalProjects").prop('disabled',false);
+                $("#snippetExportModalProjects").prop('disabled', false);
             }
             $("#snippetExportModalLoading").hide();
         })
@@ -1212,7 +1212,6 @@ ui.toolbar.export.snippet.click(function() {
         .complete(function () {
             ui.spinner.hide();
         });
-    return false;
 });
 //import from dropbox
 ui.toolbar.import.dropbox.click(function () {
@@ -1291,7 +1290,7 @@ ui.toolbar.import.snippet.click(function () {
                     }
                     $('<option>').val(project.id).text(project.path_with_namespace).appendTo("#snippetImportModalProjects");
                 });
-                $("#snippetImportModalProjects").prop('disabled',false);
+                $("#snippetImportModalProjects").prop('disabled', false);
             }
             $("#snippetImportModalLoading").hide();
         })
@@ -1301,7 +1300,6 @@ ui.toolbar.import.snippet.click(function () {
         .complete(function () {
             ui.spinner.hide();
         });
-    return false;
 });
 //import from clipboard
 ui.toolbar.import.clipboard.click(function () {
@@ -1340,7 +1338,7 @@ ui.modal.snippetImportProjects.change(function() {
                 $('<option>').val(snippet.id).text(snippet.title).appendTo($("#snippetImportModalSnippets"));
             });
             $("#snippetImportModalLoading").hide();
-            $("#snippetImportModalSnippets").prop('disabled',false);
+            $("#snippetImportModalSnippets").prop('disabled', false);
         })
         .error(function(err) {
 
@@ -1508,7 +1506,7 @@ $("#snippetImportModalClear").click(function () {
     $("#snippetImportModalContent").val('');
     $("#snippetImportModalProjects").val('init');
     $("#snippetImportModalSnippets").val('init');
-    $("#snippetImportModalSnippets").prop('disabled',true);
+    $("#snippetImportModalSnippets").prop('disabled', true);
 });
 $("#snippetImportModalConfirm").click(function () {
     var snippeturl = $("#snippetImportModalContent").val();
@@ -1563,7 +1561,7 @@ $("#snippetExportModalConfirm").click(function() {
             code: editor.getValue(),
             visibility_level: $("#snippetExportModalVisibility").val()
         };
-
+    if (!data.title || !data.file_name || !data.code || !data.visibility_level || !$("#snippetExportModalProjects").val()) return;
     $("#snippetExportModalLoading").show();
     var fullURL = baseURL + '/api/v3/projects/' + $("#snippetExportModalProjects").val() + '/snippets?access_token=' + accesstoken;
     $.post(fullURL
