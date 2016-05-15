@@ -247,6 +247,11 @@ input {
 .sort.desc {
     text-decoration: underline;
 }
+.ui-avatar {
+    border-radius: 15em;
+    height: auto;
+    width: 200px;
+}
 .ui-history-close {
     position: absolute;
     right: 14px;
