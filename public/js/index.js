@@ -1181,6 +1181,7 @@ ui.toolbar.export.googleDrive.click(function (e) {
 ui.toolbar.export.gist.attr("href", noteurl + "/gist");
 //export to snippet
 ui.toolbar.export.snippet.click(function() {
+    ui.spinner.show();
     $.get(serverurl + '/gitlab')
         .success(function (data) {
             $("#snippetExportModalAccessToken").val(data.accesstoken);
@@ -1209,7 +1210,7 @@ ui.toolbar.export.snippet.click(function() {
             showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false);
         })
         .complete(function () {
-            //na
+            ui.spinner.hide();
         });
     return false;
 });
@@ -1267,6 +1268,7 @@ ui.toolbar.import.gist.click(function () {
 });
 //import from snippet
 ui.toolbar.import.snippet.click(function () {
+    ui.spinner.show();
     $.get(serverurl + '/gitlab')
         .success(function (data) {
             $("#snippetImportModalAccessToken").val(data.accesstoken);
