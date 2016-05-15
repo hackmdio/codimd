@@ -123,8 +123,7 @@ Third-party integration api key settings
 | ------- | --------- | ----------- |
 | facebook, twitter, github, dropbox | `config.json` | for signin |
 | imgur | `config.json` | for image upload |
-| dropbox | `public/views/foot.ejs` | for chooser and saver |
-| google drive | `public/js/common.js`/ `config.json` (enable) | for export and import |
+| google drive, dropbox | `public/js/common.js` | for export and import |
 
 
 Operational Transformation

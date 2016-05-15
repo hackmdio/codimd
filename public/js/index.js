@@ -1048,6 +1048,35 @@ function showMessageModal(title, header, href, text, success) {
     modal.modal('show');
 }
 
+// check if dropbox app key is set and load scripts
+if (DROPBOX_APP_KEY) {
+    $('<script>')
+        .attr('type', 'text/javascript')
+        .attr('src', 'https://www.dropbox.com/static/api/2/dropins.js')
+        .attr('id', 'dropboxjs')
+        .attr('data-app-key', DROPBOX_APP_KEY)
+        .appendTo('body');
+} else {
+    ui.toolbar.import.dropbox.hide();
+    ui.toolbar.export.dropbox.hide();
+}
+
+// check if google api key and client id are set and load scripts
+if (GOOGLE_API_KEY && GOOGLE_CLIENT_ID) {
+    $('<script>')
+        .attr('type', 'text/javascript')
+        .attr('src', 'https://www.google.com/jsapi')
+        .appendTo('body');
+    
+    $('<script>')
+        .attr('type', 'text/javascript')
+        .attr('src', 'https://apis.google.com/js/client:plusone.js?onload=onGoogleClientLoaded')
+        .appendTo('body');
+} else {
+    ui.toolbar.import.googleDrive.hide();
+    ui.toolbar.export.googleDrive.hide();
+}
+
 //button actions
 //share
 ui.toolbar.publish.attr("href", noteurl + "/publish");

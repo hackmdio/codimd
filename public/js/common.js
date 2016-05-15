@@ -4,8 +4,10 @@ var urlpath = ''; // sub url path, like: www.example.com/<urlpath>
 //settings
 var debug = false;
 
-var GOOGLE_API_KEY = 'change this';
-var GOOGLE_CLIENT_ID = 'change this';
+var GOOGLE_API_KEY = '';
+var GOOGLE_CLIENT_ID = '';
+
+var DROPBOX_APP_KEY = '';
 
 var port = window.location.port;
 var serverurl = window.location.protocol + '//' + (domain ? domain : window.location.hostname) + (port ? ':' + port : '') + (urlpath ? '/' + urlpath : '');
