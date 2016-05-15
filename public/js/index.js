@@ -243,6 +243,16 @@ var lastInfo = {
 };
 var personalInfo = {};
 var onlineUsers = [];
+var fileTypes = {
+    "pl": "perl",
+    "cgi": "perl",
+    "js": "javascript",
+    "php": "php",
+    "sh": "bash",
+    "rb": "ruby",
+    "html": "html",
+    "py": "python"
+};
 
 //editor settings
 var textit = document.getElementById("textit");
@@ -496,12 +506,14 @@ var ui = {
         export: {
             dropbox: $(".ui-save-dropbox"),
             googleDrive: $(".ui-save-google-drive"),
-            gist: $(".ui-save-gist")
+            gist: $(".ui-save-gist"),
+            snippet: $(".ui-save-snippet")
         },
         import: {
             dropbox: $(".ui-import-dropbox"),
             googleDrive: $(".ui-import-google-drive"),
             gist: $(".ui-import-gist"),
+            snippet: $(".ui-import-snippet"),
             clipboard: $(".ui-import-clipboard")
         },
         beta: {
@@ -541,6 +553,10 @@ var ui = {
         codemirrorSizer: $(".ui-edit-area .CodeMirror .CodeMirror-sizer"),
         codemirrorSizerInner: $(".ui-edit-area .CodeMirror .CodeMirror-sizer > div"),
         markdown: $(".ui-view-area .markdown-body")
+    },
+    modal: {
+        snippetImportProjects: $("#snippetImportModalProjects"),
+        snippetImportSnippets: $("#snippetImportModalSnippets")
     }
 };
 
@@ -1163,6 +1179,40 @@ ui.toolbar.export.googleDrive.click(function (e) {
 });
 //export to gist
 ui.toolbar.export.gist.attr("href", noteurl + "/gist");
+//export to snippet
+ui.toolbar.export.snippet.click(function() {
+    $.get(serverurl + '/gitlab')
+        .success(function (data) {
+            $("#snippetExportModalAccessToken").val(data.accesstoken);
+            $("#snippetExportModalBaseURL").val(data.baseURL);
+            $("#snippetExportModalLoading").hide();
+            $("#snippetExportModal").modal('toggle');
+            $("#snippetExportModalProjects").find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>');
+            if (data.projects) {
+                data.projects.sort(function(a,b) {
+                    return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0);
+                });
+                data.projects.forEach(function(project) {
+                    if (!project.snippets_enabled
+                        || (project.permissions.project_access === null && project.permissions.group_access === null)
+                        || (project.permissions.project_access !== null && project.permissions.project_access.access_level < 20))
+                    {
+                        return;
+                    }
+                    $('<option>').val(project.id).text(project.path_with_namespace).appendTo("#snippetExportModalProjects");
+                });
+                $("#snippetExportModalProjects").prop('disabled',false);
+            }
+            $("#snippetExportModalLoading").hide();
+        })
+        .error(function (data) {
+            showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false);
+        })
+        .complete(function () {
+            //na
+        });
+    return false;
+});
 //import from dropbox
 ui.toolbar.import.dropbox.click(function () {
     var options = {
@@ -1215,6 +1265,42 @@ function buildImportFromGoogleDrive() {
 ui.toolbar.import.gist.click(function () {
     //na
 });
+//import from snippet
+ui.toolbar.import.snippet.click(function () {
+    $.get(serverurl + '/gitlab')
+        .success(function (data) {
+            $("#snippetImportModalAccessToken").val(data.accesstoken);
+            $("#snippetImportModalBaseURL").val(data.baseURL);
+            $("#snippetImportModalContent").prop('disabled', false);
+            $("#snippetImportModalConfirm").prop('disabled', false);
+            $("#snippetImportModalLoading").hide();
+            $("#snippetImportModal").modal('toggle');
+            $("#snippetImportModalProjects").find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>');
+            if (data.projects) {
+                data.projects.sort(function(a,b) {
+                    return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0);
+                });
+                data.projects.forEach(function(project) {
+                    if (!project.snippets_enabled
+                        || (project.permissions.project_access === null && project.permissions.group_access === null)
+                        || (project.permissions.project_access !== null && project.permissions.project_access.access_level < 20))
+                    {
+                        return;
+                    }
+                    $('<option>').val(project.id).text(project.path_with_namespace).appendTo("#snippetImportModalProjects");
+                });
+                $("#snippetImportModalProjects").prop('disabled',false);
+            }
+            $("#snippetImportModalLoading").hide();
+        })
+        .error(function (data) {
+            showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false);
+        })
+        .complete(function () {
+            //na
+        });
+    return false;
+});
 //import from clipboard
 ui.toolbar.import.clipboard.click(function () {
     //na
@@ -1235,6 +1321,39 @@ ui.toc.dropdown.click(function (e) {
 ui.toolbar.beta.pdf.attr("download", "").attr("href", noteurl + "/pdf");
 //slide
 ui.toolbar.beta.slide.attr("href", noteurl + "/slide");
+
+//modal actions
+//snippet projects
+ui.modal.snippetImportProjects.change(function() {
+    var accesstoken = $("#snippetImportModalAccessToken").val(),
+        baseURL     = $("#snippetImportModalBaseURL").val(),
+        project     = $("#snippetImportModalProjects").val();
+
+    $("#snippetImportModalLoading").show();
+    $("#snippetImportModalContent").val('/projects/' + project);
+    $.get(baseURL + '/api/v3/projects/' + project + '/snippets?access_token=' + accesstoken)
+        .success(function(data) {
+            $("#snippetImportModalSnippets").find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Snippets</option>');
+            data.forEach(function(snippet) {
+                $('<option>').val(snippet.id).text(snippet.title).appendTo($("#snippetImportModalSnippets"));
+            });
+            $("#snippetImportModalLoading").hide();
+            $("#snippetImportModalSnippets").prop('disabled',false);
+        })
+        .error(function(err) {
+
+        })
+        .complete(function() {
+            //na
+        });
+});
+//snippet snippets
+ui.modal.snippetImportSnippets.change(function() {
+    var project = $("#snippetImportModalProjects").val(),
+        snippet = $("#snippetImportModalSnippets").val();
+
+    $("#snippetImportModalContent").val($("#snippetImportModalContent").val() + '/snippets/' + snippet);
+})
 
 function scrollToTop() {
     if (currentMode == modeType.both) {
@@ -1380,6 +1499,81 @@ $("#gistImportModalConfirm").click(function () {
                 });
         }
     }
+});
+
+// snippet import modal
+$("#snippetImportModalClear").click(function () {
+    $("#snippetImportModalContent").val('');
+    $("#snippetImportModalProjects").val('init');
+    $("#snippetImportModalSnippets").val('init');
+    $("#snippetImportModalSnippets").prop('disabled',true);
+});
+$("#snippetImportModalConfirm").click(function () {
+    var snippeturl = $("#snippetImportModalContent").val();
+    if (!snippeturl) return;
+    $('#snippetImportModal').modal('hide');
+    $("#snippetImportModalContent").val('');
+    if (!/^.+\/snippets\/.+$/.test(snippeturl)) {
+        showMessageModal('<i class="fa fa-github"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', '', false);
+    } else {
+        ui.spinner.show();
+        var accessToken = '?access_token=' + $("#snippetImportModalAccessToken").val();
+        var fullURL = $("#snippetImportModalBaseURL").val() + '/api/v3' + snippeturl;
+        $.get(fullURL + accessToken)
+            .success(function(data) {
+                var content = '# ' + (data.title || "Snippet Import");
+                var fileInfo = data.file_name.split('.');
+                fileInfo[1] = (fileInfo[1]) ? fileInfo[1] : "md";
+                $.get(fullURL + '/raw' + accessToken)
+                    .success(function (raw) {
+                        if (raw) {
+                            content += "\n\n";
+                            if (fileInfo[1] != "md") {
+                                content += "```" + fileTypes[fileInfo[1]] + "\n";
+                            }
+                            content += raw;
+                            if (fileInfo[1] != "md") {
+                                content += "\n```";
+                            }
+                            replaceAll(content);
+                        }
+                    })
+                    .error(function (data) {
+                        showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false);
+                    })
+                    .complete(function () {
+                        ui.spinner.hide();
+                    });
+            })
+            .error(function (data) {
+                showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false);
+            });
+    }
+});
+
+//snippet export modal
+$("#snippetExportModalConfirm").click(function() {
+    var accesstoken = $("#snippetExportModalAccessToken").val(),
+        baseURL     = $("#snippetExportModalBaseURL").val(),
+        data        = {
+            title: $("#snippetExportModalTitle").val(),
+            file_name: $("#snippetExportModalFileName").val(),
+            code: editor.getValue(),
+            visibility_level: $("#snippetExportModalVisibility").val()
+        };
+
+    $("#snippetExportModalLoading").show();
+    var fullURL = baseURL + '/api/v3/projects/' + $("#snippetExportModalProjects").val() + '/snippets?access_token=' + accesstoken;
+    $.post(fullURL
+        , data
+        , function(ret) {
+            $("#snippetExportModalLoading").hide();
+            $('#snippetExportModal').modal('hide');
+            var redirect = baseURL + '/' + $("#snippetExportModalProjects option[value='" + $("#snippetExportModalProjects").val() + "']").text() + '/snippets/' + ret.id;
+            showMessageModal('<i class="fa fa-gitlab"></i> Export to Snippet', 'Export Successful!', redirect, 'View Snippet Here', true);
+        }
+        , 'json'
+    );
 });
 
 function parseToEditor(data) {

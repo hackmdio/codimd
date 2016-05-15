@@ -328,6 +328,11 @@ div[contenteditable]:empty:not(:focus):before{
     border-bottom: 1px solid #ccc;
 }
 
+.snippet-import-or {
+    text-align: center;
+    width: 100%;
+}
+
 .status-bar {
     background: #1c1c1e;
     border-top: 1px solid #343434;
