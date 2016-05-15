@@ -42,6 +42,10 @@
                 <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
                 <% } %>
+                <% if(typeof gitlab !== 'undefined' && gitlab) { %>
+                <li role="presentation"><a role="menuitem" class="ui-save-snippet" href="#" data-toggle="modal" data-target="#snippetExportModal"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
+                </li>
+                <% } %>
                 <li class="divider"></li>
                 <li class="dropdown-header">Import</li>
                 <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
@@ -50,6 +54,10 @@
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-import-gist" href="#" data-toggle="modal" data-target="#gistImportModal"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
+                <% if(typeof gitlab !== 'undefined' && gitlab) { %>
+                <li role="presentation"><a role="menuitem" class="ui-import-snippet" href="#" data-toggle="modal" data-target="#snippetImportModal"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
+                </li>
+                <% } %>
                 <li role="presentation"><a role="menuitem" class="ui-import-clipboard" href="#" data-toggle="modal" data-target="#clipboardModal"><i class="fa fa-clipboard fa-fw"></i> Clipboard</a>
                 </li>
                 <li class="divider"></li>
@@ -127,6 +135,10 @@
                     <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
                     <% } %>
+                    <% if(typeof gitlab !== 'undefined' && gitlab) { %>
+                    <li role="presentation"><a role="menuitem" class="ui-save-snippet" href="#" data-toggle="modal" data-target="#snippetExportModal"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
+                    </li>
+                    <% } %>
                     <li class="divider"></li>
                     <li class="dropdown-header">Import</li>
                     <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
@@ -135,6 +147,10 @@
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-import-gist" href="#" data-toggle="modal" data-target="#gistImportModal"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
+                    <% if(typeof gitlab !== 'undefined' && gitlab) { %>
+                    <li role="presentation"><a role="menuitem" class="ui-import-snippet" href="#" data-toggle="modal" data-target="#snippetImportModal"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
+                    </li>
+                    <% } %>
                     <li role="presentation"><a role="menuitem" class="ui-import-clipboard" href="#" data-toggle="modal" data-target="#clipboardModal"><i class="fa fa-clipboard fa-fw"></i> Clipboard</a>
                     </li>
                     <li class="divider"></li>
