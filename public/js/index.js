@@ -1299,7 +1299,7 @@ ui.toolbar.import.snippet.click(function () {
             showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false);
         })
         .complete(function () {
-            //na
+            ui.spinner.hide();
         });
     return false;
 });
