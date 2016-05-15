@@ -125,6 +125,10 @@ Third-party integration api key settings
 | imgur | `config.json` | for image upload |
 | google drive, dropbox | `public/js/common.js` | for export and import |
 
+DB migration
+---
+Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string.  
+And run `node_modules/.bin/sequelize db:migrate`, that's it!
 
 Operational Transformation
 ---
