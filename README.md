@@ -123,7 +123,7 @@ Third-party integration api key settings
 | ------- | --------- | ----------- |
 | facebook, twitter, github, gitlab, dropbox | `config.json` | for signin |
 | imgur | `config.json` | for image upload |
-| gitlab, google drive, dropbox | `public/js/common.js` | for export and import |
+| google drive, dropbox | `public/js/common.js` | for export and import |
 
 DB migration
 ---
