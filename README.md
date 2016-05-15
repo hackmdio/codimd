@@ -121,7 +121,7 @@ Third-party integration api key settings
 ---
 | service | file path | description |
 | ------- | --------- | ----------- |
-| facebook, twitter, github, dropbox | `config.json` | for signin |
+| facebook, twitter, github, gitlab, dropbox | `config.json` | for signin |
 | imgur | `config.json` | for image upload |
 | google drive, dropbox | `public/js/common.js` | for export and import |
 
