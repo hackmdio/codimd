@@ -13,25 +13,25 @@ Modified by jackycute 2015
 borrow some color from tomorrow-night-eighties
 */
 /* Editor */
-.panel,
-#main-toolbar {
+.dark .panel,
+.dark #main-toolbar {
   background: #1d222a;
 }
-#working-set-list-container,
+.dark #working-set-list-container,
 .dark #editor-holder .pane-header {
   background: #15181e;
 }
-.working-set-header,
-#project-files-header .btn-alt-quiet {
+.dark .working-set-header,
+.dark #project-files-header .btn-alt-quiet {
   background: rgba(204, 217, 255, 0.05);
 }
-.working-set-header > span {
+.dark .working-set-header > span {
   background: transparent;
 }
-.sidebar-selection,
-.filetree-selection,
-.sidebar-selection-extension,
-.filetree-selection-extension {
+.dark .sidebar-selection,
+.dark .filetree-selection,
+.dark .sidebar-selection-extension,
+.dark .filetree-selection-extension {
   background: #282c34;
 }
 .dark #status-bar,
@@ -40,7 +40,7 @@ borrow some color from tomorrow-night-eighties
   border-top-color: #1d222a;
 }
 .dark a,
-.open-files-container li.selected a {
+.dark .open-files-container li.selected a {
   color: #528bff;
 }
 /* Code Styling */
