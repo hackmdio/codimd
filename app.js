@@ -292,6 +292,23 @@ if (config.github) {
     //github callback actions
     app.get('/auth/github/callback/:noteId/:action', response.githubActions);
 }
+//gitlab auth
+if (config.gitlab) {
+    app.get('/auth/gitlab',
+        passport.authenticate('gitlab'),
+        function (req, res) {});
+    //gitlab auth callback
+    app.get('/auth/gitlab/callback',
+        passport.authenticate('gitlab', {
+            failureRedirect: config.serverurl
+        }),
+        function (req, res) {
+            res.redirect(config.serverurl);
+        });
+    //gitlab callback actions
+    // TODO: Maybe in the future
+    //app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions);
+}
 //dropbox auth
 if (config.dropbox) {
     app.get('/auth/dropbox',
