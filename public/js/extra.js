@@ -30,7 +30,8 @@ function updateLastChangeUser() {
       if (lastchangeuser && lastchangeuserprofile) {
           var icon = lastchangeui.user.children('i');
           icon.attr('title', lastchangeuserprofile.name).tooltip('fixTitle');
-          icon.attr('style', 'background-image:url(' + lastchangeuserprofile.photo + ')');
+          if (lastchangeuserprofile.photo)
+              icon.attr('style', 'background-image:url(' + lastchangeuserprofile.photo + ')');
           lastchangeui.user.show();
           lastchangeui.nouser.hide();
       } else {
