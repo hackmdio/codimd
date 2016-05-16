@@ -32,7 +32,8 @@ function pageInit() {
             $('.ui-signin').hide();
             $('.ui-or').hide();
             $('.ui-welcome').show();
-            $('.ui-avatar').prop('src', data.photo);
+            if (data.photo) $('.ui-avatar').prop('src', data.photo).show();
+            else $('.ui-avatar').prop('src', '').hide();
             $('.ui-name').html(data.name);
             $('.ui-signout').show();
             $(".ui-history").click();
@@ -42,7 +43,7 @@ function pageInit() {
             $('.ui-signin').slideDown();
             $('.ui-or').slideDown();
             $('.ui-welcome').hide();
-            $('.ui-avatar').prop('src', '');
+            $('.ui-avatar').prop('src', '').hide();
             $('.ui-name').html('');
             $('.ui-signout').hide();
             parseStorageToHistory(historyList, parseHistoryCallback);
