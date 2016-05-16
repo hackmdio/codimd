@@ -822,7 +822,7 @@ function checkEditorScrollbar() {
     // workaround simple scroll bar knob
     // will get wrong position when editor height changed
     var scrollInfo = editor.getScrollInfo();
-    preventSyncScroll = true;
+    if (!preventSyncScroll) preventSyncScroll = true;
     editor.scrollTo(null, scrollInfo.top - 1);
     editor.scrollTo(null, scrollInfo.top);
 }
@@ -2422,9 +2422,11 @@ editor.on('beforeChange', function (cm, change) {
         cmClient.editorAdapter.ignoreNextChange = true;
 });
 editor.on('cut', function () {
+    preventSyncScroll = 3;
     windowResize(); //workaround for scrollMap
 });
 editor.on('paste', function () {
+    preventSyncScroll = 3;
     windowResize(); //workaround for scrollMap
 });
 editor.on('changes', function (cm, changes) {

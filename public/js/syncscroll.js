@@ -257,7 +257,11 @@ function getEditorLineNoByTop(top) {
 function syncScrollToView(event, _lineNo) {
     if (currentMode != modeType.both) return;
     if (preventSyncScroll) {
-        preventSyncScroll = false;
+        if (typeof preventSyncScroll === 'number') {
+            preventSyncScroll--;
+        } else {
+            preventSyncScroll = false;
+        }
         return;
     }
     var lineNo, posTo;
