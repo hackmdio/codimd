@@ -16,7 +16,6 @@ var formidable = require('formidable');
 var morgan = require('morgan');
 var passportSocketIo = require("passport.socketio");
 var helmet = require('helmet');
-var request = require('request');
 
 //core
 var config = require("./lib/config.js");
@@ -82,9 +81,6 @@ var sessionStore = new SequelizeStore({
 
 //compression
 app.use(compression());
-
-//cookies
-app.use(cookieParser());
 
 // use hsts to tell https users stick to this
 app.use(helmet.hsts({
@@ -310,8 +306,7 @@ if (config.gitlab) {
             res.redirect(config.serverurl);
         });
     //gitlab callback actions
-    // TODO: Maybe in the future
-    //app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions);
+    app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions);
 }
 //dropbox auth
 if (config.dropbox) {
@@ -440,29 +435,6 @@ app.post('/uploadimage', function (req, res) {
                 return res.send('upload image error');
             }
         }
-    });
-});
-//get gitlab parameters
-app.get('/gitlab', function (req, res) {
-    var ret = { baseURL: config.gitlab.baseURL };
-    models.User.findById(req.cookies.userid)
-        .then(function(user) {
-            ret.accesstoken = user.accessToken;
-            ret.profileid = user.profileid;
-            request(
-                config.gitlab.baseURL + '/api/v3/projects?access_token=' + user.accessToken,
-                function(error, httpResponse, body) {
-                    if (!error && httpResponse.statusCode == 200) {
-                        ret.projects = JSON.parse(body);
-                        return res.send(ret);
-                    } else {
-                        return res.send(ret);
-                    }
-                }
-            );
-        }).catch(function(err) {
-        logger.error('user search failed: ' + err);
-        return response.errorInternalError(res);
     });
 });
 //get new note

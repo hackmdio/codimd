@@ -1182,7 +1182,7 @@ ui.toolbar.export.gist.attr("href", noteurl + "/gist");
 //export to snippet
 ui.toolbar.export.snippet.click(function() {
     ui.spinner.show();
-    $.get(serverurl + '/gitlab')
+    $.get(serverurl + '/auth/gitlab/callback/' + noteid + '/projects')
         .success(function (data) {
             $("#snippetExportModalAccessToken").val(data.accesstoken);
             $("#snippetExportModalBaseURL").val(data.baseURL);
@@ -1268,7 +1268,7 @@ ui.toolbar.import.gist.click(function () {
 //import from snippet
 ui.toolbar.import.snippet.click(function () {
     ui.spinner.show();
-    $.get(serverurl + '/gitlab')
+    $.get(serverurl + '/auth/gitlab/callback/' + noteid + '/projects')
         .success(function (data) {
             $("#snippetImportModalAccessToken").val(data.accesstoken);
             $("#snippetImportModalBaseURL").val(data.baseURL);
