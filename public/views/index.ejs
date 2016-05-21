@@ -58,7 +58,7 @@
                         <p class="lead">
                             Realtime collaborative markdown notes on all platforms.
                         </p>
-                        <% if(facebook || twitter || github || gitlab || dropbox) { %>
+                        <% if(facebook || twitter || github || gitlab || dropbox || google) { %>
                         <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="display:none;">Sign In</a>
                         <div class="ui-or" style="display:none;">Or</div>
                         <% }%>
@@ -72,7 +72,7 @@
                 </div>
 
                 <div id="history" class="section" style="display:none;">
-                    <% if(facebook || twitter || github || gitlab || dropbox) { %>
+                    <% if(facebook || twitter || github || gitlab || dropbox || google) { %>
                     <div class="ui-signin">
                         <h4>
                             <a type="button" class="btn btn-success" data-toggle="modal" data-target=".signin-modal">Sign In</a> to get own history!

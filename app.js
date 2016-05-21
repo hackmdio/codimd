@@ -317,6 +317,19 @@ if (config.dropbox) {
             res.redirect(config.serverurl);
         });
 }
+//google auth
+if (config.google) {
+    app.get('/auth/google',
+        passport.authenticate('google', { scope: ['profile'] }));
+    //google auth callback
+    app.get('/auth/google/callback',
+        passport.authenticate('google', {
+            failureRedirect: config.serverurl
+        }),
+        function (req, res) {
+            res.redirect(config.serverurl);
+        });
+}
 //logout
 app.get('/logout', function (req, res) {
     if (config.debug && req.isAuthenticated())

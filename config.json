@@ -41,6 +41,10 @@
             "clientID": "change this",
             "clientSecret": "change this"
         },
+        "google": {
+            "clientID": "change this",
+            "clientSecret": "change this"
+        },
         "imgur": {
             "clientID": "change this"
         }

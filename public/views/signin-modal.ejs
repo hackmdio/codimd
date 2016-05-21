@@ -23,14 +23,19 @@
                     <i class="fa fa-github"></i> Sign in via GitHub
                 </a>
                 <% } %>
+                <% if(gitlab) { %>
+                <a href="<%- url %>/auth/gitlab" class="btn btn-lg btn-block btn-social btn-soundcloud">
+                    <i class="fa fa-gitlab"></i> Sign in via GitLab
+                </a>
+                <% } %>
                 <% if(dropbox) { %>
                 <a href="<%- url %>/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
                     <i class="fa fa-dropbox"></i> Sign in via Dropbox
                 </a>
                 <% } %>
-                <% if(gitlab) { %>
-                <a href="<%- url %>/auth/gitlab" class="btn btn-lg btn-block btn-social btn-soundcloud">
-                    <i class="fa fa-gitlab"></i> Sign in via GitLab
+                <% if(google) { %>
+                <a href="<%- url %>/auth/google" class="btn btn-lg btn-block btn-social btn-google">
+                    <i class="fa fa-google"></i> Sign in via Google
                 </a>
                 <% } %>
             </div>
