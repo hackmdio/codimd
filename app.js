@@ -251,8 +251,7 @@ app.post("/temp", urlencodedParser, function (req, res) {
 //facebook auth
 if (config.facebook) {
     app.get('/auth/facebook',
-        passport.authenticate('facebook'),
-        function (req, res) {});
+        passport.authenticate('facebook'));
     //facebook auth callback
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
@@ -265,8 +264,7 @@ if (config.facebook) {
 //twitter auth
 if (config.twitter) {
     app.get('/auth/twitter',
-        passport.authenticate('twitter'),
-        function (req, res) {});
+        passport.authenticate('twitter'));
     //twitter auth callback
     app.get('/auth/twitter/callback',
         passport.authenticate('twitter', {
@@ -279,8 +277,7 @@ if (config.twitter) {
 //github auth
 if (config.github) {
     app.get('/auth/github',
-        passport.authenticate('github'),
-        function (req, res) {});
+        passport.authenticate('github'));
     //github auth callback
     app.get('/auth/github/callback',
         passport.authenticate('github', {
@@ -295,8 +292,7 @@ if (config.github) {
 //gitlab auth
 if (config.gitlab) {
     app.get('/auth/gitlab',
-        passport.authenticate('gitlab'),
-        function (req, res) {});
+        passport.authenticate('gitlab'));
     //gitlab auth callback
     app.get('/auth/gitlab/callback',
         passport.authenticate('gitlab', {
@@ -311,8 +307,7 @@ if (config.gitlab) {
 //dropbox auth
 if (config.dropbox) {
     app.get('/auth/dropbox',
-        passport.authenticate('dropbox-oauth2'),
-        function (req, res) {});
+        passport.authenticate('dropbox-oauth2'));
     //dropbox auth callback
     app.get('/auth/dropbox/callback',
         passport.authenticate('dropbox-oauth2', {
