@@ -743,6 +743,7 @@ function windowResizeInner(callback) {
         if (editor.getOption('scrollbarStyle') === 'native') {
             clearMap();
             syncScrollToView();
+            syncScrollToEdit();
             updateScrollspy();
             if (callback && typeof callback === 'function')
                 callback();
@@ -752,6 +753,7 @@ function windowResizeInner(callback) {
             setTimeout(function () {
                 clearMap();
                 syncScrollToView();
+                syncScrollToEdit();
                 editor.setOption('viewportMargin', viewportMargin);
                 //add or update user cursors
                 for (var i = 0; i < onlineUsers.length; i++) {
@@ -822,7 +824,6 @@ function checkEditorScrollbar() {
     // workaround simple scroll bar knob
     // will get wrong position when editor height changed
     var scrollInfo = editor.getScrollInfo();
-    if (!preventSyncScroll) preventSyncScroll = true;
     editor.scrollTo(null, scrollInfo.top - 1);
     editor.scrollTo(null, scrollInfo.top);
 }
@@ -1026,15 +1027,6 @@ function lockNavbar() {
 var unlockNavbar = _.debounce(function () {
     $('.navbar').removeClass('locked');
 }, 200);
-
-function syncScrollToEdit() {
-    if (!scrollMap || !lineHeightMap)
-        buildMapInner();
-    var scrollMapNearest = closestIndex(scrollMap, lastInfo.view.scroll.top);
-    var lineHeightMapNearest = closestIndex(lineHeightMap, scrollMapNearest);
-    var height = lineHeightMapNearest * defaultTextHeight;
-    editor.scrollTo(null, height);
-}
 
 function closestIndex(arr, closestTo) {
     var closest = Math.max.apply(null, arr); //Get the highest number in arr in case it match nothing.
@@ -2422,11 +2414,9 @@ editor.on('beforeChange', function (cm, change) {
         cmClient.editorAdapter.ignoreNextChange = true;
 });
 editor.on('cut', function () {
-    preventSyncScroll = 3;
     windowResize(); //workaround for scrollMap
 });
 editor.on('paste', function () {
-    preventSyncScroll = 3;
     windowResize(); //workaround for scrollMap
 });
 editor.on('changes', function (cm, changes) {
@@ -2596,6 +2586,8 @@ function updateViewInner() {
     clearMap();
     //buildMap();
     updateTitleReminder();
+    syncScrollToView();
+    syncScrollToEdit();
 }
 
 var updateHistoryDebounce = 600;

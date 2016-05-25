@@ -107,28 +107,89 @@ md.use(window.markdownitContainer, 'danger', { render: renderContainer });
 
 var preventSyncScroll = false;
 
-//var editorScrollThrottle = 100;
+var editScrollThrottle = 1;
+var viewScrollThrottle = 20;
 var buildMapThrottle = 100;
 
 var viewScrolling = false;
 var viewScrollingDelay = 200;
 var viewScrollingTimer = null;
 
-//editor.on('scroll', _.throttle(syncScrollToView, editorScrollThrottle));
+var editScrolling = false;
+var editScrollingDelay = 100;
+var editScrollingTimer = null;
+
 if (editor.getOption('scrollbarStyle') === 'native') {
-    ui.area.codemirrorScroll.on('scroll', syncScrollToView);
+    ui.area.codemirrorScroll.on('scroll', _.throttle(syncScrollToView, editScrollThrottle));
 } else {
-    editor.on('scroll', syncScrollToView);
+    editor.on('scroll', _.throttle(syncScrollToView, editScrollThrottle));
 }
-ui.area.view.on('scroll', function () {
+ui.area.view.on('scroll', _.throttle(syncScrollToEdit, viewScrollThrottle));
+
+var preventViewScroll = false;
+
+function syncScrollToEdit(e) {
+    if (currentMode != modeType.both) return;
+    if (preventViewScroll) {
+        if (typeof preventViewScroll === 'number') {
+            preventViewScroll--;
+        } else {
+            preventViewScroll = false;
+        }
+        return;
+    }
+    if (!scrollMap || !lineHeightMap) {
+        buildMap(true);
+        return;
+    }
+    if (editScrolling) return;
+    var scrollTop = ui.area.view[0].scrollTop;
+    var lineIndex = 0;
+    for (var i = 0, l = scrollMap.length; i < l; i++) {
+        if (scrollMap[i] > scrollTop) {
+            break;
+        } else {
+            lineIndex = i;
+        }
+    }
+    var lineNo = 0;
+    var lineDiff = 0;
+    for (var i = 0, l = lineHeightMap.length; i < l; i++) {
+        if (lineHeightMap[i] > lineIndex) {
+            break;
+        } else {
+            lineNo = lineHeightMap[i];
+            lineDiff = lineHeightMap[i + 1] - lineNo;
+        }
+    }
+    
+    var scrollInfo = editor.getScrollInfo();
+    var textHeight = editor.defaultTextHeight();
+    var posTo = 0;
+    var topDiffPercent = 0;
+    var posToNextDiff = 0;
+    var preLastLineHeight = scrollInfo.height - scrollInfo.clientHeight - textHeight;
+    var preLastLineNo = Math.round(preLastLineHeight / textHeight);
+    
+    if (scrollInfo.height > scrollInfo.clientHeight && lineNo >= preLastLineNo) {
+        posTo = preLastLineHeight;
+        topDiffPercent = (scrollTop - scrollMap[preLastLineNo]) / (viewBottom - scrollMap[preLastLineNo]);
+        posToNextDiff = Math.ceil(textHeight * topDiffPercent);
+    } else {
+        posTo = lineNo * textHeight;
+        topDiffPercent = (scrollTop - scrollMap[lineNo]) / (scrollMap[lineNo + lineDiff] - scrollMap[lineNo]);
+        posToNextDiff = Math.ceil(textHeight * lineDiff * topDiffPercent);
+    }
+    
+    editor.scrollTo(0, posTo + posToNextDiff);
+    preventSyncScroll = true;
+    
     viewScrolling = true;
     clearTimeout(viewScrollingTimer);
     viewScrollingTimer = setTimeout(function () {
         viewScrolling = false;
     }, viewScrollingDelay);
-});
-//editor.on('scroll', _.debounce(syncScrollToView, syncScrollDelay));
-//ui.area.view.on('scroll', _.debounce(syncScrollToEdit, 50));
+}
 
 var scrollMap, lineHeightMap, viewTop, viewBottom;
 
@@ -291,19 +352,12 @@ function syncScrollToView(event, _lineNo) {
         if (viewScrolling) return;
         posTo = scrollMap[lineHeightMap[_lineNo]];
     }
-    var posDiff = Math.abs(ui.area.view.scrollTop() - posTo);
-    var duration = posDiff / 50;
-    ui.area.view.stop(true, true).animate({
-        scrollTop: posTo
-    }, duration >= 100 ? duration : 100, "linear");
-    /*
-    if (posDiff > scrollInfo.clientHeight / 5) {
-        var duration = posDiff / 50;
-        ui.area.view.stop(true, true).animate({
-            scrollTop: posTo
-        }, duration >= 100 ? duration : 100, "linear");
-    } else {
-        ui.area.view.stop(true, true).scrollTop(posTo);
-    }
-    */
+    ui.area.view.stop(true, true).scrollTop(posTo);
+    preventViewScroll = true;
+    
+    editScrolling = true;
+    clearTimeout(editScrollingTimer);
+    editScrollingTimer = setTimeout(function () {
+        editScrolling = false;
+    }, editScrollingDelay);
 }
