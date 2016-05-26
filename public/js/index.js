@@ -722,8 +722,11 @@ function windowResizeInner(callback) {
     if (loaded) {
         if (editor.getOption('scrollbarStyle') === 'native') {
             clearMap();
-            syncScrollToView();
-            syncScrollToEdit();
+            if (editorHasFocus()) {
+                syncScrollToView();
+            } else {
+                syncScrollToEdit();
+            }
             updateScrollspy();
             if (callback && typeof callback === 'function')
                 callback();
@@ -732,8 +735,11 @@ function windowResizeInner(callback) {
             editor.setOption('viewportMargin', Infinity);
             setTimeout(function () {
                 clearMap();
-                syncScrollToView();
-                syncScrollToEdit();
+                if (editorHasFocus()) {
+                    syncScrollToView();
+                } else {
+                    syncScrollToEdit();
+                }
                 editor.setOption('viewportMargin', viewportMargin);
                 //add or update user cursors
                 for (var i = 0; i < onlineUsers.length; i++) {
@@ -774,6 +780,7 @@ function checkResponsive() {
 }
 
 var lastEditorWidth = 0;
+var previousFocusOnEditor = null;
 
 function checkEditorStyle() {
     var desireHeight = statusBar ? (ui.area.edit.height() - statusBar.outerHeight()) : ui.area.edit.height();
@@ -806,6 +813,11 @@ function checkEditorStyle() {
     }
     if (!ui.area.resize.syncToggle.length) {
         ui.area.resize.syncToggle = $('<button class="btn btn-lg btn-default ui-sync-toggle" title="Toggle sync scrolling"><i class="fa fa-link fa-fw"></i></button>');
+        ui.area.resize.syncToggle.hover(function () {
+            previousFocusOnEditor = editorHasFocus();
+        }, function () {
+            previousFocusOnEditor = null;
+        });
         ui.area.resize.syncToggle.click(function () {
             syncscroll = !syncscroll;
             checkSyncToggle();
@@ -822,6 +834,13 @@ function checkEditorStyle() {
 
 function checkSyncToggle() {
     if (syncscroll) {
+        if (previousFocusOnEditor) {
+            preventSyncScrollToView = false;
+            syncScrollToView();
+        } else {
+            preventSyncScrollToEdit = false;
+            syncScrollToEdit();
+        }
         ui.area.resize.syncToggle.find('i').removeClass('fa-unlink').addClass('fa-link');
     } else {
         ui.area.resize.syncToggle.find('i').removeClass('fa-link').addClass('fa-unlink');
@@ -1003,8 +1022,13 @@ function changeMode(type) {
     restoreInfo();
 
     if (lastMode == modeType.view && currentMode == modeType.both) {
-        preventSyncScrollToView = true;
+        preventSyncScrollToView = 2;
         syncScrollToEdit();
+    }
+    
+    if (lastMode == modeType.edit && currentMode == modeType.both) {
+        preventSyncScrollToEdit = 2;
+        syncScrollToView();
     }
 
     if (lastMode != modeType.edit && currentMode == modeType.edit) {
@@ -2595,8 +2619,11 @@ function updateViewInner() {
     clearMap();
     //buildMap();
     updateTitleReminder();
-    syncScrollToView();
-    syncScrollToEdit();
+    if (editorHasFocus()) {
+        syncScrollToView();
+    } else {
+        syncScrollToEdit();
+    }
 }
 
 var updateHistoryDebounce = 600;

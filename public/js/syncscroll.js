@@ -110,17 +110,15 @@ var syncscroll = true;
 var preventSyncScrollToEdit = false;
 var preventSyncScrollToView = false;
 
-var editScrollThrottle = 1;
+var editScrollThrottle = 2;
 var viewScrollThrottle = 10;
 var buildMapThrottle = 100;
 
 var viewScrolling = false;
-var viewScrollingDelay = 200;
-var viewScrollingTimer = null;
+var viewScrollingDebounce = 200;
 
 var editScrolling = false;
-var editScrollingDelay = 100;
-var editScrollingTimer = null;
+var editScrollingDebounce = 200;
 
 if (editor.getOption('scrollbarStyle') === 'native') {
     ui.area.codemirrorScroll.on('scroll', _.throttle(syncScrollToView, editScrollThrottle));
@@ -145,7 +143,7 @@ var buildMap = _.throttle(buildMapInner, buildMapThrottle);
 // Build offsets for each line (lines can be wrapped)
 // That's a bit dirty to process each line everytime, but ok for demo.
 // Optimizations are required only for big texts.
-function buildMapInner(syncBack) {
+function buildMapInner(callback) {
     var i, offset, nonEmptyList, pos, a, b, _lineHeightMap, linesCount,
         acc, _scrollMap;
 
@@ -217,12 +215,15 @@ function buildMapInner(syncBack) {
     scrollMap = _scrollMap;
     lineHeightMap = _lineHeightMap;
 
-    if (loaded && syncBack) {
-        syncScrollToView();
-        syncScrollToEdit();
-    }
+    if (loaded && callback) callback();
 }
 
+// sync view scroll progress to edit 
+var viewScrollingTimeout = _.debounce(viewScrollingTimeoutInner, viewScrollingDebounce);
+
+function viewScrollingTimeoutInner() {
+    viewScrolling = false;
+}
 
 function syncScrollToEdit(e) {
     if (currentMode != modeType.both || !syncscroll) return;
@@ -235,7 +236,7 @@ function syncScrollToEdit(e) {
         return;
     }
     if (!scrollMap || !lineHeightMap) {
-        buildMap(true);
+        buildMap(syncScrollToEdit);
         return;
     }
     if (editScrolling) return;
@@ -272,21 +273,30 @@ function syncScrollToEdit(e) {
     if (scrollInfo.height > scrollInfo.clientHeight && scrollTop >= preLastLinePos) {
         posTo = preLastLineHeight;
         topDiffPercent = (scrollTop - preLastLinePos) / (viewBottom - preLastLinePos);
-        posToNextDiff = Math.ceil(textHeight * topDiffPercent);
+        posToNextDiff = textHeight * topDiffPercent;
+        posTo += Math.floor(posToNextDiff);
     } else {
         posTo = lineNo * textHeight;
         topDiffPercent = (scrollTop - scrollMap[lineNo]) / (scrollMap[lineNo + lineDiff] - scrollMap[lineNo]);
-        posToNextDiff = Math.ceil(textHeight * lineDiff * topDiffPercent);
+        posToNextDiff = textHeight * lineDiff * topDiffPercent;
+        posTo += Math.floor(posToNextDiff);
     }
     
-    editor.scrollTo(0, posTo + posToNextDiff);
-    preventSyncScrollToView = true;
+    var posDiff = Math.abs(scrollInfo.top - posTo);
+    var duration = posDiff / 50;
+    ui.area.codemirrorScroll.stop(true, true).animate({
+        scrollTop: posTo
+    }, duration >= 100 ? duration : 100, "linear");
     
     viewScrolling = true;
-    clearTimeout(viewScrollingTimer);
-    viewScrollingTimer = setTimeout(function () {
-        viewScrolling = false;
-    }, viewScrollingDelay);
+    viewScrollingTimeout();
+}
+
+// sync edit scroll progress to view
+var editScrollingTimeout = _.debounce(editScrollingTimeoutInner, editScrollingDebounce);
+
+function editScrollingTimeoutInner() {
+    editScrolling = false;
 }
 
 function syncScrollToView(event, _lineNo) {
@@ -300,7 +310,7 @@ function syncScrollToView(event, _lineNo) {
         return;
     }
     if (!scrollMap || !lineHeightMap) {
-        buildMap(true);
+        buildMap(syncScrollToView);
         return;
     }
     if (viewScrolling) return;
@@ -328,12 +338,12 @@ function syncScrollToView(event, _lineNo) {
         posTo = scrollMap[lineHeightMap[_lineNo]];
     }
     
-    ui.area.view.stop(true, true).scrollTop(posTo);
-    preventSyncScrollToEdit = true;
+    var posDiff = Math.abs(ui.area.view.scrollTop() - posTo);
+    var duration = posDiff / 50;
+    ui.area.view.stop(true, true).animate({
+        scrollTop: posTo
+    }, duration >= 100 ? duration : 100, "linear");
     
     editScrolling = true;
-    clearTimeout(editScrollingTimer);
-    editScrollingTimer = setTimeout(function () {
-        editScrolling = false;
-    }, editScrollingDelay);
+    editScrollingTimeout();
 }
