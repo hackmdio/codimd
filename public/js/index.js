@@ -552,7 +552,11 @@ var ui = {
         codemirrorScroll: $(".ui-edit-area .CodeMirror .CodeMirror-scroll"),
         codemirrorSizer: $(".ui-edit-area .CodeMirror .CodeMirror-sizer"),
         codemirrorSizerInner: $(".ui-edit-area .CodeMirror .CodeMirror-sizer > div"),
-        markdown: $(".ui-view-area .markdown-body")
+        markdown: $(".ui-view-area .markdown-body"),
+        resize: {
+            handle: $('.ui-resizable-handle'),
+            syncToggle: $('.ui-sync-toggle')
+        }
     },
     modal: {
         snippetImportProjects: $("#snippetImportModalProjects"),
@@ -705,30 +709,6 @@ $(window).error(function () {
     //setNeedRefresh();
 });
 
-//when page hash change
-window.onhashchange = locationHashChanged;
-
-function locationHashChanged(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    if (currentMode != modeType.both) {
-        return;
-    }
-    var hashtarget = $("[id$='" + location.hash.substr(1) + "']");
-    if (hashtarget.length > 0) {
-        var linenumber = hashtarget.attr('data-startline');
-        if (linenumber) {
-            editor.setOption('viewportMargin', Infinity);
-            editor.setOption('viewportMargin', viewportMargin);
-            var t = editor.charCoords({
-                line: linenumber,
-                ch: 0
-            }, "local").top;
-            editor.scrollTo(null, t - defaultTextHeight * 1.2);
-        }
-    }
-}
-
 var windowResizeDebounce = 200;
 var windowResize = _.debounce(windowResizeInner, windowResizeDebounce);
 
@@ -814,10 +794,38 @@ function checkEditorStyle() {
         handles: 'e',
         maxWidth: $(window).width() * 0.7,
         minWidth: $(window).width() * 0.2,
+        resize: function (e) {
+            ui.area.resize.syncToggle.stop(true, true).show();
+        },
         stop: function (e) {
             lastEditorWidth = ui.area.edit.width();
         }
     });
+    if (!ui.area.resize.handle.length) {
+        ui.area.resize.handle = $('.ui-resizable-handle');
+    }
+    if (!ui.area.resize.syncToggle.length) {
+        ui.area.resize.syncToggle = $('<button class="btn btn-lg btn-default ui-sync-toggle" title="Toggle sync scrolling"><i class="fa fa-link fa-fw"></i></button>');
+        ui.area.resize.syncToggle.click(function () {
+            syncscroll = !syncscroll;
+            checkSyncToggle();
+        });
+        ui.area.resize.handle.append(ui.area.resize.syncToggle);
+        ui.area.resize.syncToggle.hide();
+        ui.area.resize.handle.hover(function () {
+            ui.area.resize.syncToggle.stop(true, true).delay(200).fadeIn(100);
+        }, function () {
+            ui.area.resize.syncToggle.stop(true, true).delay(300).fadeOut(300);
+        });
+    }
+}
+
+function checkSyncToggle() {
+    if (syncscroll) {
+        ui.area.resize.syncToggle.find('i').removeClass('fa-unlink').addClass('fa-link');
+    } else {
+        ui.area.resize.syncToggle.find('i').removeClass('fa-link').addClass('fa-unlink');
+    }
 }
 
 function checkEditorScrollbar() {
@@ -984,10 +992,10 @@ function changeMode(type) {
             ui.area.edit.css('width', lastEditorWidth + 'px');
         else
             ui.area.edit.css('width', '');
-        ui.area.edit.find('.ui-resizable-handle').show();
+        ui.area.resize.handle.show();
     } else {
         ui.area.edit.css('width', '');
-        ui.area.edit.find('.ui-resizable-handle').hide();
+        ui.area.resize.handle.hide();
     }
 
     windowResizeInner();
@@ -995,6 +1003,7 @@ function changeMode(type) {
     restoreInfo();
 
     if (lastMode == modeType.view && currentMode == modeType.both) {
+        preventSyncScrollToView = true;
         syncScrollToEdit();
     }
 

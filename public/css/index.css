@@ -112,6 +112,17 @@ body {
     background-color: white;
     box-shadow: 5px 0px 10px #e7e7e7;
 }
+.ui-edit-area .ui-sync-toggle {
+    width: 42px;
+    height: 42px;
+    padding: 3px 1px 0 0;
+    border-radius: 50%;
+    border-color: #e7e7e7;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 .ui-view-area {
     /*overflow-y: scroll;*/
     -webkit-overflow-scrolling: touch;
