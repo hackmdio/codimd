@@ -120,11 +120,7 @@ var viewScrollingDebounce = 200;
 var editScrolling = false;
 var editScrollingDebounce = 200;
 
-if (editor.getOption('scrollbarStyle') === 'native') {
-    ui.area.codemirrorScroll.on('scroll', _.throttle(syncScrollToView, editScrollThrottle));
-} else {
-    editor.on('scroll', _.throttle(syncScrollToView, editScrollThrottle));
-}
+ui.area.codemirrorScroll.on('scroll', _.throttle(syncScrollToView, editScrollThrottle));
 ui.area.view.on('scroll', _.throttle(syncScrollToEdit, viewScrollThrottle));
 
 var scrollMap, lineHeightMap, viewTop, viewBottom;

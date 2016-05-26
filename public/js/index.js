@@ -721,15 +721,17 @@ function windowResizeInner(callback) {
     //refresh editor
     if (loaded) {
         if (editor.getOption('scrollbarStyle') === 'native') {
-            clearMap();
-            if (editorHasFocus()) {
-                syncScrollToView();
-            } else {
-                syncScrollToEdit();
-            }
-            updateScrollspy();
-            if (callback && typeof callback === 'function')
-                callback();
+            setTimeout(function () {
+                clearMap();
+                if (editorHasFocus()) {
+                    syncScrollToView();
+                } else {
+                    syncScrollToEdit();
+                }
+                updateScrollspy();
+                if (callback && typeof callback === 'function')
+                    callback();
+            }, 1);
         } else {
             // force it load all docs at once to prevent scroll knob blink
             editor.setOption('viewportMargin', Infinity);
@@ -1029,6 +1031,11 @@ function changeMode(type) {
     if (lastMode == modeType.edit && currentMode == modeType.both) {
         preventSyncScrollToEdit = 2;
         syncScrollToView();
+    }
+    
+    if (lastMode == modeType.both && currentMode != modeType.both) {
+        preventSyncScrollToView = false;
+        preventSyncScrollToEdit = false;
     }
 
     if (lastMode != modeType.edit && currentMode == modeType.edit) {
