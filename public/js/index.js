@@ -116,11 +116,11 @@ var supportReferrals = [
         search: '[]()'
     },
     {
-        text: '![image text][reference]',
+        text: '![image alt][reference]',
         search: '![][]'
     },
     {
-        text: '![image text](url "title")',
+        text: '![image alt](url "title")',
         search: '![]()'
     },
     {
@@ -2959,8 +2959,10 @@ function matchInContainer(text) {
 $(editor.getInputField())
     .textcomplete([
         { // emoji strategy
-            match: /(?:^|\n|)\B:([\-+\w]*)$/,
+            match: /(^|\n|\s)\B:([\-+\w]*)$/,
             search: function (term, callback) {
+                var line = editor.getLine(editor.getCursor().line);
+                term = line.match(this.match)[2];
                 var list = [];
                 $.map(emojify.emojiNames, function (emoji) {
                     if (emoji.indexOf(term) === 0) //match at first character
@@ -2976,7 +2978,7 @@ $(editor.getInputField())
                 return '<img class="emoji" src="' + serverurl + '/vendor/emojify/images/' + value + '.png"></img> ' + value;
             },
             replace: function (value) {
-                return ':' + value + ':';
+                return '$1:' + value + ': ';
             },
             index: 1,
             context: function (text) {
@@ -3033,9 +3035,8 @@ $(editor.getInputField())
             match: /(^|\n):::(\s*)(\w*)$/,
             search: function (term, callback) {
                 var line = editor.getLine(editor.getCursor().line);
-                term = line.match(this.match)[3];
+                term = line.match(this.match)[3].trim();
                 var list = [];
-                term = term.trim();
                 $.map(this.containers, function (container) {
                     if (container.indexOf(term) === 0 && container !== term)
                         list.push(container);
@@ -3079,13 +3080,17 @@ $(editor.getInputField())
             }
         },
         { //extra tags for blockquote
-            match: /(?:^|\n|\s)(\>.*)(\[\])(\w*)$/,
+            match: /(?:^|\n|\s)(\>.*|)((\^|)\[(\^|)\](\[\]|\(\)|\:|))(\w*)$/,
             search: function (term, callback) {
+                var line = editor.getLine(editor.getCursor().line);
+                quote = line.match(this.match)[1].trim();
                 var list = [];
-                $.map(supportExtraTags, function (extratag) {
-                    if (extratag.search.indexOf(term) === 0)
-                        list.push(extratag.command());
-                });
+                if (quote.indexOf('>') == 0) {
+                    $.map(supportExtraTags, function (extratag) {
+                        if (extratag.search.indexOf(term) === 0)
+                            list.push(extratag.command());
+                    });
+                }
                 $.map(supportReferrals, function (referral) {
                     if (referral.search.indexOf(term) === 0)
                         list.push(referral.text);
@@ -3121,7 +3126,7 @@ $(editor.getInputField())
             }
         },
         { //referral
-            match: /(^|\n|\s)(\!|\!|\[\])(\w*)$/,
+            match: /(^|\n|\s)(\!(\[\]|)(\[\]|\(\)|))(\w*)$/,
             search: function (term, callback) {
                 callback($.map(supportReferrals, function (referral) {
                     return referral.search.indexOf(term) === 0 ? referral.text : null;
