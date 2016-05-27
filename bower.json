@@ -2,9 +2,6 @@
   "name": "hackmd",
   "description": "Realtime collaborative markdown notes on all platforms.",
   "main": "app.js",
-  "authors": [
-    "jackycute"
-  ],
   "license": "MIT",
   "homepage": "https://github.com/hackmdio/hackmd",
   "moduleType": [

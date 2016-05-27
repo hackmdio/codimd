@@ -3,8 +3,6 @@
   "version": "0.4.0",
   "description": "Realtime collaborative markdown notes on all platforms.",
   "main": "app.js",
-  "author": "jackycute",
-  "private": true,
   "license": "MIT",
   "dependencies": {
     "async": "^2.0.0-rc.3",
@@ -60,5 +58,13 @@
   },
   "engines": {
     "node": ">=4.x"
+  },
+  "bugs": "https://github.com/hackmdio/hackmd/issues",
+  "keywords": ["Collaborative", "Markdown", "Notes"],
+  "homepage": "https://hackmd.io",
+  "maintainers": [{"name": "Max Wu", "email": "jackymaxj@gmail.com"}],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hackmdio/hackmd.git"
   }
 }
