@@ -124,6 +124,10 @@ var supportReferrals = [
         search: '![]()'
     },
     {
+        text: '![image alt](url "title" =WidthxHeight)',
+        search: '![]()'
+    },
+    {
         text: '[TOC]',
         search: '[]'
     }

@@ -460,6 +460,8 @@ With a reference later in the document defining the URL location:
 
 [id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
 
+![Minion](https://octodex.github.com/images/minion.png =200x200)
+Show the image With given size
 
 ### Footnotes
 
