@@ -115,10 +115,7 @@ var viewScrollThrottle = 10;
 var buildMapThrottle = 100;
 
 var viewScrolling = false;
-var viewScrollingDebounce = 200;
-
 var editScrolling = false;
-var editScrollingDebounce = 200;
 
 ui.area.codemirrorScroll.on('scroll', _.throttle(syncScrollToView, editScrollThrottle));
 ui.area.view.on('scroll', _.throttle(syncScrollToEdit, viewScrollThrottle));
@@ -214,12 +211,8 @@ function buildMapInner(callback) {
     if (loaded && callback) callback();
 }
 
-// sync view scroll progress to edit 
-var viewScrollingTimeout = _.debounce(viewScrollingTimeoutInner, viewScrollingDebounce);
-
-function viewScrollingTimeoutInner() {
-    viewScrolling = false;
-}
+// sync view scroll progress to edit
+var viewScrollingTimer = null;
 
 function syncScrollToEdit(e) {
     if (currentMode != modeType.both || !syncscroll) return;
@@ -280,20 +273,22 @@ function syncScrollToEdit(e) {
     
     var posDiff = Math.abs(scrollInfo.top - posTo);
     var duration = posDiff / 50;
+    duration = duration >= 100 ? duration : 100;
     ui.area.codemirrorScroll.stop(true, true).animate({
         scrollTop: posTo
-    }, duration >= 100 ? duration : 100, "linear");
+    }, duration, "linear");
     
     viewScrolling = true;
-    viewScrollingTimeout();
+    clearTimeout(viewScrollingTimer);
+    viewScrollingTimer = setTimeout(viewScrollingTimeoutInner, duration * 1.2);
+}
+
+function viewScrollingTimeoutInner() {
+    viewScrolling = false;
 }
 
 // sync edit scroll progress to view
-var editScrollingTimeout = _.debounce(editScrollingTimeoutInner, editScrollingDebounce);
-
-function editScrollingTimeoutInner() {
-    editScrolling = false;
-}
+var editScrollingTimer = null;
 
 function syncScrollToView(event, _lineNo) {
     if (currentMode != modeType.both || !syncscroll) return;
@@ -336,10 +331,16 @@ function syncScrollToView(event, _lineNo) {
     
     var posDiff = Math.abs(ui.area.view.scrollTop() - posTo);
     var duration = posDiff / 50;
+    duration = duration >= 100 ? duration : 100;
     ui.area.view.stop(true, true).animate({
         scrollTop: posTo
-    }, duration >= 100 ? duration : 100, "linear");
+    }, duration, "linear");
     
     editScrolling = true;
-    editScrollingTimeout();
+    clearTimeout(editScrollingTimer);
+    editScrollingTimer = setTimeout(editScrollingTimeoutInner, duration * 1.2);
+}
+
+function editScrollingTimeoutInner() {
+    editScrolling = false;
 }
