@@ -59,7 +59,7 @@ function renderTitle(view) {
     if (title) {
         title += ' - HackMD';
     } else {
-        title = 'HackMD - Collaborative notes';
+        title = 'HackMD - Collaborative markdown notes';
     }
     return title;
 }
