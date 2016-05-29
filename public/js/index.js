@@ -713,6 +713,14 @@ $(window).error(function () {
     //setNeedRefresh();
 });
 
+function autoSyncscroll() {
+    if (editorHasFocus()) {
+        syncScrollToView();
+    } else {
+        syncScrollToEdit();
+    }
+}
+
 var windowResizeDebounce = 200;
 var windowResize = _.debounce(windowResizeInner, windowResizeDebounce);
 
@@ -727,11 +735,7 @@ function windowResizeInner(callback) {
         if (editor.getOption('scrollbarStyle') === 'native') {
             setTimeout(function () {
                 clearMap();
-                if (editorHasFocus()) {
-                    syncScrollToView();
-                } else {
-                    syncScrollToEdit();
-                }
+                autoSyncscroll();
                 updateScrollspy();
                 if (callback && typeof callback === 'function')
                     callback();
@@ -741,11 +745,7 @@ function windowResizeInner(callback) {
             editor.setOption('viewportMargin', Infinity);
             setTimeout(function () {
                 clearMap();
-                if (editorHasFocus()) {
-                    syncScrollToView();
-                } else {
-                    syncScrollToEdit();
-                }
+                autoSyncscroll();
                 editor.setOption('viewportMargin', viewportMargin);
                 //add or update user cursors
                 for (var i = 0; i < onlineUsers.length; i++) {
@@ -1029,12 +1029,12 @@ function changeMode(type) {
 
     if (lastMode == modeType.view && currentMode == modeType.both) {
         preventSyncScrollToView = 2;
-        syncScrollToEdit();
+        syncScrollToEdit(null, true);
     }
     
     if (lastMode == modeType.edit && currentMode == modeType.both) {
         preventSyncScrollToEdit = 2;
-        syncScrollToView();
+        syncScrollToView(null, true);
     }
     
     if (lastMode == modeType.both && currentMode != modeType.both) {
@@ -2458,10 +2458,10 @@ editor.on('beforeChange', function (cm, change) {
         cmClient.editorAdapter.ignoreNextChange = true;
 });
 editor.on('cut', function () {
-    windowResize(); //workaround for scrollMap
+    //na
 });
 editor.on('paste', function () {
-    windowResize(); //workaround for scrollMap
+    //na
 });
 editor.on('changes', function (cm, changes) {
     updateHistory();
@@ -2630,11 +2630,7 @@ function updateViewInner() {
     clearMap();
     //buildMap();
     updateTitleReminder();
-    if (editorHasFocus()) {
-        syncScrollToView();
-    } else {
-        syncScrollToEdit();
-    }
+    autoSyncscroll();
 }
 
 var updateHistoryDebounce = 600;

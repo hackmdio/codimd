@@ -110,7 +110,7 @@ var syncscroll = true;
 var preventSyncScrollToEdit = false;
 var preventSyncScrollToView = false;
 
-var editScrollThrottle = 2;
+var editScrollThrottle = 10;
 var viewScrollThrottle = 10;
 var buildMapThrottle = 100;
 
@@ -214,7 +214,7 @@ function buildMapInner(callback) {
 // sync view scroll progress to edit
 var viewScrollingTimer = null;
 
-function syncScrollToEdit(e) {
+function syncScrollToEdit(event, preventAnimate) {
     if (currentMode != modeType.both || !syncscroll) return;
     if (preventSyncScrollToEdit) {
         if (typeof preventSyncScrollToEdit === 'number') {
@@ -225,7 +225,9 @@ function syncScrollToEdit(e) {
         return;
     }
     if (!scrollMap || !lineHeightMap) {
-        buildMap(syncScrollToEdit);
+        buildMap(function () {
+            syncScrollToEdit(event, preventAnimate);
+        });
         return;
     }
     if (editScrolling) return;
@@ -263,24 +265,28 @@ function syncScrollToEdit(e) {
         posTo = preLastLineHeight;
         topDiffPercent = (scrollTop - preLastLinePos) / (viewBottom - preLastLinePos);
         posToNextDiff = textHeight * topDiffPercent;
-        posTo += Math.floor(posToNextDiff);
+        posTo += Math.ceil(posToNextDiff);
     } else {
         posTo = lineNo * textHeight;
         topDiffPercent = (scrollTop - scrollMap[lineNo]) / (scrollMap[lineNo + lineDiff] - scrollMap[lineNo]);
         posToNextDiff = textHeight * lineDiff * topDiffPercent;
-        posTo += Math.floor(posToNextDiff);
+        posTo += Math.ceil(posToNextDiff);
     }
     
-    var posDiff = Math.abs(scrollInfo.top - posTo);
-    var duration = posDiff / 50;
-    duration = duration >= 100 ? duration : 100;
-    ui.area.codemirrorScroll.stop(true, true).animate({
-        scrollTop: posTo
-    }, duration, "linear");
+    if (preventAnimate) {
+        ui.area.codemirrorScroll.scrollTop(posTo);
+    } else {
+        var posDiff = Math.abs(scrollInfo.top - posTo);
+        var duration = posDiff / 50;
+        duration = duration >= 100 ? duration : 100;
+        ui.area.codemirrorScroll.stop(true, true).animate({
+            scrollTop: posTo
+        }, duration, "linear");
+    }
     
     viewScrolling = true;
     clearTimeout(viewScrollingTimer);
-    viewScrollingTimer = setTimeout(viewScrollingTimeoutInner, duration * 1.2);
+    viewScrollingTimer = setTimeout(viewScrollingTimeoutInner, duration * 1.5);
 }
 
 function viewScrollingTimeoutInner() {
@@ -290,7 +296,7 @@ function viewScrollingTimeoutInner() {
 // sync edit scroll progress to view
 var editScrollingTimer = null;
 
-function syncScrollToView(event, _lineNo) {
+function syncScrollToView(event, preventAnimate) {
     if (currentMode != modeType.both || !syncscroll) return;
     if (preventSyncScrollToView) {
         if (typeof preventSyncScrollToView === 'number') {
@@ -301,44 +307,46 @@ function syncScrollToView(event, _lineNo) {
         return;
     }
     if (!scrollMap || !lineHeightMap) {
-        buildMap(syncScrollToView);
+        buildMap(function () {
+            syncScrollToView(event, preventAnimate);
+        });
         return;
     }
     if (viewScrolling) return;
     
-    if (!_lineNo) {
-        var lineNo, posTo;
-        var topDiffPercent, posToNextDiff;
-        var scrollInfo = editor.getScrollInfo();
-        var textHeight = editor.defaultTextHeight();
-        lineNo = Math.floor(scrollInfo.top / textHeight);
-        // if reach the last line, will start lerp to the bottom
-        var diffToBottom = (scrollInfo.top + scrollInfo.clientHeight) - (scrollInfo.height - textHeight);
-        if (scrollInfo.height > scrollInfo.clientHeight && diffToBottom > 0) {
-            topDiffPercent = diffToBottom / textHeight;
-            posTo = scrollMap[lineNo + 1];
-            posToNextDiff = (viewBottom - posTo) * topDiffPercent;
-            posTo += Math.floor(posToNextDiff);
-        } else {
-            topDiffPercent = (scrollInfo.top % textHeight) / textHeight;
-            posTo = scrollMap[lineNo];
-            posToNextDiff = (scrollMap[lineNo + 1] - posTo) * topDiffPercent;
-            posTo += Math.floor(posToNextDiff);
-        }
+    var lineNo, posTo;
+    var topDiffPercent, posToNextDiff;
+    var scrollInfo = editor.getScrollInfo();
+    var textHeight = editor.defaultTextHeight();
+    lineNo = Math.floor(scrollInfo.top / textHeight);
+    // if reach the last line, will start lerp to the bottom
+    var diffToBottom = (scrollInfo.top + scrollInfo.clientHeight) - (scrollInfo.height - textHeight);
+    if (scrollInfo.height > scrollInfo.clientHeight && diffToBottom > 0) {
+        topDiffPercent = diffToBottom / textHeight;
+        posTo = scrollMap[lineNo + 1];
+        posToNextDiff = (viewBottom - posTo) * topDiffPercent;
+        posTo += Math.floor(posToNextDiff);
     } else {
-        posTo = scrollMap[lineHeightMap[_lineNo]];
+        topDiffPercent = (scrollInfo.top % textHeight) / textHeight;
+        posTo = scrollMap[lineNo];
+        posToNextDiff = (scrollMap[lineNo + 1] - posTo) * topDiffPercent;
+        posTo += Math.floor(posToNextDiff);
     }
     
-    var posDiff = Math.abs(ui.area.view.scrollTop() - posTo);
-    var duration = posDiff / 50;
-    duration = duration >= 100 ? duration : 100;
-    ui.area.view.stop(true, true).animate({
-        scrollTop: posTo
-    }, duration, "linear");
+    if (preventAnimate) {
+        ui.area.view.scrollTop(posTo);
+    } else {
+        var posDiff = Math.abs(ui.area.view.scrollTop() - posTo);
+        var duration = posDiff / 50;
+        duration = duration >= 100 ? duration : 100;
+        ui.area.view.stop(true, true).animate({
+            scrollTop: posTo
+        }, duration, "linear");
+    }
     
     editScrolling = true;
     clearTimeout(editScrollingTimer);
-    editScrollingTimer = setTimeout(editScrollingTimeoutInner, duration * 1.2);
+    editScrollingTimer = setTimeout(editScrollingTimeoutInner, duration * 1.5);
 }
 
 function editScrollingTimeoutInner() {
