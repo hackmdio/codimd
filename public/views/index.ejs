@@ -186,18 +186,16 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <% if(useCDN) { %>
     <script src="//code.jquery.com/jquery-1.11.3.min.js" defer></script>
+    <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js" defer></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" defer></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js" defer></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/jquery.gsap.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment-with-locales.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/js-url/2.0.2/url.min.js" defer></script>
     <% } else { %>
     <script src="<%- url %>/vendor/jquery/dist/jquery.min.js" defer></script>
+    <script src="<%- url %>/vendor/velocity/velocity.min.js" defer></script>
     <script src="<%- url %>/vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
-    <script src="<%- url %>/vendor/gsap/src/minified/TweenMax.min.js" defer></script>
-    <script src="<%- url %>/vendor/gsap/src/minified/jquery.gsap.min.js" defer></script>
     <script src="<%- url %>/vendor/select2/select2.min.js" defer></script>
     <script src="<%- url %>/vendor/moment/min/moment-with-locales.min.js" defer></script>
     <script src="<%- url %>/vendor/handlebars/handlebars.min.js" defer></script>

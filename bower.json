@@ -20,7 +20,6 @@
     "font-awesome": "~4.6.2",
     "Ionicons": "ionicons#~2.0.1",
     "reveal.js": "~3.2.0",
-    "gsap": "greensock#~1.18.0",
     "jquery-mousewheel": "~3.1.13",
     "spin.js": "~2.3.2",
     "moment": "~2.12.0",
@@ -45,6 +44,7 @@
     "markdown-it-container": "^2.0.0",
     "mermaid": "^0.5.8",
     "MathJax": "^2.6.1",
-    "octicons": "^3.5.0"
+    "octicons": "^3.5.0",
+    "velocity": "^1.2.3"
   }
 }
