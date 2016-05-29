@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="mobile-web-app-capable" content="yes">
+        <title><%- title %></title>
+        <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
+        <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
+        
+        <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/<%- theme %>" id="theme">
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/lib/css/<%- highlightTheme %>.css">
+        <link rel="stylesheet" href="<%- url %>/css/site.css">
+        <link rel="stylesheet" href="<%- url %>/css/slide.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+          document.write( '<link rel="stylesheet" href="<%- url %>/vendor/reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+		<script src="<%- url %>/vendor/jquery/dist/jquery.min.js"></script>
+        <script src="<%- url %>/vendor/velocity/velocity.min.js"></script>
+    </head>
+    <body>
+
+        <div class="reveal">
+            <div class="slides"><%- slides %></div>
+        </div>
+
+        <script src="<%- url %>/vendor/reveal.js/lib/js/head.min.js"></script>
+        <script src="<%- url %>/vendor/reveal.js/js/reveal.js"></script>
+        <script src="<%- url %>/vendor/string.min.js"></script>
+        <script src="<%- url %>/vendor/xss/dist/xss.min.js"></script>
+        <script src="<%- url %>/js/render.js"></script>
+
+        <script>
+            if (typeof mixpanel !== 'undefined') mixpanel.track("enter slide");
+          
+            var body = $(".slides").html();
+            $(".slides").html(S(body).unescapeHTML().s);
+
+            function extend() {
+              var target = {};
+              for (var i = 0; i < arguments.length; i++) {
+                var source = arguments[i];
+                for (var key in source) {
+                  if (source.hasOwnProperty(key)) {
+                    target[key] = source[key];
+                  }
+                }
+              }
+              return target;
+            }
+
+            // Optional libraries used to extend on reveal.js
+            var deps = [
+              { src: '<%- url %>/vendor/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+              { src: '<%- url %>/vendor/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: '<%- url %>/js/reveal-markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: '<%- url %>/vendor/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+              { src: '<%- url %>/vendor/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+              { src: '<%- url %>/vendor/reveal.js/plugin/math/math.js', async: true }
+            ];
+
+            // default options to init reveal.js
+            var defaultOptions = {
+              controls: true,
+              progress: true,
+              history: true,
+              center: true,
+              transition: 'slide',
+              dependencies: deps
+            };
+
+            // options from URL query string
+            var queryOptions = Reveal.getQueryHash() || {};
+
+            var options = <%- options %>;
+            options = extend(defaultOptions, options, queryOptions);
+            Reveal.initialize(options);
+        </script>
+    </body>
+</html>

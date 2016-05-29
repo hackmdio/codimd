@@ -30,7 +30,6 @@
     "method-override": "^2.3.5",
     "moment": "^2.12.0",
     "morgan": "^1.7.0",
-    "mustache": "2.2.1",
     "mysql": "^2.10.2",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
