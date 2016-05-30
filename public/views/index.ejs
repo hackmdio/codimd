@@ -45,8 +45,6 @@
                                 </li>
                                 <li class="ui-history"><a href="#">History</a>
                                 </li>
-                                <li class="ui-releasenotes"><a href="#">Release Notes</a>
-                                </li>
                             </ul>
                         </nav>
                     </div>
@@ -116,43 +114,14 @@
                     <ul id="history-list" class="list">
                     </ul>
                 </div>
-                <div id="releasenotes" class="section" style="display:none;">
-                    <div id="template" style="display:none;">
-                        {{#each release}}
-                        <div class="inner cover">
-                            <h5 class="cover-heading">
-                                <div class="text-left">
-                                   <i class="fa fa-tag"></i> {{version}}
-                                   &nbsp;<span class="label label-default">{{tag}}</span>
-                                   <div class="pull-right">
-                                       <i class="fa fa-clock-o"></i> {{date}}
-                                   </div>
-                                </div>
-                            </h5>
-                            <hr>{{#each detail}}
-                            <div class="text-left">
-                                <h5><i class="fa fa-dot-circle-o"></i> {{title}}</h5>
-                                <ul>
-                                    {{#each item}}
-                                    <li>
-                                        {{this}}
-                                    </li>
-                                    {{/each}}
-                                </ul>
-                            </div>
-                            {{/each}}
-                        </div>
-                        {{#unless @last}}
-                        <br>{{/unless}} {{/each}}
-                    </div>
-                </div>
 
                 <div class="mastfoot">
                     <div class="inner">
                         <h6>
                             <iframe src="//ghbtns.com/github-btn.html?user=hackmdio&repo=hackmd&type=star&count=true" frameborder="0" scrolling="0" width="90px" height="20px" style="vertical-align:middle;"></iframe>
                         </h6>
-                        <p>&copy; 2016 <a href="https://www.facebook.com/TakeHackMD" target="_blank"><i class="fa fa-facebook-square"></i> HackMD</a>
+                        <p>
+                            &copy; 2016 <a href="https://www.facebook.com/TakeHackMD" target="_blank"><i class="fa fa-facebook-square"></i> HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank">Releases</a>
                         </p>
                     </div>
                 </div>
@@ -190,7 +159,6 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment-with-locales.min.js" defer></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js" defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/js-url/2.0.2/url.min.js" defer></script>
     <% } else { %>
     <script src="<%- url %>/vendor/jquery/dist/jquery.min.js" defer></script>
@@ -198,7 +166,6 @@
     <script src="<%- url %>/vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
     <script src="<%- url %>/vendor/select2/select2.min.js" defer></script>
     <script src="<%- url %>/vendor/moment/min/moment-with-locales.min.js" defer></script>
-    <script src="<%- url %>/vendor/handlebars/handlebars.min.js" defer></script>
     <script src="<%- url %>/vendor/js-url/url.min.js" defer></script>
     <% } %>
     <script src="<%- url %>/vendor/js.cookie.js" defer></script>
