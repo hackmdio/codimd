@@ -803,18 +803,41 @@ function checkEditorStyle() {
     // workaround editor will have wrong doc height when editor height changed
     editor.setSize(null, ui.area.edit.height());
     //make editor resizable
-    ui.area.edit.resizable({
-        handles: 'e',
-        maxWidth: $(window).width() * 0.7,
-        minWidth: $(window).width() * 0.2,
-        resize: function (e) {
-            ui.area.resize.syncToggle.stop(true, true).show();
-        },
-        stop: function (e) {
-            lastEditorWidth = ui.area.edit.width();
-        }
-    });
     if (!ui.area.resize.handle.length) {
+        ui.area.edit.resizable({
+            handles: 'e',
+            maxWidth: $(window).width() * 0.7,
+            minWidth: $(window).width() * 0.2,
+            create: function (e, ui) {
+                $(this).parent().on('resize', function (e) {
+                    e.stopPropagation();
+                });
+            },
+            start: function (e) {
+                editor.setOption('viewportMargin', Infinity);
+            },
+            resize: function (e) {
+                ui.area.resize.syncToggle.stop(true, true).show();
+                checkTocStyle();
+            },
+            stop: function (e) {
+                lastEditorWidth = ui.area.edit.width();
+                // workaround that scroll event bindings 
+                preventSyncScrollToView = 2;
+                preventSyncScrollToEdit = true;
+                editor.setOption('viewportMargin', viewportMargin);
+                if (editorHasFocus()) {
+                    windowResizeInner(function () {
+                        ui.area.codemirrorScroll.scroll();
+                    });
+                } else {
+                    windowResizeInner(function () {
+                        ui.area.view.scroll();
+                    });
+                }
+                checkEditorScrollbar();
+            }
+        });
         ui.area.resize.handle = $('.ui-resizable-handle');
     }
     if (!ui.area.resize.syncToggle.length) {
