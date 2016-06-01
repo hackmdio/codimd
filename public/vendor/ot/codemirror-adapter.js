@@ -320,7 +320,7 @@ ot.CodeMirrorAdapter = (function (global) {
         for (var i = 0; i < selection.ranges.length; i++) {
             var range = selection.ranges[i];
             if (range.isEmpty()) {
-                selectionObjects[i] = this.setOtherCursor(range.head, color, clientId);
+                //selectionObjects[i] = this.setOtherCursor(range.head, color, clientId);
             } else {
                 selectionObjects[i] = this.setOtherSelectionRange(range, color, clientId);
             }
