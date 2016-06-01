@@ -2502,7 +2502,6 @@ editor.on('changes', function (cm, changes) {
         viewportMargin = newViewportMargin;
         windowResize();
     }
-    editor.refresh();
 });
 editor.on('focus', function (cm) {
     for (var i = 0; i < onlineUsers.length; i++) {
