@@ -45,7 +45,7 @@ Get started
 
 DB migration
 ---
-If you are upgrading HackMD from older version, you might need to do this to apply the DB schema changes.  
+If you are upgrading HackMD from an older version, you might need to do this to apply the DB schema changes.  
 
 1. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string.  
    For example: `postgres://username:password@localhost:5432/hackmd`
