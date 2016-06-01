@@ -502,3 +502,29 @@ process.on('uncaughtException', function (err) {
     logger.error('Process will exit now.');
     process.exit(1);
 });
+
+// gracefully exit
+process.on('SIGINT', function () {
+    config.maintenance = true;
+    // disconnect all socket.io clients
+    Object.keys(io.sockets.sockets).forEach(function (key) {
+        var socket = io.sockets.sockets[key];
+        // notify client server going into maintenance status
+        socket.emit('maintenance', config.version);
+        socket.disconnect(true);
+    });
+    var checkCleanTimer = setInterval(function () {
+        var usersCount = Object.keys(realtime.users).length;
+        var notesCount = Object.keys(realtime.notes).length;
+        // check if all users and notes array are empty
+        if (usersCount == 0 && notesCount == 0) {
+            // close db connection
+            models.sequelize.close();
+            clearInterval(checkCleanTimer);
+            // wait for a while before exit
+            setTimeout(function () {
+                process.exit(0);
+            }, 100);
+        }
+    }, 100);
+});

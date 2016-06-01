@@ -1825,6 +1825,11 @@ socket.on('error', function (data) {
     if (data.message && data.message.indexOf('AUTH failed') === 0)
         location.href = "./403";
 });
+var retryOnDisconnect = false;
+socket.on('maintenance', function (data) {
+    if (data == version)
+        retryOnDisconnect = true;
+});
 socket.on('disconnect', function (data) {
     showStatus(statusType.offline);
     if (loaded) {
@@ -1833,12 +1838,15 @@ socket.on('disconnect', function (data) {
     }
     if (!editor.getOption('readOnly'))
         editor.setOption('readOnly', true);
+    if (retryOnDisconnect)
+        socket.connect();
 });
 socket.on('reconnect', function (data) {
     //sync back any change in offline
     emitUserStatus(true);
     cursorActivity();
     socket.emit('online users');
+    retryOnDisconnect = false;
 });
 socket.on('connect', function (data) {
     personalInfo['id'] = socket.id;
