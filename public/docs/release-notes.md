@@ -1,9 +1,42 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 0.4.2 `cappuccino` <i class="fa fa-clock-o"></i> 2016-04-22 10:43
+---
+### Features
++ Support sync scrolling to edit area
++ Support import and export with GitLab snippet
++ Support GitLab signin
++ Add cheatsheet and help modal
+
+### Enhancements
+* Upgrade CodeMirror to version 5.15.3
+* Support maintenance mode and gracefully exit process on signal
+* Update to update doc in db when doc in filesystem have newer modified time
+* Update to replace animation acceleration library from gsap to velocity
+* Support image syntax with size 
+* Update textcomplete rules to support more conditions
+* Update to use bigger user profile image
+* Support showing signin button only when needed
+
+### Fixes
+* Fix other clients' cursor might disappear or move out of bound
+* Fix to handle user profile image not exists
+* Fix potential toolbar layout glitch
+* Fix imgur uploads should always use https to avoid mix-content warning
+* Fix to change fullscreen key to avoid OS key conflicts
+* Fix and change ESC key in Vim mode
+
+<i class="fa fa-tag"></i> 0.4.1 <i class="fa fa-clock-o"></i> 2016-04-22 10:43
+---
+### Enhancements
+* Support when client domain not provided will use window.location variable
+* Support when domain not provided will use relative path
+* Support DOMAIN and URL_PATH environment variables
+
+
 <i class="fa fa-tag"></i> 0.4.0 `first-year` <i class="fa fa-clock-o"></i> 2016-04-20 14:30
 ---
-
 ### Features
 + Support docs
 + Support Ionicons and Octicons
