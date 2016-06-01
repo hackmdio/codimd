@@ -93,14 +93,8 @@ function clearDuplicatedHistory(notehistory) {
     for (var i = 0; i < notehistory.length; i++) {
         var found = false;
         for (var j = 0; j < newnotehistory.length; j++) {
-            var id = notehistory[i].id;
-            var newId = newnotehistory[j].id;
-            try {
-                id = LZString.decompressFromBase64(id);
-                newId = LZString.decompressFromBase64(newId);
-            } catch (err) {
-                // na
-            }
+            var id = notehistory[i].id.replace(/\=+$/, '');
+            var newId = newnotehistory[j].id.replace(/\=+$/, '');
             if (id == newId || notehistory[i].id == newnotehistory[j].id || !notehistory[i].id || !newnotehistory[j].id) {
                 var time = moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a');
                 var newTime = moment(newnotehistory[j].time, 'MMMM Do YYYY, h:mm:ss a');
