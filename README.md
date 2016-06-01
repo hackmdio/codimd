@@ -43,6 +43,13 @@ Get started
 4. Setup environment variables, which will overwrite the configs
 5. Run the server as you like (node, forever, pm2)
 
+DB migration
+---
+If you are upgrading HackMD from older version, you might need to do this to apply the DB schema changes.  
+
+1. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string.  
+2. Run `node_modules/.bin/sequelize db:migrate`, that's it!
+
 Structure
 ---
 ```
@@ -124,11 +131,6 @@ Third-party integration api key settings
 | facebook, twitter, github, gitlab, dropbox, google | `config.json` | for signin |
 | imgur | `config.json` | for image upload |
 | google drive, dropbox | `public/js/common.js` | for export and import |
-
-DB migration
----
-Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string.  
-And run `node_modules/.bin/sequelize db:migrate`, that's it!
 
 Operational Transformation
 ---
