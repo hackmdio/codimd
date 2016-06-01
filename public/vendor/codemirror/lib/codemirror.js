@@ -1096,9 +1096,9 @@
     if (!cm.state.focused) { cm.display.input.focus(); onFocus(cm); }
   }
 
-  // This will be set to an array of strings when copying, so that,
-  // when pasting, we know what kind of selections the copied text
-  // was made out of.
+  // This will be set to a {lineWise: bool, text: [string]} object, so
+  // that, when pasting, we know what kind of selections the copied
+  // text was made out of.
   var lastCopied = null;
 
   function applyTextInput(cm, inserted, deleted, sel, origin) {
@@ -1107,14 +1107,14 @@
     if (!sel) sel = doc.sel;
 
     var paste = cm.state.pasteIncoming || origin == "paste";
-    var textLines = doc.splitLines(inserted), multiPaste = null;
+    var textLines = doc.splitLines(inserted), multiPaste = null
     // When pasing N lines into N selections, insert one line per selection
     if (paste && sel.ranges.length > 1) {
-      if (lastCopied && lastCopied.join("\n") == inserted) {
-        if (sel.ranges.length % lastCopied.length == 0) {
+      if (lastCopied && lastCopied.text.join("\n") == inserted) {
+        if (sel.ranges.length % lastCopied.text.length == 0) {
           multiPaste = [];
-          for (var i = 0; i < lastCopied.length; i++)
-            multiPaste.push(doc.splitLines(lastCopied[i]));
+          for (var i = 0; i < lastCopied.text.length; i++)
+            multiPaste.push(doc.splitLines(lastCopied.text[i]));
         }
       } else if (textLines.length == sel.ranges.length) {
         multiPaste = map(textLines, function(l) { return [l]; });
@@ -1130,6 +1130,8 @@
           from = Pos(from.line, from.ch - deleted);
         else if (cm.state.overwrite && !paste) // Handle overwrite
           to = Pos(to.line, Math.min(getLine(doc, to.line).text.length, to.ch + lst(textLines).length));
+        else if (lastCopied && lastCopied.lineWise && lastCopied.text.join("\n") == inserted)
+          from = to = Pos(from.line, 0)
       }
       var updateInput = cm.curOp.updateInput;
       var changeEvent = {from: from, to: to, text: multiPaste ? multiPaste[i % multiPaste.length] : textLines,
@@ -1262,18 +1264,18 @@
       function prepareCopyCut(e) {
         if (signalDOMEvent(cm, e)) return
         if (cm.somethingSelected()) {
-          lastCopied = cm.getSelections();
+          lastCopied = {lineWise: false, text: cm.getSelections()};
           if (input.inaccurateSelection) {
             input.prevInput = "";
             input.inaccurateSelection = false;
-            te.value = lastCopied.join("\n");
+            te.value = lastCopied.text.join("\n");
             selectInput(te);
           }
         } else if (!cm.options.lineWiseCopyCut) {
           return;
         } else {
           var ranges = copyableRanges(cm);
-          lastCopied = ranges.text;
+          lastCopied = {lineWise: true, text: ranges.text};
           if (e.type == "cut") {
             cm.setSelections(ranges.ranges, null, sel_dontScroll);
           } else {
@@ -1623,13 +1625,13 @@
       function onCopyCut(e) {
         if (signalDOMEvent(cm, e)) return
         if (cm.somethingSelected()) {
-          lastCopied = cm.getSelections();
+          lastCopied = {lineWise: false, text: cm.getSelections()};
           if (e.type == "cut") cm.replaceSelection("", null, "cut");
         } else if (!cm.options.lineWiseCopyCut) {
           return;
         } else {
           var ranges = copyableRanges(cm);
-          lastCopied = ranges.text;
+          lastCopied = {lineWise: true, text: ranges.text};
           if (e.type == "cut") {
             cm.operation(function() {
               cm.setSelections(ranges.ranges, 0, sel_dontScroll);
@@ -1641,12 +1643,12 @@
         if (e.clipboardData && !ios) {
           e.preventDefault();
           e.clipboardData.clearData();
-          e.clipboardData.setData("text/plain", lastCopied.join("\n"));
+          e.clipboardData.setData("text/plain", lastCopied.text.join("\n"));
         } else {
           // Old-fashioned briefly-focus-a-textarea hack
           var kludge = hiddenTextarea(), te = kludge.firstChild;
           cm.display.lineSpace.insertBefore(kludge, cm.display.lineSpace.firstChild);
-          te.value = lastCopied.join("\n");
+          te.value = lastCopied.text.join("\n");
           var hadFocus = document.activeElement;
           selectInput(te);
           setTimeout(function() {
@@ -1665,9 +1667,9 @@
       return result;
     },
 
-    showSelection: function(info) {
+    showSelection: function(info, takeFocus) {
       if (!info || !this.cm.display.view.length) return;
-      if (info.focus) this.showPrimarySelection();
+      if (info.focus || takeFocus) this.showPrimarySelection();
       this.showMultipleSelections(info);
     },
 
@@ -3113,7 +3115,7 @@
     }
 
     if (op.updatedDisplay || op.selectionChanged)
-      op.preparedSelection = display.input.prepareSelection();
+      op.preparedSelection = display.input.prepareSelection(op.focus);
   }
 
   function endOperation_W2(op) {
@@ -3126,8 +3128,9 @@
       cm.display.maxLineChanged = false;
     }
 
+    var takeFocus = op.focus && op.focus == activeElt() && (!document.hasFocus || document.hasFocus())
     if (op.preparedSelection)
-      cm.display.input.showSelection(op.preparedSelection);
+      cm.display.input.showSelection(op.preparedSelection, takeFocus);
     if (op.updatedDisplay || op.startHeight != cm.doc.height)
       updateScrollbars(cm, op.barMeasure);
     if (op.updatedDisplay)
@@ -3137,8 +3140,7 @@
 
     if (cm.state.focused && op.updateInput)
       cm.display.input.reset(op.typing);
-    if (op.focus && op.focus == activeElt() && (!document.hasFocus || document.hasFocus()))
-      ensureFocus(op.cm);
+    if (takeFocus) ensureFocus(op.cm);
   }
 
   function endOperation_finish(op) {
@@ -3918,6 +3920,7 @@
     if (signalDOMEvent(cm, e) || eventInWidget(cm.display, e)) return;
 
     e.dataTransfer.setData("Text", cm.getSelection());
+    e.dataTransfer.effectAllowed = "copyMove"
 
     // Use dummy image instead of default browsers image.
     // Recent Safari (~6.0.2) have a tendency to segfault when this happens, so we don't do it there.
@@ -5403,7 +5406,7 @@
     for (var i = newBreaks.length - 1; i >= 0; i--)
       replaceRange(cm.doc, val, newBreaks[i], Pos(newBreaks[i].line, newBreaks[i].ch + val.length))
   });
-  option("specialChars", /[\t\u0000-\u0019\u00ad\u200b-\u200f\u2028\u2029\ufeff]/g, function(cm, val, old) {
+  option("specialChars", /[\u0000-\u001f\u007f\u00ad\u200b-\u200f\u2028\u2029\ufeff]/g, function(cm, val, old) {
     cm.state.specialChars = new RegExp(val.source + (val.test("\t") ? "" : "|\t"), "g");
     if (old != CodeMirror.Init) cm.refresh();
   });
@@ -5732,7 +5735,7 @@
       for (var i = 0; i < ranges.length; i++) {
         var pos = ranges[i].from();
         var col = countColumn(cm.getLine(pos.line), pos.ch, tabSize);
-        spaces.push(new Array(tabSize - col % tabSize + 1).join(" "));
+        spaces.push(spaceStr(tabSize - col % tabSize));
       }
       cm.replaceSelections(spaces);
     },
@@ -5775,6 +5778,7 @@
         ensureCursorVisible(cm);
       });
     },
+    openLine: function(cm) {cm.replaceSelection("\n", "start")},
     toggleOverwrite: function(cm) {cm.toggleOverwrite();}
   };
 
@@ -5809,7 +5813,8 @@
     "Ctrl-F": "goCharRight", "Ctrl-B": "goCharLeft", "Ctrl-P": "goLineUp", "Ctrl-N": "goLineDown",
     "Alt-F": "goWordRight", "Alt-B": "goWordLeft", "Ctrl-A": "goLineStart", "Ctrl-E": "goLineEnd",
     "Ctrl-V": "goPageDown", "Shift-Ctrl-V": "goPageUp", "Ctrl-D": "delCharAfter", "Ctrl-H": "delCharBefore",
-    "Alt-D": "delWordAfter", "Alt-Backspace": "delWordBefore", "Ctrl-K": "killLine", "Ctrl-T": "transposeChars"
+    "Alt-D": "delWordAfter", "Alt-Backspace": "delWordBefore", "Ctrl-K": "killLine", "Ctrl-T": "transposeChars",
+    "Ctrl-O": "openLine"
   };
   keyMap.macDefault = {
     "Cmd-A": "selectAll", "Cmd-D": "deleteLine", "Cmd-Z": "undo", "Shift-Cmd-Z": "redo", "Cmd-Y": "redo",
@@ -6571,8 +6576,8 @@
       var fromCmp = cmp(found.from, from) || extraLeft(sp.marker) - extraLeft(marker);
       var toCmp = cmp(found.to, to) || extraRight(sp.marker) - extraRight(marker);
       if (fromCmp >= 0 && toCmp <= 0 || fromCmp <= 0 && toCmp >= 0) continue;
-      if (fromCmp <= 0 && (cmp(found.to, from) > 0 || (sp.marker.inclusiveRight && marker.inclusiveLeft)) ||
-          fromCmp >= 0 && (cmp(found.from, to) < 0 || (sp.marker.inclusiveLeft && marker.inclusiveRight)))
+      if (fromCmp <= 0 && (sp.marker.inclusiveRight && marker.inclusiveLeft ? cmp(found.to, from) >= 0 : cmp(found.to, from) > 0) ||
+          fromCmp >= 0 && (sp.marker.inclusiveRight && marker.inclusiveLeft ? cmp(found.from, to) <= 0 : cmp(found.from, to) < 0))
         return true;
     }
   }
@@ -6974,8 +6979,11 @@
     }
 
     // See issue #2901
-    if (webkit && /\bcm-tab\b/.test(builder.content.lastChild.className))
-      builder.content.className = "cm-tab-wrap-hack";
+    if (webkit) {
+      var last = builder.content.lastChild
+      if (/\bcm-tab\b/.test(last.className) || (last.querySelector && last.querySelector(".cm-tab")))
+        builder.content.className = "cm-tab-wrap-hack";
+    }
 
     signal(cm, "renderLine", cm, lineView.line, builder.pre);
     if (builder.pre.className)
@@ -7327,13 +7335,16 @@
         if (at <= sz) {
           child.insertInner(at, lines, height);
           if (child.lines && child.lines.length > 50) {
-            while (child.lines.length > 50) {
-              var spilled = child.lines.splice(child.lines.length - 25, 25);
-              var newleaf = new LeafChunk(spilled);
-              child.height -= newleaf.height;
-              this.children.splice(i + 1, 0, newleaf);
-              newleaf.parent = this;
+            // To avoid memory thrashing when child.lines is huge (e.g. first view of a large file), it's never spliced.
+            // Instead, small slices are taken. They're taken in order because sequential memory accesses are fastest.
+            var remaining = child.lines.length % 25 + 25
+            for (var pos = remaining; pos < child.lines.length;) {
+              var leaf = new LeafChunk(child.lines.slice(pos, pos += 25));
+              child.height -= leaf.height;
+              this.children.splice(++i, 0, leaf);
+              leaf.parent = this;
             }
+            child.lines = child.lines.slice(0, remaining);
             this.maybeSpill();
           }
           break;
@@ -7353,7 +7364,7 @@
           copy.parent = me;
           me.children = [copy, sibling];
           me = copy;
-        } else {
+       } else {
           me.size -= sibling.size;
           me.height -= sibling.height;
           var myIndex = indexOf(me.parent.children, me);
@@ -7638,9 +7649,9 @@
         var spans = line.markedSpans;
         if (spans) for (var i = 0; i < spans.length; i++) {
           var span = spans[i];
-          if (!(span.to != null && lineNo == from.line && from.ch > span.to ||
+          if (!(span.to != null && lineNo == from.line && from.ch >= span.to ||
                 span.from == null && lineNo != from.line ||
-                span.from != null && lineNo == to.line && span.from > to.ch) &&
+                span.from != null && lineNo == to.line && span.from >= to.ch) &&
               (!filter || filter(span.marker)))
             found.push(span.marker.parent || span.marker);
         }
@@ -8904,7 +8915,7 @@
 
   // THE END
 
-  CodeMirror.version = "5.13.5";
+  CodeMirror.version = "5.15.3";
 
   return CodeMirror;
 });

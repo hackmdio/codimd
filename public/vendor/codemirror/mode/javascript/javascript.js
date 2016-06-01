@@ -42,7 +42,8 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
       "in": operator, "typeof": operator, "instanceof": operator,
       "true": atom, "false": atom, "null": atom, "undefined": atom, "NaN": atom, "Infinity": atom,
       "this": kw("this"), "class": kw("class"), "super": kw("atom"),
-      "yield": C, "export": kw("export"), "import": kw("import"), "extends": C
+      "yield": C, "export": kw("export"), "import": kw("import"), "extends": C,
+      "await": C, "async": kw("async")
     };
 
     // Extend the 'normal' keywords with the TypeScript language extensions
@@ -366,6 +367,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     if (type == "export") return cont(pushlex("stat"), afterExport, poplex);
     if (type == "import") return cont(pushlex("stat"), afterImport, poplex);
     if (type == "module") return cont(pushlex("form"), pattern, pushlex("}"), expect("{"), block, poplex, poplex)
+    if (type == "async") return cont(statement)
     return pass(pushlex("stat"), expression, expect(";"), poplex);
   }
   function expression(type) {
@@ -488,17 +490,17 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     if (type == "(") return pass(functiondef);
   }
   function commasep(what, end) {
-    function proceed(type) {
+    function proceed(type, value) {
       if (type == ",") {
         var lex = cx.state.lexical;
         if (lex.info == "call") lex.pos = (lex.pos || 0) + 1;
         return cont(what, proceed);
       }
-      if (type == end) return cont();
+      if (type == end || value == end) return cont();
       return cont(expect(end));
     }
-    return function(type) {
-      if (type == end) return cont();
+    return function(type, value) {
+      if (type == end || value == end) return cont();
       return pass(what, proceed);
     };
   }
@@ -512,13 +514,17 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     return pass(statement, block);
   }
   function maybetype(type) {
-    if (isTS && type == ":") return cont(typedef);
+    if (isTS && type == ":") return cont(typeexpr);
   }
   function maybedefault(_, value) {
     if (value == "=") return cont(expressionNoComma);
   }
-  function typedef(type) {
-    if (type == "variable") {cx.marked = "variable-3"; return cont();}
+  function typeexpr(type) {
+    if (type == "variable") {cx.marked = "variable-3"; return cont(afterType);}
+  }
+  function afterType(type, value) {
+    if (value == "<") return cont(commasep(typeexpr, ">"), afterType)
+    if (type == "[") return cont(expect("]"), afterType)
   }
   function vardef() {
     return pass(pattern, maybetype, maybeAssign, vardefCont);
@@ -573,7 +579,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
   function functiondef(type, value) {
     if (value == "*") {cx.marked = "keyword"; return cont(functiondef);}
     if (type == "variable") {register(value); return cont(functiondef);}
-    if (type == "(") return cont(pushcontext, pushlex(")"), commasep(funarg, ")"), poplex, statement, popcontext);
+    if (type == "(") return cont(pushcontext, pushlex(")"), commasep(funarg, ")"), poplex, maybetype, statement, popcontext);
   }
   function funarg(type) {
     if (type == "spread") return cont(funarg);
