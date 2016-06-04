@@ -2658,7 +2658,6 @@ function updateViewInner() {
     clearMap();
     //buildMap();
     updateTitleReminder();
-    autoSyncscroll();
 }
 
 var updateHistoryDebounce = 600;
