@@ -1818,6 +1818,7 @@ socket.on('error', function (data) {
         location.href = "./403";
 });
 var retryOnDisconnect = false;
+var retryTimer = null;
 socket.on('maintenance', function (data) {
     if (data == version)
         retryOnDisconnect = true;
@@ -1830,14 +1831,19 @@ socket.on('disconnect', function (data) {
     }
     if (!editor.getOption('readOnly'))
         editor.setOption('readOnly', true);
-    if (retryOnDisconnect)
-        socket.connect();
+    if (retryOnDisconnect && !retryTimer) {
+        retryTimer = setInterval(function () {
+            socket.connect();
+        }, 1000);
+    }
 });
 socket.on('reconnect', function (data) {
     //sync back any change in offline
     emitUserStatus(true);
     cursorActivity();
     socket.emit('online users');
+    clearInterval(retryTimer);
+    retryTimer = null;
     retryOnDisconnect = false;
 });
 socket.on('connect', function (data) {
