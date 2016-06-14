@@ -53,7 +53,7 @@ If you are upgrading HackMD from an older version, follow below steps:
    For example: `postgres://username:password@localhost:5432/hackmd`.
 4. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db with the latest schema.  
    You can also revert the migration with `node_modules/.bin/sequelize db:migrate:undo` (do this with caution).
-5. Retart your whole new server!
+5. Start your whole new server!
 
 Structure
 ---
