@@ -43,13 +43,17 @@ Get started
 4. Setup environment variables, which will overwrite the configs
 5. Run the server as you like (node, forever, pm2)
 
-DB migration
+Upgrade guide
 ---
-If you are upgrading HackMD from an older version, you might need to do this to apply the DB schema changes.  
+If you are upgrading HackMD from an older version, follow below steps:
 
-1. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string.  
-   For example: `postgres://username:password@localhost:5432/hackmd`
-2. Run `node_modules/.bin/sequelize db:migrate`, that's it!
+1. Fully stop your old server first (important).
+2. `git pull` or whatever that really update the files.
+3. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string.  
+   For example: `postgres://username:password@localhost:5432/hackmd`.
+4. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db with the latest schema.  
+   You can also revert the migration with `node_modules/.bin/sequelize db:migrate:undo` (do this with caution).
+5. Retart your whole new server!
 
 Structure
 ---
