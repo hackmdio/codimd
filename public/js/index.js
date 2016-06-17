@@ -1914,6 +1914,7 @@ socket.on('refresh', function (data) {
             editor.refresh();
         }
         loaded = true;
+        updateViewInner(); // bring up view rendering earlier
         updateHistory(); //update history whether have content or not
         emitUserStatus(); //send first user status
         updateOnlineStatus(); //update first online status
