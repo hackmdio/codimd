@@ -2518,6 +2518,12 @@ editor.on('changes', function (cm, changes) {
         windowResize();
     }
     checkEditorScrollbar();
+    if (editorHasFocus()) {
+        postUpdateEvent = function () {
+            syncScrollToView();
+            postUpdateEvent = null;
+        };
+    }
 });
 editor.on('focus', function (cm) {
     for (var i = 0; i < onlineUsers.length; i++) {
@@ -2636,6 +2642,7 @@ function refreshView() {
 var updateView = _.debounce(updateViewInner, updateViewDebounce);
 
 var lastResult = null;
+var postUpdateEvent = null;
 
 function updateViewInner() {
     if (currentMode == modeType.edit || !isDirty) return;
@@ -2668,6 +2675,8 @@ function updateViewInner() {
     clearMap();
     //buildMap();
     updateTitleReminder();
+    if (postUpdateEvent && typeof postUpdateEvent === 'function')
+        postUpdateEvent();
 }
 
 var updateHistoryDebounce = 600;
