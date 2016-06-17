@@ -1,0 +1,27 @@
+<!-- revision modal -->
+<div class="modal fade" id="revisionModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="mySmallModalLabel"><i class="fa fa-history"></i> Revision</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-4" style="max-height: calc(100vh - 215px); overflow: auto;">
+                        <div class="list-group ui-revision-list"></div>
+                    </div>
+                    <div class="col-lg-8" style="height: calc(100vh - 215px); overflow: hidden;">
+                        <textarea id="revisionViewer" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="revisionModalDownload">Download</button>
+                <button type="button" class="btn btn-danger" id="revisionModalRevert">Revert</button>
+            </div>
+        </div>
+    </div>
+</div>

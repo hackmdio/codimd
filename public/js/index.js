@@ -564,7 +564,8 @@ var ui = {
     },
     modal: {
         snippetImportProjects: $("#snippetImportModalProjects"),
-        snippetImportSnippets: $("#snippetImportModalSnippets")
+        snippetImportSnippets: $("#snippetImportModalSnippets"),
+        revision: $("#revisionModal")
     }
 };
 
@@ -1382,6 +1383,149 @@ ui.toolbar.beta.pdf.attr("download", "").attr("href", noteurl + "/pdf");
 ui.toolbar.beta.slide.attr("href", noteurl + "/slide");
 
 //modal actions
+var revisions = [];
+var revisionViewer = null;
+var revisionList = ui.modal.revision.find('.ui-revision-list');
+var revision = null;
+var revisionTime = null;
+ui.modal.revision.on('show.bs.modal', function (e) {
+    $.get(noteurl + '/revision')
+        .success(function(data) {
+            parseRevisions(JSON.parse(data).revision);
+            initRevisionViewer();
+        })
+        .error(function(err) {
+
+        })
+        .complete(function() {
+            //na
+        });
+});
+function checkRevisionViewer() {
+    if (revisionViewer) {
+        var container = $(revisionViewer.display.wrapper).parent();
+        $(revisionViewer.display.scroller).css('height', container.height() + 'px');
+        revisionViewer.refresh();
+    }
+}
+ui.modal.revision.on('shown.bs.modal', checkRevisionViewer);
+$(window).resize(checkRevisionViewer);
+function parseRevisions(_revisions) {
+    if (_revisions.length != revisions) {
+        revisions = _revisions;
+        var lastRevision = null;
+        if (revisionList.children().length > 0) {
+            lastRevision = revisionList.find('.active').attr('data-revision-time');
+        }
+        revisionList.html('');
+        for (var i = 0; i < revisions.length; i++) {
+            var revision = revisions[i];
+            var item = $('<a href="#" class="list-group-item"></a>');
+            item.attr('data-revision-time', revision.time);
+            if (lastRevision == revision.time) item.addClass('active');
+            var itemHeading = $('<h5 class="list-group-item-heading"></h5>');
+            itemHeading.html('<i class="fa fa-clock-o"></i> ' + moment(revision.time).format('llll'));
+            var itemText = $('<p class="list-group-item-text"></p>');
+            itemText.html('<i class="fa fa-file-text"></i> Length: ' + revision.length);
+            item.append(itemHeading).append(itemText);
+            item.click(function (e) {
+                var time = $(this).attr('data-revision-time');
+                selectRevision(time);
+            });
+            revisionList.append(item);
+        }
+        if (!lastRevision) {
+            selectRevision(revisions[0].time);
+        }
+    }
+}
+function selectRevision(time) {
+    if (time == revisionTime) return; 
+    $.get(noteurl + '/revision/' + time)
+        .success(function(data) {
+            revision = JSON.parse(data);
+            revisionTime = time;
+            var lastScrollInfo = revisionViewer.getScrollInfo();
+            revisionList.children().removeClass('active');
+            revisionList.find('[data-revision-time="' + time + '"]').addClass('active');
+            var content = revision.content;
+            revisionViewer.setValue(content);
+            revisionViewer.scrollTo(null, lastScrollInfo.top);
+            // mark the text which have been insert or delete
+            if (revision.patch.length > 0) {
+                var bias = 0;
+                for (j = 0; j < revision.patch.length; j++) {
+                    var patch = revision.patch[j];
+                    var currIndex = patch.start1 + bias;
+                    for (var i = 0; i < patch.diffs.length; i++) {
+                        var diff = patch.diffs[i];
+                        // ignore if diff only contains line breaks
+                        if ((diff[1].match(new RegExp("\n", "g")) || []).length == diff[1].length) continue;
+                        switch(diff[0]) {
+                            case 0: // retain
+                                currIndex += diff[1].length;
+                            break;
+                            case 1: // insert
+                                var prePos = revisionViewer.posFromIndex(currIndex);
+                                var postPos = revisionViewer.posFromIndex(currIndex + diff[1].length);
+                                revisionViewer.markText(prePos, postPos, {
+                                    css: 'background-color: rgba(230,255,230,0.7); text-decoration: underline;'
+                                });
+                                currIndex += diff[1].length;
+                            break;
+                            case -1: // delete
+                                var prePos = revisionViewer.posFromIndex(currIndex);
+                                revisionViewer.replaceRange(diff[1], prePos);
+                                var postPos = revisionViewer.posFromIndex(currIndex + diff[1].length);
+                                revisionViewer.markText(prePos, postPos, {
+                                    css: 'background-color: rgba(255,230,230,0.7); text-decoration: line-through;'
+                                });
+                                bias += diff[1].length;
+                                currIndex += diff[1].length;
+                            break;
+                        }
+                    }
+                }
+            }
+        })
+        .error(function(err) {
+
+        })
+        .complete(function() {
+            //na
+        });
+}
+function initRevisionViewer() {
+    if (revisionViewer) return;
+    var revisionViewerTextArea = document.getElementById("revisionViewer");
+    revisionViewer = CodeMirror.fromTextArea(revisionViewerTextArea, {
+        mode: 'gfm',
+        viewportMargin: viewportMargin,
+        lineNumbers: true,
+        lineWrapping: true,
+        showCursorWhenSelecting: true,
+        inputStyle: "textarea",
+        gutters: ["CodeMirror-linenumbers"],
+        flattenSpans: true,
+        addModeClass: true,
+        readOnly: true,
+        autoRefresh: true,
+        scrollbarStyle: 'overlay'
+    });
+}
+$('#revisionModalDownload').click(function () {
+    if (!revision) return;
+    var filename = renderFilename(ui.area.markdown) + '_' + revisionTime + '.md';
+    var blob = new Blob([revision.content], {
+        type: "text/markdown;charset=utf-8"
+    });
+    saveAs(blob, filename);
+});
+$('#revisionModalRevert').click(function () {
+    if (!revision) return;
+    editor.setValue(revision.content);
+    ui.modal.revision.modal('hide');
+});
 //snippet projects
 ui.modal.snippetImportProjects.change(function() {
     var accesstoken = $("#snippetImportModalAccessToken").val(),
