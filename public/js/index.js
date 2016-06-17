@@ -1907,7 +1907,7 @@ function updatePermission(newPermission) {
             title = "Only owner can view & edit";
             break;
     }
-    if (personalInfo.userid && personalInfo.userid == owner) {
+    if (personalInfo.userid && owner && personalInfo.userid == owner) {
         label += ' <i class="fa fa-caret-down"></i>';
         ui.infobar.permission.label.removeClass('disabled');
     } else {
@@ -1931,7 +1931,7 @@ function havePermission() {
             break;
         case "locked":
         case "private":
-            if (personalInfo.userid != owner) {
+            if (!owner || personalInfo.userid != owner) {
                 bool = false;
             } else {
                 bool = true;
