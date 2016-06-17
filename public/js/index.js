@@ -795,7 +795,7 @@ function checkEditorStyle() {
     if (scrollbarStyle == 'overlay' || currentMode == modeType.both) {
         ui.area.codemirrorScroll.css('height', desireHeight + 'px');
         ui.area.codemirrorScroll.css('min-height', '');
-        editor.refresh();
+        checkEditorScrollbar();
     } else if (scrollbarStyle == 'native') {
         ui.area.codemirrorScroll.css('height', '');
         ui.area.codemirrorScroll.css('min-height', desireHeight + 'px');
@@ -835,7 +835,7 @@ function checkEditorStyle() {
                         ui.area.view.scroll();
                     });
                 }
-                editor.refresh();
+                checkEditorScrollbar();
             }
         });
         ui.area.resize.handle = $('.ui-resizable-handle');
@@ -874,6 +874,14 @@ function checkSyncToggle() {
     } else {
         ui.area.resize.syncToggle.find('i').removeClass('fa-link').addClass('fa-unlink');
     }
+}
+
+function checkEditorScrollbar() {
+    // workaround simple scroll bar knob
+    // will get wrong position when editor height changed
+    var scrollInfo = editor.getScrollInfo();
+    editor.scrollTo(null, scrollInfo.top - 1);
+    editor.scrollTo(null, scrollInfo.top);
 }
 
 function checkTocStyle() {
@@ -2509,6 +2517,7 @@ editor.on('changes', function (cm, changes) {
         viewportMargin = newViewportMargin;
         windowResize();
     }
+    checkEditorScrollbar();
 });
 editor.on('focus', function (cm) {
     for (var i = 0; i < onlineUsers.length; i++) {
