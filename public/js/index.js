@@ -2340,7 +2340,8 @@ function buildCursor(user) {
         //cursortag[0].style.background = color;
         cursortag[0].style.color = user.color;
 
-        cursor.attr('data-mode', 'state');
+        cursor.attr('data-mode', 'hover');
+        cursortag.delay(2000).fadeOut("fast");
         cursor.hover(
             function () {
                 if (cursor.attr('data-mode') == 'hover')
