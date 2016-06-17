@@ -2,7 +2,7 @@ Slide example
 ===
 This feature still in beta, may have some issues.
 
-For details:
+For details please visit:
 https://github.com/hakimel/reveal.js/
 
 ---
