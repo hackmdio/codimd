@@ -110,8 +110,8 @@ var syncscroll = true;
 var preventSyncScrollToEdit = false;
 var preventSyncScrollToView = false;
 
-var editScrollThrottle = 10;
-var viewScrollThrottle = 10;
+var editScrollThrottle = 5;
+var viewScrollThrottle = 5;
 var buildMapThrottle = 100;
 
 var viewScrolling = false;
