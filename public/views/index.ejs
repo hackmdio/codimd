@@ -154,24 +154,24 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <% if(useCDN) { %>
-    <script src="//code.jquery.com/jquery-1.11.3.min.js" defer></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" defer></script>
     <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js" defer></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" defer></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js" defer></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment-with-locales.min.js" defer></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/js-url/2.0.2/url.min.js" defer></script>
-    <% } else { %>
-    <script src="<%- url %>/vendor/jquery/dist/jquery.min.js" defer></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" defer></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js" defer></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment-with-locales.min.js" defer></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/js-url/2.3.0/url.min.js" defer></script>
+	<% } else { %>
+	<script src="<%- url %>/vendor/jquery/dist/jquery.min.js" defer></script>
     <script src="<%- url %>/vendor/velocity/velocity.min.js" defer></script>
-    <script src="<%- url %>/vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
-    <script src="<%- url %>/vendor/select2/select2.min.js" defer></script>
-    <script src="<%- url %>/vendor/moment/min/moment-with-locales.min.js" defer></script>
-    <script src="<%- url %>/vendor/js-url/url.min.js" defer></script>
-    <% } %>
-    <script src="<%- url %>/vendor/js.cookie.js" defer></script>
-    <script src="<%- url %>/vendor/list.min.js" defer></script>
-    <script src="<%- url %>/vendor/FileSaver.min.js" defer></script>
-    <script src="<%- url %>/vendor/store.min.js" defer></script>
+	<script src="<%- url %>/vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
+	<script src="<%- url %>/vendor/select2/select2.min.js" defer></script>
+	<script src="<%- url %>/vendor/moment/min/moment-with-locales.min.js" defer></script>
+	<script src="<%- url %>/vendor/js-url/url.min.js" defer></script>
+	<% } %>
+    <script src="<%- url %>/vendor/js-cookie/src/js.cookie.js" defer></script>
+    <script src="<%- url %>/vendor/list.js/dist/list.min.js" defer></script>
+    <script src="<%- url %>/vendor/file-saver/FileSaver.min.js" defer></script>
+    <script src="<%- url %>/vendor/store-js/store.min.js" defer></script>
     <script src="<%- url %>/vendor/lz-string/libs/lz-string.min.js" defer></script>
     <script src="<%- url %>/js/common.js" defer></script>
     <script src="<%- url %>/js/history.js" defer></script>

@@ -258,6 +258,9 @@ function finishView(view) {
             
             $ele.addClass('sequence-diagram');
             $value.children().unwrap().unwrap();
+            var svg = $ele.find('> svg');
+            svg[0].setAttribute('viewBox', '0 0 ' + svg.attr('width') + ' ' + svg.attr('height'));
+            svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
         } catch (err) {
             console.warn(err);
         }
