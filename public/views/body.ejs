@@ -56,25 +56,6 @@
         </div>
     </div>
 </div>
-<!-- refresh modal -->
-<div class="modal fade" id="refreshModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">This page need refresh</h4>
-            </div>
-            <div class="modal-body">
-                <h5>This page have a mismatch client version or incorrect user state or errors.</h5>
-                <strong>Please refresh this page.</strong>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="refreshModalRefresh">Refresh</button>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- locked modal -->
 <div class="modal fade locked-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -234,6 +215,7 @@
         </div>
     </div>
 </div>
+<%- include refresh-modal %>
 <%- include signin-modal %>
 <%- include help-modal %>
 <%- include revision-modal %>

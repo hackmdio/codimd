@@ -629,15 +629,23 @@ function idleStateChange() {
     updateTitleReminder();
 }
 
-function setNeedRefresh() {
+function setRefreshModal(status) {
     $('#refreshModal').modal('show');
+    $('#refreshModal').find('.modal-body > div').hide();
+    $('#refreshModal').find('.' + status).show();
+}
+
+function setNeedRefresh() {
     needRefresh = true;
     editor.setOption('readOnly', true);
     socket.disconnect();
     showStatus(statusType.offline);
 }
 
-loginStateChangeEvent = setNeedRefresh;
+loginStateChangeEvent = function () {
+    setRefreshModal('user-state-changed');
+    setNeedRefresh();
+};
 
 //visibility
 var wasFocus = false;
@@ -1978,9 +1986,8 @@ socket.on('error', function (data) {
 });
 var retryOnDisconnect = false;
 var retryTimer = null;
-socket.on('maintenance', function (data) {
-    if (data == version)
-        retryOnDisconnect = true;
+socket.on('maintenance', function () {
+    retryOnDisconnect = true;
 });
 socket.on('disconnect', function (data) {
     showStatus(statusType.offline);
@@ -1992,7 +1999,7 @@ socket.on('disconnect', function (data) {
         editor.setOption('readOnly', true);
     if (retryOnDisconnect && !retryTimer) {
         retryTimer = setInterval(function () {
-            socket.connect();
+            if (!needRefresh) socket.connect();
         }, 1000);
     }
 });
@@ -2013,8 +2020,14 @@ socket.on('connect', function (data) {
         socket.id = socket.nsp + '#' + socket.id;
 });
 socket.on('version', function (data) {
-    if (data != version)
-        setNeedRefresh();
+    if (version != data.version) {
+        if (version < data.minimumCompatibleVersion) {
+            setRefreshModal('incompatible-version');
+            setNeedRefresh();
+        } else {
+            setRefreshModal('new-version');
+        }
+    }
 });
 function updateLastInfo(data) {
     //console.log(data);
