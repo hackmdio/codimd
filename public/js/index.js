@@ -2279,6 +2279,8 @@ function checkCursorTag(coord, ele) {
     // get coord position
     var left = coord.left;
     var top = coord.top;
+    // get doc top offset (to workaround with viewport)
+    var docTopOffset = ui.area.codemirrorSizerInner.position().top;
     // set offset
     var offsetLeft = -3;
     var offsetTop = defaultTextHeight;
@@ -2290,7 +2292,7 @@ function checkCursorTag(coord, ele) {
         }
         // flip y when element bottom bound larger than doc height
         // and element top position is larger than element height
-        if (top + height + offsetTop + tagBottomMargin > Math.max(editor.doc.height, editorHeight) && top > height + tagBottomMargin) {
+        if (top + docTopOffset + height + offsetTop + tagBottomMargin > Math.max(editor.doc.height, editorHeight) && top + docTopOffset > height + tagBottomMargin) {
             offsetTop = -(height);
         }
     }
@@ -2876,6 +2878,8 @@ function checkCursorMenuInner() {
     }, 'windows');
     var left = coord.left;
     var top = coord.top;
+    // get doc top offset (to workaround with viewport)
+    var docTopOffset = ui.area.codemirrorSizerInner.position().top;
     // set offset
     var offsetLeft = 0;
     var offsetTop = defaultTextHeight;
@@ -2886,7 +2890,7 @@ function checkCursorMenuInner() {
             offsetLeft = -(left + width - docWidth + menuRightMargin);
         // flip y when element bottom bound larger than doc height
         // and element top position is larger than element height
-        if (top + height + offsetTop + menuBottomMargin > Math.max(editor.doc.height, editorHeight) && top > height + menuBottomMargin) {
+        if (top + docTopOffset + height + offsetTop + menuBottomMargin > Math.max(editor.doc.height, editorHeight) && top + docTopOffset > height + menuBottomMargin) {
             offsetTop = -(height + menuBottomMargin);
             // reverse sort menu because upSideDown
             dropdown.html(reverseSortCursorMenu(dropdown));
