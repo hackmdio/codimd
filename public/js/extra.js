@@ -753,6 +753,7 @@ md.use(window.markdownitIns);
 md.use(window.markdownitSub);
 md.use(window.markdownitSup);
 md.use(window.markdownitMathjax);
+md.use(window.markdownitImsize);
 function renderContainer(tokens, idx, options, env, self) {
     tokens[idx].attrJoin('role', 'alert');
     tokens[idx].attrJoin('class', 'alert');
