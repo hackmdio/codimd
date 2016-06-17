@@ -3003,10 +3003,10 @@ function partialUpdate(src, tar, des) {
 
 function cloneAndRemoveDataAttr(el) {
     if (!el) return;
-    var rawEl = $(el).clone()[0];
-    rawEl.removeAttribute('data-startline');
-    rawEl.removeAttribute('data-endline');
-    return rawEl;
+    var rawEl = $(el).clone();
+    rawEl.removeAttr('data-startline data-endline');
+    rawEl.find('[data-startline]').removeAttr('data-startline data-endline');
+    return rawEl[0];
 }
 
 function copyAttribute(src, des, attr) {
