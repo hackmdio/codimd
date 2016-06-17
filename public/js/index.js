@@ -1901,6 +1901,7 @@ socket.on('refresh', function (data) {
     updatePermission(data.permission);
     updateLastInfo(data);
     if (!loaded) {
+        // auto change mode if no content detected
         var nocontent = editor.getValue().length <= 0;
         if (nocontent) {
             if (visibleXS)
@@ -1913,9 +1914,9 @@ socket.on('refresh', function (data) {
             editor.focus();
             editor.refresh();
         }
-        loaded = true;
         updateViewInner(); // bring up view rendering earlier
         updateHistory(); //update history whether have content or not
+        loaded = true;
         emitUserStatus(); //send first user status
         updateOnlineStatus(); //update first online status
         setTimeout(function () {
