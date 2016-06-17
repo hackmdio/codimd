@@ -484,16 +484,26 @@ function startListen() {
     if (config.usessl) {
         server.listen(config.port, function () {
             logger.info('HTTPS Server listening at port %d', config.port);
+            config.maintenance = false;
         });
     } else {
         server.listen(config.port, function () {
             logger.info('HTTP Server listening at port %d', config.port);
+            config.maintenance = false;
         });
     }
 }
 
 // sync db then start listen
-models.sequelize.sync().then(startListen);
+models.sequelize.sync().then(function () {
+    // check if realtime is ready
+    if (realtime.isReady()) {
+        models.Revision.checkAllNotesRevision(function (err, notes) {
+            if (err) return new Error(err);
+            if (notes.length <= 0) return startListen();
+        });
+    }
+});
 
 // log uncaught exception
 process.on('uncaughtException', function (err) {
@@ -510,21 +520,18 @@ process.on('SIGINT', function () {
     Object.keys(io.sockets.sockets).forEach(function (key) {
         var socket = io.sockets.sockets[key];
         // notify client server going into maintenance status
-        socket.emit('maintenance', config.version);
+        socket.emit('maintenance');
         socket.disconnect(true);
     });
     var checkCleanTimer = setInterval(function () {
-        var usersCount = Object.keys(realtime.users).length;
-        var notesCount = Object.keys(realtime.notes).length;
-        // check if all users and notes array are empty
-        if (usersCount == 0 && notesCount == 0) {
-            // close db connection
-            models.sequelize.close();
-            clearInterval(checkCleanTimer);
-            // wait for a while before exit
-            setTimeout(function () {
-                process.exit(0);
-            }, 100);
+        if (realtime.isReady()) {
+            models.Revision.checkAllNotesRevision(function (err, notes) {
+                if (err) return new Error(err);
+                if (notes.length <= 0) {
+                    clearInterval(checkCleanTimer);
+                    return process.exit(0);
+                }
+            });
         }
     }, 100);
 });
