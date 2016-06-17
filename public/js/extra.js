@@ -430,10 +430,7 @@ function postProcess(code) {
     return result;
 }
 
-//extract markdown body to html and compile to template
-function exportToHTML(view) {
-    var title = renderTitle(ui.area.markdown);
-    var filename = renderFilename(ui.area.markdown) + '.html';
+function generateCleanHTML(view) {
     var src = view.clone();
     var eles = src.find('*');
     //remove syncscroll parts
@@ -469,6 +466,25 @@ function exportToHTML(view) {
             $(value).html(iframe);
         }
     });
+    return src;
+}
+
+function exportToRawHTML(view) {
+    var filename = renderFilename(ui.area.markdown) + '.html';
+    var src = generateCleanHTML(view);
+    $(src).find('a.anchor').remove();
+    var html = src[0].outerHTML;
+    var blob = new Blob([html], {
+        type: "text/html;charset=utf-8"
+    });
+    saveAs(blob, filename);
+}
+
+//extract markdown body to html and compile to template
+function exportToHTML(view) {
+    var title = renderTitle(ui.area.markdown);
+    var filename = renderFilename(ui.area.markdown) + '.html';
+    var src = generateCleanHTML(view);
     //generate toc
     var toc = $('#toc').clone();
     toc.find('*').removeClass('active');

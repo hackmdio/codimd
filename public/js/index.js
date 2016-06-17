@@ -505,7 +505,8 @@ var ui = {
         publish: $(".ui-publish"),
         download: {
             markdown: $(".ui-download-markdown"),
-            html: $(".ui-download-html")
+            html: $(".ui-download-html"),
+            rawhtml: $(".ui-download-raw-html")
         },
         export: {
             dropbox: $(".ui-save-dropbox"),
@@ -1173,6 +1174,12 @@ ui.toolbar.download.html.click(function (e) {
     e.preventDefault();
     e.stopPropagation();
     exportToHTML(ui.area.markdown);
+});
+// raw html
+ui.toolbar.download.rawhtml.click(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    exportToRawHTML(ui.area.markdown);
 });
 //export to dropbox
 ui.toolbar.export.dropbox.click(function () {
