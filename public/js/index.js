@@ -1734,7 +1734,7 @@ function emitPermission(_permission) {
 function updatePermission(newPermission) {
     if (permission != newPermission) {
         permission = newPermission;
-        refreshView();
+        if (loaded) refreshView();
     }
     var label = null;
     var title = null;
