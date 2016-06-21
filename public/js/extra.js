@@ -81,29 +81,17 @@ function slugifyWithUTF8(text) {
 
 //parse meta
 function parseMeta(md, edit, view, toc, tocAffix) {
-    var robots = null;
     var lang = null;
     var dir = null;
     var breaks = true;
     var spellcheck = false;
     if (md && md.meta) {
         var meta = md.meta;
-        robots = meta.robots;
         lang = meta.lang;
         dir = meta.dir;
         breaks = meta.breaks;
         spellcheck = meta.spellcheck;
     }
-    //robots meta
-    var robotsMeta = $('meta[name=robots]');
-    if (robots) {
-        if (robotsMeta.length > 0)
-            robotsMeta.attr('content', robots);
-        else
-            $('head').prepend('<meta name="robots" content="' + robots + '">')
-    }
-    else
-        robotsMeta.remove();
     //text language
     if (lang) {
         view.attr('lang', lang);
@@ -504,7 +492,6 @@ function exportToHTML(view) {
                 html: src[0].outerHTML,
                 toc: toc.html(),
                 'toc-affix': tocAffix.html(),
-                robots: (md && md.meta && md.meta.robots) ? '<meta name="robots" content="' + md.meta.robots + '">' : null,
                 lang: (md && md.meta && md.meta.lang) ? 'lang="' + md.meta.lang + '"' : null,
                 dir: (md && md.meta && md.meta.dir) ? 'dir="' + md.meta.dir + '"' : null
             };
