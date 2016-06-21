@@ -394,9 +394,32 @@ div[contenteditable]:empty:not(:focus):before{
     border-left: 1px solid #343434;
 }
 
-.status-bar .status-indicators .status-keymap > a {
+.status-bar .status-indicators .status-keymap > a,
+.status-bar .status-indicators .status-theme > a,
+.status-bar .status-indicators .status-spellcheck > a {
     color: inherit;
     text-decoration: none;
+}
+
+.status-bar .status-indicators .status-theme,
+.status-bar .status-indicators .status-spellcheck {
+    padding: 0 4.3px;
+}
+
+.ui-theme-toggle,
+.ui-spellcheck-toggle {
+    opacity: 0.2;
+    cursor: pointer;
+}
+
+.ui-theme-toggle.active,
+.ui-spellcheck-toggle.active {
+    opacity: 1;
+}
+
+.ui-theme-toggle:hover,
+.ui-spellcheck-toggle:hover {
+    opacity: 0.8;
 }
 
 .status-bar .indent-type, .status-bar .indent-width-label {

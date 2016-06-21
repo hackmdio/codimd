@@ -307,6 +307,8 @@ var statusIndicators = null;
 var statusLength = null;
 var statusKeymap = null;
 var statusIndent = null;
+var statusTheme = null;
+var statusSpellcheck = null;
 
 function getStatusBarTemplate(callback) {
     $.get(serverurl + '/views/statusbar.html', function (template) {
@@ -328,12 +330,16 @@ function addStatusBar() {
     statusIndent = statusBar.find('.status-indent');
     statusKeymap = statusBar.find('.status-keymap');
     statusLength = statusBar.find('.status-length');
+    statusTheme = statusBar.find('.status-theme');
+    statusSpellcheck = statusBar.find('.status-spellcheck');
     statusPanel = editor.addPanel(statusBar[0], {
         position: "bottom"
     });
 
     setIndent();
     setKeymap();
+    setTheme();
+    setSpellcheck();
 }
 
 function setIndent() {
@@ -465,6 +471,89 @@ function setKeymap() {
         editor.setOption('keyMap', 'vim');
         setKeymapLabel();
     });
+}
+
+function setTheme() {
+    var cookieTheme = Cookies.get('theme');
+    if (cookieTheme) {
+        editor.setOption('theme', cookieTheme);
+    }
+
+    var themeToggle = statusTheme.find('.ui-theme-toggle');
+    themeToggle.click(function () {
+        var theme = editor.getOption('theme');
+        if (theme == "one-dark") {
+            theme = "default";
+        } else {
+            theme = "one-dark";
+        }
+        editor.setOption('theme', theme);
+        Cookies.set('theme', theme, {
+            expires: 365
+        });
+        checkTheme();
+    });
+    function checkTheme() {
+        var theme = editor.getOption('theme');
+        if (theme == "one-dark") {
+            themeToggle.removeClass('active');
+        } else {
+            themeToggle.addClass('active');
+        }
+    }
+    checkTheme();
+}
+
+function setSpellcheck() {
+    var cookieSpellcheck = Cookies.get('spellcheck');
+    if (cookieSpellcheck) {
+        var mode = null;
+        if (cookieSpellcheck === 'true') {
+            mode = 'spell-checker';
+        } else {
+            mode = 'gfm';
+        }
+        if (mode && mode !== editor.getOption('mode')) {
+            editor.setOption('mode', mode);
+        }
+    }
+
+    var spellcheckToggle = statusSpellcheck.find('.ui-spellcheck-toggle');
+    spellcheckToggle.click(function () {
+        var mode = editor.getOption('mode');
+        if (mode == "gfm") {
+            mode = "spell-checker";
+        } else {
+            mode = "gfm";
+        }
+        if (mode && mode !== editor.getOption('mode')) {
+            editor.setOption('mode', mode);
+        }
+        Cookies.set('spellcheck', (mode == "spell-checker"), {
+            expires: 365
+        });
+        checkSpellcheck();
+    });
+    function checkSpellcheck() {
+        var mode = editor.getOption('mode');
+        if (mode == "gfm") {
+            spellcheckToggle.removeClass('active');
+        } else {
+            spellcheckToggle.addClass('active');
+        }
+    }
+    checkSpellcheck();
+
+    //workaround spellcheck might not activate beacuse the ajax loading
+    if (num_loaded < 2) {
+        var spellcheckTimer = setInterval(function () {
+            if (num_loaded >= 2) {
+                if (editor.getOption('mode') == "spell-checker")
+                    editor.setOption('mode', "spell-checker");
+                clearInterval(spellcheckTimer);
+            }
+        }, 100);
+    }
 }
 
 var selection = null;
