@@ -116,15 +116,3 @@ This option let you to choose to parse mathjax syntax or not.
 ```xml
 mathjax: false
 ```
-
-spellcheck
----
-**Warning: Experimental feature!**
-This option let you to choose to enable spell checking feature or not.
-
-> default: not set (which will be false)
-
-**Example**
-```xml
-spellcheck: true
-```
