@@ -11,6 +11,9 @@
     <% if(typeof robots !== 'undefined' && robots) { %>
     <meta name="robots" content="<%- robots %>">
     <% } %>
+    <% if(typeof description !== 'undefined' && description) { %>
+    <meta name="description" content="<%- description %>">
+    <% } %>
     <title><%- title %></title>
     <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
 	<link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
@@ -118,3 +121,5 @@
 <script src="<%- url %>/js/extra.js" defer></script>
 <script src="<%- url %>/js/render.js" defer></script>
 <script src="<%- url %>/js/pretty.js" defer></script>
+
+<%- include ga %>

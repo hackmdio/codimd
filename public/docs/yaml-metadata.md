@@ -18,6 +18,39 @@ YAML metas
 Replace the "YAML metas" in this section with any YAML options as below.
 You can also refer to this note's source code.
 
+title
+---
+This option will set the note title which prior than content title.
+
+> default: not set
+
+**Example**
+```xml
+title: meta title
+```
+
+description
+---
+This option will set the note description.
+
+> default: not set
+
+**Example**
+```xml
+description: meta description
+```
+
+tags
+---
+This option will set the tags which prior than content tags.
+
+> default: not set
+
+**Example**
+```xml
+tags: features, cool, updated
+```
+
 robots
 ---
 This option will give below meta in the note head meta:
@@ -26,7 +59,7 @@ This option will give below meta in the note head meta:
 ```
 So you can prevent any search engine index your note by set `noindex, nofollow`.
 
-> default: not 
+> default: not set
 
 **Example**
 ```xml

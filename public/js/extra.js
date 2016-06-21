@@ -43,12 +43,16 @@ function updateLastChangeUser() {
 
 //get title
 function getTitle(view) {
-    var h1s = view.find("h1");
     var title = "";
-    if (h1s.length > 0) {
-        title = h1s.first().text();
+    if (md && md.meta && md.meta.title && (typeof md.meta.title == "string" || typeof md.meta.title == "number")) {
+        title = md.meta.title;
     } else {
-        title = null;
+        var h1s = view.find("h1");
+        if (h1s.length > 0) {
+            title = h1s.first().text();
+        } else {
+            title = null;
+        }
     }
     return title;
 }
@@ -93,7 +97,7 @@ function parseMeta(md, edit, view, toc, tocAffix) {
         spellcheck = meta.spellcheck;
     }
     //text language
-    if (lang) {
+    if (lang && typeof lang == "string") {
         view.attr('lang', lang);
         toc.attr('lang', lang);
         tocAffix.attr('lang', lang);
@@ -107,7 +111,7 @@ function parseMeta(md, edit, view, toc, tocAffix) {
             edit.removeAttr('lang', lang);
     }
     //text direction
-    if (dir) {
+    if (dir && typeof dir == "string") {
         view.attr('dir', dir);
         toc.attr('dir', dir);
         tocAffix.attr('dir', dir);

@@ -202,28 +202,44 @@ function writeHistoryToStorage(view) {
     }
 }
 
+if (!Array.isArray) {
+    Array.isArray = function(arg) {
+        return Object.prototype.toString.call(arg) === '[object Array]';
+    };
+}
+
 function renderHistory(view) {
     var title = renderFilename(view);
 
     var tags = [];
     var rawtags = [];
-    view.find('h6').each(function (key, value) {
-        if (/^tags/gmi.test($(value).text())) {
-            var codes = $(value).find("code");
-            for (var i = 0; i < codes.length; i++)
-                rawtags.push(codes[i]);
+    if (md && md.meta && md.meta.tags && (typeof md.meta.tags == "string" || typeof md.meta.tags == "number")) {
+        var metaTags = ('' + md.meta.tags).split(',');
+        for (var i = 0; i < metaTags.length; i++) {
+            var text = metaTags[i].trim();
+            if (text) rawtags.push(text);
         }
-    });
+    } else {
+        view.find('h6').each(function (key, value) {
+            if (/^tags/gmi.test($(value).text())) {
+                var codes = $(value).find("code");
+                for (var i = 0; i < codes.length; i++) {
+                    var text = codes[i].innerHTML.trim();
+                    if (text) rawtags.push(text);
+                }
+            }
+        });
+    }
     for (var i = 0; i < rawtags.length; i++) {
         var found = false;
         for (var j = 0; j < tags.length; j++) {
-            if (tags[j] == rawtags[i].innerHTML) {
+            if (tags[j] == rawtags[i]) {
                 found = true;
                 break;
             }
         }
         if (!found)
-            tags.push(rawtags[i].innerHTML);
+            tags.push(rawtags[i]);
     }
     //console.debug(tags);
     var id = urlpath ? location.pathname.slice(urlpath.length + 1, location.pathname.length).split('/')[1] : location.pathname.split('/')[1];
