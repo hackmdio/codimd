@@ -95,6 +95,20 @@ body {
 .CodeMirror-sizer {
     margin-bottom: 0px !important;
 }
+.CodeMirror-insert-match {
+  background: lawngreen;
+  border: 1px solid limegreen;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  opacity: .5;
+}
+.CodeMirror-delete-match {
+  background: indianred;
+  border: 1px solid darkred;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  opacity: .5;
+}
 .ui-content {
     height: 100%;
     margin-left: 0;

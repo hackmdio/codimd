@@ -1493,6 +1493,10 @@ ui.toolbar.beta.slide.attr("href", noteurl + "/slide");
 //modal actions
 var revisions = [];
 var revisionViewer = null;
+var revisionInsert = [];
+var revisionDelete = [];
+var revisionInsertAnnotation = null;
+var revisionDeleteAnnotation = null;
 var revisionList = ui.modal.revision.find('.ui-revision-list');
 var revision = null;
 var revisionTime = null;
@@ -1559,6 +1563,8 @@ function selectRevision(time) {
             var content = revision.content;
             revisionViewer.setValue(content);
             revisionViewer.scrollTo(null, lastScrollInfo.top);
+            revisionInsert = [];
+            revisionDelete = [];
             // mark the text which have been insert or delete
             if (revision.patch.length > 0) {
                 var bias = 0;
@@ -1576,6 +1582,10 @@ function selectRevision(time) {
                             case 1: // insert
                                 var prePos = revisionViewer.posFromIndex(currIndex);
                                 var postPos = revisionViewer.posFromIndex(currIndex + diff[1].length);
+                                revisionInsert.push({
+                                    from: prePos,
+                                    to: postPos
+                                });
                                 revisionViewer.markText(prePos, postPos, {
                                     css: 'background-color: rgba(230,255,230,0.7); text-decoration: underline;'
                                 });
@@ -1585,6 +1595,10 @@ function selectRevision(time) {
                                 var prePos = revisionViewer.posFromIndex(currIndex);
                                 revisionViewer.replaceRange(diff[1], prePos);
                                 var postPos = revisionViewer.posFromIndex(currIndex + diff[1].length);
+                                revisionDelete.push({
+                                    from: prePos,
+                                    to: postPos
+                                });
                                 revisionViewer.markText(prePos, postPos, {
                                     css: 'background-color: rgba(255,230,230,0.7); text-decoration: line-through;'
                                 });
@@ -1595,6 +1609,8 @@ function selectRevision(time) {
                     }
                 }
             }
+            revisionInsertAnnotation.update(revisionInsert);
+            revisionDeleteAnnotation.update(revisionDelete);
         })
         .error(function(err) {
 
@@ -1620,6 +1636,8 @@ function initRevisionViewer() {
         autoRefresh: true,
         scrollbarStyle: 'overlay'
     });
+    revisionInsertAnnotation = revisionViewer.annotateScrollbar({ className:"CodeMirror-insert-match" });
+    revisionDeleteAnnotation = revisionViewer.annotateScrollbar({ className:"CodeMirror-delete-match" });
 }
 $('#revisionModalDownload').click(function () {
     if (!revision) return;
