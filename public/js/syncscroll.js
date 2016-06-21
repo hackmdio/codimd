@@ -28,7 +28,6 @@ md.renderer.rules.list_item_open = function (tokens, idx, options, env, self) {
     if (tokens[idx].map) {
         var startline = tokens[idx].map[0] + 1;
         var endline = tokens[idx].map[1];
-        tokens[idx].attrJoin('class', 'part');
         tokens[idx].attrJoin('data-startline', startline);
         tokens[idx].attrJoin('data-endline', endline);
     }
