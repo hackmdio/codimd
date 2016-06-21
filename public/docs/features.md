@@ -186,6 +186,10 @@ alert(s);
 ### Speakerdeck
 {%speakerdeck sugarenia/xxlcss-how-to-scale-css-and-keep-your-sanity %}
 
+### PDF
+**Caution: this might be blocked by your browser if not using https url.**
+{%pdf https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf %}
+
 ## MathJax
 
 You can render *LaTeX* mathematical expressions using **MathJax**, as on [math.stackexchange.com](http://math.stackexchange.com/):

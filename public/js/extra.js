@@ -83,6 +83,20 @@ function slugifyWithUTF8(text) {
     return newText;
 }
 
+function isValidURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    if (!pattern.test(str)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 //parse meta
 function parseMeta(md, edit, view, toc, tocAffix) {
     var lang = null;
@@ -401,6 +415,16 @@ function finishView(view) {
                     inner.css('padding-bottom', ratio + '%');
                     $(value).html(inner);
                 }
+            });
+        });
+    //pdf
+    view.find(".pdf.raw").removeClass("raw")
+        .each(function (key, value) {
+            var url = $(value).attr('data-pdfurl');
+            var inner = $('<div></div>');
+            $(this).append(inner);
+            PDFObject.embed(url, inner, {
+                height: '400px'
             });
         });
     //render title
@@ -901,6 +925,20 @@ var speakerdeckPlugin = new Plugin(
         return div[0].outerHTML;
     }
 );
+//pdf
+var pdfPlugin = new Plugin(
+    // regexp to match
+    /{%pdf\s*([\d\D]*?)\s*%}/,
+
+    // this function will be called when something matches
+    function (match, utils) {
+        var pdfurl = match[1];
+        if (!isValidURL(pdfurl)) return match[0];
+        var div = $('<div class="pdf raw"></div>');
+        div.attr('data-pdfurl', pdfurl);
+        return div[0].outerHTML;
+    }
+);
 
 //yaml meta, from https://github.com/eugeneware/remarkable-meta
 function get(state, line) {
@@ -950,3 +988,4 @@ md.use(gistPlugin);
 md.use(tocPlugin);
 md.use(slidesharePlugin);
 md.use(speakerdeckPlugin);
+md.use(pdfPlugin);
