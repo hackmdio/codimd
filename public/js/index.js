@@ -2781,7 +2781,7 @@ editor.on('changes', function (cm, changes) {
         windowResize();
     }
     checkEditorScrollbar();
-    if (editorHasFocus()) {
+    if (ui.area.codemirrorScroll[0].scrollHeight > ui.area.view[0].scrollHeight && editorHasFocus()) {
         postUpdateEvent = function () {
             syncScrollToView();
             postUpdateEvent = null;
