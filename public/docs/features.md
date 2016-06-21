@@ -30,7 +30,7 @@ Workspace
 You can simply press the camera button <i class="fa fa-camera"></i>.
 Or **drag-n-drop** image in editor, even **paste** image works!
 It will automatically upload to **[imgur](http://imgur.com)**, nothing to worry :tada:
-![](http://i.imgur.com/9cgQVqD.png)
+![](https://i.imgur.com/9cgQVqD.png)
 
 ## Share note
 If you want to share a **editable** note, just copy the url.
@@ -57,7 +57,7 @@ It might be one of below:
 
 ## Embed
 ```xml
-<iframe width="100%" height="500" src="http://hackmd.io/features" frameborder="0"></iframe>
+<iframe width="100%" height="500" src="https://hackmd.io/features" frameborder="0"></iframe>
 ```
 
 ## [Slide Mode](./slide-example)
@@ -465,7 +465,7 @@ With a reference later in the document defining the URL location:
 [id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
 
 ![Minion](https://octodex.github.com/images/minion.png =200x200)
-Show the image With given size
+Show the image with given size
 
 ### Footnotes
 
