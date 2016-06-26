@@ -28,11 +28,11 @@ function resetCheckAuth() {
 
 function setLoginState(bool, id) {
     Cookies.set('loginstate', bool, {
-        expires: 14
+        expires: 365
     });
     if (id) {
         Cookies.set('userid', id, {
-            expires: 14
+            expires: 365
         });
     } else {
         Cookies.remove('userid');
