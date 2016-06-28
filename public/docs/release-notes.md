@@ -1,6 +1,43 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 0.4.3 `espresso` <i class="fa fa-clock-o"></i> 2016-06-28 02:04
+---
+### Features
+* Add support of spellcheck
+* Add support of light editor theme
+* Add support of embed pdf
+* Add support of exporting raw html
+* Add revision modal with UIs and support marking patch diff texts
+* Add support of saving note revision
+
+### Enhancements
+* Update to extend login info cookies to 365 days to reduce reductant page refresh
+* Update to support new metadata: title, description, tags and google-analytics
+* Prevent crawling editing note to enhance privacy
+* Update to remove all data lines attributes to gain better update performance
+* Update refresh modal to show more detail informations
+* Update to make cursor tag default as hover mode to prevent tag overlay other lines
+* Update highlight.js to version 9.4.0 and use bower dependency
+* Improve history performance
+
+### Fixes
+* Fix history filter tags and search keyword might not apply after refresh
+* Fix part class in list item might infect buildMap process
+* Fix pdf tmp path is missing a folder slash before timestamp
+* Fix realtime connection get stock when lots of client try to connect at same moment
+* Fix locked or private permission should block any operation if owner is null
+* Add back missing support of image size syntax in 0.4.2
+* Fix update permission might cause duplicate view rendering
+* Fix on paste long document to editor might cause scroll not syncing
+* Workaround CodeMirror won't draw selections outside of the viewport
+* Fix to make socket keep retry after disconnect on server maintenance
+
+### Removes
+- Remove metadata spellcheck support
+- Remove robot meta on note edit page and html template
+
+
 <i class="fa fa-tag"></i> 0.4.2 `cappuccino` <i class="fa fa-clock-o"></i> 2016-04-22 10:43
 ---
 ### Features

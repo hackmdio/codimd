@@ -31,7 +31,7 @@ Browsers Requirement
 
 Prerequisite
 ---
-- Node.js 4.x or up (test up to 5.10.1)
+- Node.js 4.x or up (test up to 6.2.2)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL)
 - npm and bower
 
