@@ -596,10 +596,15 @@ var ui = {
         status: $(".ui-status"),
         new: $(".ui-new"),
         publish: $(".ui-publish"),
+        extra: {
+            revision: $(".ui-extra-revision"),
+            slide: $(".ui-extra-slide")
+        },
         download: {
             markdown: $(".ui-download-markdown"),
             html: $(".ui-download-html"),
-            rawhtml: $(".ui-download-raw-html")
+            rawhtml: $(".ui-download-raw-html"),
+            pdf: $(".ui-download-pdf-beta"),
         },
         export: {
             dropbox: $(".ui-save-dropbox"),
@@ -613,10 +618,6 @@ var ui = {
             gist: $(".ui-import-gist"),
             snippet: $(".ui-import-snippet"),
             clipboard: $(".ui-import-clipboard")
-        },
-        beta: {
-            pdf: $(".ui-beta-pdf"),
-            slide: $(".ui-beta-slide")
         },
         mode: $(".ui-mode"),
         edit: $(".ui-edit"),
@@ -1258,6 +1259,9 @@ if (GOOGLE_API_KEY && GOOGLE_CLIENT_ID) {
 //button actions
 //share
 ui.toolbar.publish.attr("href", noteurl + "/publish");
+// extra
+//slide
+ui.toolbar.extra.slide.attr("href", noteurl + "/slide");
 //download
 //markdown
 ui.toolbar.download.markdown.click(function (e) {
@@ -1282,6 +1286,8 @@ ui.toolbar.download.rawhtml.click(function (e) {
     e.stopPropagation();
     exportToRawHTML(ui.area.markdown);
 });
+//pdf
+ui.toolbar.download.pdf.attr("download", "").attr("href", noteurl + "/pdf");
 //export to dropbox
 ui.toolbar.export.dropbox.click(function () {
     var filename = renderFilename(ui.area.markdown) + '.md';
@@ -1484,11 +1490,6 @@ ui.toolbar.uploadImage.bind('change', function (e) {
 ui.toc.dropdown.click(function (e) {
     e.stopPropagation();
 });
-//beta
-//pdf
-ui.toolbar.beta.pdf.attr("download", "").attr("href", noteurl + "/pdf");
-//slide
-ui.toolbar.beta.slide.attr("href", noteurl + "/slide");
 
 //modal actions
 var revisions = [];
