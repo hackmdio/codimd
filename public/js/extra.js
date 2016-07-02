@@ -213,6 +213,7 @@ function finishView(view) {
                     var thumbnail_src = data[0].thumbnail_large;
                     var image = '<img src="' + thumbnail_src + '" />';
                     $(value).prepend(image);
+                    if(viewAjaxCallback) viewAjaxCallback();
                 }
             });
         });
@@ -334,8 +335,7 @@ function finishView(view) {
         }
         var clone = $value.clone();
         clone[0].onload = function (e) {
-            if(viewAjaxCallback)
-                viewAjaxCallback();
+            if(viewAjaxCallback) viewAjaxCallback();
         };
         a.html(clone);
         $value.replaceWith(a);
@@ -371,6 +371,7 @@ function finishView(view) {
                     var ratio = (height / width) * 100;
                     inner.css('padding-bottom', ratio + '%');
                     $(value).html(inner).append(caption);
+                    if(viewAjaxCallback) viewAjaxCallback();
                 }
             });
         });
@@ -402,6 +403,7 @@ function finishView(view) {
                     var ratio = (height / width) * 100;
                     inner.css('padding-bottom', ratio + '%');
                     $(value).html(inner);
+                    if(viewAjaxCallback) viewAjaxCallback();
                 }
             });
         });
