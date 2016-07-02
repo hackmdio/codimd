@@ -2049,7 +2049,7 @@ function havePermission() {
 //socket.io actions
 var socket = io.connect({
     path: urlpath ? '/' + urlpath + '/socket.io/' : '',
-    timeout: 10000 //10 secs to timeout
+    timeout: 5000 //5 secs to timeout
 });
 //overwrite original event for checking login state
 var on = socket.on;
