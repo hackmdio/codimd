@@ -105,14 +105,3 @@ You can only use whether `true` or `false`.
 ```xml
 breaks: false
 ```
-
-mathjax
----
-This option let you to choose to parse mathjax syntax or not.
-
-> default: not set (which will be true)
-
-**Example**
-```xml
-mathjax: false
-```
