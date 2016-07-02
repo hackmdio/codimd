@@ -6,11 +6,241 @@
 .reveal h5,
 .reveal h6 {
     font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft JhengHei", Meiryo, "ＭＳ ゴシック", "MS Gothic", sans-serif;
+    text-transform: none;
 }
+
 .reveal pre,
 .reveal code {
     font-family: "Source Code Pro", Consolas, monaco, "Microsoft JhengHei", Meiryo, "ＭＳ ゴシック", "MS Gothic", monospace;
     letter-spacing: 0.025em;
     line-height: 1.25;
     -webkit-overflow-scrolling: touch;
+}
+
+.vimeo,
+.youtube {
+    position: relative !important;
+    cursor: pointer;
+    display: table;
+    width: 100% !important;
+    text-align: center;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: black;
+    overflow: hidden;
+    font-size: 24px !important;
+}
+
+
+/* youtube always use 16:9 aspect ratio video */
+
+.vimeo,
+.youtube {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25% !important;
+}
+
+.vimeo > img,
+.youtube > img {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 !important;
+    border: 0 !important;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.vimeo > iframe,
+.youtube > iframe {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.slideshare .inner,
+.speakerdeck .inner {
+    padding-bottom: 62% !important;
+}
+
+.pdfobject {
+    height: 85vh !important;
+}
+
+.task-list-item-checkbox {
+    font-size: inherit;
+    height: 1em;
+    margin: 0.2em 0 0.2em -0.65em !important;
+}
+
+pre code .wrapper {
+    display: -webkit-inline-flex;
+    display: -moz-inline-flex;
+    display: -ms-inline-flex;
+    display: -o-inline-flex;
+    display: inline-flex;
+}
+
+pre code .gutter {
+    float: left;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+pre code .gutter.linenumber {
+    text-align: right;
+    position: relative;
+    display: inline-block;
+    cursor: default;
+    z-index: 4;
+    padding: 0 8px 0 0;
+    min-width: 20px;
+    box-sizing: content-box;
+    color: #afafaf !important;
+    border-right: 3px solid #6ce26c !important;
+}
+
+pre code .gutter.linenumber > span:before {
+    content: attr(data-linenumber);
+}
+
+pre code .code {
+    float: left;
+    margin: 0 0 0 16px;
+}
+
+.gist .line-numbers {
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+}
+
+.gist .line-data {
+    border: none;
+}
+
+.gist table {
+    border-spacing: 0;
+    border-collapse: inherit !important;
+}
+
+code[data-gist-id] {
+    background: none;
+    padding: 0;
+}
+
+code[data-gist-id]:before {
+    content: ''
+}
+
+code[data-gist-id]:after {
+    content: ''
+}
+
+.alert {
+    border-radius: 4px;
+}
+
+.alert h4 {
+    margin-top: 0;
+    color: inherit;
+}
+
+.alert > p {
+    padding: 5px !important;
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.alert-success hr {
+    border-top-color: #c9e2b3;
+}
+
+.alert-success .alert-link {
+    color: #2b542c;
+}
+
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.alert-info hr {
+    border-top-color: #a6e1ec;
+}
+
+.alert-info .alert-link {
+    color: #245269;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.alert-warning hr {
+    border-top-color: #f7e1b5;
+}
+
+.alert-warning .alert-link {
+    color: #66512c;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.alert-danger hr {
+    border-top-color: #e4b9c0;
+}
+
+.alert-danger .alert-link {
+    color: #843534;
+}
+
+pre.flow-chart,
+pre.sequence-diagram,
+pre.graphviz,
+pre.mermaid {
+    text-align: center;
+    background-color: white;
+    border-radius: 0;
+    white-space: inherit;
+}
+
+pre.flow-chart > code,
+pre.sequence-diagram > code,
+pre.graphviz > code,
+pre.mermaid > code {
+    text-align: left;
+}
+
+pre.flow-chart > svg,
+pre.sequence-diagram > svg,
+pre.graphviz > svg,
+pre.mermaid > svg {
+    max-width: 100%;
+    height: 100%;
+}
+
+.emoji {
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin-bottom: -.25em !important;
 }

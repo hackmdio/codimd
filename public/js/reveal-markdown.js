@@ -5,27 +5,15 @@
  */
 (function( root, factory ) {
 	if( typeof exports === 'object' ) {
-		module.exports = factory( require( './marked' ) );
+		module.exports = factory();
 	}
 	else {
 		// Browser globals (root is window)
-		root.RevealMarkdown = factory( root.marked );
+		root.RevealMarkdown = factory();
 		root.RevealMarkdown.initialize();
 	}
-}( this, function( marked ) {
-
-	if( typeof marked === 'undefined' ) {
-		throw 'The reveal.js Markdown plugin requires marked to be loaded';
-	}
-
-	if( typeof hljs !== 'undefined' ) {
-		marked.setOptions({
-			highlight: function( lang, code ) {
-				return hljs.highlightAuto( lang, code ).value;
-			}
-		});
-	}
-
+}( this, function() {
+	
 	var DEFAULT_SLIDE_SEPARATOR = '^\r?\n---\r?\n$',
 		DEFAULT_NOTES_SEPARATOR = 'note:',
 		DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\\.element\\\s*?(.+?)$',
@@ -364,10 +352,10 @@
 				var notes = section.querySelector( 'aside.notes' );
 				var markdown = getMarkdownFromSlide( section );
 
-                var rendered = marked( markdown );
-                rendered = preventXSS(rendered);
-                
-				section.innerHTML = rendered;
+                var rendered = md.render(markdown);
+				rendered = preventXSS(rendered);
+				var result = postProcess(rendered);
+				section.innerHTML = result[0].outerHTML;
 				addAttributes( 	section, section, null, section.getAttribute( 'data-element-attributes' ) ||
 								section.parentNode.getAttribute( 'data-element-attributes' ) ||
 								DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR,

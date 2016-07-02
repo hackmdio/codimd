@@ -14,11 +14,28 @@
         <title><%- title %></title>
         <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
         <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
-        
+        <% if(useCDN) { %>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
+        <% } else { %>
+        <link rel="stylesheet" href='<%- url %>/vendor/font-awesome/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="<%- url %>/vendor/Ionicons/css/ionicons.min.css">
+        <link rel="stylesheet" href="<%- url %>/vendor/octicons/octicons/octicons.css">
+        <% } %>
+
         <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/css/reveal.css">
-        <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/<%- theme %>" id="theme">
+        <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/css/theme/black.css" id="theme">
+
         <!-- For syntax highlighting -->
-        <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/lib/css/<%- highlightTheme %>.css">
+        <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/lib/css/zenburn.css">
+
+        <link rel="stylesheet" href='<%- url %>/css/github-extract.css'>
+        <link rel="stylesheet" href='<%- url %>/css/gist.css'>
+        <link rel="stylesheet" href="<%- url %>/css/mermaid.css">
+        <link rel="stylesheet" href='<%- url %>/css/markdown.css'>
+        <link rel="stylesheet" href='<%- url %>/vendor/emojify/css/emojify.min.css'>
+        <link rel="stylesheet" href='<%- url %>/css/extra.css'>
         <link rel="stylesheet" href="<%- url %>/css/site.css">
         <link rel="stylesheet" href="<%- url %>/css/slide.css">
 
@@ -26,8 +43,6 @@
         <script>
           document.write( '<link rel="stylesheet" href="<%- url %>/vendor/reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
         </script>
-        <script src="<%- url %>/vendor/jquery/dist/jquery.min.js"></script>
-        <script src="<%- url %>/vendor/velocity/velocity.min.js"></script>
     </head>
     <body>
 
@@ -35,58 +50,56 @@
             <div class="slides"><%- slides %></div>
         </div>
 
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ messageStyle: "none", skipStartupTypeset: true ,tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true }});
+        </script>
+        <% if(useCDN) { %>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.6.1/js-yaml.min.js" defer></script>
+        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment-with-locales.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.min.js" defer></script>
+        <% } else { %>
+        <script src="<%- url %>/vendor/jquery/dist/jquery.min.js"></script>
+        <script src="<%- url %>/vendor/velocity/velocity.min.js" defer></script>
+        <script src="<%- url %>/vendor/js-yaml/dist/js-yaml.min.js" defer></script>
+        <script type="text/javascript" src="<%- url %>/vendor/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
+        <script src="<%- url %>/vendor/moment/min/moment-with-locales.js" defer></script>
+        <script src="<%- url %>/vendor/mermaid/dist/mermaid.min.js" defer></script>
+        <% } %>
         <script src="<%- url %>/vendor/reveal.js/lib/js/head.min.js"></script>
         <script src="<%- url %>/vendor/reveal.js/js/reveal.js"></script>
-        <script src="<%- url %>/vendor/string/dist/string.min.js"></script>
-        <script src="<%- url %>/vendor/xss/dist/xss.min.js"></script>
-        <script src="<%- url %>/js/render.js"></script>
-
-        <script>
-            if (typeof mixpanel !== 'undefined') mixpanel.track("enter slide");
-          
-            var body = $(".slides").html();
-            $(".slides").html(S(body).unescapeHTML().s);
-
-            function extend() {
-              var target = {};
-              for (var i = 0; i < arguments.length; i++) {
-                var source = arguments[i];
-                for (var key in source) {
-                  if (source.hasOwnProperty(key)) {
-                    target[key] = source[key];
-                  }
-                }
-              }
-              return target;
-            }
-
-            // Optional libraries used to extend on reveal.js
-            var deps = [
-              { src: '<%- url %>/vendor/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-              { src: '<%- url %>/vendor/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
-              { src: '<%- url %>/js/reveal-markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
-              { src: '<%- url %>/vendor/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-              { src: '<%- url %>/vendor/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
-              { src: '<%- url %>/vendor/reveal.js/plugin/math/math.js', async: true }
-            ];
-
-            // default options to init reveal.js
-            var defaultOptions = {
-              controls: true,
-              progress: true,
-              history: true,
-              center: true,
-              transition: 'slide',
-              dependencies: deps
-            };
-
-            // options from URL query string
-            var queryOptions = Reveal.getQueryHash() || {};
-
-            var options = <%- options %>;
-            options = extend(defaultOptions, options, queryOptions);
-            Reveal.initialize(options);
-        </script>
+        <script src="<%- url %>/vendor/xss/dist/xss.min.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it/dist/markdown-it.min.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-abbr/dist/markdown-it-abbr.min.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-footnote/dist/markdown-it-footnote.min.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-deflist/dist/markdown-it-deflist.min.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-mark/dist/markdown-it-mark.min.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-ins/dist/markdown-it-ins.min.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-sub/dist/markdown-it-sub.min.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-sup/dist/markdown-it-sup.min.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-container/dist/markdown-it-container.min.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-mathjax.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-regexp.js" defer></script>
+        <script src="<%- url %>/vendor/markdown-it-imsize.js" defer></script>
+        <script src="<%- url %>/vendor/gist-embed.min.js" defer></script>
+        <script src="<%- url %>/vendor/string/dist/string.min.js" defer></script>
+        <script src="<%- url %>/vendor/highlightjs/highlight.pack.min.js" defer></script>
+        <script src="<%- url %>/vendor/js-cookie/src/js.cookie.js" defer></script>
+        <script src="<%- url %>/vendor/emojify/js/emojify.min.js" defer></script>
+        <script src="<%- url %>/vendor/raphael/raphael.min.js" defer></script>
+        <script src="<%- url %>/vendor/lodash/dist/lodash.min.js" defer></script>
+        <script src="<%- url %>/vendor/sequence-diagrams/sequence-diagram-min.js" defer></script>
+        <script src="<%- url %>/vendor/flowchart/release/flowchart.min.js" defer></script>
+        <script src="<%- url %>/vendor/viz.js/viz.js" defer></script>
+        <script src="<%- url %>/vendor/pdfobject/pdfobject.min.js" defer></script>
+        <script src="<%- url %>/vendor/md-toc.js" defer></script>
+        <script src="<%- url %>/js/common.js" defer></script>
+        <script src="<%- url %>/js/extra.js" defer></script>
+        <script src="<%- url %>/js/render.js" defer></script>
+        <script src="<%- url %>/js/slide.js" defer></script>
+        
     </body>
 </html>
 
