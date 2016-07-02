@@ -2105,11 +2105,11 @@ socket.on('reconnect', function (data) {
     emitUserStatus(true);
     cursorActivity();
     socket.emit('online users');
+});
+socket.on('connect', function (data) {
     clearInterval(retryTimer);
     retryTimer = null;
     retryOnDisconnect = false;
-});
-socket.on('connect', function (data) {
     personalInfo['id'] = socket.id;
     showStatus(statusType.connected);
     socket.emit('version');
