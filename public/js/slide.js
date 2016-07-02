@@ -54,7 +54,7 @@ viewAjaxCallback = function () {
     Reveal.layout();
 };
 
-function renderSlide() {
+function renderSlide(event) {
     var title = document.title;
     finishView($(event.currentSlide));
     document.title = title;
