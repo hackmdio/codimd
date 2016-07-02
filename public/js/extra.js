@@ -161,6 +161,8 @@ function replaceExtraTags(html) {
     return html;
 }
 
+if (typeof mermaid !== 'undefined' && mermaid) mermaid.startOnLoad = false;
+
 //dynamic event or object binding here
 function finishView(view) {
     //todo list
