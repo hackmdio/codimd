@@ -100,9 +100,10 @@ app.use(session({
     secret: config.sessionsecret,
     resave: false, //don't save session if unmodified
     saveUninitialized: true, //always create session to ensure the origin
+    rolling: true, // reset maxAge on every response
     cookie: {
         maxAge: config.sessionlife,
-        expires: new Date(Date.now() + config.sessionlife),
+        expires: new Date(Date.now() + config.sessionlife)
     },
     store: sessionStore
 }));
