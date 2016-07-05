@@ -137,6 +137,17 @@ Third-party integration api key settings
 | imgur | `config.json` | for image upload |
 | google drive, dropbox | `public/js/common.js` | for export and import |
 
+Third-party integration oauth callback urls
+---
+| service | callback url (after the server url) |
+| ------- | --------- |
+| facebook | `/auth/facebook/callback` |
+| twitter | `/auth/twitter/callback` |
+| github | `/auth/github/callback` |
+| gitlab | `/auth/gitlab/callback` |
+| dropbox | `/auth/dropbox/callback` |
+| google | `/auth/google/callback` |
+
 Operational Transformation
 ---
 From 0.3.2, we start support operational transformation.  
