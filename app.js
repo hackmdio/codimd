@@ -256,10 +256,10 @@ if (config.facebook) {
     //facebook auth callback
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            failureRedirect: config.serverurl
+            failureRedirect: config.serverurl + '/'
         }),
         function (req, res) {
-            res.redirect(config.serverurl);
+            res.redirect(config.serverurl + '/');
         });
 }
 //twitter auth
@@ -269,10 +269,10 @@ if (config.twitter) {
     //twitter auth callback
     app.get('/auth/twitter/callback',
         passport.authenticate('twitter', {
-            failureRedirect: config.serverurl
+            failureRedirect: config.serverurl + '/'
         }),
         function (req, res) {
-            res.redirect(config.serverurl);
+            res.redirect(config.serverurl + '/');
         });
 }
 //github auth
@@ -282,10 +282,10 @@ if (config.github) {
     //github auth callback
     app.get('/auth/github/callback',
         passport.authenticate('github', {
-            failureRedirect: config.serverurl
+            failureRedirect: config.serverurl + '/'
         }),
         function (req, res) {
-            res.redirect(config.serverurl);
+            res.redirect(config.serverurl + '/');
         });
     //github callback actions
     app.get('/auth/github/callback/:noteId/:action', response.githubActions);
@@ -297,10 +297,10 @@ if (config.gitlab) {
     //gitlab auth callback
     app.get('/auth/gitlab/callback',
         passport.authenticate('gitlab', {
-            failureRedirect: config.serverurl
+            failureRedirect: config.serverurl + '/'
         }),
         function (req, res) {
-            res.redirect(config.serverurl);
+            res.redirect(config.serverurl + '/');
         });
     //gitlab callback actions
     app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions);
@@ -312,10 +312,10 @@ if (config.dropbox) {
     //dropbox auth callback
     app.get('/auth/dropbox/callback',
         passport.authenticate('dropbox-oauth2', {
-            failureRedirect: config.serverurl
+            failureRedirect: config.serverurl + '/'
         }),
         function (req, res) {
-            res.redirect(config.serverurl);
+            res.redirect(config.serverurl + '/');
         });
 }
 //google auth
@@ -325,10 +325,10 @@ if (config.google) {
     //google auth callback
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            failureRedirect: config.serverurl
+            failureRedirect: config.serverurl + '/'
         }),
         function (req, res) {
-            res.redirect(config.serverurl);
+            res.redirect(config.serverurl + '/');
         });
 }
 //logout
@@ -336,7 +336,7 @@ app.get('/logout', function (req, res) {
     if (config.debug && req.isAuthenticated())
         logger.info('user logout: ' + req.user.id);
     req.logout();
-    res.redirect(config.serverurl);
+    res.redirect(config.serverurl + '/');
 });
 //get history
 app.get('/history', function (req, res) {
