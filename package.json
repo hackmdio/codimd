@@ -22,7 +22,7 @@
     "formidable": "^1.0.17",
     "helmet": "^2.1.1",
     "highlight.js": "^9.4.0",
-    "imgur": "^0.1.7",
+    "imgur": "git+https://github.com/hackmdio/node-imgur.git",
     "jsdom-nogyp": "^0.8.3",
     "lz-string": "1.4.4",
     "markdown-it": "^7.0.0",
