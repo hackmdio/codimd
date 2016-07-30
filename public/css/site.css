@@ -10,7 +10,7 @@ body {
     font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
     letter-spacing: 0.025em;
 }
-:focus {
+:focus, .focus {
     outline: none !important;
 }
 ::-moz-focus-inner {

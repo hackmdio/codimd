@@ -15,8 +15,8 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.6",
-    "jquery": "~2.2.4",
+    "bootstrap": "~3.3.7",
+    "jquery": "~3.1.0",
     "font-awesome": "~4.6.3",
     "Ionicons": "ionicons#~2.0.1",
     "reveal.js": "~3.3.0",
@@ -60,6 +60,6 @@
     "gist-embed": "*"
   },
   "resolutions": {
-    "jquery": "~2.2.4"
+    "jquery": "~3.1.0"
   }
 }

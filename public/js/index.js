@@ -810,10 +810,10 @@ $(window).resize(function () {
     windowResize();
 });
 //when page unload
-$(window).unload(function () {
+$(window).on('unload', function () {
     updateHistoryInner();
 });
-$(window).error(function () {
+$(window).on('error', function () {
     //setNeedRefresh();
 });
 
@@ -1357,7 +1357,7 @@ ui.toolbar.export.gist.attr("href", noteurl + "/gist");
 ui.toolbar.export.snippet.click(function() {
     ui.spinner.show();
     $.get(serverurl + '/auth/gitlab/callback/' + noteid + '/projects')
-        .success(function (data) {
+        .done(function (data) {
             $("#snippetExportModalAccessToken").val(data.accesstoken);
             $("#snippetExportModalBaseURL").val(data.baseURL);
             $("#snippetExportModalLoading").hide();
@@ -1380,10 +1380,10 @@ ui.toolbar.export.snippet.click(function() {
             }
             $("#snippetExportModalLoading").hide();
         })
-        .error(function (data) {
+        .fail(function (data) {
             showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false);
         })
-        .complete(function () {
+        .always(function () {
             ui.spinner.hide();
         });
 });
@@ -1443,7 +1443,7 @@ ui.toolbar.import.gist.click(function () {
 ui.toolbar.import.snippet.click(function () {
     ui.spinner.show();
     $.get(serverurl + '/auth/gitlab/callback/' + noteid + '/projects')
-        .success(function (data) {
+        .done(function (data) {
             $("#snippetImportModalAccessToken").val(data.accesstoken);
             $("#snippetImportModalBaseURL").val(data.baseURL);
             $("#snippetImportModalContent").prop('disabled', false);
@@ -1468,10 +1468,10 @@ ui.toolbar.import.snippet.click(function () {
             }
             $("#snippetImportModalLoading").hide();
         })
-        .error(function (data) {
+        .fail(function (data) {
             showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false);
         })
-        .complete(function () {
+        .always(function () {
             ui.spinner.hide();
         });
 });
@@ -1503,14 +1503,14 @@ var revision = null;
 var revisionTime = null;
 ui.modal.revision.on('show.bs.modal', function (e) {
     $.get(noteurl + '/revision')
-        .success(function(data) {
+        .done(function(data) {
             parseRevisions(JSON.parse(data).revision);
             initRevisionViewer();
         })
-        .error(function(err) {
+        .fail(function(err) {
 
         })
-        .complete(function() {
+        .always(function() {
             //na
         });
 });
@@ -1555,7 +1555,7 @@ function parseRevisions(_revisions) {
 function selectRevision(time) {
     if (time == revisionTime) return; 
     $.get(noteurl + '/revision/' + time)
-        .success(function(data) {
+        .done(function(data) {
             revision = JSON.parse(data);
             revisionTime = time;
             var lastScrollInfo = revisionViewer.getScrollInfo();
@@ -1613,10 +1613,10 @@ function selectRevision(time) {
             revisionInsertAnnotation.update(revisionInsert);
             revisionDeleteAnnotation.update(revisionDelete);
         })
-        .error(function(err) {
+        .fail(function(err) {
 
         })
-        .complete(function() {
+        .always(function() {
             //na
         });
 }
@@ -1662,7 +1662,7 @@ ui.modal.snippetImportProjects.change(function() {
     $("#snippetImportModalLoading").show();
     $("#snippetImportModalContent").val('/projects/' + project);
     $.get(baseURL + '/api/v3/projects/' + project + '/snippets?access_token=' + accesstoken)
-        .success(function(data) {
+        .done(function(data) {
             $("#snippetImportModalSnippets").find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Snippets</option>');
             data.forEach(function(snippet) {
                 $('<option>').val(snippet.id).text(snippet.title).appendTo($("#snippetImportModalSnippets"));
@@ -1670,10 +1670,10 @@ ui.modal.snippetImportProjects.change(function() {
             $("#snippetImportModalLoading").hide();
             $("#snippetImportModalSnippets").prop('disabled', false);
         })
-        .error(function(err) {
+        .fail(function(err) {
 
         })
-        .complete(function() {
+        .always(function() {
             //na
         });
 });
@@ -1807,7 +1807,7 @@ $("#gistImportModalConfirm").click(function () {
         } else {
             ui.spinner.show();
             $.get('https://api.github.com/gists/' + url('-1', gisturl))
-                .success(function (data) {
+                .done(function (data) {
                     if (data.files) {
                         var contents = "";
                         Object.keys(data.files).forEach(function (key) {
@@ -1821,10 +1821,10 @@ $("#gistImportModalConfirm").click(function () {
                         showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Unable to fetch gist files :(', '', '', false);
                     }
                 })
-                .error(function (data) {
+                .fail(function (data) {
                     showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', JSON.stringify(data), false);
                 })
-                .complete(function () {
+                .always(function () {
                     ui.spinner.hide();
                 });
         }
@@ -1850,12 +1850,12 @@ $("#snippetImportModalConfirm").click(function () {
         var accessToken = '?access_token=' + $("#snippetImportModalAccessToken").val();
         var fullURL = $("#snippetImportModalBaseURL").val() + '/api/v3' + snippeturl;
         $.get(fullURL + accessToken)
-            .success(function(data) {
+            .done(function(data) {
                 var content = '# ' + (data.title || "Snippet Import");
                 var fileInfo = data.file_name.split('.');
                 fileInfo[1] = (fileInfo[1]) ? fileInfo[1] : "md";
                 $.get(fullURL + '/raw' + accessToken)
-                    .success(function (raw) {
+                    .done(function (raw) {
                         if (raw) {
                             content += "\n\n";
                             if (fileInfo[1] != "md") {
@@ -1868,14 +1868,14 @@ $("#snippetImportModalConfirm").click(function () {
                             replaceAll(content);
                         }
                     })
-                    .error(function (data) {
+                    .fail(function (data) {
                         showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false);
                     })
-                    .complete(function () {
+                    .always(function () {
                         ui.spinner.hide();
                     });
             })
-            .error(function (data) {
+            .fail(function (data) {
                 showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false);
             });
     }
