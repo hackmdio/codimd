@@ -55,10 +55,14 @@ viewAjaxCallback = function () {
 };
 
 function renderSlide(event) {
-    var title = document.title;
-    finishView($(event.currentSlide));
-    document.title = title;
-    Reveal.layout();
+    var markdown = $(event.currentSlide);
+    if (!markdown.attr('data-rendered')) {
+        var title = document.title;
+        finishView(markdown);
+        markdown.attr('data-rendered', 'true');
+        document.title = title;
+        Reveal.layout();
+    }
 }
 
 Reveal.addEventListener('ready', renderSlide);
