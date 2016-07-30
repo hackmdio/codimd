@@ -3,15 +3,32 @@ var text = $('<textarea/>').html(markdown.html()).text();
 var lastMeta = md.meta;
 md.meta = {};
 var rendered = md.render(text);
-// only render again when meta changed
-if (JSON.stringify(md.meta) != JSON.stringify(lastMeta)) {
-    parseMeta(md, null, markdown, $('#toc'), $('#toc-affix'));
-    rendered = md.render(text);
+if (md.meta.type && md.meta.type === 'slide') {
+    var slideOptions = {
+        separator: '^(\r\n?|\n)---(\r\n?|\n)$',
+        verticalSeparator: '^(\r\n?|\n)----(\r\n?|\n)$'
+    };
+    var slides = RevealMarkdown.slidify(text, slideOptions);
+    markdown.html(slides);
+    RevealMarkdown.initialize();
+    // prevent XSS
+    markdown.html(preventXSS(markdown.html()));
+    markdown.addClass('slides');
+} else {
+    if (lastMeta.type && lastMeta.type === 'slide') {
+        refreshView();
+        markdown.removeClass('slides');
+    }
+    // only render again when meta changed
+    if (JSON.stringify(md.meta) != JSON.stringify(lastMeta)) {
+        parseMeta(md, null, markdown, $('#toc'), $('#toc-affix'));
+        rendered = md.render(text);
+    }
+    // prevent XSS
+    rendered = preventXSS(rendered);
+    var result = postProcess(rendered);
+    markdown.html(result.html());
 }
-// prevent XSS
-rendered = preventXSS(rendered);
-var result = postProcess(rendered);
-markdown.html(result.html());
 $(document.body).show();
 finishView(markdown);
 autoLinkify(markdown);
