@@ -62,6 +62,10 @@ function renderSlide(event) {
         markdown.attr('data-rendered', 'true');
         document.title = title;
         Reveal.layout();
+        // force browser redraw
+        setTimeout(function () {
+            markdown.hide().show(0);
+        }, 0);
     }
 }
 
