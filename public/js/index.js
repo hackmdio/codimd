@@ -508,7 +508,7 @@ function setSpellcheck() {
     var cookieSpellcheck = Cookies.get('spellcheck');
     if (cookieSpellcheck) {
         var mode = null;
-        if (cookieSpellcheck === 'true') {
+        if (cookieSpellcheck === 'true' || cookieSpellcheck === true) {
             mode = 'spell-checker';
         } else {
             mode = 'gfm';
