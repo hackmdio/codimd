@@ -184,9 +184,7 @@ var supportExtraTags = [
         text: '[random color tag]',
         search: '[]',
         command: function () {
-            var color = randomColor({
-                luminosity: 'light'
-            });
+            var color = randomColor();
             return '[color=' + color + ']';
         }
     }
