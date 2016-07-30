@@ -2914,18 +2914,39 @@ function updateViewInner() {
     var lastMeta = md.meta;
     md.meta = {};
     var rendered = md.render(value);
-    // only render again when meta changed
-    if (JSON.stringify(md.meta) != JSON.stringify(lastMeta)) {
-        parseMeta(md, ui.area.codemirror, ui.area.markdown, $('#toc'), $('#toc-affix'));
-        rendered = md.render(value);
+    if (md.meta.type && md.meta.type === 'slide') {
+        var slideOptions = {
+            separator: '^(\r\n?|\n)---(\r\n?|\n)$',
+            verticalSeparator: '^(\r\n?|\n)----(\r\n?|\n)$'
+        };
+        var slides = RevealMarkdown.slidify(editor.getValue(), slideOptions);
+        ui.area.markdown.html(slides);
+        RevealMarkdown.initialize();
+        // prevent XSS
+        ui.area.markdown.html(preventXSS(ui.area.markdown.html()));
+        ui.area.markdown.addClass('slides');
+        syncscroll = false;
+        checkSyncToggle();
+    } else {
+        if (lastMeta.type && lastMeta.type === 'slide') {
+            refreshView();
+            ui.area.markdown.removeClass('slides');
+            syncscroll = true;
+            checkSyncToggle();
+        }
+        // only render again when meta changed
+        if (JSON.stringify(md.meta) != JSON.stringify(lastMeta)) {
+            parseMeta(md, ui.area.codemirror, ui.area.markdown, $('#toc'), $('#toc-affix'));
+            rendered = md.render(value);
+        }
+        // prevent XSS
+        rendered = preventXSS(rendered);
+        var result = postProcess(rendered).children().toArray();
+        partialUpdate(result, lastResult, ui.area.markdown.children().toArray());
+        if (result && lastResult && result.length != lastResult.length)
+            updateDataAttrs(result, ui.area.markdown.children().toArray());
+        lastResult = $(result).clone();
     }
-    // prevent XSS
-    rendered = preventXSS(rendered);
-    var result = postProcess(rendered).children().toArray();
-    partialUpdate(result, lastResult, ui.area.markdown.children().toArray());
-    if (result && lastResult && result.length != lastResult.length)
-        updateDataAttrs(result, ui.area.markdown.children().toArray());
-    lastResult = $(result).clone();
     finishView(ui.area.markdown);
     autoLinkify(ui.area.markdown);
     deduplicatedHeaderId(ui.area.markdown);

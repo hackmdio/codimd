@@ -1,0 +1,54 @@
+.markdown-body.slides {
+  position: relative;
+  z-index: 1;
+  color: #222;
+}
+
+.markdown-body.slides::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: currentColor;
+  box-shadow: 0 0 0 50vw;
+}
+
+.markdown-body.slides section[data-markdown] {
+  position: relative;
+  margin-bottom: 1.5em;
+  background-color: #fff;
+  text-align: center;
+}
+
+.markdown-body.slides section[data-markdown]::before {
+  content: '';
+  display: block;
+  padding-bottom: 56.23%;
+}
+
+.markdown-body.slides section[data-markdown] div:first-child {
+  position: absolute;
+  top: 50%;
+  left: 1em;
+  right: 1em;
+  transform: translateY(-50%);
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.markdown-body.slides section[data-markdown] ul {
+  display: inline-block;
+}
+
+.markdown-body.slides > section > section + section::after {
+  content: '';
+  position: absolute;
+  top: -1.5em;
+  right: 1em;
+  height: 1.5em;
+  border: 3px solid #777;
+}
