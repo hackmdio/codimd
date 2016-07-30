@@ -685,8 +685,18 @@ var spinner = new Spinner(opts).spin(ui.spinner[0]);
 
 //idle
 var idle = new Idle({
-    onAway: idleStateChange,
-    onAwayBack: idleStateChange,
+    onAway: function () {
+        idle.isAway = true;
+        emitUserStatus();
+        updateOnlineStatus();
+    },
+    onAwayBack: function () {
+        idle.isAway = false;
+        emitUserStatus();
+        updateOnlineStatus();
+        setHaveUnreadChanges(false);
+        updateTitleReminder();
+    },
     awayTimeout: idleTime
 });
 ui.area.codemirror.on('touchstart', function () {
@@ -711,14 +721,6 @@ function updateTitleReminder() {
     } else {
         document.title = renderTitle(ui.area.markdown);
     }
-}
-
-function idleStateChange() {
-    emitUserStatus();
-    updateOnlineStatus();
-    if (!idle.isAway)
-        setHaveUnreadChanges(false);
-    updateTitleReminder();
 }
 
 function setRefreshModal(status) {
