@@ -53,7 +53,8 @@ function checkLoginStateChanged() {
 }
 
 function getLoginState() {
-    return Cookies.get('loginstate') === "true";
+    var state = Cookies.get('loginstate');
+    return state === "true" || state === true;
 }
 
 function getUserId() {
