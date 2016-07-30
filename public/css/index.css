@@ -49,6 +49,9 @@ body {
     min-width: 1.5em;
     text-align: right;
 }
+.CodeMirror-gutter.authorship-gutters {
+    width: 8px;
+}
 .CodeMirror-matchingtag {
     background: rgba(255, 255, 255, .1);
     line-height: 1em;

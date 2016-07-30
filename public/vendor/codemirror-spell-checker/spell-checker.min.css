@@ -4,4 +4,4 @@
  * @link https://github.com/NextStepWebs/codemirror-spell-checker
  * @license MIT
  */
-.CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word){border-bottom:1px dashed rgba(255,0,0,.8)}
+.CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word){border-bottom:2px dotted rgba(255,0,0,.8)}

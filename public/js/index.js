@@ -287,7 +287,7 @@ var editor = CodeMirror.fromTextArea(textit, {
     },
     autoCloseTags: true,
     foldGutter: true,
-    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+    gutters: ["CodeMirror-linenumbers", "authorship-gutters", "CodeMirror-foldgutter"],
     extraKeys: defaultExtraKeys,
     flattenSpans: true,
     addModeClass: true,
@@ -2127,6 +2127,9 @@ socket.on('version', function (data) {
         }
     }
 });
+var authors = [];
+var authorship = [];
+var authorshipMarks = {};
 function updateLastInfo(data) {
     //console.log(data);
     if (data.hasOwnProperty('createtime') && createtime !== data.createtime) {
@@ -2142,7 +2145,212 @@ function updateLastInfo(data) {
         lastchangeuserprofile = data.lastchangeuserprofile;
         updateLastChangeUser();
     }
+    if (data.hasOwnProperty('authors') && authors !== data.authors) {
+        authors = data.authors;
+    }
+    if (data.hasOwnProperty('authorship') && authorship !== data.authorship) {
+        authorship = data.authorship;
+        updateAuthorship();
+    }
 }
+var updateAuthorship = _.throttle(updateAuthorshipInner, 50);
+function initMark() {
+    return {
+        gutter: {
+            userid: null,
+            timestamp: null
+        },
+        textmarkers: []
+    };
+}
+function initMarkAndCheckGutter(mark, author, timestamp) {
+    if (!mark) mark = initMark();
+    if (!mark.gutter.userid || mark.gutter.timestamp > timestamp) {
+        mark.gutter.userid = author.userid;
+        mark.gutter.timestamp = timestamp;
+    }
+    return mark;
+}
+var gutterStylePrefix = "border-left: 3px solid ";
+var gutterStylePostfix = "; height: " + defaultTextHeight + "px; margin-left: 3px;";
+var textMarkderStylePrefix = "background-image: linear-gradient(to top, ";
+var textMarkderStylePostfix = " 1px, transparent 1px);";
+var addStyleRule = (function () {
+    var added = {};
+    var styleElement = document.createElement('style');
+    document.documentElement.getElementsByTagName('head')[0].appendChild(styleElement);
+    var styleSheet = styleElement.sheet;
+
+    return function (css) {
+        if (added[css]) {
+            return;
+        }
+        added[css] = true;
+        styleSheet.insertRule(css, (styleSheet.cssRules || styleSheet.rules).length);
+    };
+}());
+function updateAuthorshipInner() {
+    // ignore when ot not synced yet
+    if (Object.keys(cmClient.state).length > 0) return;
+    var authorMarks = {};
+    for (var i = 0; i < authorship.length; i++) {
+        var atom = authorship[i];
+        var author = authors[atom[0]];
+        if (author) {
+            var prePos = editor.posFromIndex(atom[1]);
+            var preLine = editor.getLine(prePos.line);
+            var postPos = editor.posFromIndex(atom[2]);
+            var postLine = editor.getLine(postPos.line);
+            if (prePos.ch == 0 && postPos.ch == postLine.length) {
+                for (var j = prePos.line; j <= postPos.line; j++) {
+                    if (editor.getLine(j)) {
+                        authorMarks[j] = initMarkAndCheckGutter(authorMarks[j], author, atom[3]);
+                    }
+                }
+            } else if (postPos.line - prePos.line >= 1) {
+                var startLine = prePos.line;
+                var endLine = postPos.line;
+                if (prePos.ch == preLine.length) {
+                    startLine++;
+                } else if (prePos.ch != 0) {
+                    var mark = initMarkAndCheckGutter(authorMarks[prePos.line], author, atom[3]);
+                    var _postPos = {
+                        line: prePos.line,
+                        ch: preLine.length
+                    };
+                    if (JSON.stringify(prePos) != JSON.stringify(_postPos)) {
+                        mark.textmarkers.push({
+                            userid: author.userid,
+                            pos: [prePos, _postPos]
+                        });
+                        startLine++;
+                    }
+                    authorMarks[prePos.line] = mark;
+                }
+                if (postPos.ch == 0) {
+                    endLine--;
+                } else if (postPos.ch != postLine.length) {
+                    var mark = initMarkAndCheckGutter(authorMarks[postPos.line], author, atom[3]);
+                    var _prePos = {
+                        line: postPos.line,
+                        ch: 0
+                    };
+                    if (JSON.stringify(_prePos) != JSON.stringify(postPos)) {
+                        mark.textmarkers.push({
+                            userid: author.userid,
+                            pos: [_prePos, postPos]
+                        });
+                        endLine--;
+                    }
+                    authorMarks[postPos.line] = mark;
+                }
+                for (var j = startLine; j <= endLine; j++) {
+                    if (editor.getLine(j)) {
+                        authorMarks[j] = initMarkAndCheckGutter(authorMarks[j], author, atom[3]);
+                    }
+                }
+            } else {
+                var mark = initMarkAndCheckGutter(authorMarks[prePos.line], author, atom[3]);
+                if (JSON.stringify(prePos) != JSON.stringify(postPos)) {
+                    mark.textmarkers.push({
+                        userid: author.userid,
+                        pos: [prePos, postPos]
+                    });
+                }
+                authorMarks[prePos.line] = mark;
+            }
+        }
+    }
+    var addTextMarkers = [];
+    editor.eachLine(function (line) {
+        var lineNumber = editor.getLineNumber(line);
+        var currMark = authorMarks[lineNumber];
+        var author = currMark ? authors[currMark.gutter.userid] : null;
+        if (currMark && author) {
+            var className = 'authorship-gutter-' + author.color.substr(1);
+            var gutters = editor.getLineHandle(lineNumber).gutterMarkers;
+            if (!gutters || !gutters['authorship-gutters'] ||
+                !gutters['authorship-gutters'].className ||
+                !gutters['authorship-gutters'].className.indexOf(className) < 0) {
+                var styleString = gutterStylePrefix + author.color + gutterStylePostfix;
+                var rule = "." + className + "{" + styleString + "}";
+                addStyleRule(rule);
+                var gutter = $('<div>', {
+                    class: 'authorship-gutter ' + className,
+                    title: author.name
+                });
+                editor.setGutterMarker(lineNumber, "authorship-gutters", gutter[0]);
+            }
+        } else {
+            editor.setGutterMarker(lineNumber, "authorship-gutters", null);
+        }
+        if (currMark && currMark.textmarkers.length > 0) {
+            for (var i = 0; i < currMark.textmarkers.length; i++) {
+                var textMarker = currMark.textmarkers[i];
+                if (textMarker.userid != currMark.gutter.userid) {
+                    addTextMarkers.push(textMarker);
+                }
+            }
+        }
+    });
+    var allTextMarks = editor.getAllMarks();
+    for (var i = 0; i < allTextMarks.length; i++) {
+        var _textMarker = allTextMarks[i];
+        var pos = _textMarker.find();
+        var found = false;
+        for (var j = 0; j < addTextMarkers.length; j++) {
+            var textMarker = addTextMarkers[j];
+            var author = authors[textMarker.userid];
+            var className = 'authorship-inline-' + author.color.substr(1);
+            var obj = {
+                from: textMarker.pos[0],
+                to: textMarker.pos[1]
+            };
+            if (JSON.stringify(pos) == JSON.stringify(obj) && _textMarker.className &&
+                _textMarker.className.indexOf(className) > -1) {
+                addTextMarkers.splice(j, 1);
+                j--;
+                found = true;
+                break;
+            }
+        }
+        if (!found && _textMarker.className && _textMarker.className.indexOf('authorship-inline') > -1) {
+            _textMarker.clear();
+        }
+    }
+    for (var i = 0; i < addTextMarkers.length; i++) {
+        var textMarker = addTextMarkers[i];
+        var author = authors[textMarker.userid];
+        var rgbcolor = hex2rgb(author.color);
+        var colorString = "rgba(" + rgbcolor.red + "," + rgbcolor.green + "," + rgbcolor.blue + ",0.7)";
+        var styleString = textMarkderStylePrefix + colorString + textMarkderStylePostfix;
+        var className = 'authorship-inline-' + author.color.substr(1);
+        var rule = "." + className + "{" + styleString + "}";
+        addStyleRule(rule);
+        var _textMarker = editor.markText(textMarker.pos[0], textMarker.pos[1], {
+            className: 'authorship-inline ' + className,
+            title: author.name
+        });
+    }
+    authorshipMarks = authorMarks;
+}
+editor.on('update', function () {
+    $('.authorship-gutter:not([data-original-title])').tooltip({
+        container: '.CodeMirror-lines',
+        placement: 'right',
+        delay: { "show": 500, "hide": 100 }
+    });
+    $('.authorship-inline:not([data-original-title])').tooltip({
+        container: '.CodeMirror-lines',
+        placement: 'bottom',
+        delay: { "show": 500, "hide": 100 }
+    });
+    // clear tooltip which described element has been removed
+    $('[id^="tooltip"]').each(function (index, element) {
+        $ele = $(element);
+        if ($('[aria-describedby="' + $ele.attr('id') + '"]').length <= 0) $ele.remove();
+    });
+});
 socket.on('check', function (data) {
     //console.log(data);
     updateLastInfo(data);
