@@ -244,3 +244,12 @@ pre.mermaid > svg {
     box-shadow: none !important;
     margin-bottom: -.25em !important;
 }
+
+.reveal .slides, .reveal .backgrounds, .reveal.overview {
+    transform-style: preserve-3d;
+}
+
+.reveal .slides > section,
+.reveal .slides > section > section {
+    transform-style: flat;
+}
