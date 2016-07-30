@@ -2663,9 +2663,10 @@ function renderUserStatusList(list) {
         var usericon = $(item.elm).find('.ui-user-icon');
         if (item.values().login && item.values().photo) {
             usericon.css('background-image', 'url(' + item.values().photo + ')');
-            usericon.css('box-shadow', '0px 0px 2px ' + item.values().color);
             //add 1px more to right, make it feel aligned
             usericon.css('margin-right', '6px');
+            $(item.elm).css('border-left', '4px solid ' + item.values().color);
+            usericon.css('margin-left', '-4px');
         } else {
             usericon.css('background-color', item.values().color);
         }
