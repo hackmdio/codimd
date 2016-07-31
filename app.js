@@ -252,87 +252,94 @@ app.post("/temp", urlencodedParser, function (req, res) {
         }
     }
 });
+
+function setReturnToFromReferer(req) {
+    var referer = req.get('referer');
+    if (!req.session) req.session = {};
+    req.session.returnTo = referer;
+}
+
 //facebook auth
 if (config.facebook) {
-    app.get('/auth/facebook',
-        passport.authenticate('facebook'));
+    app.get('/auth/facebook', function (req, res, next) {
+        setReturnToFromReferer(req);
+        passport.authenticate('facebook')(req, res, next);
+    });
     //facebook auth callback
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
+            successReturnToOrRedirect: config.serverurl + '/',
             failureRedirect: config.serverurl + '/'
-        }),
-        function (req, res) {
-            res.redirect(config.serverurl + '/');
-        });
+        }));
 }
 //twitter auth
 if (config.twitter) {
-    app.get('/auth/twitter',
-        passport.authenticate('twitter'));
+    app.get('/auth/twitter', function (req, res, next) {
+        setReturnToFromReferer(req);
+        passport.authenticate('twitter')(req, res, next);
+    });
     //twitter auth callback
     app.get('/auth/twitter/callback',
         passport.authenticate('twitter', {
+            successReturnToOrRedirect: config.serverurl + '/',
             failureRedirect: config.serverurl + '/'
-        }),
-        function (req, res) {
-            res.redirect(config.serverurl + '/');
-        });
+        }));
 }
 //github auth
 if (config.github) {
-    app.get('/auth/github',
-        passport.authenticate('github'));
+    app.get('/auth/github', function (req, res, next) {
+        setReturnToFromReferer(req);
+        passport.authenticate('github')(req, res, next);
+    });
     //github auth callback
     app.get('/auth/github/callback',
         passport.authenticate('github', {
+            successReturnToOrRedirect: config.serverurl + '/',
             failureRedirect: config.serverurl + '/'
-        }),
-        function (req, res) {
-            res.redirect(config.serverurl + '/');
-        });
+        }));
     //github callback actions
     app.get('/auth/github/callback/:noteId/:action', response.githubActions);
 }
 //gitlab auth
 if (config.gitlab) {
-    app.get('/auth/gitlab',
-        passport.authenticate('gitlab'));
+    app.get('/auth/gitlab', function (req, res, next) {
+        setReturnToFromReferer(req);
+        passport.authenticate('gitlab')(req, res, next);
+    });
     //gitlab auth callback
     app.get('/auth/gitlab/callback',
         passport.authenticate('gitlab', {
+            successReturnToOrRedirect: config.serverurl + '/',
             failureRedirect: config.serverurl + '/'
-        }),
-        function (req, res) {
-            res.redirect(config.serverurl + '/');
-        });
+        }));
     //gitlab callback actions
     app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions);
 }
 //dropbox auth
 if (config.dropbox) {
-    app.get('/auth/dropbox',
-        passport.authenticate('dropbox-oauth2'));
+    app.get('/auth/dropbox', function (req, res, next) {
+        setReturnToFromReferer(req);
+        passport.authenticate('dropbox-oauth2')(req, res, next);
+    });
     //dropbox auth callback
     app.get('/auth/dropbox/callback',
         passport.authenticate('dropbox-oauth2', {
+            successReturnToOrRedirect: config.serverurl + '/',
             failureRedirect: config.serverurl + '/'
-        }),
-        function (req, res) {
-            res.redirect(config.serverurl + '/');
-        });
+        }));
 }
 //google auth
 if (config.google) {
-    app.get('/auth/google',
-        passport.authenticate('google', { scope: ['profile'] }));
+    app.get('/auth/google', function (req, res, next) {
+        setReturnToFromReferer(req);
+        passport.authenticate('google', { scope: ['profile'] })(req, res, next);
+    });
     //google auth callback
     app.get('/auth/google/callback',
         passport.authenticate('google', {
+            successReturnToOrRedirect: config.serverurl + '/',
             failureRedirect: config.serverurl + '/'
-        }),
-        function (req, res) {
-            res.redirect(config.serverurl + '/');
-        });
+        }));
 }
 //logout
 app.get('/logout', function (req, res) {
