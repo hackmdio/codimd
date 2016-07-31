@@ -44,10 +44,13 @@ var defaultOptions = {
     dependencies: deps
 };
 
+// options from yaml meta
+var options = JSON.parse($("#options").text());
+
 // options from URL query string
 var queryOptions = Reveal.getQueryHash() || {};
 
-var options = extend(defaultOptions, queryOptions);
+var options = extend(defaultOptions, options, queryOptions);
 Reveal.initialize(options);
 
 viewAjaxCallback = function () {
