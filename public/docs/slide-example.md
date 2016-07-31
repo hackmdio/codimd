@@ -5,6 +5,8 @@ This feature still in beta, may have some issues.
 For details please visit:
 https://github.com/hakimel/reveal.js/
 
+You can use `URL query` or `slideOptions` of the YAML metadata to customize your slides.
+
 ---
 
 ## First slide

@@ -105,3 +105,30 @@ You can only use whether `true` or `false`.
 ```xml
 breaks: false
 ```
+
+GA
+---
+This option allow you to enable Google Analytics with your ID.
+
+> default: not set (which won't enable)
+
+**Example**
+```xml
+GA: UA-12345667-8
+```
+
+slideOptions
+---
+This option allow you provide custom options to slide mode.
+Please below document for more details:
+https://github.com/hakimel/reveal.js/#configuration
+
+**Notice: always use two spaces as indention in YAML metadata!**
+
+> default: not set (which use default slide options)
+
+**Example**
+```xml
+slideOptions:
+  transition: fade
+```
