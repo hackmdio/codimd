@@ -92,7 +92,7 @@ var supportReferrals = [
         search: '[]'
     },
     {
-        text: '[reference]: url "title"',
+        text: '[reference]: https:// "title"',
         search: '[]:'
     },
     {
@@ -100,7 +100,7 @@ var supportReferrals = [
         search: '[^]'
     },
     {
-        text: '[^footnote reference]: url "title"',
+        text: '[^footnote reference]: https:// "title"',
         search: '[^]:'
     },
     {
@@ -112,7 +112,7 @@ var supportReferrals = [
         search: '[][]'
     },
     {
-        text: '[link text](url "title")',
+        text: '[link text](https:// "title")',
         search: '[]()'
     },
     {
@@ -120,11 +120,11 @@ var supportReferrals = [
         search: '![][]'
     },
     {
-        text: '![image alt](url "title")',
+        text: '![image alt](https:// "title")',
         search: '![]()'
     },
     {
-        text: '![image alt](url "title" =WidthxHeight)',
+        text: '![image alt](https:// "title" =WidthxHeight)',
         search: '![]()'
     },
     {
