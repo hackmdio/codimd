@@ -568,6 +568,20 @@ function removeHash() {
     history.pushState("", document.title, window.location.pathname + window.location.search);
 }
 
+var tocExpand = false;
+
+function checkExpandToggle() {
+    var toc = $('.ui-toc-dropdown .toc');
+    var toggle = $('.expand-toggle');
+    if (!tocExpand) {
+        toc.removeClass('expand');
+        toggle.text('Expand all');
+    } else {
+        toc.addClass('expand');
+        toggle.text('Collapse all');
+    }
+}
+
 //toc
 function generateToc(id) {
     var target = $('#' + id);
@@ -581,8 +595,16 @@ function generateToc(id) {
     });
     if (target.text() == 'undefined')
         target.html('');
+    var toggle = $('<a class="expand-toggle" href="#">Expand all</a>');
     var backtotop = $('<a class="back-to-top" href="#">Back to top</a>');
     var gotobottom = $('<a class="go-to-bottom" href="#">Go to bottom</a>');
+    checkExpandToggle();
+    toggle.click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        tocExpand = !tocExpand;
+        checkExpandToggle();
+    });
     backtotop.click(function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -597,7 +619,7 @@ function generateToc(id) {
             scrollToBottom();
         removeHash();
     });
-    target.append(backtotop).append(gotobottom);
+    target.append(toggle).append(backtotop).append(gotobottom);
 }
 
 //smooth all hash trigger scrolling
