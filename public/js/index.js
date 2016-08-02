@@ -1173,6 +1173,9 @@ function changeMode(type) {
         editor.refresh();
     }
 
+    $(document.body).scrollspy('refresh');
+    ui.area.view.scrollspy('refresh');
+
     ui.toolbar.both.removeClass("active");
     ui.toolbar.edit.removeClass("active");
     ui.toolbar.view.removeClass("active");
