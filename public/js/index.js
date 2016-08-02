@@ -2360,6 +2360,8 @@ editor.on('update', function () {
     });
 });
 socket.on('check', function (data) {
+    data = LZString.decompressFromUTF16(data);
+    data = JSON.parse(data);
     //console.log(data);
     updateLastInfo(data);
 });
@@ -2371,6 +2373,8 @@ var otk = null;
 var owner = null;
 var permission = null;
 socket.on('refresh', function (data) {
+    data = LZString.decompressFromUTF16(data);
+    data = JSON.parse(data);
     //console.log(data);
     docmaxlength = data.docmaxlength;
     editor.setOption("maxLength", docmaxlength);
