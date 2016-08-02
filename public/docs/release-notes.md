@@ -1,6 +1,50 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 0.4.4 `mocha` <i class="fa fa-clock-o"></i> 2016-08-02 17:10
+---
+### Features
+* Add support of showing authorship in editor
+* Add support of saving authorship
+* Add support of saving authors
+* Add support of slide preview in both mode
+* Add support of all extra syntax in slide mode
+
+### Enhancements
+* Update realtime check and refresh event, compress data to minimize network transfer delay
+* Update to keep showing second level TOC if there is only one first level TOC
+* Update to add expand and collapse toggle for TOC
+* Update to make help modal and text complete hint using consistent reminder text
+* Update to support slideOptions in the yaml metadata for customize slides
+* Update to support redirect back to previous url after signin
+* Update to avoid duplicated rendering slides and reduce DOM wrap
+* Update CodeMirror to version 5.17.1
+* Update to make random color more discrete
+* Update user icon styles to make avatar more obvious
+* Update Bootstrap to 3.3.7 and jQuery to 3.1.0 with related patches
+* Update spell checker to ignore non-english or numeric alphabets
+* Update to auto rolling session for auto extending cookies expiration
+* Update some menu items and UIs
+* Update to reduce realtime timeout and heartbeat interval to handle stale clients quicker
+* Update to force note, publish note, publish slide redirect to their expected url
+* Update to change server pre-rendering engine to markdown-it
+
+### Fixes
+* Workaround vim mode might overwrite copy keyMap on Windows
+* Fix TOC might not update after changeMode
+* Workaround slide mode gets glitch and blurry text on Firefox 47+ 
+* Fix idle.js not change isAway property on onAway and onAwayBack events
+* Fix http body request entity too large issue
+* Fix google-diff-match-patch encodeURI exception issue
+* Fix yaml metadata title should pass to generateWebTitle
+* Fix spellcheck settings from cookies might not a boolean in string type
+* Fix cookies might not in boolean type cause page refresh loop
+* Fix the signin and logout redirect url might be empty
+* Fix realtime might not clear or remove invalid sockets in queue 
+* Fix slide not refresh layout on ajax item loaded 
+* Fix retryOnDisconnect not clean up after reconnected
+* Fix some potential memory leaks
+
 <i class="fa fa-tag"></i> 0.4.3 `espresso` <i class="fa fa-clock-o"></i> 2016-06-28 02:04
 ---
 ### Features
