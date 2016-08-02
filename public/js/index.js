@@ -1,5 +1,6 @@
 var defaultTextHeight = 20;
 var viewportMargin = 20;
+var mac = CodeMirror.keyMap["default"] == CodeMirror.keyMap.macDefault;
 var defaultExtraKeys = {
     "F10": function (cm) {
         cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -45,7 +46,11 @@ var defaultExtraKeys = {
         }
     },
     "Cmd-Left": "goLineLeftSmart",
-    "Cmd-Right": "goLineRight"
+    "Cmd-Right": "goLineRight",
+    "Ctrl-C": function (cm) {
+        if (!mac && cm.getOption('keyMap').substr(0, 3) === 'vim') document.execCommand("copy");
+        else return CodeMirror.Pass;
+    }
 };
 
 var idleTime = 300000; //5 mins
