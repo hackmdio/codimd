@@ -483,7 +483,6 @@ Duplicated footnote reference[^second].
 Term 1
 
 :   Definition 1
-
 with lazy continuation.
 
 Term 2 with *inline markup*
