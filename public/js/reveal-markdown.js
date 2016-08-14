@@ -355,7 +355,7 @@
                 var rendered = md.render(markdown);
 				rendered = preventXSS(rendered);
 				var result = postProcess(rendered);
-				section.innerHTML = result[0].innerHTML;
+				section.innerHTML = result[0].outerHTML;
 				addAttributes( 	section, section, null, section.getAttribute( 'data-element-attributes' ) ||
 								section.parentNode.getAttribute( 'data-element-attributes' ) ||
 								DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR,
