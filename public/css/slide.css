@@ -1,20 +1,20 @@
-.reveal,
+.reveal {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
 .reveal h1,
 .reveal h2,
 .reveal h3,
 .reveal h4,
 .reveal h5,
 .reveal h6 {
-    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft JhengHei", Meiryo, "ＭＳ ゴシック", "MS Gothic", sans-serif;
-    text-transform: none;
+    font-family: inherit;
+    text-transform: initial;
 }
 
 .reveal pre,
 .reveal code {
-    font-family: "Source Code Pro", Consolas, monaco, "Microsoft JhengHei", Meiryo, "ＭＳ ゴシック", "MS Gothic", monospace;
-    letter-spacing: 0.025em;
-    line-height: 1.25;
-    -webkit-overflow-scrolling: touch;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .vimeo,
