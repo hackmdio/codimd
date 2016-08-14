@@ -1,7 +1,7 @@
 /* for markdown-body */
 
 .markdown-body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     padding-top: 40px;
     padding-bottom: 40px;
     max-width: 758px;

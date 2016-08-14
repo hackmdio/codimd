@@ -264,7 +264,7 @@
 
 /* support japanese font */
 .markdown-body[lang^="ja"] {
-    font-family: "Helvetica Neue", Helvetica, Arial, Meiryo, "MS Gothic", "ＭＳ ゴシック", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Osaka, Meiryo, "メイリオ", "MS Gothic", "ＭＳ ゴシック", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 .ui-toc-dropdown[lang^="ja"] {
     font-family: "Source Sans Pro", Helvetica, Arial, "Meiryo UI", "MS PGothic", "ＭＳ Ｐゴシック", sans-serif;
@@ -272,7 +272,7 @@
 
 /* support zh-tw font */
 .markdown-body[lang="zh-tw"] {
-    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft JhengHei", "微軟正黑", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, "PingFang TC", "Microsoft JhengHei", "微軟正黑", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 .ui-toc-dropdown[lang="zh-tw"] {
     font-family: "Source Sans Pro", Helvetica, Arial, "Microsoft JhengHei UI", "微軟正黑UI", sans-serif;
@@ -280,7 +280,7 @@
 
 /* support zh-cn font */
 .markdown-body[lang="zh-cn"] {
-    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft YaHei", "微软雅黑", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 .ui-toc-dropdown[lang="zh-cn"] {
     font-family: "Source Sans Pro", Helvetica, Arial, "Microsoft YaHei UI", "微软雅黑UI", sans-serif;
