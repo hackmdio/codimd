@@ -45,7 +45,29 @@ var defaultOptions = {
 };
 
 // options from yaml meta
-var options = JSON.parse($("#options").text());
+var meta = JSON.parse($("#meta").text());
+var options = meta.slideOptions || {};
+
+var view = $('.reveal');
+
+//text language
+if (meta.lang && typeof meta.lang == "string") {
+    view.attr('lang', meta.lang);
+} else {
+    view.removeAttr('lang');
+}
+//text direction
+if (meta.dir && typeof meta.dir == "string" && meta.dir == "rtl") {
+    options.rtl = true;
+} else {
+    options.rtl = false;
+}
+//breaks
+if (typeof meta.breaks === 'boolean' && !meta.breaks) {
+    md.options.breaks = false;
+} else {
+    md.options.breaks = true;
+}
 
 // options from URL query string
 var queryOptions = Reveal.getQueryHash() || {};
