@@ -1,22 +1,35 @@
-var whiteListTag = ['style', '!--', 'kbd'];
+// allow some attributes
 var whiteListAttr = ['id', 'class', 'style'];
+// allow link starts with '.', '/' and custom protocol with '://'
+var linkRegex = /^([\w|-]+:\/\/)|^([\.|\/])+/;
+// custom white list
+var whiteList = filterXSS.whiteList;
+// allow ol specify start number
+whiteList['ol'] = ['start'];
+// allow style tag
+whiteList['style'] = [];
+// allow kbd tag
+whiteList['kbd'] = [];
+// allow ifram tag with some safe attributes
+whiteList['iframe'] = ['allowfullscreen', 'name', 'referrerpolicy', 'sandbox', 'src', 'srcdoc', 'width', 'height'];
 
 var filterXSSOptions = {
     allowCommentTag: true,
+    whiteList: whiteList,
     escapeHtml: function (html) {
-        // to allow html comment in multiple lines
+        // allow html comment in multiple lines
         return html.replace(/<(.*?)>/g, '&lt;$1&gt;');
     },
     onIgnoreTag: function (tag, html, options) {
-        // allow style in html
-        if (whiteListTag.indexOf(tag) !== -1) {
+        // allow comment tag
+        if (tag == "!--") {
             // do not filter its attributes
             return html;
         }
     },
     onTagAttr: function (tag, name, value, isWhiteAttr) {
-        // allow href starts with '.' or '/'
-        if (isWhiteAttr && name === 'href' && (value.indexOf('.') == 0 || value.indexOf('/') == 0)) {
+        // allow href and src that match linkRegex
+        if (isWhiteAttr && (name === 'href' || name === 'src') && linkRegex.test(value)) {
             return name + '="' + filterXSS.escapeAttrValue(value) + '"';
         }
     },
@@ -24,10 +37,6 @@ var filterXSSOptions = {
         // allow attr start with 'data-' or in the whiteListAttr
         if (name.substr(0, 5) === 'data-' || whiteListAttr.indexOf(name) !== -1) {
             // escape its value using built-in escapeAttrValue function
-            return name + '="' + filterXSS.escapeAttrValue(value) + '"';
-        }
-        // allow ol specify start number
-        if (tag === 'ol' && name === 'start') {
             return name + '="' + filterXSS.escapeAttrValue(value) + '"';
         }
     }
