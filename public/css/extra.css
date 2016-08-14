@@ -130,9 +130,14 @@
     padding-right: 10px;
     max-width: 45vw;
     width: 25vw;
-    max-height: 65vh;
+    max-height: 70vh;
     overflow: auto;
     text-align: inherit;
+}
+
+.ui-toc-dropdown > .toc {
+    max-height: calc(70vh - 100px);
+    overflow: auto;
 }
 
 .ui-toc-dropdown[dir='rtl'] .nav {

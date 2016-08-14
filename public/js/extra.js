@@ -595,6 +595,7 @@ function generateToc(id) {
     });
     if (target.text() == 'undefined')
         target.html('');
+    var tocMenu = $('<div class="toc-menu"></div');
     var toggle = $('<a class="expand-toggle" href="#">Expand all</a>');
     var backtotop = $('<a class="back-to-top" href="#">Back to top</a>');
     var gotobottom = $('<a class="go-to-bottom" href="#">Go to bottom</a>');
@@ -619,7 +620,8 @@ function generateToc(id) {
             scrollToBottom();
         removeHash();
     });
-    target.append(toggle).append(backtotop).append(gotobottom);
+    tocMenu.append(toggle).append(backtotop).append(gotobottom);
+    target.append(tocMenu);
 }
 
 //smooth all hash trigger scrolling
