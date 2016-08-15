@@ -117,6 +117,17 @@ This option allow you to enable Google Analytics with your ID.
 GA: UA-12345667-8
 ```
 
+disqus
+---
+This option allow you to enable Disqus with your shortname.
+
+> default: not set (which won't enable)
+
+**Example**
+```xml
+disqus: hackmd
+```
+
 slideOptions
 ---
 This option allow you provide custom options to slide mode.

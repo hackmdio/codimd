@@ -464,6 +464,8 @@ app.get("/s/:shortid", response.showPublishNote);
 app.get("/s/:shortid/:action", response.publishNoteActions);
 //get publish slide
 app.get("/p/:shortid", response.showPublishSlide);
+//publish slide actions
+app.get("/p/:shortid/:action", response.publishSlideActions);
 //get note by id
 app.get("/:noteId", response.showNote);
 //note actions

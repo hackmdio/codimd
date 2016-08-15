@@ -1,6 +1,17 @@
 var body = $(".slides").html();
 $(".slides").html(S(body).unescapeHTML().s);
 
+createtime = lastchangeui.time.attr('data-createtime');
+lastchangetime = lastchangeui.time.attr('data-updatetime');
+updateLastChange();
+var url = window.location.pathname;
+$('.ui-edit').attr('href', url + '/edit');
+
+$(document).ready(function () {
+    //tooltip
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
 function extend() {
     var target = {};
     for (var i = 0; i < arguments.length; i++) {
