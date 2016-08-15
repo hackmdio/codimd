@@ -98,12 +98,15 @@ function renderSlide(event) {
         markdown.attr('data-rendered', 'true');
         document.title = title;
         Reveal.layout();
-        // force browser redraw
-        setTimeout(function () {
-            markdown.hide().show(0);
-        }, 0);
     }
 }
 
-Reveal.addEventListener('ready', renderSlide);
+Reveal.addEventListener('ready', function (event) {
+    renderSlide(event);
+    var markdown = $(event.currentSlide);
+    // force browser redraw
+    setTimeout(function () {
+        markdown.hide().show(0);
+    }, 0);
+});
 Reveal.addEventListener('slidechanged', renderSlide);
