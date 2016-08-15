@@ -2,6 +2,8 @@
 var whiteListAttr = ['id', 'class', 'style'];
 // allow link starts with '.', '/' and custom protocol with '://'
 var linkRegex = /^([\w|-]+:\/\/)|^([\.|\/])+/;
+// allow data uri, from https://gist.github.com/bgrins/6194623
+var dataUriRegex = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*)\s*$/i;
 // custom white list
 var whiteList = filterXSS.whiteList;
 // allow ol specify start number
@@ -30,6 +32,10 @@ var filterXSSOptions = {
     onTagAttr: function (tag, name, value, isWhiteAttr) {
         // allow href and src that match linkRegex
         if (isWhiteAttr && (name === 'href' || name === 'src') && linkRegex.test(value)) {
+            return name + '="' + filterXSS.escapeAttrValue(value) + '"';
+        }
+        // allow data uri in img src
+        if (isWhiteAttr && (tag == "img" && name === 'src') && dataUriRegex.test(value)) {
             return name + '="' + filterXSS.escapeAttrValue(value) + '"';
         }
     },
