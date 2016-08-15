@@ -3632,7 +3632,7 @@ $(editor.getInputField())
             }
         },
         { //extra tags for blockquote
-            match: /(?:^|\n|\s)(\>.*|)((\^|)\[(\^|)\](\[\]|\(\)|\:|))(\w*)$/,
+            match: /(?:^|\n|\s)(\>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|\:|))(\w*)$/,
             search: function (term, callback) {
                 var line = editor.getLine(editor.getCursor().line);
                 quote = line.match(this.match)[1].trim();
