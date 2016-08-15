@@ -495,9 +495,9 @@ function exportToHTML(view) {
     var filename = renderFilename(ui.area.markdown) + '.html';
     var src = generateCleanHTML(view);
     //generate toc
-    var toc = $('#toc').clone();
+    var toc = $('#ui-toc').clone();
     toc.find('*').removeClass('active');
-    var tocAffix = $('#toc-affix').clone();
+    var tocAffix = $('#ui-toc-affix').clone();
     tocAffix.find('*').removeClass('active');
     //generate html via template
     $.get(serverurl + '/css/html.min.css', function (css) {
@@ -508,8 +508,8 @@ function exportToHTML(view) {
                 title: title,
                 css: css,
                 html: src[0].outerHTML,
-                toc: toc.html(),
-                'toc-affix': tocAffix.html(),
+                'ui-toc': toc.html(),
+                'ui-toc-affix': tocAffix.html(),
                 lang: (md && md.meta && md.meta.lang) ? 'lang="' + md.meta.lang + '"' : null,
                 dir: (md && md.meta && md.meta.dir) ? 'dir="' + md.meta.dir + '"' : null
             };

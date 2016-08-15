@@ -3157,7 +3157,7 @@ function updateViewInner() {
         }
         // only render again when meta changed
         if (JSON.stringify(md.meta) != JSON.stringify(lastMeta)) {
-            parseMeta(md, ui.area.codemirror, ui.area.markdown, $('#toc'), $('#toc-affix'));
+            parseMeta(md, ui.area.codemirror, ui.area.markdown, $('#ui-toc'), $('#ui-toc-affix'));
             rendered = md.render(value);
         }
         // prevent XSS
@@ -3172,8 +3172,8 @@ function updateViewInner() {
     autoLinkify(ui.area.markdown);
     deduplicatedHeaderId(ui.area.markdown);
     renderTOC(ui.area.markdown);
-    generateToc('toc');
-    generateToc('toc-affix');
+    generateToc('ui-toc');
+    generateToc('ui-toc-affix');
     generateScrollspy();
     updateScrollspy();
     smoothHashScroll();

@@ -21,7 +21,7 @@ if (md.meta.type && md.meta.type === 'slide') {
     }
     // only render again when meta changed
     if (JSON.stringify(md.meta) != JSON.stringify(lastMeta)) {
-        parseMeta(md, null, markdown, $('#toc'), $('#toc-affix'));
+        parseMeta(md, null, markdown, $('#ui-toc'), $('#ui-toc-affix'));
         rendered = md.render(text);
     }
     // prevent XSS
@@ -34,8 +34,8 @@ finishView(markdown);
 autoLinkify(markdown);
 deduplicatedHeaderId(markdown);
 renderTOC(markdown);
-generateToc('toc');
-generateToc('toc-affix');
+generateToc('ui-toc');
+generateToc('ui-toc-affix');
 smoothHashScroll();
 createtime = lastchangeui.time.attr('data-createtime');
 lastchangetime = lastchangeui.time.attr('data-updatetime');
