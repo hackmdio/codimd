@@ -53,6 +53,8 @@ body {
     vertical-align: middle;
 }
 .cover-container {
+    width: 100%;
+    padding-top: 80px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -64,6 +66,13 @@ body {
 /*
  * Header
  */
+
+.masthead {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
 
 .masthead-brand {
     margin-top: 10px;
@@ -135,8 +144,10 @@ body {
 @media (min-width: 768px) {
     /* Pull out the header and footer */
     .masthead {
-        position: relative;
+        position: absolute;
         top: 0;
+        left: 0;
+        width: 100% !important;
     }
     .mastfoot {
         position: fixed;
@@ -279,8 +290,11 @@ input {
     color: #d43f3a;
 }
 .ui-or {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin: 5px;
+}
+.ui-use-tags {
+    min-width: 172px;
+    max-width: 344px;
 }
 
 .modal-title {
@@ -306,4 +320,20 @@ input {
     background: white;
     cursor: inherit;
     display: block;
+}
+
+.social-foot {
+    line-height: 30px;
+}
+.social-foot > *, .social-foot > * > * {
+    vertical-align: middle !important;
+}
+
+@media (max-width: 768px) {
+    span.ui-or {
+        display: block;
+    }
+    .ui-use-tags {
+        max-width: 100%;
+    }
 }

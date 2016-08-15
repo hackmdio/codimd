@@ -40,8 +40,8 @@ function pageInit() {
             parseServerToHistory(historyList, parseHistoryCallback);
         },
         function () {
-            $('.ui-signin').slideDown();
-            $('.ui-or').slideDown();
+            $('.ui-signin').show();
+            $('.ui-or').show();
             $('.ui-welcome').hide();
             $('.ui-avatar').prop('src', '').hide();
             $('.ui-name').html('');
@@ -57,18 +57,17 @@ $(".masthead-nav li").click(function () {
 });
 
 $(".ui-home").click(function () {
-    $(".section").hide();
-    $("#home").fadeIn();
+    if (!$("#home").is(':visible')) {
+        $(".section:visible").hide();
+        $("#home").fadeIn();
+    }
 });
 
 $(".ui-history").click(function () {
-    $(".section").hide();
-    $("#history").fadeIn();
-});
-
-$(".ui-releasenotes").click(function () {
-    $(".section").hide();
-    $("#releasenotes").fadeIn();
+    if (!$("#history").is(':visible')) {
+        $(".section:visible").hide();
+        $("#history").fadeIn();
+    }
 });
 
 function checkHistoryList() {
@@ -292,7 +291,7 @@ $(".ui-logout").click(function () {
 
 var filtertags = [];
 $(".ui-use-tags").select2({
-    placeholder: 'Use tags...',
+    placeholder: 'Select tags...',
     multiple: true,
     data: function () {
         return {

@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="description" content="Realtime collaborative markdown notes on all platforms.">
+    <meta name="description" content="Best way to write and share your knowledge in markdown.">
     <meta name="keywords" content="Collaborative, Markdown, Notes">
     <title>HackMD - Collaborative markdown notes</title>
     <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
@@ -41,56 +41,78 @@
                         <h3 class="masthead-brand"></h3>
                         <nav>
                             <ul class="nav masthead-nav">
-                                <li class="ui-home active"><a href="#">Home</a>
+                                <li class="ui-home<% if(!signin) { %> active<% } %>"><a href="#">Intro</a>
                                 </li>
-                                <li class="ui-history"><a href="#">History</a>
+                                <li class="ui-history<% if(signin) { %> active<% } %>"><a href="#">History</a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
                 </div>
 
-                <div id="home" class="section">
+                <div id="home" class="section"<% if(signin) { %> style="display:none;"<% } %>>
                     <div class="inner cover">
                         <h1 class="cover-heading"><i class="fa fa-file-text"></i> HackMD</h1>
                         <p class="lead">
-                            Realtime collaborative markdown notes on all platforms.
+                            Best way to write and share your knowledge in markdown.
                         </p>
                         <% if(facebook || twitter || github || gitlab || dropbox || google) { %>
-                        <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="display:none;">Sign In</a>
-                        <div class="ui-or" style="display:none;">Or</div>
+                        <span class="ui-signin">
+                            <br>
+                            <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="width: 170px;">Sign In</a>
+                        </span>
+                        <span class="ui-or">or</span>
                         <% }%>
-                        <p class="lead">
-                            <a href="<%- url %>/new" class="btn btn-lg btn-default">New note</a>
-                        </p>
-                        <h5>Share directly with URL <i class="fa fa-link"></i></h5>
-                        <a class="btn btn-primary" href="<%- url %>/features">More features <i class="fa fa-chevron-right"></i></a>
+                        <span class="ui-signin">
+                            <a href="<%- url %>/new" class="btn btn-lg btn-default" style="width: 170px;">New guest note</a>
+                            <br>
+                            <br>
+                        </span>
+                        <div class="lead row" style="width: 90%; margin: 0 auto;">
+                            <div class="col-md-4 inner">
+                                <a href="<%- url %>/features#share-note">
+                                    <i class="fa fa-bolt fa-3x"></i>
+                                    <h4>Collaborate with URL</h4>
+                                </a>
+                            </div>
+                            <div class="col-md-4 inner">
+                                <a href="<%- url %>/features#mathjax">
+                                    <i class="fa fa-bar-chart fa-3x"></i>
+                                    <h4>Support charts and MathJax</h4>
+                                </a>
+                            </div>
+                            <div class="col-md-4 inner">
+                                <a href="<%- url %>/features#slide-mode">
+                                    <i class="fa fa-tv fa-3x"></i>
+                                    <h4>Support slide mode</h4>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <br>
                 </div>
 
-                <div id="history" class="section" style="display:none;">
+                <div id="history" class="section"<% if(!signin) { %> style="display:none;"<% } %>>
                     <% if(facebook || twitter || github || gitlab || dropbox || google) { %>
                     <div class="ui-signin">
-                        <h4>
-                            <a type="button" class="btn btn-success" data-toggle="modal" data-target=".signin-modal">Sign In</a> to get own history!
-                        </h4>
-                        <p>Below are history from browser</p>
+                        <p>Below is the history from browser</p>
                     </div>
                     <div class="ui-signout" style="display:none;">
                         <img class="ui-avatar">
                         <h4 class="ui-welcome">Welcome! <span class="ui-name"></span></h4>
-                        <a href="<%- url %>/new" class="btn btn-default">New note</a> Or
+                        <a href="<%- url %>/new" class="btn btn-md btn-default">New note</a> or
                         <a href="#" class="btn btn-danger ui-logout">Sign Out</a>
                     </div>
                     <% }%>
+                    <h4>
+                        <a type="button" href="<%- url %>/features" class="btn btn-primary">Explore all features</a>
+                    </h4>
                     <hr>
                     <form class="form-inline">
                         <div class="form-group" style="vertical-align: bottom;">
-                            <input class="form-control ui-use-tags" style="min-width:172px;max-width:344px;" />
+                            <input class="form-control ui-use-tags" />
                         </div>
                         <div class="form-group">
-                            <input class="search form-control" placeholder="Search anything..." />
+                            <input class="search form-control" placeholder="Search keyword..." />
                         </div>
                         <a href="#" class="sort btn btn-default" data-sort="text" title="Sort by title">
                         Title
@@ -117,8 +139,8 @@
 
                 <div class="mastfoot">
                     <div class="inner">
-                        <h6>
-                            <iframe src="//ghbtns.com/github-btn.html?user=hackmdio&repo=hackmd&type=star&count=true" frameborder="0" scrolling="0" width="90px" height="20px" style="vertical-align:middle;"></iframe>
+                        <h6 class="social-foot">
+                            <iframe src="//ghbtns.com/github-btn.html?user=hackmdio&repo=hackmd&type=star&count=true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe>
                         </h6>
                         <p>
                             &copy; 2016 <a href="https://www.facebook.com/TakeHackMD" target="_blank"><i class="fa fa-facebook-square"></i> HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank">Releases</a>
