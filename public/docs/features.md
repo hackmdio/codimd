@@ -104,7 +104,14 @@ Provide advanced note information to set the browse behavior, visit above link f
 - lang: set browse language
 - dir: set text direction
 - breaks: set to use line breaks or not
-- mathjax: set to parse mathjax or not
+- GA: set to use Google Analytics
+- disqus: set to use Disqus
+- slideOptions: set to setup slide mode options
+
+## TOC
+Use the syntax `[TOC]` to embed table of content into your note.
+
+[TOC]
 
 ## Emoji
 You can type any emoji like this :smile: :smiley: :cry: :wink:
