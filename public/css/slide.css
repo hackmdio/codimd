@@ -280,6 +280,25 @@ pre.mermaid > svg {
     max-width: 758px;
 }
 
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+}
+
+.container.hidescrollbar {
+    right: -17px;
+}
+
 .reveal {
     height: 100vh;
 }

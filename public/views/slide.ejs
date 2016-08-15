@@ -46,33 +46,34 @@
         </script>
     </head>
     <body>
-
-        <div class="reveal">
-            <div class="slides"><%- slides %></div>
-        </div>
-
-        <div id="meta" style="display: none;"><%- meta %></div>
-
-        <div class="footer">
-            <div class="unselectable hidden-print" style="color: #777;">
-                <small>
-                    <span>
-                        <% if(lastchangeuserprofile) { %>
-                            <span class="ui-lastchangeuser">&thinsp;<i class="ui-user-icon small" style="background-image: url(<%- lastchangeuserprofile.photo %>);" data-toggle="tooltip" data-placement="right" title="<%- lastchangeuserprofile.name %>"></i></span>
-                        <% } else { %>
-                            <span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o"></i></span>
-                        <% } %>
-                        &nbsp;<span class="text-uppercase ui-status-lastchange"></span>
-                        <span class="ui-lastchange text-uppercase" data-createtime="<%- createtime %>" data-updatetime="<%- updatetime %>"></span>
-                    </span>
-                    <span class="pull-right"><%- viewcount %> views <a href="#" class="ui-edit" title="Edit this note"><i class="fa fa-fw fa-pencil"></i></a></span>
-                </small>
+        <div class="container">
+            <div class="reveal">
+                <div class="slides"><%- slides %></div>
             </div>
-            <% if(typeof disqus !== 'undefined' && disqus) { %>
-            <div style="margin-top: 25px; margin-bottom: 15px;">
-                <%- include disqus %>
+
+            <div id="meta" style="display: none;"><%- meta %></div>
+
+            <div class="footer">
+                <div class="unselectable hidden-print" style="color: #777;">
+                    <small>
+                        <span>
+                            <% if(lastchangeuserprofile) { %>
+                                <span class="ui-lastchangeuser">&thinsp;<i class="ui-user-icon small" style="background-image: url(<%- lastchangeuserprofile.photo %>);" data-toggle="tooltip" data-placement="right" title="<%- lastchangeuserprofile.name %>"></i></span>
+                            <% } else { %>
+                                <span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o"></i></span>
+                            <% } %>
+                            &nbsp;<span class="text-uppercase ui-status-lastchange"></span>
+                            <span class="ui-lastchange text-uppercase" data-createtime="<%- createtime %>" data-updatetime="<%- updatetime %>"></span>
+                        </span>
+                        <span class="pull-right"><%- viewcount %> views <a href="#" class="ui-edit" title="Edit this note"><i class="fa fa-fw fa-pencil"></i></a></span>
+                    </small>
+                </div>
+                <% if(typeof disqus !== 'undefined' && disqus) { %>
+                <div style="margin-top: 25px; margin-bottom: 15px;">
+                    <%- include disqus %>
+                </div>
+                <% } %>
             </div>
-            <% } %>
         </div>
 
         <script type="text/x-mathjax-config">

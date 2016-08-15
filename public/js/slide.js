@@ -110,3 +110,7 @@ Reveal.addEventListener('ready', function (event) {
     }, 0);
 });
 Reveal.addEventListener('slidechanged', renderSlide);
+
+var isMacLike = navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i) ? true : false;
+
+if (!isMacLike) $('.container').addClass('hidescrollbar');
