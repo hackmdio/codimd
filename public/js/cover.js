@@ -291,7 +291,7 @@ $(".ui-logout").click(function () {
 
 var filtertags = [];
 $(".ui-use-tags").select2({
-    placeholder: 'Select tags...',
+    placeholder: $(".ui-use-tags").attr('placeholder'),
     multiple: true,
     data: function () {
         return {

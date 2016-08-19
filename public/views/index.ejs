@@ -8,9 +8,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="description" content="Best way to write and share your knowledge in markdown.">
+    <meta name="description" content="<%= __('Best way to write and share your knowledge in markdown.') %>">
     <meta name="keywords" content="Collaborative, Markdown, Notes">
-    <title>HackMD - Collaborative markdown notes</title>
+    <title>HackMD - <%= __('Collaborative markdown notes') %></title>
     <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
     <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
 
@@ -41,9 +41,9 @@
                         <h3 class="masthead-brand"></h3>
                         <nav>
                             <ul class="nav masthead-nav">
-                                <li class="ui-home<% if(!signin) { %> active<% } %>"><a href="#">Intro</a>
+                                <li class="ui-home<% if(!signin) { %> active<% } %>"><a href="#"><%= __('Intro') %></a>
                                 </li>
-                                <li class="ui-history<% if(signin) { %> active<% } %>"><a href="#">History</a>
+                                <li class="ui-history<% if(signin) { %> active<% } %>"><a href="#"><%= __('History') %></a>
                                 </li>
                             </ul>
                         </nav>
@@ -54,17 +54,17 @@
                     <div class="inner cover">
                         <h1 class="cover-heading"><i class="fa fa-file-text"></i> HackMD</h1>
                         <p class="lead">
-                            Best way to write and share your knowledge in markdown.
+                            <%= __('Best way to write and share your knowledge in markdown.') %>
                         </p>
                         <% if(facebook || twitter || github || gitlab || dropbox || google) { %>
                         <span class="ui-signin">
                             <br>
-                            <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="width: 170px;">Sign In</a>
+                            <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="width: 170px;"><%= __('Sign In') %></a>
                         </span>
-                        <span class="ui-or">or</span>
+                        <span class="ui-or"><%= __('or') %></span>
                         <% }%>
                         <span class="ui-signin">
-                            <a href="<%- url %>/new" class="btn btn-lg btn-default" style="width: 170px;">New guest note</a>
+                            <a href="<%- url %>/new" class="btn btn-lg btn-default" style="width: 170px;"><%= __('New guest note') %></a>
                             <br>
                             <br>
                         </span>
@@ -72,19 +72,19 @@
                             <div class="col-md-4 inner">
                                 <a href="<%- url %>/features#share-note">
                                     <i class="fa fa-bolt fa-3x"></i>
-                                    <h4>Collaborate with URL</h4>
+                                    <h4><%= __('Collaborate with URL') %></h4>
                                 </a>
                             </div>
                             <div class="col-md-4 inner">
                                 <a href="<%- url %>/features#mathjax">
                                     <i class="fa fa-bar-chart fa-3x"></i>
-                                    <h4>Support charts and MathJax</h4>
+                                    <h4><%= __('Support charts and MathJax') %></h4>
                                 </a>
                             </div>
                             <div class="col-md-4 inner">
                                 <a href="<%- url %>/features#slide-mode">
                                     <i class="fa fa-tv fa-3x"></i>
-                                    <h4>Support slide mode</h4>
+                                    <h4><%= __('Support slide mode') %></h4>
                                 </a>
                             </div>
                         </div>
@@ -94,45 +94,45 @@
                 <div id="history" class="section"<% if(!signin) { %> style="display:none;"<% } %>>
                     <% if(facebook || twitter || github || gitlab || dropbox || google) { %>
                     <div class="ui-signin">
-                        <p>Below is the history from browser</p>
+                        <p><%= __('Below is the history from browser') %></p>
                     </div>
                     <div class="ui-signout" style="display:none;">
                         <img class="ui-avatar">
-                        <h4 class="ui-welcome">Welcome! <span class="ui-name"></span></h4>
-                        <a href="<%- url %>/new" class="btn btn-md btn-default">New note</a> or
-                        <a href="#" class="btn btn-danger ui-logout">Sign Out</a>
+                        <h4 class="ui-welcome"><%= __('Welcome!') %> <span class="ui-name"></span></h4>
+                        <a href="<%- url %>/new" class="btn btn-md btn-default"><%= __('New note') %></a> <%= __('or') %>
+                        <a href="#" class="btn btn-danger ui-logout"><%= __('Sign Out') %></a>
                     </div>
                     <% }%>
                     <h4>
-                        <a type="button" href="<%- url %>/features" class="btn btn-primary">Explore all features</a>
+                        <a type="button" href="<%- url %>/features" class="btn btn-primary"><%= __('Explore all features') %></a>
                     </h4>
                     <hr>
                     <form class="form-inline">
                         <div class="form-group" style="vertical-align: bottom;">
-                            <input class="form-control ui-use-tags" />
+                            <input class="form-control ui-use-tags" placeholder="<%= __('Select tags...') %>" />
                         </div>
                         <div class="form-group">
-                            <input class="search form-control" placeholder="Search keyword..." />
+                            <input class="search form-control" placeholder="<%= __('Search keyword...') %>" />
                         </div>
-                        <a href="#" class="sort btn btn-default" data-sort="text" title="Sort by title">
-                        Title
+                        <a href="#" class="sort btn btn-default" data-sort="text" title="<%= __('Sort by title') %>">
+                        <%= __('Title') %>
                         </a>
-                        <a href="#" class="sort btn btn-default" data-sort="timestamp" title="Sort by time">
-                        Time
+                        <a href="#" class="sort btn btn-default" data-sort="timestamp" title="<%= __('Sort by time') %>">
+                        <%= __('Time') %>
                         </a>
                         <span class="hidden-xs hidden-sm">
-                            <a href="#" class="btn btn-default ui-save-history" title="Export history"><i class="fa fa-save"></i></a>
-                            <span class="btn btn-default btn-file ui-open-history" title="Import history">
+                            <a href="#" class="btn btn-default ui-save-history" title="<%= __('Export history') %>"><i class="fa fa-save"></i></a>
+                            <span class="btn btn-default btn-file ui-open-history" title="<%= __('Import history') %>">
                                 <i class="fa fa-folder-open-o"></i><input type="file" />
                             </span>
-                        <a href="#" class="btn btn-default ui-clear-history" title="Clear history" data-toggle="modal" data-target=".delete-modal"><i class="fa fa-trash-o"></i></a>
+                        <a href="#" class="btn btn-default ui-clear-history" title="<%= __('Clear history') %>" data-toggle="modal" data-target=".delete-modal"><i class="fa fa-trash-o"></i></a>
                         </span>
-                        <a href="#" class="btn btn-default ui-refresh-history" title="Refresh history"><i class="fa fa-refresh"></i></a>
+                        <a href="#" class="btn btn-default ui-refresh-history" title="<%= __('Refresh history') %>"><i class="fa fa-refresh"></i></a>
                     </form>
                     <h4 class="ui-nohistory" style="display:none;">
-                        No history
+                        <%= __('No history') %>
                     </h4>
-                    <a href="#" class="btn btn-primary ui-import-from-browser" style="display:none;">Import from browser</a>
+                    <a href="#" class="btn btn-primary ui-import-from-browser" style="display:none;"><%= __('Import from browser') %></a>
                     <ul id="history-list" class="list">
                     </ul>
                 </div>
@@ -143,8 +143,12 @@
                             <iframe src="//ghbtns.com/github-btn.html?user=hackmdio&repo=hackmd&type=star&count=true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe>
                         </h6>
                         <p>
-                            &copy; 2016 <a href="https://www.facebook.com/TakeHackMD" target="_blank"><i class="fa fa-facebook-square"></i> HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank">Releases</a>
+                            &copy; 2016 <a href="https://www.facebook.com/TakeHackMD" target="_blank"><i class="fa fa-facebook-square"></i> HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank"><%= __('Releases') %></a>
                         </p>
+                        <select class="ui-locale">
+                            <option value="en">English</option>
+                            <option value="zh">中文</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -157,15 +161,15 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Are you sure?</h4>
+                    <h4 class="modal-title" id="myModalLabel"><%= __('Are you sure?') %></h4>
                 </div>
                 <div class="modal-body" style="color:black;">
                     <h5 class="ui-delete-modal-msg"></h5>
                     <strong class="ui-delete-modal-item"></strong>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger ui-delete-modal-confirm">Yes, do it!</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('Cancel') %></button>
+                    <button type="button" class="btn btn-danger ui-delete-modal-confirm"><%= __('Yes, do it!') %></button>
                 </div>
             </div>
         </div>
@@ -198,6 +202,7 @@
     <script src="<%- url %>/js/common.js" defer></script>
     <script src="<%- url %>/js/history.js" defer></script>
     <script src="<%- url %>/js/cover.js" defer></script>
+    <script src="<%- url %>/js/locale.js" defer></script>
 </body>
 
 </html>

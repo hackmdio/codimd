@@ -16,6 +16,7 @@ var formidable = require('formidable');
 var morgan = require('morgan');
 var passportSocketIo = require("passport.socketio");
 var helmet = require('helmet');
+var i18n = require('i18n');
 
 //core
 var config = require("./lib/config.js");
@@ -91,6 +92,16 @@ app.use(helmet.hsts({
     includeSubdomains: true,
     preload: true
 }));
+
+i18n.configure({
+    locales: ['en', 'zh'],
+    cookie: 'locale',
+    directory: __dirname + '/locales'
+});
+
+app.use(cookieParser());
+
+app.use(i18n.init);
 
 // routes without sessions
 // static files

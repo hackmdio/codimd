@@ -5,26 +5,26 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">This page need refresh</h4>
+                <h4 class="modal-title" id="myModalLabel"><%= __('This page need refresh') %></h4>
             </div>
             <div class="modal-body">
                 <div class="incompatible-version">
-                    <h5>You have an incompatible client version.</h5>
-                    <strong>Refresh to update.</strong>
+                    <h5><%= __('You have an incompatible client version.') %></h5>
+                    <strong><%= __('Refresh to update.') %></strong>
                 </div>
                 <div class="new-version" style="display:none;">
-                    <h5>New version available!</h5>
-                    <a href="<%- url %>/s/release-notes" target="_blank">See releases notes here</a>
+                    <h5><%= __('New version available!') %></h5>
+                    <a href="<%- url %>/s/release-notes" target="_blank"><%= __('See releases notes here') %></a>
                     <br>
-                    <strong>Refresh to enjoy new features.</strong>
+                    <strong><%= __('Refresh to enjoy new features.') %></strong>
                 </div>
                 <div class="user-state-changed" style="display:none;">
-                    <h5>Your user state has changed.</h5>
-                    <strong>Refresh to load new user state.</strong>
+                    <h5><%= __('Your user state has changed.') %></h5>
+                    <strong><%= __('Refresh to load new user state.') %></strong>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="refreshModalRefresh">Refresh</button>
+                <button type="button" class="btn btn-primary" id="refreshModalRefresh"><%= __('Refresh') %></button>
             </div>
         </div>
     </div>

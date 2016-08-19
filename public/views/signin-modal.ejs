@@ -5,37 +5,37 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="mySmallModalLabel">Choose method</h4>
+                <h4 class="modal-title" id="mySmallModalLabel"><%= __('Choose method') %></h4>
             </div>
             <div class="modal-body">
                 <% if(facebook) { %>
                 <a href="<%- url %>/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
-                    <i class="fa fa-facebook"></i> Sign in via Facebook
+                    <i class="fa fa-facebook"></i> <%= __('Sign in via %s', 'Facebook') %>
                 </a>
                 <% } %>
                 <% if(twitter) { %>
                 <a href="<%- url %>/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
-                    <i class="fa fa-twitter"></i> Sign in via Twitter
+                    <i class="fa fa-twitter"></i> <%= __('Sign in via %s', 'Twitter') %>
                 </a>
                 <% } %>
                 <% if(github) { %>
                 <a href="<%- url %>/auth/github" class="btn btn-lg btn-block btn-social btn-github">
-                    <i class="fa fa-github"></i> Sign in via GitHub
+                    <i class="fa fa-github"></i> <%= __('Sign in via %s', 'GitHub') %>
                 </a>
                 <% } %>
                 <% if(gitlab) { %>
                 <a href="<%- url %>/auth/gitlab" class="btn btn-lg btn-block btn-social btn-soundcloud">
-                    <i class="fa fa-gitlab"></i> Sign in via GitLab
+                    <i class="fa fa-gitlab"></i> <%= __('Sign in via %s', 'GitLab') %>
                 </a>
                 <% } %>
                 <% if(dropbox) { %>
                 <a href="<%- url %>/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
-                    <i class="fa fa-dropbox"></i> Sign in via Dropbox
+                    <i class="fa fa-dropbox"></i> <%= __('Sign in via %s', 'Dropbox') %>
                 </a>
                 <% } %>
                 <% if(google) { %>
                 <a href="<%- url %>/auth/google" class="btn btn-lg btn-block btn-social btn-google">
-                    <i class="fa fa-google"></i> Sign in via Google
+                    <i class="fa fa-google"></i> <%= __('Sign in via %s', 'Google') %>
                 </a>
                 <% } %>
             </div>

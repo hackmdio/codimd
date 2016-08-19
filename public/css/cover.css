@@ -329,6 +329,10 @@ input {
     vertical-align: middle !important;
 }
 
+select {
+    color: black;
+}
+
 @media (max-width: 768px) {
     span.ui-or {
         display: block;

@@ -5,79 +5,79 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="mySmallModalLabel"><i class="fa fa-question-circle"></i> Help</h4>
+                <h4 class="modal-title" id="mySmallModalLabel"><i class="fa fa-question-circle"></i> <%= __('Help') %></h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Contacts</h3>
+                                <h3 class="panel-title"><%= __('Contacts') %></h3>
                             </div>
                             <div class="panel-body">
-                                <a href="https://github.com/hackmdio/hackmd/issues" title="Report an issue" target="_blank"><i class="fa fa-tag fa-fw"></i> Report an issue</a> 
+                                <a href="https://github.com/hackmdio/hackmd/issues" target="_blank"><i class="fa fa-tag fa-fw"></i> <%= __('Report an issue') %></a> 
                                 <br>
-                                <a href="mailto:hackmdio@gmail.com" title="Send us email"><i class="fa fa-envelope fa-fw"></i> Send us email</a>
+                                <a href="mailto:hackmdio@gmail.com"><i class="fa fa-envelope fa-fw"></i> <%= __('Send us email') %></a>
                             </div>
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Documents</h3>
+                                <h3 class="panel-title"><%= __('Documents') %></h3>
                             </div>
                             <div class="panel-body">
-                                <a href="./features" title="Features" target="_blank"><i class="fa fa-dot-circle-o fa-fw"></i> Features</a>
+                                <a href="./features" title="Features" target="_blank"><i class="fa fa-dot-circle-o fa-fw"></i> <%= __('Features') %></a>
                                 <br>
-                                <a href="./yaml-metadata" title="YAML Metadata" target="_blank"><i class="fa fa-dot-circle-o fa-fw"></i> YAML Metadata</a>
+                                <a href="./yaml-metadata" title="YAML Metadata" target="_blank"><i class="fa fa-dot-circle-o fa-fw"></i> <%= __('YAML Metadata') %></a>
                                 <br>
-                                <a href="./slide-example" title="Slide Example" target="_blank"><i class="fa fa-dot-circle-o fa-fw"></i> Slide Example</a>
+                                <a href="./slide-example" title="Slide Example" target="_blank"><i class="fa fa-dot-circle-o fa-fw"></i> <%= __('Slide Example') %></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-9">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Cheatsheet</h3>
+                                <h3 class="panel-title"><%= __('Cheatsheet') %></h3>
                             </div>
                             <div class="panel-body" style="height: calc(100vh - 215px); overflow: auto;">
                                 <table class="table table-condensed">
                                     <thead>
                                         <tr>
-                                            <th>Example</th>
-                                            <th>Syntax</th>
+                                            <th><%= __('Example') %></th>
+                                            <th><%= __('Syntax') %></th>
                                         </tr>
                                     </thead>
                                     <tbody class="markdown-body" style="font-family: inherit; font-size: 14px; padding: 0; max-width: inherit;">
                                         <tr>
-                                            <td>Header</td>
-                                            <td># Header</td>
+                                            <td><%= __('Header') %></td>
+                                            <td># <%= __('Header') %></td>
                                         </tr>
                                         <tr>
-                                            <td><ul><li>Unordered List</li></ul></td>
-                                            <td>- Unordered List</td>
+                                            <td><ul><li><%= __('Unordered List') %></li></ul></td>
+                                            <td>- <%= __('Unordered List') %></td>
                                         </tr>
                                         <tr>
-                                            <td><ol><li>Ordered List</li></ol></td>
-                                            <td>1. Ordered List</td>
+                                            <td><ol><li><%= __('Ordered List') %></li></ol></td>
+                                            <td>1. <%= __('Ordered List') %></td>
                                         </tr>
                                         <tr>
-                                            <td><ul><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled><label></label>Todo List</li></ul></td>
-                                            <td>- [ ] Todo List</td>
+                                            <td><ul><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled><label></label><%= __('Todo List') %></li></ul></td>
+                                            <td>- [ ] <%= __('Todo List') %></td>
                                         </tr>
                                         <tr>
-                                            <td><blockquote> Blockquote</blockquote></td>
-                                            <td>> Blockquote</td>
+                                            <td><blockquote> <%= __('Blockquote') %></blockquote></td>
+                                            <td>> <%= __('Blockquote') %></td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Bold font</strong></td>
-                                            <td>**Bold font**</td>
+                                            <td><strong><%= __('Bold font') %></strong></td>
+                                            <td>**<%= __('Bold font') %>**</td>
                                         </tr>
                                         <tr>
-                                            <td><i>Italics font</i></td>
-                                            <td>*Italics font*</td>
+                                            <td><i><%= __('Italics font') %></i></td>
+                                            <td>*<%= __('Italics font') %>*</td>
                                         </tr>
                                         <tr>
-                                            <td><s>Strikethrough</s></td>
-                                            <td>~~strikethrough~~</td>
+                                            <td><s><%= __('Strikethrough') %></s></td>
+                                            <td>~~<%= __('Strikethrough') %>~~</td>
                                         </tr>
                                         <tr>
                                             <td>19<sup>th</sup></td>
@@ -88,24 +88,24 @@
                                             <td>H~2~O</td>
                                         </tr>
                                         <tr>
-                                            <td><ins>Inserted text</ins></td>
-                                            <td>++Inserted text++</td>
+                                            <td><ins><%= __('Inserted text') %></ins></td>
+                                            <td>++<%= __('Inserted text') %>++</td>
                                         </tr>
                                         <tr>
-                                            <td><mark>Marked text</mark></td>
-                                            <td>==Marked text==</td>
+                                            <td><mark><%= __('Marked text') %></mark></td>
+                                            <td>==<%= __('Marked text') %>==</td>
                                         </tr>
                                         <tr>
-                                            <td><a>Link</a></td>
+                                            <td><a><%= __('Link') %></a></td>
                                             <td>[link text](https:// "title")</td>
                                         </tr>
                                         <tr>
-                                            <td>Image</td>
+                                            <td><%= __('Image') %></td>
                                             <td>![image alt](https:// "title")</td>
                                         </tr>
                                         <tr>
-                                            <td><code>Code</code></td>
-                                            <td>`code`</td>
+                                            <td><code><%= __('Code') %></code></td>
+                                            <td>`<%= __('Code') %>`</td>
                                         </tr>
                                         <tr>
                                             <td><pre style="border:none !important;"><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span></div><div class="code"><span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
@@ -117,7 +117,7 @@
                                             <td>:smile:</td>
                                         </tr>
                                         <tr>
-                                            <td>Externals</td>
+                                            <td><%= __('Externals') %></td>
                                             <td>{%youtube youtube_id %}</td>
                                         </tr>
                                         <tr>
@@ -125,8 +125,8 @@
                                             <td>$L^aT_eX$</td>
                                         </tr>
                                         <tr>
-                                            <td><div class="alert alert-info"><p>This is a alert area.</p></div></td>
-                                            <td>:::info<br>This is a alert area.<br>:::</td>
+                                            <td><div class="alert alert-info"><p><%= __('This is a alert area.') %></p></div></td>
+                                            <td>:::info<br><%= __('This is a alert area.') %><br>:::</td>
                                         </tr>
                                     </tbody>
                                 </table>
