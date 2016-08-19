@@ -1512,7 +1512,7 @@ var revisionTime = null;
 ui.modal.revision.on('show.bs.modal', function (e) {
     $.get(noteurl + '/revision')
         .done(function(data) {
-            parseRevisions(JSON.parse(data).revision);
+            parseRevisions(data.revision);
             initRevisionViewer();
         })
         .fail(function(err) {
@@ -1564,7 +1564,7 @@ function selectRevision(time) {
     if (time == revisionTime) return; 
     $.get(noteurl + '/revision/' + time)
         .done(function(data) {
-            revision = JSON.parse(data);
+            revision = data;
             revisionTime = time;
             var lastScrollInfo = revisionViewer.getScrollInfo();
             revisionList.children().removeClass('active');

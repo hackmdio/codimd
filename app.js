@@ -165,9 +165,11 @@ app.use(function(req, res, next) {
 
 // routes need sessions
 //template files
-app.set('views', __dirname + '/public');
+app.set('views', __dirname + '/public/views');
 //set render engine
-app.engine('html', ejs.renderFile);
+app.engine('ejs', ejs.renderFile);
+//set view engine
+app.set('view engine', 'ejs');
 //get index
 app.get("/", response.showIndex);
 //get 403 forbidden
@@ -185,7 +187,7 @@ app.get("/500", function (req, res) {
 //get status
 app.get("/status", function (req, res, next) {
     realtime.getStatus(function (data) {
-        res.end(JSON.stringify(data));
+        res.send(data);
     });
 });
 //get status
@@ -447,11 +449,11 @@ app.post('/uploadimage', function (req, res) {
                     })
                     .catch(function (err) {
                         logger.error(err);
-                        return res.send('upload image error');
+                        return res.status(500).end('upload image error');
                     });
             } catch (err) {
                 logger.error(err);
-                return res.send('upload image error');
+                return res.status(500).end('upload image error');
             }
         }
     });
