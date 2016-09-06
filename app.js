@@ -509,17 +509,11 @@ io.sockets.on('connection', realtime.connection);
 
 //listen
 function startListen() {
-    if (config.usessl) {
-        server.listen(config.port, function () {
-            logger.info('HTTPS Server listening at port %d', config.port);
-            config.maintenance = false;
-        });
-    } else {
-        server.listen(config.port, function () {
-            logger.info('HTTP Server listening at port %d', config.port);
-            config.maintenance = false;
-        });
-    }
+    server.listen(config.port, function () {
+        var schema = config.usessl ? 'HTTPS' : 'HTTP';
+        logger.info('%s Server listening at port %d', schema, config.port);
+        config.maintenance = false;
+    });
 }
 
 // sync db then start listen
