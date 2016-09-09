@@ -3,13 +3,13 @@ Features
 
 Introduction
 ===
-<i class="fa fa-file-text"></i> **HackMD** is a realtime collaborate markdown note in all platforms.
-This mean you can do some notes with any other in **Desktop, Tablet or even Phone**.
-You can Sign in via **Facebook, Twitter, GitHub, Dropbox** in the **[homepage](/)**.
+<i class="fa fa-file-text"></i> **HackMD** is a realtime, multiplatform collaborative markdown note editor.
+This means that you can write notes with other people on your **desktop, tablet or even on the phone**.
+You can sign-in via **Facebook**, **Twitter**, **GitHub**, or **Dropbox** in the **[homepage](/)**.
 
-This service still in early stage, might be buggy or crash.
-Please report issue in [GitHub](https://github.com/hackmdio/hackmd).
-If you need instant help, please use [Facebook Message](https://www.facebook.com/messages/866415986748945).
+Note that this service is still in an early stage, and thus still has some [issues](https://github.com/hackmdio/hackmd/issues?q=is%3Aopen+is%3Aissue+label%3Abug) and might crash.
+Please report issues in [GitHub](https://github.com/hackmdio/hackmd/issues/new).
+If you need instant help, please send us a [Facebook message](https://www.facebook.com/messages/866415986748945).
 **Thank you very much!**
 
 Workspace
