@@ -4,11 +4,11 @@ Features
 Introduction
 ===
 <i class="fa fa-file-text"></i> **HackMD** is a realtime, multiplatform collaborative markdown note editor.
-This means that you can write notes with other people on your **desktop, tablet or even on the phone**.
-You can sign-in via **Facebook**, **Twitter**, **GitHub**, or **Dropbox** in the **[homepage](/)**.
+This means that you can write notes with other people on your **desktop**, **tablet** or even on the **phone**.
+You can sign-in via **Facebook**, **Twitter**, **GitHub**, or **Dropbox** in the [_homepage_](/).
 
-Note that this service is still in an early stage, and thus still has some [issues](https://github.com/hackmdio/hackmd/issues?q=is%3Aopen+is%3Aissue+label%3Abug) and might crash.
-Please report issues in [GitHub](https://github.com/hackmdio/hackmd/issues/new).
+Note that this service is still in an early stage, and thus still has some [_issues_](https://github.com/hackmdio/hackmd/issues?q=is%3Aopen+is%3Aissue+label%3Abug).
+Please report new issues in [GitHub](https://github.com/hackmdio/hackmd/issues/new).
 If you need instant help, please send us a [Facebook message](https://www.facebook.com/messages/866415986748945).
 **Thank you very much!**
 
@@ -26,50 +26,49 @@ Workspace
 <i class="fa fa-toggle-on fa-fw"></i> View: See only the result.
 <i class="fa fa-toggle-off fa-fw"></i> Edit: See only the editor.
 
-## Upload image
+## Upload Images:
 You can simply press the camera button <i class="fa fa-camera"></i>.
-Or **drag-n-drop** image in editor, even **paste** image works!
-It will automatically upload to **[imgur](http://imgur.com)**, nothing to worry :tada:
+Or **drag-n-drop** image in editor, even **pasting** images is possible!
+This will automatically upload the image to **[imgur](http://imgur.com)**, nothing to worry :tada:
 ![](https://i.imgur.com/9cgQVqD.png)
 
-## Share note
+## Share Notes:
 If you want to share a **editable** note, just copy the url.
 If you want to share a **read-only** note, simply press share button <i class="fa fa-share-alt"></i> and copy the url.
 
-## Save
-Currently, you can save to **Dropbox** <i class="fa fa-dropbox"></i> or save as **.md** <i class="fa fa-file-text"></i> to local.
+## Save:
+Currently, you can save to **Dropbox** <i class="fa fa-dropbox"></i> or save an `.md` file <i class="fa fa-file-text"></i> locally.
 
-## Import
-Like save feature, you can also import **.md** from **Dropbox** <i class="fa fa-dropbox"></i>.
-Or import from your **Clipboard** <i class="fa fa-clipboard"></i>, and that can parse some **html** which might be useful :smiley:
+## Import:
+Similarly to the _save_ feature, you can also import an `.md` file from **Dropbox** <i class="fa fa-dropbox"></i>,
+or import content from your **clipboard** <i class="fa fa-clipboard"></i>, and that can parse some **html** which might be useful :smiley:
 
-## Permission
-There is a little button on the top right of the view.
-You can change the permission via theres options.
-It might be one of below:
+## Permissions:
+It is possible to change the access permission to anote through a little button on the top right of the view.
+There are three possible options:
 
-<i class="fa fa-leaf fa-fw"></i> Freely: Anyone can edit this note.
-<i class="fa fa-pencil fa-fw"></i> Editable: Signed user can edit this note.
-<i class="fa fa-lock fa-fw"></i> Locked: Only owner can edit this note.
-<i class="fa fa-hand-stop-o fa-fw"></i> Private: Only owner can view and edit this note.
+<i class="fa fa-leaf fa-fw"></i> **Freely**: Anyone can edit this note.
+<i class="fa fa-pencil fa-fw"></i> **Editable**: Signed user can edit this note.
+<i class="fa fa-lock fa-fw"></i> **Locked**: Only owner can edit this note.
+<i class="fa fa-hand-stop-o fa-fw"></i> **Private**: Only owner can view and edit this note.
 
-**Only the owner of the note can change the permission**
+**Only the owner of the note can change the permission.**
 
-## Embed
+## Embed:
 ```xml
 <iframe width="100%" height="500" src="https://hackmd.io/features" frameborder="0"></iframe>
 ```
 
-## [Slide Mode](./slide-example)
+## [Slide Mode](./slide-example):
 You can use some syntax to divide your note into slides.
 Then use **Slide Mode** <i class="fa fa-tv"></i> to made a presentation.
 Visit above link for detail.
 
 View
 ===
-## Table of content
+## Table of Contents:
 You can look at bottom right place of the view area, there is a TOC button <i class="fa fa-bars"></i>.
-Press that will show current table of content and will emphasis which your section on.
+Pressing that will show you a current Table of Contents, and will highlight which your section is.
 Support up to **three header levels**.
 
 ## Permalink
