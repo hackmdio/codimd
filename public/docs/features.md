@@ -28,8 +28,8 @@ Workspace
 
 ## Upload Images:
 You can simply press the camera button <i class="fa fa-camera"></i>.
-Or **drag-n-drop** image in editor, even **pasting** images is possible!
-This will automatically upload the image to **[imgur](http://imgur.com)**, nothing to worry :tada:
+Or **drag-n-drop** an image into the editor, even **pasting** images is possible!
+This will automatically upload the image to **[imgur](http://imgur.com)**, nothing to worry. :tada:
 ![](https://i.imgur.com/9cgQVqD.png)
 
 ## Share Notes:
@@ -48,11 +48,11 @@ It is possible to change the access permission to anote through a little button 
 There are three possible options:
 
 <i class="fa fa-leaf fa-fw"></i> **Freely**: Anyone can edit this note.
-<i class="fa fa-pencil fa-fw"></i> **Editable**: Signed user can edit this note.
-<i class="fa fa-lock fa-fw"></i> **Locked**: Only owner can edit this note.
-<i class="fa fa-hand-stop-o fa-fw"></i> **Private**: Only owner can view and edit this note.
+<i class="fa fa-pencil fa-fw"></i> **Editable**: A signed-in user can edit this note.
+<i class="fa fa-lock fa-fw"></i> **Locked**: Only the owner can edit this note.
+<i class="fa fa-hand-stop-o fa-fw"></i> **Private**: Only the owner can view and edit this note.
 
-**Only the owner of the note can change the permission.**
+**Only the owner of the note can change the note's permissions.**
 
 ## Embed:
 ```xml
@@ -60,69 +60,69 @@ There are three possible options:
 ```
 
 ## [Slide Mode](./slide-example):
-You can use some syntax to divide your note into slides.
-Then use **Slide Mode** <i class="fa fa-tv"></i> to made a presentation.
-Visit above link for detail.
+You can use a special syntax to organize your note into slides.
+After that, you can use the **Slide Mode** <i class="fa fa-tv"></i> to make a presentation.
+Visit the above link for details.
 
 View
 ===
 ## Table of Contents:
-You can look at bottom right place of the view area, there is a TOC button <i class="fa fa-bars"></i>.
-Pressing that will show you a current Table of Contents, and will highlight which your section is.
-Support up to **three header levels**.
+You can look at bottom right place of the view area, there is a _ToC_ button <i class="fa fa-bars"></i>.
+Pressing that button will show you a current _Table of Contents_, and will highlight which section you're at.
+ToCs support up to **three header levels**.
 
 ## Permalink
 Every header will automatically add a permalink on the right side.
 You can hover and click <i class="fa fa-chain"></i> to anchor on it.
 
-Edit
+Edit:
 ===
-## Shortcut keys
-Just like sublime text, which is pretty quick and convinent.
-> For more infomations, see [here](https://codemirror.net/demo/sublime.html).
+## Shortcut Keys:
+Just like Sublime text, which is pretty quick and convenient.
+> For more infomation, see [here](https://codemirror.net/demo/sublime.html).
 
-## Auto complete
-This editor provide full auto complete hint of markdown.
-- Emojis: type `:` to show hint.
+## Auto-Complete:
+This editor provides full auto complete hints in markdown.
+- Emojis: type `:` to show hints.
 - Code blocks: type ` ``` ` and plus a character to show hint. <i hidden>```</i>
 - Headers: type `#` to show hint.
 - Referrals: type `[]` to show hint.
 - Externals: type `{}` to show hint.
 - Images: type `!` to show hint.
 
-## Title
+## Title:
 This will take the first **level 1 header** as the note title.
 
-## Tags
+## Tags:
 Using tags like below, these will show in your **history**.
 ###### tags: `features` `cool` `updated`
 
 ## [YAML metadata](./yaml-metadata)
-Provide advanced note information to set the browse behavior, visit above link for detail
+Provide advanced note information to set the browser behavior, visit above link for detail:
 - robots: set web robots meta
-- lang: set browse language
+- lang: set browser language
 - dir: set text direction
 - breaks: set to use line breaks or not
 - GA: set to use Google Analytics
 - disqus: set to use Disqus
-- slideOptions: set to setup slide mode options
+- slideOptions: setup slide mode options
 
-## TOC
+## ToC:
 Use the syntax `[TOC]` to embed table of content into your note.
 
 [TOC]
 
 ## Emoji
 You can type any emoji like this :smile: :smiley: :cry: :wink:
-> See full emoji list [here](http://www.emoji-cheat-sheet.com/)
+> See full emoji list [here](http://www.emoji-cheat-sheet.com/).
 
-## Todo List
-- [ ] Todos
+## ToDo List:
+- [ ] ToDos
 	- [x] Buy some salad
     - [ ] Brush teeth
 	- [x] Drink some water
 
-## Code block
+## Code Block:
 We support many code languages, use the auto complete to see the list.
 ```javascript=
 var s = "JavaScript syntax highlighting";
@@ -141,7 +141,7 @@ function $initHighlight(block, cls) {
   }
 }
 ```
-> If you want **line numbers**, type `=` after specify the code block languagues.
+> If you want **line numbers**, type `=` after specifying the code block languagues.
 > Also, you can specify the start line number.
 > Like below, the line number starts from 101:
 ```javascript=101
@@ -162,14 +162,14 @@ function $initHighlight(block, cls) {
 }
 ```
 
-> Or you might want to continue the previous code block line number, use `=+`
+> Or you might want to continue the previous code block's line number, use `=+`
 
 ```javascript=+
 var s = "JavaScript syntax highlighting";
 alert(s);
 ```
 
-### Blockquotes tags
+### Blockquote Tags:
 > Using like below to specifiy your **name, time and color** to differ the blockquotes.
 > [name=ChengHan Wu] [time=Sun, Jun 28, 2015 9:59 PM] [color=#907bf7]
 > > Even support the nest blockquotes!
