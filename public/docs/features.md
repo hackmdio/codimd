@@ -3,13 +3,13 @@ Features
 
 Introduction
 ===
-<i class="fa fa-file-text"></i> **HackMD** is a realtime collaborate markdown note in all platforms.
-This mean you can do some notes with any other in **Desktop, Tablet or even Phone**.
-You can Sign in via **Facebook, Twitter, GitHub, Dropbox** in the **[homepage](/)**.
+<i class="fa fa-file-text"></i> **HackMD** is a realtime, multiplatform collaborative markdown note editor.
+This means that you can write notes with other people on your **desktop**, **tablet** or even on the **phone**.
+You can sign-in via **Facebook**, **Twitter**, **GitHub**, or **Dropbox** in the [_homepage_](/).
 
-This service still in early stage, might be buggy or crash.
-Please report issue in [GitHub](https://github.com/hackmdio/hackmd).
-If you need instant help, please use [Facebook Message](https://www.facebook.com/messages/866415986748945).
+Note that this service is still in an early stage, and thus still has some [_issues_](https://github.com/hackmdio/hackmd/issues?q=is%3Aopen+is%3Aissue+label%3Abug).
+Please report new issues in [GitHub](https://github.com/hackmdio/hackmd/issues/new).
+If you need instant help, please send us a [Facebook message](https://www.facebook.com/messages/866415986748945).
 **Thank you very much!**
 
 Workspace
@@ -26,105 +26,106 @@ Workspace
 <i class="fa fa-toggle-on fa-fw"></i> View: See only the result.
 <i class="fa fa-toggle-off fa-fw"></i> Edit: See only the editor.
 
-## Upload image
-You can simply press the camera button <i class="fa fa-camera"></i>.
-Or **drag-n-drop** image in editor, even **paste** image works!
-It will automatically upload to **[imgur](http://imgur.com)**, nothing to worry :tada:
+## Image Upload:
+You can upload an image simply by clicking on the camera button <i class="fa fa-camera"></i>.
+Alternatively, you can **drag-n-drop** an image into the editor. Even **pasting** images is possible!
+This will automatically upload the image to **[imgur](http://imgur.com)**, nothing to worry. :tada:
 ![](https://i.imgur.com/9cgQVqD.png)
 
-## Share note
-If you want to share a **editable** note, just copy the url.
-If you want to share a **read-only** note, simply press share button <i class="fa fa-share-alt"></i> and copy the url.
+## Share Notes:
+If you want to share an **editable** note, just copy the URL.
+If you want to share a **read-only** note, simply press share button <i class="fa fa-share-alt"></i> and copy the URL.
 
-## Save
-Currently, you can save to **Dropbox** <i class="fa fa-dropbox"></i> or save as **.md** <i class="fa fa-file-text"></i> to local.
+## Save a Note:
+Currently, you can save to **Dropbox** <i class="fa fa-dropbox"></i> or save an `.md` file <i class="fa fa-file-text"></i> locally.
 
-## Import
-Like save feature, you can also import **.md** from **Dropbox** <i class="fa fa-dropbox"></i>.
-Or import from your **Clipboard** <i class="fa fa-clipboard"></i>, and that can parse some **html** which might be useful :smiley:
+## Import Notes:
+Similarly to the _save_ feature, you can also import an `.md` file from **Dropbox** <i class="fa fa-dropbox"></i>,
+or import content from your **clipboard** <i class="fa fa-clipboard"></i>, and that can parse some **html** which might be useful :smiley:
 
-## Permission
-There is a little button on the top right of the view.
-You can change the permission via theres options.
-It might be one of below:
+## Permissions:
+It is possible to change the access permission to a note through the little button on the top right of the view.
+There are four possible options:
 
-<i class="fa fa-leaf fa-fw"></i> Freely: Anyone can edit this note.
-<i class="fa fa-pencil fa-fw"></i> Editable: Signed user can edit this note.
-<i class="fa fa-lock fa-fw"></i> Locked: Only owner can edit this note.
-<i class="fa fa-hand-stop-o fa-fw"></i> Private: Only owner can view and edit this note.
+<i class="fa fa-leaf fa-fw"></i> **Freely**: Anyone can edit this note.
+<i class="fa fa-pencil fa-fw"></i> **Editable**: A signed-in user can edit this note.
+<i class="fa fa-lock fa-fw"></i> **Locked**: Only the owner can edit this note.
+<i class="fa fa-hand-stop-o fa-fw"></i> **Private**: Only the owner can view and edit this note.
 
-**Only the owner of the note can change the permission**
+**Only the owner of the note can change the note's permissions.**
 
-## Embed
+## Embed a Note:
+Notes can be embedded as follows:
+
 ```xml
 <iframe width="100%" height="500" src="https://hackmd.io/features" frameborder="0"></iframe>
 ```
 
-## [Slide Mode](./slide-example)
-You can use some syntax to divide your note into slides.
-Then use **Slide Mode** <i class="fa fa-tv"></i> to made a presentation.
-Visit above link for detail.
+## [Slide Mode](./slide-example):
+You can use a special syntax to organize your note into slides.
+After that, you can use the **Slide Mode** <i class="fa fa-tv"></i> to make a presentation.
+Visit the above link for details.
 
 View
 ===
-## Table of content
-You can look at bottom right place of the view area, there is a TOC button <i class="fa fa-bars"></i>.
-Press that will show current table of content and will emphasis which your section on.
-Support up to **three header levels**.
+## Table of Contents:
+You can look at the bottom right section of the view area, there is a _ToC_ button <i class="fa fa-bars"></i>.
+Pressing that button will show you a current _Table of Contents_, and will highlight which section you're at.
+ToCs support up to **three header levels**.
 
 ## Permalink
 Every header will automatically add a permalink on the right side.
 You can hover and click <i class="fa fa-chain"></i> to anchor on it.
 
-Edit
+Edit:
 ===
-## Shortcut keys
-Just like sublime text, which is pretty quick and convinent.
-> For more infomations, see [here](https://codemirror.net/demo/sublime.html).
+## Shortcut Keys:
+Just like Sublime text, which is pretty quick and convenient.
+> For more infomation, see [here](https://codemirror.net/demo/sublime.html).
 
-## Auto complete
-This editor provide full auto complete hint of markdown.
-- Emojis: type `:` to show hint.
+## Auto-Complete:
+This editor provides full auto-complete hints in markdown.
+- Emojis: type `:` to show hints.
 - Code blocks: type ` ``` ` and plus a character to show hint. <i hidden>```</i>
 - Headers: type `#` to show hint.
 - Referrals: type `[]` to show hint.
 - Externals: type `{}` to show hint.
 - Images: type `!` to show hint.
 
-## Title
+## Title:
 This will take the first **level 1 header** as the note title.
 
-## Tags
-Using tags like below, these will show in your **history**.
+## Tags:
+Using tags as follows, the specified tags will show in your **history**.
 ###### tags: `features` `cool` `updated`
 
-## [YAML metadata](./yaml-metadata)
-Provide advanced note information to set the browse behavior, visit above link for detail
+## [YAML Metadata](./yaml-metadata)
+You can provide advanced note information to set the browser behavior (visit above link for details):
 - robots: set web robots meta
-- lang: set browse language
+- lang: set browser language
 - dir: set text direction
-- breaks: set to use line breaks or not
+- breaks: set to use line breaks
 - GA: set to use Google Analytics
 - disqus: set to use Disqus
-- slideOptions: set to setup slide mode options
+- slideOptions: setup slide mode options
 
-## TOC
+## ToC:
 Use the syntax `[TOC]` to embed table of content into your note.
 
 [TOC]
 
 ## Emoji
 You can type any emoji like this :smile: :smiley: :cry: :wink:
-> See full emoji list [here](http://www.emoji-cheat-sheet.com/)
+> See full emoji list [here](http://www.emoji-cheat-sheet.com/).
 
-## Todo List
-- [ ] Todos
-	- [x] Buy some salad
-    - [ ] Brush teeth
-	- [x] Drink some water
+## ToDo List:
+- [ ] ToDos
+  - [x] Buy some salad
+  - [ ] Brush teeth
+  - [x] Drink some water
 
-## Code block
-We support many code languages, use the auto complete to see the list.
+## Code Block:
+We support many programming languages, use the auto complete function to see the entire list.
 ```javascript=
 var s = "JavaScript syntax highlighting";
 alert(s);
@@ -142,7 +143,7 @@ function $initHighlight(block, cls) {
   }
 }
 ```
-> If you want **line numbers**, type `=` after specify the code block languagues.
+> If you want **line numbers**, type `=` after specifying the code block languagues.
 > Also, you can specify the start line number.
 > Like below, the line number starts from 101:
 ```javascript=101
@@ -163,22 +164,22 @@ function $initHighlight(block, cls) {
 }
 ```
 
-> Or you might want to continue the previous code block line number, use `=+`
+> Or you might want to continue the previous code block's line number, use `=+`
 
 ```javascript=+
 var s = "JavaScript syntax highlighting";
 alert(s);
 ```
 
-### Blockquotes tags
-> Using like below to specifiy your **name, time and color** to differ the blockquotes.
+### Blockquote Tags:
+> Using the syntax below to specifiy your **name, time and color** to vary the blockquotes.
 > [name=ChengHan Wu] [time=Sun, Jun 28, 2015 9:59 PM] [color=#907bf7]
 > > Even support the nest blockquotes!
 > > [name=ChengHan Wu] [time=Sun, Jun 28, 2015 10:00 PM] [color=red]
 
 ## Externals
 
-### Youtube
+### YouTube
 {%youtube 1G4isv_Fylg %}
 
 ### Vimeo
@@ -194,7 +195,7 @@ alert(s);
 {%speakerdeck sugarenia/xxlcss-how-to-scale-css-and-keep-your-sanity %}
 
 ### PDF
-**Caution: this might be blocked by your browser if not using https url.**
+**Caution: this might be blocked by your browser if not using an `https` URL.**
 {%pdf https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf %}
 
 ## MathJax
@@ -213,9 +214,9 @@ $$
 
 > More information about **LaTeX** mathematical expressions [here](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
 
-## UML diagrams
+## UML Diagrams
 
-### Sequence diagrams
+### Sequence Diagrams
 
 You can render sequence diagrams like this:
 
@@ -227,9 +228,9 @@ Note left of Alice: Alice responds
 Alice->Bob: Where have you been?
 ```
 
-### Flow charts
+### Flow Charts
 
-And flow charts like this:
+Flow charts can be specified like this:
 ```flow
 st=>start: Start
 e=>end: End
@@ -271,12 +272,12 @@ gantt
     anther task      : 24d
 ```
 
-> More information about **Sequence diagrams** syntax [here](http://bramp.github.io/js-sequence-diagrams/).
-> More information about **Flow charts** syntax [here](http://adrai.github.io/flowchart.js/).
-> More information about **Graphviz** syntax [here](http://www.tonyballantyne.com/graphs.html)
-> More information about **Mermaid** syntax [here](http://knsv.github.io/mermaid)
+> More information about **sequence diagrams** syntax [here](http://bramp.github.io/js-sequence-diagrams/).
+> More information about **flow charts** syntax [here](http://adrai.github.io/flowchart.js/).
+> More information about **graphviz** syntax [here](http://www.tonyballantyne.com/graphs.html)
+> More information about **mermaid** syntax [here](http://knsv.github.io/mermaid)
 
-Alert area
+Alert Area
 ---
 :::success
 Yes :tada:
@@ -291,7 +292,7 @@ Watch out :zap:
 :::
 
 :::danger
-Oh No :fire:
+Oh No! :fire:
 :::
 
 ## Typography
@@ -307,7 +308,7 @@ Oh No :fire:
 ###### h6 Heading
 ```
 
-### Horizontal rules
+### Horizontal Rules
 
 ___
 
@@ -316,7 +317,7 @@ ___
 ***
 
 
-### Typographic replacements
+### Typographic Replacements
 
 Enable typographer option to see result.
 
@@ -485,7 +486,7 @@ Duplicated footnote reference[^second].
     and multiple paragraphs.
 [^second]: Footnote text.
 
-### Definition lists
+### Definition Lists
 
 Term 1
 
@@ -511,7 +512,7 @@ Term 2
 
 ### Abbreviations
 
-This is HTML abbreviation example.
-It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
+This is an HTML abbreviation example.
+It converts "HTML", but keeps intact partial entries like "xxxHTMLyyy" and so on.
 
 *[HTML]: Hyper Text Markup Language
