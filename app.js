@@ -94,7 +94,7 @@ app.use(helmet.hsts({
 }));
 
 i18n.configure({
-    locales: ['en', 'zh'],
+    locales: ['en', 'zh', 'fr', 'de', 'ja', 'es'],
     cookie: 'locale',
     directory: __dirname + '/locales'
 });

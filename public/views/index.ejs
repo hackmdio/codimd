@@ -59,12 +59,12 @@
                         <% if(facebook || twitter || github || gitlab || dropbox || google) { %>
                         <span class="ui-signin">
                             <br>
-                            <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="width: 170px;"><%= __('Sign In') %></a>
+                            <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="min-width: 170px;"><%= __('Sign In') %></a>
                         </span>
                         <span class="ui-or"><%= __('or') %></span>
                         <% }%>
                         <span class="ui-signin">
-                            <a href="<%- url %>/new" class="btn btn-lg btn-default" style="width: 170px;"><%= __('New guest note') %></a>
+                            <a href="<%- url %>/new" class="btn btn-lg btn-default" style="min-width: 170px;"><%= __('New guest note') %></a>
                             <br>
                             <br>
                         </span>
@@ -148,6 +148,10 @@
                         <select class="ui-locale">
                             <option value="en">English</option>
                             <option value="zh">中文</option>
+                            <option value="fr">Français</option>
+                            <option value="de">Deutsch</option>
+                            <option value="ja">日本語</option>
+                            <option value="es">Español</option>
                         </select>
                     </div>
                 </div>
