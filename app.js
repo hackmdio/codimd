@@ -526,7 +526,7 @@ models.sequelize.sync().then(function () {
     if (realtime.isReady()) {
         models.Revision.checkAllNotesRevision(function (err, notes) {
             if (err) return new Error(err);
-            if (notes.length <= 0) return startListen();
+            if (!notes || notes.length <= 0) return startListen();
         });
     }
 });
