@@ -57,7 +57,8 @@
     "string": "^3.3.1",
     "visibilityjs": "^1.2.3",
     "pdfobject": "pdfobject2#*",
-    "gist-embed": "*"
+    "gist-embed": "*",
+    "keymaster": "^1.6.3"
   },
   "resolutions": {
     "jquery": "~3.1.0"

@@ -805,6 +805,18 @@ $(document).ready(function () {
     });
     //tooltip
     $('[data-toggle="tooltip"]').tooltip();
+    // shortcuts
+    // allow on all tags
+    key.filter = function (e) { return true; };
+    key('ctrl+alt+e', function (e) {
+        changeMode(modeType.edit);
+    });
+    key('ctrl+alt+v', function (e) {
+        changeMode(modeType.view);
+    });
+    key('ctrl+alt+b', function (e) {
+        changeMode(modeType.both);
+    });
 });
 //when page resize
 $(window).resize(function () {
