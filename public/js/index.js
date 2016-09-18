@@ -143,7 +143,7 @@ var cursorMenuThrottle = 50;
 var cursorActivityDebounce = 50;
 var cursorAnimatePeriod = 100;
 var supportContainers = ['success', 'info', 'warning', 'danger'];
-var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile'];
+var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile', 'tiddlywiki', 'mediawiki'];
 var supportCharts = ['sequence', 'flow', 'graphviz', 'mermaid'];
 var supportHeaders = [
     {
