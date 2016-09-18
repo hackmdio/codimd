@@ -1197,16 +1197,16 @@ function changeMode(type) {
     ui.toolbar.edit.removeClass("active");
     ui.toolbar.view.removeClass("active");
     var modeIcon = ui.toolbar.mode.find('i');
-    modeIcon.removeClass('fa-toggle-on').removeClass('fa-toggle-off');
+    modeIcon.removeClass('fa-pencil').removeClass('fa-eye');
     if (ui.area.edit.is(":visible") && ui.area.view.is(":visible")) { //both
         ui.toolbar.both.addClass("active");
         modeIcon.addClass('fa-eye');
     } else if (ui.area.edit.is(":visible")) { //edit
         ui.toolbar.edit.addClass("active");
-        modeIcon.addClass('fa-toggle-off');
+        modeIcon.addClass('fa-eye');
     } else if (ui.area.view.is(":visible")) { //view
         ui.toolbar.view.addClass("active");
-        modeIcon.addClass('fa-toggle-on');
+        modeIcon.addClass('fa-pencil');
     }
     unlockNavbar();
 }
