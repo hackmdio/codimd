@@ -83,7 +83,6 @@ function checkIfAuth(yesCallback, noCallback) {
             })
             .fail(function () {
                 noCallback();
-                setLoginState(false);
             })
             .always(function () {
                 checkAuth = true;
