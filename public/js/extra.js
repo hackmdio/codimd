@@ -635,12 +635,15 @@ function smoothHashScroll() {
             $element.on('click', function (e) {
                 // store hash
                 var hash = decodeURIComponent(this.hash);
-                if ($(hash).length <= 0) return;
+                // escape special characters in jquery selector
+                var $hash = $(hash.replace(/(:|\.|\[|\]|,)/g, "\\$1"));
+                // return if no element been selected
+                if ($hash.length <= 0) return;
                 // prevent default anchor click behavior
                 e.preventDefault();
                 // animate
                 $('body, html').stop(true, true).animate({
-                    scrollTop: $(hash).offset().top
+                    scrollTop: $hash.offset().top
                 }, 100, "linear", function () {
                     // when done, add hash to url
                     // (default click behaviour)
