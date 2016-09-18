@@ -755,11 +755,17 @@ function highlightRender(code, lang) {
         return '<div class="mermaid raw">' + code + '</div>';
     }
     var reallang = lang.replace(/\=$|\=\d+$|\=\+$/, '');
-    var languages = hljs.listLanguages();
-    if (languages.indexOf(reallang) == -1) {
-        var result = hljs.highlightAuto(code);
+    if (reallang == "tiddlywiki" || reallang == "mediawiki") {
+        var result = {
+            value: Prism.highlight(code, Prism.languages.wiki)
+        };
     } else {
-        var result = hljs.highlight(reallang, code);
+        var languages = hljs.listLanguages();
+        if (languages.indexOf(reallang) == -1) {
+            var result = hljs.highlightAuto(code);
+        } else {
+            var result = hljs.highlight(reallang, code);
+        }
     }
 	var showlinenumbers = /\=$|\=\d+$|\=\+$/.test(lang);
     if (showlinenumbers) {

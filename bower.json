@@ -58,7 +58,8 @@
     "visibilityjs": "^1.2.3",
     "pdfobject": "pdfobject2#*",
     "gist-embed": "*",
-    "keymaster": "^1.6.3"
+    "keymaster": "^1.6.3",
+    "prism": "^1.5.1"
   },
   "resolutions": {
     "jquery": "~3.1.0"
