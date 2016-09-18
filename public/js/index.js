@@ -195,10 +195,16 @@ var supportExtraTags = [
     }
 ];
 var modeType = {
-    edit: {},
-    view: {},
-    both: {}
-}
+    edit: {
+        name: "edit"
+    },
+    view: {
+        name: "view"
+    },
+    both: {
+        name: "both"
+    }
+};
 var statusType = {
     connected: {
         msg: "CONNECTED",
@@ -215,7 +221,7 @@ var statusType = {
         label: "label-danger",
         fa: "fa-plug"
     }
-}
+};
 var defaultMode = modeType.view;
 
 //global vars
@@ -1133,6 +1139,8 @@ function changeMode(type) {
             ui.area.view.show();
             break;
     }
+    // save mode to url
+    if (history.replaceState && loaded) history.replaceState(null, "", serverurl + '/' + noteid + '?' + currentMode.name);
     if (currentMode == modeType.view) {
         editor.getInputField().blur();
     }
@@ -2415,6 +2423,11 @@ socket.on('refresh', function (data) {
                 currentMode = modeType.edit;
             else
                 currentMode = modeType.both;
+        }
+        // parse mode from url
+        if (window.location.search.length > 0) {
+            var urlMode = modeType[window.location.search.substr(1)];
+            if (urlMode) currentMode = urlMode;
         }
         changeMode(currentMode);
         if (nocontent && !visibleXS) {
