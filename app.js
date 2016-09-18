@@ -198,6 +198,10 @@ app.get("/500", function (req, res) {
 //get status
 app.get("/status", function (req, res, next) {
     realtime.getStatus(function (data) {
+        res.set({
+            'Cache-Control': 'private', // only cache by client
+            'X-Robots-Tag': 'noindex, nofollow' // prevent crawling
+        });
         res.send(data);
     });
 });
