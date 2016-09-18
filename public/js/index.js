@@ -3759,7 +3759,7 @@ $(editor.getInputField())
             }
         },
         { //extra tags for blockquote
-            match: /(?:^|\n|\s)(\>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|\:|))(\w*)$/,
+            match: /(?:^|\n|\s)(\>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|\:|)\s*\w*)$/,
             search: function (term, callback) {
                 var line = editor.getLine(editor.getCursor().line);
                 quote = line.match(this.match)[1].trim();
@@ -3805,7 +3805,7 @@ $(editor.getInputField())
             }
         },
         { //referral
-            match: /(^|\n|\s)(\!(\[\]|)(\[\]|\(\)|))(\w*)$/,
+            match: /(^\s*|\n|\s{2})((\[\]|\[\]\[\]|\[\]\(\)|\!|\!\[\]|\!\[\]\[\]|\!\[\]\(\))\s*\w*)$/,
             search: function (term, callback) {
                 callback($.map(supportReferrals, function (referral) {
                     return referral.search.indexOf(term) === 0 ? referral.text : null;
