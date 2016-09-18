@@ -1242,6 +1242,8 @@ if (DROPBOX_APP_KEY) {
         .attr('src', 'https://www.dropbox.com/static/api/2/dropins.js')
         .attr('id', 'dropboxjs')
         .attr('data-app-key', DROPBOX_APP_KEY)
+        .prop('async', true)
+        .prop('defer', true)
         .appendTo('body');
 } else {
     ui.toolbar.import.dropbox.hide();
@@ -1252,16 +1254,22 @@ if (DROPBOX_APP_KEY) {
 if (GOOGLE_API_KEY && GOOGLE_CLIENT_ID) {
     $('<script>')
         .attr('type', 'text/javascript')
-        .attr('src', 'https://www.google.com/jsapi')
-        .appendTo('body');
-    
-    $('<script>')
-        .attr('type', 'text/javascript')
-        .attr('src', 'https://apis.google.com/js/client:plusone.js?onload=onGoogleClientLoaded')
+        .attr('src', 'https://www.google.com/jsapi?callback=onGoogleAPILoaded')
+        .prop('async', true)
+        .prop('defer', true)
         .appendTo('body');
 } else {
     ui.toolbar.import.googleDrive.hide();
     ui.toolbar.export.googleDrive.hide();
+}
+
+function onGoogleAPILoaded() {
+    $('<script>')
+        .attr('type', 'text/javascript')
+        .attr('src', 'https://apis.google.com/js/client:plusone.js?onload=onGoogleClientLoaded')
+        .prop('async', true)
+        .prop('defer', true)
+        .appendTo('body');
 }
 
 //button actions
