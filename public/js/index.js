@@ -2138,6 +2138,8 @@ socket.on('version', function (data) {
 var authors = [];
 var authorship = [];
 var authorshipMarks = {};
+var authorMarks = {}; // temp variable
+var addTextMarkers = []; // temp variable
 function updateLastInfo(data) {
     //console.log(data);
     if (data.hasOwnProperty('createtime') && createtime !== data.createtime) {
@@ -2161,7 +2163,9 @@ function updateLastInfo(data) {
         updateAuthorship();
     }
 }
-var updateAuthorship = _.throttle(updateAuthorshipInner, 50);
+var updateAuthorship = _.throttle(function () {
+    editor.operation(updateAuthorshipInner);
+}, 50);
 function initMark() {
     return {
         gutter: {
@@ -2200,7 +2204,7 @@ var addStyleRule = (function () {
 function updateAuthorshipInner() {
     // ignore when ot not synced yet
     if (Object.keys(cmClient.state).length > 0) return;
-    var authorMarks = {};
+    authorMarks = {};
     for (var i = 0; i < authorship.length; i++) {
         var atom = authorship[i];
         var author = authors[atom[0]];
@@ -2269,38 +2273,8 @@ function updateAuthorshipInner() {
             }
         }
     }
-    var addTextMarkers = [];
-    editor.eachLine(function (line) {
-        var lineNumber = editor.getLineNumber(line);
-        var currMark = authorMarks[lineNumber];
-        var author = currMark ? authors[currMark.gutter.userid] : null;
-        if (currMark && author) {
-            var className = 'authorship-gutter-' + author.color.substr(1);
-            var gutters = editor.getLineHandle(lineNumber).gutterMarkers;
-            if (!gutters || !gutters['authorship-gutters'] ||
-                !gutters['authorship-gutters'].className ||
-                !gutters['authorship-gutters'].className.indexOf(className) < 0) {
-                var styleString = gutterStylePrefix + author.color + gutterStylePostfix;
-                var rule = "." + className + "{" + styleString + "}";
-                addStyleRule(rule);
-                var gutter = $('<div>', {
-                    class: 'authorship-gutter ' + className,
-                    title: author.name
-                });
-                editor.setGutterMarker(lineNumber, "authorship-gutters", gutter[0]);
-            }
-        } else {
-            editor.setGutterMarker(lineNumber, "authorship-gutters", null);
-        }
-        if (currMark && currMark.textmarkers.length > 0) {
-            for (var i = 0; i < currMark.textmarkers.length; i++) {
-                var textMarker = currMark.textmarkers[i];
-                if (textMarker.userid != currMark.gutter.userid) {
-                    addTextMarkers.push(textMarker);
-                }
-            }
-        }
-    });
+    addTextMarkers = [];
+    editor.eachLine(iterateLine);
     var allTextMarks = editor.getAllMarks();
     for (var i = 0; i < allTextMarks.length; i++) {
         var _textMarker = allTextMarks[i];
@@ -2341,6 +2315,37 @@ function updateAuthorshipInner() {
         });
     }
     authorshipMarks = authorMarks;
+}
+function iterateLine(line) {
+    var lineNumber = line.lineNo();
+    var currMark = authorMarks[lineNumber];
+    var author = currMark ? authors[currMark.gutter.userid] : null;
+    if (currMark && author) {
+        var className = 'authorship-gutter-' + author.color.substr(1);
+        var gutters = line.gutterMarkers;
+        if (!gutters || !gutters['authorship-gutters'] ||
+            !gutters['authorship-gutters'].className ||
+            !gutters['authorship-gutters'].className.indexOf(className) < 0) {
+            var styleString = gutterStylePrefix + author.color + gutterStylePostfix;
+            var rule = "." + className + "{" + styleString + "}";
+            addStyleRule(rule);
+            var gutter = $('<div>', {
+                class: 'authorship-gutter ' + className,
+                title: author.name
+            });
+            editor.setGutterMarker(line, "authorship-gutters", gutter[0]);
+        }
+    } else {
+        editor.setGutterMarker(line, "authorship-gutters", null);
+    }
+    if (currMark && currMark.textmarkers.length > 0) {
+        for (var i = 0; i < currMark.textmarkers.length; i++) {
+            var textMarker = currMark.textmarkers[i];
+            if (textMarker.userid != currMark.gutter.userid) {
+                addTextMarkers.push(textMarker);
+            }
+        }
+    }
 }
 editor.on('update', function () {
     $('.authorship-gutter:not([data-original-title])').tooltip({
