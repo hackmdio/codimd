@@ -138,7 +138,7 @@ function wrapTextWith(cm, symbol) {
 }
 
 var idleTime = 300000; //5 mins
-var updateViewDebounce = 200;
+var updateViewDebounce = 100;
 var cursorMenuThrottle = 50;
 var cursorActivityDebounce = 50;
 var cursorAnimatePeriod = 100;
@@ -1761,6 +1761,7 @@ function initRevisionViewer() {
     });
     revisionInsertAnnotation = revisionViewer.annotateScrollbar({ className:"CodeMirror-insert-match" });
     revisionDeleteAnnotation = revisionViewer.annotateScrollbar({ className:"CodeMirror-delete-match" });
+    checkRevisionViewer();
 }
 $('#revisionModalDownload').click(function () {
     if (!revision) return;
@@ -3248,7 +3249,9 @@ function refreshView() {
     updateViewInner();
 }
 
-var updateView = _.debounce(updateViewInner, updateViewDebounce);
+var updateView = _.debounce(function () {
+    editor.operation(updateViewInner);
+}, updateViewDebounce);
 
 var lastResult = null;
 var postUpdateEvent = null;
