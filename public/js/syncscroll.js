@@ -116,8 +116,17 @@ var buildMapThrottle = 100;
 var viewScrolling = false;
 var editScrolling = false;
 
-ui.area.codemirrorScroll.on('scroll', _.throttle(syncScrollToView, editScrollThrottle));
-ui.area.view.on('scroll', _.throttle(syncScrollToEdit, viewScrollThrottle));
+var editArea = null;
+var viewArea = null;
+var markdownArea = null;
+
+function setupSyncAreas(edit, view, markdown) {
+    editArea = edit;
+    viewArea = view;
+    markdownArea = markdown;
+    editArea.on('scroll', _.throttle(syncScrollToView, editScrollThrottle));
+    viewArea.on('scroll', _.throttle(syncScrollToEdit, viewScrollThrottle));
+}
 
 var scrollMap, lineHeightMap, viewTop, viewBottom;
 
@@ -136,15 +145,16 @@ var buildMap = _.throttle(buildMapInner, buildMapThrottle);
 // That's a bit dirty to process each line everytime, but ok for demo.
 // Optimizations are required only for big texts.
 function buildMapInner(callback) {
+    if (!viewArea || !markdownArea) return;
     var i, offset, nonEmptyList, pos, a, b, _lineHeightMap, linesCount,
         acc, _scrollMap;
 
-    offset = ui.area.view.scrollTop() - ui.area.view.offset().top;
+    offset = viewArea.scrollTop() - viewArea.offset().top;
     _scrollMap = [];
     nonEmptyList = [];
     _lineHeightMap = [];
     viewTop = 0;
-    viewBottom = ui.area.view[0].scrollHeight - ui.area.view.height();
+    viewBottom = viewArea[0].scrollHeight - viewArea.height();
 
     acc = 0;
     var lines = editor.getValue().split('\n');
@@ -173,7 +183,7 @@ function buildMapInner(callback) {
     // make the first line go top
     _scrollMap[0] = viewTop;
 
-    var parts = ui.area.markdown.find('.part').toArray();
+    var parts = markdownArea.find('.part').toArray();
     for (i = 0; i < parts.length; i++) {
         var $el = $(parts[i]),
             t = $el.attr('data-startline') - 1;
@@ -188,7 +198,7 @@ function buildMapInner(callback) {
     }
 
     nonEmptyList.push(linesCount);
-    _scrollMap[linesCount] = ui.area.view[0].scrollHeight;
+    _scrollMap[linesCount] = viewArea[0].scrollHeight;
 
     pos = 0;
     for (i = 1; i < linesCount; i++) {
@@ -214,7 +224,7 @@ function buildMapInner(callback) {
 var viewScrollingTimer = null;
 
 function syncScrollToEdit(event, preventAnimate) {
-    if (currentMode != modeType.both || !syncscroll) return;
+    if (currentMode != modeType.both || !syncscroll || !editArea) return;
     if (preventSyncScrollToEdit) {
         if (typeof preventSyncScrollToEdit === 'number') {
             preventSyncScrollToEdit--;
@@ -231,7 +241,7 @@ function syncScrollToEdit(event, preventAnimate) {
     }
     if (editScrolling) return;
     
-    var scrollTop = ui.area.view[0].scrollTop;
+    var scrollTop = viewArea[0].scrollTop;
     var lineIndex = 0;
     for (var i = 0, l = scrollMap.length; i < l; i++) {
         if (scrollMap[i] > scrollTop) {
@@ -273,12 +283,12 @@ function syncScrollToEdit(event, preventAnimate) {
     }
     
     if (preventAnimate) {
-        ui.area.codemirrorScroll.scrollTop(posTo);
+        editArea.scrollTop(posTo);
     } else {
         var posDiff = Math.abs(scrollInfo.top - posTo);
         var duration = posDiff / 50;
         duration = duration >= 100 ? duration : 100;
-        ui.area.codemirrorScroll.stop(true, true).animate({
+        editArea.stop(true, true).animate({
             scrollTop: posTo
         }, duration, "linear");
     }
@@ -296,7 +306,7 @@ function viewScrollingTimeoutInner() {
 var editScrollingTimer = null;
 
 function syncScrollToView(event, preventAnimate) {
-    if (currentMode != modeType.both || !syncscroll) return;
+    if (currentMode != modeType.both || !syncscroll || !viewArea) return;
     if (preventSyncScrollToView) {
         if (typeof preventSyncScrollToView === 'number') {
             preventSyncScrollToView--;
@@ -333,12 +343,12 @@ function syncScrollToView(event, preventAnimate) {
     }
     
     if (preventAnimate) {
-        ui.area.view.scrollTop(posTo);
+        viewArea.scrollTop(posTo);
     } else {
-        var posDiff = Math.abs(ui.area.view.scrollTop() - posTo);
+        var posDiff = Math.abs(viewArea.scrollTop() - posTo);
         var duration = posDiff / 50;
         duration = duration >= 100 ? duration : 100;
-        ui.area.view.stop(true, true).animate({
+        viewArea.stop(true, true).animate({
             scrollTop: posTo
         }, duration, "linear");
     }

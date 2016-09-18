@@ -924,6 +924,8 @@ $(window).on('error', function () {
     //setNeedRefresh();
 });
 
+setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown);
+
 function autoSyncscroll() {
     if (editorHasFocus()) {
         syncScrollToView();
