@@ -1691,7 +1691,7 @@ function selectRevision(time) {
             // mark the text which have been insert or delete
             if (revision.patch.length > 0) {
                 var bias = 0;
-                for (j = 0; j < revision.patch.length; j++) {
+                for (var j = 0; j < revision.patch.length; j++) {
                     var patch = revision.patch[j];
                     var currIndex = patch.start1 + bias;
                     for (var i = 0; i < patch.diffs.length; i++) {
