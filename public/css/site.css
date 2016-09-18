@@ -4,7 +4,7 @@ body {
     font-smoothing: subpixel-antialiased !important;
     -webkit-font-smoothing: subpixel-antialiased !important;
     -moz-osx-font-smoothing: auto !important;
-    text-shadow: 1px 1px 1.1px rgba(0, 0, 0, 0.004);
+    text-shadow: 1px 1px 1.2px rgba(0, 0, 0, 0.004);
     /*text-rendering: optimizeLegibility;*/
     -webkit-overflow-scrolling: touch;
     font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
