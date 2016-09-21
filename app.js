@@ -473,6 +473,31 @@ app.post('/uploadimage', function (req, res) {
         }
     });
 });
+// set shortname
+app.post('/setshortname', urlencodedParser, function (req, res) {
+    var name = req.body.shortname;
+    if( !(/^\w+$/.test(name)) )
+        return res.status(403).end('');
+    if (req.isAuthenticated()) {
+        models.User.update({
+            shortname: name
+        }, {
+            where: {
+                id: req.user.id
+            }
+        }).then(function () {
+            res.send({ status: 'ok' });
+        }).catch(function (err) {
+            logger.error('set name failed: ' + err);
+            return response.errorInternalError(res);
+        });
+    } else {
+        res.send({
+            status: 'forbidden'
+        });
+    }
+});
+
 //get new note
 app.get("/new", response.newNote);
 //get publish note
@@ -483,6 +508,8 @@ app.get("/s/:shortid/:action", response.publishNoteActions);
 app.get("/p/:shortid", response.showPublishSlide);
 //publish slide actions
 app.get("/p/:shortid/:action", response.publishSlideActions);
+//find user
+app.get("/@([a-zA-Z0-9_]+)", response.findUser);
 //get note by id
 app.get("/:noteId", response.showNote);
 //note actions
