@@ -116,8 +116,7 @@ app.use(session({
     saveUninitialized: true, //always create session to ensure the origin
     rolling: true, // reset maxAge on every response
     cookie: {
-        maxAge: config.sessionlife,
-        expires: new Date(Date.now() + config.sessionlife)
+        maxAge: config.sessionlife
     },
     store: sessionStore
 }));
