@@ -3,21 +3,21 @@ HackMD
 
 [![Join the chat at https://gitter.im/hackmdio/hackmd](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-HackMD is a realtime collaborative markdown notes on all platforms.  
-Inspired by Hackpad, but more focusing on speed and flexibility.  
-Still in early stage, feel free to fork or contribute to this.
+HackMD lets you create realtime collaborative markdown notes on all platforms.  
+Inspired by Hackpad, with more focus on speed and flexibility.  
+Still in the early stage, feel free to fork or contribute to HackMD.
 
-Thanks for your using! :smile:
+Thanks for using! :smile:
 
 [docker-hackmd](https://github.com/hackmdio/docker-hackmd)
 ---
-Before you going too far, here is the great docker repo for HackMD.  
-With docker, you can deploy a server in minutes without any hardtime.
+Before you go too far, here is the great docker repo for HackMD.  
+With docker, you can deploy a server in minutes without any downtime.
 
 [migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
 ---
 We've dropped MongoDB after version 0.4.0.  
-So here is the migration tool for you to transfer old DB data to new DB.  
+So here is the migration tool for you to transfer the old DB data to the new DB.  
 This tool is also used for official service.
 
 Browsers Requirement
@@ -38,21 +38,21 @@ Prerequisite
 Get started
 ---
 1. Download a release and unzip or clone into a directory
-2. Enter the directory and type `npm install && bower install`, will install all the dependencies
-3. Setup the configs, see more on below
-4. Setup environment variables, which will overwrite the configs
+2. Enter the directory and type `npm install && bower install`, which will install all the dependencies
+3. Setup the configs, see more below
+4. Setup environment variables which will overwrite the configs
 5. Run the server as you like (node, forever, pm2)
 
 Upgrade guide
 ---
 If you are upgrading HackMD from an older version, follow these steps:
 
-1. Fully stop your old server first (important).
-2. `git pull` or do whatever that really update the files.
-3. `npm install && bower install` to update dependencies.
-4. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string.  
-   For example: `postgres://username:password@localhost:5432/hackmd`.
-5. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema.
+1. Fully stop your old server first (important)
+2. `git pull` or do whatever that updates the files
+3. `npm install && bower install` to update dependencies
+4. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string 
+   For example: `postgres://username:password@localhost:5432/hackmd`
+5. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
 6. Start your whole new server!
 
 Structure
@@ -71,7 +71,7 @@ hackmd/
 
 Configuration files
 ---
-There are some configs you need to change in below files
+There are some configs you need to change in the files below
 ```
 ./config.json			--- for server settings
 ./public/js/common.js	--- for client settings
@@ -89,7 +89,7 @@ Environment variables (will overwrite other server configs)
 ---
 | variables | example values | description |
 | --------- | ------ | ----------- |
-| NODE_ENV  | `production` or `development` | set current environment (will apply correspond settings in the `config.json`) |
+| NODE_ENV  | `production` or `development` | set current environment (will apply corresponding settings in the `config.json`) |
 | DOMAIN | `hackmd.io` | domain name |
 | URL_PATH | `hackmd` | sub url path, like `www.example.com/<URL_PATH>` |
 | PORT | `80` | web app port |
@@ -150,9 +150,9 @@ Third-party integration oauth callback urls
 
 Operational Transformation
 ---
-From 0.3.2, we start support operational transformation.  
-Which make concurrent editing safe and not break up other users' operations.  
-Even more, now can show other clients' selections.  
+From 0.3.2, we started supporting operational transformation.  
+Which make concurrent editing safe and will not break up other users' operations.  
+Additionally, now can show other clients' selections.  
 See more at http://operational-transformation.github.io/
 
 **License under MIT.**
