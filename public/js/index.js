@@ -386,7 +386,7 @@ var editor = CodeMirror.fromTextArea(textit, {
     addModeClass: true,
     readOnly: true,
     autoRefresh: true,
-    placeholder: "← Start by enter title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
+    placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
 });
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor);
 defaultTextHeight = parseInt($(".CodeMirror").css('line-height'));
