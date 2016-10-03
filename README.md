@@ -151,7 +151,7 @@ Third-party integration oauth callback urls
 Operational Transformation
 ---
 From 0.3.2, we started supporting operational transformation.  
-Which make concurrent editing safe and will not break up other users' operations.  
+It makes concurrent editing safe and will not break up other users' operations.  
 Additionally, now can show other clients' selections.  
 See more at http://operational-transformation.github.io/
 
