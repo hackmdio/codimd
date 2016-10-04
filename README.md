@@ -3,8 +3,8 @@ HackMD
 
 [![Join the chat at https://gitter.im/hackmdio/hackmd](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-HackMD lets you create realtime collaborative markdown notes on all platforms.
-Inspired by Hackpad, with more focus on speed and flexibility.
+HackMD lets you create realtime collaborative markdown notes on all platforms.  
+Inspired by Hackpad, with more focus on speed and flexibility.  
 Still in the early stage, feel free to fork or contribute to HackMD.
 
 Thanks for using! :smile:
@@ -12,14 +12,14 @@ Thanks for using! :smile:
 [docker-hackmd](https://github.com/hackmdio/docker-hackmd)
 ---
 
-Before you go too far, here is the great docker repo for HackMD.
+Before you go too far, here is the great docker repo for HackMD.  
 With docker, you can deploy a server in minutes without any downtime.
 
 [migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
 ---
 
-We've dropped MongoDB after version 0.4.0.
-So here is the migration tool for you to transfer the old DB data to the new DB.
+We've dropped MongoDB after version 0.4.0.  
+So here is the migration tool for you to transfer the old DB data to the new DB.  
 This tool is also used for official service.
 
 Browsers Requirement
@@ -165,9 +165,9 @@ Third-party integration oauth callback urls
 Operational Transformation
 ---
 
-From 0.3.2, we started supporting operational transformation.
-It makes concurrent editing safe and will not break up other users' operations.
-Additionally, now can show other clients' selections.
+From 0.3.2, we started supporting operational transformation.  
+It makes concurrent editing safe and will not break up other users' operations.  
+Additionally, now can show other clients' selections.  
 See more at [http://operational-transformation.github.io/](http://operational-transformation.github.io/)
 
 **License under MIT.**
