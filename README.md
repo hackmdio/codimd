@@ -3,25 +3,28 @@ HackMD
 
 [![Join the chat at https://gitter.im/hackmdio/hackmd](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-HackMD lets you create realtime collaborative markdown notes on all platforms.  
-Inspired by Hackpad, with more focus on speed and flexibility.  
+HackMD lets you create realtime collaborative markdown notes on all platforms.
+Inspired by Hackpad, with more focus on speed and flexibility.
 Still in the early stage, feel free to fork or contribute to HackMD.
 
 Thanks for using! :smile:
 
 [docker-hackmd](https://github.com/hackmdio/docker-hackmd)
 ---
-Before you go too far, here is the great docker repo for HackMD.  
+
+Before you go too far, here is the great docker repo for HackMD.
 With docker, you can deploy a server in minutes without any downtime.
 
 [migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
 ---
-We've dropped MongoDB after version 0.4.0.  
-So here is the migration tool for you to transfer the old DB data to the new DB.  
+
+We've dropped MongoDB after version 0.4.0.
+So here is the migration tool for you to transfer the old DB data to the new DB.
 This tool is also used for official service.
 
 Browsers Requirement
 ---
+
 - Chrome >= 45, Chrome for Android >= 47
 - Safari >= 9, iOS Safari >= 8.4
 - Firefox >= 44
@@ -31,12 +34,14 @@ Browsers Requirement
 
 Prerequisite
 ---
+
 - Node.js 4.x or up (test up to 6.2.2)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL)
 - npm and bower
 
 Get started
 ---
+
 1. Download a release and unzip or clone into a directory
 2. Enter the directory and type `npm install && bower install`, which will install all the dependencies
 3. Setup the configs, see more below
@@ -45,33 +50,37 @@ Get started
 
 Upgrade guide
 ---
+
 If you are upgrading HackMD from an older version, follow these steps:
 
 1. Fully stop your old server first (important)
 2. `git pull` or do whatever that updates the files
 3. `npm install && bower install` to update dependencies
-4. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string 
+4. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string
    For example: `postgres://username:password@localhost:5432/hackmd`
 5. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
 6. Start your whole new server!
 
 Structure
 ---
-```
+
+```text
 hackmd/
-├── tmp/			--- temporary files
-├── docs/			--- document files
-├── lib/			--- server libraries
-└── public/			--- client files
-	├── css/		--- css styles
-	├── js/			--- js scripts
-	├── vendor/		--- vendor includes
-	└── views/		--- view templates
+├── tmp/            --- temporary files
+├── docs/           --- document files
+├── lib/            --- server libraries
+└── public/         --- client files
+    ├── css/        --- css styles
+    ├── js/         --- js scripts
+    ├── vendor/     --- vendor includes
+    └── views/      --- view templates
 ```
 
 Configuration files
 ---
+
 There are some configs you need to change in the files below
+
 ```
 ./config.json			--- for server settings
 ./public/js/common.js	--- for client settings
@@ -79,6 +88,7 @@ There are some configs you need to change in the files below
 
 Client settings `common.js`
 ---
+
 | variables | example values | description |
 | --------- | ------ | ----------- |
 | debug | `true` or `false` | set debug mode, show more logs |
@@ -87,6 +97,7 @@ Client settings `common.js`
 
 Environment variables (will overwrite other server configs)
 ---
+
 | variables | example values | description |
 | --------- | ------ | ----------- |
 | NODE_ENV  | `production` or `development` | set current environment (will apply corresponding settings in the `config.json`) |
@@ -97,6 +108,7 @@ Environment variables (will overwrite other server configs)
 
 Server settings `config.json`
 ---
+
 | variables | example values | description |
 | --------- | ------ | ----------- |
 | debug | `true` or `false` | set debug mode, show more logs |
@@ -131,6 +143,7 @@ Server settings `config.json`
 
 Third-party integration api key settings
 ---
+
 | service | file path | description |
 | ------- | --------- | ----------- |
 | facebook, twitter, github, gitlab, dropbox, google | `config.json` | for signin |
@@ -139,6 +152,7 @@ Third-party integration api key settings
 
 Third-party integration oauth callback urls
 ---
+
 | service | callback url (after the server url) |
 | ------- | --------- |
 | facebook | `/auth/facebook/callback` |
@@ -150,9 +164,10 @@ Third-party integration oauth callback urls
 
 Operational Transformation
 ---
-From 0.3.2, we started supporting operational transformation.  
-It makes concurrent editing safe and will not break up other users' operations.  
-Additionally, now can show other clients' selections.  
-See more at http://operational-transformation.github.io/
+
+From 0.3.2, we started supporting operational transformation.
+It makes concurrent editing safe and will not break up other users' operations.
+Additionally, now can show other clients' selections.
+See more at [http://operational-transformation.github.io/](http://operational-transformation.github.io/)
 
 **License under MIT.**
