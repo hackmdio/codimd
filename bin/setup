@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# run command at repo root
+CURRENT_PATH=$PWD
+cd $(git rev-parse --show-toplevel)
+
+if ! type npm > /dev/null
+then
+  cat << EOF
+npm is not installed, please install Node.js and npm.
+Read more on Node.js official website: https://nodejs.org
+Setup will not be run
+EOF
+  exit 0
+fi
+
+if ! type bower > /dev/null
+then
+  echo "bower is not installed, install via npm"
+  npm install -g bower
+fi
+
+echo "copy config files"
+if [ ! -f config.json ]; then
+  cp config.json.example config.json
+fi
+
+if [ ! -f publis/js/common.js ]; then
+  cp public/js/common.js.example public/js/common.js
+fi
+
+if [ ! -f .sequelizerc ]; then
+  cp .sequelizerc.example .sequelizerc
+fi
+
+echo "install npm and bower packages"
+npm install && bower install
+
+cat << EOF
+
+
+Edit the following config file to setup hackmd server and client.
+Read more info at https://github.com/hackmdio/hackmd#configuration-files
+
+* config.json           -- server config
+* public/js/common.js   -- client config
+* .sequelizerc          -- db config
+
+EOF
+
+# change directory back
+cd $CURRENT_PATH

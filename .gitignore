@@ -16,3 +16,8 @@ backups/
 *.pid
 *.log
 *.sqlite
+
+# ignore config files
+config.json
+public/js/common.js
+.sequelizerc
