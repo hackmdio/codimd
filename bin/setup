@@ -31,9 +31,9 @@ cat << EOF
 Edit the following config file to setup hackmd server and client.
 Read more info at https://github.com/hackmdio/hackmd#configuration-files
 
-- config.json
-- public/js/common.js
-- .sequelizerc
+* config.json           -- server config
+* public/js/common.js   -- client config
+* .sequelizerc          -- db config
 
 EOF
 
