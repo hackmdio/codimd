@@ -6,8 +6,11 @@ cd $(git rev-parse --show-toplevel)
 
 if ! type npm > /dev/null
 then
-  echo "npm is not installed, please install via nvm(recommended) or package manager"
-  echo "setup will not be run"
+  cat << EOF
+npm is not installed, please install Node.js and npm.
+Read more on Node.js official website: https://nodejs.org
+Setup will not be run
+EOF
   exit 0
 fi
 
