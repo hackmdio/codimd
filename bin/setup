@@ -18,9 +18,17 @@ then
 fi
 
 echo "copy config files"
-cp config.json.example config.json
-cp public/js/common.js.example public/js/common.js
-cp .sequelizerc.example .sequelizerc
+if [ ! -f config.json ]; then
+  cp config.json.example config.json
+fi
+
+if [ ! -f publis/js/common.js ]; then
+  cp public/js/common.js.example public/js/common.js
+fi
+
+if [ ! -f .sequelizerc ]; then
+  cp .sequelizerc.example .sequelizerc
+fi
 
 echo "install npm and bower packages"
 npm install && bower install
