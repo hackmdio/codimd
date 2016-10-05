@@ -43,7 +43,7 @@ Get started
 ---
 
 1. Download a release and unzip or clone into a directory
-2. Enter the directory and type `npm install && bower install`, which will install all the dependencies
+2. Enter the directory and type `bin/setup`, which will install all the dependencies and create config file
 3. Setup the configs, see more below
 4. Setup environment variables which will overwrite the configs
 5. Run the server as you like (node, forever, pm2)
