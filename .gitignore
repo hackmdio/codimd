@@ -21,3 +21,6 @@ backups/
 config.json
 public/js/common.js
 .sequelizerc
+
+# ignore webpack build
+public/build
