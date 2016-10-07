@@ -1,3 +1,75 @@
+/* include jquery ui */
+require('jquery-ui/ui/widgets/resizable');
+require('jquery-ui/ui/widgets/tooltip');
+require('jquery-ui/ui/widgets/controlgroup');
+require('jquery-ui/ui/widgets/autocomplete');
+
+/* jquery and jquery plugins */
+require('jquery');
+require('jquery-textcomplete');
+require('jquery-mousewheel');
+require('../vendor/jquery-scrollspy');
+require('../vendor/showup/showup');
+
+/* bootstrap */
+require('bootstrap');
+
+/* code mirror plugins */
+require('codemirror/keymap/vim');
+require('codemirror/keymap/emacs');
+require('codemirror/keymap/sublime');
+
+require('../vendor/inlineAttachment/inline-attachment');
+require('../vendor/inlineAttachment/codemirror.inline-attachment');
+require('../vendor/codemirror-spell-checker/spell-checker.min');
+
+/* operational transformation */
+require('../vendor/ot/ot.min');
+
+/* other vendors plugin */
+require('markdown-it');
+require('markdown-it-abbr');
+require('markdown-it-footnote');
+require('markdown-it-deflist');
+require('markdown-it-mark');
+require('markdown-it-ins');
+require('markdown-it-sub');
+require('markdown-it-sup');
+require('markdown-it-container');
+require('markdown-it-mathjax');
+require('markdown-it-regexp');
+require('markdown-it-imsize');
+
+require('gist-embed');
+require('lz-string');
+require('xss');
+require('string');
+require('highlight.js');
+require('prismjs');
+require('prismjs/components/prism-wiki');
+require('js-cookie');
+require('emojify.js');
+require('to-markdown');
+
+require('raphael');
+require('js-sequence-diagrams');
+
+require('flowchart.js');
+require('viz.js');
+require('pdfobject');
+require('file-saver');
+require('store');
+require('js-url');
+require('visibilityjs');
+require('list.js');
+require('../vendor/md-toc');
+require('randomcolor');
+require('keymaster');
+
+var common = require('./common.js');
+
+var serverurl = common.serverurl;
+
 var defaultTextHeight = 20;
 var viewportMargin = 20;
 var mac = CodeMirror.keyMap["default"] == CodeMirror.keyMap.macDefault;
@@ -126,7 +198,7 @@ function wrapTextWith(cm, symbol) {
                     };
                     var postText = cm.getRange(postEndPos, from);
                     var postIndex = wrapSymbols.indexOf(postText);
-                    // check if surround symbol are list in array and matched 
+                    // check if surround symbol are list in array and matched
                     if (preIndex > -1 && postIndex > -1 && preIndex === postIndex) {
                         cm.replaceRange("", to, preEndPos, '+delete');
                         cm.replaceRange("", postEndPos, from, '+delete');
@@ -1035,7 +1107,7 @@ function checkEditorStyle() {
             },
             stop: function (e) {
                 lastEditorWidth = ui.area.edit.width();
-                // workaround that scroll event bindings 
+                // workaround that scroll event bindings
                 preventSyncScrollToView = 2;
                 preventSyncScrollToEdit = true;
                 editor.setOption('viewportMargin', viewportMargin);
@@ -1269,12 +1341,12 @@ function changeMode(type) {
         preventSyncScrollToView = 2;
         syncScrollToEdit(null, true);
     }
-    
+
     if (lastMode == modeType.edit && currentMode == modeType.both) {
         preventSyncScrollToEdit = 2;
         syncScrollToView(null, true);
     }
-    
+
     if (lastMode == modeType.both && currentMode != modeType.both) {
         preventSyncScrollToView = false;
         preventSyncScrollToEdit = false;
@@ -1675,7 +1747,7 @@ function parseRevisions(_revisions) {
     }
 }
 function selectRevision(time) {
-    if (time == revisionTime) return; 
+    if (time == revisionTime) return;
     $.get(noteurl + '/revision/' + time)
         .done(function(data) {
             revision = data;
