@@ -18,15 +18,14 @@ require('bootstrap');
 require('codemirror/keymap/vim');
 require('codemirror/keymap/emacs');
 require('codemirror/keymap/sublime');
-
-require('../vendor/inlineAttachment/inline-attachment');
-require('../vendor/inlineAttachment/codemirror.inline-attachment');
-require('../vendor/codemirror-spell-checker/spell-checker.min');
+require('codemirror/addon/display/panel');
 
 /* operational transformation */
-require('../vendor/ot/ot.min');
+require('ot/lib/socketio-adapter');
+require('ot/lib/codemirror-adapter');
+require('ot/lib/undo-manager');
+require('../vendor/ot/editor-client');
 
-/* other vendors plugin */
 require('markdown-it');
 require('markdown-it-abbr');
 require('markdown-it-footnote');
@@ -40,14 +39,13 @@ require('markdown-it-mathjax');
 require('markdown-it-regexp');
 require('markdown-it-imsize');
 
+/* other vendors plugin */
 require('gist-embed');
-require('lz-string');
 require('string');
 require('highlight.js');
 require('prismjs');
 require('prismjs/components/prism-wiki');
 require('js-cookie');
-require('emojify.js');
 require('to-markdown');
 
 require('raphael');
@@ -63,11 +61,48 @@ require('visibilityjs');
 require('list.js');
 require('../vendor/md-toc');
 require('randomcolor');
-require('keymaster');
 
 var common = require('./common.js');
-
+var urlpath = common.urlpath;
+var debug = common.debug;
+var version = common.version;
 var serverurl = common.serverurl;
+var GOOGLE_API_KEY = common.GOOGLE_API_KEY;
+var GOOGLE_CLIENT_ID = common.GOOGLE_CLIENT_ID;
+var DROPBOX_APP_KEY = common.DROPBOX_APP_KEY;
+var noteurl = common.noteurl;
+
+var checkLoginStateChanged = common.checkLoginStateChanged;
+
+var syncScroll = require('./syncscroll');
+var setupSyncAreas = syncScroll.setupSyncAreas;
+var clearMap = syncScroll.clearMap;
+var syncScrollToEdit = syncScroll.syncScrollToEdit;
+
+var extra = require('./extra');
+var md = extra.md;
+var createtime = extra.createtime;
+var updateLastChange = extra.updateLastChange;
+var postProcess = extra.postProcess;
+var finishView = extra.finishView;
+var lastchangetime = extra.lastchangetime;
+var autoLinkify = extra.autoLinkify;
+var generateToc = extra.generateToc;
+var smoothHashScroll = extra.smoothHashScroll;
+var lastchangeuser = extra.lastchangeuser;
+var deduplicatedHeaderId = extra.deduplicatedHeaderId;
+var renderTOC = extra.renderTOC;
+var renderTitle = extra.renderTitle;
+var renderFilename = extra.renderFilename;
+var scrollToHash = extra.scrollToHash;
+
+var history = require('./history');
+var writeHistory = history.writeHistory;
+
+var pretty = require('./pretty');
+
+var renderer = require('./render');
+var preventXSS = renderer.preventXSS;
 
 var defaultTextHeight = 20;
 var viewportMargin = 20;
@@ -349,7 +384,7 @@ var supportExtraTags = [
         }
     }
 ];
-var modeType = {
+window.modeType = {
     edit: {
         name: "edit"
     },
@@ -389,7 +424,7 @@ var visibleSM = false;
 var visibleMD = false;
 var visibleLG = false;
 var isTouchDevice = 'ontouchstart' in document.documentElement;
-var currentMode = defaultMode;
+window.currentMode = defaultMode;
 var currentStatus = statusType.offline;
 var lastInfo = {
     needRestore: false,

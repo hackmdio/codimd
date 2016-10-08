@@ -51,3 +51,7 @@ var filterXSSOptions = {
 function preventXSS(html) {
     return filterXSS(html, filterXSSOptions);
 }
+
+module.exports = {
+  preventXSS: preventXSS
+}

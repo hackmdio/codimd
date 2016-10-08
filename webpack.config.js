@@ -12,7 +12,12 @@ module.exports = {
       "window.jQuery": "jquery",
       Visibility: "visibilityjs",
       Cookies: "js-cookie",
-      CodeMirror: "codemirror"
+      CodeMirror: "codemirror",
+      emojify: "emojify.js",
+      ot: "ot",
+      io: "socket.io-client",
+      LZString: "lz-string",
+      key: "keymaster"
     }),
     new webpack.DefinePlugin({
       "require.specified": "require.resolve"

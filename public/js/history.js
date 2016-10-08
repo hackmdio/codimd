@@ -1,3 +1,13 @@
+var store = require('store');
+
+var common = require('./common');
+var checkIfAuth = common.checkIfAuth;
+var urlpath = common.urlpath;
+
+var extra = require('./extra');
+var renderFilename = extra.renderFilename;
+var md = extra.md;
+
 var migrateHistoryFromTempCallback = null;
 
 migrateHistoryFromTemp();
@@ -365,4 +375,8 @@ function parseToHistory(list, notehistory, callback) {
         }
     }
     callback(list, notehistory);
+}
+
+module.exports = {
+  writeHistory: writeHistory
 }
