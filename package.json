@@ -8,7 +8,6 @@
     "build": "webpack --config webpack.config.js --progress --colors --watch"
   },
   "dependencies": {
-    "Idle.Js": "github:shawnmclean/Idle.js",
     "async": "^2.0.1",
     "blueimp-md5": "^2.3.0",
     "body-parser": "^1.15.2",
