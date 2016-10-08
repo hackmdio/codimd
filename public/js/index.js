@@ -42,7 +42,6 @@ require('markdown-it-imsize');
 
 require('gist-embed');
 require('lz-string');
-require('xss');
 require('string');
 require('highlight.js');
 require('prismjs');
