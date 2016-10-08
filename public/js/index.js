@@ -2250,7 +2250,7 @@ var socket = io.connect({
 var on = socket.on;
 socket.on = function () {
     if (!checkLoginStateChanged() && !needRefresh)
-        on.apply(socket, arguments);
+        return on.apply(socket, arguments);
 };
 var emit = socket.emit;
 socket.emit = function () {
