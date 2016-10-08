@@ -15,6 +15,9 @@ require('../vendor/showup/showup');
 require('bootstrap');
 require('bootstrap/dist/css/bootstrap.css');
 
+require('prismjs/themes/prism.css');
+require('highlight.js/styles/github-gist.css');
+
 /* code mirror plugins */
 require('codemirror/keymap/vim');
 require('codemirror/keymap/emacs');
