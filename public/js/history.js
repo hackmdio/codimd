@@ -378,5 +378,5 @@ function parseToHistory(list, notehistory, callback) {
 }
 
 module.exports = {
-  writeHistory: writeHistory
+    writeHistory: writeHistory
 }

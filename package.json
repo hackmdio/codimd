@@ -121,8 +121,11 @@
     "bower-webpack-plugin": "^0.1.9",
     "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
     "imports-loader": "^0.6.5",
     "json-loader": "^0.5.4",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
     "webpack": "^1.13.2"
   }
 }

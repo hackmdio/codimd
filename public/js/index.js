@@ -13,6 +13,7 @@ require('../vendor/showup/showup');
 
 /* bootstrap */
 require('bootstrap');
+require('bootstrap/dist/css/bootstrap.css');
 
 /* code mirror plugins */
 require('codemirror/keymap/vim');
