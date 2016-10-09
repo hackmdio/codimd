@@ -15,7 +15,8 @@ module.exports = {
             emojify: "emojify.js",
             io: "socket.io-client",
             LZString: "lz-string",
-            key: "keymaster"
+            key: "keymaster",
+            Viz: "viz.js"
         }),
         new webpack.DefinePlugin({
             "require.specified": "require.resolve"

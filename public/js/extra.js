@@ -1,5 +1,6 @@
 var hljs = require('highlight.js');
 var PDFObject = require('pdfobject');
+var S = require('string');
 
 //auto update last change
 var createtime = null;
