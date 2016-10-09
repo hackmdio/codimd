@@ -55,6 +55,7 @@ require('randomcolor');
 
 var common = require('./common.js');
 var urlpath = common.urlpath;
+var noteid = common.noteid;
 var debug = common.debug;
 var version = common.version;
 var serverurl = common.serverurl;
@@ -89,9 +90,8 @@ var renderTitle = extra.renderTitle;
 var renderFilename = extra.renderFilename;
 var scrollToHash = extra.scrollToHash;
 
-var history = require('./history');
-var writeHistory = history.writeHistory;
-
+var historyModule = require('./history');
+var writeHistory = historyModule.writeHistory;
 
 var renderer = require('./render');
 var preventXSS = renderer.preventXSS;
