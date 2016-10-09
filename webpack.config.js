@@ -20,7 +20,8 @@ module.exports = {
         }),
         new webpack.DefinePlugin({
             "require.specified": "require.resolve"
-        })
+        }),
+        new ExtractTextPlugin("[name].css")
     ],
 
     entry: {
@@ -28,7 +29,7 @@ module.exports = {
     },
 
     output: {
-        path: path.join(__dirname, 'public/build/js'),
+        path: path.join(__dirname, 'public/build'),
         filename: '[name].js'
     },
 
@@ -49,10 +50,10 @@ module.exports = {
             loader: 'json-loader'
         }, {
             test: /\.css$/,
-            loader: 'style-loader!css-loader'
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
         }, , {
             test: /\.scss$/,
-            loaders: ['style', 'css', 'sass']
+            loader: ExtractTextPlugin.extract('style-loader', 'sass-loader')
         }, {
             test: require.resolve("js-sequence-diagrams"),
             loader: "imports?Raphael=raphael"
