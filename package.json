@@ -34,6 +34,7 @@
     "imgur": "git+https://github.com/hackmdio/node-imgur.git",
     "jquery": "^3.1.1",
     "jquery-mousewheel": "^3.1.13",
+    "jquery-scrollspy": "github:softwarespot/jquery-scrollspy",
     "jquery-textcomplete": "^1.7.3",
     "jquery-ui": "^1.12.1",
     "js-cookie": "^2.1.3",

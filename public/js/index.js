@@ -8,7 +8,7 @@ require('jquery-ui/ui/widgets/autocomplete');
 require('jquery');
 require('jquery-textcomplete');
 require('jquery-mousewheel');
-require('../vendor/jquery-scrollspy');
+require('jquery-scrollspy/jquery-scrollspy');
 require('../vendor/showup/showup');
 
 /* bootstrap */
