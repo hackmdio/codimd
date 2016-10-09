@@ -14,7 +14,6 @@ module.exports = {
             Cookies: "js-cookie",
             CodeMirror: "codemirror",
             emojify: "emojify.js",
-            ot: "ot",
             io: "socket.io-client",
             LZString: "lz-string",
             key: "keymaster"

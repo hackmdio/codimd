@@ -24,12 +24,6 @@ require('codemirror/keymap/emacs');
 require('codemirror/keymap/sublime');
 require('codemirror/addon/display/panel');
 
-/* operational transformation */
-require('ot/lib/socketio-adapter');
-require('ot/lib/codemirror-adapter');
-require('ot/lib/undo-manager');
-require('../vendor/ot/editor-client');
-
 require('markdown-it');
 require('markdown-it-abbr');
 require('markdown-it-footnote');
