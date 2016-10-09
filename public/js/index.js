@@ -76,6 +76,7 @@ var syncScroll = require('./syncscroll');
 var setupSyncAreas = syncScroll.setupSyncAreas;
 var clearMap = syncScroll.clearMap;
 var syncScrollToEdit = syncScroll.syncScrollToEdit;
+var syncScrollToView = syncScroll.syncScrollToView;
 
 var extra = require('./extra');
 var md = extra.md;

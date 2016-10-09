@@ -370,5 +370,6 @@ function editScrollingTimeoutInner() {
 module.exports = {
   setupSyncAreas: setupSyncAreas,
   clearMap: clearMap,
-  syncScrollToEdit: syncScrollToEdit
+  syncScrollToEdit: syncScrollToEdit,
+  syncScrollToView: syncScrollToView
 };
