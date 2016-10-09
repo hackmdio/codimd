@@ -71,6 +71,7 @@ var clearMap = syncScroll.clearMap;
 var syncScrollToEdit = syncScroll.syncScrollToEdit;
 var syncScrollToView = syncScroll.syncScrollToView;
 
+require('./pretty');
 var extra = require('./extra');
 var md = extra.md;
 var createtime = extra.createtime;
@@ -91,7 +92,6 @@ var scrollToHash = extra.scrollToHash;
 var history = require('./history');
 var writeHistory = history.writeHistory;
 
-var pretty = require('./pretty');
 
 var renderer = require('./render');
 var preventXSS = renderer.preventXSS;
