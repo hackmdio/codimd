@@ -12,7 +12,6 @@ module.exports = {
             "window.jQuery": "jquery",
             Visibility: "visibilityjs",
             Cookies: "js-cookie",
-            CodeMirror: "codemirror",
             emojify: "emojify.js",
             io: "socket.io-client",
             LZString: "lz-string",

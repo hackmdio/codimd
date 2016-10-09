@@ -18,12 +18,6 @@ require('bootstrap/dist/css/bootstrap.css');
 require('prismjs/themes/prism.css');
 require('highlight.js/styles/github-gist.css');
 
-/* code mirror plugins */
-require('codemirror/keymap/vim');
-require('codemirror/keymap/emacs');
-require('codemirror/keymap/sublime');
-require('codemirror/addon/display/panel');
-
 require('markdown-it');
 require('markdown-it-abbr');
 require('markdown-it-footnote');
