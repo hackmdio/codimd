@@ -93,3 +93,32 @@ function checkIfAuth(yesCallback, noCallback) {
         noCallback();
     }
 }
+
+module.exports = {
+  domain: domain,
+  urlpath: urlpath,
+  debug: debug,
+  GOOGLE_API_KEY: GOOGLE_API_KEY,
+  GOOGLE_CLIENT_ID: GOOGLE_CLIENT_ID,
+  DROPBOX_APP_KEY: DROPBOX_APP_KEY,
+  port: port,
+  serverurl: serverurl,
+  noteid: noteid,
+  noteurl: noteurl,
+  version: version,
+  checkAuth: checkAuth,
+  profile: profile,
+  lastLoginState: lastLoginState,
+  lastUserId: lastUserId,
+  loginStateChangeEvent: loginStateChangeEvent,
+
+  /* export functions */
+  resetCheckAuth: resetCheckAuth,
+  setLoginState: setLoginState,
+  checkLoginStateChanged: checkLoginStateChanged,
+  getLoginState: getLoginState,
+  getUserId: getUserId,
+  clearLoginState: clearLoginState,
+  checkIfAuth: checkIfAuth
+};
+}
