@@ -51,7 +51,6 @@ require('js-sequence-diagrams');
 
 require('flowchart.js');
 require('viz.js');
-require('pdfobject');
 require('file-saver');
 require('store');
 require('js-url');
@@ -414,18 +413,18 @@ var statusType = {
 var defaultMode = modeType.view;
 
 //global vars
-var loaded = false;
-var needRefresh = false;
-var isDirty = false;
-var editShown = false;
-var visibleXS = false;
-var visibleSM = false;
-var visibleMD = false;
-var visibleLG = false;
-var isTouchDevice = 'ontouchstart' in document.documentElement;
+window.loaded = false;
+window.needRefresh = false;
+window.isDirty = false;
+window.editShown = false;
+window.visibleXS = false;
+window.visibleSM = false;
+window.visibleMD = false;
+window.visibleLG = false;
+window.isTouchDevice = 'ontouchstart' in document.documentElement;
 window.currentMode = defaultMode;
-var currentStatus = statusType.offline;
-var lastInfo = {
+window.currentStatus = statusType.offline;
+window.lastInfo = {
     needRestore: false,
     cursor: null,
     scroll: null,
@@ -447,9 +446,9 @@ var lastInfo = {
     },
     history: null
 };
-var personalInfo = {};
-var onlineUsers = [];
-var fileTypes = {
+window.personalInfo = {};
+window.onlineUsers = [];
+window.fileTypes = {
     "pl": "perl",
     "cgi": "perl",
     "js": "javascript",
@@ -2274,6 +2273,8 @@ function havePermission() {
     }
     return bool;
 }
+// global module workaround
+window.havePermission = havePermission;
 
 //socket.io actions
 var socket = io.connect({
