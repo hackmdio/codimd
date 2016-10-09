@@ -25,7 +25,8 @@ module.exports = {
     ],
 
     entry: {
-        app: path.join(__dirname, 'public/js/app.js')
+        app: path.join(__dirname, 'public/js/app.js'),
+        public: path.join(__dirname, 'public/js/public.js')
     },
 
     output: {
