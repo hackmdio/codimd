@@ -1,4 +1,4 @@
-var extra = require('./extra')
+var extra = require('./extra');
 var md = extra.md;
 var finishView = extra.finishView;
 var autoLinkify = extra.autoLinkify;
@@ -124,6 +124,10 @@ function scrollToBottom() {
     }, 100, "linear");
 }
 
+window.scrollToTop = scrollToTop;
+window.scrollToBottom = scrollToBottom;
+
 module.exports = {
-  scrollToBottom: scrollToBottom
+  scrollToBottom: scrollToBottom,
+  scrollToTop: scrollToTop
 }
