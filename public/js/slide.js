@@ -1,3 +1,76 @@
+require('bootstrap');
+require('bootstrap/js/tooltip');
+require('bootstrap/dist/css/bootstrap.css');
+
+require('prismjs/themes/prism.css');
+require('highlight.js/styles/github-gist.css');
+
+require('markdown-it');
+require('markdown-it-abbr');
+require('markdown-it-footnote');
+require('markdown-it-deflist');
+require('markdown-it-mark');
+require('markdown-it-ins');
+require('markdown-it-sub');
+require('markdown-it-sup');
+require('markdown-it-container');
+require('markdown-it-mathjax');
+require('markdown-it-regexp');
+require('markdown-it-imsize');
+
+/* other vendors plugin */
+require('gist-embed');
+var S = require('string');
+require('highlight.js');
+require('prismjs');
+require('prismjs/components/prism-wiki');
+require('js-cookie');
+require('to-markdown');
+
+require('raphael');
+require('js-sequence-diagrams');
+
+require('flowchart.js');
+require('viz.js');
+require('file-saver');
+require('store');
+require('js-url');
+require('visibilityjs');
+require('list.js');
+require('../vendor/md-toc');
+require('randomcolor');
+
+var commonModule = require('./common');
+var urlpath = commonModule.urlpath;
+var noteid = commonModule.noteid;
+var debug = commonModule.debug;
+var version = commonModule.version;
+var serverurl = commonModule.serverurl;
+var GOOGLE_API_KEY = commonModule.GOOGLE_API_KEY;
+var GOOGLE_CLIENT_ID = commonModule.GOOGLE_CLIENT_ID;
+var DROPBOX_APP_KEY = commonModule.DROPBOX_APP_KEY;
+var noteurl = commonModule.noteurl;
+
+var extraModule = require('./extra');
+var md = extraModule.md;
+var createtime = extraModule.createtime;
+var updateLastChange = extraModule.updateLastChange;
+var postProcess = extraModule.postProcess;
+var finishView = extraModule.finishView;
+var lastchangetime = extraModule.lastchangetime;
+var lastchangeui = extraModule.lastchangeui;
+var autoLinkify = extraModule.autoLinkify;
+var generateToc = extraModule.generateToc;
+var smoothHashScroll = extraModule.smoothHashScroll;
+var lastchangeuser = extraModule.lastchangeuser;
+var deduplicatedHeaderId = extraModule.deduplicatedHeaderId;
+var renderTOC = extraModule.renderTOC;
+var renderTitle = extraModule.renderTitle;
+var renderFilename = extraModule.renderFilename;
+var scrollToHash = extraModule.scrollToHash;
+
+var render = require('./render');
+
 var body = $(".slides").html();
 $(".slides").html(S(body).unescapeHTML().s);
 

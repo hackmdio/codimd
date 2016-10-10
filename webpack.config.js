@@ -26,7 +26,8 @@ module.exports = {
 
     entry: {
         index: path.join(__dirname, 'public/js/index.js'),
-        public: path.join(__dirname, 'public/js/public.js')
+        public: path.join(__dirname, 'public/js/public.js'),
+        slide: path.join(__dirname, 'public/js/slide.js')
     },
 
     output: {
@@ -52,9 +53,12 @@ module.exports = {
         }, {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
-        }, , {
+        }, {
             test: /\.scss$/,
             loader: ExtractTextPlugin.extract('style-loader', 'sass-loader')
+        }, {
+            test: /\.less$/,
+            loader: ExtractTextPlugin.extract('style-loader', 'less-loader')
         }, {
             test: require.resolve("js-sequence-diagrams"),
             loader: "imports?Raphael=raphael"
