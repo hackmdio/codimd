@@ -2201,20 +2201,20 @@ socket.on('info', function (data) {
     console.error(data);
     switch (data.code) {
         case 403:
-            location.href = "./403";
+            location.href = serverurl + "/403";
             break;
         case 404:
-            location.href = "./404";
+            location.href = serverurl + "/404";
             break;
         case 500:
-            location.href = "./500";
+            location.href = serverurl + "/500";
             break;
     }
 });
 socket.on('error', function (data) {
     console.error(data);
     if (data.message && data.message.indexOf('AUTH failed') === 0)
-        location.href = "./403";
+        location.href = serverurl + "/403";
 });
 var retryOnDisconnect = false;
 var retryTimer = null;
