@@ -484,7 +484,7 @@ models.sequelize.sync().then(function () {
     // check if realtime is ready
     if (history.isReady() && realtime.isReady()) {
         models.Revision.checkAllNotesRevision(function (err, notes) {
-            if (err) return new Error(err);
+            if (err) throw new Error(err);
             if (!notes || notes.length <= 0) return startListen();
         });
     }
@@ -511,7 +511,7 @@ process.on('SIGINT', function () {
     var checkCleanTimer = setInterval(function () {
         if (history.isReady() && realtime.isReady()) {
             models.Revision.checkAllNotesRevision(function (err, notes) {
-                if (err) return new Error(err);
+                if (err) throw new Error(err);
                 if (notes.length <= 0) {
                     clearInterval(checkCleanTimer);
                     return process.exit(0);
