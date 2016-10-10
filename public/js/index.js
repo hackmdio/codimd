@@ -1,6 +1,7 @@
 var defaultTextHeight = 20;
 var viewportMargin = 20;
 var mac = CodeMirror.keyMap["default"] == CodeMirror.keyMap.macDefault;
+var defaultEditorMode = 'gfm';
 var defaultExtraKeys = {
     "F10": function (cm) {
         cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -359,8 +360,8 @@ var fileTypes = {
 var textit = document.getElementById("textit");
 if (!textit) throw new Error("There was no textit area!");
 var editor = CodeMirror.fromTextArea(textit, {
-    mode: 'gfm',
-    backdrop: 'gfm',
+    mode: defaultEditorMode,
+    backdrop: defaultEditorMode,
     keyMap: "sublime",
     viewportMargin: viewportMargin,
     styleActiveLine: true,
@@ -603,7 +604,7 @@ function setSpellcheck() {
         if (cookieSpellcheck === 'true' || cookieSpellcheck === true) {
             mode = 'spell-checker';
         } else {
-            mode = 'gfm';
+            mode = defaultEditorMode;
         }
         if (mode && mode !== editor.getOption('mode')) {
             editor.setOption('mode', mode);
@@ -613,10 +614,10 @@ function setSpellcheck() {
     var spellcheckToggle = statusSpellcheck.find('.ui-spellcheck-toggle');
     spellcheckToggle.click(function () {
         var mode = editor.getOption('mode');
-        if (mode == "gfm") {
+        if (mode == defaultEditorMode) {
             mode = "spell-checker";
         } else {
-            mode = "gfm";
+            mode = defaultEditorMode;
         }
         if (mode && mode !== editor.getOption('mode')) {
             editor.setOption('mode', mode);
@@ -628,7 +629,7 @@ function setSpellcheck() {
     });
     function checkSpellcheck() {
         var mode = editor.getOption('mode');
-        if (mode == "gfm") {
+        if (mode == defaultEditorMode) {
             spellcheckToggle.removeClass('active');
         } else {
             spellcheckToggle.addClass('active');
@@ -1756,7 +1757,7 @@ function initRevisionViewer() {
     if (revisionViewer) return;
     var revisionViewerTextArea = document.getElementById("revisionViewer");
     revisionViewer = CodeMirror.fromTextArea(revisionViewerTextArea, {
-        mode: 'gfm',
+        mode: defaultEditorMode,
         viewportMargin: viewportMargin,
         lineNumbers: true,
         lineWrapping: true,
