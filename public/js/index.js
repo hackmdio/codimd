@@ -930,7 +930,7 @@ $(window).resize(function () {
 });
 //when page unload
 $(window).on('unload', function () {
-    updateHistoryInner();
+    //updateHistoryInner();
 });
 $(window).on('error', function () {
     //setNeedRefresh();
