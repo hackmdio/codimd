@@ -23,7 +23,8 @@ module.exports = {
     entry: {
         index: path.join(__dirname, 'public/js/index.js'),
         public: path.join(__dirname, 'public/js/public.js'),
-        slide: path.join(__dirname, 'public/js/slide.js')
+        slide: path.join(__dirname, 'public/js/slide.js'),
+        locale: path.join(__dirname, 'public/js/locale.js')
     },
 
     output: {

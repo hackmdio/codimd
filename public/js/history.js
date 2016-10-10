@@ -3,6 +3,7 @@ var store = require('store');
 var common = require('./common');
 var checkIfAuth = common.checkIfAuth;
 var urlpath = common.urlpath;
+var serverurl = common.serverurl;
 
 var extra = require('./extra');
 var renderFilename = extra.renderFilename;
@@ -378,5 +379,11 @@ function parseToHistory(list, notehistory, callback) {
 }
 
 module.exports = {
-    writeHistory: writeHistory
+    writeHistory: writeHistory,
+    parseHistory: parseHistory,
+    getStorageHistory: getStorageHistory,
+    getHistory: getHistory,
+    saveHistory: saveHistory,
+    removeHistory: removeHistory,
+    parseStorageToHistory: parseStorageToHistory
 }

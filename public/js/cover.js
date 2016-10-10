@@ -1,3 +1,17 @@
+var common = require('./common');
+var checkIfAuth = common.checkIfAuth;
+var urlpath = common.urlpath;
+var serverurl = common.serverurl;
+var resetCheckAuth = common.resetCheckAuth;
+
+var historyModule = require('./history');
+var parseStorageToHistory = historyModule.parseStorageToHistory;
+var parseHistory = historyModule.parseHistory;
+var getStorageHistory = historyModule.getStorageHistory;
+var getHistory = historyModule.getHistory;
+var saveHistory = historyModule.saveHistory;
+var removeHistory = historyModule.removeHistory;
+
 var options = {
     valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
     item: '<li class="col-xs-12 col-sm-6 col-md-6 col-lg-4">\
@@ -265,16 +279,16 @@ $(".ui-clear-history").click(function () {
 });
 
 $(".ui-refresh-history").click(function () {
-    var lastTags = $(".ui-use-tags").select2('val'); 
+    var lastTags = $(".ui-use-tags").select2('val');
     $(".ui-use-tags").select2('val', '');
     historyList.filter();
     var lastKeyword = $('.search').val();
     $('.search').val('');
     historyList.search();
-    
+
     resetCheckAuth();
     historyList.clear();
-    parseHistory(historyList, function (list, notehistory) { 
+    parseHistory(historyList, function (list, notehistory) {
         parseHistoryCallback(list, notehistory);
         $(".ui-use-tags").select2('val', lastTags);
         $(".ui-use-tags").trigger('change');

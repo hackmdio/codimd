@@ -1,3 +1,5 @@
+require('./cover');
+
 var lang = "en";
 var userLang = navigator.language || navigator.userLanguage;
 var userLangCode = userLang.split('-')[0];
