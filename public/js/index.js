@@ -677,7 +677,18 @@ function updateStatusBar() {
     statusCursor.text(cursorText);
     var fileText = ' — ' + editor.lineCount() + ' Lines';
     statusFile.text(fileText);
-    statusLength.text('Length ' + editor.getValue().length);
+    var docLength = editor.getValue().length;
+    statusLength.text('Length ' + docLength);
+    if (docLength > (docmaxlength * 0.95)) {
+        statusLength.css('color', 'red');
+        statusLength.attr('title', 'Your almost reach note max length limit.');
+    } else if (docLength > (docmaxlength * 0.8)) {
+        statusLength.css('color', 'orange');
+        statusLength.attr('title', 'You nearly fill the note, consider to make more pieces.');
+    } else {
+        statusLength.css('color', 'white');
+        statusLength.attr('title', 'You could write up to ' + docmaxlength + ' characters in this note.');
+    }
 }
 
 //ui vars
