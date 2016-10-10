@@ -2255,7 +2255,7 @@ var authorship = [];
 var authorshipMarks = {};
 var authorMarks = {}; // temp variable
 var addTextMarkers = []; // temp variable
-function updateLastInfo(data) {
+function updateInfo(data) {
     //console.log(data);
     if (data.hasOwnProperty('createtime') && createtime !== data.createtime) {
         createtime = data.createtime;
@@ -2265,10 +2265,16 @@ function updateLastInfo(data) {
         lastchangetime = data.updatetime;
         updateLastChange();
     }
+    if (data.hasOwnProperty('owner') && owner !== data.owner) {
+        owner = data.owner;
+        ownerprofile = data.ownerprofile;
+        updateOwner();
+    }
     if (data.hasOwnProperty('lastchangeuser') && lastchangeuser !== data.lastchangeuser) {
         lastchangeuser = data.lastchangeuser;
         lastchangeuserprofile = data.lastchangeuserprofile;
         updateLastChangeUser();
+        updateOwner();
     }
     if (data.hasOwnProperty('authors') && authors !== data.authors) {
         authors = data.authors;
@@ -2483,13 +2489,12 @@ socket.on('check', function (data) {
     data = LZString.decompressFromUTF16(data);
     data = JSON.parse(data);
     //console.log(data);
-    updateLastInfo(data);
+    updateInfo(data);
 });
 socket.on('permission', function (data) {
     updatePermission(data.permission);
 });
 var docmaxlength = null;
-var owner = null;
 var permission = null;
 socket.on('refresh', function (data) {
     data = LZString.decompressFromUTF16(data);
@@ -2497,9 +2502,8 @@ socket.on('refresh', function (data) {
     //console.log(data);
     docmaxlength = data.docmaxlength;
     editor.setOption("maxLength", docmaxlength);
-    owner = data.owner;
+    updateInfo(data);
     updatePermission(data.permission);
-    updateLastInfo(data);
     if (!loaded) {
         // auto change mode if no content detected
         var nocontent = editor.getValue().length <= 0;

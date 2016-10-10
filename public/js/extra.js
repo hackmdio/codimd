@@ -7,6 +7,7 @@ var lastchangeui = {
     user: $(".ui-lastchangeuser"),
     nouser: $(".ui-no-lastchangeuser")
 }
+var ownerui = $(".ui-owner");
 
 function updateLastChange() {
     if (!lastchangeui) return;
@@ -37,6 +38,23 @@ function updateLastChangeUser() {
       } else {
           lastchangeui.user.hide();
           lastchangeui.nouser.show();
+      }
+    }
+}
+
+var owner = null;
+var ownerprofile = null;
+function updateOwner() {
+    if (ownerui) {
+      if (owner && ownerprofile && owner !== lastchangeuser) {
+          var icon = ownerui.children('i');
+          icon.attr('title', ownerprofile.name).tooltip('fixTitle');
+          var styleString = 'background-image:url(' + ownerprofile.photo + ')';
+          if (ownerprofile.photo && icon.attr('style') !== styleString)
+              icon.attr('style', styleString);
+          ownerui.show();
+      } else {
+          ownerui.hide();
       }
     }
 }
