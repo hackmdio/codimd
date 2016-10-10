@@ -2489,7 +2489,6 @@ socket.on('permission', function (data) {
     updatePermission(data.permission);
 });
 var docmaxlength = null;
-var otk = null;
 var owner = null;
 var permission = null;
 socket.on('refresh', function (data) {
@@ -2498,7 +2497,6 @@ socket.on('refresh', function (data) {
     //console.log(data);
     docmaxlength = data.docmaxlength;
     editor.setOption("maxLength", docmaxlength);
-    otk = data.otk;
     owner = data.owner;
     updatePermission(data.permission);
     updateLastInfo(data);
