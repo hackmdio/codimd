@@ -6,10 +6,6 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             '_': 'lodash',
-            jquery: "jquery",
-            jQuery: "jquery",
-            $: "jquery",
-            "window.jQuery": "jquery",
             Visibility: "visibilityjs",
             Cookies: "js-cookie",
             emojify: "emojify.js",
