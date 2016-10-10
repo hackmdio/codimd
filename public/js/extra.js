@@ -435,6 +435,33 @@ function finishView(view) {
                 height: '400px'
             });
         });
+    //syntax highlighting
+    view.find("pre.raw").removeClass("raw")
+        .each(function (key, value) {
+            var langDiv = $(value).find('code.hljs');
+            if (langDiv.length > 0) {
+                var reallang = langDiv[0].className.replace('hljs', '').trim();
+                var codeDiv = $(value).find('.code');
+                var code = "";
+                if (codeDiv.length > 0) code = codeDiv.html();
+                else code = langDiv.html();
+                code = md.utils.unescapeAll(code);
+                if (reallang == "tiddlywiki" || reallang == "mediawiki") {
+                    var result = {
+                        value: Prism.highlight(code, Prism.languages.wiki)
+                    };
+                } else {
+                    var languages = hljs.listLanguages();
+                    if (languages.indexOf(reallang) == -1) {
+                        var result = hljs.highlightAuto(code);
+                    } else {
+                        var result = hljs.highlight(reallang, code);
+                    }
+                }
+                if (codeDiv.length > 0) codeDiv.html(result.value);
+                else langDiv.html(result.value);
+            }
+        });
     //render title
     document.title = renderTitle(view);
 }
@@ -772,19 +799,9 @@ function highlightRender(code, lang) {
     } else if (lang == 'mermaid') {
         return '<div class="mermaid raw">' + code + '</div>';
     }
-    var reallang = lang.replace(/\=$|\=\d+$|\=\+$/, '');
-    if (reallang == "tiddlywiki" || reallang == "mediawiki") {
-        var result = {
-            value: Prism.highlight(code, Prism.languages.wiki)
-        };
-    } else {
-        var languages = hljs.listLanguages();
-        if (languages.indexOf(reallang) == -1) {
-            var result = hljs.highlightAuto(code);
-        } else {
-            var result = hljs.highlight(reallang, code);
-        }
-    }
+    var result = {
+        value: code
+    };
 	var showlinenumbers = /\=$|\=\d+$|\=\+$/.test(lang);
     if (showlinenumbers) {
 		var startnumber = 1;
@@ -878,7 +895,7 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
         return highlighted + '\n';
     }
 
-    return  '<pre><code' + self.renderAttrs(token) + '>'
+    return  '<pre class="raw"><code' + self.renderAttrs(token) + '>'
         + highlighted
         + '</code></pre>\n';
 };
