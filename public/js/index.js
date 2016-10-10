@@ -2219,6 +2219,7 @@ socket.on('error', function (data) {
 var retryOnDisconnect = false;
 var retryTimer = null;
 socket.on('maintenance', function () {
+    cmClient.revision = -1;
     retryOnDisconnect = true;
 });
 socket.on('disconnect', function (data) {
@@ -2557,16 +2558,14 @@ socket.on('doc', function (obj) {
     obj = LZString.decompressFromUTF16(obj);
     obj = JSON.parse(obj);
     var body = obj.str;
-    var bodyMismatch = (editor.getValue() != body);
+    var bodyMismatch = editor.getValue() !== body;
+    var setDoc = !cmClient || (cmClient && cmClient.revision === -1) || obj.force;
 
     saveInfo();
-    if (bodyMismatch) {
-        if (cmClient)
-            cmClient.editorAdapter.ignoreNextChange = true;
-        if (body)
-            editor.setValue(body);
-        else
-            editor.setValue("");
+    if (setDoc && bodyMismatch) {
+        if (cmClient) cmClient.editorAdapter.ignoreNextChange = true;
+        if (body) editor.setValue(body);
+        else editor.setValue("");
     }
 
     if (!loaded) {
@@ -2575,12 +2574,8 @@ socket.on('doc', function (obj) {
         ui.content.fadeIn();
     } else {
         //if current doc is equal to the doc before disconnect
-        if (bodyMismatch)
-            editor.clearHistory();
-        else {
-            if (lastInfo.history)
-                editor.setHistory(lastInfo.history);
-        }
+        if (setDoc && bodyMismatch) editor.clearHistory();
+        else if (lastInfo.history) editor.setHistory(lastInfo.history);
         lastInfo.history = null;
     }
 
@@ -2589,7 +2584,7 @@ socket.on('doc', function (obj) {
             obj.revision, obj.clients,
             new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
         );
-    } else {
+    } else if (setDoc) {
         if (bodyMismatch) {
             cmClient.undoManager.undoStack.length = 0;
             cmClient.undoManager.redoStack.length = 0;
@@ -2600,7 +2595,7 @@ socket.on('doc', function (obj) {
         cmClient.initializeClients(obj.clients);
     }
 
-    if (bodyMismatch) {
+    if (setDoc && bodyMismatch) {
         isDirty = true;
         updateView();
     }
