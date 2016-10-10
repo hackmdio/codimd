@@ -740,7 +740,8 @@ var ui = {
             editable: $(".ui-permission-editable"),
             locked: $(".ui-permission-locked"),
             private: $(".ui-permission-private")
-        }
+        },
+        delete: $(".ui-delete-note")
     },
     toc: {
         toc: $('.ui-toc'),
@@ -2115,6 +2116,13 @@ ui.infobar.permission.locked.click(function () {
 ui.infobar.permission.private.click(function () {
     emitPermission("private");
 });
+// delete note
+ui.infobar.delete.click(function () {
+    $('.delete-modal').modal('show');
+});
+$('.ui-delete-modal-confirm').click(function () {
+    socket.emit('delete');
+});
 
 function emitPermission(_permission) {
     if (_permission != permission) {
@@ -2215,6 +2223,11 @@ socket.on('error', function (data) {
     console.error(data);
     if (data.message && data.message.indexOf('AUTH failed') === 0)
         location.href = serverurl + "/403";
+});
+socket.on('delete', function () {
+    deleteServerHistory(noteid, function (err, data) {
+        if (!err) location.href = serverurl;
+    });
 });
 var retryOnDisconnect = false;
 var retryTimer = null;
