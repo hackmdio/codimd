@@ -165,8 +165,8 @@ function writeHistoryToServer(view) {
             var newnotehistory = generateHistory(view, notehistory);
             saveHistoryToServer(newnotehistory);
         })
-        .fail(function () {
-            writeHistoryToStorage(view);
+        .fail(function (xhr, status, error) {
+            console.error(xhr.responseText);
         });
 }
 
@@ -286,8 +286,8 @@ function getServerHistory(callback) {
                 callback(data.history);
             }
         })
-        .fail(function () {
-            getStorageHistory(callback);
+        .fail(function (xhr, status, error) {
+            console.error(xhr.responseText);
         });
 }
 
@@ -327,8 +327,8 @@ function parseServerToHistory(list, callback) {
                 parseToHistory(list, data.history, callback);
             }
         })
-        .fail(function () {
-            parseStorageToHistory(list, callback);
+        .fail(function (xhr, status, error) {
+            console.error(xhr.responseText);
         });
 }
 
