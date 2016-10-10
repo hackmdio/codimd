@@ -47,7 +47,7 @@ function saveHistoryToStorage(notehistory) {
     if (store.enabled)
         store.set('notehistory', JSON.stringify(notehistory));
     else
-        saveHistoryToStorage(notehistory);
+        saveHistoryToCookie(notehistory);
 }
 
 function saveHistoryToCookie(notehistory) {
