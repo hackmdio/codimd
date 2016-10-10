@@ -22,6 +22,7 @@ var i18n = require('i18n');
 var config = require("./lib/config.js");
 var logger = require("./lib/logger.js");
 var auth = require("./lib/auth.js");
+var history = require("./lib/history.js");
 var response = require("./lib/response.js");
 var models = require("./lib/models");
 
@@ -365,56 +366,9 @@ app.get('/logout', function (req, res) {
     res.redirect(config.serverurl + '/');
 });
 //get history
-app.get('/history', function (req, res) {
-    if (req.isAuthenticated()) {
-        models.User.findOne({
-            where: {
-                id: req.user.id
-            }
-        }).then(function (user) {
-            if (!user)
-                return response.errorNotFound(res);
-            var history = [];
-            if (user.history)
-                history = JSON.parse(user.history);
-            res.send({
-                history: history
-            });
-            if (config.debug)
-                logger.info('read history success: ' + user.id);
-        }).catch(function (err) {
-            logger.error('read history failed: ' + err);
-            return response.errorInternalError(res);
-        });
-    } else {
-        return response.errorForbidden(res);
-    }
-});
+app.get('/history', history.historyGet);
 //post history
-app.post('/history', urlencodedParser, function (req, res) {
-    if (req.isAuthenticated()) {
-        if (config.debug)
-            logger.info('SERVER received history from [' + req.user.id + ']: ' + req.body.history);
-        models.User.update({
-            history: req.body.history
-        }, {
-            where: {
-                id: req.user.id
-            }
-        }).then(function (count) {
-            if (!count)
-                return response.errorNotFound(res);
-            if (config.debug)
-                logger.info("write user history success: " + req.user.id);
-        }).catch(function (err) {
-            logger.error('write history failed: ' + err);
-            return response.errorInternalError(res);
-        });
-        res.end();
-    } else {
-        return response.errorForbidden(res);
-    }
-});
+app.post('/history', urlencodedParser, history.historyPost);
 //get me info
 app.get('/me', function (req, res) {
     if (req.isAuthenticated()) {
@@ -522,7 +476,7 @@ function startListen() {
 // sync db then start listen
 models.sequelize.sync().then(function () {
     // check if realtime is ready
-    if (realtime.isReady()) {
+    if (history.isReady() && realtime.isReady()) {
         models.Revision.checkAllNotesRevision(function (err, notes) {
             if (err) return new Error(err);
             if (!notes || notes.length <= 0) return startListen();
@@ -549,7 +503,7 @@ process.on('SIGINT', function () {
         socket.disconnect(true);
     });
     var checkCleanTimer = setInterval(function () {
-        if (realtime.isReady()) {
+        if (history.isReady() && realtime.isReady()) {
             models.Revision.checkAllNotesRevision(function (err, notes) {
                 if (err) return new Error(err);
                 if (notes.length <= 0) {
