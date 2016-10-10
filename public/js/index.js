@@ -2335,7 +2335,7 @@ var addStyleRule = (function () {
 }());
 function updateAuthorshipInner() {
     // ignore when ot not synced yet
-    if (Object.keys(cmClient.state).length > 0) return;
+    if (cmClient && Object.keys(cmClient.state).length > 0) return;
     authorMarks = {};
     for (var i = 0; i < authorship.length; i++) {
         var atom = authorship[i];
