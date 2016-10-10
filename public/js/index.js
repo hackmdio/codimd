@@ -369,7 +369,6 @@ var editor = CodeMirror.fromTextArea(textit, {
     showCursorWhenSelecting: true,
     highlightSelectionMatches: true,
     indentUnit: 4,
-    indentWithTabs: true,
     continueComments: "Enter",
     theme: "one-dark",
     inputStyle: "textarea",
