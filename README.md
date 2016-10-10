@@ -83,10 +83,10 @@ There are some configs you need to change in the files below
 
 ```
 ./config.json			--- for server settings
-./public/js/common.js	--- for client settings
+./public/js/config.js	--- for client settings
 ```
 
-Client settings `common.js`
+Client settings `config.js`
 ---
 
 | variables | example values | description |
@@ -148,7 +148,7 @@ Third-party integration api key settings
 | ------- | --------- | ----------- |
 | facebook, twitter, github, gitlab, dropbox, google | `config.json` | for signin |
 | imgur | `config.json` | for image upload |
-| google drive, dropbox | `public/js/common.js` | for export and import |
+| google drive, dropbox | `public/js/config.js` | for export and import |
 
 Third-party integration oauth callback urls
 ---

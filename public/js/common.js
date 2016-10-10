@@ -1,14 +1,4 @@
 //common
-var domain = ''; // domain name
-var urlpath = ''; // sub url path, like: www.example.com/<urlpath>
-//settings
-var debug = false;
-
-var GOOGLE_API_KEY = '';
-var GOOGLE_CLIENT_ID = '';
-
-var DROPBOX_APP_KEY = '';
-
 var port = window.location.port;
 var serverurl = window.location.protocol + '//' + (domain ? domain : window.location.hostname) + (port ? ':' + port : '') + (urlpath ? '/' + urlpath : '');
 var noteid = urlpath ? window.location.pathname.slice(urlpath.length + 1, window.location.pathname.length).split('/')[1] : window.location.pathname.split('/')[1];

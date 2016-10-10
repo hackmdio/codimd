@@ -19,5 +19,5 @@ backups/
 
 # ignore config files
 config.json
-public/js/common.js
+public/js/config.js
 .sequelizerc
