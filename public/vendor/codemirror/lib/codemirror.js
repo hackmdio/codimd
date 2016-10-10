@@ -592,8 +592,12 @@
     var comp = compensateForHScroll(display) - display.scroller.scrollLeft + cm.doc.scrollLeft;
     var gutterW = display.gutters.offsetWidth, left = comp + "px";
     for (var i = 0; i < view.length; i++) if (!view[i].hidden) {
-      if (cm.options.fixedGutter && view[i].gutter)
-        view[i].gutter.style.left = left;
+      if (cm.options.fixedGutter) {
+        if (view[i].gutter)
+          view[i].gutter.style.left = left;
+        if (view[i].gutterBackground)
+          view[i].gutterBackground.style.left = left;
+      }
       var align = view[i].alignable;
       if (align) for (var j = 0; j < align.length; j++)
         align[j].style.left = left;
@@ -1149,7 +1153,7 @@
   }
 
   function handlePaste(e, cm) {
-    var pasted = e.clipboardData && e.clipboardData.getData("text/plain");
+    var pasted = e.clipboardData && e.clipboardData.getData("Text");
     if (pasted) {
       e.preventDefault();
       if (!cm.isReadOnly() && !cm.options.disableInput)
@@ -1193,10 +1197,10 @@
     return {text: text, ranges: ranges};
   }
 
-  function disableBrowserMagic(field) {
+  function disableBrowserMagic(field, spellcheck) {
     field.setAttribute("autocorrect", "off");
     field.setAttribute("autocapitalize", "off");
-    field.setAttribute("spellcheck", "false");
+    field.setAttribute("spellcheck", !!spellcheck);
   }
 
   // TEXTAREA INPUT STYLE
@@ -1576,10 +1580,14 @@
     init: function(display) {
       var input = this, cm = input.cm;
       var div = input.div = display.lineDiv;
-      disableBrowserMagic(div);
+      disableBrowserMagic(div, cm.options.spellcheck);
 
       on(div, "paste", function(e) {
-        if (!signalDOMEvent(cm, e)) handlePaste(e, cm);
+        if (signalDOMEvent(cm, e) || handlePaste(e, cm)) return
+        // IE doesn't fire input events, so we schedule a read for the pasted content in this way
+        if (ie_version <= 11) setTimeout(operation(cm, function() {
+          if (!input.pollContent()) regChange(cm);
+        }), 20)
       })
 
       on(div, "compositionstart", function(e) {
@@ -1639,23 +1647,27 @@
             });
           }
         }
-        // iOS exposes the clipboard API, but seems to discard content inserted into it
-        if (e.clipboardData && !ios) {
-          e.preventDefault();
+        if (e.clipboardData) {
           e.clipboardData.clearData();
-          e.clipboardData.setData("text/plain", lastCopied.text.join("\n"));
-        } else {
-          // Old-fashioned briefly-focus-a-textarea hack
-          var kludge = hiddenTextarea(), te = kludge.firstChild;
-          cm.display.lineSpace.insertBefore(kludge, cm.display.lineSpace.firstChild);
-          te.value = lastCopied.text.join("\n");
-          var hadFocus = document.activeElement;
-          selectInput(te);
-          setTimeout(function() {
-            cm.display.lineSpace.removeChild(kludge);
-            hadFocus.focus();
-          }, 50);
+          var content = lastCopied.text.join("\n")
+          // iOS exposes the clipboard API, but seems to discard content inserted into it
+          e.clipboardData.setData("Text", content);
+          if (e.clipboardData.getData("Text") == content) {
+            e.preventDefault();
+            return
+          }
         }
+        // Old-fashioned briefly-focus-a-textarea hack
+        var kludge = hiddenTextarea(), te = kludge.firstChild;
+        cm.display.lineSpace.insertBefore(kludge, cm.display.lineSpace.firstChild);
+        te.value = lastCopied.text.join("\n");
+        var hadFocus = document.activeElement;
+        selectInput(te);
+        setTimeout(function() {
+          cm.display.lineSpace.removeChild(kludge);
+          hadFocus.focus();
+          if (hadFocus == div) input.showPrimarySelection()
+        }, 50);
       }
       on(div, "copy", onCopyCut);
       on(div, "cut", onCopyCut);
@@ -1963,7 +1975,7 @@
       if (found)
         return badPos(Pos(found.line, found.ch + dist), bad);
       else
-        dist += after.textContent.length;
+        dist += before.textContent.length;
     }
   }
 
@@ -3533,8 +3545,8 @@
     on(inp, "keyup", function(e) { onKeyUp.call(cm, e); });
     on(inp, "keydown", operation(cm, onKeyDown));
     on(inp, "keypress", operation(cm, onKeyPress));
-    on(inp, "focus", bind(onFocus, cm));
-    on(inp, "blur", bind(onBlur, cm));
+    on(inp, "focus", function (e) { onFocus(cm, e); });
+    on(inp, "blur", function (e) { onBlur(cm, e); });
   }
 
   function dragDropChanged(cm, value, old) {
@@ -4262,12 +4274,12 @@
     }, 100);
   }
 
-  function onFocus(cm) {
+  function onFocus(cm, e) {
     if (cm.state.delayingBlurEvent) cm.state.delayingBlurEvent = false;
 
     if (cm.options.readOnly == "nocursor") return;
     if (!cm.state.focused) {
-      signal(cm, "focus", cm);
+      signal(cm, "focus", cm, e);
       cm.state.focused = true;
       addClass(cm.display.wrapper, "CodeMirror-focused");
       // This test prevents this from firing when a context
@@ -4281,11 +4293,11 @@
     }
     restartBlink(cm);
   }
-  function onBlur(cm) {
+  function onBlur(cm, e) {
     if (cm.state.delayingBlurEvent) return;
 
     if (cm.state.focused) {
-      signal(cm, "blur", cm);
+      signal(cm, "blur", cm, e);
       cm.state.focused = false;
       rmClass(cm.display.wrapper, "CodeMirror-focused");
     }
@@ -4907,7 +4919,8 @@
     var doc = cm.doc, x = pos.left, y;
     if (unit == "page") {
       var pageSize = Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight);
-      y = pos.top + dir * (pageSize - (dir < 0 ? 1.5 : .5) * textHeight(cm.display));
+      var moveAmount = Math.max(pageSize - .5 * textHeight(cm.display), 3);
+      y = (dir > 0 ? pos.bottom : pos.top) + dir * moveAmount;
     } else if (unit == "line") {
       y = dir > 0 ? pos.bottom + 3 : pos.top - 3;
     }
@@ -4960,7 +4973,10 @@
     addOverlay: methodOp(function(spec, options) {
       var mode = spec.token ? spec : CodeMirror.getMode(this.options, spec);
       if (mode.startState) throw new Error("Overlays may not be stateful.");
-      this.state.overlays.push({mode: mode, modeSpec: spec, opaque: options && options.opaque});
+      insertSorted(this.state.overlays,
+                   {mode: mode, modeSpec: spec, opaque: options && options.opaque,
+                    priority: (options && options.priority) || 0},
+                   function(overlay) { return overlay.priority })
       this.state.modeGen++;
       regChange(this);
     }),
@@ -5432,6 +5448,9 @@
   option("inputStyle", mobile ? "contenteditable" : "textarea", function() {
     throw new Error("inputStyle can not (yet) be changed in a running editor"); // FIXME
   }, true);
+  option("spellcheck", false, function(cm, val) {
+    cm.getInputField().spellcheck = val
+  }, true);
   option("rtlMoveVisually", !windows);
   option("wholeLineUpdateBefore", true);
 
@@ -5541,6 +5560,8 @@
       spec.name = found.name;
     } else if (typeof spec == "string" && /^[\w\-]+\/[\w\-]+\+xml$/.test(spec)) {
       return CodeMirror.resolveMode("application/xml");
+    } else if (typeof spec == "string" && /^[\w\-]+\/[\w\-]+\+json$/.test(spec)) {
+      return CodeMirror.resolveMode("application/json");
     }
     if (typeof spec == "string") return {name: spec};
     else return spec || {name: "null"};
@@ -6852,7 +6873,7 @@
       }
       if (!flattenSpans || curStyle != style) {
         while (curStart < stream.start) {
-          curStart = Math.min(stream.start, curStart + 50000);
+          curStart = Math.min(stream.start, curStart + 5000);
           f(curStart, curStyle);
         }
         curStyle = style;
@@ -6860,8 +6881,10 @@
       stream.start = stream.pos;
     }
     while (curStart < stream.pos) {
-      // Webkit seems to refuse to render text nodes longer than 57444 characters
-      var pos = Math.min(stream.pos, curStart + 50000);
+      // Webkit seems to refuse to render text nodes longer than 57444
+      // characters, and returns inaccurate measurements in nodes
+      // starting around 5000 chars.
+      var pos = Math.min(stream.pos, curStart + 5000);
       f(pos, curStyle);
       curStart = pos;
     }
@@ -7970,7 +7993,7 @@
   }
 
   // Register a change in the history. Merges changes that are within
-  // a single operation, ore are close together with an origin that
+  // a single operation, or are close together with an origin that
   // allows merging (starting with "+") into a single event.
   function addChangeToHistory(doc, change, selAfter, opId) {
     if(change.origin == "ignoreHistory") return;
@@ -8372,6 +8395,12 @@
     var out = [];
     for (var i = 0; i < array.length; i++) out[i] = f(array[i], i);
     return out;
+  }
+
+  function insertSorted(array, value, score) {
+    var pos = 0, priority = score(value)
+    while (pos < array.length && score(array[pos]) <= priority) pos++
+    array.splice(pos, 0, value)
   }
 
   function nothing() {}
@@ -8942,7 +8971,7 @@
 
   // THE END
 
-  CodeMirror.version = "5.17.1";
+  CodeMirror.version = "5.19.0";
 
   return CodeMirror;
 });
