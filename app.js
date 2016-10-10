@@ -369,6 +369,12 @@ app.get('/logout', function (req, res) {
 app.get('/history', history.historyGet);
 //post history
 app.post('/history', urlencodedParser, history.historyPost);
+//post history by note id
+app.post('/history/:noteId', urlencodedParser, history.historyPost);
+//delete history
+app.delete('/history', history.historyDelete);
+//delete history by note id
+app.delete('/history/:noteId', history.historyDelete);
 //get me info
 app.get('/me', function (req, res) {
     if (req.isAuthenticated()) {
