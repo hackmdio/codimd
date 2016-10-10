@@ -442,6 +442,7 @@ function postProcess(code) {
 	}
     return result;
 }
+window.postProcess = postProcess;
 
 function generateCleanHTML(view) {
     var src = view.clone();
@@ -811,6 +812,7 @@ var md = markdownit('default', {
     typographer: true,
     highlight: highlightRender
 });
+window.md = md;
 
 md.use(require('markdown-it-abbr'));
 md.use(require('markdown-it-footnote'));
