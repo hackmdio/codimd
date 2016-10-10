@@ -139,7 +139,8 @@ function removeHistory(id, notehistory) {
 function writeHistory(view) {
     checkIfAuth(
         function () {
-            writeHistoryToServer(view);
+            // no need to do this anymore, this will count from server-side
+            // writeHistoryToServer(view);
         },
         function () {
             writeHistoryToStorage(view);
@@ -365,4 +366,29 @@ function parseToHistory(list, notehistory, callback) {
         }
     }
     callback(list, notehistory);
+}
+
+function postHistoryToServer(noteId, data, callback) {
+    $.post(serverurl + '/history/' + noteId, data)
+    .done(function (result) {
+        return callback(null, result);
+    })
+    .fail(function (xhr, status, error) {
+        console.error(xhr.responseText);
+        return callback(error, null);
+    });
+}
+
+function deleteServerHistory(noteId, callback) {
+    $.ajax({
+        url: serverurl + '/history' + (noteId ? '/' + noteId : ""),
+        type: 'DELETE'
+    })
+    .done(function (result) {
+        return callback(null, result);
+    })
+    .fail(function (xhr, status, error) {
+        console.error(xhr.responseText);
+        return callback(error, null);
+    });
 }
