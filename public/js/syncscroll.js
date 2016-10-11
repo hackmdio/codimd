@@ -78,7 +78,7 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
     if (tokens[idx].map && tokens[idx].level === 0) {
         var startline = tokens[idx].map[0] + 1;
         var endline = tokens[idx].map[1];
-        return '<pre class="part" data-startline="' + startline + '" data-endline="' + endline + '"><code' + self.renderAttrs(token) + '>'
+        return '<pre class="part raw" data-startline="' + startline + '" data-endline="' + endline + '"><code' + self.renderAttrs(token) + '>'
         + highlighted
         + '</code></pre>\n';
     }

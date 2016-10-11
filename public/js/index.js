@@ -62,6 +62,7 @@ var renderTOC = extra.renderTOC;
 var renderTitle = extra.renderTitle;
 var renderFilename = extra.renderFilename;
 var scrollToHash = extra.scrollToHash;
+var owner = extra.owner;
 
 var historyModule = require('./history');
 var writeHistory = historyModule.writeHistory;
@@ -72,6 +73,7 @@ var preventXSS = renderer.preventXSS;
 var defaultTextHeight = 20;
 var viewportMargin = 20;
 var mac = CodeMirror.keyMap["default"] == CodeMirror.keyMap.macDefault;
+var defaultEditorMode = 'gfm';
 var defaultExtraKeys = {
     "F10": function (cm) {
         cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -214,7 +216,7 @@ var cursorMenuThrottle = 50;
 var cursorActivityDebounce = 50;
 var cursorAnimatePeriod = 100;
 var supportContainers = ['success', 'info', 'warning', 'danger'];
-var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'jade', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile', 'tiddlywiki', 'mediawiki'];
+var supportCodeModes = ['javascript', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'coffeescript', 'yaml', 'pug', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile', 'tiddlywiki', 'mediawiki'];
 var supportCharts = ['sequence', 'flow', 'graphviz', 'mermaid'];
 var supportHeaders = [
     {
@@ -430,8 +432,8 @@ window.fileTypes = {
 var textit = document.getElementById("textit");
 if (!textit) throw new Error("There was no textit area!");
 window.editor = CodeMirror.fromTextArea(textit, {
-    mode: 'gfm',
-    backdrop: 'gfm',
+    mode: defaultEditorMode,
+    backdrop: defaultEditorMode,
     keyMap: "sublime",
     viewportMargin: viewportMargin,
     styleActiveLine: true,
@@ -440,7 +442,6 @@ window.editor = CodeMirror.fromTextArea(textit, {
     showCursorWhenSelecting: true,
     highlightSelectionMatches: true,
     indentUnit: 4,
-    indentWithTabs: true,
     continueComments: "Enter",
     theme: "one-dark",
     inputStyle: "textarea",
@@ -675,7 +676,7 @@ function setSpellcheck() {
         if (cookieSpellcheck === 'true' || cookieSpellcheck === true) {
             mode = 'spell-checker';
         } else {
-            mode = 'gfm';
+            mode = defaultEditorMode;
         }
         if (mode && mode !== editor.getOption('mode')) {
             editor.setOption('mode', mode);
@@ -685,10 +686,10 @@ function setSpellcheck() {
     var spellcheckToggle = statusSpellcheck.find('.ui-spellcheck-toggle');
     spellcheckToggle.click(function () {
         var mode = editor.getOption('mode');
-        if (mode == "gfm") {
+        if (mode == defaultEditorMode) {
             mode = "spell-checker";
         } else {
-            mode = "gfm";
+            mode = defaultEditorMode;
         }
         if (mode && mode !== editor.getOption('mode')) {
             editor.setOption('mode', mode);
@@ -700,7 +701,7 @@ function setSpellcheck() {
     });
     function checkSpellcheck() {
         var mode = editor.getOption('mode');
-        if (mode == "gfm") {
+        if (mode == defaultEditorMode) {
             spellcheckToggle.removeClass('active');
         } else {
             spellcheckToggle.addClass('active');
@@ -748,7 +749,18 @@ function updateStatusBar() {
     statusCursor.text(cursorText);
     var fileText = ' — ' + editor.lineCount() + ' Lines';
     statusFile.text(fileText);
-    statusLength.text('Length ' + editor.getValue().length);
+    var docLength = editor.getValue().length;
+    statusLength.text('Length ' + docLength);
+    if (docLength > (docmaxlength * 0.95)) {
+        statusLength.css('color', 'red');
+        statusLength.attr('title', 'Your almost reach note max length limit.');
+    } else if (docLength > (docmaxlength * 0.8)) {
+        statusLength.css('color', 'orange');
+        statusLength.attr('title', 'You nearly fill the note, consider to make more pieces.');
+    } else {
+        statusLength.css('color', 'white');
+        statusLength.attr('title', 'You could write up to ' + docmaxlength + ' characters in this note.');
+    }
 }
 
 //ui vars
@@ -800,7 +812,8 @@ var ui = {
             editable: $(".ui-permission-editable"),
             locked: $(".ui-permission-locked"),
             private: $(".ui-permission-private")
-        }
+        },
+        delete: $(".ui-delete-note")
     },
     toc: {
         toc: $('.ui-toc'),
@@ -989,7 +1002,7 @@ $(window).resize(function () {
 });
 //when page unload
 $(window).on('unload', function () {
-    updateHistoryInner();
+    //updateHistoryInner();
 });
 $(window).on('error', function () {
     //setNeedRefresh();
@@ -1817,7 +1830,7 @@ function initRevisionViewer() {
     if (revisionViewer) return;
     var revisionViewerTextArea = document.getElementById("revisionViewer");
     revisionViewer = CodeMirror.fromTextArea(revisionViewerTextArea, {
-        mode: 'gfm',
+        mode: defaultEditorMode,
         viewportMargin: viewportMargin,
         lineNumbers: true,
         lineWrapping: true,
@@ -2175,6 +2188,13 @@ ui.infobar.permission.locked.click(function () {
 ui.infobar.permission.private.click(function () {
     emitPermission("private");
 });
+// delete note
+ui.infobar.delete.click(function () {
+    $('.delete-modal').modal('show');
+});
+$('.ui-delete-modal-confirm').click(function () {
+    socket.emit('delete');
+});
 
 function emitPermission(_permission) {
     if (_permission != permission) {
@@ -2263,24 +2283,30 @@ socket.on('info', function (data) {
     console.error(data);
     switch (data.code) {
         case 403:
-            location.href = "./403";
+            location.href = serverurl + "/403";
             break;
         case 404:
-            location.href = "./404";
+            location.href = serverurl + "/404";
             break;
         case 500:
-            location.href = "./500";
+            location.href = serverurl + "/500";
             break;
     }
 });
 socket.on('error', function (data) {
     console.error(data);
     if (data.message && data.message.indexOf('AUTH failed') === 0)
-        location.href = "./403";
+        location.href = serverurl + "/403";
+});
+socket.on('delete', function () {
+    deleteServerHistory(noteid, function (err, data) {
+        if (!err) location.href = serverurl;
+    });
 });
 var retryOnDisconnect = false;
 var retryTimer = null;
 socket.on('maintenance', function () {
+    cmClient.revision = -1;
     retryOnDisconnect = true;
 });
 socket.on('disconnect', function (data) {
@@ -2310,8 +2336,6 @@ socket.on('connect', function (data) {
     personalInfo['id'] = socket.id;
     showStatus(statusType.connected);
     socket.emit('version');
-    if (socket.id.indexOf('/') == -1)
-        socket.id = socket.nsp + '#' + socket.id;
 });
 socket.on('version', function (data) {
     if (version != data.version) {
@@ -2328,7 +2352,7 @@ var authorship = [];
 var authorshipMarks = {};
 var authorMarks = {}; // temp variable
 var addTextMarkers = []; // temp variable
-function updateLastInfo(data) {
+function updateInfo(data) {
     //console.log(data);
     if (data.hasOwnProperty('createtime') && createtime !== data.createtime) {
         createtime = data.createtime;
@@ -2338,10 +2362,16 @@ function updateLastInfo(data) {
         lastchangetime = data.updatetime;
         updateLastChange();
     }
+    if (data.hasOwnProperty('owner') && owner !== data.owner) {
+        owner = data.owner;
+        ownerprofile = data.ownerprofile;
+        updateOwner();
+    }
     if (data.hasOwnProperty('lastchangeuser') && lastchangeuser !== data.lastchangeuser) {
         lastchangeuser = data.lastchangeuser;
         lastchangeuserprofile = data.lastchangeuserprofile;
         updateLastChangeUser();
+        updateOwner();
     }
     if (data.hasOwnProperty('authors') && authors !== data.authors) {
         authors = data.authors;
@@ -2391,7 +2421,7 @@ var addStyleRule = (function () {
 }());
 function updateAuthorshipInner() {
     // ignore when ot not synced yet
-    if (Object.keys(cmClient.state).length > 0) return;
+    if (cmClient && Object.keys(cmClient.state).length > 0) return;
     authorMarks = {};
     for (var i = 0; i < authorship.length; i++) {
         var atom = authorship[i];
@@ -2556,14 +2586,12 @@ socket.on('check', function (data) {
     data = LZString.decompressFromUTF16(data);
     data = JSON.parse(data);
     //console.log(data);
-    updateLastInfo(data);
+    updateInfo(data);
 });
 socket.on('permission', function (data) {
     updatePermission(data.permission);
 });
 var docmaxlength = null;
-var otk = null;
-var owner = null;
 var permission = null;
 socket.on('refresh', function (data) {
     data = LZString.decompressFromUTF16(data);
@@ -2571,10 +2599,8 @@ socket.on('refresh', function (data) {
     //console.log(data);
     docmaxlength = data.docmaxlength;
     editor.setOption("maxLength", docmaxlength);
-    otk = data.otk;
-    owner = data.owner;
+    updateInfo(data);
     updatePermission(data.permission);
-    updateLastInfo(data);
     if (!loaded) {
         // auto change mode if no content detected
         var nocontent = editor.getValue().length <= 0;
@@ -2617,16 +2643,14 @@ socket.on('doc', function (obj) {
     obj = LZString.decompressFromUTF16(obj);
     obj = JSON.parse(obj);
     var body = obj.str;
-    var bodyMismatch = (editor.getValue() != body);
+    var bodyMismatch = editor.getValue() !== body;
+    var setDoc = !cmClient || (cmClient && cmClient.revision === -1) || obj.force;
 
     saveInfo();
-    if (bodyMismatch) {
-        if (cmClient)
-            cmClient.editorAdapter.ignoreNextChange = true;
-        if (body)
-            editor.setValue(body);
-        else
-            editor.setValue("");
+    if (setDoc && bodyMismatch) {
+        if (cmClient) cmClient.editorAdapter.ignoreNextChange = true;
+        if (body) editor.setValue(body);
+        else editor.setValue("");
     }
 
     if (!loaded) {
@@ -2635,12 +2659,8 @@ socket.on('doc', function (obj) {
         ui.content.fadeIn();
     } else {
         //if current doc is equal to the doc before disconnect
-        if (bodyMismatch)
-            editor.clearHistory();
-        else {
-            if (lastInfo.history)
-                editor.setHistory(lastInfo.history);
-        }
+        if (setDoc && bodyMismatch) editor.clearHistory();
+        else if (lastInfo.history) editor.setHistory(lastInfo.history);
         lastInfo.history = null;
     }
 
@@ -2649,7 +2669,7 @@ socket.on('doc', function (obj) {
             obj.revision, obj.clients,
             new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
         );
-    } else {
+    } else if (setDoc) {
         if (bodyMismatch) {
             cmClient.undoManager.undoStack.length = 0;
             cmClient.undoManager.redoStack.length = 0;
@@ -2660,7 +2680,7 @@ socket.on('doc', function (obj) {
         cmClient.initializeClients(obj.clients);
     }
 
-    if (bodyMismatch) {
+    if (setDoc && bodyMismatch) {
         isDirty = true;
         updateView();
     }

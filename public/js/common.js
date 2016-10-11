@@ -1,20 +1,18 @@
+var config = require('./config');
+var domain = config.domain; // domain name
+var urlpath = config.urlpath; // sub url path, like: www.example.com/<urlpath>
+var debug = config.debug;
+var GOOGLE_API_KEY = config.GOOGLE_API_KEY;
+var GOOGLE_CLIENT_ID = config.GOOGLE_CLIENT_ID;
+var DROPBOX_APP_KEY = config.DROPBOX_APP_KEY;
+
 //common
-var domain = ''; // domain name
-var urlpath = ''; // sub url path, like: www.example.com/<urlpath>
-//settings
-var debug = false;
-
-var GOOGLE_API_KEY = '';
-var GOOGLE_CLIENT_ID = '';
-
-var DROPBOX_APP_KEY = '';
-
 var port = window.location.port;
 var serverurl = window.location.protocol + '//' + (domain ? domain : window.location.hostname) + (port ? ':' + port : '') + (urlpath ? '/' + urlpath : '');
 var noteid = urlpath ? window.location.pathname.slice(urlpath.length + 1, window.location.pathname.length).split('/')[1] : window.location.pathname.split('/')[1];
 var noteurl = serverurl + '/' + noteid;
 
-var version = '0.4.4';
+var version = '0.4.5';
 
 var checkAuth = false;
 var profile = null;

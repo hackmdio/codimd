@@ -35,7 +35,7 @@ Browsers Requirement
 Prerequisite
 ---
 
-- Node.js 4.x or up (test up to 6.2.2)
+- Node.js 4.x or up (test up to 6.7.0)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL)
 - npm and bower
 
@@ -83,10 +83,10 @@ There are some configs you need to change in the files below
 
 ```
 ./config.json			--- for server settings
-./public/js/common.js	--- for client settings
+./public/js/config.js	--- for client settings
 ```
 
-Client settings `common.js`
+Client settings `config.js`
 ---
 
 | variables | example values | description |
@@ -101,10 +101,27 @@ Environment variables (will overwrite other server configs)
 | variables | example values | description |
 | --------- | ------ | ----------- |
 | NODE_ENV  | `production` or `development` | set current environment (will apply corresponding settings in the `config.json`) |
-| DOMAIN | `hackmd.io` | domain name |
-| URL_PATH | `hackmd` | sub url path, like `www.example.com/<URL_PATH>` |
-| PORT | `80` | web app port |
 | DEBUG | `true` or `false` | set debug mode, show more logs |
+| HMD_DOMAIN | `hackmd.io` | domain name |
+| HMD_URL_PATH | `hackmd` | sub url path, like `www.example.com/<URL_PATH>` |
+| HMD_PORT | `80` | web app port |
+| HMD_ALLOW_ORIGIN | `localhost, hackmd.io` | domain name whitelist (use comma to separate) |
+| HMD_PROTOCOL_USESSL | `true` or `false` | set to use ssl protocol for resources path (only applied when domain is set) |
+| HMD_URL_ADDPORT | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
+| HMD_FACEBOOK_CLIENTID | no example | Facebook API client id |
+| HMD_FACEBOOK_CLIENTSECRET | no example | Facebook API client secret |
+| HMD_TWITTER_CONSUMERKEY | no example | Twitter API consumer key |
+| HMD_TWITTER_CONSUMERSECRET | no example | Twitter API consumer secret |
+| HMD_GITHUB_CLIENTID | no example | GitHub API client id |
+| HMD_GITHUB_CLIENTSECRET | no example | GitHub API client secret |
+| HMD_GITLAB_BASEURL | no example | GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional) |
+| HMD_GITLAB_CLIENTID | no example | GitLab API client id |
+| HMD_GITLAB_CLIENTSECRET | no example | GitLab API client secret |
+| HMD_DROPBOX_CLIENTID | no example | Dropbox API client id |
+| HMD_DROPBOX_CLIENTSECRET | no example | Dropbox API client secret |
+| HMD_GOOGLE_CLIENTID | no example | Google API client id |
+| HMD_GOOGLE_CLIENTSECRET | no example | Google API client secret |
+| HMD_IMGUR_CLIENTID | no example | Imgur API client id |
 
 Server settings `config.json`
 ---
@@ -117,8 +134,8 @@ Server settings `config.json`
 | port | `80` | web app port |
 | alloworigin | `['localhost']` | domain name whitelist |
 | usessl | `true` or `false` | set to use ssl server (if true will auto turn on `protocolusessl`) |
-| protocolusessl | `true` or `false` | set to use ssl protocol for resources path |
-| urladdport | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) |
+| protocolusessl | `true` or `false` | set to use ssl protocol for resources path (only applied when domain is set) |
+| urladdport | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
 | usecdn | `true` or `false` | set to use CDN resources or not |
 | db | `{ "dialect": "sqlite", "storage": "./db.hackmd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
 | sslkeypath | `./cert/client.key` | ssl key path (only need when you set usessl) |
@@ -144,11 +161,11 @@ Server settings `config.json`
 Third-party integration api key settings
 ---
 
-| service | file path | description |
+| service | settings location | description |
 | ------- | --------- | ----------- |
-| facebook, twitter, github, gitlab, dropbox, google | `config.json` | for signin |
-| imgur | `config.json` | for image upload |
-| google drive, dropbox | `public/js/common.js` | for export and import |
+| facebook, twitter, github, gitlab, dropbox, google | environment variables or `config.json` | for signin |
+| imgur | environment variables or `config.json` | for image upload |
+| google drive, dropbox | `public/js/config.js` | for export and import |
 
 Third-party integration oauth callback urls
 ---

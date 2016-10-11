@@ -32,7 +32,7 @@ ot.SocketIOAdapter = (function () {
             self.trigger('selection', clientId, selection);
         });
         socket.on('reconnect', function () {
-            //self.trigger('reconnect');
+            self.trigger('reconnect');
         });
     }
 

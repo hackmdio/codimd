@@ -30,7 +30,7 @@ addon/fold/foldgutter.js \
 addon/fold/markdown-fold.js \
 addon/fold/xml-fold.js \
 mode/xml/xml.js \
-mode/markdown/markdown.js \
+mode/markdown/markdown_math.js \
 mode/gfm/gfm.js \
 mode/javascript/javascript.js \
 mode/css/css.js \
@@ -45,7 +45,7 @@ mode/php/php.js \
 mode/sql/sql.js \
 mode/coffeescript/coffeescript.js \
 mode/yaml/yaml.js \
-mode/jade/jade.js \
+mode/pug/pug.js \
 mode/lua/lua.js \
 mode/cmake/cmake.js \
 mode/nginx/nginx.js \

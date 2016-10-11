@@ -25,8 +25,8 @@ if [ ! -f config.json ]; then
   cp config.json.example config.json
 fi
 
-if [ ! -f publis/js/common.js ]; then
-  cp public/js/common.js.example public/js/common.js
+if [ ! -f publis/js/config.js ]; then
+  cp public/js/config.js.example public/js/config.js
 fi
 
 if [ ! -f .sequelizerc ]; then
@@ -43,7 +43,7 @@ Edit the following config file to setup hackmd server and client.
 Read more info at https://github.com/hackmdio/hackmd#configuration-files
 
 * config.json           -- server config
-* public/js/common.js   -- client config
+* public/js/config.js   -- client config
 * .sequelizerc          -- db config
 
 EOF

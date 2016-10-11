@@ -35,7 +35,11 @@ var options = {
                     </div>\
                 </div>\
             </a>\
-           </li>'
+           </li>',
+    page: 18,
+    plugins: [
+        ListPagination({})
+    ]
 };
 var historyList = new List('history', options);
 
@@ -183,19 +187,32 @@ function parseHistoryCallback(list, notehistory) {
 			pinned = false;
 			item._values.pinned = false;
 		}
-		getHistory(function (notehistory) {
-			for(var i = 0; i < notehistory.length; i++) {
-				if (notehistory[i].id == id) {
-					notehistory[i].pinned = pinned;
-					break;
-				}
-			}
-            saveHistory(notehistory);
-            if (pinned)
-				$this.addClass('active');
-			else
-				$this.removeClass('active');
-        });
+        checkIfAuth(function () {
+            postHistoryToServer(id, {
+                pinned: pinned
+            }, function (err, result) {
+                if (!err) {
+                    if (pinned)
+                        $this.addClass('active');
+                    else
+                        $this.removeClass('active');
+                } 
+            });
+        }, function () {
+            getHistory(function (notehistory) {
+                for(var i = 0; i < notehistory.length; i++) {
+                    if (notehistory[i].id == id) {
+                        notehistory[i].pinned = pinned;
+                        break;
+                    }
+                }
+                saveHistory(notehistory);
+                if (pinned)
+                    $this.addClass('active');
+                else
+                    $this.removeClass('active');
+            });
+        })
     });
     buildTagsFilter(filtertags);
 }
@@ -216,23 +233,40 @@ var clearHistory = false;
 var deleteId = null;
 
 function deleteHistory() {
-    if (clearHistory) {
-        saveHistory([]);
-        historyList.clear();
-        checkHistoryList();
-        deleteId = null;
-    } else {
-        if (!deleteId) return;
-        getHistory(function (notehistory) {
-            var newnotehistory = removeHistory(deleteId, notehistory);
-            saveHistory(newnotehistory);
-            historyList.remove('id', deleteId);
+    checkIfAuth(function () {
+        deleteServerHistory(deleteId, function (err, result) {
+            if (!err) {
+                if (clearHistory) {
+                    historyList.clear();
+                    checkHistoryList();
+                } else {
+                    historyList.remove('id', deleteId);
+                    checkHistoryList();
+                }
+            }
+            $('.delete-modal').modal('hide');
+            deleteId = null;
+            clearHistory = false;
+        });
+    }, function () {
+        if (clearHistory) {
+            saveHistory([]);
+            historyList.clear();
             checkHistoryList();
             deleteId = null;
-        });
-    }
-    $('.delete-modal').modal('hide');
-    clearHistory = false;
+        } else {
+            if (!deleteId) return;
+            getHistory(function (notehistory) {
+                var newnotehistory = removeHistory(deleteId, notehistory);
+                saveHistory(newnotehistory);
+                historyList.remove('id', deleteId);
+                checkHistoryList();
+                deleteId = null;
+            });
+        }
+        $('.delete-modal').modal('hide');
+        clearHistory = false;
+    });
 }
 
 $(".ui-delete-modal-confirm").click(function () {

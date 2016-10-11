@@ -60,12 +60,19 @@
                             <% if(lastchangeuserprofile) { %>
                                 <span class="ui-lastchangeuser">&thinsp;<i class="ui-user-icon small" style="background-image: url(<%- lastchangeuserprofile.photo %>);" data-toggle="tooltip" data-placement="right" title="<%- lastchangeuserprofile.name %>"></i></span>
                             <% } else { %>
-                                <span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o"></i></span>
+                                <span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o fa-fw" style="width: 18px;"></i></span>
                             <% } %>
                             &nbsp;<span class="text-uppercase ui-status-lastchange"></span>
                             <span class="ui-lastchange text-uppercase" data-createtime="<%- createtime %>" data-updatetime="<%- updatetime %>"></span>
                         </span>
                         <span class="pull-right"><%- viewcount %> views <a href="#" class="ui-edit" title="Edit this note"><i class="fa fa-fw fa-pencil"></i></a></span>
+                        <br>
+                        <% if(ownerprofile && owner !== lastchangeuser) { %>
+                        <span class="ui-owner">
+                            &thinsp;<i class="ui-user-icon small" style="background-image: url(<%- ownerprofile.photo %>);" data-toggle="tooltip" data-placement="right" title="<%- ownerprofile.name %>"></i>
+                            &nbsp;<span class="text-uppercase">owned this note</span>
+                        </span>
+                        <% } %>
                     </small>
                 </div>
                 <% if(typeof disqus !== 'undefined' && disqus) { %>
@@ -80,11 +87,11 @@
             MathJax.Hub.Config({ messageStyle: "none", skipStartupTypeset: true ,tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true }});
         </script>
         <% if(useCDN) { %>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="//cdn.jsdelivr.net/velocity/1.3.1/velocity.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.6.1/js-yaml.min.js" defer></script>
         <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.min.js" defer></script>
         <% } else { %>
         <script src="<%- url %>/build/vendor.js" defer></script>
@@ -97,7 +104,6 @@
         <script src="<%- url %>/vendor/mermaid/dist/mermaid.min.js" defer></script>
         <% } %>
         <script src="<%- url %>/build/slide.js" defer></script>
-
     </body>
 </html>
 

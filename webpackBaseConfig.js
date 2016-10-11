@@ -41,7 +41,8 @@ module.exports = {
             "expose?LZString!lz-string",
             "expose?filterXSS!xss",
             "js-url",
-            "bootstrap"
+            "bootstrap",
+            "expose?ListPagination!list.pagination.js/dist/list.pagination.js"
         ]
     },
 
