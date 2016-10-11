@@ -12,6 +12,9 @@ var getHistory = historyModule.getHistory;
 var saveHistory = historyModule.saveHistory;
 var removeHistory = historyModule.removeHistory;
 
+var saveAs = require('file-saver').saveAs;
+var List = require('list.js');
+
 var options = {
     valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
     item: '<li class="col-xs-12 col-sm-6 col-md-6 col-lg-4">\

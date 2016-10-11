@@ -1,6 +1,7 @@
 var hljs = require('highlight.js');
 var PDFObject = require('pdfobject');
 var S = require('string');
+var saveAs = require('file-saver').saveAs;
 
 //auto update last change
 var createtime = null;

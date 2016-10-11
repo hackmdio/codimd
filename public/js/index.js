@@ -29,22 +29,19 @@ require('markdown-it-imsize');
 /* other vendors plugin */
 require('gist-embed');
 require('string');
-require('highlight.js');
 require('prismjs');
 require('prismjs/components/prism-wiki');
-require('js-cookie');
 require('to-markdown');
 
 require('raphael');
 require('js-sequence-diagrams');
 
 require('flowchart.js');
-require('viz.js');
-require('file-saver');
+var saveAs = require('file-saver').saveAs;
 require('store');
 require('js-url');
 require('visibilityjs');
-require('list.js');
+var List = require('list.js');
 require('../vendor/md-toc');
 require('randomcolor');
 

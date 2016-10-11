@@ -10,9 +10,7 @@ module.exports = {
             Cookies: "js-cookie",
             emojify: "emojify.js",
             io: "socket.io-client",
-            LZString: "lz-string",
-            key: "keymaster",
-            Viz: "viz.js"
+            key: "keymaster"
         }),
         new webpack.DefinePlugin({
             "require.specified": "require.resolve"
@@ -35,6 +33,10 @@ module.exports = {
             "jquery-textcomplete",
             "jquery-mousewheel",
             "jquery-scrollspy/jquery-scrollspy",
+            "expose?LZString!lz-string",
+            "expose?filterXSS!xss",
+            "expose?Viz!viz.js",
+            "js-url",
             "bootstrap"
         ]
     },
