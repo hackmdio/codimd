@@ -288,21 +288,25 @@ function finishView(view) {
         }
     });
     //graphviz
-    var graphvizs = view.find(".graphviz.raw").removeClass("raw");
-    graphvizs.each(function (key, value) {
-        try {
-            var $value = $(value);
-            var $ele = $(value).parent().parent();
+    require.ensure(["viz.js"], function(require) {
+        var Viz = require("viz.js");
+        var graphvizs = view.find(".graphviz.raw").removeClass("raw");
+        graphvizs.each(function (key, value) {
+            try {
+                var $value = $(value);
+                var $ele = $(value).parent().parent();
 
-            var graphviz = Viz($value.text());
-            $value.html(graphviz);
+                var graphviz = Viz($value.text());
+                $value.html(graphviz);
 
-            $ele.addClass('graphviz');
-            $value.children().unwrap().unwrap();
-        } catch (err) {
-            console.warn(err);
-        }
-    });
+                $ele.addClass('graphviz');
+                $value.children().unwrap().unwrap();
+            } catch (err) {
+                console.warn(err);
+            }
+        });
+
+    })
     //mermaid
     var mermaids = view.find(".mermaid.raw").removeClass("raw");
     mermaids.each(function (key, value) {

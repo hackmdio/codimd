@@ -17,9 +17,10 @@ module.exports = {
         }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
-            name: "vendor",
-            filename: "vendor.bundle.js",
-            minChunks: Infinity,
+            name: ["vendor", "public", "slide", "locale"],
+            async: true,
+            filename: '[name].js',
+            minChunks: Infinity
         })
     ],
 
@@ -33,9 +34,12 @@ module.exports = {
             "jquery-textcomplete",
             "jquery-mousewheel",
             "jquery-scrollspy/jquery-scrollspy",
+            "jquery-ui/ui/widgets/resizable",
+            "jquery-ui/ui/widgets/tooltip",
+            "jquery-ui/ui/widgets/controlgroup",
+            "jquery-ui/ui/widgets/autocomplete",
             "expose?LZString!lz-string",
             "expose?filterXSS!xss",
-            "expose?Viz!viz.js",
             "js-url",
             "bootstrap"
         ]
@@ -43,6 +47,7 @@ module.exports = {
 
     output: {
         path: path.join(__dirname, 'public/build'),
+        publicPath: '/build/',
         filename: '[name].js'
     },
 
@@ -51,10 +56,7 @@ module.exports = {
             path.resolve(__dirname, 'src'),
             path.resolve(__dirname, 'node_modules')
         ],
-        extensions: ["", ".js"],
-        alias: {
-            'jquery-ui': 'jquery-ui/ui/widgets'
-        }
+        extensions: ["", ".js"]
     },
 
     module: {

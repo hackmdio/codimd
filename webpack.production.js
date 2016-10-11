@@ -17,10 +17,11 @@ module.exports = Object.assign({}, baseConfig, {
         }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
-            name: "vendor",
-            filename: "vendor.bundle.js",
-            minChunks: Infinity,
-        }),
+            name: ["vendor", "public", "slide", "locale"],
+            async: true,
+            filename: '[name].js',
+            minChunks: Infinity
+        })
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('production')

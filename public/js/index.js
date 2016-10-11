@@ -1,9 +1,3 @@
-/* include jquery ui */
-require('jquery-ui/ui/widgets/resizable');
-require('jquery-ui/ui/widgets/tooltip');
-require('jquery-ui/ui/widgets/controlgroup');
-require('jquery-ui/ui/widgets/autocomplete');
-
 /* jquery and jquery plugins */
 require('../vendor/showup/showup');
 
