@@ -8,7 +8,6 @@ require('jquery-ui/ui/widgets/autocomplete');
 require('../vendor/showup/showup');
 
 /* bootstrap */
-require('bootstrap');
 require('bootstrap/dist/css/bootstrap.css');
 
 require('prismjs/themes/prism.css');
