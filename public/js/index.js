@@ -5,14 +5,9 @@ require('jquery-ui/ui/widgets/controlgroup');
 require('jquery-ui/ui/widgets/autocomplete');
 
 /* jquery and jquery plugins */
-require('jquery');
-require('jquery-textcomplete');
-require('jquery-mousewheel');
-require('jquery-scrollspy/jquery-scrollspy');
 require('../vendor/showup/showup');
 
 /* bootstrap */
-require('bootstrap');
 require('bootstrap/dist/css/bootstrap.css');
 
 require('prismjs/themes/prism.css');

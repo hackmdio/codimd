@@ -17,14 +17,26 @@ module.exports = {
         new webpack.DefinePlugin({
             "require.specified": "require.resolve"
         }),
-        new ExtractTextPlugin("[name].css")
+        new ExtractTextPlugin("[name].css"),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "vendor",
+            filename: "vendor.bundle.js",
+            minChunks: Infinity,
+        })
     ],
 
     entry: {
         index: path.join(__dirname, 'public/js/index.js'),
         public: path.join(__dirname, 'public/js/public.js'),
         slide: path.join(__dirname, 'public/js/slide.js'),
-        locale: path.join(__dirname, 'public/js/locale.js')
+        locale: path.join(__dirname, 'public/js/locale.js'),
+        vendor: [
+            "expose?$!expose?jQuery!jquery",
+            "jquery-textcomplete",
+            "jquery-mousewheel",
+            "jquery-scrollspy/jquery-scrollspy",
+            "bootstrap"
+        ]
     },
 
     output: {
