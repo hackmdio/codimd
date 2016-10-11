@@ -59,7 +59,8 @@
     "pdfobject": "pdfobject2#*",
     "gist-embed": "*",
     "keymaster": "^1.6.3",
-    "prism": "^1.5.1"
+    "prism": "^1.5.1",
+    "list.pagination.js": "^0.1.1"
   },
   "resolutions": {
     "jquery": "~3.1.1"

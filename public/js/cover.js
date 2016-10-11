@@ -18,7 +18,11 @@ var options = {
                     </div>\
                 </div>\
             </a>\
-           </li>'
+           </li>',
+    page: 18,
+    plugins: [
+        ListPagination({})
+    ]
 };
 var historyList = new List('history', options);
 
