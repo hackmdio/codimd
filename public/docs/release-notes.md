@@ -1,6 +1,66 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 0.4.5 `latte` <i class="fa fa-clock-o"></i> 2016-10-11 01:22
+---
+### Features
++ Add more environment variables for server configuration
++ Add setup script for getting started
++ Add support of deleting note
++ Add support of shortcut keys which can add and remove symbol surround text
++ Add support of shortcut keys for changing mode
++ Add support of i18n (English, Chinese, French, German, Japanese, Spanish, Portuguese, Greek, Italian, Turkish, Russian, Dutch, Croatian, Polish, Ukrainian)
++ Add support of note info API
++ Add support of disqus via yaml-metadata
+
+### Enhancements
+* Optimize png images by using zopflipng
+* Update CodeMirror to 5.19.0 and rename jade to pug
+* Update to add cache to history and improve its performance
+* Update default indent to use spaces instead of tabs
+* Improve syntax highlighting performance
+* Update to make client handle syncing error better, use delay to avoid wrong document revision
+* Update to allow CORS as API on revision actions
+* Update to support showing owner on the infobar
+* Update to prevent duplicate client push in queue to lower down server loading
+* Reduce update view debounce time to make preview refresh quicker
+* Update help modal cheatsheet font styles to make it more clear on spaces
+* Update to add revision saving policy
+* Update to support tiddlywiki and mediawiki syntax highlighting in editor
+* Update to support save mode to url and vise versa
+* Update edit and publish icon and change toggle icon for UX  
+* Improve authorship markers update performance
+* Update slide mode to show extra info and support url actions
+* Change the last change user saving strategy
+* Update to support data uri in src attribute of image tag
+* Improve index layout and UX with UI adjustments
+* Update XSS policy to allow iframe and link with custom protocol
+* Update markdown styles to follow github latest layout styles
+* Update slide mode, now respect all meta settings and update default styles
+* Update to make ToC menu always accessible without scrolling
+* Update to make doc only update while filesystem content not match db content
+
+### Fixes
+* Fix README and features document format and grammar issues
+* Fix some potential memory leaks bugs
+* Fix history storage might not fallback correctly 
+* Fix to make mathjax expression display in editor correctly (not italic)
+* Fix note title might have unstriped html tags 
+* Fix client reconnect should resend last operation
+* Fix a bug when setting both maxAge and expires may cause user can't signin
+* Fix text complete extra tags for blockquote and referrals
+* Fix bug that when window close will make ajax fail and cause cookies set to wrong state
+* Fix markdown render might fall into regex infinite loop
+* Fix syntax error caused by element contain special characters 
+* Fix reference error caused by some scripts loading order 
+* Fix ToC id naming to avoid possible overlap with user ToC
+* Fix header nav bar rwd detect element should use div tag or it might glitch the layout
+* Fix textcomplete of extra tags for blockquote not match space character in the between
+* Fix text-shadow for text antialiased might cause IE or Edge text cutoff
+
+### Removes
+- Cancel updating history on page unload
+
 <i class="fa fa-tag"></i> 0.4.4 `mocha` <i class="fa fa-clock-o"></i> 2016-08-02 17:10
 ---
 ### Features
