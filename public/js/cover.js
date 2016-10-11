@@ -3,6 +3,8 @@ var checkIfAuth = common.checkIfAuth;
 var urlpath = common.urlpath;
 var serverurl = common.serverurl;
 var resetCheckAuth = common.resetCheckAuth;
+var getLoginState = common.getLoginState;
+var clearLoginState = common.clearLoginState;
 
 var historyModule = require('./history');
 var parseStorageToHistory = historyModule.parseStorageToHistory;
@@ -11,6 +13,10 @@ var getStorageHistory = historyModule.getStorageHistory;
 var getHistory = historyModule.getHistory;
 var saveHistory = historyModule.saveHistory;
 var removeHistory = historyModule.removeHistory;
+var postHistoryToServer = historyModule.postHistoryToServer;
+var deleteServerHistory = historyModule.deleteServerHistory;
+var parseServerToHistory = historyModule.parseServerToHistory;
+var saveStorageHistoryToServer = historyModule.saveStorageHistoryToServer;
 
 var saveAs = require('file-saver').saveAs;
 var List = require('list.js');
@@ -196,7 +202,7 @@ function parseHistoryCallback(list, notehistory) {
                         $this.addClass('active');
                     else
                         $this.removeClass('active');
-                } 
+                }
             });
         }, function () {
             getHistory(function (notehistory) {

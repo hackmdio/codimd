@@ -4,6 +4,7 @@ var common = require('./common');
 var checkIfAuth = common.checkIfAuth;
 var urlpath = common.urlpath;
 var serverurl = common.serverurl;
+var getLoginState = common.getLoginState;
 
 var extra = require('./extra');
 var renderFilename = extra.renderFilename;
@@ -414,5 +415,7 @@ module.exports = {
     removeHistory: removeHistory,
     parseStorageToHistory: parseStorageToHistory,
     postHistoryToServer: postHistoryToServer,
-    deleteServerHistory: deleteServerHistory
+    deleteServerHistory: deleteServerHistory,
+    parseServerToHistory: parseServerToHistory,
+    saveStorageHistoryToServer: saveStorageHistoryToServer
 }

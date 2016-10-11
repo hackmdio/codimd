@@ -1086,5 +1086,7 @@ module.exports = {
   generateToc: generateToc,
   smoothHashScroll: smoothHashScroll,
   scrollToHash: scrollToHash,
-  owner: owner
+  owner: owner,
+  updateLastChangeUser: updateLastChangeUser,
+  updateOwner: updateOwner
 };

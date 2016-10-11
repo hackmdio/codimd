@@ -63,9 +63,12 @@ var renderTitle = extra.renderTitle;
 var renderFilename = extra.renderFilename;
 var scrollToHash = extra.scrollToHash;
 var owner = extra.owner;
+var updateLastChangeUser = extra.updateLastChangeUser;
+var updateOwner = extra.updateOwner;
 
 var historyModule = require('./history');
 var writeHistory = historyModule.writeHistory;
+var deleteServerHistory = historyModule.deleteServerHistory;
 
 var renderer = require('./render');
 var preventXSS = renderer.preventXSS;
@@ -1461,6 +1464,7 @@ function onGoogleAPILoaded() {
         .prop('defer', true)
         .appendTo('body');
 }
+window.onGoogleAPILoaded = onGoogleAPILoaded;
 
 //button actions
 //share
