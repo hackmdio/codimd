@@ -64,7 +64,6 @@
     "morgan": "^1.7.0",
     "mysql": "^2.11.1",
     "node-uuid": "^1.4.7",
-    "ot": "0.0.15",
     "passport": "^0.3.2",
     "passport-dropbox-oauth2": "^1.1.0",
     "passport-facebook": "^2.1.1",
