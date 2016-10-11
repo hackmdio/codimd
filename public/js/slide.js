@@ -31,7 +31,6 @@ require('raphael');
 require('js-sequence-diagrams');
 
 require('flowchart.js');
-require('viz.js');
 require('file-saver');
 require('store');
 require('js-url');
