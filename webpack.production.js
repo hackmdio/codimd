@@ -21,7 +21,7 @@ module.exports = Object.assign({}, baseConfig, {
             async: true,
             filename: '[name].js',
             minChunks: Infinity
-        })
+        }),
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('production')
