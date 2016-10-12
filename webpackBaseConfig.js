@@ -12,9 +12,6 @@ module.exports = {
             io: "socket.io-client",
             key: "keymaster"
         }),
-        new webpack.DefinePlugin({
-            "require.specified": "require.resolve"
-        }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
             name: ["vendor", "public", "slide", "locale"],
