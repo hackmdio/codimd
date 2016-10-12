@@ -112,94 +112,110 @@ function parseHistoryCallback(list, notehistory) {
 			}
 		}
 	});
+    // parse filter tags
     var filtertags = [];
-    $(".item").each(function (key, value) {
-        var a = $(this).closest("a");
-        var pin = $(this).find(".ui-history-pin");
-        var id = a.siblings("span").html();
-        var tagsEl = $(this).find(".tags");
-        var item = historyList.get('id', id);
-        if (item.length > 0 && item[0]) {
-            var values = item[0].values();
-			//parse pinned
-			if (values.pinned) {
-				pin.addClass('active');
-			} else {
-				pin.removeClass('active');
-			}
-            //parse link to element a
-            a.attr('href', serverurl + '/' + values.id);
-            //parse tags
-            if (values.tags) {
-                var tags = values.tags;
-                if (tags.length > 0) {
-                    var labels = [];
-                    for (var j = 0; j < tags.length; j++) {
-                        //push info filtertags if not found
-                        var found = false;
-                        if (filtertags.indexOf(tags[j]) != -1)
-                            found = true;
-                        if (!found)
-                            filtertags.push(tags[j]);
-                        //push into the item label
-                        labels.push("<span class='label label-default'>" + tags[j] + "</span>");
-                    }
-                    tagsEl.html(labels.join(' '));
-                }
+    for (var i = 0, l = list.items.length; i < l; i++) {
+        var tags = list.items[i]._values.tags;
+        if (tags && tags.length > 0) {
+            for (var j = 0; j < tags.length; j++) {
+                //push info filtertags if not found
+                var found = false;
+                if (filtertags.indexOf(tags[j]) != -1)
+                    found = true;
+                if (!found)
+                    filtertags.push(tags[j]);
             }
         }
-    });
-    $(".ui-history-close").click(function (e) {
-        e.preventDefault();
-        var id = $(this).closest("a").siblings("span").html();
-        var value = list.get('id', id)[0].values();
-        $('.ui-delete-modal-msg').text('Do you really want to delete below history?');
-        $('.ui-delete-modal-item').html('<i class="fa fa-file-text"></i> ' + value.text + '<br><i class="fa fa-clock-o"></i> ' + value.time);
-        clearHistory = false;
-        deleteId = id;
-    });
-	$(".ui-history-pin").click(function (e) {
-        e.preventDefault();
-		var $this = $(this);
-        var id = $this.closest("a").siblings("span").html();
-		var item = list.get('id', id)[0];
-        var values = item.values();
-		var pinned = values.pinned;
-        if (!values.pinned) {
-			pinned = true;
-			item._values.pinned = true;
-		} else {
-			pinned = false;
-			item._values.pinned = false;
-		}
-        checkIfAuth(function () {
-            postHistoryToServer(id, {
-                pinned: pinned
-            }, function (err, result) {
-                if (!err) {
-                    if (pinned)
-                        $this.addClass('active');
-                    else
-                        $this.removeClass('active');
-                } 
-            });
-        }, function () {
-            getHistory(function (notehistory) {
-                for(var i = 0; i < notehistory.length; i++) {
-                    if (notehistory[i].id == id) {
-                        notehistory[i].pinned = pinned;
-                        break;
-                    }
+    }
+    buildTagsFilter(filtertags);
+}
+
+// update items whenever list updated
+historyList.on('updated', function (e) {
+    for (var i = 0, l = e.items.length; i < l; i++) {
+        var item = e.items[i];
+        if (item.visible()) {
+            var itemEl = $(item.elm);
+            var values = item._values;
+            var a = itemEl.find("a");
+            var pin = itemEl.find(".ui-history-pin");
+            var tagsEl = itemEl.find(".tags");
+            //parse link to element a
+            a.attr('href', serverurl + '/' + values.id);
+            //parse pinned
+            if (values.pinned) {
+                pin.addClass('active');
+            } else {
+                pin.removeClass('active');
+            }
+            //parse tags
+            var tags = values.tags;
+            if (tags && tags.length > 0 && tagsEl.children().length <= 0) {
+                var labels = [];
+                for (var j = 0; j < tags.length; j++) {
+                    //push into the item label
+                    labels.push("<span class='label label-default'>" + tags[j] + "</span>");
                 }
-                saveHistory(notehistory);
+                tagsEl.html(labels.join(' '));
+            }
+        }
+    }
+    $(".ui-history-close").off('click');
+    $(".ui-history-close").on('click', historyCloseClick);
+    $(".ui-history-pin").off('click');
+    $(".ui-history-pin").on('click', historyPinClick);
+});
+
+function historyCloseClick(e) {
+    e.preventDefault();
+    var id = $(this).closest("a").siblings("span").html();
+    var value = historyList.get('id', id)[0]._values;
+    $('.ui-delete-modal-msg').text('Do you really want to delete below history?');
+    $('.ui-delete-modal-item').html('<i class="fa fa-file-text"></i> ' + value.text + '<br><i class="fa fa-clock-o"></i> ' + value.time);
+    clearHistory = false;
+    deleteId = id;
+}
+
+function historyPinClick(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var id = $this.closest("a").siblings("span").html();
+    var item = historyList.get('id', id)[0];
+    var values = item._values;
+    var pinned = values.pinned;
+    if (!values.pinned) {
+        pinned = true;
+        item._values.pinned = true;
+    } else {
+        pinned = false;
+        item._values.pinned = false;
+    }
+    checkIfAuth(function () {
+        postHistoryToServer(id, {
+            pinned: pinned
+        }, function (err, result) {
+            if (!err) {
                 if (pinned)
                     $this.addClass('active');
                 else
                     $this.removeClass('active');
-            });
-        })
+            } 
+        });
+    }, function () {
+        getHistory(function (notehistory) {
+            for(var i = 0; i < notehistory.length; i++) {
+                if (notehistory[i].id == id) {
+                    notehistory[i].pinned = pinned;
+                    break;
+                }
+            }
+            saveHistory(notehistory);
+            if (pinned)
+                $this.addClass('active');
+            else
+                $this.removeClass('active');
+        });
     });
-    buildTagsFilter(filtertags);
 }
 
 //auto update item fromNow every minutes
