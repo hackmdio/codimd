@@ -39,6 +39,7 @@
         <link rel="stylesheet" href='<%- url %>/css/extra.css'>
         <link rel="stylesheet" href="<%- url %>/css/site.css">
         <link rel="stylesheet" href="<%- url %>/css/slide.css">
+        <%- include build/slide-header %>
 
         <!-- If the query includes 'print-pdf', use the PDF print sheet -->
         <script>
@@ -94,7 +95,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.min.js" defer></script>
         <% } else { %>
-        <script src="<%- url %>/build/vendor.js" defer></script>
         <script src="<%- url %>/vendor/reveal.js/lib/js/head.min.js"></script>
         <script src="<%- url %>/vendor/reveal.js/js/reveal.js"></script>
         <script src="<%- url %>/vendor/velocity/velocity.min.js" defer></script>
@@ -103,7 +103,7 @@
         <script src="<%- url %>/vendor/moment/min/moment-with-locales.js" defer></script>
         <script src="<%- url %>/vendor/mermaid/dist/mermaid.min.js" defer></script>
         <% } %>
-        <script src="<%- url %>/build/slide.js" defer></script>
+        <%- include build/slide-scripts %>
     </body>
 </html>
 
