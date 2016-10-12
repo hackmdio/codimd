@@ -306,8 +306,6 @@ function finishView(view) {
         }
     });
     //graphviz
-    require.ensure(["viz.js"], function(require) {
-        var Viz = require("viz.js");
         var graphvizs = view.find(".graphviz.raw").removeClass("raw");
         graphvizs.each(function (key, value) {
             try {
@@ -324,7 +322,6 @@ function finishView(view) {
             }
         });
 
-    })
     //mermaid
     var mermaids = view.find(".mermaid.raw").removeClass("raw");
     mermaids.each(function (key, value) {

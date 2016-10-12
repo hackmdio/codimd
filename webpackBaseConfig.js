@@ -39,6 +39,7 @@ module.exports = {
             "expose?filterXSS!xss",
             "js-url",
             "bootstrap",
+            "expose?Viz!viz.js",
             "expose?ListPagination!list.pagination.js/dist/list.pagination.js",
             path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
             path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
