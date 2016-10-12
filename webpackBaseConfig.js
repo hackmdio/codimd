@@ -39,7 +39,11 @@ module.exports = {
             "expose?filterXSS!xss",
             "js-url",
             "bootstrap",
-            "expose?ListPagination!list.pagination.js/dist/list.pagination.js"
+            "expose?ListPagination!list.pagination.js/dist/list.pagination.js",
+            path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
+            path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
+            path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
+            path.join(__dirname, 'public/vendor/ot/ot.min.js')
         ]
     },
 
@@ -85,6 +89,15 @@ module.exports = {
         }, {
             test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
             loader: "url?limit=10000&mimetype=image/svg+xml"
+        }, {
+            test: /\.js/,
+            loader: "script-loader",
+            include: [
+                path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
+                path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
+                path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
+                path.join(__dirname, 'public/vendor/ot/ot.min.js')
+            ]
         }]
     },
 
