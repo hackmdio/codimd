@@ -45,7 +45,7 @@ module.exports = {
             path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
             path.join(__dirname, 'public/vendor/select2/select2.min.js'),
             path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
-            path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery-textcomplete.js'),
+            path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
             path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
             path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
             path.join(__dirname, 'public/vendor/ot/ot.min.js')
@@ -100,7 +100,7 @@ module.exports = {
             include: [
                 path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
                 path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
-                path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery-textcomplete.js'),
+                path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
                 path.join(__dirname, 'public/vendor/select2/select2.min.js'),
                 path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
                 path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
