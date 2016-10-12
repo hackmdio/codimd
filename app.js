@@ -512,7 +512,7 @@ process.on('SIGINT', function () {
         if (history.isReady() && realtime.isReady()) {
             models.Revision.checkAllNotesRevision(function (err, notes) {
                 if (err) throw new Error(err);
-                if (notes.length <= 0) {
+                if (!notes || notes.length <= 0) {
                     clearInterval(checkCleanTimer);
                     return process.exit(0);
                 }
