@@ -2792,14 +2792,14 @@ function sortOnlineUserList(list) {
                     else if (usera.idle && !userb.idle)
                         return 1;
                     else {
-                        if (usera.name.toLowerCase() < userb.name.toLowerCase()) {
+                        if (usera.name && usera.name.toLowerCase() < userb.name.toLowerCase()) {
                             return -1;
-                        } else if (usera.name.toLowerCase() > userb.name.toLowerCase()) {
+                        } else if (usera.name && usera.name.toLowerCase() > userb.name.toLowerCase()) {
                             return 1;
                         } else {
-                            if (usera.color.toLowerCase() < userb.color.toLowerCase())
+                            if (usera.color && usera.color.toLowerCase() < userb.color.toLowerCase())
                                 return -1;
-                            else if (usera.color.toLowerCase() > userb.color.toLowerCase())
+                            else if (usera.color && usera.color.toLowerCase() > userb.color.toLowerCase())
                                 return 1;
                             else
                                 return 0;
