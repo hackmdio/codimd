@@ -21,7 +21,9 @@ var options = {
            </li>',
     page: 18,
     plugins: [
-        ListPagination({})
+        ListPagination({
+            outerWindow: 1
+        })
     ]
 };
 var historyList = new List('history', options);
@@ -305,6 +307,8 @@ $(".ui-refresh-history").click(function () {
     var lastKeyword = $('.search').val();
     $('.search').val('');
     historyList.search();
+    $('#history-list').slideUp('fast');
+    $('.pagination').slideUp('fast');
     
     resetCheckAuth();
     historyList.clear();
@@ -315,6 +319,8 @@ $(".ui-refresh-history").click(function () {
         historyList.search(lastKeyword);
         $('.search').val(lastKeyword);
         checkHistoryList();
+        $('#history-list').slideDown('fast');
+        $('.pagination').slideDown('fast');
     });
 });
 
