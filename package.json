@@ -9,6 +9,7 @@
     "build": "webpack --config webpack.production.js --progress --colors"
   },
   "dependencies": {
+    "Idle.Js": "github:shawnmclean/Idle.js",
     "async": "^2.0.1",
     "blueimp-md5": "^2.4.0",
     "body-parser": "^1.15.2",
@@ -88,6 +89,7 @@
     "shortid": "2.2.6",
     "socket.io": "1.5.0",
     "socket.io-client": "^1.5.0",
+    "spin.js": "^2.3.2",
     "sqlite3": "^3.1.6",
     "store": "^1.3.20",
     "string": "^3.3.1",

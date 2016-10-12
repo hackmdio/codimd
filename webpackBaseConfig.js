@@ -39,10 +39,14 @@ module.exports = {
             "expose?filterXSS!xss",
             "js-url",
             "bootstrap",
+            "expose?Spinner!spin.js",
+            "script!Idle.Js",
             "expose?Viz!viz.js",
             "expose?ListPagination!list.pagination.js/dist/list.pagination.js",
             path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
+            path.join(__dirname, 'public/vendor/select2/select2.min.js'),
             path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
+            path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
             path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
             path.join(__dirname, 'public/vendor/ot/ot.min.js')
         ]
@@ -96,7 +100,9 @@ module.exports = {
             include: [
                 path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
                 path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
+                path.join(__dirname, 'public/vendor/select2/select2.min.js'),
                 path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
+                path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
                 path.join(__dirname, 'public/vendor/ot/ot.min.js')
             ]
         }]
