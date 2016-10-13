@@ -112,8 +112,8 @@ md.use(markdownitContainer, 'danger', { render: renderContainer });
 // FIXME: expose syncscroll to window
 window.syncscroll = true;
 
-var preventSyncScrollToEdit = false;
-var preventSyncScrollToView = false;
+window.preventSyncScrollToEdit = false;
+window.preventSyncScrollToView = false;
 
 var editScrollThrottle = 5;
 var viewScrollThrottle = 5;
