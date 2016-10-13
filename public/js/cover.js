@@ -1,3 +1,26 @@
+var common = require('./common');
+var checkIfAuth = common.checkIfAuth;
+var urlpath = common.urlpath;
+var serverurl = common.serverurl;
+var resetCheckAuth = common.resetCheckAuth;
+var getLoginState = common.getLoginState;
+var clearLoginState = common.clearLoginState;
+
+var historyModule = require('./history');
+var parseStorageToHistory = historyModule.parseStorageToHistory;
+var parseHistory = historyModule.parseHistory;
+var getStorageHistory = historyModule.getStorageHistory;
+var getHistory = historyModule.getHistory;
+var saveHistory = historyModule.saveHistory;
+var removeHistory = historyModule.removeHistory;
+var postHistoryToServer = historyModule.postHistoryToServer;
+var deleteServerHistory = historyModule.deleteServerHistory;
+var parseServerToHistory = historyModule.parseServerToHistory;
+var saveStorageHistoryToServer = historyModule.saveStorageHistoryToServer;
+
+var saveAs = require('file-saver').saveAs;
+var List = require('list.js');
+
 var options = {
     valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
     item: '<li class="col-xs-12 col-sm-6 col-md-6 col-lg-4">\
@@ -199,7 +222,7 @@ function historyPinClick(e) {
                     $this.addClass('active');
                 else
                     $this.removeClass('active');
-            } 
+            }
         });
     }, function () {
         getHistory(function (notehistory) {
@@ -317,7 +340,7 @@ $(".ui-clear-history").click(function () {
 });
 
 $(".ui-refresh-history").click(function () {
-    var lastTags = $(".ui-use-tags").select2('val'); 
+    var lastTags = $(".ui-use-tags").select2('val');
     $(".ui-use-tags").select2('val', '');
     historyList.filter();
     var lastKeyword = $('.search').val();
@@ -325,10 +348,10 @@ $(".ui-refresh-history").click(function () {
     historyList.search();
     $('#history-list').slideUp('fast');
     $('.pagination').slideUp('fast');
-    
+
     resetCheckAuth();
     historyList.clear();
-    parseHistory(historyList, function (list, notehistory) { 
+    parseHistory(historyList, function (list, notehistory) {
         parseHistoryCallback(list, notehistory);
         $(".ui-use-tags").select2('val', lastTags);
         $(".ui-use-tags").trigger('change');

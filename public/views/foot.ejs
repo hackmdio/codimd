@@ -3,83 +3,26 @@
 </script>
 <% if(useCDN) { %>
 <script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js" defer></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/velocity/1.3.1/velocity.min.js" defer></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js" defer></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.min.js" defer></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/js-yaml/3.6.1/js-yaml.min.js" defer></script>
 <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js" defer></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.min.js" defer></script>
 <% } else { %>
 <script src="<%- url %>/vendor/spin.js/spin.min.js" defer></script>
-<script src="<%- url %>/vendor/jquery/dist/jquery.min.js"></script>
 <script src="<%- url %>/vendor/velocity/velocity.min.js" defer></script>
-<script src="<%- url %>/vendor/jquery-mousewheel/jquery.mousewheel.min.js" defer></script>
-<script src="<%- url %>/vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
-<script src="<%- url %>/vendor/socket.io-client/socket.io.js" defer></script>
 <script src="<%- url %>/vendor/js-yaml/dist/js-yaml.min.js" defer></script>
 <script type="text/javascript" src="<%- url %>/vendor/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
 <script src="<%- url %>/vendor/moment/min/moment-with-locales.js" defer></script>
 <script src="<%- url %>/vendor/mermaid/dist/mermaid.min.js" defer></script>
 <% } %>
-<script src="<%- url %>/vendor/jquery-ui/jquery-ui.min.js" defer></script>
-<!--codemirror-->
-<script src="<%- url %>/vendor/codemirror/codemirror.min.js" defer></script>
-<script src="<%- url %>/vendor/inlineAttachment/inline-attachment.js" defer></script>
-<script src="<%- url %>/vendor/inlineAttachment/codemirror.inline-attachment.js" defer></script>
-<script src="<%- url %>/vendor/codemirror-spell-checker/spell-checker.min.js" defer></script>
-<!--ot-->
-<script src="<%- url %>/vendor/ot/ot.min.js" defer></script>
-<!--others-->
-<script src="<%- url %>/vendor/markdown-it/dist/markdown-it.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-abbr/dist/markdown-it-abbr.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-footnote/dist/markdown-it-footnote.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-deflist/dist/markdown-it-deflist.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-mark/dist/markdown-it-mark.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-ins/dist/markdown-it-ins.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-sub/dist/markdown-it-sub.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-sup/dist/markdown-it-sup.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-container/dist/markdown-it-container.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-mathjax.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-regexp.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-imsize.js" defer></script>
-<script src="<%- url %>/vendor/gist-embed/gist-embed.min.js" defer></script>
-<script src="<%- url %>/vendor/lz-string/libs/lz-string.min.js" defer></script>
-<script src="<%- url %>/vendor/xss/dist/xss.min.js" defer></script>
-<script src="<%- url %>/vendor/string/dist/string.min.js" defer></script>
-<script src="<%- url %>/vendor/highlightjs/highlight.pack.min.js" defer></script>
-<script src="<%- url %>/vendor/prism/prism.js" defer></script>
-<script src="<%- url %>/vendor/prism/components/prism-wiki.min.js" defer></script>
-<script src="<%- url %>/vendor/js-cookie/src/js.cookie.js" defer></script>
-<script src="<%- url %>/vendor/handlebars/handlebars.min.js" defer></script>
-<script src="<%- url %>/vendor/emojify/js/emojify.min.js" defer></script>
-<script src="<%- url %>/vendor/to-markdown/dist/to-markdown.js" defer></script>
-<script src="<%- url %>/vendor/raphael/raphael.min.js" defer></script>
-<script src="<%- url %>/vendor/lodash/dist/lodash.min.js" defer></script>
-<script src="<%- url %>/vendor/sequence-diagrams/sequence-diagram-min.js" defer></script>
-<script src="<%- url %>/vendor/flowchart/release/flowchart.min.js" defer></script>
-<script src="<%- url %>/vendor/viz.js/viz.js" defer></script>
-<script src="<%- url %>/vendor/pdfobject/pdfobject.min.js" defer></script>
-<script src="<%- url %>/vendor/file-saver/FileSaver.min.js" defer></script>
-<script src="<%- url %>/vendor/store-js/store.min.js" defer></script>
-<script src="<%- url %>/vendor/js-url/url.min.js" defer></script>
-<script src="<%- url %>/vendor/jquery-textcomplete/jquery.textcomplete.js" defer></script>
-<script src="<%- url %>/vendor/Idle.Js/build/idle.min.js" defer></script>
-<script src="<%- url %>/vendor/visibilityjs/lib/visibility.core.js" defer></script>
-<script src="<%- url %>/vendor/list.js/dist/list.min.js" defer></script>
-<script src="<%- url %>/vendor/md-toc.js" defer></script>
-<script src="<%- url %>/vendor/showup/showup.js" defer></script>
-<script src="<%- url %>/vendor/randomcolor/randomColor.js" defer></script>
-<script src="<%- url %>/vendor/keymaster/keymaster.js" defer></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.min.js" defer></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.min.js" defer></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/viz.js/1.3.0/viz.js" defer></script>
+<%- include build/index-scripts %>
 <script src="<%- url %>/js/google-drive-upload.js" defer></script>
 <script src="<%- url %>/js/google-drive-picker.js" defer></script>
-<script src="<%- url %>/js/config.js" defer></script>
-<script src="<%- url %>/js/common.js" defer></script>
-<script src="<%- url %>/js/extra.js" defer></script>
-<script src="<%- url %>/js/render.js" defer></script>
-<script src="<%- url %>/js/history.js" defer></script>
 <script src="<%- url %>/js/reveal-markdown.js" defer></script>
-<script src="<%- url %>/js/syncscroll.js" defer></script>
-<script src="<%- url %>/js/index.js" defer></script>

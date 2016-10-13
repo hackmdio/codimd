@@ -18,23 +18,20 @@
     <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
 	<link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
 	<% if(useCDN) { %>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
 	<% } else { %>
-	<link rel="stylesheet" href='<%- url %>/vendor/bootstrap/dist/css/bootstrap.min.css'>
-    <link rel="stylesheet" href='<%- url %>/vendor/font-awesome/css/font-awesome.min.css'>
     <link rel="stylesheet" href="<%- url %>/vendor/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="<%- url %>/vendor/octicons/octicons/octicons.css">
 	<% } %>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href='<%- url %>/css/github-extract.css'>
     <link rel="stylesheet" href='<%- url %>/css/gist.css'>
-    <link rel="stylesheet" href='<%- url %>/vendor/highlightjs/styles/github-gist.css'>
-    <link rel="stylesheet" href="<%- url %>/vendor/prism/themes/prism.css">
     <link rel="stylesheet" href="<%- url %>/css/mermaid.css">
     <link rel="stylesheet" href='<%- url %>/css/markdown.css'>
     <link rel="stylesheet" href='<%- url %>/vendor/emojify/css/emojify.min.css'>
+    <%- include build/pretty-header %>
     <link rel="stylesheet" href='<%- url %>/css/extra.css'>
     <link rel="stylesheet" href="<%- url %>/css/slide-preview.css">
     <link rel="stylesheet" href='<%- url %>/css/site.css'>
@@ -92,53 +89,20 @@
     MathJax.Hub.Config({ messageStyle: "none", skipStartupTypeset: true ,tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true }});
 </script>
 <% if(useCDN) { %>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.6.1/js-yaml.min.js" defer></script>
 <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.min.js" defer></script>
 <% } else { %>
-<script src="<%- url %>/vendor/jquery/dist/jquery.min.js"></script>
-<script src="<%- url %>/vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
 <script src="<%- url %>/vendor/js-yaml/dist/js-yaml.min.js" defer></script>
 <script type="text/javascript" src="<%- url %>/vendor/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
 <script src="<%- url %>/vendor/moment/min/moment-with-locales.js" defer></script>
 <script src="<%- url %>/vendor/mermaid/dist/mermaid.min.js" defer></script>
 <% } %>
-<script src="<%- url %>/vendor/lz-string/libs/lz-string.min.js" defer></script>
-<script src="<%- url %>/vendor/xss/dist/xss.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it/dist/markdown-it.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-abbr/dist/markdown-it-abbr.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-footnote/dist/markdown-it-footnote.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-deflist/dist/markdown-it-deflist.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-mark/dist/markdown-it-mark.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-ins/dist/markdown-it-ins.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-sub/dist/markdown-it-sub.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-sup/dist/markdown-it-sup.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-container/dist/markdown-it-container.min.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-mathjax.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-regexp.js" defer></script>
-<script src="<%- url %>/vendor/markdown-it-imsize.js" defer></script>
-<script src="<%- url %>/vendor/gist-embed/gist-embed.min.js" defer></script>
-<script src="<%- url %>/vendor/string/dist/string.min.js" defer></script>
-<script src="<%- url %>/vendor/highlightjs/highlight.pack.min.js" defer></script>
-<script src="<%- url %>/vendor/prism/prism.js" defer></script>
-<script src="<%- url %>/vendor/prism/components/prism-wiki.min.js" defer></script>
-<script src="<%- url %>/vendor/js-cookie/src/js.cookie.js" defer></script>
-<script src="<%- url %>/vendor/emojify/js/emojify.min.js" defer></script>
-<script src="<%- url %>/vendor/raphael/raphael.min.js" defer></script>
-<script src="<%- url %>/vendor/lodash/dist/lodash.min.js" defer></script>
-<script src="<%- url %>/vendor/sequence-diagrams/sequence-diagram-min.js" defer></script>
-<script src="<%- url %>/vendor/flowchart/release/flowchart.min.js" defer></script>
-<script src="<%- url %>/vendor/viz.js/viz.js" defer></script>
-<script src="<%- url %>/vendor/pdfobject/pdfobject.min.js" defer></script>
-<script src="<%- url %>/vendor/md-toc.js" defer></script>
-<script src="<%- url %>/js/config.js" defer></script>
-<script src="<%- url %>/js/common.js" defer></script>
-<script src="<%- url %>/js/extra.js" defer></script>
-<script src="<%- url %>/js/render.js" defer></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.min.js" defer></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/viz.js/1.3.0/viz.js" defer></script>
+<%- include build/pretty-scripts %>
 <script src="<%- url %>/js/reveal-markdown.js" defer></script>
-<script src="<%- url %>/js/pretty.js" defer></script>
-
 <%- include ga %>

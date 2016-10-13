@@ -1,3 +1,16 @@
+var extra = require('./extra');
+var md = extra.md;
+var finishView = extra.finishView;
+var autoLinkify = extra.autoLinkify;
+var deduplicatedHeaderId = extra.deduplicatedHeaderId;
+var renderTOC = extra.renderTOC;
+var generateToc = extra.generateToc;
+var smoothHashScroll = extra.smoothHashScroll;
+var postProcess = extra.postProcess;
+var lastchangeui = extra.lastchangeui;
+var updateLastChange = extra.updateLastChange;
+var preventXSS = require('./render').preventXSS;
+
 var markdown = $(".markdown-body");
 var text = $('<textarea/>').html(markdown.html()).text();
 var lastMeta = md.meta;
@@ -109,4 +122,12 @@ function scrollToBottom() {
     $('body, html').stop(true, true).animate({
         scrollTop: $(document.body)[0].scrollHeight
     }, 100, "linear");
+}
+
+window.scrollToTop = scrollToTop;
+window.scrollToBottom = scrollToBottom;
+
+module.exports = {
+  scrollToBottom: scrollToBottom,
+  scrollToTop: scrollToTop
 }

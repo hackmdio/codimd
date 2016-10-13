@@ -1,3 +1,9 @@
+var hljs = require('highlight.js');
+var PDFObject = require('pdfobject');
+var S = require('string');
+var saveAs = require('file-saver').saveAs;
+require('../vendor/md-toc');
+
 //auto update last change
 var createtime = null;
 var lastchangetime = null;
@@ -242,7 +248,7 @@ function finishView(view) {
     });
     //emojify
     try {
-        emojify.run(view[0]);   
+        emojify.run(view[0]);
     } catch (err) {
         console.warn(err);
     }
@@ -257,77 +263,79 @@ function finishView(view) {
             MathJax.Hub.Queue(viewAjaxCallback);
         }
     } catch (err) {}
-    //sequence diagram
-    var sequences = view.find(".sequence-diagram.raw").removeClass("raw");
-    sequences.each(function (key, value) {
-        try {
-            var $value = $(value);
-            var $ele = $(value).parent().parent();
-            
-            var sequence = $value;
-            sequence.sequenceDiagram({
-                theme: 'simple'
-            });
-            
-            $ele.addClass('sequence-diagram');
-            $value.children().unwrap().unwrap();
-            var svg = $ele.find('> svg');
-            svg[0].setAttribute('viewBox', '0 0 ' + svg.attr('width') + ' ' + svg.attr('height'));
-            svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
-        } catch (err) {
-            console.warn(err);
-        }
-    });
-    //flowchart
-    var flow = view.find(".flow-chart.raw").removeClass("raw");
-    flow.each(function (key, value) {
-        try {
-            var $value = $(value);
-            var $ele = $(value).parent().parent();
-            
-            var chart = flowchart.parse($value.text());
-            $value.html('');
-            chart.drawSVG(value, {
-                'line-width': 2,
-                'fill': 'none',
-                'font-size': '16px',
-                'font-family': "'Andale Mono', monospace"
-            });
-            
-            $ele.addClass('flow-chart');
-            $value.children().unwrap().unwrap();
-        } catch (err) {
-            console.warn(err);
-        }
-    });
+        //sequence diagram
+        var sequences = view.find(".sequence-diagram.raw").removeClass("raw");
+        sequences.each(function (key, value) {
+            try {
+                var $value = $(value);
+                var $ele = $(value).parent().parent();
+
+                var sequence = $value;
+                sequence.sequenceDiagram({
+                    theme: 'simple'
+                });
+
+                $ele.addClass('sequence-diagram');
+                $value.children().unwrap().unwrap();
+                var svg = $ele.find('> svg');
+                svg[0].setAttribute('viewBox', '0 0 ' + svg.attr('width') + ' ' + svg.attr('height'));
+                svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            } catch (err) {
+                console.warn(err);
+            }
+        });
+        //flowchart
+        var flow = view.find(".flow-chart.raw").removeClass("raw");
+        flow.each(function (key, value) {
+            try {
+                var $value = $(value);
+                var $ele = $(value).parent().parent();
+
+                var chart = flowchart.parse($value.text());
+                $value.html('');
+                chart.drawSVG(value, {
+                    'line-width': 2,
+                    'fill': 'none',
+                    'font-size': '16px',
+                    'font-family': "'Andale Mono', monospace"
+                });
+
+                $ele.addClass('flow-chart');
+                $value.children().unwrap().unwrap();
+            } catch (err) {
+                console.warn(err);
+            }
+        });
     //graphviz
+    var Viz = require("viz.js");
     var graphvizs = view.find(".graphviz.raw").removeClass("raw");
     graphvizs.each(function (key, value) {
         try {
             var $value = $(value);
             var $ele = $(value).parent().parent();
-            
+
             var graphviz = Viz($value.text());
             $value.html(graphviz);
-            
+
             $ele.addClass('graphviz');
             $value.children().unwrap().unwrap();
         } catch (err) {
             console.warn(err);
         }
     });
+
     //mermaid
     var mermaids = view.find(".mermaid.raw").removeClass("raw");
     mermaids.each(function (key, value) {
         try {
             var $value = $(value);
             var $ele = $(value).parent().parent();
-            
+
             var mermaidError = null;
             mermaid.parseError = function (err, hash) {
                 mermaidError = err;
             };
-            
+
             if (mermaidAPI.parse($value.text())) {
                 $ele.addClass('mermaid');
                 $ele.html($value.text());
@@ -427,14 +435,14 @@ function finishView(view) {
         });
     //pdf
     view.find(".pdf.raw").removeClass("raw")
-        .each(function (key, value) {
-            var url = $(value).attr('data-pdfurl');
-            var inner = $('<div></div>');
-            $(this).append(inner);
-            PDFObject.embed(url, inner, {
-                height: '400px'
+            .each(function (key, value) {
+                var url = $(value).attr('data-pdfurl');
+                var inner = $('<div></div>');
+                $(this).append(inner);
+                PDFObject.embed(url, inner, {
+                    height: '400px'
+                });
             });
-        });
     //syntax highlighting
     view.find("pre.raw").removeClass("raw")
         .each(function (key, value) {
@@ -483,6 +491,7 @@ function postProcess(code) {
 	}
     return result;
 }
+window.postProcess = postProcess;
 
 function generateCleanHTML(view) {
     var src = view.clone();
@@ -534,6 +543,8 @@ function exportToRawHTML(view) {
     saveAs(blob, filename);
 }
 
+var common = require('./common.js');
+var serverurl = common.serverurl;
 //extract markdown body to html and compile to template
 function exportToHTML(view) {
     var title = renderTitle(ui.area.markdown);
@@ -829,7 +840,10 @@ emojify.setConfig({
     ignore_emoticons: true
 });
 
-var md = window.markdownit('default', {
+var markdownit = require('markdown-it');
+var markdownitContainer = require('markdown-it-container');
+
+var md = markdownit('default', {
     html: true,
     breaks: true,
     langPrefix: "",
@@ -837,25 +851,28 @@ var md = window.markdownit('default', {
     typographer: true,
     highlight: highlightRender
 });
-md.use(window.markdownitAbbr);
-md.use(window.markdownitFootnote);
-md.use(window.markdownitDeflist);
-md.use(window.markdownitMark);
-md.use(window.markdownitIns);
-md.use(window.markdownitSub);
-md.use(window.markdownitSup);
-md.use(window.markdownitMathjax);
-md.use(window.markdownitImsize);
+window.md = md;
+
+md.use(require('markdown-it-abbr'));
+md.use(require('markdown-it-footnote'));
+md.use(require('markdown-it-deflist'));
+md.use(require('markdown-it-mark'));
+md.use(require('markdown-it-ins'));
+md.use(require('markdown-it-sub'));
+md.use(require('markdown-it-sup'));
+md.use(require('../vendor/markdown-it-mathjax'));
+md.use(require('markdown-it-imsize'));
+
 function renderContainer(tokens, idx, options, env, self) {
     tokens[idx].attrJoin('role', 'alert');
     tokens[idx].attrJoin('class', 'alert');
     tokens[idx].attrJoin('class', 'alert-' + tokens[idx].info.trim());
     return self.renderToken.apply(self, arguments);
 }
-md.use(window.markdownitContainer, 'success', { render: renderContainer });
-md.use(window.markdownitContainer, 'info', { render: renderContainer });
-md.use(window.markdownitContainer, 'warning', { render: renderContainer });
-md.use(window.markdownitContainer, 'danger', { render: renderContainer });
+md.use(markdownitContainer, 'success', { render: renderContainer });
+md.use(markdownitContainer, 'info', { render: renderContainer });
+md.use(markdownitContainer, 'warning', { render: renderContainer });
+md.use(markdownitContainer, 'danger', { render: renderContainer });
 
 md.renderer.rules.image = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');
@@ -899,6 +916,9 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
         + highlighted
         + '</code></pre>\n';
 };
+
+/* Defined regex markdown it plugins */
+require('script!../vendor/markdown-it-regexp');
 
 //youtube
 var youtubePlugin = new Plugin(
@@ -1047,3 +1067,25 @@ md.use(tocPlugin);
 md.use(slidesharePlugin);
 md.use(speakerdeckPlugin);
 md.use(pdfPlugin);
+
+module.exports = {
+  md: md,
+  createtime: createtime,
+  lastchangetime: lastchangetime,
+  updateLastChange: updateLastChange,
+  lastchangeui: lastchangeui,
+  lastchangeuser: lastchangeuser,
+  postProcess: postProcess,
+  finishView: finishView,
+  autoLinkify: autoLinkify,
+  deduplicatedHeaderId: deduplicatedHeaderId,
+  renderTOC: renderTOC,
+  renderTitle: renderTitle,
+  renderFilename: renderFilename,
+  generateToc: generateToc,
+  smoothHashScroll: smoothHashScroll,
+  scrollToHash: scrollToHash,
+  owner: owner,
+  updateLastChangeUser: updateLastChangeUser,
+  updateOwner: updateOwner
+};

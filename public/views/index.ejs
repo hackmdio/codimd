@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="<%- url %>/vendor/select2/select2.css">
     <link rel="stylesheet" href="<%- url %>/vendor/select2/select2-bootstrap.css">
     <!-- Custom styles for this template -->
+    <%- include build/cover-header %>
     <link rel="stylesheet" href="<%- url %>/css/cover.css">
     <link rel="stylesheet" href="<%- url %>/css/site.css">
 </head>
@@ -194,31 +195,18 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <% if(useCDN) { %>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" defer></script>
     <script src="//cdn.jsdelivr.net/velocity/1.3.1/velocity.min.js" defer></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js" defer></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js" defer></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/js-url/2.3.0/url.min.js" defer></script>
 	<% } else { %>
-	<script src="<%- url %>/vendor/jquery/dist/jquery.min.js" defer></script>
     <script src="<%- url %>/vendor/velocity/velocity.min.js" defer></script>
-	<script src="<%- url %>/vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
-	<script src="<%- url %>/vendor/select2/select2.min.js" defer></script>
 	<script src="<%- url %>/vendor/moment/min/moment-with-locales.min.js" defer></script>
-	<script src="<%- url %>/vendor/js-url/url.min.js" defer></script>
 	<% } %>
-    <script src="<%- url %>/vendor/js-cookie/src/js.cookie.js" defer></script>
-    <script src="<%- url %>/vendor/list.js/dist/list.min.js" defer></script>
-    <script src="<%- url %>/vendor/list.pagination.js/dist/list.pagination.min.js" defer></script>
-    <script src="<%- url %>/vendor/file-saver/FileSaver.min.js" defer></script>
-    <script src="<%- url %>/vendor/store-js/store.min.js" defer></script>
-    <script src="<%- url %>/vendor/lz-string/libs/lz-string.min.js" defer></script>
-    <script src="<%- url %>/js/config.js" defer></script>
-    <script src="<%- url %>/js/common.js" defer></script>
-    <script src="<%- url %>/js/history.js" defer></script>
-    <script src="<%- url %>/js/cover.js" defer></script>
-    <script src="<%- url %>/js/locale.js" defer></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" defer></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.min.js" defer></script>
+    <%- include build/cover-scripts %>
 </body>
 
 </html>

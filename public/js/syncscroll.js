@@ -1,5 +1,8 @@
 // Inject line numbers for sync scroll.
 
+var extra = require('./extra');
+var md = extra.md;
+
 function addPart(tokens, idx) {
     if (tokens[idx].map && tokens[idx].level === 0) {
         var startline = tokens[idx].map[0] + 1;
@@ -71,7 +74,7 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
     if (highlighted.indexOf('<pre') === 0) {
         return highlighted + '\n';
     }
-    
+
     if (tokens[idx].map && tokens[idx].level === 0) {
         var startline = tokens[idx].map[0] + 1;
         var endline = tokens[idx].map[1];
@@ -99,10 +102,12 @@ function renderContainer(tokens, idx, options, env, self) {
     addPart(tokens, idx);
     return self.renderToken.apply(self, arguments);
 }
-md.use(window.markdownitContainer, 'success', { render: renderContainer });
-md.use(window.markdownitContainer, 'info', { render: renderContainer });
-md.use(window.markdownitContainer, 'warning', { render: renderContainer });
-md.use(window.markdownitContainer, 'danger', { render: renderContainer });
+
+var markdownitContainer = require('markdown-it-container');
+md.use(markdownitContainer, 'success', { render: renderContainer });
+md.use(markdownitContainer, 'info', { render: renderContainer });
+md.use(markdownitContainer, 'warning', { render: renderContainer });
+md.use(markdownitContainer, 'danger', { render: renderContainer });
 
 var syncscroll = true;
 
@@ -240,7 +245,7 @@ function syncScrollToEdit(event, preventAnimate) {
         return;
     }
     if (editScrolling) return;
-    
+
     var scrollTop = viewArea[0].scrollTop;
     var lineIndex = 0;
     for (var i = 0, l = scrollMap.length; i < l; i++) {
@@ -260,7 +265,7 @@ function syncScrollToEdit(event, preventAnimate) {
             lineDiff = lineHeightMap[i + 1] - lineNo;
         }
     }
-    
+
     var posTo = 0;
     var topDiffPercent = 0;
     var posToNextDiff = 0;
@@ -269,7 +274,7 @@ function syncScrollToEdit(event, preventAnimate) {
     var preLastLineHeight = scrollInfo.height - scrollInfo.clientHeight - textHeight;
     var preLastLineNo = Math.round(preLastLineHeight / textHeight);
     var preLastLinePos = scrollMap[preLastLineNo];
-    
+
     if (scrollInfo.height > scrollInfo.clientHeight && scrollTop >= preLastLinePos) {
         posTo = preLastLineHeight;
         topDiffPercent = (scrollTop - preLastLinePos) / (viewBottom - preLastLinePos);
@@ -281,7 +286,7 @@ function syncScrollToEdit(event, preventAnimate) {
         posToNextDiff = textHeight * lineDiff * topDiffPercent;
         posTo += Math.ceil(posToNextDiff);
     }
-    
+
     if (preventAnimate) {
         editArea.scrollTop(posTo);
     } else {
@@ -292,7 +297,7 @@ function syncScrollToEdit(event, preventAnimate) {
             scrollTop: posTo
         }, duration, "linear");
     }
-    
+
     viewScrolling = true;
     clearTimeout(viewScrollingTimer);
     viewScrollingTimer = setTimeout(viewScrollingTimeoutInner, duration * 1.5);
@@ -322,7 +327,7 @@ function syncScrollToView(event, preventAnimate) {
         return;
     }
     if (viewScrolling) return;
-    
+
     var lineNo, posTo;
     var topDiffPercent, posToNextDiff;
     var scrollInfo = editor.getScrollInfo();
@@ -341,7 +346,7 @@ function syncScrollToView(event, preventAnimate) {
         posToNextDiff = (scrollMap[lineNo + 1] - posTo) * topDiffPercent;
         posTo += Math.floor(posToNextDiff);
     }
-    
+
     if (preventAnimate) {
         viewArea.scrollTop(posTo);
     } else {
@@ -352,7 +357,7 @@ function syncScrollToView(event, preventAnimate) {
             scrollTop: posTo
         }, duration, "linear");
     }
-    
+
     editScrolling = true;
     clearTimeout(editScrollingTimer);
     editScrollingTimer = setTimeout(editScrollingTimeoutInner, duration * 1.5);
@@ -361,3 +366,10 @@ function syncScrollToView(event, preventAnimate) {
 function editScrollingTimeoutInner() {
     editScrolling = false;
 }
+
+module.exports = {
+  setupSyncAreas: setupSyncAreas,
+  clearMap: clearMap,
+  syncScrollToEdit: syncScrollToEdit,
+  syncScrollToView: syncScrollToView
+};

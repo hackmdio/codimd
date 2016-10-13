@@ -8,18 +8,16 @@
 <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
 <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
 <% if(useCDN) { %>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/ionicons/2.0.1/css/ionicons.min.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.9.0/bootstrap-social.min.css">
 <% } else { %>
-<link rel="stylesheet" href="<%- url %>/vendor/bootstrap/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="<%- url %>/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="<%- url %>/vendor/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="<%- url %>/vendor/octicons/octicons/octicons.css">
 <link rel="stylesheet" href="<%- url %>/css/bootstrap-social.css">
 <% } %>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <link rel="stylesheet" href="<%- url %>/vendor/jquery-ui/jquery-ui.min.css">
 <link rel="stylesheet" href="<%- url %>/vendor/codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="<%- url %>/vendor/codemirror-spell-checker/spell-checker.min.css">
@@ -33,12 +31,11 @@
 <link rel="stylesheet" href="<%- url %>/vendor/codemirror/mode/tiddlywiki/tiddlywiki.css">
 <link rel="stylesheet" href="<%- url %>/vendor/codemirror/mode/mediawiki/mediawiki.css">
 <link rel="stylesheet" href="<%- url %>/css/github-extract.css">
-<link rel="stylesheet" href="<%- url %>/vendor/highlightjs/styles/github-gist.css">
-<link rel="stylesheet" href="<%- url %>/vendor/prism/themes/prism.css">
 <link rel="stylesheet" href="<%- url %>/vendor/emojify/css/emojify.min.css">
 <link rel="stylesheet" href="<%- url %>/vendor/showup/showup.css">
 <link rel="stylesheet" href="<%- url %>/css/mermaid.css">
 <link rel="stylesheet" href="<%- url %>/css/markdown.css">
+<%- include build/index-header %>
 <link rel="stylesheet" href="<%- url %>/css/index.css">
 <link rel="stylesheet" href="<%- url %>/css/extra.css">
 <link rel="stylesheet" href="<%- url %>/css/slide-preview.css">

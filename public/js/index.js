@@ -1,3 +1,68 @@
+/* jquery and jquery plugins */
+require('../vendor/showup/showup');
+
+require('prismjs/themes/prism.css');
+require('highlight.js/styles/github-gist.css');
+
+require('prismjs');
+require('prismjs/components/prism-wiki');
+var toMarkdown = require('to-markdown');
+
+var saveAs = require('file-saver').saveAs;
+require('js-url');
+require('randomcolor');
+
+var _ = require("lodash");
+
+var List = require('list.js');
+
+var common = require('./common.js');
+var urlpath = common.urlpath;
+var noteid = common.noteid;
+var debug = common.debug;
+var version = common.version;
+var serverurl = common.serverurl;
+var GOOGLE_API_KEY = common.GOOGLE_API_KEY;
+var GOOGLE_CLIENT_ID = common.GOOGLE_CLIENT_ID;
+var DROPBOX_APP_KEY = common.DROPBOX_APP_KEY;
+var noteurl = common.noteurl;
+
+var checkLoginStateChanged = common.checkLoginStateChanged;
+
+var syncScroll = require('./syncscroll');
+var setupSyncAreas = syncScroll.setupSyncAreas;
+var clearMap = syncScroll.clearMap;
+var syncScrollToEdit = syncScroll.syncScrollToEdit;
+var syncScrollToView = syncScroll.syncScrollToView;
+
+require('./pretty');
+var extra = require('./extra');
+var md = extra.md;
+var createtime = extra.createtime;
+var updateLastChange = extra.updateLastChange;
+var postProcess = extra.postProcess;
+var finishView = extra.finishView;
+var lastchangetime = extra.lastchangetime;
+var autoLinkify = extra.autoLinkify;
+var generateToc = extra.generateToc;
+var smoothHashScroll = extra.smoothHashScroll;
+var lastchangeuser = extra.lastchangeuser;
+var deduplicatedHeaderId = extra.deduplicatedHeaderId;
+var renderTOC = extra.renderTOC;
+var renderTitle = extra.renderTitle;
+var renderFilename = extra.renderFilename;
+var scrollToHash = extra.scrollToHash;
+var owner = extra.owner;
+var updateLastChangeUser = extra.updateLastChangeUser;
+var updateOwner = extra.updateOwner;
+
+var historyModule = require('./history');
+var writeHistory = historyModule.writeHistory;
+var deleteServerHistory = historyModule.deleteServerHistory;
+
+var renderer = require('./render');
+var preventXSS = renderer.preventXSS;
+
 var defaultTextHeight = 20;
 var viewportMargin = 20;
 var mac = CodeMirror.keyMap["default"] == CodeMirror.keyMap.macDefault;
@@ -127,7 +192,7 @@ function wrapTextWith(cm, symbol) {
                     };
                     var postText = cm.getRange(postEndPos, from);
                     var postIndex = wrapSymbols.indexOf(postText);
-                    // check if surround symbol are list in array and matched 
+                    // check if surround symbol are list in array and matched
                     if (preIndex > -1 && postIndex > -1 && preIndex === postIndex) {
                         cm.replaceRange("", to, preEndPos, '+delete');
                         cm.replaceRange("", postEndPos, from, '+delete');
@@ -279,7 +344,7 @@ var supportExtraTags = [
         }
     }
 ];
-var modeType = {
+window.modeType = {
     edit: {
         name: "edit"
     },
@@ -310,18 +375,18 @@ var statusType = {
 var defaultMode = modeType.view;
 
 //global vars
-var loaded = false;
-var needRefresh = false;
-var isDirty = false;
-var editShown = false;
-var visibleXS = false;
-var visibleSM = false;
-var visibleMD = false;
-var visibleLG = false;
-var isTouchDevice = 'ontouchstart' in document.documentElement;
-var currentMode = defaultMode;
-var currentStatus = statusType.offline;
-var lastInfo = {
+window.loaded = false;
+window.needRefresh = false;
+window.isDirty = false;
+window.editShown = false;
+window.visibleXS = false;
+window.visibleSM = false;
+window.visibleMD = false;
+window.visibleLG = false;
+window.isTouchDevice = 'ontouchstart' in document.documentElement;
+window.currentMode = defaultMode;
+window.currentStatus = statusType.offline;
+window.lastInfo = {
     needRestore: false,
     cursor: null,
     scroll: null,
@@ -343,9 +408,9 @@ var lastInfo = {
     },
     history: null
 };
-var personalInfo = {};
-var onlineUsers = [];
-var fileTypes = {
+window.personalInfo = {};
+window.onlineUsers = [];
+window.fileTypes = {
     "pl": "perl",
     "cgi": "perl",
     "js": "javascript",
@@ -359,7 +424,7 @@ var fileTypes = {
 //editor settings
 var textit = document.getElementById("textit");
 if (!textit) throw new Error("There was no textit area!");
-var editor = CodeMirror.fromTextArea(textit, {
+window.editor = CodeMirror.fromTextArea(textit, {
     mode: defaultEditorMode,
     backdrop: defaultEditorMode,
     keyMap: "sublime",
@@ -1047,7 +1112,7 @@ function checkEditorStyle() {
             },
             stop: function (e) {
                 lastEditorWidth = ui.area.edit.width();
-                // workaround that scroll event bindings 
+                // workaround that scroll event bindings
                 preventSyncScrollToView = 2;
                 preventSyncScrollToEdit = true;
                 editor.setOption('viewportMargin', viewportMargin);
@@ -1281,12 +1346,12 @@ function changeMode(type) {
         preventSyncScrollToView = 2;
         syncScrollToEdit(null, true);
     }
-    
+
     if (lastMode == modeType.edit && currentMode == modeType.both) {
         preventSyncScrollToEdit = 2;
         syncScrollToView(null, true);
     }
-    
+
     if (lastMode == modeType.both && currentMode != modeType.both) {
         preventSyncScrollToView = false;
         preventSyncScrollToEdit = false;
@@ -1389,6 +1454,7 @@ function onGoogleAPILoaded() {
         .prop('defer', true)
         .appendTo('body');
 }
+window.onGoogleAPILoaded = onGoogleAPILoaded;
 
 //button actions
 //share
@@ -1687,7 +1753,7 @@ function parseRevisions(_revisions) {
     }
 }
 function selectRevision(time) {
-    if (time == revisionTime) return; 
+    if (time == revisionTime) return;
     $.get(noteurl + '/revision/' + time)
         .done(function(data) {
             revision = data;
@@ -2188,8 +2254,11 @@ function havePermission() {
     }
     return bool;
 }
+// global module workaround
+window.havePermission = havePermission;
 
 //socket.io actions
+var io = require("socket.io-client");
 var socket = io.connect({
     path: urlpath ? '/' + urlpath + '/socket.io/' : '',
     timeout: 5000 //5 secs to timeout
@@ -2198,7 +2267,7 @@ var socket = io.connect({
 var on = socket.on;
 socket.on = function () {
     if (!checkLoginStateChanged() && !needRefresh)
-        on.apply(socket, arguments);
+        return on.apply(socket, arguments);
 };
 var emit = socket.emit;
 socket.emit = function () {

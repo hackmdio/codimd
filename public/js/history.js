@@ -1,3 +1,15 @@
+var store = require('store');
+
+var common = require('./common');
+var checkIfAuth = common.checkIfAuth;
+var urlpath = common.urlpath;
+var serverurl = common.serverurl;
+var getLoginState = common.getLoginState;
+
+var extra = require('./extra');
+var renderFilename = extra.renderFilename;
+var md = extra.md;
+
 var migrateHistoryFromTempCallback = null;
 
 migrateHistoryFromTemp();
@@ -392,4 +404,18 @@ function deleteServerHistory(noteId, callback) {
         console.error(xhr.responseText);
         return callback(error, null);
     });
+}
+
+module.exports = {
+    writeHistory: writeHistory,
+    parseHistory: parseHistory,
+    getStorageHistory: getStorageHistory,
+    getHistory: getHistory,
+    saveHistory: saveHistory,
+    removeHistory: removeHistory,
+    parseStorageToHistory: parseStorageToHistory,
+    postHistoryToServer: postHistoryToServer,
+    deleteServerHistory: deleteServerHistory,
+    parseServerToHistory: parseServerToHistory,
+    saveStorageHistoryToServer: saveStorageHistoryToServer
 }
