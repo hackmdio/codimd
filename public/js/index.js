@@ -28,12 +28,6 @@ var noteurl = common.noteurl;
 
 var checkLoginStateChanged = common.checkLoginStateChanged;
 
-var syncScroll = require('./syncscroll');
-var setupSyncAreas = syncScroll.setupSyncAreas;
-var clearMap = syncScroll.clearMap;
-var syncScrollToEdit = syncScroll.syncScrollToEdit;
-var syncScrollToView = syncScroll.syncScrollToView;
-
 require('./pretty');
 var extra = require('./extra');
 var md = extra.md;
@@ -53,6 +47,12 @@ var updateOwner = extra.updateOwner;
 var parseMeta = extra.parseMeta;
 var exportToHTML = extra.exportToHTML;
 var exportToRawHTML = extra.exportToRawHTML;
+
+var syncScroll = require('./syncscroll');
+var setupSyncAreas = syncScroll.setupSyncAreas;
+var clearMap = syncScroll.clearMap;
+var syncScrollToEdit = syncScroll.syncScrollToEdit;
+var syncScrollToView = syncScroll.syncScrollToView;
 
 var historyModule = require('./history');
 var writeHistory = historyModule.writeHistory;

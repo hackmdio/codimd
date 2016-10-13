@@ -20,8 +20,8 @@ require('list.js');
 require('../vendor/md-toc');
 require('randomcolor');
 
-require('./syncscroll');
 require('./extra');
+require('./syncscroll');
 require('./history');
 require('./pretty');
 require('./render');
