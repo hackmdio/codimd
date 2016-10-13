@@ -10,7 +10,7 @@ var postProcess = extra.postProcess;
 var updateLastChange = extra.updateLastChange;
 var preventXSS = require('./render').preventXSS;
 
-var markdown = $(".markdown-body");
+var markdown = $("#doc.markdown-body");
 var text = $('<textarea/>').html(markdown.html()).text();
 var lastMeta = md.meta;
 md.meta = {};
