@@ -306,6 +306,7 @@ function finishView(view) {
         }
     });
     //graphviz
+    var Viz = require("viz.js");
     var graphvizs = view.find(".graphviz.raw").removeClass("raw");
     graphvizs.each(function (key, value) {
         try {

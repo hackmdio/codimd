@@ -66,6 +66,10 @@ module.exports = {
         extensions: ["", ".js"]
     },
 
+    externals: {
+        "viz.js": "Viz"
+    },
+
     module: {
         loaders: [{
             test: /\.json$/,
