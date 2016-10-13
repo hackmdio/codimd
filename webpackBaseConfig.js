@@ -79,10 +79,6 @@ module.exports = {
         locale: path.join(__dirname, 'public/js/locale.js'),
         vendor: [
             "imports?$=jquery!jquery-mousewheel",
-            "jquery-ui/ui/widgets/resizable",
-            "jquery-ui/ui/widgets/tooltip",
-            "jquery-ui/ui/widgets/controlgroup",
-            "jquery-ui/ui/widgets/autocomplete",
             "script!gist-embed",
             "expose?filterXSS!xss",
             "js-url",
@@ -129,7 +125,8 @@ module.exports = {
         "viz.js": "Viz",
         "socket.io-client": "io",
         "lodash": "_",
-        "jquery": "$"
+        "jquery": "$",
+        "moment": "moment"
     },
 
     module: {

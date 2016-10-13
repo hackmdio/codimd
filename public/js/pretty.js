@@ -7,7 +7,6 @@ var renderTOC = extra.renderTOC;
 var generateToc = extra.generateToc;
 var smoothHashScroll = extra.smoothHashScroll;
 var postProcess = extra.postProcess;
-var lastchangeui = extra.lastchangeui;
 var updateLastChange = extra.updateLastChange;
 var preventXSS = require('./render').preventXSS;
 

@@ -22,23 +22,10 @@ var noteurl = commonModule.noteurl;
 
 var extraModule = require('./extra');
 var md = extraModule.md;
-var createtime = extraModule.createtime;
 var updateLastChange = extraModule.updateLastChange;
-var postProcess = extraModule.postProcess;
 var finishView = extraModule.finishView;
-var lastchangetime = extraModule.lastchangetime;
-var lastchangeui = extraModule.lastchangeui;
-var autoLinkify = extraModule.autoLinkify;
-var generateToc = extraModule.generateToc;
-var smoothHashScroll = extraModule.smoothHashScroll;
-var lastchangeuser = extraModule.lastchangeuser;
-var deduplicatedHeaderId = extraModule.deduplicatedHeaderId;
-var renderTOC = extraModule.renderTOC;
-var renderTitle = extraModule.renderTitle;
-var renderFilename = extraModule.renderFilename;
-var scrollToHash = extraModule.scrollToHash;
 
-var render = require('./render');
+require('./render');
 
 var body = $(".slides").html();
 $(".slides").html(S(body).unescapeHTML().s);

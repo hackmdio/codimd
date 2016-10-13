@@ -5,9 +5,9 @@ var saveAs = require('file-saver').saveAs;
 require('../vendor/md-toc');
 
 //auto update last change
-var createtime = null;
-var lastchangetime = null;
-var lastchangeui = {
+window.createtime = null;
+window.lastchangetime = null;
+window.lastchangeui = {
     status: $(".ui-status-lastchange"),
     time: $(".ui-lastchange"),
     user: $(".ui-lastchangeuser"),
@@ -30,8 +30,8 @@ function updateLastChange() {
 }
 setInterval(updateLastChange, 60000);
 
-var lastchangeuser = null;
-var lastchangeuserprofile = null;
+window.lastchangeuser = null;
+window.lastchangeuserprofile = null;
 function updateLastChangeUser() {
     if (lastchangeui) {
       if (lastchangeuser && lastchangeuserprofile) {
@@ -1070,11 +1070,7 @@ md.use(pdfPlugin);
 
 module.exports = {
   md: md,
-  createtime: createtime,
-  lastchangetime: lastchangetime,
   updateLastChange: updateLastChange,
-  lastchangeui: lastchangeui,
-  lastchangeuser: lastchangeuser,
   postProcess: postProcess,
   finishView: finishView,
   autoLinkify: autoLinkify,
