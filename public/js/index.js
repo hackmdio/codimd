@@ -1,9 +1,6 @@
 /* jquery and jquery plugins */
 require('../vendor/showup/showup');
 
-/* bootstrap */
-require('bootstrap/dist/css/bootstrap.css');
-
 require('prismjs/themes/prism.css');
 require('highlight.js/styles/github-gist.css');
 
@@ -14,6 +11,8 @@ var toMarkdown = require('to-markdown');
 var saveAs = require('file-saver').saveAs;
 require('js-url');
 require('randomcolor');
+
+var _ = require("lodash");
 
 var List = require('list.js');
 

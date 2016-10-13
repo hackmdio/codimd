@@ -6,11 +6,13 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
-            '_': 'lodash',
             Visibility: "visibilityjs",
             Cookies: "js-cookie",
             emojify: "emojify.js",
-            key: "keymaster"
+            key: "keymaster",
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery"
         }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
@@ -76,7 +78,6 @@ module.exports = {
         slide: path.join(__dirname, 'public/js/slide.js'),
         locale: path.join(__dirname, 'public/js/locale.js'),
         vendor: [
-            "expose?$!expose?jQuery!jquery",
             "jquery-mousewheel",
             "jquery-scrollspy/jquery-scrollspy",
             "jquery-ui/ui/widgets/resizable",
@@ -86,7 +87,6 @@ module.exports = {
             "script!gist-embed",
             "expose?filterXSS!xss",
             "js-url",
-            "bootstrap",
             "expose?Spinner!spin.js",
             "script!Idle.Js",
             "expose?LZString!lz-string",
@@ -127,7 +127,10 @@ module.exports = {
     },
 
     externals: {
-        "viz.js": "Viz"
+        "viz.js": "Viz",
+        "socket.io-client": "io",
+        "lodash": "_",
+        "jquery": "$"
     },
 
     module: {

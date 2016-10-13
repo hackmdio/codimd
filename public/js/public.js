@@ -1,9 +1,6 @@
 /* jquery and jquery plugins */
 require('../vendor/showup/showup');
 
-/* bootstrap */
-require('bootstrap/dist/css/bootstrap.css');
-
 require('prismjs/themes/prism.css');
 require('highlight.js/styles/github-gist.css');
 

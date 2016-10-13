@@ -1,6 +1,3 @@
-require('bootstrap/js/tooltip');
-require('bootstrap/dist/css/bootstrap.css');
-
 require('prismjs/themes/prism.css');
 
 /* other vendors plugin */
