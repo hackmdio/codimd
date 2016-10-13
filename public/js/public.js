@@ -15,10 +15,6 @@ require('prismjs');
 require('prismjs/components/prism-wiki');
 require('to-markdown');
 
-require('raphael');
-require('js-sequence-diagrams');
-
-require('flowchart.js');
 require('file-saver');
 require('store');
 require('js-url');

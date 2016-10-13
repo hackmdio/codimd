@@ -4,19 +4,11 @@ require('bootstrap/dist/css/bootstrap.css');
 require('prismjs/themes/prism.css');
 
 /* other vendors plugin */
-require('gist-embed');
 var S = require('string');
 require('prismjs');
 require('prismjs/components/prism-wiki');
 require('to-markdown');
 
-require('raphael');
-require('js-sequence-diagrams');
-
-require('flowchart.js');
-require('file-saver');
-require('store');
-require('visibilityjs');
 require('../vendor/md-toc');
 require('randomcolor');
 

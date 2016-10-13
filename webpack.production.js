@@ -11,12 +11,12 @@ module.exports = Object.assign({}, baseConfig, {
             Visibility: "visibilityjs",
             Cookies: "js-cookie",
             emojify: "emojify.js",
-            io: "socket.io-client",
             key: "keymaster"
         }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
-            name: ["vendor", "public", "slide", "locale"],
+            names: ["vendor", "public", "slide", "locale"],
+            children: true,
             async: true,
             filename: '[name].js',
             minChunks: Infinity
@@ -78,6 +78,7 @@ module.exports = Object.assign({}, baseConfig, {
             compress: {
                 warnings: false
             },
+            mangle: false,
             sourceMap: false
         })
     ],

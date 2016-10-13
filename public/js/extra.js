@@ -2,6 +2,7 @@ var hljs = require('highlight.js');
 var PDFObject = require('pdfobject');
 var S = require('string');
 var saveAs = require('file-saver').saveAs;
+require('../vendor/md-toc');
 
 //auto update last change
 var createtime = null;
@@ -262,49 +263,49 @@ function finishView(view) {
             MathJax.Hub.Queue(viewAjaxCallback);
         }
     } catch (err) {}
-    //sequence diagram
-    var sequences = view.find(".sequence-diagram.raw").removeClass("raw");
-    sequences.each(function (key, value) {
-        try {
-            var $value = $(value);
-            var $ele = $(value).parent().parent();
+        //sequence diagram
+        var sequences = view.find(".sequence-diagram.raw").removeClass("raw");
+        sequences.each(function (key, value) {
+            try {
+                var $value = $(value);
+                var $ele = $(value).parent().parent();
 
-            var sequence = $value;
-            sequence.sequenceDiagram({
-                theme: 'simple'
-            });
+                var sequence = $value;
+                sequence.sequenceDiagram({
+                    theme: 'simple'
+                });
 
-            $ele.addClass('sequence-diagram');
-            $value.children().unwrap().unwrap();
-            var svg = $ele.find('> svg');
-            svg[0].setAttribute('viewBox', '0 0 ' + svg.attr('width') + ' ' + svg.attr('height'));
-            svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
-        } catch (err) {
-            console.warn(err);
-        }
-    });
-    //flowchart
-    var flow = view.find(".flow-chart.raw").removeClass("raw");
-    flow.each(function (key, value) {
-        try {
-            var $value = $(value);
-            var $ele = $(value).parent().parent();
+                $ele.addClass('sequence-diagram');
+                $value.children().unwrap().unwrap();
+                var svg = $ele.find('> svg');
+                svg[0].setAttribute('viewBox', '0 0 ' + svg.attr('width') + ' ' + svg.attr('height'));
+                svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            } catch (err) {
+                console.warn(err);
+            }
+        });
+        //flowchart
+        var flow = view.find(".flow-chart.raw").removeClass("raw");
+        flow.each(function (key, value) {
+            try {
+                var $value = $(value);
+                var $ele = $(value).parent().parent();
 
-            var chart = flowchart.parse($value.text());
-            $value.html('');
-            chart.drawSVG(value, {
-                'line-width': 2,
-                'fill': 'none',
-                'font-size': '16px',
-                'font-family': "'Andale Mono', monospace"
-            });
+                var chart = flowchart.parse($value.text());
+                $value.html('');
+                chart.drawSVG(value, {
+                    'line-width': 2,
+                    'fill': 'none',
+                    'font-size': '16px',
+                    'font-family': "'Andale Mono', monospace"
+                });
 
-            $ele.addClass('flow-chart');
-            $value.children().unwrap().unwrap();
-        } catch (err) {
-            console.warn(err);
-        }
-    });
+                $ele.addClass('flow-chart');
+                $value.children().unwrap().unwrap();
+            } catch (err) {
+                console.warn(err);
+            }
+        });
     //graphviz
     var Viz = require("viz.js");
     var graphvizs = view.find(".graphviz.raw").removeClass("raw");
@@ -434,14 +435,14 @@ function finishView(view) {
         });
     //pdf
     view.find(".pdf.raw").removeClass("raw")
-        .each(function (key, value) {
-            var url = $(value).attr('data-pdfurl');
-            var inner = $('<div></div>');
-            $(this).append(inner);
-            PDFObject.embed(url, inner, {
-                height: '400px'
+            .each(function (key, value) {
+                var url = $(value).attr('data-pdfurl');
+                var inner = $('<div></div>');
+                $(this).append(inner);
+                PDFObject.embed(url, inner, {
+                    height: '400px'
+                });
             });
-        });
     //syntax highlighting
     view.find("pre.raw").removeClass("raw")
         .each(function (key, value) {

@@ -7,24 +7,15 @@ require('bootstrap/dist/css/bootstrap.css');
 require('prismjs/themes/prism.css');
 require('highlight.js/styles/github-gist.css');
 
-/* other vendors plugin */
-require('gist-embed');
-require('string');
 require('prismjs');
 require('prismjs/components/prism-wiki');
-require('to-markdown');
+var toMarkdown = require('to-markdown');
 
-require('raphael');
-require('js-sequence-diagrams');
-
-require('flowchart.js');
 var saveAs = require('file-saver').saveAs;
-require('store');
 require('js-url');
-require('visibilityjs');
-var List = require('list.js');
-require('../vendor/md-toc');
 require('randomcolor');
+
+var List = require('list.js');
 
 var common = require('./common.js');
 var urlpath = common.urlpath;
@@ -2268,6 +2259,7 @@ function havePermission() {
 window.havePermission = havePermission;
 
 //socket.io actions
+var io = require("socket.io-client");
 var socket = io.connect({
     path: urlpath ? '/' + urlpath + '/socket.io/' : '',
     timeout: 5000 //5 secs to timeout

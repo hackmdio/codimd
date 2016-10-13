@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     plugins: [
@@ -9,15 +10,63 @@ module.exports = {
             Visibility: "visibilityjs",
             Cookies: "js-cookie",
             emojify: "emojify.js",
-            io: "socket.io-client",
             key: "keymaster"
         }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
-            name: ["vendor", "public", "slide", "locale"],
+            names: ["vendor", "public", "slide", "locale"],
+            children: true,
             async: true,
             filename: '[name].js',
             minChunks: Infinity
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/views/includes/header.ejs',
+            chunks: ['vendor', 'index'],
+            filename: path.join(__dirname, 'public/views/build/index-header.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/views/includes/scripts.ejs',
+            chunks: ['vendor', 'index'],
+            filename: path.join(__dirname, 'public/views/build/index-scripts.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/views/includes/header.ejs',
+            chunks: ['vendor', 'locale'],
+            filename: path.join(__dirname, 'public/views/build/cover-header.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/views/includes/scripts.ejs',
+            chunks: ['vendor', 'locale'],
+            filename: path.join(__dirname, 'public/views/build/cover-scripts.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/views/includes/header.ejs',
+            chunks: ['vendor', 'public'],
+            filename: path.join(__dirname, 'public/views/build/pretty-header.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/views/includes/scripts.ejs',
+            chunks: ['vendor', 'public'],
+            filename: path.join(__dirname, 'public/views/build/pretty-scripts.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/views/includes/header.ejs',
+            chunks: ['vendor', 'slide'],
+            filename: path.join(__dirname, 'public/views/build/slide-header.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/views/includes/scripts.ejs',
+            chunks: ['vendor', 'slide'],
+            filename: path.join(__dirname, 'public/views/build/slide-scripts.ejs'),
+            inject: false
         })
     ],
 
@@ -34,21 +83,23 @@ module.exports = {
             "jquery-ui/ui/widgets/tooltip",
             "jquery-ui/ui/widgets/controlgroup",
             "jquery-ui/ui/widgets/autocomplete",
-            "expose?LZString!lz-string",
+            "script!gist-embed",
             "expose?filterXSS!xss",
             "js-url",
             "bootstrap",
             "expose?Spinner!spin.js",
             "script!Idle.Js",
-            "expose?Viz!viz.js",
+            "expose?LZString!lz-string",
             "expose?ListPagination!list.pagination.js/dist/list.pagination.js",
-            path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
-            path.join(__dirname, 'public/vendor/select2/select2.min.js'),
-            path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
-            path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
-            path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
-            path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
-            path.join(__dirname, 'public/vendor/ot/ot.min.js')
+            "script!codemirror",
+            "script!select2",
+            "script!inlineAttachment",
+            "script!jqueryTextcomplete",
+            "script!codemirrorSpellChecker",
+            "script!codemirrorInlineAttachment",
+            "script!ot",
+            "flowchart.js",
+            "js-sequence-diagrams"
         ]
     },
 
@@ -59,11 +110,20 @@ module.exports = {
     },
 
     resolve: {
-        root: [
+        modulesDirectories: [
             path.resolve(__dirname, 'src'),
             path.resolve(__dirname, 'node_modules')
         ],
-        extensions: ["", ".js"]
+        extensions: ["", ".js"],
+        alias: {
+            codemirror: path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
+            select2: path.join(__dirname, 'public/vendor/select2/select2.min.js'),
+            inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
+            jqueryTextcomplete: path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
+            codemirrorSpellChecker: path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
+            codemirrorInlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
+            ot: path.join(__dirname, 'public/vendor/ot/ot.min.js')
+        }
     },
 
     externals: {
@@ -98,19 +158,11 @@ module.exports = {
         }, {
             test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
             loader: "url?limit=10000&mimetype=image/svg+xml"
-        }, {
-            test: /\.js/,
-            loader: "script-loader",
-            include: [
-                path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
-                path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
-                path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
-                path.join(__dirname, 'public/vendor/select2/select2.min.js'),
-                path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
-                path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
-                path.join(__dirname, 'public/vendor/ot/ot.min.js')
-            ]
-        }]
+        }],
+
+        noParse: [
+            "gist-embed"
+        ]
     },
 
     node: {
