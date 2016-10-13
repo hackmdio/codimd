@@ -53,6 +53,8 @@ var owner = extra.owner;
 var updateLastChangeUser = extra.updateLastChangeUser;
 var updateOwner = extra.updateOwner;
 var parseMeta = extra.parseMeta;
+var exportToHTML = extra.exportToHTML;
+var exportToRawHTML = extra.exportToRawHTML;
 
 var historyModule = require('./history');
 var writeHistory = historyModule.writeHistory;
@@ -755,7 +757,7 @@ function updateStatusBar() {
 }
 
 //ui vars
-var ui = {
+window.ui = {
     spinner: $(".ui-spinner"),
     content: $(".ui-content"),
     toolbar: {

@@ -13,7 +13,8 @@ module.exports = {
             $: "jquery",
             jQuery: "jquery",
             "window.jQuery": "jquery",
-            "moment": "moment"
+            "moment": "moment",
+            "Handlebars": "handlebars"
         }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
@@ -127,7 +128,8 @@ module.exports = {
         "socket.io-client": "io",
         "lodash": "_",
         "jquery": "$",
-        "moment": "moment"
+        "moment": "moment",
+        "handlebars": "Handlebars"
     },
 
     module: {

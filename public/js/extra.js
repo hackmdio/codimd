@@ -1084,5 +1084,7 @@ module.exports = {
   owner: owner,
   updateLastChangeUser: updateLastChangeUser,
   updateOwner: updateOwner,
-  parseMeta: parseMeta
+  parseMeta: parseMeta,
+  exportToHTML: exportToHTML,
+  exportToRawHTML: exportToRawHTML
 };
