@@ -1083,5 +1083,6 @@ module.exports = {
   scrollToHash: scrollToHash,
   owner: owner,
   updateLastChangeUser: updateLastChangeUser,
-  updateOwner: updateOwner
+  updateOwner: updateOwner,
+  parseMeta: parseMeta
 };

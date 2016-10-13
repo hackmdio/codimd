@@ -52,6 +52,7 @@ var scrollToHash = extra.scrollToHash;
 var owner = extra.owner;
 var updateLastChangeUser = extra.updateLastChangeUser;
 var updateOwner = extra.updateOwner;
+var parseMeta = extra.parseMeta;
 
 var historyModule = require('./history');
 var writeHistory = historyModule.writeHistory;

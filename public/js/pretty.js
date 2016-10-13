@@ -8,6 +8,7 @@ var generateToc = extra.generateToc;
 var smoothHashScroll = extra.smoothHashScroll;
 var postProcess = extra.postProcess;
 var updateLastChange = extra.updateLastChange;
+var parseMeta = extra.parseMeta;
 var preventXSS = require('./render').preventXSS;
 
 var markdown = $("#doc.markdown-body");
