@@ -12,7 +12,9 @@ module.exports = {
             key: "keymaster",
             $: "jquery",
             jQuery: "jquery",
-            "window.jQuery": "jquery"
+            "window.jQuery": "jquery",
+            "moment": "moment",
+            "Handlebars": "handlebars"
         }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
@@ -78,12 +80,7 @@ module.exports = {
         slide: path.join(__dirname, 'public/js/slide.js'),
         locale: path.join(__dirname, 'public/js/locale.js'),
         vendor: [
-            "jquery-mousewheel",
-            "jquery-scrollspy/jquery-scrollspy",
-            "jquery-ui/ui/widgets/resizable",
-            "jquery-ui/ui/widgets/tooltip",
-            "jquery-ui/ui/widgets/controlgroup",
-            "jquery-ui/ui/widgets/autocomplete",
+            "imports?$=jquery!jquery-mousewheel",
             "script!gist-embed",
             "expose?filterXSS!xss",
             "js-url",
@@ -130,7 +127,9 @@ module.exports = {
         "viz.js": "Viz",
         "socket.io-client": "io",
         "lodash": "_",
-        "jquery": "$"
+        "jquery": "$",
+        "moment": "moment",
+        "handlebars": "Handlebars"
     },
 
     module: {

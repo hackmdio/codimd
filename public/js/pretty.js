@@ -7,11 +7,11 @@ var renderTOC = extra.renderTOC;
 var generateToc = extra.generateToc;
 var smoothHashScroll = extra.smoothHashScroll;
 var postProcess = extra.postProcess;
-var lastchangeui = extra.lastchangeui;
 var updateLastChange = extra.updateLastChange;
+var parseMeta = extra.parseMeta;
 var preventXSS = require('./render').preventXSS;
 
-var markdown = $(".markdown-body");
+var markdown = $("#doc.markdown-body");
 var text = $('<textarea/>').html(markdown.html()).text();
 var lastMeta = md.meta;
 md.meta = {};

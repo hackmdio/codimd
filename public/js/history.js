@@ -3,14 +3,13 @@ var store = require('store');
 var common = require('./common');
 var checkIfAuth = common.checkIfAuth;
 var urlpath = common.urlpath;
-var serverurl = common.serverurl;
 var getLoginState = common.getLoginState;
 
 var extra = require('./extra');
 var renderFilename = extra.renderFilename;
 var md = extra.md;
 
-var migrateHistoryFromTempCallback = null;
+window.migrateHistoryFromTempCallback = null;
 
 migrateHistoryFromTemp();
 
@@ -417,5 +416,6 @@ module.exports = {
     postHistoryToServer: postHistoryToServer,
     deleteServerHistory: deleteServerHistory,
     parseServerToHistory: parseServerToHistory,
-    saveStorageHistoryToServer: saveStorageHistoryToServer
+    saveStorageHistoryToServer: saveStorageHistoryToServer,
+    clearDuplicatedHistory: clearDuplicatedHistory
 }

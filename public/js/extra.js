@@ -5,9 +5,9 @@ var saveAs = require('file-saver').saveAs;
 require('../vendor/md-toc');
 
 //auto update last change
-var createtime = null;
-var lastchangetime = null;
-var lastchangeui = {
+window.createtime = null;
+window.lastchangetime = null;
+window.lastchangeui = {
     status: $(".ui-status-lastchange"),
     time: $(".ui-lastchange"),
     user: $(".ui-lastchangeuser"),
@@ -30,8 +30,8 @@ function updateLastChange() {
 }
 setInterval(updateLastChange, 60000);
 
-var lastchangeuser = null;
-var lastchangeuserprofile = null;
+window.lastchangeuser = null;
+window.lastchangeuserprofile = null;
 function updateLastChangeUser() {
     if (lastchangeui) {
       if (lastchangeuser && lastchangeuserprofile) {
@@ -544,7 +544,6 @@ function exportToRawHTML(view) {
 }
 
 var common = require('./common.js');
-var serverurl = common.serverurl;
 //extract markdown body to html and compile to template
 function exportToHTML(view) {
     var title = renderTitle(ui.area.markdown);
@@ -1070,11 +1069,7 @@ md.use(pdfPlugin);
 
 module.exports = {
   md: md,
-  createtime: createtime,
-  lastchangetime: lastchangetime,
   updateLastChange: updateLastChange,
-  lastchangeui: lastchangeui,
-  lastchangeuser: lastchangeuser,
   postProcess: postProcess,
   finishView: finishView,
   autoLinkify: autoLinkify,
@@ -1087,5 +1082,8 @@ module.exports = {
   scrollToHash: scrollToHash,
   owner: owner,
   updateLastChangeUser: updateLastChangeUser,
-  updateOwner: updateOwner
+  updateOwner: updateOwner,
+  parseMeta: parseMeta,
+  exportToHTML: exportToHTML,
+  exportToRawHTML: exportToRawHTML
 };

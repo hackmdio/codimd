@@ -1,7 +1,6 @@
 var common = require('./common');
 var checkIfAuth = common.checkIfAuth;
 var urlpath = common.urlpath;
-var serverurl = common.serverurl;
 var resetCheckAuth = common.resetCheckAuth;
 var getLoginState = common.getLoginState;
 var clearLoginState = common.clearLoginState;
@@ -17,6 +16,7 @@ var postHistoryToServer = historyModule.postHistoryToServer;
 var deleteServerHistory = historyModule.deleteServerHistory;
 var parseServerToHistory = historyModule.parseServerToHistory;
 var saveStorageHistoryToServer = historyModule.saveStorageHistoryToServer;
+var clearDuplicatedHistory = historyModule.clearDuplicatedHistory;
 
 var saveAs = require('file-saver').saveAs;
 var List = require('list.js');

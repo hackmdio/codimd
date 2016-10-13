@@ -21,7 +21,6 @@ var urlpath = common.urlpath;
 var noteid = common.noteid;
 var debug = common.debug;
 var version = common.version;
-var serverurl = common.serverurl;
 var GOOGLE_API_KEY = common.GOOGLE_API_KEY;
 var GOOGLE_CLIENT_ID = common.GOOGLE_CLIENT_ID;
 var DROPBOX_APP_KEY = common.DROPBOX_APP_KEY;
@@ -38,15 +37,12 @@ var syncScrollToView = syncScroll.syncScrollToView;
 require('./pretty');
 var extra = require('./extra');
 var md = extra.md;
-var createtime = extra.createtime;
 var updateLastChange = extra.updateLastChange;
 var postProcess = extra.postProcess;
 var finishView = extra.finishView;
-var lastchangetime = extra.lastchangetime;
 var autoLinkify = extra.autoLinkify;
 var generateToc = extra.generateToc;
 var smoothHashScroll = extra.smoothHashScroll;
-var lastchangeuser = extra.lastchangeuser;
 var deduplicatedHeaderId = extra.deduplicatedHeaderId;
 var renderTOC = extra.renderTOC;
 var renderTitle = extra.renderTitle;
@@ -55,6 +51,9 @@ var scrollToHash = extra.scrollToHash;
 var owner = extra.owner;
 var updateLastChangeUser = extra.updateLastChangeUser;
 var updateOwner = extra.updateOwner;
+var parseMeta = extra.parseMeta;
+var exportToHTML = extra.exportToHTML;
+var exportToRawHTML = extra.exportToRawHTML;
 
 var historyModule = require('./history');
 var writeHistory = historyModule.writeHistory;
@@ -757,7 +756,7 @@ function updateStatusBar() {
 }
 
 //ui vars
-var ui = {
+window.ui = {
     spinner: $(".ui-spinner"),
     content: $(".ui-content"),
     toolbar: {

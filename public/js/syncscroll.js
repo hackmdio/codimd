@@ -109,7 +109,8 @@ md.use(markdownitContainer, 'info', { render: renderContainer });
 md.use(markdownitContainer, 'warning', { render: renderContainer });
 md.use(markdownitContainer, 'danger', { render: renderContainer });
 
-var syncscroll = true;
+// FIXME: expose syncscroll to window
+window.syncscroll = true;
 
 var preventSyncScrollToEdit = false;
 var preventSyncScrollToView = false;
