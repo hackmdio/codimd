@@ -48,8 +48,8 @@ function updateLastChangeUser() {
     }
 }
 
-var owner = null;
-var ownerprofile = null;
+window.owner = null;
+window.ownerprofile = null;
 function updateOwner() {
     if (ownerui) {
       if (owner && ownerprofile && owner !== lastchangeuser) {
@@ -1080,7 +1080,6 @@ module.exports = {
   generateToc: generateToc,
   smoothHashScroll: smoothHashScroll,
   scrollToHash: scrollToHash,
-  owner: owner,
   updateLastChangeUser: updateLastChangeUser,
   updateOwner: updateOwner,
   parseMeta: parseMeta,
