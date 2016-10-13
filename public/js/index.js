@@ -21,7 +21,6 @@ var urlpath = common.urlpath;
 var noteid = common.noteid;
 var debug = common.debug;
 var version = common.version;
-var serverurl = common.serverurl;
 var GOOGLE_API_KEY = common.GOOGLE_API_KEY;
 var GOOGLE_CLIENT_ID = common.GOOGLE_CLIENT_ID;
 var DROPBOX_APP_KEY = common.DROPBOX_APP_KEY;

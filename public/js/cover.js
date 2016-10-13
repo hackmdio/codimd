@@ -1,7 +1,6 @@
 var common = require('./common');
 var checkIfAuth = common.checkIfAuth;
 var urlpath = common.urlpath;
-var serverurl = common.serverurl;
 var resetCheckAuth = common.resetCheckAuth;
 var getLoginState = common.getLoginState;
 var clearLoginState = common.clearLoginState;

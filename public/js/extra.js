@@ -544,7 +544,6 @@ function exportToRawHTML(view) {
 }
 
 var common = require('./common.js');
-var serverurl = common.serverurl;
 //extract markdown body to html and compile to template
 function exportToHTML(view) {
     var title = renderTitle(ui.area.markdown);

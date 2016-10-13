@@ -14,7 +14,6 @@ var urlpath = commonModule.urlpath;
 var noteid = commonModule.noteid;
 var debug = commonModule.debug;
 var version = commonModule.version;
-var serverurl = commonModule.serverurl;
 var GOOGLE_API_KEY = commonModule.GOOGLE_API_KEY;
 var GOOGLE_CLIENT_ID = commonModule.GOOGLE_CLIENT_ID;
 var DROPBOX_APP_KEY = commonModule.DROPBOX_APP_KEY;
