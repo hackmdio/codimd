@@ -17,6 +17,7 @@ var postHistoryToServer = historyModule.postHistoryToServer;
 var deleteServerHistory = historyModule.deleteServerHistory;
 var parseServerToHistory = historyModule.parseServerToHistory;
 var saveStorageHistoryToServer = historyModule.saveStorageHistoryToServer;
+var clearDuplicatedHistory = historyModule.clearDuplicatedHistory;
 
 var saveAs = require('file-saver').saveAs;
 var List = require('list.js');
