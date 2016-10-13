@@ -78,8 +78,7 @@ module.exports = {
         slide: path.join(__dirname, 'public/js/slide.js'),
         locale: path.join(__dirname, 'public/js/locale.js'),
         vendor: [
-            "jquery-mousewheel",
-            "jquery-scrollspy/jquery-scrollspy",
+            "imports?$=jquery!jquery-mousewheel",
             "jquery-ui/ui/widgets/resizable",
             "jquery-ui/ui/widgets/tooltip",
             "jquery-ui/ui/widgets/controlgroup",
