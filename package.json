@@ -32,7 +32,6 @@
     "gist-embed": "github:yukaii/gist-embed",
     "handlebars": "^4.0.5",
     "helmet": "^2.3.0",
-    "highlight.js": "^9.7.0",
     "i18n": "^0.8.3",
     "imgur": "git+https://github.com/hackmdio/node-imgur.git",
     "jquery": "^3.1.1",

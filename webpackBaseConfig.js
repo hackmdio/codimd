@@ -129,7 +129,8 @@ module.exports = {
         "lodash": "_",
         "jquery": "$",
         "moment": "moment",
-        "handlebars": "Handlebars"
+        "handlebars": "Handlebars",
+        "highlight.js": "hljs"
     },
 
     module: {
