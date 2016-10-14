@@ -81,7 +81,6 @@ module.exports = {
         locale: path.join(__dirname, 'public/js/locale.js'),
         vendor: [
             "imports?$=jquery!jquery-mousewheel",
-            "script!gist-embed",
             "expose?filterXSS!xss",
             "js-url",
             "expose?Spinner!spin.js",
@@ -160,11 +159,7 @@ module.exports = {
         }, {
             test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
             loader: "url?limit=10000&mimetype=image/svg+xml"
-        }],
-
-        noParse: [
-            "gist-embed"
-        ]
+        }]
     },
 
     node: {
