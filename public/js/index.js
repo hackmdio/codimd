@@ -57,6 +57,9 @@ var syncScrollToView = syncScroll.syncScrollToView;
 var historyModule = require('./history');
 var writeHistory = historyModule.writeHistory;
 var deleteServerHistory = historyModule.deleteServerHistory;
+var getHistory = historyModule.getHistory;
+var saveHistory = historyModule.saveHistory;
+var removeHistory = historyModule.removeHistory;
 
 var renderer = require('./render');
 var preventXSS = renderer.preventXSS;
@@ -2292,9 +2295,17 @@ socket.on('error', function (data) {
         location.href = serverurl + "/403";
 });
 socket.on('delete', function () {
-    deleteServerHistory(noteid, function (err, data) {
-        if (!err) location.href = serverurl;
-    });
+    if (personalInfo.login) {
+        deleteServerHistory(noteid, function (err, data) {
+            if (!err) location.href = serverurl;
+        });
+    } else {
+        getHistory(function (notehistory) {
+            var newnotehistory = removeHistory(noteid, notehistory);
+            saveHistory(newnotehistory);
+            location.href = serverurl;
+        });
+    }   
 });
 var retryOnDisconnect = false;
 var retryTimer = null;
