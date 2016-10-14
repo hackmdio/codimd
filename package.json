@@ -6,7 +6,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
-    "build": "webpack --config webpack.production.js --progress --colors"
+    "build": "webpack --config webpack.production.js --progress --colors",
+    "assets:install": "bower install",
+    "postinstall": "bin/heroku",
+    "start": "node app.js"
   },
   "dependencies": {
     "Idle.Js": "github:shawnmclean/Idle.js",
@@ -121,6 +124,7 @@
   "devDependencies": {
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
+    "bower": "^1.7.9",
     "bower-webpack-plugin": "^0.1.9",
     "css-loader": "^0.25.0",
     "ejs-loader": "^0.3.0",

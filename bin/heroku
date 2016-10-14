@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -e
+
+if [ "$BUILD_ASSETS" = true ]; then
+  BUILD_ASSETS=false npm install && npm run assets:install
+
+  # setup config files
+  cat << EOF > .sequelizerc
+var path = require('path');
+
+module.exports = {
+    'config':          path.resolve('config.json'),
+    'migrations-path': path.resolve('lib', 'migrations'),
+    'models-path':     path.resolve('lib', 'models'),
+    'url':             process.env.DATABASE_URL,
+    'dialect':         process.env.DB_TYPE
+}
+
+EOF
+
+  cat << EOF > config.json
+
+{
+  "production": {
+  }
+}
+
+EOF
+
+  cp public/js/config.js.example public/js/config.js
+
+  # build app
+  npm run build
+fi

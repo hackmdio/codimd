@@ -2,7 +2,9 @@
 
 # run command at repo root
 CURRENT_PATH=$PWD
-cd $(git rev-parse --show-toplevel)
+if [ -d .git ]; then
+  cd $(git rev-parse --show-toplevel)
+fi
 
 if ! type npm > /dev/null
 then
@@ -34,7 +36,7 @@ if [ ! -f .sequelizerc ]; then
 fi
 
 echo "install npm and bower packages"
-npm install && bower install
+BUILD_ASSETS=false npm install && bower install
 
 cat << EOF
 
