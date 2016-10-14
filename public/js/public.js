@@ -5,9 +5,7 @@ require('prismjs/themes/prism.css');
 require('highlight.js/styles/github-gist.css');
 
 /* other vendors plugin */
-require('gist-embed');
 require('string');
-require('highlight.js');
 require('prismjs');
 require('prismjs/components/prism-wiki');
 require('to-markdown');

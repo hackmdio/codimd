@@ -7,11 +7,15 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = Object.assign({}, baseConfig, {
     plugins: [
         new webpack.ProvidePlugin({
-            '_': 'lodash',
             Visibility: "visibilityjs",
             Cookies: "js-cookie",
             emojify: "emojify.js",
-            key: "keymaster"
+            key: "keymaster",
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery",
+            "moment": "moment",
+            "Handlebars": "handlebars"
         }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({

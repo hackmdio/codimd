@@ -81,13 +81,11 @@ module.exports = {
         locale: path.join(__dirname, 'public/js/locale.js'),
         vendor: [
             "imports?$=jquery!jquery-mousewheel",
-            "script!gist-embed",
             "expose?filterXSS!xss",
             "js-url",
             "expose?Spinner!spin.js",
             "script!Idle.Js",
             "expose?LZString!lz-string",
-            "expose?ListPagination!list.pagination.js/dist/list.pagination.js",
             "script!codemirror",
             "script!select2",
             "script!inlineAttachment",
@@ -129,7 +127,8 @@ module.exports = {
         "lodash": "_",
         "jquery": "$",
         "moment": "moment",
-        "handlebars": "Handlebars"
+        "handlebars": "Handlebars",
+        "highlight.js": "hljs"
     },
 
     module: {
@@ -160,11 +159,7 @@ module.exports = {
         }, {
             test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
             loader: "url?limit=10000&mimetype=image/svg+xml"
-        }],
-
-        noParse: [
-            "gist-embed"
-        ]
+        }]
     },
 
     node: {
