@@ -171,6 +171,12 @@ var s = "JavaScript syntax highlighting";
 alert(s);
 ```
 
+> Somtimes you have a super long text without breaks. It's time to use `!` to wrap your code.
+
+```!
+When you’re a carpenter making a beautiful chest of drawers, you’re not going to use a piece of plywood on the back.
+```
+
 ### Blockquote Tags:
 > Using the syntax below to specifiy your **name, time and color** to vary the blockquotes.
 > [name=ChengHan Wu] [time=Sun, Jun 28, 2015 9:59 PM] [color=#907bf7]

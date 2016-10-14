@@ -448,7 +448,8 @@ function finishView(view) {
         .each(function (key, value) {
             var langDiv = $(value).find('code.hljs');
             if (langDiv.length > 0) {
-                var reallang = langDiv[0].className.replace('hljs', '').trim();
+                var reallang = langDiv[0].className.replace(/hljs|wrap/g, '').trim();
+                if (!reallang) return;
                 var codeDiv = $(value).find('.code');
                 var code = "";
                 if (codeDiv.length > 0) code = codeDiv.html();
@@ -897,7 +898,8 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
 
     if (info) {
         langName = info.split(/\s+/g)[0];
-        token.attrJoin('class', options.langPrefix + langName.replace(/\=$|\=\d+$|\=\+$/, ''));
+        if (/\!$/.test(info)) token.attrJoin('class', 'wrap');
+        token.attrJoin('class', options.langPrefix + langName.replace(/\=$|\=\d+$|\=\+$|\!$|\=\!$/, ''));
         token.attrJoin('class', 'hljs');
     }
 
