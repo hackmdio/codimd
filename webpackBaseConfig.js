@@ -87,7 +87,6 @@ module.exports = {
             "expose?Spinner!spin.js",
             "script!Idle.Js",
             "expose?LZString!lz-string",
-            "expose?ListPagination!list.pagination.js/dist/list.pagination.js",
             "script!codemirror",
             "script!select2",
             "script!inlineAttachment",
