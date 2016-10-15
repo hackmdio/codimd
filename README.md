@@ -36,7 +36,7 @@ Prerequisite
 ---
 
 - Node.js 4.x or up (test up to 6.7.0)
-- Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL)
+- Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm and bower
 
 Get started
