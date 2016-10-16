@@ -15,6 +15,13 @@ Thanks for using! :smile:
 Before you go too far, here is the great docker repo for HackMD.  
 With docker, you can deploy a server in minutes without any downtime.
 
+Heroku Deployment
+---
+
+You can quickly setup a sample heroku hackmd application by clicking the button below.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 [migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
 ---
 

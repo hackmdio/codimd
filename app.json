@@ -1,0 +1,111 @@
+{
+    "name": "HackMD",
+    "description": "Realtime collaborative markdown notes on all platforms",
+    "keywords": [
+        "Collaborative",
+        "Markdown",
+        "Notes"
+    ],
+    "website": "https://hackmd.io",
+    "repository": "https://github.com/hackmdio/hackmd",
+    "logo": "https://github.com/hackmdio/hackmd/raw/master/public/hackmd-icon-1024.png",
+    "success_url": "/",
+    "scripts": {
+        "postdeploy": "./node_modules/.bin/sequelize db:migrate"
+    },
+    "env": {
+        "BUILD_ASSETS": {
+            "description": "Our build script variable",
+            "value": "true"
+        },
+        "NPM_CONFIG_PRODUCTION": {
+            "description": "Let npm also install development build tool",
+            "value": "false"
+        },
+        "DB_TYPE": {
+            "description": "Specify database type. See sequelize available databases. Default using postgres",
+            "value": "postgres"
+        },
+
+        "HMD_DOMAIN": {
+            "description": "domain name",
+            "required": false
+        },
+        "HMD_URL_PATH": {
+            "description": "sub url path, like `www.example.com/<URL_PATH>`",
+            "required": false
+        },
+        "HMD_ALLOW_ORIGIN": {
+            "description": "web app port",
+            "required": false,
+            "value": "80"
+        },
+        "HMD_PROTOCOL_USESSL": {
+            "description": "set to use ssl protocol for resources path (only applied when domain is set)",
+            "required": false
+        },
+        "HMD_URL_ADDPORT": {
+            "description": "set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set)",
+            "required": false
+        },
+        "HMD_FACEBOOK_CLIENTID": {
+            "description": "Facebook API client id",
+            "required": false
+        },
+        "HMD_FACEBOOK_CLIENTSECRET": {
+            "description": "Facebook API client secret",
+            "required": false
+        },
+        "HMD_TWITTER_CONSUMERKEY": {
+            "description": "Twitter API consumer key",
+            "required": false
+        },
+        "HMD_TWITTER_CONSUMERSECRET": {
+            "description": "Twitter API consumer secret",
+            "required": false
+        },
+        "HMD_GITHUB_CLIENTID": {
+            "description": "GitHub API client id",
+            "required": false
+        },
+        "HMD_GITHUB_CLIENTSECRET": {
+            "description": "GitHub API client secret",
+            "required": false
+        },
+        "HMD_GITLAB_BASEURL": {
+            "description": "GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional)",
+            "required": false
+        },
+        "HMD_GITLAB_CLIENTID": {
+            "description": "GitLab API client id",
+            "required": false
+        },
+        "HMD_GITLAB_CLIENTSECRET": {
+            "description": "GitLab API client secret",
+            "required": false
+        },
+        "HMD_DROPBOX_CLIENTID": {
+            "description": "Dropbox API client id",
+            "required": false
+        },
+        "HMD_DROPBOX_CLIENTSECRET": {
+            "description": "Dropbox API client secret",
+            "required": false
+        },
+        "HMD_GOOGLE_CLIENTID": {
+            "description": "Google API client id",
+            "required": false
+        },
+        "HMD_GOOGLE_CLIENTSECRET": {
+            "description": "Google API client secret",
+            "required": false
+        },
+        "HMD_IMGUR_CLIENTID": {
+            "description": "Imgur API client id",
+            "required": false
+        }
+    },
+    "addons": [
+        "heroku-postgresql"
+    ]
+}
