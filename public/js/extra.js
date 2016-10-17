@@ -449,13 +449,16 @@ function finishView(view) {
             var langDiv = $(value).find('code.hljs');
             if (langDiv.length > 0) {
                 var reallang = langDiv[0].className.replace(/hljs|wrap/g, '').trim();
-                if (!reallang) return;
                 var codeDiv = $(value).find('.code');
                 var code = "";
                 if (codeDiv.length > 0) code = codeDiv.html();
                 else code = langDiv.html();
                 code = md.utils.unescapeAll(code);
-                if (reallang == "tiddlywiki" || reallang == "mediawiki") {
+                if (!reallang) {
+                    var result = {
+                        value: md.utils.escapeHtml(code)
+                    };
+                } else if (reallang == "tiddlywiki" || reallang == "mediawiki") {
                     var result = {
                         value: Prism.highlight(code, Prism.languages.wiki)
                     };
