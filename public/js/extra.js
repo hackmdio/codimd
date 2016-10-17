@@ -352,19 +352,9 @@ function finishView(view) {
     images.each(function (key, value) {
         // if it's already wrapped by link, then ignore
         var $value = $(value);
-        if ($value.parent()[0].nodeName === 'A') return;
-        var src = $(value).attr('src');
-        var a = $('<a>');
-        if (src) {
-            a.attr('href', src);
-            a.attr('target', "_blank");
-        }
-        var clone = $value.clone();
-        clone[0].onload = function (e) {
+        $value[0].onload = function (e) {
             if(viewAjaxCallback) viewAjaxCallback();
         };
-        a.html(clone);
-        $value.replaceWith(a);
     });
     //blockquote
     var blockquote = view.find("blockquote.raw").removeClass("raw");
