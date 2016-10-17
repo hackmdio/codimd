@@ -2262,7 +2262,8 @@ window.havePermission = havePermission;
 var io = require("socket.io-client");
 var socket = io.connect({
     path: urlpath ? '/' + urlpath + '/socket.io/' : '',
-    timeout: 5000 //5 secs to timeout
+    timeout: 5000, //5 secs to timeout,
+    reconnectionAttempts: 20 // retry 20 times on connect failed
 });
 //overwrite original event for checking login state
 var on = socket.on;
@@ -2636,6 +2637,8 @@ socket.on('refresh', function (data) {
             scrollToHash();
         }, 1);
     }
+    if (editor.getOption('readOnly'))
+        editor.setOption('readOnly', false);
 });
 
 var EditorClient = ot.EditorClient;
@@ -2688,9 +2691,6 @@ socket.on('doc', function (obj) {
         isDirty = true;
         updateView();
     }
-
-    if (editor.getOption('readOnly'))
-        editor.setOption('readOnly', false);
 
     restoreInfo();
 });
