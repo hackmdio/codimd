@@ -434,12 +434,12 @@ function finishView(view) {
                 });
             });
     //syntax highlighting
-    view.find("pre.raw").removeClass("raw")
+    view.find("pre > code.raw").removeClass("raw")
         .each(function (key, value) {
-            var langDiv = $(value).find('code.hljs');
+            var langDiv = $(value);
             if (langDiv.length > 0) {
                 var reallang = langDiv[0].className.replace(/hljs|wrap/g, '').trim();
-                var codeDiv = $(value).find('.code');
+                var codeDiv = langDiv.find('.code');
                 var code = "";
                 if (codeDiv.length > 0) code = codeDiv.html();
                 else code = langDiv.html();
@@ -894,6 +894,7 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
         if (/\!$/.test(info)) token.attrJoin('class', 'wrap');
         token.attrJoin('class', options.langPrefix + langName.replace(/\=$|\=\d+$|\=\+$|\!$|\=\!$/, ''));
         token.attrJoin('class', 'hljs');
+        token.attrJoin('class', 'raw');
     }
 
     if (options.highlight) {
@@ -906,7 +907,7 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
         return highlighted + '\n';
     }
 
-    return  '<pre class="raw"><code' + self.renderAttrs(token) + '>'
+    return  '<pre><code' + self.renderAttrs(token) + '>'
         + highlighted
         + '</code></pre>\n';
 };
