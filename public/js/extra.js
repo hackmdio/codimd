@@ -246,12 +246,6 @@ function finishView(view) {
         if ($(value).children().length == 0)
             $(value).gist(viewAjaxCallback);
     });
-    //emojify
-    try {
-        emojify.run(view[0]);
-    } catch (err) {
-        console.warn(err);
-    }
     //mathjax
     var mathjaxdivs = view.find('span.mathjax.raw').removeClass("raw").toArray();
     try {
@@ -823,15 +817,6 @@ function highlightRender(code, lang) {
     return result.value;
 }
 
-emojify.setConfig({
-    blacklist: {
-        elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
-        classes: ['no-emojify']
-    },
-    img_dir: serverurl + '/vendor/emojify/images',
-    ignore_emoticons: true
-});
-
 var markdownit = require('markdown-it');
 var markdownitContainer = require('markdown-it-container');
 
@@ -854,6 +839,25 @@ md.use(require('markdown-it-sub'));
 md.use(require('markdown-it-sup'));
 md.use(require('../vendor/markdown-it-mathjax'));
 md.use(require('markdown-it-imsize'));
+
+md.use(require('markdown-it-emoji'), {
+    shortcuts: false
+});
+
+var emojify = require('emojify.js');
+
+emojify.setConfig({
+    blacklist: {
+        elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
+        classes: ['no-emojify']
+    },
+    img_dir: serverurl + '/vendor/emojify.js/dist/images/basic',
+    ignore_emoticons: true
+});
+
+md.renderer.rules.emoji = function(token, idx) {
+    return emojify.replace(':' + token[idx].markup + ':');
+};
 
 function renderContainer(tokens, idx, options, env, self) {
     tokens[idx].attrJoin('role', 'alert');

@@ -25,7 +25,6 @@
     "cookie-parser": "1.4.3",
     "diff-match-patch": "git+https://github.com/hackmdio/diff-match-patch.git",
     "ejs": "^2.5.2",
-    "emojify.js": "^1.1.0",
     "engine.io-client": "^1.7.0",
     "express": ">=4.14",
     "express-session": "^1.14.1",

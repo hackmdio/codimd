@@ -3732,6 +3732,8 @@ function matchInContainer(text) {
     }
 }
 
+var emojify = require('emojify.js');
+
 $(editor.getInputField())
     .textcomplete([
         { // emoji strategy
@@ -3751,7 +3753,7 @@ $(editor.getInputField())
                 callback(list);
             },
             template: function (value) {
-                return '<img class="emoji" src="' + serverurl + '/vendor/emojify/images/' + value + '.png"></img> ' + value;
+                return '<img class="emoji" src="' + serverurl + '/vendor/emojify.js/dist/images/basic/' + value + '.png"></img> ' + value;
             },
             replace: function (value) {
                 return '$1:' + value + ': ';
