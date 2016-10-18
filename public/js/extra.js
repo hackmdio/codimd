@@ -218,12 +218,12 @@ function finishView(view) {
         });
     }
     //youtube
-    view.find(".youtube.raw").removeClass("raw")
+    view.find("div.youtube.raw").removeClass("raw")
         .click(function () {
             imgPlayiframe(this, '//www.youtube.com/embed/');
         });
     //vimeo
-    view.find(".vimeo.raw").removeClass("raw")
+    view.find("div.vimeo.raw").removeClass("raw")
         .click(function () {
             imgPlayiframe(this, '//player.vimeo.com/video/');
         })
@@ -253,7 +253,7 @@ function finishView(view) {
         console.warn(err);
     }
     //mathjax
-    var mathjaxdivs = view.find('.mathjax.raw').removeClass("raw").toArray();
+    var mathjaxdivs = view.find('span.mathjax.raw').removeClass("raw").toArray();
     try {
         if (mathjaxdivs.length > 1) {
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs]);
@@ -263,52 +263,52 @@ function finishView(view) {
             MathJax.Hub.Queue(viewAjaxCallback);
         }
     } catch (err) {}
-        //sequence diagram
-        var sequences = view.find(".sequence-diagram.raw").removeClass("raw");
-        sequences.each(function (key, value) {
-            try {
-                var $value = $(value);
-                var $ele = $(value).parent().parent();
+    //sequence diagram
+    var sequences = view.find("div.sequence-diagram.raw").removeClass("raw");
+    sequences.each(function (key, value) {
+        try {
+            var $value = $(value);
+            var $ele = $(value).parent().parent();
 
-                var sequence = $value;
-                sequence.sequenceDiagram({
-                    theme: 'simple'
-                });
+            var sequence = $value;
+            sequence.sequenceDiagram({
+                theme: 'simple'
+            });
 
-                $ele.addClass('sequence-diagram');
-                $value.children().unwrap().unwrap();
-                var svg = $ele.find('> svg');
-                svg[0].setAttribute('viewBox', '0 0 ' + svg.attr('width') + ' ' + svg.attr('height'));
-                svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
-            } catch (err) {
-                console.warn(err);
-            }
-        });
-        //flowchart
-        var flow = view.find(".flow-chart.raw").removeClass("raw");
-        flow.each(function (key, value) {
-            try {
-                var $value = $(value);
-                var $ele = $(value).parent().parent();
+            $ele.addClass('sequence-diagram');
+            $value.children().unwrap().unwrap();
+            var svg = $ele.find('> svg');
+            svg[0].setAttribute('viewBox', '0 0 ' + svg.attr('width') + ' ' + svg.attr('height'));
+            svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        } catch (err) {
+            console.warn(err);
+        }
+    });
+    //flowchart
+    var flow = view.find("div.flow-chart.raw").removeClass("raw");
+    flow.each(function (key, value) {
+        try {
+            var $value = $(value);
+            var $ele = $(value).parent().parent();
 
-                var chart = flowchart.parse($value.text());
-                $value.html('');
-                chart.drawSVG(value, {
-                    'line-width': 2,
-                    'fill': 'none',
-                    'font-size': '16px',
-                    'font-family': "'Andale Mono', monospace"
-                });
+            var chart = flowchart.parse($value.text());
+            $value.html('');
+            chart.drawSVG(value, {
+                'line-width': 2,
+                'fill': 'none',
+                'font-size': '16px',
+                'font-family': "'Andale Mono', monospace"
+            });
 
-                $ele.addClass('flow-chart');
-                $value.children().unwrap().unwrap();
-            } catch (err) {
-                console.warn(err);
-            }
-        });
+            $ele.addClass('flow-chart');
+            $value.children().unwrap().unwrap();
+        } catch (err) {
+            console.warn(err);
+        }
+    });
     //graphviz
     var Viz = require("viz.js");
-    var graphvizs = view.find(".graphviz.raw").removeClass("raw");
+    var graphvizs = view.find("div.graphviz.raw").removeClass("raw");
     graphvizs.each(function (key, value) {
         try {
             var $value = $(value);
@@ -323,7 +323,6 @@ function finishView(view) {
             console.warn(err);
         }
     });
-
     //mermaid
     var mermaids = view.find("div.mermaid.raw").removeClass("raw");
     mermaids.each(function (key, value) {
@@ -370,7 +369,7 @@ function finishView(view) {
         $(value).closest("blockquote").css('border-left-color', $(value).attr('data-color'));
     });
     //slideshare
-    view.find(".slideshare.raw").removeClass("raw")
+    view.find("div.slideshare.raw").removeClass("raw")
         .each(function (key, value) {
             $.ajax({
                 type: 'GET',
@@ -392,7 +391,7 @@ function finishView(view) {
             });
         });
     //speakerdeck
-    view.find(".speakerdeck.raw").removeClass("raw")
+    view.find("div.speakerdeck.raw").removeClass("raw")
         .each(function (key, value) {
             var url = 'https://speakerdeck.com/oembed.json?url=https%3A%2F%2Fspeakerdeck.com%2F' + encodeURIComponent($(value).attr('data-speakerdeckid'));
             //use yql because speakerdeck not support jsonp
@@ -424,7 +423,7 @@ function finishView(view) {
             });
         });
     //pdf
-    view.find(".pdf.raw").removeClass("raw")
+    view.find("div.pdf.raw").removeClass("raw")
             .each(function (key, value) {
                 var url = $(value).attr('data-pdfurl');
                 var inner = $('<div></div>');
@@ -434,7 +433,7 @@ function finishView(view) {
                 });
             });
     //syntax highlighting
-    view.find("pre > code.raw").removeClass("raw")
+    view.find("code.raw").removeClass("raw")
         .each(function (key, value) {
             var langDiv = $(value);
             if (langDiv.length > 0) {
