@@ -325,11 +325,11 @@ function finishView(view) {
     });
 
     //mermaid
-    var mermaids = view.find(".mermaid.raw").removeClass("raw");
+    var mermaids = view.find("div.mermaid.raw").removeClass("raw");
     mermaids.each(function (key, value) {
         try {
             var $value = $(value);
-            var $ele = $(value).parent().parent();
+            var $ele = $(value).closest('pre');
 
             var mermaidError = null;
             mermaid.parseError = function (err, hash) {
