@@ -1,16 +1,11 @@
 /* jquery and jquery plugins */
 require('../vendor/showup/showup');
 
-require('prismjs/themes/prism.css');
-require('highlight.js/styles/github-gist.css');
-
-require('prismjs');
-require('prismjs/components/prism-wiki');
 var toMarkdown = require('to-markdown');
 
 var saveAs = require('file-saver').saveAs;
-require('js-url');
-require('randomcolor');
+var url = require('js-url');
+var randomColor = require('randomcolor');
 
 var _ = require("lodash");
 
@@ -28,7 +23,6 @@ var noteurl = common.noteurl;
 
 var checkLoginStateChanged = common.checkLoginStateChanged;
 
-require('./pretty');
 var extra = require('./extra');
 var md = extra.md;
 var updateLastChange = extra.updateLastChange;

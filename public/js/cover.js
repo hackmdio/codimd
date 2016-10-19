@@ -1,3 +1,5 @@
+require('./locale');
+
 var common = require('./common');
 var checkIfAuth = common.checkIfAuth;
 var urlpath = common.urlpath;

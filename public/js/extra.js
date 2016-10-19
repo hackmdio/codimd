@@ -1,3 +1,8 @@
+require('prismjs/themes/prism.css');
+require('highlight.js/styles/github-gist.css');
+
+var Prism = require('prismjs');
+require('prismjs/components/prism-wiki');
 var hljs = require('highlight.js');
 var PDFObject = require('pdfobject');
 var S = require('string');

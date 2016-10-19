@@ -1,30 +1,13 @@
-require('prismjs/themes/prism.css');
 
 /* other vendors plugin */
 var S = require('string');
-require('prismjs');
-require('prismjs/components/prism-wiki');
-require('to-markdown');
-
-require('../vendor/md-toc');
-require('randomcolor');
-
-var commonModule = require('./common');
-var urlpath = commonModule.urlpath;
-var noteid = commonModule.noteid;
-var debug = commonModule.debug;
-var version = commonModule.version;
-var GOOGLE_API_KEY = commonModule.GOOGLE_API_KEY;
-var GOOGLE_CLIENT_ID = commonModule.GOOGLE_CLIENT_ID;
-var DROPBOX_APP_KEY = commonModule.DROPBOX_APP_KEY;
-var noteurl = commonModule.noteurl;
 
 var extraModule = require('./extra');
 var md = extraModule.md;
 var updateLastChange = extraModule.updateLastChange;
 var finishView = extraModule.finishView;
 
-require('./render');
+var preventXSS = require('./render').preventXSS;
 
 var body = $(".slides").html();
 $(".slides").html(S(body).unescapeHTML().s);

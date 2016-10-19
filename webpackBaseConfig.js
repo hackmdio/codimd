@@ -17,7 +17,7 @@ module.exports = {
         }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
-            names: ["vendor", "public", "slide", "locale"],
+            names: ["cover", "index", "pretty", "slide", "vendor"],
             children: true,
             async: true,
             filename: '[name].js',
@@ -37,25 +37,25 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/header.ejs',
-            chunks: ['vendor', 'locale'],
+            chunks: ['vendor', 'cover'],
             filename: path.join(__dirname, 'public/views/build/cover-header.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/scripts.ejs',
-            chunks: ['vendor', 'locale'],
+            chunks: ['vendor', 'cover'],
             filename: path.join(__dirname, 'public/views/build/cover-scripts.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/header.ejs',
-            chunks: ['vendor', 'public'],
+            chunks: ['vendor', 'pretty'],
             filename: path.join(__dirname, 'public/views/build/pretty-header.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/scripts.ejs',
-            chunks: ['vendor', 'public'],
+            chunks: ['vendor', 'pretty'],
             filename: path.join(__dirname, 'public/views/build/pretty-scripts.ejs'),
             inject: false
         }),
@@ -74,10 +74,10 @@ module.exports = {
     ],
 
     entry: {
+        cover: path.join(__dirname, 'public/js/cover.js'),
         index: path.join(__dirname, 'public/js/index.js'),
-        public: path.join(__dirname, 'public/js/public.js'),
+        pretty: path.join(__dirname, 'public/js/pretty.js'),
         slide: path.join(__dirname, 'public/js/slide.js'),
-        locale: path.join(__dirname, 'public/js/locale.js'),
         vendor: [
             "imports?$=jquery!jquery-mousewheel",
             "expose?filterXSS!xss",
