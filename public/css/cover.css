@@ -325,7 +325,8 @@ input {
 .social-foot {
     line-height: 30px;
 }
-.social-foot > *, .social-foot > * > * {
+.social-foot > * {
+    line-height: 20px;
     vertical-align: middle !important;
 }
 
