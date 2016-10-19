@@ -41,6 +41,7 @@ var deduplicatedHeaderId = extra.deduplicatedHeaderId;
 var renderTOC = extra.renderTOC;
 var renderTitle = extra.renderTitle;
 var renderFilename = extra.renderFilename;
+var renderTags = extra.renderTags;
 var scrollToHash = extra.scrollToHash;
 var updateLastChangeUser = extra.updateLastChangeUser;
 var updateOwner = extra.updateOwner;
@@ -3414,7 +3415,7 @@ var updateHistoryDebounce = 600;
 var updateHistory = _.debounce(updateHistoryInner, updateHistoryDebounce)
 
 function updateHistoryInner() {
-    writeHistory(ui.area.markdown);
+    writeHistory(renderFilename(ui.area.markdown), renderTags(ui.area.markdown));
 }
 
 function updateDataAttrs(src, des) {

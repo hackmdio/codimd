@@ -101,6 +101,41 @@ function renderFilename(view) {
     return filename;
 }
 
+// render tags
+function renderTags(view) {
+    var tags = [];
+    var rawtags = [];
+    if (md && md.meta && md.meta.tags && (typeof md.meta.tags == "string" || typeof md.meta.tags == "number")) {
+        var metaTags = ('' + md.meta.tags).split(',');
+        for (var i = 0; i < metaTags.length; i++) {
+            var text = metaTags[i].trim();
+            if (text) rawtags.push(text);
+        }
+    } else {
+        view.find('h6').each(function (key, value) {
+            if (/^tags/gmi.test($(value).text())) {
+                var codes = $(value).find("code");
+                for (var i = 0; i < codes.length; i++) {
+                    var text = codes[i].innerHTML.trim();
+                    if (text) rawtags.push(text);
+                }
+            }
+        });
+    }
+    for (var i = 0; i < rawtags.length; i++) {
+        var found = false;
+        for (var j = 0; j < tags.length; j++) {
+            if (tags[j] == rawtags[i]) {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+            tags.push(rawtags[i]);
+    }
+    return tags;
+}
+
 function slugifyWithUTF8(text) {
     var newText = S(text.toLowerCase()).trim().stripTags().dasherize().s;
     newText = newText.replace(/([\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\`\{\|\}\~])/g, '');
@@ -1076,6 +1111,7 @@ module.exports = {
   renderTOC: renderTOC,
   renderTitle: renderTitle,
   renderFilename: renderFilename,
+  renderTags: renderTags,
   generateToc: generateToc,
   smoothHashScroll: smoothHashScroll,
   scrollToHash: scrollToHash,

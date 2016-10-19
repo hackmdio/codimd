@@ -5,10 +5,6 @@ var checkIfAuth = common.checkIfAuth;
 var urlpath = common.urlpath;
 var getLoginState = common.getLoginState;
 
-var extra = require('./extra');
-var renderFilename = extra.renderFilename;
-var md = extra.md;
-
 window.migrateHistoryFromTempCallback = null;
 
 migrateHistoryFromTemp();
@@ -147,19 +143,19 @@ function removeHistory(id, notehistory) {
 }
 
 //used for inner
-function writeHistory(view) {
+function writeHistory(title, tags) {
     checkIfAuth(
         function () {
             // no need to do this anymore, this will count from server-side
-            // writeHistoryToServer(view);
+            // writeHistoryToServer(title, tags);
         },
         function () {
-            writeHistoryToStorage(view);
+            writeHistoryToStorage(title, tags);
         }
     );
 }
 
-function writeHistoryToServer(view) {
+function writeHistoryToServer(title, tags) {
     $.get(serverurl + '/history')
         .done(function (data) {
             try {
@@ -174,7 +170,7 @@ function writeHistoryToServer(view) {
             if (!notehistory)
                 notehistory = [];
 
-            var newnotehistory = generateHistory(view, notehistory);
+            var newnotehistory = generateHistory(title, tags, notehistory);
             saveHistoryToServer(newnotehistory);
         })
         .fail(function (xhr, status, error) {
@@ -182,7 +178,7 @@ function writeHistoryToServer(view) {
         });
 }
 
-function writeHistoryToCookie(view) {
+function writeHistoryToCookie(title, tags) {
     try {
         var notehistory = Cookies.getJSON('notehistory');
     } catch (err) {
@@ -191,11 +187,11 @@ function writeHistoryToCookie(view) {
     if (!notehistory)
         notehistory = [];
 
-    var newnotehistory = generateHistory(view, notehistory);
+    var newnotehistory = generateHistory(title, tags, notehistory);
     saveHistoryToCookie(newnotehistory);
 }
 
-function writeHistoryToStorage(view) {
+function writeHistoryToStorage(title, tags) {
     if (store.enabled) {
         var data = store.get('notehistory');
         if (data) {
@@ -207,10 +203,10 @@ function writeHistoryToStorage(view) {
         if (!notehistory)
             notehistory = [];
 
-        var newnotehistory = generateHistory(view, notehistory);
+        var newnotehistory = generateHistory(title, tags, notehistory);
         saveHistoryToStorage(newnotehistory);
     } else {
-        writeHistoryToCookie(view);
+        writeHistoryToCookie(title, tags);
     }
 }
 
@@ -220,39 +216,7 @@ if (!Array.isArray) {
     };
 }
 
-function renderHistory(view) {
-    var title = renderFilename(view);
-
-    var tags = [];
-    var rawtags = [];
-    if (md && md.meta && md.meta.tags && (typeof md.meta.tags == "string" || typeof md.meta.tags == "number")) {
-        var metaTags = ('' + md.meta.tags).split(',');
-        for (var i = 0; i < metaTags.length; i++) {
-            var text = metaTags[i].trim();
-            if (text) rawtags.push(text);
-        }
-    } else {
-        view.find('h6').each(function (key, value) {
-            if (/^tags/gmi.test($(value).text())) {
-                var codes = $(value).find("code");
-                for (var i = 0; i < codes.length; i++) {
-                    var text = codes[i].innerHTML.trim();
-                    if (text) rawtags.push(text);
-                }
-            }
-        });
-    }
-    for (var i = 0; i < rawtags.length; i++) {
-        var found = false;
-        for (var j = 0; j < tags.length; j++) {
-            if (tags[j] == rawtags[i]) {
-                found = true;
-                break;
-            }
-        }
-        if (!found)
-            tags.push(rawtags[i]);
-    }
+function renderHistory(title, tags) {
     //console.debug(tags);
     var id = urlpath ? location.pathname.slice(urlpath.length + 1, location.pathname.length).split('/')[1] : location.pathname.split('/')[1];
     return {
@@ -263,8 +227,8 @@ function renderHistory(view) {
     };
 }
 
-function generateHistory(view, notehistory) {
-    var info = renderHistory(view);
+function generateHistory(title, tags, notehistory) {
+    var info = renderHistory(title, tags);
 	//keep any pinned data
 	var pinned = false;
 	for (var i = 0; i < notehistory.length; i++) {
