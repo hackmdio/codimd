@@ -1,3 +1,6 @@
+/* other vendors plugin */
+var S = require('string');
+
 var extra = require('./extra');
 var md = extra.md;
 var finishView = extra.finishView;
@@ -12,7 +15,7 @@ var parseMeta = extra.parseMeta;
 var preventXSS = require('./render').preventXSS;
 
 var markdown = $("#doc.markdown-body");
-var text = $('<textarea/>').html(markdown.html()).text();
+var text = S(markdown.html()).unescapeHTML().s;
 var lastMeta = md.meta;
 md.meta = {};
 var rendered = md.render(text);
