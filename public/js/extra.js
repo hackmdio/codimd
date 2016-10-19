@@ -879,8 +879,6 @@ md.use(require('markdown-it-emoji'), {
     shortcuts: false
 });
 
-var emojify = require('emojify.js');
-
 emojify.setConfig({
     blacklist: {
         elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],

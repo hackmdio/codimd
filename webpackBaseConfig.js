@@ -8,7 +8,6 @@ module.exports = {
         new webpack.ProvidePlugin({
             Visibility: "visibilityjs",
             Cookies: "js-cookie",
-            emojify: "emojify.js",
             key: "keymaster",
             $: "jquery",
             jQuery: "jquery",

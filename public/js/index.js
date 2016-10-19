@@ -3733,8 +3733,6 @@ function matchInContainer(text) {
     }
 }
 
-var emojify = require('emojify.js');
-
 $(editor.getInputField())
     .textcomplete([
         { // emoji strategy
