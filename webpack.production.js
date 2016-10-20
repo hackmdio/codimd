@@ -18,7 +18,7 @@ module.exports = Object.assign({}, baseConfig, {
         }),
         new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
-            names: ["vendor", "public", "slide", "locale"],
+            names: ["cover", "index", "pretty", "slide", "vendor"],
             children: true,
             async: true,
             filename: '[name].js',
@@ -38,25 +38,25 @@ module.exports = Object.assign({}, baseConfig, {
         }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/header.ejs',
-            chunks: ['vendor', 'locale'],
+            chunks: ['vendor', 'cover'],
             filename: path.join(__dirname, 'public/views/build/cover-header.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/scripts.ejs',
-            chunks: ['vendor', 'locale'],
+            chunks: ['vendor', 'cover'],
             filename: path.join(__dirname, 'public/views/build/cover-scripts.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/header.ejs',
-            chunks: ['vendor', 'public'],
+            chunks: ['vendor', 'pretty'],
             filename: path.join(__dirname, 'public/views/build/pretty-header.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/scripts.ejs',
-            chunks: ['vendor', 'public'],
+            chunks: ['vendor', 'pretty'],
             filename: path.join(__dirname, 'public/views/build/pretty-scripts.ejs'),
             inject: false
         }),
