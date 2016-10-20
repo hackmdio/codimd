@@ -1536,6 +1536,7 @@ function onGoogleClientLoaded() {
     googleApiAuth(true);
     buildImportFromGoogleDrive();
 }
+window.onGoogleClientLoaded = onGoogleClientLoaded;
 // export to google drive
 ui.toolbar.export.googleDrive.click(function (e) {
     var token = gapi.auth.getToken();
