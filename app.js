@@ -506,7 +506,9 @@ process.on('SIGINT', function () {
         var socket = io.sockets.sockets[key];
         // notify client server going into maintenance status
         socket.emit('maintenance');
-        socket.disconnect(true);
+        setTimeout(function () {
+            socket.disconnect(true);
+        }, 0);
     });
     var checkCleanTimer = setInterval(function () {
         if (history.isReady() && realtime.isReady()) {
