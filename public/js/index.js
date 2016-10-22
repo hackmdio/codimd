@@ -1915,6 +1915,9 @@ function scrollToBottom() {
     }
 }
 
+window.scrollToTop = scrollToTop;
+window.scrollToBottom = scrollToBottom;
+
 var enoughForAffixToc = true;
 
 //scrollspy
