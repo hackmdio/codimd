@@ -1115,6 +1115,7 @@ module.exports = {
   renderTitle: renderTitle,
   renderFilename: renderFilename,
   renderTags: renderTags,
+  isValidURL: isValidURL,
   generateToc: generateToc,
   smoothHashScroll: smoothHashScroll,
   scrollToHash: scrollToHash,

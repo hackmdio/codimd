@@ -36,6 +36,7 @@ var renderTOC = extra.renderTOC;
 var renderTitle = extra.renderTitle;
 var renderFilename = extra.renderFilename;
 var renderTags = extra.renderTags;
+var isValidURL = extra.isValidURL;
 var scrollToHash = extra.scrollToHash;
 var updateLastChangeUser = extra.updateLastChangeUser;
 var updateOwner = extra.updateOwner;
