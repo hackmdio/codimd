@@ -86,7 +86,6 @@ module.exports = {
             "script!Idle.Js",
             "expose?LZString!lz-string",
             "script!codemirror",
-            "script!select2",
             "script!inlineAttachment",
             "script!jqueryTextcomplete",
             "script!codemirrorSpellChecker",
@@ -111,7 +110,6 @@ module.exports = {
         extensions: ["", ".js"],
         alias: {
             codemirror: path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
-            select2: path.join(__dirname, 'public/vendor/select2/select2.min.js'),
             inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
             jqueryTextcomplete: path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
             codemirrorSpellChecker: path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
