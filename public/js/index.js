@@ -2651,7 +2651,7 @@ socket.on('doc', function (obj) {
     obj = JSON.parse(obj);
     var body = obj.str;
     var bodyMismatch = editor.getValue() !== body;
-    var setDoc = !cmClient || (cmClient && cmClient.revision === -1) || obj.force;
+    var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && Object.keys(cmClient.state).length <= 0))) || obj.force;
 
     saveInfo();
     if (setDoc && bodyMismatch) {
