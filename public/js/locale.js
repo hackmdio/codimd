@@ -16,6 +16,8 @@ if (Cookies.get('locale')) {
 }
 
 locale.val(lang);
+$('select.ui-locale option[value="' + lang + '"]').attr('selected','selected');
+
 locale.change(function() {
     Cookies.set('locale', $(this).val(), {
         expires: 365
