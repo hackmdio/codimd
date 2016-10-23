@@ -17,6 +17,7 @@ var morgan = require('morgan');
 var passportSocketIo = require("passport.socketio");
 var helmet = require('helmet');
 var i18n = require('i18n');
+var minifyHTML = require('express-minify-html');
 
 //core
 var config = require("./lib/config.js");
@@ -55,6 +56,18 @@ if (config.usessl) {
 app.use(morgan('combined', {
     "stream": logger.stream
 }));
+
+if (!config.debug) {
+    app.use(minifyHTML({
+        override:      false,
+        htmlMinifier: {
+            removeComments:            true,
+            collapseWhitespace:        true,
+            collapseBooleanAttributes: true,
+            removeAttributeQuotes:     true,
+            removeEmptyAttributes:     true,
+    }));
+}
 
 //socket io
 var io = require('socket.io')(server);
