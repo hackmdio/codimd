@@ -200,12 +200,12 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <% if(useCDN) { %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.3.1/velocity.min.js" integrity="sha256-zt0EvRuKYSkXKgIFLrJIYeZsBjIZLel9UThCm5GI6io=" crossorigin="anonymous" defer></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js" integrity="sha256-HzzZFiY4t0PIv02Tm8/R3CVvLpcjHhO1z/YAUCp4oQ4=" crossorigin="anonymous" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js" integrity="sha256-J5wam9fTysK5BqYlUUBjbomFslRxkLgwB9AhnVWsj1Q=" crossorigin="anonymous" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-url/2.3.0/url.min.js" integrity="sha256-HOZJz4x+1mn1Si84WT5XKXPtOlTytmZLnMb6n1v4+5Q=" crossorigin="anonymous" defer></script>
 	<% } else { %>
     <script src="<%- url %>/vendor/velocity/velocity.min.js" defer></script>
+    <script src="<%- url %>/vendor/select2/select2.min.js" defer></script>
 	<script src="<%- url %>/vendor/moment/min/moment-with-locales.min.js" defer></script>
 	<% } %>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
