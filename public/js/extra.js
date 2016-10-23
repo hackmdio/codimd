@@ -881,7 +881,7 @@ md.use(require('../vendor/markdown-it-mathjax'));
 md.use(require('markdown-it-imsize'));
 
 md.use(require('markdown-it-emoji'), {
-    shortcuts: false
+    shortcuts: {}
 });
 
 emojify.setConfig({
