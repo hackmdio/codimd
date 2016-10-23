@@ -2308,11 +2308,9 @@ socket.on('delete', function () {
         });
     }   
 });
-var retryOnDisconnect = false;
 var retryTimer = null;
 socket.on('maintenance', function () {
     cmClient.revision = -1;
-    retryOnDisconnect = true;
 });
 socket.on('disconnect', function (data) {
     showStatus(statusType.offline);
@@ -2322,7 +2320,7 @@ socket.on('disconnect', function (data) {
     }
     if (!editor.getOption('readOnly'))
         editor.setOption('readOnly', true);
-    if (retryOnDisconnect && !retryTimer) {
+    if (!retryTimer) {
         retryTimer = setInterval(function () {
             if (!needRefresh) socket.connect();
         }, 1000);
@@ -2337,7 +2335,6 @@ socket.on('reconnect', function (data) {
 socket.on('connect', function (data) {
     clearInterval(retryTimer);
     retryTimer = null;
-    retryOnDisconnect = false;
     personalInfo['id'] = socket.id;
     showStatus(statusType.connected);
     socket.emit('version');
