@@ -476,10 +476,10 @@ function finishView(view) {
                 var code = "";
                 if (codeDiv.length > 0) code = codeDiv.html();
                 else code = langDiv.html();
-                code = md.utils.unescapeAll(code);
+                code = S(code).unescapeHTML().s;
                 if (!reallang) {
                     var result = {
-                        value: md.utils.escapeHtml(code)
+                        value: S(code).escapeHTML().s
                     };
                 } else if (reallang == "tiddlywiki" || reallang == "mediawiki") {
                     var result = {
