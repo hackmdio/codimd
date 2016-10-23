@@ -31,7 +31,8 @@
     "randomcolor": "randomColor#^0.4.4",
     "Idle.Js": "idle.js#^1.0.0",
     "gist-embed": "*",
-    "emojify.js": "^1.1.0"
+    "emojify.js": "^1.1.0",
+    "select2": "3.5.4"
   },
   "resolutions": {
     "jquery": "~3.1.1"
