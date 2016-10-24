@@ -13,15 +13,15 @@ You can use `URL query` or `slideOptions` of the YAML metadata to customize your
 
 `---`
 
-Is the divder of slides
+Is the divider of slides
 
 ----
 
-### First branch of fisrt slide
+### First branch of first slide
 
 `----`
 
-Is the divder of branches
+Is the divider of branches
 
 ----
 
