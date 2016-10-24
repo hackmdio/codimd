@@ -90,13 +90,15 @@
 </script>
 <% if(useCDN) { %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.6.1/js-yaml.min.js" integrity="sha256-tvANaUGcQTLkCS9wHnLZhBFVfIWQJpm98WOpykjD+eo=" crossorigin="anonymous" defer></script>
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js" integrity="sha256-yYfngbEKv4RENfGDvNUqJTqGFcKf31NJEe9OTnnMH3Y=" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-immzXfCGLhnx3Zfi9F/dUcqxEM8K3o3oTFy9Bh6HCwg=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js" integrity="sha256-J5wam9fTysK5BqYlUUBjbomFslRxkLgwB9AhnVWsj1Q=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.min.js" integrity="sha256-Yabf6Mj1TPKd6h4F6z5xRR1/2son0Wg8NhvjYnhcQcY=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/js/emojify.min.js" integrity="sha256-VAB5tAlKBvgaxw8oJ1crWMVbdmBVl4mP/2M8MNRl+4E=" crossorigin="anonymous" defer></script>
 <% } else { %>
 <script src="<%- url %>/vendor/js-yaml/dist/js-yaml.min.js" defer></script>
-<script type="text/javascript" src="<%- url %>/vendor/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
+<script src="<%- url %>/vendor/MathJax/MathJax.js" defer></script>
+<script src="<%- url %>/vendor/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
 <script src="<%- url %>/vendor/moment/min/moment-with-locales.js" defer></script>
 <script src="<%- url %>/vendor/mermaid/dist/mermaid.min.js" defer></script>
 <script src="<%- url %>/vendor/emojify.js/dist/js/emojify.min.js" defer></script>
