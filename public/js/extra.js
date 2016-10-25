@@ -315,6 +315,7 @@ function finishView(view) {
             svg[0].setAttribute('viewBox', '0 0 ' + svg.attr('width') + ' ' + svg.attr('height'));
             svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
         } catch (err) {
+            $value.unwrap();
             console.warn(err);
         }
     });
@@ -337,6 +338,7 @@ function finishView(view) {
             $ele.addClass('flow-chart');
             $value.children().unwrap().unwrap();
         } catch (err) {
+            $value.unwrap();
             console.warn(err);
         }
     });
@@ -354,6 +356,7 @@ function finishView(view) {
             $ele.addClass('graphviz');
             $value.children().unwrap().unwrap();
         } catch (err) {
+            $value.unwrap();
             console.warn(err);
         }
     });
@@ -374,9 +377,11 @@ function finishView(view) {
                 $ele.html($value.text());
                 mermaid.init(undefined, $ele);
             } else {
+                $value.unwrap();
                 console.warn(mermaidError);
             }
         } catch (err) {
+            $value.unwrap();
             console.warn(err);
         }
     });
@@ -476,16 +481,17 @@ function finishView(view) {
                 var code = "";
                 if (codeDiv.length > 0) code = codeDiv.html();
                 else code = langDiv.html();
-                code = S(code).unescapeHTML().s;
                 if (!reallang) {
                     var result = {
-                        value: S(code).escapeHTML().s
+                        value: code
                     };
                 } else if (reallang == "tiddlywiki" || reallang == "mediawiki") {
+                    code = S(code).unescapeHTML().s;
                     var result = {
                         value: Prism.highlight(code, Prism.languages.wiki)
                     };
                 } else {
+                    code = S(code).unescapeHTML().s;
                     var languages = hljs.listLanguages();
                     if (languages.indexOf(reallang) == -1) {
                         var result = hljs.highlightAuto(code);
@@ -827,6 +833,7 @@ function scrollToHash() {
 function highlightRender(code, lang) {
     if (!lang || /no(-?)highlight|plain|text/.test(lang))
         return;
+    code = S(code).escapeHTML().s
     if (lang == 'sequence') {
         return '<div class="sequence-diagram raw">' + code + '</div>';
     } else if (lang == 'flow') {
