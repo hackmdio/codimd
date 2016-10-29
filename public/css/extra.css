@@ -80,6 +80,10 @@
     height: 100%;
 }
 
+.MJX_Assistive_MathML {
+    display: none;
+}
+
 .ui-infobar {
     position: relative;
     z-index: 2;
