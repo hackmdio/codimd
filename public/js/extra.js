@@ -533,7 +533,7 @@ function generateCleanHTML(view) {
     eles.removeClass('part');
     src.find('*[class=""]').removeAttr('class');
     eles.removeAttr('data-startline data-endline');
-    eles.find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll');
+    src.find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll');
     //remove gist content
     src.find("code[data-gist-id]").children().remove();
     //disable todo list
@@ -584,9 +584,9 @@ function exportToHTML(view) {
     var src = generateCleanHTML(view);
     //generate toc
     var toc = $('#ui-toc').clone();
-    toc.find('*').removeClass('active');
+    toc.find('*').removeClass('active').find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll');
     var tocAffix = $('#ui-toc-affix').clone();
-    tocAffix.find('*').removeClass('active');
+    tocAffix.find('*').removeClass('active').find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll');
     //generate html via template
     $.get(serverurl + '/css/html.min.css', function (css) {
         $.get(serverurl + '/views/html.hbs', function (data) {
