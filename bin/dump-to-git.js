@@ -6,7 +6,7 @@ var child_process = require('child_process');
 var Promise = require('bluebird');
 var NodeGit = require('nodegit');
 var LZString = require('lz-string');
-var models = require("./lib/models");
+var models = require("../lib/models");
 
 var repoRootDir = './notes';
 
