@@ -7,8 +7,9 @@ var Promise = require('bluebird');
 var NodeGit = require('nodegit');
 var LZString = require('lz-string');
 var models = require("../lib/models");
+var config = require('../config.json').dumpToGit;
 
-var repoRootDir = './notes';
+var repoRootDir = config.targetDirectory;
 
 process.chdir(repoRootDir);
 
@@ -65,7 +66,7 @@ function commit(repo, tree) {
   return getHeadCommit(repo)
   .then(function (head) {
     console.log('Commiting...');
-    var sig = NodeGit.Signature.now('Committer', 'johndoe@localhost');
+    var sig = NodeGit.Signature.now(config.name, config.email);
     return repo.createCommit('HEAD', sig, sig, 'Automated import', tree, [head]);
   });
 }

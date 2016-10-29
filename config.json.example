@@ -54,5 +54,10 @@
         "imgur": {
             "clientID": "change this"
         }
+    },
+    "dumpToGit": {
+        "targetDirectory": "./notes",
+        "name": "Autocommitter",
+        "email": "john@example.com"
     }
 }
