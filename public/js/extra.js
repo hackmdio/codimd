@@ -205,6 +205,7 @@ function parseMeta(md, edit, view, toc, tocAffix) {
 }
 
 var viewAjaxCallback = null;
+window.viewAjaxCallback = viewAjaxCallback;
 
 //regex for extra tags
 var spaceregex = /\s*/;
