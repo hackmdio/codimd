@@ -11,7 +11,12 @@ var config = require('../config.json').dumpToGit;
 
 var repoRootDir = config.targetDirectory;
 
-process.chdir(repoRootDir);
+try {
+	process.chdir(repoRootDir);
+} catch (e) {
+	console.error("The target directory for your notes does not exist, please create %s", repoRootDir);
+	process.exit(1);
+}
 
 
 function exportNotes() {
