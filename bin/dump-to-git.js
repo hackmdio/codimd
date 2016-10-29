@@ -20,16 +20,16 @@ function exportNotes() {
   .then(function (notes) {
     // Iterate over all notes
     return Promise.all(notes.map(function (note) {
-      var file = LZString.compressToBase64(note.id);
+      var fileName = LZString.decompressFromBase64(note.title) + " - " + LZString.compressToBase64(note.id) + ".md";
 
       // Export note to file
       return new Promise(function (resolve) {
-        console.log('Exporting ' + note.id + ' to ' + file);
+        console.log('Exporting ' + note.id + ' to ' + fileName);
         var body = LZString.decompressFromBase64(note.content);
-        fs.writeFile(file, body, resolve);
+        fs.writeFile(fileName, body, resolve);
       })
       .then(function () {
-        return file;
+        return fileName;
       });
 
     }));
