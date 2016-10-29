@@ -26,6 +26,7 @@ function exportNotes() {
     // Iterate over all notes
     return Promise.all(notes.map(function (note) {
       var fileName = LZString.decompressFromBase64(note.title) + " - " + LZString.compressToBase64(note.id) + ".md";
+      fileName = fileName.replace('/', '_');
 
       // Export note to file
       return new Promise(function (resolve) {
