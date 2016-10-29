@@ -309,3 +309,15 @@ html, body {
 .reveal .controls {
     position: absolute;
 }
+
+.print-pdf .container {
+    position: relative;
+}
+
+.print-pdf .container.hidescrollbar {
+    right: 0;
+}
+
+.print-pdf .footer {
+    display: none;
+}
