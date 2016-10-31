@@ -32,7 +32,7 @@ This tool is also used for official service.
 Browsers Requirement
 ---
 
-- Chrome >= 45, Chrome for Android >= 47
+- Chrome >= 47, Chrome for Android >= 47
 - Safari >= 9, iOS Safari >= 8.4
 - Firefox >= 44
 - IE >= 9, Edge >= 12
