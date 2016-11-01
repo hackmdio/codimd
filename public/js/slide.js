@@ -97,7 +97,7 @@ var queryOptions = Reveal.getQueryHash() || {};
 var options = extend(defaultOptions, options, queryOptions);
 Reveal.initialize(options);
 
-viewAjaxCallback = function () {
+window.viewAjaxCallback = function () {
     Reveal.layout();
 };
 

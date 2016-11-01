@@ -204,8 +204,7 @@ function parseMeta(md, edit, view, toc, tocAffix) {
     }
 }
 
-var viewAjaxCallback = null;
-window.viewAjaxCallback = viewAjaxCallback;
+window.viewAjaxCallback = null;
 
 //regex for extra tags
 var spaceregex = /\s*/;

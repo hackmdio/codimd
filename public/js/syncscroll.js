@@ -138,7 +138,7 @@ function setupSyncAreas(edit, view, markdown) {
 
 var scrollMap, lineHeightMap, viewTop, viewBottom;
 
-viewAjaxCallback = clearMap;
+window.viewAjaxCallback = clearMap;
 
 function clearMap() {
     scrollMap = null;
