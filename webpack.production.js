@@ -1,6 +1,7 @@
 var baseConfig = require('./webpackBaseConfig');
 var webpack = require('webpack');
 var path = require('path');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = Object.assign({}, baseConfig, {
     plugins: baseConfig.plugins.concat([
@@ -15,7 +16,8 @@ module.exports = Object.assign({}, baseConfig, {
             },
             mangle: false,
             sourceMap: false
-        })
+        }),
+        new ExtractTextPlugin("[name].[hash].css")
     ]),
 
     output: {
