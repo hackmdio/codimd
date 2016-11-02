@@ -1,6 +1,11 @@
 /* jquery and jquery plugins */
 require('../vendor/showup/showup');
 
+require('../css/index.css');
+require('../css/extra.css');
+require('../css/slide-preview.css');
+require('../css/site.css');
+
 var toMarkdown = require('to-markdown');
 
 var saveAs = require('file-saver').saveAs;
@@ -2306,7 +2311,7 @@ socket.on('delete', function () {
             saveHistory(newnotehistory);
             location.href = serverurl;
         });
-    }   
+    }
 });
 var retryTimer = null;
 socket.on('maintenance', function () {
