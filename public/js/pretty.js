@@ -1,3 +1,7 @@
+require('../css/extra.css');
+require('../css/slide-preview.css');
+require('../css/site.css');
+
 /* other vendors plugin */
 var S = require('string');
 
