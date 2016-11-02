@@ -28,6 +28,6 @@ module.exports = [Object.assign({}, baseConfig, {
         filename: '[name].js'
     },
     plugins: [
-        new ExtractTextPlugin("html.min.[hash].css")
+        new ExtractTextPlugin("html.min.css")
     ]
 }];
