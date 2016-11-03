@@ -2648,7 +2648,8 @@ socket.on('doc', function (obj) {
     obj = JSON.parse(obj);
     var body = obj.str;
     var bodyMismatch = editor.getValue() !== body;
-    var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && Object.keys(cmClient.state).length <= 0))) || obj.force;
+    var havePendingOperation = cmClient && Object.keys(cmClient.state).length > 0;
+    var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && !havePendingOperation))) || obj.force;
 
     saveInfo();
     if (setDoc && bodyMismatch) {
@@ -2682,6 +2683,8 @@ socket.on('doc', function (obj) {
         cmClient.setState(new ot.Client.Synchronized());
         cmClient.initializeClientList();
         cmClient.initializeClients(obj.clients);
+    } else if (havePendingOperation) {
+        cmClient.serverReconnect();
     }
 
     if (setDoc && bodyMismatch) {
