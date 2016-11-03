@@ -2,6 +2,7 @@ var baseConfig = require('./webpackBaseConfig');
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = [Object.assign({}, baseConfig, {
     plugins: baseConfig.plugins.concat([
@@ -52,6 +53,7 @@ module.exports = [Object.assign({}, baseConfig, {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
-        new ExtractTextPlugin("html.min.css")
+        new ExtractTextPlugin("html.min.css"),
+        new OptimizeCssAssetsPlugin()
     ]
 }];
