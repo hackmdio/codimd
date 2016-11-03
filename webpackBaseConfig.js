@@ -15,7 +15,6 @@ module.exports = {
             "moment": "moment",
             "Handlebars": "handlebars"
         }),
-        new ExtractTextPlugin("[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
             names: ["cover", "index", "pretty", "slide", "vendor"],
             children: true,

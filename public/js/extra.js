@@ -588,7 +588,7 @@ function exportToHTML(view) {
     var tocAffix = $('#ui-toc-affix').clone();
     tocAffix.find('*').removeClass('active').find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll');
     //generate html via template
-    $.get(serverurl + '/css/html.min.css', function (css) {
+    $.get(serverurl + '/build/html.min.css', function (css) {
         $.get(serverurl + '/views/html.hbs', function (data) {
             var template = Handlebars.compile(data);
             var context = {
