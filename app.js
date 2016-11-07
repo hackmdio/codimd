@@ -487,6 +487,8 @@ models.sequelize.sync().then(function () {
             if (err) throw new Error(err);
             if (!notes || notes.length <= 0) return startListen();
         });
+    } else {
+        throw new Error('server still not ready after db synced');
     }
 });
 
