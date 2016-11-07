@@ -2,6 +2,8 @@ require('../css/extra.css');
 require('../css/slide-preview.css');
 require('../css/site.css');
 
+require('highlight.js/styles/github-gist.css');
+
 /* other vendors plugin */
 var S = require('string');
 

@@ -6,6 +6,8 @@ require('../css/extra.css');
 require('../css/slide-preview.css');
 require('../css/site.css');
 
+require('highlight.js/styles/github-gist.css');
+
 var toMarkdown = require('to-markdown');
 
 var saveAs = require('file-saver').saveAs;
