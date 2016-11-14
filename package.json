@@ -5,7 +5,7 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack --config webpack.config.js --progress --colors --watch",
+    "dev": "webpack --config webpack.config.js --progress --colors --watch & nodemon app.js",
     "build": "webpack --config webpack.production.js --progress --colors",
     "assets:install": "bower install",
     "postinstall": "bin/heroku",
@@ -137,6 +137,7 @@
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "nodemon": "^1.11.0",
     "optimize-css-assets-webpack-plugin": "^1.3.0",
     "script-loader": "^0.7.0",
     "style-loader": "^0.13.1",
