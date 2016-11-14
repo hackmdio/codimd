@@ -405,6 +405,7 @@ app.get('/me', function (req, res) {
 //upload to imgur
 app.post('/uploadimage', function (req, res) {
     var form = new formidable.IncomingForm();
+
     form.uploadDir = "public/uploads";
     form.keepExtensions = true;
 
@@ -414,20 +415,33 @@ app.post('/uploadimage', function (req, res) {
         } else {
             if (config.debug)
                 logger.info('SERVER received uploadimage: ' + JSON.stringify(files.image));
-            imgur.setClientId(config.imgur.clientID);
+
             try {
-                imgur.uploadFile(files.image.path)
-                    .then(function (json) {
-                        if (config.debug)
-                            logger.info('SERVER uploadimage success: ' + JSON.stringify(json));
-                        res.send({
-                            link: json.data.link.replace(/^http:\/\//i, 'https://')
-                        });
-                    })
-                    .catch(function (err) {
-                        logger.error(err);
-                        return res.status(500).end('upload image error');
+                switch (config.imageUploadType) {
+                case 'filesystem':
+                    res.send({
+                        link: files.image.path.match(/^public(.+$)/)[1]
                     });
+
+                    break;
+
+                case 'imgur':
+                default:
+                    imgur.setClientId(config.imgur.clientID);
+                    imgur.uploadFile(files.image.path)
+                        .then(function (json) {
+                            if (config.debug)
+                                logger.info('SERVER uploadimage success: ' + JSON.stringify(json));
+                            res.send({
+                                link: json.data.link.replace(/^http:\/\//i, 'https://')
+                            });
+                        })
+                        .catch(function (err) {
+                            logger.error(err);
+                            return res.status(500).end('upload image error');
+                        });
+                    break;
+                }
             } catch (err) {
                 logger.error(err);
                 return res.status(500).end('upload image error');
