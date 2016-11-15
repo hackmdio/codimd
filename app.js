@@ -406,8 +406,10 @@ app.get('/me', function (req, res) {
 app.post('/uploadimage', function (req, res) {
     var form = new formidable.IncomingForm();
 
-    form.uploadDir = "public/uploads";
-    form.keepExtensions = true;
+    if (config.imageUploadType === 'filesystem') {
+        form.uploadDir = "public/uploads";
+        form.keepExtensions = true;
+    }
 
     form.parse(req, function (err, fields, files) {
         if (err || !files.image || !files.image.path) {
