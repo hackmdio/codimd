@@ -402,13 +402,15 @@ app.get('/me', function (req, res) {
         });
     }
 });
-//upload to imgur
+
+//upload image
 app.post('/uploadimage', function (req, res) {
     var form = new formidable.IncomingForm();
 
+    form.keepExtensions = true;
+
     if (config.imageUploadType === 'filesystem') {
         form.uploadDir = "public/uploads";
-        form.keepExtensions = true;
     }
 
     form.parse(req, function (err, fields, files) {
@@ -418,13 +420,39 @@ app.post('/uploadimage', function (req, res) {
             if (config.debug)
                 logger.info('SERVER received uploadimage: ' + JSON.stringify(files.image));
 
+            var path = require('path');
             try {
                 switch (config.imageUploadType) {
                 case 'filesystem':
-                    var path = require('path');
-
                     res.send({
                         link: path.join(config.serverurl, files.image.path.match(/^public(.+$)/)[1])
+                    });
+
+                    break;
+
+                case 's3':
+                    var AWS = require('aws-sdk');
+                    var awsConfig = new AWS.Config(config.s3);
+                    var s3 = new AWS.S3(awsConfig);
+
+                    fs.readFile(files.image.path, function (err, buffer) {
+                        var params = {
+                            Bucket: 'hackmd',
+                            Key: path.join('uploads', path.basename(files.image.path)),
+                            Body: buffer
+                        };
+
+                        s3.putObject(params, function (err, data) {
+                            if (err) {
+                                logger.error(err);
+                                res.status(500).end('upload image error');
+                            } else {
+                                res.send({
+                                    link: `https://s3-${config.s3.region}.amazonaws.com/${config.s3bucket}/${params.Key}`
+                                });
+                            }
+                        });
+
                     });
 
                     break;

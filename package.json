@@ -14,6 +14,7 @@
   "dependencies": {
     "Idle.Js": "github:shawnmclean/Idle.js",
     "async": "^2.0.1",
+    "aws-sdk": "^2.7.0",
     "blueimp-md5": "^2.4.0",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
