@@ -12,19 +12,19 @@
 
     ![bucket-policy-editor](images/s3-image-upload/bucket-policy-editor.png)
 
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::bucket_name/uploads/*"
-        }
-    ]
-}
-```
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": "s3:GetObject",
+                "Resource": "arn:aws:s3:::bucket_name/uploads/*"
+            }
+        ]
+    }
+    ```
 
 4. Go to IAM console and create a new IAM user. Remember your user credentials(`key`/`access token`)
 
@@ -40,22 +40,22 @@
 
     ![review-policy](images/s3-image-upload/review-policy.png)
 
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:*"
-            ],
-            "Resource": [
-                "arn:aws:s3:::bucket_name/uploads/*"
-            ]
-        }
-    ]
-}
-```
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "s3:*"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::bucket_name/uploads/*"
+                ]
+            }
+        ]
+    }
+    ```
 
 ## Related Tools
 
