@@ -87,6 +87,7 @@
     "reveal.js": "^3.3.0",
     "sequelize": "^3.24.3",
     "sequelize-cli": "^2.4.0",
+    "sharp": "^0.16.2",
     "shortid": "2.2.6",
     "socket.io": "1.5.0",
     "socket.io-client": "^1.5.0",

@@ -413,71 +413,87 @@ app.post('/uploadimage', function (req, res) {
         form.uploadDir = "public/uploads";
     }
 
+    function preprocessImage(path) {
+        return new Promise((resolve) => {
+            var oldFile = `${path}-old`;
+            fs.rename(path, oldFile, function() {
+                var sharp = require('sharp');
+                sharp(oldFile).toFile(path).then(() => {
+                    fs.unlink(oldFile, function() {
+                        resolve(path);
+                    })
+                });
+            });
+        });
+    }
+
     form.parse(req, function (err, fields, files) {
         if (err || !files.image || !files.image.path) {
             response.errorForbidden(res);
         } else {
-            if (config.debug)
-                logger.info('SERVER received uploadimage: ' + JSON.stringify(files.image));
+            preprocessImage(files.image.path).then(() => {
+                if (config.debug)
+                    logger.info('SERVER received uploadimage: ' + JSON.stringify(files.image));
 
-            var path = require('path');
-            try {
-                switch (config.imageUploadType) {
-                case 'filesystem':
-                    res.send({
-                        link: path.join(config.serverurl, files.image.path.match(/^public(.+$)/)[1])
-                    });
-
-                    break;
-
-                case 's3':
-                    var AWS = require('aws-sdk');
-                    var awsConfig = new AWS.Config(config.s3);
-                    var s3 = new AWS.S3(awsConfig);
-
-                    fs.readFile(files.image.path, function (err, buffer) {
-                        var params = {
-                            Bucket: 'hackmd',
-                            Key: path.join('uploads', path.basename(files.image.path)),
-                            Body: buffer
-                        };
-
-                        s3.putObject(params, function (err, data) {
-                            if (err) {
-                                logger.error(err);
-                                res.status(500).end('upload image error');
-                            } else {
-                                res.send({
-                                    link: `https://s3-${config.s3.region}.amazonaws.com/${config.s3bucket}/${params.Key}`
-                                });
-                            }
+                var path = require('path');
+                try {
+                    switch (config.imageUploadType) {
+                    case 'filesystem':
+                        res.send({
+                            link: path.join(config.serverurl, files.image.path.match(/^public(.+$)/)[1])
                         });
 
-                    });
+                        break;
 
-                    break;
+                    case 's3':
+                        var AWS = require('aws-sdk');
+                        var awsConfig = new AWS.Config(config.s3);
+                        var s3 = new AWS.S3(awsConfig);
 
-                case 'imgur':
-                default:
-                    imgur.setClientId(config.imgur.clientID);
-                    imgur.uploadFile(files.image.path)
-                        .then(function (json) {
-                            if (config.debug)
-                                logger.info('SERVER uploadimage success: ' + JSON.stringify(json));
-                            res.send({
-                                link: json.data.link.replace(/^http:\/\//i, 'https://')
+                        fs.readFile(files.image.path, function (err, buffer) {
+                            var params = {
+                                Bucket: 'hackmd',
+                                Key: path.join('uploads', path.basename(files.image.path)),
+                                Body: buffer
+                            };
+
+                            s3.putObject(params, function (err, data) {
+                                if (err) {
+                                    logger.error(err);
+                                    res.status(500).end('upload image error');
+                                } else {
+                                    res.send({
+                                        link: `https://s3-${config.s3.region}.amazonaws.com/${config.s3bucket}/${params.Key}`
+                                    });
+                                }
                             });
-                        })
-                        .catch(function (err) {
-                            logger.error(err);
-                            return res.status(500).end('upload image error');
+
                         });
-                    break;
+
+                        break;
+
+                    case 'imgur':
+                    default:
+                        imgur.setClientId(config.imgur.clientID);
+                        imgur.uploadFile(files.image.path)
+                            .then(function (json) {
+                                if (config.debug)
+                                    logger.info('SERVER uploadimage success: ' + JSON.stringify(json));
+                                res.send({
+                                    link: json.data.link.replace(/^http:\/\//i, 'https://')
+                                });
+                            })
+                            .catch(function (err) {
+                                logger.error(err);
+                                return res.status(500).end('upload image error');
+                            });
+                        break;
+                    }
+                } catch (err) {
+                    logger.error(err);
+                    return res.status(500).end('upload image error');
                 }
-            } catch (err) {
-                logger.error(err);
-                return res.status(500).end('upload image error');
-            }
+            });
         }
     });
 });
