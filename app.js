@@ -421,8 +421,10 @@ app.post('/uploadimage', function (req, res) {
             try {
                 switch (config.imageUploadType) {
                 case 'filesystem':
+                    var path = require('path');
+
                     res.send({
-                        link: files.image.path.match(/^public(.+$)/)[1]
+                        link: path.join(config.serverurl, files.image.path.match(/^public(.+$)/)[1])
                     });
 
                     break;
