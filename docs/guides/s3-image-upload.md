@@ -57,6 +57,25 @@
     }
     ```
 
+8. Edit `config.json` and set following keys:
+
+    ```javascript
+    {
+        "production": {
+            ...
+            "imageUploadType": "s3",
+            "s3": {
+                "accessKeyId": "YOUR_S3_ACCESS_KEY_ID",
+                "secretAccessKey": "YOUR_S3_ACCESS_KEY",
+                "region": "YOUR_S3_REGION", // example: ap-northeast-1
+                "bucket": "YOUR_S3_BUCKET_NAME"
+            }
+        }
+    }
+    ```
+
+9. In additional to edit `config.json` directly, you could also try [environment variable](https://github.com/hackmdio/hackmd#environment-variables-will-overwrite-other-server-configs).
+
 ## Related Tools
 
 * [AWS Policy Generator](http://awspolicygen.s3.amazonaws.com/policygen.html)
