@@ -58,6 +58,10 @@ app.use(morgan('combined', {
 
 //socket io
 var io = require('socket.io')(server);
+io.engine.ws = new (require('uws').Server)({
+    noServer: true,
+    perMessageDeflate: false
+});
 
 //others
 var realtime = require("./lib/realtime.js");
