@@ -43,6 +43,7 @@ mode/python/python.js \
 mode/shell/shell.js \
 mode/php/php.js \
 mode/sql/sql.js \
+mode/haskell/haskell.js \
 mode/coffeescript/coffeescript.js \
 mode/yaml/yaml.js \
 mode/pug/pug.js \

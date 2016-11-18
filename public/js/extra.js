@@ -2,6 +2,7 @@ require('prismjs/themes/prism.css');
 
 var Prism = require('prismjs');
 require('prismjs/components/prism-wiki');
+require('prismjs/components/prism-haskell');
 var hljs = require('highlight.js');
 var PDFObject = require('pdfobject');
 var S = require('string');
@@ -483,6 +484,11 @@ function finishView(view) {
                 if (!reallang) {
                     var result = {
                         value: code
+                    };
+                } else if (reallang == "haskell") {
+                    code = S(code).unescapeHTML().s;
+                    var result = {
+                        value: Prism.highlight(code, Prism.languages.haskell)
                     };
                 } else if (reallang == "tiddlywiki" || reallang == "mediawiki") {
                     code = S(code).unescapeHTML().s;
