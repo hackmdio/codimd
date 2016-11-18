@@ -286,17 +286,6 @@ function finishView(view) {
         if ($(value).children().length == 0)
             $(value).gist(viewAjaxCallback);
     });
-    //mathjax
-    var mathjaxdivs = view.find('span.mathjax.raw').removeClass("raw").toArray();
-    try {
-        if (mathjaxdivs.length > 1) {
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs]);
-            MathJax.Hub.Queue(viewAjaxCallback);
-        } else if (mathjaxdivs.length > 0) {
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs[0]]);
-            MathJax.Hub.Queue(viewAjaxCallback);
-        }
-    } catch (err) {}
     //sequence diagram
     var sequences = view.find("div.sequence-diagram.raw").removeClass("raw");
     sequences.each(function (key, value) {
@@ -508,6 +497,19 @@ function finishView(view) {
                 else langDiv.html(result.value);
             }
         });
+    //mathjax
+    var mathjaxdivs = view.find('span.mathjax.raw').removeClass("raw").toArray();
+    try {
+        if (mathjaxdivs.length > 1) {
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs]);
+            MathJax.Hub.Queue(viewAjaxCallback);
+        } else if (mathjaxdivs.length > 0) {
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs[0]]);
+            MathJax.Hub.Queue(viewAjaxCallback);
+        }
+    } catch (err) {
+        console.warn(err);
+    }
     //render title
     document.title = renderTitle(view);
 }
