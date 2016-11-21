@@ -493,6 +493,10 @@ app.post('/uploadimage', function (req, res) {
                     logger.error(err);
                     return res.status(500).end('upload image error');
                 }
+
+            }).catch((err) => {
+                logger.error(err);
+                return res.status(500).end('process image error');
             });
         }
     });
