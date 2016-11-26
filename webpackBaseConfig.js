@@ -16,6 +16,7 @@ module.exports = {
             "moment": "moment",
             "Handlebars": "handlebars"
         }),
+        new webpack.optimize.OccurrenceOrderPlugin(true),
         new webpack.optimize.CommonsChunkPlugin({
             names: ["cover", "index", "pretty", "slide", "vendor"],
             children: true,
@@ -95,14 +96,21 @@ module.exports = {
             filename: path.join(__dirname, 'public/views/build/pretty-pack-scripts.ejs'),
             inject: false
         }),
+        new HtmlWebpackPlugin({
             template: 'public/views/includes/header.ejs',
-            chunks: ['vendor', 'slide'],
+            chunks: ['font', 'slide-styles', 'slide'],
             filename: path.join(__dirname, 'public/views/build/slide-header.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
+            template: 'public/views/includes/header.ejs',
+            chunks: ['font-pack', 'slide-styles-pack', 'slide-styles', 'slide'],
+            filename: path.join(__dirname, 'public/views/build/slide-pack-header.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
             template: 'public/views/includes/scripts.ejs',
-            chunks: ['vendor', 'slide'],
+            chunks: ['slide'],
             filename: path.join(__dirname, 'public/views/build/slide-scripts.ejs'),
             inject: false
         }),
@@ -133,7 +141,6 @@ module.exports = {
     ],
 
     entry: {
-        slide: path.join(__dirname, 'public/js/slide.js'),
         font: path.join(__dirname, 'public/css/google-font.css'),
         "font-pack": path.join(__dirname, 'public/css/font.css'),
         common: [
@@ -266,6 +273,40 @@ module.exports = {
             path.join(__dirname, 'public/js/reveal-markdown.js'),
             path.join(__dirname, 'public/js/pretty.js')
         ],
+        slide: [
+            "expose?filterXSS!xss",
+            "flowchart.js",
+            "js-sequence-diagrams",
+            path.join(__dirname, 'public/js/reveal-markdown.js'),
+            path.join(__dirname, 'public/js/slide.js')
+        ],
+        "slide-styles": [
+            path.join(__dirname, 'public/css/github-extract.css'),
+            path.join(__dirname, 'public/css/mermaid.css'),
+            path.join(__dirname, 'public/css/markdown.css')
+        ],
+        "slide-styles-pack": [
+            path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
+            path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
+            path.join(__dirname, 'node_modules/octicons/octicons/octicons.css'),
+            path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.css')
+        ],
+        "slide-pack": [
+            "expose?jsyaml!js-yaml",
+            "script!mermaid",
+            "expose?moment!moment",
+            "script!handlebars",
+            "expose?hljs!highlight.js",
+            "expose?emojify!emojify.js",
+            "expose?filterXSS!xss",
+            "script!gist-embed",
+            "flowchart.js",
+            "js-sequence-diagrams",
+            "expose?Viz!viz.js",
+            "headjs",
+            "expose?Reveal!reveal.js",
+            path.join(__dirname, 'public/js/reveal-markdown.js'),
+            path.join(__dirname, 'public/js/slide.js')
         ]
     },
 
@@ -293,6 +334,8 @@ module.exports = {
             handlebars: path.join(__dirname, 'node_modules/handlebars/dist/handlebars.min.js'),
             "jquery-ui-resizable": path.join(__dirname, 'public/vendor/jquery-ui/jquery-ui.min.js'),
             "gist-embed": path.join(__dirname, 'node_modules/gist-embed/gist-embed.min.js'),
+            "bootstrap-tooltip": path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.js'),
+            "headjs": path.join(__dirname, 'node_modules/reveal.js/lib/js/head.min.js')
         }
     },
 
