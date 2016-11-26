@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     plugins: [
@@ -24,17 +25,28 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/header.ejs',
-            chunks: ['vendor', 'index'],
+            chunks: ['font', 'index-styles', 'index'],
             filename: path.join(__dirname, 'public/views/build/index-header.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
+            template: 'public/views/includes/header.ejs',
+            chunks: ['font-pack', 'index-styles-pack', 'index-styles', 'index'],
+            filename: path.join(__dirname, 'public/views/build/index-pack-header.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
             template: 'public/views/includes/scripts.ejs',
-            chunks: ['vendor', 'index'],
+            chunks: ['index'],
             filename: path.join(__dirname, 'public/views/build/index-scripts.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
+            template: 'public/views/includes/scripts.ejs',
+            chunks: ['common', 'index-pack'],
+            filename: path.join(__dirname, 'public/views/build/index-pack-scripts.ejs'),
+            inject: false
+        }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/header.ejs',
             chunks: ['font', 'cover'],
@@ -81,11 +93,34 @@ module.exports = {
             chunks: ['vendor', 'slide'],
             filename: path.join(__dirname, 'public/views/build/slide-scripts.ejs'),
             inject: false
-        })
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/views/includes/scripts.ejs',
+            chunks: ['common', 'slide-pack'],
+            filename: path.join(__dirname, 'public/views/build/slide-pack-scripts.ejs'),
+            inject: false
+        }),
+        new CopyWebpackPlugin([
+            {
+                context: path.join(__dirname, 'node_modules/mathjax'),
+                from: {
+                    glob: '**/*',
+                    dot: false
+                },
+                to: 'MathJax/'
+            },
+            {
+                context: path.join(__dirname, 'node_modules/emojify.js'),
+                from: {
+                    glob: '**/*',
+                    dot: false
+                },
+                to: 'emojify.js/'
+            }
+        ])
     ],
 
     entry: {
-        index: path.join(__dirname, 'public/js/index.js'),
         pretty: path.join(__dirname, 'public/js/pretty.js'),
         slide: path.join(__dirname, 'public/js/slide.js'),
         font: path.join(__dirname, 'public/css/google-font.css'),
@@ -97,7 +132,10 @@ module.exports = {
             "bootstrap"
         ],
             "js-url",
-            "expose?Spinner!spin.js",
+        index: [
+            "script!jquery-ui-resizable",
+            "js-url",
+            "expose?filterXSS!xss",
             "script!Idle.Js",
             "expose?LZString!lz-string",
             "script!codemirror",
@@ -107,7 +145,67 @@ module.exports = {
             "script!codemirrorInlineAttachment",
             "script!ot",
             "flowchart.js",
-            "js-sequence-diagrams"
+            "js-sequence-diagrams",
+            path.join(__dirname, 'public/js/google-drive-upload.js'),
+            path.join(__dirname, 'public/js/google-drive-picker.js'),
+            path.join(__dirname, 'public/js/reveal-markdown.js'),
+            path.join(__dirname, 'public/js/index.js')
+        ],
+        "index-styles": [
+            path.join(__dirname, 'public/vendor/jquery-ui/jquery-ui.min.css'),
+            path.join(__dirname, 'public/vendor/codemirror/lib/codemirror.css'),
+            path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.css'),
+            path.join(__dirname, 'public/vendor/codemirror/addon/fold/foldgutter.css'),
+            path.join(__dirname, 'public/vendor/codemirror/addon/display/fullscreen.css'),
+            path.join(__dirname, 'public/vendor/codemirror/addon/dialog/dialog.css'),
+            path.join(__dirname, 'public/vendor/codemirror/addon/scroll/simplescrollbars.css'),
+            path.join(__dirname, 'public/vendor/codemirror/addon/search/matchesonscrollbar.css'),
+            path.join(__dirname, 'public/vendor/codemirror/theme/monokai.css'),
+            path.join(__dirname, 'public/vendor/codemirror/theme/one-dark.css'),
+            path.join(__dirname, 'public/vendor/codemirror/mode/tiddlywiki/tiddlywiki.css'),
+            path.join(__dirname, 'public/vendor/codemirror/mode/mediawiki/mediawiki.css'),
+            path.join(__dirname, 'public/css/github-extract.css'),
+            path.join(__dirname, 'public/vendor/showup/showup.css'),
+            path.join(__dirname, 'public/css/mermaid.css'),
+            path.join(__dirname, 'public/css/markdown.css')
+        ],
+        "index-styles-pack": [
+            path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
+            path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
+            path.join(__dirname, 'public/css/bootstrap-social.css'),
+            path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
+            path.join(__dirname, 'node_modules/octicons/octicons/octicons.css')
+        ],
+        "index-pack": [
+            "expose?Spinner!spin.js",
+            "script!jquery-ui-resizable",
+            "script!codemirror",
+            "expose?jsyaml!js-yaml",
+            "script!mermaid",
+            "expose?moment!moment",
+            "js-url",
+            "script!handlebars",
+            "expose?hljs!highlight.js",
+            "expose?emojify!emojify.js",
+            "expose?filterXSS!xss",
+            "script!Idle.Js",
+            "script!gist-embed",
+            "expose?LZString!lz-string",
+            "script!codemirror",
+            "script!inlineAttachment",
+            "script!jqueryTextcomplete",
+            "script!codemirrorSpellChecker",
+            "script!codemirrorInlineAttachment",
+            "script!ot",
+            "flowchart.js",
+            "js-sequence-diagrams",
+            "expose?Viz!viz.js",
+            "expose?io!socket.io-client",
+            path.join(__dirname, 'public/js/google-drive-upload.js'),
+            path.join(__dirname, 'public/js/google-drive-picker.js'),
+            path.join(__dirname, 'public/js/reveal-markdown.js'),
+            path.join(__dirname, 'public/js/index.js')
+        ],
         ]
     },
 
@@ -131,6 +229,10 @@ module.exports = {
             codemirrorInlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
             ot: path.join(__dirname, 'public/vendor/ot/ot.min.js'),
             listPagnation: path.join(__dirname, 'node_modules/list.pagination.js/dist/list.pagination.min.js'),
+            mermaid: path.join(__dirname, 'node_modules/mermaid/dist/mermaid.min.js'),
+            handlebars: path.join(__dirname, 'node_modules/handlebars/dist/handlebars.min.js'),
+            "jquery-ui-resizable": path.join(__dirname, 'public/vendor/jquery-ui/jquery-ui.min.js'),
+            "gist-embed": path.join(__dirname, 'node_modules/gist-embed/gist-embed.min.js'),
         }
     },
 

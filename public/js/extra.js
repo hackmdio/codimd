@@ -904,7 +904,7 @@ emojify.setConfig({
         elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
         classes: ['no-emojify']
     },
-    img_dir: serverurl + '/vendor/emojify.js/dist/images/basic',
+    img_dir: serverurl + '/build/emojify.js/dist/images/basic',
     ignore_emoticons: true
 });
 

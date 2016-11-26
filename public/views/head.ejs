@@ -8,36 +8,15 @@
 <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
 <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
 <% if(useCDN) { %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.9.0/bootstrap-social.min.css" integrity="sha256-02JtFTurpwBjQJ6q13iJe82/NF0RbZlJroDegK5g87Y=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.9.0/bootstrap-social.min.css" integrity="sha256-02JtFTurpwBjQJ6q13iJe82/NF0RbZlJroDegK5g87Y=" crossorigin="anonymous" />
-<link rel="stylesheet" href="<%- url %>/css/google-font.css">
-<% } else { %>
-<link rel="stylesheet" href="<%- url %>/vendor/Ionicons/css/ionicons.min.css">
-<link rel="stylesheet" href="<%- url %>/vendor/octicons/octicons/octicons.css">
-<link rel="stylesheet" href="<%- url %>/css/bootstrap-social.css">
-<link rel="stylesheet" href="<%- url %>/css/font.css">
-<% } %>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" integrity="sha256-AIodEDkC8V/bHBkfyxzolUMw57jeQ9CauwhVW6YJ9CA=" crossorigin="anonymous" />
-<link rel="stylesheet" href="<%- url %>/vendor/jquery-ui/jquery-ui.min.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror/lib/codemirror.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror-spell-checker/spell-checker.min.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror/addon/fold/foldgutter.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror/addon/display/fullscreen.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror/addon/dialog/dialog.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror/addon/scroll/simplescrollbars.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror/addon/search/matchesonscrollbar.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror/theme/monokai.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror/theme/one-dark.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror/mode/tiddlywiki/tiddlywiki.css">
-<link rel="stylesheet" href="<%- url %>/vendor/codemirror/mode/mediawiki/mediawiki.css">
-<link rel="stylesheet" href="<%- url %>/css/github-extract.css">
-<link rel="stylesheet" href="<%- url %>/vendor/emojify.js/dist/css/basic/emojify.min.css">
-<link rel="stylesheet" href="<%- url %>/vendor/showup/showup.css">
-<link rel="stylesheet" href="<%- url %>/css/mermaid.css">
-<link rel="stylesheet" href="<%- url %>/css/markdown.css">
-
+<link rel="stylesheet" href='<%- url %>/build/emojify.js/dist/css/basic/emojify.min.css'>
 <%- include build/index-header %>
-
+<% } else { %>
+<link rel="stylesheet" href='<%- url %>/build/emojify.js/dist/css/basic/emojify.min.css'>
+<%- include build/index-pack-header %>
+<% } %>
 <%- include polyfill %>
