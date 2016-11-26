@@ -283,7 +283,7 @@ module.exports = {
             test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
             loader: "file"
         }, {
-            test: /\.(woff|woff2)$/,
+            test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
             loader: "url?prefix=font/&limit=5000"
         }, {
             test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
@@ -291,6 +291,12 @@ module.exports = {
         }, {
             test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
             loader: "url?limit=10000&mimetype=image/svg+xml"
+        }, {
+            test: /\.png(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "url?limit=10000&mimetype=image/png"
+        }, {
+            test: /\.gif(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "url?limit=10000&mimetype=image/gif"
         }]
     },
 
