@@ -1,4 +1,5 @@
 var store = require('store');
+var S = require('string');
 
 var common = require('./common');
 var checkIfAuth = common.checkIfAuth;
@@ -337,6 +338,10 @@ function parseToHistory(list, notehistory, callback) {
             notehistory[i].timestamp = timestamp.valueOf();
             notehistory[i].fromNow = timestamp.fromNow();
             notehistory[i].time = timestamp.format('llll');
+            // prevent XSS
+            notehistory[i].text = S(notehistory[i].text).escapeHTML().s;
+            notehistory[i].tags = (notehistory[i].tags && notehistory[i].tags.length > 0) ? S(notehistory[i].tags).escapeHTML().s.split(',') : [];
+            // add to list
             if (notehistory[i].id && list.get('id', notehistory[i].id).length == 0)
                 list.add(notehistory[i]);
         }
