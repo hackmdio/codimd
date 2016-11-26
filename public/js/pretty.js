@@ -18,6 +18,7 @@ var smoothHashScroll = extra.smoothHashScroll;
 var postProcess = extra.postProcess;
 var updateLastChange = extra.updateLastChange;
 var parseMeta = extra.parseMeta;
+var scrollToHash = extra.scrollToHash;
 var preventXSS = require('./render').preventXSS;
 
 var markdown = $("#doc.markdown-body");
@@ -117,6 +118,7 @@ $(window).resize(function () {
 $(document).ready(function () {
     windowResize();
     generateScrollspy();
+    setTimeout(scrollToHash, 0);
     //tooltip
     $('[data-toggle="tooltip"]').tooltip();
 });
