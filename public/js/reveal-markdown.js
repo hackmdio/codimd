@@ -286,7 +286,10 @@
 			nodeValue = nodeValue.substring( 0, matches.index ) + nodeValue.substring( mardownClassesInElementsRegex.lastIndex );
 			node.nodeValue = nodeValue;
 			while( matchesClass = mardownClassRegex.exec( classes ) ) {
-				elementTarget.setAttribute( matchesClass[1], matchesClass[2] );
+				var name = matchesClass[1];
+				var value = matchesClass[2];
+				if (name.substr(0, 5) === 'data-' || whiteListAttr.indexOf(name) !== -1)
+					elementTarget.setAttribute( name, filterXSS.escapeAttrValue(value) );
 			}
 			return true;
 		}

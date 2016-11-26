@@ -1,5 +1,6 @@
 // allow some attributes
 var whiteListAttr = ['id', 'class', 'style'];
+window.whiteListAttr = whiteListAttr;
 // allow link starts with '.', '/' and custom protocol with '://'
 var linkRegex = /^([\w|-]+:\/\/)|^([\.|\/])+/;
 // allow data uri, from https://gist.github.com/bgrins/6194623
