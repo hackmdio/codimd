@@ -131,7 +131,23 @@ module.exports = {
             "imports?$=jquery!jquery-mousewheel",
             "bootstrap"
         ],
+        cover: [
+            path.join(__dirname, 'public/js/cover.js')
+        ],
+        "cover-styles-pack": [
+            path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
+            path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
+            path.join(__dirname, 'public/css/bootstrap-social.css'),
+            path.join(__dirname, 'node_modules/select2/select2.css'),
+            path.join(__dirname, 'node_modules/select2/select2-bootstrap.css'),
+        ],
+        "cover-pack": [
+            "script!listPagnation",
+            "expose?select2!select2",
+            "expose?moment!moment",
             "js-url",
+            path.join(__dirname, 'public/js/cover.js')
+        ],
         index: [
             "script!jquery-ui-resizable",
             "js-url",
