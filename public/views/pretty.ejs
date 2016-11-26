@@ -9,12 +9,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="mobile-web-app-capable" content="yes">
     <% if(typeof robots !== 'undefined' && robots) { %>
-    <meta name="robots" content="<%- robots %>">
+    <meta name="robots" content="<%= robots %>">
     <% } %>
     <% if(typeof description !== 'undefined' && description) { %>
-    <meta name="description" content="<%- description %>">
+    <meta name="description" content="<%= description %>">
     <% } %>
-    <title><%- title %></title>
+    <title><%= title %></title>
     <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
 	<link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
 	<% if(useCDN) { %>
@@ -59,7 +59,7 @@
             <% } %>
         </small>
     </div>
-    <div id="doc" class="container markdown-body"><%- body %></div>
+    <div id="doc" class="container markdown-body"><%= body %></div>
     <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
         <div class="pull-right dropdown">
             <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">

@@ -6,12 +6,12 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="mobile-web-app-capable" content="yes">
         <% if(typeof robots !== 'undefined' && robots) { %>
-        <meta name="robots" content="<%- robots %>">
+        <meta name="robots" content="<%= robots %>">
         <% } %>
         <% if(typeof description !== 'undefined' && description) { %>
-        <meta name="description" content="<%- description %>">
+        <meta name="description" content="<%= description %>">
         <% } %>
-        <title><%- title %></title>
+        <title><%= title %></title>
         <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
         <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
         <% if(useCDN) { %>
@@ -55,10 +55,10 @@
     <body>
         <div class="container">
             <div class="reveal">
-                <div class="slides" style="display: none;"><%- body %></div>
+                <div class="slides" style="display: none;"><%= body %></div>
             </div>
 
-            <div id="meta" style="display: none;"><%- meta %></div>
+            <div id="meta" style="display: none;"><%= meta %></div>
 
             <div class="footer">
                 <div class="unselectable hidden-print" style="color: #777;">

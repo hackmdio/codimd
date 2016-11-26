@@ -4,9 +4,6 @@ require('../css/site.css');
 
 require('highlight.js/styles/github-gist.css');
 
-/* other vendors plugin */
-var S = require('string');
-
 var extra = require('./extra');
 var md = extra.md;
 var finishView = extra.finishView;
@@ -22,7 +19,7 @@ var scrollToHash = extra.scrollToHash;
 var preventXSS = require('./render').preventXSS;
 
 var markdown = $("#doc.markdown-body");
-var text = S(markdown.html()).unescapeHTML().s;
+var text = markdown.text();
 var lastMeta = md.meta;
 md.meta = {};
 var rendered = md.render(text);
