@@ -35,18 +35,30 @@ module.exports = {
             inject: false
         }),
         new HtmlWebpackPlugin({
+        new HtmlWebpackPlugin({
             template: 'public/views/includes/header.ejs',
-            chunks: ['vendor', 'cover'],
+            chunks: ['font', 'cover'],
             filename: path.join(__dirname, 'public/views/build/cover-header.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
+            template: 'public/views/includes/header.ejs',
+            chunks: ['font-pack', 'cover-styles-pack', 'cover'],
+            filename: path.join(__dirname, 'public/views/build/cover-pack-header.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
             template: 'public/views/includes/scripts.ejs',
-            chunks: ['vendor', 'cover'],
+            chunks: ['cover'],
             filename: path.join(__dirname, 'public/views/build/cover-scripts.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
+            template: 'public/views/includes/scripts.ejs',
+            chunks: ['common', 'cover-pack'],
+            filename: path.join(__dirname, 'public/views/build/cover-pack-scripts.ejs'),
+            inject: false
+        }),
             template: 'public/views/includes/header.ejs',
             chunks: ['vendor', 'pretty'],
             filename: path.join(__dirname, 'public/views/build/pretty-header.ejs'),
@@ -73,13 +85,17 @@ module.exports = {
     ],
 
     entry: {
-        cover: path.join(__dirname, 'public/js/cover.js'),
         index: path.join(__dirname, 'public/js/index.js'),
         pretty: path.join(__dirname, 'public/js/pretty.js'),
         slide: path.join(__dirname, 'public/js/slide.js'),
-        vendor: [
+        font: path.join(__dirname, 'public/css/google-font.css'),
+        "font-pack": path.join(__dirname, 'public/css/font.css'),
+        common: [
+            "expose?jQuery!expose?$!jquery",
+            "velocity-animate",
             "imports?$=jquery!jquery-mousewheel",
-            "expose?filterXSS!xss",
+            "bootstrap"
+        ],
             "js-url",
             "expose?Spinner!spin.js",
             "script!Idle.Js",
@@ -113,7 +129,8 @@ module.exports = {
             jqueryTextcomplete: path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
             codemirrorSpellChecker: path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
             codemirrorInlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
-            ot: path.join(__dirname, 'public/vendor/ot/ot.min.js')
+            ot: path.join(__dirname, 'public/vendor/ot/ot.min.js'),
+            listPagnation: path.join(__dirname, 'node_modules/list.pagination.js/dist/list.pagination.min.js'),
         }
     },
 
@@ -124,7 +141,8 @@ module.exports = {
         "jquery": "$",
         "moment": "moment",
         "handlebars": "Handlebars",
-        "highlight.js": "hljs"
+        "highlight.js": "hljs",
+        "select2": "select2"
     },
 
     module: {
