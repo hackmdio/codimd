@@ -12,8 +12,7 @@ var finishView = extraModule.finishView;
 
 var preventXSS = require('./render').preventXSS;
 
-var body = $(".slides").html();
-$(".slides").html(S(body).unescapeHTML().s);
+var body = $(".slides").text();
 
 createtime = lastchangeui.time.attr('data-createtime');
 lastchangetime = lastchangeui.time.attr('data-updatetime');
@@ -47,8 +46,15 @@ var deps = [{
     }
 }, {
     src: serverurl + '/js/reveal-markdown.js',
-    condition: function() {
-        return !!document.querySelector('[data-markdown]');
+    callback: function () {
+        var slideOptions = {
+            separator: '^(\r\n?|\n)---(\r\n?|\n)$',
+            verticalSeparator: '^(\r\n?|\n)----(\r\n?|\n)$'
+        };
+        var slides = RevealMarkdown.slidify(body, slideOptions);
+        $(".slides").html(slides);
+        RevealMarkdown.initialize();
+        $(".slides").show();
     }
 }, {
     src: serverurl + '/vendor/reveal.js/plugin/notes/notes.js',
