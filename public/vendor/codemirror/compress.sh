@@ -56,6 +56,7 @@ mode/r/r.js \
 mode/dockerfile/dockerfile.js \
 mode/tiddlywiki/tiddlywiki.js \
 mode/mediawiki/mediawiki.js \
+mode/go/go.js \
 keymap/emacs.js \
 keymap/sublime.js \
 keymap/vim.js
