@@ -71,18 +71,30 @@ module.exports = {
             filename: path.join(__dirname, 'public/views/build/cover-pack-scripts.ejs'),
             inject: false
         }),
+        new HtmlWebpackPlugin({
             template: 'public/views/includes/header.ejs',
-            chunks: ['vendor', 'pretty'],
+            chunks: ['font', 'pretty-styles', 'pretty'],
             filename: path.join(__dirname, 'public/views/build/pretty-header.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
+            template: 'public/views/includes/header.ejs',
+            chunks: ['font-pack', 'pretty-styles-pack', 'pretty-styles', 'pretty'],
+            filename: path.join(__dirname, 'public/views/build/pretty-pack-header.ejs'),
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
             template: 'public/views/includes/scripts.ejs',
-            chunks: ['vendor', 'pretty'],
+            chunks: ['pretty'],
             filename: path.join(__dirname, 'public/views/build/pretty-scripts.ejs'),
             inject: false
         }),
         new HtmlWebpackPlugin({
+            template: 'public/views/includes/scripts.ejs',
+            chunks: ['common', 'pretty-pack'],
+            filename: path.join(__dirname, 'public/views/build/pretty-pack-scripts.ejs'),
+            inject: false
+        }),
             template: 'public/views/includes/header.ejs',
             chunks: ['vendor', 'slide'],
             filename: path.join(__dirname, 'public/views/build/slide-header.ejs'),
@@ -121,7 +133,6 @@ module.exports = {
     ],
 
     entry: {
-        pretty: path.join(__dirname, 'public/js/pretty.js'),
         slide: path.join(__dirname, 'public/js/slide.js'),
         font: path.join(__dirname, 'public/css/google-font.css'),
         "font-pack": path.join(__dirname, 'public/css/font.css'),
@@ -221,6 +232,39 @@ module.exports = {
             path.join(__dirname, 'public/js/google-drive-picker.js'),
             path.join(__dirname, 'public/js/reveal-markdown.js'),
             path.join(__dirname, 'public/js/index.js')
+        ],
+        pretty: [
+            "expose?filterXSS!xss",
+            "flowchart.js",
+            "js-sequence-diagrams",
+            path.join(__dirname, 'public/js/reveal-markdown.js'),
+            path.join(__dirname, 'public/js/pretty.js')
+        ],
+        "pretty-styles": [
+            path.join(__dirname, 'public/css/github-extract.css'),
+            path.join(__dirname, 'public/css/mermaid.css'),
+            path.join(__dirname, 'public/css/markdown.css')
+        ],
+        "pretty-styles-pack": [
+            path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
+            path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
+            path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
+            path.join(__dirname, 'node_modules/octicons/octicons/octicons.css')
+        ],
+        "pretty-pack": [
+            "expose?jsyaml!js-yaml",
+            "script!mermaid",
+            "expose?moment!moment",
+            "script!handlebars",
+            "expose?hljs!highlight.js",
+            "expose?emojify!emojify.js",
+            "expose?filterXSS!xss",
+            "script!gist-embed",
+            "flowchart.js",
+            "js-sequence-diagrams",
+            "expose?Viz!viz.js",
+            path.join(__dirname, 'public/js/reveal-markdown.js'),
+            path.join(__dirname, 'public/js/pretty.js')
         ],
         ]
     },
