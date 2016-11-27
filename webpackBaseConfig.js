@@ -3,13 +3,9 @@ var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var WebpackShellPlugin = require('webpack-shell-plugin');
 
 module.exports = {
     plugins: [
-        new WebpackShellPlugin({
-            onBuildStart: ['cd node_modules/codemirror && npm install && ./release.sh']
-        }),
         new webpack.ProvidePlugin({
             Visibility: "visibilityjs",
             Cookies: "js-cookie",
