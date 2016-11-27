@@ -184,9 +184,9 @@ module.exports = {
             "script!ot",
             "flowchart.js",
             "js-sequence-diagrams",
+            "expose?RevealMarkdown!reveal-markdown",
             path.join(__dirname, 'public/js/google-drive-upload.js'),
             path.join(__dirname, 'public/js/google-drive-picker.js'),
-            path.join(__dirname, 'public/js/reveal-markdown.js'),
             path.join(__dirname, 'public/js/index.js')
         ],
         "index-styles": [
@@ -239,16 +239,16 @@ module.exports = {
             "js-sequence-diagrams",
             "expose?Viz!viz.js",
             "expose?io!socket.io-client",
+            "expose?RevealMarkdown!reveal-markdown",
             path.join(__dirname, 'public/js/google-drive-upload.js'),
             path.join(__dirname, 'public/js/google-drive-picker.js'),
-            path.join(__dirname, 'public/js/reveal-markdown.js'),
             path.join(__dirname, 'public/js/index.js')
         ],
         pretty: [
             "expose?filterXSS!xss",
             "flowchart.js",
             "js-sequence-diagrams",
-            path.join(__dirname, 'public/js/reveal-markdown.js'),
+            "expose?RevealMarkdown!reveal-markdown",
             path.join(__dirname, 'public/js/pretty.js')
         ],
         "pretty-styles": [
@@ -275,14 +275,14 @@ module.exports = {
             "flowchart.js",
             "js-sequence-diagrams",
             "expose?Viz!viz.js",
-            path.join(__dirname, 'public/js/reveal-markdown.js'),
+            "expose?RevealMarkdown!reveal-markdown",
             path.join(__dirname, 'public/js/pretty.js')
         ],
         slide: [
             "expose?filterXSS!xss",
             "flowchart.js",
             "js-sequence-diagrams",
-            path.join(__dirname, 'public/js/reveal-markdown.js'),
+            "expose?RevealMarkdown!reveal-markdown",
             path.join(__dirname, 'public/js/slide.js')
         ],
         "slide-styles": [
@@ -310,7 +310,7 @@ module.exports = {
             "expose?Viz!viz.js",
             "headjs",
             "expose?Reveal!reveal.js",
-            path.join(__dirname, 'public/js/reveal-markdown.js'),
+            "expose?RevealMarkdown!reveal-markdown",
             path.join(__dirname, 'public/js/slide.js')
         ]
     },
@@ -340,7 +340,8 @@ module.exports = {
             "jquery-ui-resizable": path.join(__dirname, 'public/vendor/jquery-ui/jquery-ui.min.js'),
             "gist-embed": path.join(__dirname, 'node_modules/gist-embed/gist-embed.min.js'),
             "bootstrap-tooltip": path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.js'),
-            "headjs": path.join(__dirname, 'node_modules/reveal.js/lib/js/head.min.js')
+            "headjs": path.join(__dirname, 'node_modules/reveal.js/lib/js/head.min.js'),
+            "reveal-markdown": path.join(__dirname, 'public/js/reveal-markdown.js'),
         }
     },
 
