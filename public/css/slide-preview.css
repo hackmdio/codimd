@@ -24,13 +24,17 @@
   text-align: center;
 }
 
+.markdown-body.slides section[data-markdown] code {
+  text-align: left;
+}
+
 .markdown-body.slides section[data-markdown]::before {
   content: '';
   display: block;
   padding-bottom: 56.23%;
 }
 
-.markdown-body.slides section[data-markdown] div:first-child {
+.markdown-body.slides section[data-markdown] > div:first-child {
   position: absolute;
   top: 50%;
   left: 1em;
@@ -40,7 +44,7 @@
   overflow: hidden;
 }
 
-.markdown-body.slides section[data-markdown] ul {
+.markdown-body.slides section[data-markdown] > ul {
   display: inline-block;
 }
 
