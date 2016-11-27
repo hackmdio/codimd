@@ -3,9 +3,13 @@ var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var WebpackShellPlugin = require('webpack-shell-plugin');
 
 module.exports = {
     plugins: [
+        new WebpackShellPlugin({
+            onBuildStart: ['cd node_modules/codemirror && npm install && ./release.sh']
+        }),
         new webpack.ProvidePlugin({
             Visibility: "visibilityjs",
             Cookies: "js-cookie",
@@ -187,17 +191,17 @@ module.exports = {
         ],
         "index-styles": [
             path.join(__dirname, 'public/vendor/jquery-ui/jquery-ui.min.css'),
-            path.join(__dirname, 'public/vendor/codemirror/lib/codemirror.css'),
             path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.css'),
-            path.join(__dirname, 'public/vendor/codemirror/addon/fold/foldgutter.css'),
-            path.join(__dirname, 'public/vendor/codemirror/addon/display/fullscreen.css'),
-            path.join(__dirname, 'public/vendor/codemirror/addon/dialog/dialog.css'),
-            path.join(__dirname, 'public/vendor/codemirror/addon/scroll/simplescrollbars.css'),
-            path.join(__dirname, 'public/vendor/codemirror/addon/search/matchesonscrollbar.css'),
-            path.join(__dirname, 'public/vendor/codemirror/theme/monokai.css'),
-            path.join(__dirname, 'public/vendor/codemirror/theme/one-dark.css'),
-            path.join(__dirname, 'public/vendor/codemirror/mode/tiddlywiki/tiddlywiki.css'),
-            path.join(__dirname, 'public/vendor/codemirror/mode/mediawiki/mediawiki.css'),
+            path.join(__dirname, 'node_modules/codemirror/lib/codemirror.css'),
+            path.join(__dirname, 'node_modules/codemirror/addon/fold/foldgutter.css'),
+            path.join(__dirname, 'node_modules/codemirror/addon/display/fullscreen.css'),
+            path.join(__dirname, 'node_modules/codemirror/addon/dialog/dialog.css'),
+            path.join(__dirname, 'node_modules/codemirror/addon/scroll/simplescrollbars.css'),
+            path.join(__dirname, 'node_modules/codemirror/addon/search/matchesonscrollbar.css'),
+            path.join(__dirname, 'node_modules/codemirror/theme/monokai.css'),
+            path.join(__dirname, 'node_modules/codemirror/theme/one-dark.css'),
+            path.join(__dirname, 'node_modules/codemirror/mode/tiddlywiki/tiddlywiki.css'),
+            path.join(__dirname, 'node_modules/codemirror/mode/mediawiki/mediawiki.css'),
             path.join(__dirname, 'public/css/github-extract.css'),
             path.join(__dirname, 'public/vendor/showup/showup.css'),
             path.join(__dirname, 'public/css/mermaid.css'),
@@ -213,7 +217,6 @@ module.exports = {
         "index-pack": [
             "expose?Spinner!spin.js",
             "script!jquery-ui-resizable",
-            "script!codemirror",
             "expose?jsyaml!js-yaml",
             "script!mermaid",
             "expose?moment!moment",
@@ -323,7 +326,7 @@ module.exports = {
         ],
         extensions: ["", ".js"],
         alias: {
-            codemirror: path.join(__dirname, 'public/vendor/codemirror/codemirror.min.js'),
+            codemirror: path.join(__dirname, 'node_modules/codemirror/codemirror.min.js'),
             inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
             jqueryTextcomplete: path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
             codemirrorSpellChecker: path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),

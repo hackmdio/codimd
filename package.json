@@ -20,6 +20,7 @@
     "bootstrap": "^3.3.7",
     "chance": "^1.0.4",
     "cheerio": "^0.22.0",
+    "codemirror": "git+https://github.com/hackmdio/CodeMirror.git",
     "compression": "^1.6.2",
     "connect-session-sequelize": "^3.2.0",
     "cookie": "0.3.1",
@@ -156,6 +157,7 @@
     "script-loader": "^0.7.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "webpack-shell-plugin": "^0.4.3"
   }
 }
