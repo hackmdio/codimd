@@ -241,16 +241,7 @@ body {
 .dropdown-menu > li > a {
     cursor: pointer;
 }
-.other-cursors {
-    position:relative;
-    z-index:3;
-}
-.other-cursor {
-    width: 0px;
-    position: absolute;
-    border-right: none;
-}
-.dropdown-menu.other-cursor {
+.dropdown-menu.CodeMirror-other-cursor {
     transition: none;
 }
 .cursortag {
@@ -288,7 +279,7 @@ div[contenteditable]:empty:not(:focus):before{
 .dropdown-menu .emoji {
     margin-bottom: 0 !important;
 }
-.dropdown-menu.other-cursor {
+.dropdown-menu.CodeMirror-other-cursor {
     max-height: 50vh;
     width: auto !important;
     overflow: auto;

@@ -2330,7 +2330,7 @@
     for (var i = 0; i < doc.sel.ranges.length; i++) {
       if (primary === false && i == doc.sel.primIndex) continue;
       var range = doc.sel.ranges[i];
-      //if (range.from().line >= cm.display.viewTo || range.to().line < cm.display.viewFrom) continue;
+      if (!cm.options.otherCursors && (range.from().line >= cm.display.viewTo || range.to().line < cm.display.viewFrom)) continue;
       var collapsed = range.empty();
       if (collapsed || cm.options.showCursorWhenSelecting)
         drawSelectionCursor(cm, range.head, curFragment);
@@ -2357,16 +2357,20 @@
       otherCursor.style.top = pos.other.top + "px";
       otherCursor.style.height = (pos.other.bottom - pos.other.top) * .85 + "px";
     }
-      
-    $('.other-cursor').each(function(key, value) {
-        var line = parseInt($(value).attr('data-line'));
-        var ch = parseInt($(value).attr('data-ch'));
-        var offsetLeft = parseFloat($(value).attr('data-offset-left'));
-        var offsetTop = parseFloat($(value).attr('data-offset-top'));
-        var coord = cm.charCoords({line: line, ch: ch}, 'windows');
-        $(value)[0].style.left = coord.left + offsetLeft + 'px';
-        $(value)[0].style.top = coord.top + offsetTop + 'px';
-    });
+
+    if (cm.options.otherCursors) {
+      var others = cm.display.lineSpace.getElementsByClassName('CodeMirror-other-cursor');
+      for (var i = 0, l = others.length; i < l; i++) {
+          var other = others[i];
+          var line = parseInt(other.getAttribute('data-line'));
+          var ch = parseInt(other.getAttribute('data-ch'));
+          var offsetLeft = parseFloat(other.getAttribute('data-offset-left'));
+          var offsetTop = parseFloat(other.getAttribute('data-offset-top'));
+          var coord = cm.charCoords({line: line, ch: ch}, 'windows');
+          other.style.left = coord.left + offsetLeft + 'px';
+          other.style.top = coord.top + offsetTop + 'px';
+      }
+    }
   }
 
   // Draws the given range as a highlighted selection

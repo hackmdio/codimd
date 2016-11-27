@@ -455,6 +455,7 @@ window.editor = CodeMirror.fromTextArea(textit, {
     addModeClass: true,
     readOnly: true,
     autoRefresh: true,
+    otherCursors: true,
     placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
 });
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor);
@@ -2719,7 +2720,7 @@ socket.on('online users', function (data) {
         console.debug(data);
     onlineUsers = data.users;
     updateOnlineStatus();
-    $('.other-cursors').children().each(function (key, value) {
+    $('.CodeMirror-other-cursors').children().each(function (key, value) {
         var found = false;
         for (var i = 0; i < data.users.length; i++) {
             var user = data.users[i];
@@ -3044,11 +3045,11 @@ function buildCursor(user) {
             iconClass = 'fa-desktop';
             break;
     }
-    if ($('.other-cursors').length <= 0) {
-        $("<div class='other-cursors'>").insertAfter('.CodeMirror-cursors');
+    if ($('.CodeMirror-other-cursors').length <= 0) {
+        $("<div class='CodeMirror-other-cursors'>").insertAfter('.CodeMirror-cursors');
     }
     if ($('div[data-clientid="' + user.id + '"]').length <= 0) {
-        var cursor = $('<div data-clientid="' + user.id + '" class="other-cursor" style="display:none;"></div>');
+        var cursor = $('<div data-clientid="' + user.id + '" class="CodeMirror-other-cursor" style="display:none;"></div>');
         cursor.attr('data-line', user.cursor.line);
         cursor.attr('data-ch', user.cursor.ch);
         cursor.attr('data-offset-left', 0);
@@ -3119,7 +3120,7 @@ function buildCursor(user) {
 
         cursor[0].style.left = coord.left + 'px';
         cursor[0].style.top = coord.top + 'px';
-        $('.other-cursors').append(cursor);
+        $('.CodeMirror-other-cursors').append(cursor);
 
         if (!user.idle)
             cursor.stop(true).fadeIn();
@@ -3622,8 +3623,8 @@ function checkCursorMenuInner() {
     // get cursor
     var cursor = editor.getCursor();
     // set element cursor data
-    if (!dropdown.hasClass('other-cursor'))
-        dropdown.addClass('other-cursor');
+    if (!dropdown.hasClass('CodeMirror-other-cursor'))
+        dropdown.addClass('CodeMirror-other-cursor');
     dropdown.attr('data-line', cursor.line);
     dropdown.attr('data-ch', cursor.ch);
     // get coord position
