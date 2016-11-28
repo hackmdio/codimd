@@ -36,7 +36,7 @@ function extend() {
 
 // Optional libraries used to extend on reveal.js
 var deps = [{
-    src: serverurl + '/vendor/reveal.js/lib/js/classList.js',
+    src: serverurl + '/build/reveal.js/lib/js/classList.js',
     condition: function() {
         return !document.body.classList;
     }
@@ -53,7 +53,7 @@ var deps = [{
         $(".slides").show();
     }
 }, {
-    src: serverurl + '/vendor/reveal.js/plugin/notes/notes.js',
+    src: serverurl + '/build/reveal.js/plugin/notes/notes.js',
     async: true,
     condition: function() {
         return !!document.body.classList;

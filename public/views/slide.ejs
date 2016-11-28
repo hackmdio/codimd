@@ -14,6 +14,10 @@
         <title><%= title %></title>
         <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
         <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
+
+        <!-- For reveal.js -->
+        <link rel="stylesheet" href="<%- url %>/build/reveal.js/css/reveal.css">
+
         <% if(useCDN) { %>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
@@ -25,11 +29,10 @@
         <%- include build/slide-pack-header %>
         <% } %>
 
-        <!-- For reveal.js -->
-        <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/css/reveal.css">
-        <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/css/theme/black.css" id="theme">
+        <!-- For reveal.js theme -->
+        <link rel="stylesheet" href="<%- url %>/build/reveal.js/css/theme/black.css" id="theme">
         <!-- For syntax highlighting -->
-        <link rel="stylesheet" href="<%- url %>/vendor/reveal.js/lib/css/zenburn.css">
+        <link rel="stylesheet" href="<%- url %>/build/reveal.js/lib/css/zenburn.css">
         <!-- For overwrite reveal.js -->
         <link rel="stylesheet" href="<%- url %>/css/slide.css">
 
@@ -38,7 +41,7 @@
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
-            link.href = '<%- url %>/vendor/reveal.js/' + (window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
+            link.href = '<%- url %>/build/reveal.js/' + (window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
 

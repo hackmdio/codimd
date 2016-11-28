@@ -136,6 +136,14 @@ module.exports = {
                     dot: false
                 },
                 to: 'emojify.js/'
+            },
+            {
+                context: path.join(__dirname, 'node_modules/reveal.js'),
+                from: {
+                    glob: '**/*',
+                    dot: false
+                },
+                to: 'reveal.js/'
             }
         ])
     ],
