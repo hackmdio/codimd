@@ -291,6 +291,7 @@ module.exports = {
             path.join(__dirname, 'public/js/slide.js')
         ],
         "slide-styles": [
+            path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.css'),
             path.join(__dirname, 'public/css/github-extract.css'),
             path.join(__dirname, 'public/css/mermaid.css'),
             path.join(__dirname, 'public/css/markdown.css')
@@ -298,8 +299,7 @@ module.exports = {
         "slide-styles-pack": [
             path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
             path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
-            path.join(__dirname, 'node_modules/octicons/octicons/octicons.css'),
-            path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.css')
+            path.join(__dirname, 'node_modules/octicons/octicons/octicons.css')
         ],
         "slide-pack": [
             "expose?jQuery!expose?$!jquery",
