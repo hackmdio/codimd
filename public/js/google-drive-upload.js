@@ -265,5 +265,4 @@ MediaUploader.prototype.buildUrl_ = function(id, params, baseUrl) {
   return url;
 };
 
-
-
+window.MediaUploader = MediaUploader;
