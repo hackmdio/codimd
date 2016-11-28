@@ -4,6 +4,8 @@ var Prism = require('prismjs');
 require('prismjs/components/prism-wiki');
 require('prismjs/components/prism-haskell');
 require('prismjs/components/prism-go');
+require('prismjs/components/prism-typescript');
+require('prismjs/components/prism-jsx');
 var hljs = require('highlight.js');
 var PDFObject = require('pdfobject');
 var S = require('string');
@@ -475,7 +477,7 @@ function finishView(view) {
                     var result = {
                         value: code
                     };
-                } else if (reallang == "haskell" || reallang == "go") {
+                } else if (reallang == "haskell" || reallang == "go" || reallang == "typescript" || reallang == "jsx") {
                     code = S(code).unescapeHTML().s;
                     var result = {
                         value: Prism.highlight(code, Prism.languages[reallang])
