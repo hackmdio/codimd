@@ -13,6 +13,7 @@
         this.ulClass = options['ulClass'];
         this.tocTop = parseInt(options.top) || 0;
         this.elChilds = this.el.children;
+        this.process = options['process'];
         if (!this.elChilds.length) return;
         this._init();
     }
@@ -53,7 +54,7 @@
             var j = i + 1;
             this._elTitleElement = this.elTitleElements[i];
             this._elTitleElementName = this._elTitleElement.tagName;
-            this._elTitleElementText = this._elTitleElement.innerHTML.replace(/<(?:.|\n)*?>/gm, '');
+            this._elTitleElementText = (typeof this.process === 'function' ? this.process(this._elTitleElement) : this._elTitleElement.innerHTML).replace(/<(?:.|\n)*?>/gm, '');
             var id = this._elTitleElement.getAttribute('id');
             if (!id) {
                 this._elTitleElement.setAttribute('id', 'tip' + i);

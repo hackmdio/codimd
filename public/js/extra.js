@@ -689,7 +689,8 @@ function generateToc(id) {
         'top': -1,
         'class': 'toc',
         'ulClass': 'nav',
-        'targetId': id
+        'targetId': id,
+        'process': getHeaderContent
     });
     if (target.text() == 'undefined')
         target.html('');
@@ -777,7 +778,7 @@ var linkifyAnchors = function (level, containingElement) {
         if (header.getElementsByClassName("anchor").length == 0) {
             if (typeof header.id == "undefined" || header.id == "") {
                 //to escape characters not allow in css and humanize
-                var id = slugifyWithUTF8(header.innerHTML);
+                var id = slugifyWithUTF8(getHeaderContent(header));
                 header.id = id;
             }
             header.insertBefore(anchorForId(header.id), header.firstChild);
@@ -793,6 +794,13 @@ function autoLinkify(view) {
     for (var level = 1; level <= 6; level++) {
         linkifyAnchors(level, contentBlock);
     }
+}
+
+function getHeaderContent(header) {
+    var headerHTML = $(header).clone();
+    headerHTML.find('.MathJax_Preview').remove();
+    headerHTML.find('.MathJax').remove();
+    return headerHTML[0].innerHTML;
 }
 
 function deduplicatedHeaderId(view) {
@@ -826,7 +834,8 @@ function renderTOC(view) {
             'level': 3,
             'top': -1,
             'class': 'toc',
-            'targetId': id
+            'targetId': id,
+            'process': getHeaderContent
         });
         if (target.text() == 'undefined')
             target.html('');
