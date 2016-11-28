@@ -116,7 +116,7 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: 'public/views/includes/scripts.ejs',
-            chunks: ['common', 'slide-pack'],
+            chunks: ['slide-pack'],
             filename: path.join(__dirname, 'public/views/build/slide-pack-scripts.ejs'),
             inject: false
         }),
@@ -283,6 +283,7 @@ module.exports = {
             path.join(__dirname, 'public/js/pretty.js')
         ],
         slide: [
+            "bootstrap-tooltip",
             "expose?filterXSS!xss",
             "flowchart.js",
             "js-sequence-diagrams",
@@ -301,6 +302,10 @@ module.exports = {
             path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.css')
         ],
         "slide-pack": [
+            "expose?jQuery!expose?$!jquery",
+            "velocity-animate",
+            "imports?$=jquery!jquery-mousewheel",
+            "bootstrap-tooltip",
             "expose?jsyaml!js-yaml",
             "script!mermaid",
             "expose?moment!moment",
