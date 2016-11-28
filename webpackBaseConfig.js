@@ -337,7 +337,7 @@ module.exports = {
             "gist-embed": path.join(__dirname, 'node_modules/gist-embed/gist-embed.min.js'),
             "bootstrap-tooltip": path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.js'),
             "headjs": path.join(__dirname, 'node_modules/reveal.js/lib/js/head.min.js'),
-            "reveal-markdown": path.join(__dirname, 'public/js/reveal-markdown.js'),
+            "reveal-markdown": path.join(__dirname, 'public/js/reveal-markdown.js')
         }
     },
 
