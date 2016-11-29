@@ -25,6 +25,7 @@ var clearDuplicatedHistory = historyModule.clearDuplicatedHistory;
 
 var saveAs = require('file-saver').saveAs;
 var List = require('list.js');
+var S = require('string');
 
 var options = {
     valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
@@ -390,7 +391,7 @@ function buildTagsFilter(tags) {
     for (var i = 0; i < tags.length; i++)
         tags[i] = {
             id: i,
-            text: tags[i]
+            text: S(tags[i]).unescapeHTML().s
         };
     filtertags = tags;
 }
