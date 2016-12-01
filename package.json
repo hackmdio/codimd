@@ -5,7 +5,7 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack --config webpack.config.js --progress --colors --watch & nodemon app.js",
+    "dev": "webpack --config webpack.config.js --progress --colors --watch & nodemon --delay 1 app.js",
     "build": "webpack --config webpack.production.js --progress --colors",
     "assets:install": "bower install",
     "postinstall": "bin/heroku",
