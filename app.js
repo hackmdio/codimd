@@ -17,6 +17,8 @@ var morgan = require('morgan');
 var passportSocketIo = require("passport.socketio");
 var helmet = require('helmet');
 var i18n = require('i18n');
+var flash = require('connect-flash');
+var validator = require('validator');
 
 //core
 var config = require("./lib/config.js");
@@ -144,6 +146,8 @@ app.use(function (req, res, next) {
         next();
     }
 });
+
+app.use(flash());
 
 //passport
 app.use(passport.initialize());
@@ -362,6 +366,47 @@ if (config.google) {
             failureRedirect: config.serverurl + '/'
         }));
 }
+// email auth
+if (config.email) {
+    app.post('/register', urlencodedParser, function (req, res, next) {
+        if (!req.body.email || !req.body.password) return response.errorBadRequest(res);
+        if (!validator.isEmail(req.body.email)) return response.errorBadRequest(res);
+        models.User.findOrCreate({
+            where: {
+                email: req.body.email
+            },
+            defaults: {
+                password: req.body.password
+            }
+        }).spread(function (user, created) {
+            if (user) {
+                if (created) {
+                    if (config.debug) logger.info('user registered: ' + user.id);
+                    req.flash('info', "You've successfully registered, please signin.");
+                } else {
+                    if (config.debug) logger.info('user found: ' + user.id);
+                    req.flash('error', "This email has been used, please try another one.");
+                }
+                return res.redirect(config.serverurl + '/');
+            }
+            req.flash('error', "Failed to register your account, please try again.");
+            return res.redirect(config.serverurl + '/');
+        }).catch(function (err) {
+            logger.error('auth callback failed: ' + err);
+            return response.errorInternalError(res);
+        });
+    });
+    app.post('/login', urlencodedParser, function (req, res, next) {
+        if (!req.body.email || !req.body.password) return response.errorBadRequest(res);
+        if (!validator.isEmail(req.body.email)) return response.errorBadRequest(res);
+        setReturnToFromReferer(req);
+        passport.authenticate('local', {
+            successReturnToOrRedirect: config.serverurl + '/',
+            failureRedirect: config.serverurl + '/',
+            failureFlash: 'Invalid email or password.'
+        })(req, res, next);
+    });
+}
 //logout
 app.get('/logout', function (req, res) {
     if (config.debug && req.isAuthenticated())
@@ -389,7 +434,7 @@ app.get('/me', function (req, res) {
         }).then(function (user) {
             if (!user)
                 return response.errorNotFound(res);
-            var profile = models.User.parseProfile(user.profile);
+            var profile = models.User.getProfile(user);
             res.send({
                 status: 'ok',
                 id: req.user.id,

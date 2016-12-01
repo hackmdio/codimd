@@ -7,7 +7,7 @@
                 </button>
                 <h4 class="modal-title" id="mySmallModalLabel"><%= __('Choose method') %></h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="text-align: center;">
                 <% if(facebook) { %>
                 <a href="<%- url %>/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
                     <i class="fa fa-facebook"></i> <%= __('Sign in via %s', 'Facebook') %>
@@ -38,6 +38,32 @@
                     <i class="fa fa-google"></i> <%= __('Sign in via %s', 'Google') %>
                 </a>
                 <% } %>
+                <% if((facebook || twitter || github || gitlab || dropbox || google) && email) { %>
+                <hr>
+                <% }%>
+                <% if(email) { %>
+                <h4>Via Email</h4>
+                <form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="email" class="form-control" name="email" placeholder="Email" required>
+                            <span class="help-block control-label with-errors" style="display: inline;"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                            <span class="help-block control-label with-errors" style="display: inline;"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-default" formaction="<%- url %>/register">Register</button>
+                            <button type="submit" class="btn btn-primary" formaction="<%- url %>/login">Sign in</button>
+                        </div>
+                    </div>
+                </form>
+                <% }%>
             </div>
         </div>
     </div>

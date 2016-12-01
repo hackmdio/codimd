@@ -131,6 +131,7 @@ Environment variables (will overwrite other server configs)
 | HMD_GOOGLE_CLIENTID | no example | Google API client id |
 | HMD_GOOGLE_CLIENTSECRET | no example | Google API client secret |
 | HMD_IMGUR_CLIENTID | no example | Imgur API client id |
+| HMD_EMAIL | `true` or `false` | set to allow email register and signin |
 | HMD_IMAGE_UPLOAD_TYPE | `imgur`, `s3` or `filesystem` | Where to upload image. For S3, see our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
 | HMD_S3_ACCESS_KEY_ID | no example | AWS access key id |
 | HMD_S3_SECRET_ACCESS_KEY | no example | AWS secret key |
@@ -171,6 +172,7 @@ Server settings `config.json`
 | heartbeatinterval | `5000` | socket.io heartbeat interval |
 | heartbeattimeout | `10000` | socket.io heartbeat timeout |
 | documentmaxlength | `100000` | note max length |
+| email | `true` or `false` | set to allow email register and signin |
 | imageUploadType | `imgur`(default), `s3` or `filesystem` | Where to upload image
 | s3 | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION", "bucket": "YOUR_S3_BUCKET_NAME" }` | When `imageUploadType` be setted to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
 

@@ -305,6 +305,9 @@ input {
     text-align: left;
     color: black;
 }
+.modal-body {
+    color: black;
+}
 
 .btn-file {
     position: relative;

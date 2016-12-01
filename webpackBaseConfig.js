@@ -168,6 +168,7 @@ module.exports = {
             path.join(__dirname, 'node_modules/select2/select2-bootstrap.css'),
         ],
         "cover-pack": [
+            "validator",
             "script!listPagnation",
             "expose?select2!select2",
             "expose?moment!moment",
@@ -222,6 +223,7 @@ module.exports = {
         "index-pack": [
             "expose?Spinner!spin.js",
             "script!jquery-ui-resizable",
+            "validator",
             "expose?jsyaml!js-yaml",
             "script!mermaid",
             "expose?moment!moment",

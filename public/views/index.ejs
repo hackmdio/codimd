@@ -51,6 +51,12 @@
                         <p class="lead">
                             <%= __('Best way to write and share your knowledge in markdown.') %>
                         </p>
+                        <% if (infoMessage && infoMessage.length > 0) { %>
+                        <div class="alert alert-info" style="max-width: 400px; margin: 0 auto;"><%= infoMessage %></div>
+                        <% } %>
+                        <% if (errorMessage && errorMessage.length > 0) { %>
+                        <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;"><%= errorMessage %></div>
+                        <% } %>
                         <% if(facebook || twitter || github || gitlab || dropbox || google) { %>
                         <span class="ui-signin">
                             <br>
@@ -195,6 +201,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js" integrity="sha256-HzzZFiY4t0PIv02Tm8/R3CVvLpcjHhO1z/YAUCp4oQ4=" crossorigin="anonymous" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js" integrity="sha256-J5wam9fTysK5BqYlUUBjbomFslRxkLgwB9AhnVWsj1Q=" crossorigin="anonymous" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-url/2.3.0/url.min.js" integrity="sha256-HOZJz4x+1mn1Si84WT5XKXPtOlTytmZLnMb6n1v4+5Q=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js" integrity="sha256-IxYUmOOk74FUrcx5FEMOHVmTJDb7ZAwnC/ivo/OQGxg=" crossorigin="anonymous" defer></script>
     <%- include build/cover-scripts %>
 	<% } else { %>
     <%- include build/cover-pack-scripts %>
