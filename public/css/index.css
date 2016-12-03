@@ -426,6 +426,11 @@ div[contenteditable]:empty:not(:focus):before{
     cursor: pointer;
 }
 
+.status-bar .status-indicators .status-preferences .dropdown-menu label > input[type="checkbox"] {
+    vertical-align: middle;
+    margin: -3px 0 0;
+}
+
 .ui-theme-toggle,
 .ui-spellcheck-toggle {
     opacity: 0.2;
