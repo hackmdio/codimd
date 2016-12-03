@@ -172,6 +172,17 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
+// check uri is valid before going further
+app.use(function(req, res, next) {
+    try {
+        decodeURIComponent(req.path);
+    } catch (err) {
+        logger.error(err);
+        return response.errorBadRequest(res);
+    }
+    next();
+});
+
 // redirect url with trailing slashes
 app.use(function(req, res, next) {
     if ("GET" == req.method && req.path.substr(-1) == '/' && req.path.length > 1) {
