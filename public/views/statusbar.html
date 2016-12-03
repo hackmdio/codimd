@@ -5,6 +5,14 @@
     </div>
     <div class="status-indicators">
         <div class="status-length"></div>
+        <div class="status-preferences dropup toggle-dropdown pull-right">
+            <a id="preferencesLabel" class="ui-preferences-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Click to change preferences">
+                <i class="fa fa-wrench fa-fw"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="preferencesLabel">
+                <li class="ui-preferences-override-browser-keymap"><a><label>Allow override browser keymap&nbsp;&nbsp;<input type="checkbox"></label></a></li>
+            </ul>
+        </div>
         <div class="status-keymap dropup pull-right">
             <a id="keymapLabel" class="ui-keymap-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Click to change keymap">
             Sublime

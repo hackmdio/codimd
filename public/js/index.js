@@ -472,6 +472,7 @@ var statusKeymap = null;
 var statusIndent = null;
 var statusTheme = null;
 var statusSpellcheck = null;
+var statusPreferences = null;
 
 function getStatusBarTemplate(callback) {
     $.get(serverurl + '/views/statusbar.html', function (template) {
@@ -495,6 +496,7 @@ function addStatusBar() {
     statusLength = statusBar.find('.status-length');
     statusTheme = statusBar.find('.status-theme');
     statusSpellcheck = statusBar.find('.status-spellcheck');
+    statusPreferences = statusBar.find('.status-preferences');
     statusPanel = editor.addPanel(statusBar[0], {
         position: "bottom"
     });
@@ -503,6 +505,7 @@ function addStatusBar() {
     setKeymap();
     setTheme();
     setSpellcheck();
+    setPreferences();
 }
 
 function setIndent() {
@@ -619,6 +622,8 @@ function setKeymap() {
             expires: 365
         });
         label.text(keymap);
+        restoreOverrideEditorKeymap();
+        setOverrideBrowserKeymap();
     }
     setKeymapLabel();
 
@@ -717,6 +722,50 @@ function setSpellcheck() {
             }
         }, 100);
     }
+}
+
+var jumpToAddressBarKeymapName = mac ? "Cmd-L" : "Ctrl-L";
+var jumpToAddressBarKeymapValue = null;
+function resetEditorKeymapToBrowserKeymap() {
+    var keymap = editor.getOption('keyMap');
+    if (!jumpToAddressBarKeymapValue) {
+        jumpToAddressBarKeymapValue = CodeMirror.keyMap[keymap][jumpToAddressBarKeymapName];
+        delete CodeMirror.keyMap[keymap][jumpToAddressBarKeymapName];
+    }
+}
+function restoreOverrideEditorKeymap() {
+    var keymap = editor.getOption('keyMap');
+    if (jumpToAddressBarKeymapValue) {
+        CodeMirror.keyMap[keymap][jumpToAddressBarKeymapName] = jumpToAddressBarKeymapValue;
+        jumpToAddressBarKeymapValue = null;
+    }
+}
+function setOverrideBrowserKeymap() {
+    var overrideBrowserKeymap = $('.ui-preferences-override-browser-keymap label > input[type="checkbox"]');
+    if(overrideBrowserKeymap.is(":checked")) {
+        Cookies.set('preferences-override-browser-keymap', true, {
+            expires: 365
+        });
+        restoreOverrideEditorKeymap();
+    } else {
+        Cookies.remove('preferences-override-browser-keymap');
+        resetEditorKeymapToBrowserKeymap();
+    }
+}
+
+function setPreferences() {
+    var overrideBrowserKeymap = $('.ui-preferences-override-browser-keymap label > input[type="checkbox"]');
+    var cookieOverrideBrowserKeymap = Cookies.get('preferences-override-browser-keymap');
+    if (cookieOverrideBrowserKeymap && cookieOverrideBrowserKeymap === "true") {
+        overrideBrowserKeymap.prop('checked', true);
+    } else {
+        overrideBrowserKeymap.prop('checked', false);
+    }
+    setOverrideBrowserKeymap();
+
+    overrideBrowserKeymap.change(function() {
+        setOverrideBrowserKeymap();
+    });
 }
 
 var selection = null;
@@ -988,6 +1037,10 @@ $(document).ready(function () {
     });
     key('ctrl+alt+b', function (e) {
         changeMode(modeType.both);
+    });
+    // toggle-dropdown
+    $(document).on('click', '.toggle-dropdown .dropdown-menu', function (e) {
+        e.stopPropagation();
     });
 });
 //when page resize

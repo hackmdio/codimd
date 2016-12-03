@@ -404,14 +404,26 @@ div[contenteditable]:empty:not(:focus):before{
 
 .status-bar .status-indicators .status-keymap > a,
 .status-bar .status-indicators .status-theme > a,
-.status-bar .status-indicators .status-spellcheck > a {
+.status-bar .status-indicators .status-spellcheck > a,
+.status-bar .status-indicators .status-preferences > a {
     color: inherit;
     text-decoration: none;
 }
 
 .status-bar .status-indicators .status-theme,
-.status-bar .status-indicators .status-spellcheck {
+.status-bar .status-indicators .status-spellcheck,
+.status-bar .status-indicators .status-preferences {
     padding: 0 4.3px;
+}
+
+.status-bar .status-indicators .status-preferences .dropdown-menu > li > a {
+    cursor: default;
+}
+
+.status-bar .status-indicators .status-preferences .dropdown-menu label {
+    font: inherit;
+    margin-bottom: 0;
+    cursor: pointer;
 }
 
 .ui-theme-toggle,
