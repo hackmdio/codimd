@@ -167,6 +167,7 @@ if (typeof jQuery === 'undefined') {
       var element = this.$el.get(0);
       // Initialize view objects.
       this.dropdown = new $.fn.textcomplete.Dropdown(element, this, this.option);
+      this.dropdown.upSideDown = false;
       var Adapter, viewName;
       if (this.option.adapter) {
         Adapter = this.option.adapter;
@@ -556,13 +557,13 @@ if (typeof jQuery === 'undefined') {
       if (!this.shown) { return; }
       if (this.isUp(e)) {
         e.preventDefault();
-        if(typeof upSideDown != 'undefined' && upSideDown)
+        if(this.upSideDown)
           this._down();
         else
           this._up();
       } else if (this.isDown(e)) {
         e.preventDefault();
-        if(typeof upSideDown != 'undefined' && upSideDown)
+        if(this.upSideDown)
           this._up();
         else
           this._down();

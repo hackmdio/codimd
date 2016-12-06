@@ -3651,9 +3651,6 @@ function reverseSortCursorMenu(dropdown) {
     return items;
 }
 
-var lastUpSideDown = false;
-var upSideDown = false;
-
 var checkCursorMenu = _.throttle(checkCursorMenuInner, cursorMenuThrottle);
 
 function checkCursorMenuInner() {
@@ -3692,6 +3689,8 @@ function checkCursorMenuInner() {
     // set offset
     var offsetLeft = 0;
     var offsetTop = defaultTextHeight;
+    // set up side down
+    var lastUpSideDown = upSideDown = false;
     // only do when have width and height
     if (width > 0 && height > 0) {
         // make element right bound not larger than doc width
@@ -3703,12 +3702,11 @@ function checkCursorMenuInner() {
             offsetTop = -(height + menuBottomMargin);
             // reverse sort menu because upSideDown
             dropdown.html(reverseSortCursorMenu(dropdown));
-            lastUpSideDown = upSideDown;
             upSideDown = true;
-        } else {
-            lastUpSideDown = upSideDown;
-            upSideDown = false;
         }
+        var textCompleteDropdown = $(editor.getInputField()).data('textComplete').dropdown;
+        lastUpSideDown = textCompleteDropdown.upSideDown;
+        textCompleteDropdown.upSideDown = upSideDown;
     }
     // make menu scroll top only if upSideDown changed
     if (upSideDown !== lastUpSideDown)
