@@ -3812,7 +3812,7 @@ $(editor.getInputField())
                 callback(list);
             },
             template: function (value) {
-                return '<img class="emoji" src="' + serverurl + '/vendor/emojify.js/dist/images/basic/' + value + '.png"></img> ' + value;
+                return '<img class="emoji" src="' + serverurl + '/build/emojify.js/dist/images/basic/' + value + '.png"></img> ' + value;
             },
             replace: function (value) {
                 return '$1:' + value + ': ';
