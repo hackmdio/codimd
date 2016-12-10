@@ -5,8 +5,8 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config webpack.production.js --progress --colors",
-    "dev": "webpack --config webpack.config.js --progress --colors --watch",
+    "build:dev": "webpack --config webpack.config.js --progress --colors --watch",
+    "build:prod": "webpack --config webpack.production.js --progress --colors",
     "assets:install": "bower install",
     "postinstall": "bin/heroku",
     "start": "node app.js"
