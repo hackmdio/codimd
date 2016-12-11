@@ -113,7 +113,6 @@ app.use(i18n.init);
 // routes without sessions
 // static files
 app.use('/', express.static(__dirname + '/public', { maxAge: config.staticcachetime }));
-app.use('/vendor/', express.static(__dirname + '/bower_components', { maxAge: config.staticcachetime }));
 
 //session
 app.use(session({
@@ -479,7 +478,7 @@ app.post('/uploadimage', function (req, res) {
         } else {
             if (config.debug)
                 logger.info('SERVER received uploadimage: ' + JSON.stringify(files.image));
-                
+
             try {
                 switch (config.imageUploadType) {
                 case 'filesystem':

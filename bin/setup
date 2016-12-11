@@ -16,12 +16,6 @@ EOF
   exit 0
 fi
 
-if ! type bower > /dev/null
-then
-  echo "bower is not installed, install via npm"
-  npm install -g bower
-fi
-
 echo "copy config files"
 if [ ! -f config.json ]; then
   cp config.json.example config.json
@@ -35,8 +29,8 @@ if [ ! -f .sequelizerc ]; then
   cp .sequelizerc.example .sequelizerc
 fi
 
-echo "install npm and bower packages"
-BUILD_ASSETS=false npm install && bower install
+echo "install npm packages"
+BUILD_ASSETS=false npm install
 
 cat << EOF
 
