@@ -44,16 +44,16 @@ Prerequisite
 
 - Node.js 4.x or up (test up to 6.7.0)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
-- npm and bower
+- npm
 
 Get started
 ---
 
 1. Download a release and unzip or clone into a directory
-2. Enter the directory and type `bin/setup`, which will install npm/bower dependencies and create configs. The setup script is written in Bash, you would need bash as a prerequisite.
+2. Enter the directory and type `bin/setup`, which will install npm dependencies and create configs. The setup script is written in Bash, you would need bash as a prerequisite.
 3. Setup the configs, see more below
 4. Setup environment variables which will overwrite the configs
-5. Build front-end bundle by `npm run build` (use `npm run dev` if you are in development)
+5. Build front-end bundle by `npm run build:prod` (use `npm run build:dev` if you are in development)
 6. Run the server as you like (node, forever, pm2)
 
 Upgrade guide
@@ -63,7 +63,7 @@ If you are upgrading HackMD from an older version, follow these steps:
 
 1. Fully stop your old server first (important)
 2. `git pull` or do whatever that updates the files
-3. `npm install && bower install` to update dependencies
+3. `npm install` to update dependencies
 4. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string
    For example: `postgres://username:password@localhost:5432/hackmd`
 5. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema

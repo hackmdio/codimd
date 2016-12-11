@@ -3,7 +3,7 @@
 set -e
 
 if [ "$BUILD_ASSETS" = true ]; then
-  BUILD_ASSETS=false npm install && npm run assets:install
+  BUILD_ASSETS=false npm install
 
   # setup config files
   cat << EOF > .sequelizerc
@@ -31,5 +31,5 @@ EOF
   cp public/js/config.js.example public/js/config.js
 
   # build app
-  npm run build
+  npm run build:prod
 fi
