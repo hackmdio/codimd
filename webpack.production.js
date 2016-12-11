@@ -4,6 +4,9 @@ var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+var appConfig = require('./lib/config');
+var publicPath = appConfig.urlpath ? '/' + appConfig.urlpath + '/build/' : '/build/';
+
 module.exports = [Object.assign({}, baseConfig, {
     plugins: baseConfig.plugins.concat([
         new webpack.DefinePlugin({
@@ -23,7 +26,7 @@ module.exports = [Object.assign({}, baseConfig, {
 
     output: {
         path: path.join(__dirname, 'public/build'),
-        publicPath: '/build/',
+        publicPath: publicPath,
         filename: '[id].[name].[hash].js'
     }
 }), {
@@ -44,7 +47,7 @@ module.exports = [Object.assign({}, baseConfig, {
     },
     output: {
         path: path.join(__dirname, 'public/build'),
-        publicPath: '/build/',
+        publicPath: publicPath,
         filename: '[name].js'
     },
     plugins: [

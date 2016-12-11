@@ -5,8 +5,8 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "build:dev": "webpack --config webpack.config.js --progress --colors --watch",
-    "build:prod": "webpack --config webpack.production.js --progress --colors",
+    "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.js --progress --colors --watch",
+    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.production.js --progress --colors",
     "postinstall": "bin/heroku",
     "start": "node app.js"
   },
@@ -142,6 +142,7 @@
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
     "copy-webpack-plugin": "^4.0.1",
+    "cross-env": "^3.1.3",
     "css-loader": "^0.25.0",
     "ejs-loader": "^0.3.0",
     "exports-loader": "^0.6.3",
