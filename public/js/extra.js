@@ -1032,7 +1032,7 @@ var gistPlugin = new Plugin(
 //TOC
 var tocPlugin = new Plugin(
     // regexp to match
-    /^\[TOC\]$/,
+    /^\[TOC\]$/i,
 
     // this function will be called when something matches
     function (match, utils) {
