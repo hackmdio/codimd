@@ -18,27 +18,13 @@ module.exports = {
 }
 
 EOF
-    regex='postgres:\/\/([^:]+):([^@]+)@([^:]+):([^\/]+)\/(.+)'
 
-    if [[ $DATABASE_URL =~ $regex ]]; then
-
-        username="${BASH_REMATCH[1]}"
-        password="${BASH_REMATCH[2]}"
-        host="${BASH_REMATCH[3]}"
-        port="${BASH_REMATCH[4]}"
-        database="${BASH_REMATCH[5]}"
-
-        cat << EOF > config.json
+    cat << EOF > config.json
 
 {
   "production": {
     "db": {
-      "dialect": "postgres",
-      "host": "${host}",
-      "username": "${username}",
-      "password": "${password}",
-      "database": "${database}",
-      "port": "${port}",
+      "database": "${DATABASE_URL}",
       "dialectOptions": {
         "ssl": true
       }
@@ -47,19 +33,6 @@ EOF
 }
 
 EOF
-    else
-
-        cat << EOF > config.json
-
-{
-  "production": {
-  }
-}
-
-EOF
-
-    fi
-
 
   cp public/js/config.js.example public/js/config.js
 
