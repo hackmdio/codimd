@@ -17,6 +17,12 @@
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+.reveal.fade {
+    opacity: unset;
+    -webkit-transition: unset;
+    transition: unset;
+}
+
 .vimeo,
 .youtube {
     position: relative !important;
@@ -316,6 +322,7 @@ html, body {
 
 .print-pdf .container.hidescrollbar {
     right: 0;
+    overflow-y: hidden;
 }
 
 .print-pdf .footer {
