@@ -182,11 +182,14 @@ app.use(function(req, res, next) {
     next();
 });
 
-// redirect url with trailing slashes
+// redirect url without trailing slashes
 app.use(function(req, res, next) {
     if ("GET" == req.method && req.path.substr(-1) == '/' && req.path.length > 1) {
         var query = req.url.slice(req.path.length);
-        res.redirect(301, config.serverurl + req.path.slice(0, -1) + query);
+        var urlpath = req.path.slice(0, -1);
+        var serverurl = config.serverurl;
+        if (config.urlpath) serverurl = serverurl.slice(0, -(config.urlpath.length + 1));
+        res.redirect(301, serverurl + urlpath + query);
     } else {
         next();
     }
