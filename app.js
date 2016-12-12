@@ -11,6 +11,7 @@ var compression = require('compression')
 var session = require('express-session');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var fs = require('fs');
+var path = require('path');
 var imgur = require('imgur');
 var formidable = require('formidable');
 var morgan = require('morgan');
