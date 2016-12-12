@@ -19,10 +19,16 @@ module.exports = {
 
 EOF
 
-  cat << EOF > config.json
+    cat << EOF > config.json
 
 {
   "production": {
+    "db": {
+      "database": "${DATABASE_URL}",
+      "dialectOptions": {
+        "ssl": true
+      }
+    }
   }
 }
 
