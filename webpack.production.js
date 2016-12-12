@@ -24,7 +24,8 @@ module.exports = [Object.assign({}, baseConfig, {
     output: {
         path: path.join(__dirname, 'public/build'),
         publicPath: '/build/',
-        filename: '[id].[name].[hash].js'
+        filename: '[id].[name].[hash].js',
+        baseUrl: '<%- url %>'
     }
 }), {
     entry: {
