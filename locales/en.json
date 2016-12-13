@@ -100,5 +100,6 @@
 	"Select From Available Snippets": "Select From Available Snippets",
 	"OR": "OR",
 	"Export to Snippet": "Export to Snippet",
-	"Select Visibility Level": "Select Visibility Level"
+	"Select Visibility Level": "Select Visibility Level",
+	"LDAP Sign in": "LDAP Sign in"
 }

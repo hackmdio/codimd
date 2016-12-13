@@ -57,7 +57,7 @@
                         <% if (errorMessage && errorMessage.length > 0) { %>
                         <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;"><%= errorMessage %></div>
                         <% } %>
-                        <% if(facebook || twitter || github || gitlab || dropbox || google || email) { %>
+                        <% if(facebook || twitter || github || gitlab || dropbox || google || ldap || email) { %>
                         <span class="ui-signin">
                             <br>
                             <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="min-width: 170px;"><%= __('Sign In') %></a>
@@ -93,7 +93,7 @@
                 </div>
 
                 <div id="history" class="section"<% if(!signin) { %> style="display:none;"<% } %>>
-                    <% if(facebook || twitter || github || gitlab || dropbox || google || email) { %>
+                    <% if(facebook || twitter || github || gitlab || dropbox || google || ldap || email) { %>
                     <div class="ui-signin">
                         <p><%= __('Below is the history from browser') %></p>
                     </div>
@@ -192,6 +192,7 @@
         </div>
     </div>
     <%- include signin-modal %>
+    <%- include signin-ldap-modal %>
 
     <% if(useCDN) { %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>

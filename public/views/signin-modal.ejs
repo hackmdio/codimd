@@ -38,7 +38,13 @@
                     <i class="fa fa-google"></i> <%= __('Sign in via %s', 'Google') %>
                 </a>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || dropbox || google) && email) { %>
+                <% if(ldap) { %>
+                <a type="button" class="btn btn-lg btn-block btn-social btn-reddit "data-toggle="modal" data-target=".signin-ldap-modal">
+                    <i class="fa fa-book"></i> <%= __('Sign in via %s', 'LDAP') %>
+                </a>
+                <% } %>
+
+                <% if((facebook || twitter || github || gitlab || dropbox || google || ldap) && email) { %>
                 <hr>
                 <% }%>
                 <% if(email) { %>

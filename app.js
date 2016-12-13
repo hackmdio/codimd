@@ -380,6 +380,12 @@ if (config.google) {
             failureRedirect: config.serverurl + '/'
         }));
 }
+// ldap auth
+if (config.ldap) {
+    app.post('/auth/ldap', urlencodedParser,
+        passport.authenticate('ldapauth', { successRedirect: '/' })
+    );
+}
 // email auth
 if (config.email) {
     app.post('/register', urlencodedParser, function (req, res, next) {

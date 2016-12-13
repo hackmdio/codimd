@@ -85,6 +85,7 @@
     "passport-github": "^1.1.0",
     "passport-gitlab2": "^2.2.0",
     "passport-google-oauth20": "^1.0.0",
+    "passport-ldapauth": "^0.6.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "passport.socketio": "^3.6.2",
