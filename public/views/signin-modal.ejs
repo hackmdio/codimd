@@ -38,12 +38,31 @@
                     <i class="fa fa-google"></i> <%= __('Sign in via %s', 'Google') %>
                 </a>
                 <% } %>
+                <% if((facebook || twitter || github || gitlab || dropbox || google) && ldap) { %>
+                <hr>
+                <% }%>
                 <% if(ldap) { %>
-                <a type="button" class="btn btn-lg btn-block btn-social btn-reddit "data-toggle="modal" data-target=".signin-ldap-modal">
-                    <i class="fa fa-book"></i> <%= __('Sign in via %s', 'LDAP') %>
-                </a>
+                <h4>Via LDAP</h4>
+                <form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="username" class="form-control" name="username" placeholder="Username" required>
+                            <span class="help-block control-label with-errors" style="display: inline;"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                            <span class="help-block control-label with_errors" style="display: inline;"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary" formaction="<%- url %>/auth/ldap">Sign in</button>
+                        </div>
+                    </div>
+                </form>
                 <% } %>
-
                 <% if((facebook || twitter || github || gitlab || dropbox || google || ldap) && email) { %>
                 <hr>
                 <% }%>
