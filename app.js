@@ -382,9 +382,15 @@ if (config.google) {
 }
 // ldap auth
 if (config.ldap) {
-    app.post('/auth/ldap', urlencodedParser,
-        passport.authenticate('ldapauth', { successRedirect: '/' })
-    );
+    app.post('/auth/ldap', urlencodedParser, function (req, res, next) {
+        if (!req.body.username || !req.body.password) return response.errorBadRequest(res);
+        setReturnToFromReferer(req);
+        passport.authenticate('ldapauth', {
+            successReturnToOrRedirect: config.serverurl + '/',
+            failureRedirect: config.serverurl + '/',
+            failureFlash: true
+        })(req, res, next);
+    });
 }
 // email auth
 if (config.email) {
