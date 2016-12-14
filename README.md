@@ -138,6 +138,7 @@ Environment variables (will overwrite other server configs)
 | HMD_LDAP_SEARCHBASE | o=users,dc=example,dc=com | LDAP directory to begin search from |
 | HMD_LDAP_SEARCHFILTER | (uid={{username}}) | LDAP filter to search with |
 | HMD_LDAP_SEARCHATTRIBUTES | no example | LDAP attributes to search with |
+| HMD_LDAP_TLS_CA | no example | Root CA for LDAP TLS in PEM format |
 | HMD_IMGUR_CLIENTID | no example | Imgur API client id |
 | HMD_EMAIL | `true` or `false` | set to allow email register and signin |
 | HMD_IMAGE_UPLOAD_TYPE | `imgur`, `s3` or `filesystem` | Where to upload image. For S3, see our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
