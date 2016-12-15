@@ -82,6 +82,19 @@
     content: ''
 }
 
+.markdown-body code[data-gist-id] .blob-num {
+    border: unset;
+}
+
+.markdown-body code[data-gist-id] table {
+    overflow: unset;
+    margin-bottom: unset;
+}
+
+.markdown-body code[data-gist-id] table tr {
+    background: unset;
+}
+
 /*fixed style for rtl in pre and code*/
 
 .markdown-body[dir='rtl'] pre {
