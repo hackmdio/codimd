@@ -139,8 +139,6 @@
     "url": "https://github.com/hackmdio/hackmd.git"
   },
   "devDependencies": {
-    "babel-core": "^6.17.0",
-    "babel-loader": "^6.2.5",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.25.0",
     "ejs-loader": "^0.3.0",
