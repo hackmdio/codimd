@@ -499,7 +499,7 @@ app.post('/uploadimage', function (req, res) {
 
                     fs.readFile(files.image.path, function (err, buffer) {
                         var params = {
-                            Bucket: 'hackmd',
+                            Bucket: config.s3bucket,
                             Key: path.join('uploads', path.basename(files.image.path)),
                             Body: buffer
                         };
