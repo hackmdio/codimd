@@ -107,13 +107,21 @@ window.viewAjaxCallback = function () {
 };
 
 function renderSlide(event) {
-    var markdown = $(event.currentSlide);
-    if (!markdown.attr('data-rendered')) {
+    if (window.location.search.match( /print-pdf/gi )) {
+        var slides = $('.slides');
         var title = document.title;
-        finishView(markdown);
-        markdown.attr('data-rendered', 'true');
+        finishView(slides);
         document.title = title;
         Reveal.layout();
+    } else {
+        var markdown = $(event.currentSlide);
+        if (!markdown.attr('data-rendered')) {
+            var title = document.title;
+            finishView(markdown);
+            markdown.attr('data-rendered', 'true');
+            document.title = title;
+            Reveal.layout();
+        }
     }
 }
 
