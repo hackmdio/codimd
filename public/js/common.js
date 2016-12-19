@@ -12,7 +12,7 @@ window.serverurl = window.location.protocol + '//' + (domain ? domain : window.l
 var noteid = urlpath ? window.location.pathname.slice(urlpath.length + 1, window.location.pathname.length).split('/')[1] : window.location.pathname.split('/')[1];
 var noteurl = serverurl + '/' + noteid;
 
-var version = '0.4.5';
+var version = '0.4.6';
 
 var checkAuth = false;
 var profile = null;

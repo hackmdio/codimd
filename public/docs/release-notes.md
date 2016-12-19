@@ -1,6 +1,65 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 0.4.6 `Melya` <i class="fa fa-clock-o"></i> 2016-12-19 17:20
+---
+### Features
++ Add support of allow free url config option
++ Add support of allow anonymous config option
++ Add preferences to editor status bar and add allow override browser keymap option
++ Add support of s3 and local filesystem for image uploading
++ Add of support optional email register and signin
++ Use uWebSocket to improve websocket performance
++ Use CDNJS by default with https and SRI support
++ Use Webpack to bundle frontend code
+
+### Enhancements
+* Update to make TOC syntax be case-insensitive
+* Update to handle request with invalid uri
+* Update to auto generate meta description based on content in publish note and slide
+* Update to support haskell, go, typescript and jsx syntax highlighting in code block
+* Update to use workers to leverage intensive work loading
+* Update to support summary tag
+* Change use cdn config option default to be true
+* Update to retry when anytime the socket io disconnect
+* Change to raise socket io timeout, heartbeat interval and timeout to lower offline period
+* Update emoji parser using markdown-it-emoji instead of emojify
+* Optimize finishView selector performance by avoid universal selector
+* Config heroku deployment
+* Update to support Hindi, Swedish locale
+* Update to support wrap syntax for code block
+* Update to support pagination for history list
+
+### Fixes
+* Fix slide mode on print pdf not finish view rendering
+* Fix when server have heavy loading cache might not update to db properly
+* Fix redirection to url without trailing slashes not considering about config urlpath
+* Fix header id and text might affects by mathjax tags
+* Fix possible meta XSS in history list [Security Issue]
+* Fix possible XSS in yaml-metadata and turn using ejs escape syntax than external lib [Security Issue]
+* Fix to allow data attribute of section tag in slide
+* Fix slide might able to add unsafe attribute on section tag which cause XSS [Security Issue]
+* Fix slide might trigger script when processing markdown which cause XSS [Security Issue]
+* Fix published note won't scroll to hash on load
+* Fix mathjax with blockquote might have race condition
+* Fix server reconnect might not resend pending operations
+* Fix slide export pdf styles not applied issue
+* Fix possible unclose HTML and leaked html tags when fail to parse diagrams
+* Fix typos in the `slide-example.md`
+* Fix socket io doc event should setDoc when revision mismatch and no outstanding operation
+* Fix markdown styles conflicting bootstrap on p and ul under alert area
+* Fix finishView mermaid might select and replace whole markdown-body issue
+* Fix code block which in deeper level will not be parsed issue
+* Fix code block highlighting html not escaped when no languages specified
+* Fix client socket on delete event might not delete corresponding history record correctly
+* Fix to handle name or color is undefined error
+* Fix history item event not bind properly on pagination change
+* Fix history time should save in UNIX timestamp to avoid time offset issue 
+
+### Removes
+- Drop bower the package manager
+- Remove auto linkify image
+
 <i class="fa fa-tag"></i> 0.4.5 `latte` <i class="fa fa-clock-o"></i> 2016-10-11 01:22
 ---
 ### Features
