@@ -343,6 +343,7 @@ function finishView(view) {
             var $ele = $(value).parent().parent();
 
             var graphviz = Viz($value.text());
+            if (!graphviz) throw Error('viz.js output empty graph');
             $value.html(graphviz);
 
             $ele.addClass('graphviz');
