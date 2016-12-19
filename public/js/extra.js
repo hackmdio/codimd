@@ -903,7 +903,7 @@ md.use(require('markdown-it-mark'));
 md.use(require('markdown-it-ins'));
 md.use(require('markdown-it-sub'));
 md.use(require('markdown-it-sup'));
-md.use(require('../vendor/markdown-it-mathjax'));
+md.use(require('markdown-it-mathjax'));
 md.use(require('markdown-it-imsize'));
 
 md.use(require('markdown-it-emoji'), {
@@ -980,7 +980,7 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
 };
 
 /* Defined regex markdown it plugins */
-require('script!../vendor/markdown-it-regexp');
+var Plugin = require('markdown-it-regexp');
 
 //youtube
 var youtubePlugin = new Plugin(
