@@ -118,7 +118,7 @@ Environment variables (will overwrite other server configs)
 | HMD_PROTOCOL_USESSL | `true` or `false` | set to use ssl protocol for resources path (only applied when domain is set) |
 | HMD_URL_ADDPORT | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
 | HMD_USECDN | `true` or `false` | set to use CDN resources or not (default is `true`) |
-| HMD_ALLOW_ANONMYOUS | `true` or `false` | set to allow anonmyous usage (default is `true`) |
+| HMD_ALLOW_ANONYMOUS | `true` or `false` | set to allow anonymous usage (default is `true`) |
 | HMD_ALLOW_FREEURL | `true` or `false` | set to allow new note by accessing not exist note url |
 | HMD_FACEBOOK_CLIENTID | no example | Facebook API client id |
 | HMD_FACEBOOK_CLIENTSECRET | no example | Facebook API client secret |
@@ -155,7 +155,7 @@ Server settings `config.json`
 | protocolusessl | `true` or `false` | set to use ssl protocol for resources path (only applied when domain is set) |
 | urladdport | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
 | usecdn | `true` or `false` | set to use CDN resources or not (default is `true`) |
-| allowanonmyous | `true` or `false` | set to allow anonmyous usage (default is `true`) |
+| allowanonymous | `true` or `false` | set to allow anonymous usage (default is `true`) |
 | allowfreeurl | `true` or `false` | set to allow new note by accessing not exist note url |
 | db | `{ "dialect": "sqlite", "storage": "./db.hackmd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
 | sslkeypath | `./cert/client.key` | ssl key path (only need when you set usessl) |
