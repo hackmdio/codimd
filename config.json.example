@@ -1,4 +1,8 @@
 {
+    "test": {
+        "dialect": "sqlite",
+        "storage": "./db.hackmd.sqlite"
+    },
     "development": {
         "domain": "localhost",
         "db": {
