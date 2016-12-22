@@ -36,17 +36,19 @@
             "required": false
         },
         "HMD_ALLOW_ORIGIN": {
-            "description": "web app port",
+            "description": "domain to allow cross origin request",
             "required": false,
-            "value": "80"
+            "value": "localhost"
         },
         "HMD_PROTOCOL_USESSL": {
             "description": "set to use ssl protocol for resources path (only applied when domain is set)",
-            "required": false
+            "required": false,
+            "value": "true"
         },
         "HMD_URL_ADDPORT": {
             "description": "set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set)",
-            "required": false
+            "required": false,
+            "value": "false"
         },
         "HMD_FACEBOOK_CLIENTID": {
             "description": "Facebook API client id",
