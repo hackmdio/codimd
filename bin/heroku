@@ -23,12 +23,6 @@ EOF
 
 {
   "production": {
-    "db": {
-      "database": "${DATABASE_URL}",
-      "dialectOptions": {
-        "ssl": true
-      }
-    }
   }
 }
 
