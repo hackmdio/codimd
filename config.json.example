@@ -1,7 +1,9 @@
 {
     "test": {
-        "dialect": "sqlite",
-        "storage": "./db.hackmd.sqlite"
+        "db": {
+            "dialect": "sqlite",
+            "storage": "./db.hackmd.sqlite"
+        }
     },
     "development": {
         "domain": "localhost",
