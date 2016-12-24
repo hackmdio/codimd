@@ -34,7 +34,7 @@ This will automatically upload the image to **[imgur](http://imgur.com)**, nothi
 
 ## Share Notes:
 If you want to share an **editable** note, just copy the URL.
-If you want to share a **read-only** note, simply press share button <i class="fa fa-share-alt"></i> and copy the URL.
+If you want to share a **read-only** note, simply press publish button <i class="fa fa-share-square-o"></i> and copy the URL.
 
 ## Save a Note:
 Currently, you can save to **Dropbox** <i class="fa fa-dropbox"></i> or save an `.md` file <i class="fa fa-file-text"></i> locally.
