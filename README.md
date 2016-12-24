@@ -22,6 +22,11 @@ You can quickly setup a sample heroku hackmd application by clicking the button 
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
+You have to setup the minimal configuration
+
+- App Name ( Ex: hackmd )
+- HMD_DOMAIN ( Ex: hackmd.herokuapp.com )
+
 [migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
 ---
 
