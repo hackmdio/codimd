@@ -9,6 +9,7 @@ var urlpath = common.urlpath;
 var resetCheckAuth = common.resetCheckAuth;
 var getLoginState = common.getLoginState;
 var clearLoginState = common.clearLoginState;
+var loginStateChangeEvent = common.loginStateChangeEvent;
 
 var historyModule = require('./history');
 var parseStorageToHistory = historyModule.parseStorageToHistory;
