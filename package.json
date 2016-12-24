@@ -116,6 +116,7 @@
     "visibilityjs": "^1.2.4",
     "viz.js": "^1.4.1",
     "vue": "^2.1.6",
+    "vue-loader": "^10.0.2",
     "winston": "^2.3.0",
     "xss": "^0.3.2"
   },
@@ -162,6 +163,7 @@
     "script-loader": "^0.7.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
+    "vue-template-compiler": "^2.1.6",
     "webpack": "^1.14.0"
   }
 }

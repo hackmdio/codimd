@@ -28,7 +28,13 @@ var saveAs = require('file-saver').saveAs;
 var List = require('list.js');
 var S = require('string');
 
+import Cover from './views/Cover';
 import Vue from 'vue';
+
+new Vue({
+    el: '#cover-app',
+    render: (h) => h(Cover)
+})
 
 var options = {
     valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
