@@ -373,6 +373,10 @@ module.exports = {
             test: /\.json$/,
             loader: 'json-loader'
         }, {
+            test: /\.js$/,
+            loader: 'babel',
+            exclude: [/node_modules/, /public\/vendor/]
+        }, {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
         }, {

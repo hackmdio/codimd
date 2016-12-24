@@ -115,6 +115,7 @@
     "velocity-animate": "^1.4.0",
     "visibilityjs": "^1.2.4",
     "viz.js": "^1.4.1",
+    "vue": "^2.1.6",
     "winston": "^2.3.0",
     "xss": "^0.3.2"
   },
@@ -139,6 +140,12 @@
     "url": "https://github.com/hackmdio/hackmd.git"
   },
   "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-runtime": "^6.20.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
     "ejs-loader": "^0.3.0",
