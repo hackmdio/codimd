@@ -11,7 +11,6 @@ require('highlight.js/styles/github-gist.css');
 var toMarkdown = require('to-markdown');
 
 var saveAs = require('file-saver').saveAs;
-var url = require('js-url');
 var randomColor = require('randomcolor');
 
 var _ = require("lodash");

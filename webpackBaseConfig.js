@@ -172,12 +172,12 @@ module.exports = {
             "script!listPagnation",
             "expose?select2!select2",
             "expose?moment!moment",
-            "js-url",
+            "script!js-url",
             path.join(__dirname, 'public/js/cover.js')
         ],
         index: [
             "script!jquery-ui-resizable",
-            "js-url",
+            "script!js-url",
             "expose?filterXSS!xss",
             "script!Idle.Js",
             "expose?LZString!lz-string",
@@ -227,7 +227,7 @@ module.exports = {
             "expose?jsyaml!js-yaml",
             "script!mermaid",
             "expose?moment!moment",
-            "js-url",
+            "script!js-url",
             "script!handlebars",
             "expose?hljs!highlight.js",
             "expose?emojify!emojify.js",
