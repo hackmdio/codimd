@@ -9,6 +9,7 @@ var urlpath = common.urlpath;
 var resetCheckAuth = common.resetCheckAuth;
 var getLoginState = common.getLoginState;
 var clearLoginState = common.clearLoginState;
+var loginStateChangeEvent = common.loginStateChangeEvent;
 
 var historyModule = require('./history');
 var parseStorageToHistory = historyModule.parseStorageToHistory;
@@ -26,6 +27,14 @@ var clearDuplicatedHistory = historyModule.clearDuplicatedHistory;
 var saveAs = require('file-saver').saveAs;
 var List = require('list.js');
 var S = require('string');
+
+import Cover from './views/Cover';
+import Vue from 'vue';
+
+new Vue({
+    el: '#cover-app',
+    render: (h) => h(Cover)
+})
 
 var options = {
     valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],

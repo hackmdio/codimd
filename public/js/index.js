@@ -29,6 +29,7 @@ var DROPBOX_APP_KEY = common.DROPBOX_APP_KEY;
 var noteurl = common.noteurl;
 
 var checkLoginStateChanged = common.checkLoginStateChanged;
+var loginStateChangeEvent = common.loginStateChangeEvent;
 
 var extra = require('./extra');
 var md = extra.md;
