@@ -11,6 +11,7 @@ var compression = require('compression')
 var session = require('express-session');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var fs = require('fs');
+var url = require('url');
 var path = require('path');
 var imgur = require('imgur');
 var formidable = require('formidable');
@@ -487,7 +488,7 @@ app.post('/uploadimage', function (req, res) {
                 switch (config.imageUploadType) {
                 case 'filesystem':
                     res.send({
-                        link: path.join(config.serverurl, files.image.path.match(/^public(.+$)/)[1])
+                        link: url.resolve(config.serverurl, files.image.path.match(/^public(.+$)/)[1])
                     });
 
                     break;
