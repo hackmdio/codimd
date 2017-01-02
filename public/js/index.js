@@ -2645,8 +2645,6 @@ editor.on('update', function () {
     });
 });
 socket.on('check', function (data) {
-    data = LZString.decompressFromUTF16(data);
-    data = JSON.parse(data);
     //console.log(data);
     updateInfo(data);
 });
@@ -2656,8 +2654,6 @@ socket.on('permission', function (data) {
 var docmaxlength = null;
 var permission = null;
 socket.on('refresh', function (data) {
-    data = LZString.decompressFromUTF16(data);
-    data = JSON.parse(data);
     //console.log(data);
     docmaxlength = data.docmaxlength;
     editor.setOption("maxLength", docmaxlength);
@@ -2704,8 +2700,6 @@ var CodeMirrorAdapter = ot.CodeMirrorAdapter;
 var cmClient = null;
 
 socket.on('doc', function (obj) {
-    obj = LZString.decompressFromUTF16(obj);
-    obj = JSON.parse(obj);
     var body = obj.str;
     var bodyMismatch = editor.getValue() !== body;
     var havePendingOperation = cmClient && Object.keys(cmClient.state).length > 0;
@@ -2766,8 +2760,6 @@ socket.on('operation', function () {
 });
 
 socket.on('online users', function (data) {
-    data = LZString.decompressFromUTF16(data);
-    data = JSON.parse(data);
     if (debug)
         console.debug(data);
     onlineUsers = data.users;
