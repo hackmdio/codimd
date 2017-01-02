@@ -1223,7 +1223,11 @@ function checkSyncToggle() {
     }
 }
 
-function checkEditorScrollbar() {
+var checkEditorScrollbar = _.debounce(function () {
+    editor.operation(checkEditorScrollbarInner);
+}, 50);
+
+function checkEditorScrollbarInner() {
     // workaround simple scroll bar knob
     // will get wrong position when editor height changed
     var scrollInfo = editor.getScrollInfo();
