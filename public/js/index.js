@@ -3207,6 +3207,12 @@ function buildCursor(user) {
 }
 
 //editor actions
+function removeNullByte(cm, change) {
+    var str = change.text.join("\n");
+    if (/\u0000/g.test(str) && change.update) {
+        change.update(change.from, change.to, str.replace(/\u0000/g, "").split("\n"));
+    }
+}
 function enforceMaxLength(cm, change) {
     var maxLength = cm.getOption("maxLength");
     if (maxLength && change.update) {
@@ -3228,6 +3234,7 @@ var ignoreEmitEvents = ['setValue', 'ignoreHistory'];
 editor.on('beforeChange', function (cm, change) {
     if (debug)
         console.debug(change);
+    removeNullByte(cm, change);
     if (enforceMaxLength(cm, change)) {
         $('.limit-modal').modal('show');
     }
