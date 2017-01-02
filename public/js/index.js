@@ -2443,7 +2443,7 @@ function updateInfo(data) {
         updateAuthorship();
     }
 }
-var updateAuthorship = _.throttle(function () {
+var updateAuthorship = _.debounce(function () {
     editor.operation(updateAuthorshipInner);
 }, 50);
 function initMark() {
