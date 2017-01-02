@@ -22,6 +22,12 @@ You can quickly setup a sample heroku hackmd application by clicking the button 
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
+[migration-to-0.5.0](https://github.com/hackmdio/migration-to-0.5.0)
+---
+
+We don't use LZString to compress socket.io data and DB data after version 0.5.0.  
+Please run the migration tool if you're upgrading from the old version.
+
 [migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
 ---
 

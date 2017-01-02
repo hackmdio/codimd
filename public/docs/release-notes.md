@@ -1,6 +1,35 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 0.5.0 `Ristretto` <i class="fa fa-clock-o"></i> 2017-01-02 02:35
+---
+### Enhancements
+* Update year to 2017 (Happy New Year!)
+* Update to improve editor performance by debounce checkEditorScrollbar event
+* Refactor data processing to model definition
+* Update to remove null byte on editor changes
+* Update to remove null byte before saving to DB
+* Update to support Esperanto locale
+* Little improvements (typos, uppercase + accents, better case) for French locale
+* Update features.md publish button name and icon
+
+### Fixes
+* Fix authorship might losing update event because of throttling
+* Fix migration script of revision lacks of definition of primary key
+* Fix to not use diff_cleanupSemantic
+* Fix URL concatenation when uploading images to local filesystem
+* Fix js-url not import correctly
+* Fixed typo: anonmyous
+* Fix codemirror spell checker not considering abbreviation which contain apostrophe in word
+* Fix possible user is undefined in realtime events
+* Fix wrong package name reference in webpack config for bootstrap-validator
+* Fix email option in config not parse correctly
+* Fix mathjax not able to render issue
+
+### Removes
+- Remove LZString compression for data storage
+- Remove LZString compression for some socket.io event data
+
 <i class="fa fa-tag"></i> 0.4.6 `Melya` <i class="fa fa-clock-o"></i> 2016-12-19 17:20
 ---
 ### Features

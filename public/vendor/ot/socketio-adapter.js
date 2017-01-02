@@ -24,8 +24,6 @@ ot.SocketIOAdapter = (function () {
             self.trigger('selection', clientId, selection);
         });
         socket.on('operations', function (head, operations) {
-            operations = LZString.decompressFromUTF16(operations);
-            operations = JSON.parse(operations);
             self.trigger('operations', head, operations);
         });
         socket.on('selection', function (clientId, selection) {
@@ -37,7 +35,6 @@ ot.SocketIOAdapter = (function () {
     }
 
     SocketIOAdapter.prototype.sendOperation = function (revision, operation, selection) {
-        operation = LZString.compressToUTF16(JSON.stringify(operation));
         this.socket.emit('operation', revision, operation, selection);
     };
 

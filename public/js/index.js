@@ -11,7 +11,6 @@ require('highlight.js/styles/github-gist.css');
 var toMarkdown = require('to-markdown');
 
 var saveAs = require('file-saver').saveAs;
-var url = require('js-url');
 var randomColor = require('randomcolor');
 
 var _ = require("lodash");
@@ -1225,7 +1224,11 @@ function checkSyncToggle() {
     }
 }
 
-function checkEditorScrollbar() {
+var checkEditorScrollbar = _.debounce(function () {
+    editor.operation(checkEditorScrollbarInner);
+}, 50);
+
+function checkEditorScrollbarInner() {
     // workaround simple scroll bar knob
     // will get wrong position when editor height changed
     var scrollInfo = editor.getScrollInfo();
@@ -2445,7 +2448,7 @@ function updateInfo(data) {
         updateAuthorship();
     }
 }
-var updateAuthorship = _.throttle(function () {
+var updateAuthorship = _.debounce(function () {
     editor.operation(updateAuthorshipInner);
 }, 50);
 function initMark() {
@@ -2647,8 +2650,6 @@ editor.on('update', function () {
     });
 });
 socket.on('check', function (data) {
-    data = LZString.decompressFromUTF16(data);
-    data = JSON.parse(data);
     //console.log(data);
     updateInfo(data);
 });
@@ -2658,8 +2659,6 @@ socket.on('permission', function (data) {
 var docmaxlength = null;
 var permission = null;
 socket.on('refresh', function (data) {
-    data = LZString.decompressFromUTF16(data);
-    data = JSON.parse(data);
     //console.log(data);
     docmaxlength = data.docmaxlength;
     editor.setOption("maxLength", docmaxlength);
@@ -2706,8 +2705,6 @@ var CodeMirrorAdapter = ot.CodeMirrorAdapter;
 var cmClient = null;
 
 socket.on('doc', function (obj) {
-    obj = LZString.decompressFromUTF16(obj);
-    obj = JSON.parse(obj);
     var body = obj.str;
     var bodyMismatch = editor.getValue() !== body;
     var havePendingOperation = cmClient && Object.keys(cmClient.state).length > 0;
@@ -2768,8 +2765,6 @@ socket.on('operation', function () {
 });
 
 socket.on('online users', function (data) {
-    data = LZString.decompressFromUTF16(data);
-    data = JSON.parse(data);
     if (debug)
         console.debug(data);
     onlineUsers = data.users;
@@ -3217,6 +3212,12 @@ function buildCursor(user) {
 }
 
 //editor actions
+function removeNullByte(cm, change) {
+    var str = change.text.join("\n");
+    if (/\u0000/g.test(str) && change.update) {
+        change.update(change.from, change.to, str.replace(/\u0000/g, "").split("\n"));
+    }
+}
 function enforceMaxLength(cm, change) {
     var maxLength = cm.getOption("maxLength");
     if (maxLength && change.update) {
@@ -3238,6 +3239,7 @@ var ignoreEmitEvents = ['setValue', 'ignoreHistory'];
 editor.on('beforeChange', function (cm, change) {
     if (debug)
         console.debug(change);
+    removeNullByte(cm, change);
     if (enforceMaxLength(cm, change)) {
         $('.limit-modal').modal('show');
     }
