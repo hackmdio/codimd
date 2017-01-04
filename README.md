@@ -59,7 +59,7 @@ Get started
 2. Enter the directory and type `bin/setup`, which will install npm dependencies and create configs. The setup script is written in Bash, you would need bash as a prerequisite.
 3. Setup the configs, see more below
 4. Setup environment variables which will overwrite the configs
-5. Build front-end bundle by `npm run build:prod` (use `npm run build:dev` if you are in development)
+5. Build front-end bundle by `npm run build` (use `npm run dev` if you are in development)
 6. Run the server as you like (node, forever, pm2)
 
 Upgrade guide
