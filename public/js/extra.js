@@ -11,6 +11,7 @@ var PDFObject = require('pdfobject');
 var S = require('string');
 var saveAs = require('file-saver').saveAs;
 require('../vendor/md-toc');
+var Viz = require("viz.js");
 
 //auto update last change
 window.createtime = null;
@@ -335,22 +336,31 @@ function finishView(view) {
         }
     });
     //graphviz
-    var Viz = require("viz.js");
     var graphvizs = view.find("div.graphviz.raw").removeClass("raw");
+    function parseGraphviz(key, value) {
+        var $value = $(value);
+        var $ele = $(value).parent().parent();
+
+        var graphviz = Viz($value.text());
+        if (!graphviz) throw Error('viz.js output empty graph');
+        $value.html(graphviz);
+
+        $ele.addClass('graphviz');
+        $value.children().unwrap().unwrap();
+    }
     graphvizs.each(function (key, value) {
         try {
-            var $value = $(value);
-            var $ele = $(value).parent().parent();
-
-            var graphviz = Viz($value.text());
-            if (!graphviz) throw Error('viz.js output empty graph');
-            $value.html(graphviz);
-
-            $ele.addClass('graphviz');
-            $value.children().unwrap().unwrap();
+            parseGraphviz(key, value);
         } catch (err) {
-            $value.unwrap();
-            console.warn(err);
+            // workaround for graphviz not recover from error
+            try {
+                parseGraphviz(key, value);
+            } catch (err) {
+                var $value = $(value);
+                $value.unwrap();
+                $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
+                console.warn(err);
+            }
         }
     });
     //mermaid
