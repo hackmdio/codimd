@@ -51,11 +51,12 @@ var parseMeta = extra.parseMeta;
 var exportToHTML = extra.exportToHTML;
 var exportToRawHTML = extra.exportToRawHTML;
 
-var syncScroll = require('./syncscroll');
-var setupSyncAreas = syncScroll.setupSyncAreas;
-var clearMap = syncScroll.clearMap;
-var syncScrollToEdit = syncScroll.syncScrollToEdit;
-var syncScrollToView = syncScroll.syncScrollToView;
+import {
+    clearMap,
+    setupSyncAreas,
+    syncScrollToEdit,
+    syncScrollToView
+} from './syncscroll';
 
 var historyModule = require('./history');
 var writeHistory = historyModule.writeHistory;
@@ -3693,6 +3694,7 @@ function checkCursorMenuInner() {
     var offsetLeft = 0;
     var offsetTop = defaultTextHeight;
     // set up side down
+    window.upSideDown = false;
     var lastUpSideDown = upSideDown = false;
     // only do when have width and height
     if (width > 0 && height > 0) {
