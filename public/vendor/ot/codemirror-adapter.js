@@ -328,7 +328,7 @@ ot.CodeMirrorAdapter = (function (global) {
         return {
             clear: function () {
                 for (var i = 0; i < selectionObjects.length; i++) {
-                    selectionObjects[i].clear();
+                    if (selectionObjects[i]) selectionObjects[i].clear();
                 }
             }
         };
