@@ -309,6 +309,7 @@ function finishView(view) {
             svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
         } catch (err) {
             $value.unwrap();
+            $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
             console.warn(err);
         }
     });
@@ -332,6 +333,7 @@ function finishView(view) {
             $value.children().unwrap().unwrap();
         } catch (err) {
             $value.unwrap();
+            $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
             console.warn(err);
         }
     });
@@ -380,11 +382,11 @@ function finishView(view) {
                 $ele.html($value.text());
                 mermaid.init(undefined, $ele);
             } else {
-                $value.unwrap();
-                console.warn(mermaidError);
+                throw new Error(mermaidError);
             }
         } catch (err) {
             $value.unwrap();
+            $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
             console.warn(err);
         }
     });
@@ -543,6 +545,16 @@ function postProcess(code) {
 			});
 		}
 	}
+    // show yaml meta paring error
+    if (md.metaError) {
+        var warning = result.find('div#meta-error');
+        if (warning && warning.length > 0) {
+            warning.text(md.metaError)
+        } else {
+            warning = $('<div id="meta-error" class="alert alert-warning">' + md.metaError + '</div>')
+            result.prepend(warning);
+        }
+    }
     return result;
 }
 window.postProcess = postProcess;
@@ -1122,7 +1134,9 @@ function meta(state, start, end, silent) {
 
     try {
         md.meta = jsyaml.safeLoad(data.join('\n')) || {};
+        delete md.metaError;
     } catch(err) {
+        md.metaError = err;
         console.warn(err);
         return false;
     }
