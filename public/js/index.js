@@ -30,26 +30,27 @@ import {
     version
 } from './common';
 
-var extra = require('./extra');
-var md = extra.md;
-var updateLastChange = extra.updateLastChange;
-var postProcess = extra.postProcess;
-var finishView = extra.finishView;
-var autoLinkify = extra.autoLinkify;
-var generateToc = extra.generateToc;
-var smoothHashScroll = extra.smoothHashScroll;
-var deduplicatedHeaderId = extra.deduplicatedHeaderId;
-var renderTOC = extra.renderTOC;
-var renderTitle = extra.renderTitle;
-var renderFilename = extra.renderFilename;
-var renderTags = extra.renderTags;
-var isValidURL = extra.isValidURL;
-var scrollToHash = extra.scrollToHash;
-var updateLastChangeUser = extra.updateLastChangeUser;
-var updateOwner = extra.updateOwner;
-var parseMeta = extra.parseMeta;
-var exportToHTML = extra.exportToHTML;
-var exportToRawHTML = extra.exportToRawHTML;
+import {
+    autoLinkify,
+    deduplicatedHeaderId,
+    exportToHTML,
+    exportToRawHTML,
+    finishView,
+    generateToc,
+    isValidURL,
+    md,
+    parseMeta,
+    postProcess,
+    renderFilename,
+    renderTOC,
+    renderTags,
+    renderTitle,
+    scrollToHash,
+    smoothHashScroll,
+    updateLastChange,
+    updateLastChangeUser,
+    updateOwner
+} from './extra';
 
 import {
     clearMap,
