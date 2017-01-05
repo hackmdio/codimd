@@ -11,20 +11,21 @@ import {
     setloginStateChangeEvent
 } from './common';
 
-import historyModule from './history';
-const parseStorageToHistory = historyModule.parseStorageToHistory;
-const parseHistory = historyModule.parseHistory;
-const getStorageHistory = historyModule.getStorageHistory;
-const getHistory = historyModule.getHistory;
-const saveHistory = historyModule.saveHistory;
-const removeHistory = historyModule.removeHistory;
-const postHistoryToServer = historyModule.postHistoryToServer;
-const deleteServerHistory = historyModule.deleteServerHistory;
-const parseServerToHistory = historyModule.parseServerToHistory;
-const saveStorageHistoryToServer = historyModule.saveStorageHistoryToServer;
-const clearDuplicatedHistory = historyModule.clearDuplicatedHistory;
+import {
+    clearDuplicatedHistory,
+    deleteServerHistory,
+    getHistory,
+    getStorageHistory,
+    parseHistory,
+    parseServerToHistory,
+    parseStorageToHistory,
+    postHistoryToServer,
+    removeHistory,
+    saveHistory,
+    saveStorageHistoryToServer
+} from './history';
 
-import {saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
 import List from 'list.js';
 import S from 'string';
 

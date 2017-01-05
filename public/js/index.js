@@ -59,12 +59,13 @@ import {
     syncScrollToView
 } from './syncscroll';
 
-var historyModule = require('./history');
-var writeHistory = historyModule.writeHistory;
-var deleteServerHistory = historyModule.deleteServerHistory;
-var getHistory = historyModule.getHistory;
-var saveHistory = historyModule.saveHistory;
-var removeHistory = historyModule.removeHistory;
+import {
+    writeHistory,
+    deleteServerHistory,
+    getHistory,
+    saveHistory,
+    removeHistory
+} from './history';
 
 var renderer = require('./render');
 var preventXSS = renderer.preventXSS;
