@@ -3,8 +3,8 @@ HackMD
 
 [![Join the chat at https://gitter.im/hackmdio/hackmd](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-HackMD lets you create realtime collaborative markdown notes on all platforms.  
-Inspired by Hackpad, with more focus on speed and flexibility.  
+HackMD lets you create realtime collaborative markdown notes on all platforms.
+Inspired by Hackpad, with more focus on speed and flexibility.
 Still in the early stage, feel free to fork or contribute to HackMD.
 
 Thanks for using! :smile:
@@ -12,7 +12,7 @@ Thanks for using! :smile:
 [docker-hackmd](https://github.com/hackmdio/docker-hackmd)
 ---
 
-Before you go too far, here is the great docker repo for HackMD.  
+Before you go too far, here is the great docker repo for HackMD.
 With docker, you can deploy a server in minutes without any downtime.
 
 Heroku Deployment
@@ -25,14 +25,14 @@ You can quickly setup a sample heroku hackmd application by clicking the button 
 [migration-to-0.5.0](https://github.com/hackmdio/migration-to-0.5.0)
 ---
 
-We don't use LZString to compress socket.io data and DB data after version 0.5.0.  
+We don't use LZString to compress socket.io data and DB data after version 0.5.0.
 Please run the migration tool if you're upgrading from the old version.
 
 [migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
 ---
 
-We've dropped MongoDB after version 0.4.0.  
-So here is the migration tool for you to transfer the old DB data to the new DB.  
+We've dropped MongoDB after version 0.4.0.
+So here is the migration tool for you to transfer the old DB data to the new DB.
 This tool is also used for official service.
 
 Browsers Requirement
@@ -125,6 +125,7 @@ Environment variables (will overwrite other server configs)
 | HMD_URL_ADDPORT | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
 | HMD_USECDN | `true` or `false` | set to use CDN resources or not (default is `true`) |
 | HMD_ALLOW_ANONYMOUS | `true` or `false` | set to allow anonymous usage (default is `true`) |
+| HMD_ALLOW_ANONYMOUS_VIEW | `true` or `false` | set to allow anonymous view note (default is `true`) |
 | HMD_ALLOW_FREEURL | `true` or `false` | set to allow new note by accessing not exist note url |
 | HMD_DB_URL | `mysql://localhost:3306/database` | set the db url |
 | HMD_FACEBOOK_CLIENTID | no example | Facebook API client id |
@@ -213,9 +214,9 @@ Third-party integration oauth callback urls
 Operational Transformation
 ---
 
-From 0.3.2, we started supporting operational transformation.  
-It makes concurrent editing safe and will not break up other users' operations.  
-Additionally, now can show other clients' selections.  
+From 0.3.2, we started supporting operational transformation.
+It makes concurrent editing safe and will not break up other users' operations.
+Additionally, now can show other clients' selections.
 See more at [http://operational-transformation.github.io/](http://operational-transformation.github.io/)
 
 **License under MIT.**
