@@ -17,18 +17,18 @@ var _ = require("lodash");
 
 var List = require('list.js');
 
-var common = require('./common.js');
-var urlpath = common.urlpath;
-var noteid = common.noteid;
-var debug = common.debug;
-var version = common.version;
-var GOOGLE_API_KEY = common.GOOGLE_API_KEY;
-var GOOGLE_CLIENT_ID = common.GOOGLE_CLIENT_ID;
-var DROPBOX_APP_KEY = common.DROPBOX_APP_KEY;
-var noteurl = common.noteurl;
-
-var checkLoginStateChanged = common.checkLoginStateChanged;
-var loginStateChangeEvent = common.loginStateChangeEvent;
+import {
+    checkLoginStateChanged,
+    setloginStateChangeEvent,
+    debug,
+    DROPBOX_APP_KEY,
+    GOOGLE_API_KEY,
+    GOOGLE_CLIENT_ID,
+    noteid,
+    noteurl,
+    urlpath,
+    version
+} from './common';
 
 var extra = require('./extra');
 var md = extra.md;
@@ -963,10 +963,10 @@ function setNeedRefresh() {
     showStatus(statusType.offline);
 }
 
-loginStateChangeEvent = function () {
+setloginStateChangeEvent(function () {
     setRefreshModal('user-state-changed');
     setNeedRefresh();
-};
+});
 
 //visibility
 var wasFocus = false;
