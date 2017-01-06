@@ -13,6 +13,7 @@ import { saveAs } from 'file-saver';
 
 require('./common');
 require('../vendor/md-toc');
+var Viz = require("viz.js");
 
 //auto update last change
 window.createtime = null;
@@ -314,6 +315,7 @@ export function finishView(view) {
             svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
         } catch (err) {
             $value.unwrap();
+            $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
             console.warn(err);
         }
     });
@@ -337,26 +339,36 @@ export function finishView(view) {
             $value.children().unwrap().unwrap();
         } catch (err) {
             $value.unwrap();
+            $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
             console.warn(err);
         }
     });
     //graphviz
-    const Viz = require("viz.js");
-    const graphvizs = view.find("div.graphviz.raw").removeClass("raw");
-    graphvizs.each((key, value) => {
+    var graphvizs = view.find("div.graphviz.raw").removeClass("raw");
+    function parseGraphviz(key, value) {
+        var $value = $(value);
+        var $ele = $(value).parent().parent();
+
+        var graphviz = Viz($value.text());
+        if (!graphviz) throw Error('viz.js output empty graph');
+        $value.html(graphviz);
+
+        $ele.addClass('graphviz');
+        $value.children().unwrap().unwrap();
+    }
+    graphvizs.each(function (key, value) {
         try {
-            var $value = $(value);
-            const $ele = $(value).parent().parent();
-
-            const graphviz = Viz($value.text());
-            if (!graphviz) throw Error('viz.js output empty graph');
-            $value.html(graphviz);
-
-            $ele.addClass('graphviz');
-            $value.children().unwrap().unwrap();
+            parseGraphviz(key, value);
         } catch (err) {
-            $value.unwrap();
-            console.warn(err);
+            // workaround for graphviz not recover from error
+            try {
+                parseGraphviz(key, value);
+            } catch (err) {
+                var $value = $(value);
+                $value.unwrap();
+                $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
+                console.warn(err);
+            }
         }
     });
     //mermaid
@@ -376,11 +388,11 @@ export function finishView(view) {
                 $ele.html($value.text());
                 mermaid.init(undefined, $ele);
             } else {
-                $value.unwrap();
-                console.warn(mermaidError);
+                throw new Error(mermaidError);
             }
         } catch (err) {
             $value.unwrap();
+            $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
             console.warn(err);
         }
     });
@@ -539,6 +551,16 @@ export function postProcess(code) {
 			});
 		}
 	}
+    // show yaml meta paring error
+    if (md.metaError) {
+        var warning = result.find('div#meta-error');
+        if (warning && warning.length > 0) {
+            warning.text(md.metaError)
+        } else {
+            warning = $('<div id="meta-error" class="alert alert-warning">' + md.metaError + '</div>')
+            result.prepend(warning);
+        }
+    }
     return result;
 }
 window.postProcess = postProcess;
@@ -1103,7 +1125,9 @@ function meta(state, start, end, silent) {
 
     try {
         md.meta = jsyaml.safeLoad(data.join('\n')) || {};
+        delete md.metaError;
     } catch(err) {
+        md.metaError = err;
         console.warn(err);
         return false;
     }
