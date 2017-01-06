@@ -99,7 +99,6 @@
     "reveal.js": "^3.3.0",
     "sequelize": "^3.24.3",
     "scrypt": "^6.0.3",
-    "seedrandom": "^2.4.2",
     "select2": "^3.5.2-browserify",
     "sequelize-cli": "^2.4.0",
     "shortid": "2.2.6",
