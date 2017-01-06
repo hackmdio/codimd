@@ -1,30 +1,37 @@
-var config = require('./config');
-var domain = config.domain; // domain name
-var urlpath = config.urlpath; // sub url path, like: www.example.com/<urlpath>
-var debug = config.debug;
-var GOOGLE_API_KEY = config.GOOGLE_API_KEY;
-var GOOGLE_CLIENT_ID = config.GOOGLE_CLIENT_ID;
-var DROPBOX_APP_KEY = config.DROPBOX_APP_KEY;
+// import config from './config';
+
+import {
+    domain, // domain name
+    urlpath, // sub url path, like: www.example.com/<urlpath>
+    debug,
+    GOOGLE_API_KEY,
+    GOOGLE_CLIENT_ID,
+    DROPBOX_APP_KEY
+} from './config';
 
 //common
-var port = window.location.port;
-window.serverurl = window.location.protocol + '//' + (domain ? domain : window.location.hostname) + (port ? ':' + port : '') + (urlpath ? '/' + urlpath : '');
-var noteid = urlpath ? window.location.pathname.slice(urlpath.length + 1, window.location.pathname.length).split('/')[1] : window.location.pathname.split('/')[1];
-var noteurl = serverurl + '/' + noteid;
+export const port = window.location.port;
+window.serverurl = `${window.location.protocol}//${domain ? domain : window.location.hostname}${port ? ':' + port : ''}${urlpath ? '/' + urlpath : ''}`;
+export const noteid = urlpath ? window.location.pathname.slice(urlpath.length + 1, window.location.pathname.length).split('/')[1] : window.location.pathname.split('/')[1];
+export const noteurl = `${serverurl}/${noteid}`;
 
-var version = '0.5.0';
+export const version = '0.5.0';
 
-var checkAuth = false;
-var profile = null;
-var lastLoginState = getLoginState();
-var lastUserId = getUserId();
-var loginStateChangeEvent = null;
+let checkAuth = false;
+let profile = null;
+let lastLoginState = getLoginState();
+let lastUserId = getUserId();
+let loginStateChangeEvent = null;
 
-function resetCheckAuth() {
+export function setloginStateChangeEvent(func) {
+    loginStateChangeEvent = func;
+}
+
+export function resetCheckAuth() {
     checkAuth = false;
 }
 
-function setLoginState(bool, id) {
+export function setLoginState(bool, id) {
     Cookies.set('loginstate', bool, {
         expires: 365
     });
@@ -40,36 +47,37 @@ function setLoginState(bool, id) {
     checkLoginStateChanged();
 }
 
-function checkLoginStateChanged() {
+export function checkLoginStateChanged() {
     if (getLoginState() != lastLoginState || getUserId() != lastUserId) {
-        if(loginStateChangeEvent)
+        if(loginStateChangeEvent) {
             loginStateChangeEvent();
+        }
         return true;
     } else {
         return false;
     }
 }
 
-function getLoginState() {
-    var state = Cookies.get('loginstate');
+export function getLoginState() {
+    const state = Cookies.get('loginstate');
     return state === "true" || state === true;
 }
 
-function getUserId() {
+export function getUserId() {
     return Cookies.get('userid');
 }
 
-function clearLoginState() {
+export function clearLoginState() {
     Cookies.remove('loginstate');
 }
 
-function checkIfAuth(yesCallback, noCallback) {
-    var cookieLoginState = getLoginState();
+export function checkIfAuth(yesCallback, noCallback) {
+    const cookieLoginState = getLoginState();
     if (checkLoginStateChanged())
         checkAuth = false;
     if (!checkAuth || typeof cookieLoginState == 'undefined') {
-        $.get(serverurl + '/me')
-            .done(function (data) {
+        $.get(`${serverurl}/me`)
+            .done(data => {
                 if (data && data.status == 'ok') {
                     profile = data;
                     yesCallback(profile);
@@ -79,10 +87,10 @@ function checkIfAuth(yesCallback, noCallback) {
                     setLoginState(false);
                 }
             })
-            .fail(function () {
+            .fail(() => {
                 noCallback();
             })
-            .always(function () {
+            .always(() => {
                 checkAuth = true;
             });
     } else if (cookieLoginState) {
@@ -92,29 +100,16 @@ function checkIfAuth(yesCallback, noCallback) {
     }
 }
 
-module.exports = {
-    domain: domain,
-    urlpath: urlpath,
-    debug: debug,
-    GOOGLE_API_KEY: GOOGLE_API_KEY,
-    GOOGLE_CLIENT_ID: GOOGLE_CLIENT_ID,
-    DROPBOX_APP_KEY: DROPBOX_APP_KEY,
-    port: port,
-    noteid: noteid,
-    noteurl: noteurl,
-    version: version,
-    checkAuth: checkAuth,
-    profile: profile,
-    lastLoginState: lastLoginState,
-    lastUserId: lastUserId,
-    loginStateChangeEvent: loginStateChangeEvent,
-
-    /* export functions */
-    resetCheckAuth: resetCheckAuth,
-    setLoginState: setLoginState,
-    checkLoginStateChanged: checkLoginStateChanged,
-    getLoginState: getLoginState,
-    getUserId: getUserId,
-    clearLoginState: clearLoginState,
-    checkIfAuth: checkIfAuth
+export default {
+    domain,
+    urlpath,
+    debug,
+    GOOGLE_API_KEY,
+    GOOGLE_CLIENT_ID,
+    DROPBOX_APP_KEY,
+    checkAuth,
+    profile,
+    lastLoginState,
+    lastUserId,
+    loginStateChangeEvent
 };

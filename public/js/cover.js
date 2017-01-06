@@ -3,30 +3,31 @@ require('./locale');
 require('../css/cover.css');
 require('../css/site.css');
 
-var common = require('./common');
-var checkIfAuth = common.checkIfAuth;
-var urlpath = common.urlpath;
-var resetCheckAuth = common.resetCheckAuth;
-var getLoginState = common.getLoginState;
-var clearLoginState = common.clearLoginState;
-var loginStateChangeEvent = common.loginStateChangeEvent;
+import {
+    checkIfAuth,
+    clearLoginState,
+    getLoginState,
+    resetCheckAuth,
+    setloginStateChangeEvent
+} from './common';
 
-var historyModule = require('./history');
-var parseStorageToHistory = historyModule.parseStorageToHistory;
-var parseHistory = historyModule.parseHistory;
-var getStorageHistory = historyModule.getStorageHistory;
-var getHistory = historyModule.getHistory;
-var saveHistory = historyModule.saveHistory;
-var removeHistory = historyModule.removeHistory;
-var postHistoryToServer = historyModule.postHistoryToServer;
-var deleteServerHistory = historyModule.deleteServerHistory;
-var parseServerToHistory = historyModule.parseServerToHistory;
-var saveStorageHistoryToServer = historyModule.saveStorageHistoryToServer;
-var clearDuplicatedHistory = historyModule.clearDuplicatedHistory;
+import {
+    clearDuplicatedHistory,
+    deleteServerHistory,
+    getHistory,
+    getStorageHistory,
+    parseHistory,
+    parseServerToHistory,
+    parseStorageToHistory,
+    postHistoryToServer,
+    removeHistory,
+    saveHistory,
+    saveStorageHistoryToServer
+} from './history';
 
-var saveAs = require('file-saver').saveAs;
-var List = require('list.js');
-var S = require('string');
+import { saveAs } from 'file-saver';
+import List from 'list.js';
+import S from 'string';
 
 import Cover from './views/Cover';
 import Vue from 'vue';
@@ -36,13 +37,13 @@ new Vue({
     render: (h) => h(Cover)
 })
 
-var options = {
+const options = {
     valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
     item: '<li class="col-xs-12 col-sm-6 col-md-6 col-lg-4">\
             <span class="id" style="display:none;"></span>\
             <a href="#">\
                 <div class="item">\
-					<div class="ui-history-pin fa fa-thumb-tack fa-fw"></div>\
+                    <div class="ui-history-pin fa fa-thumb-tack fa-fw"></div>\
                     <div class="ui-history-close fa fa-close fa-fw" data-toggle="modal" data-target=".delete-modal"></div>\
                     <div class="content">\
                         <h4 class="text"></h4>\
@@ -64,15 +65,16 @@ var options = {
         })
     ]
 };
-var historyList = new List('history', options);
+const historyList = new List('history', options);
 
 migrateHistoryFromTempCallback = pageInit;
-loginStateChangeEvent = pageInit;
+setloginStateChangeEvent(pageInit);
+
 pageInit();
 
 function pageInit() {
     checkIfAuth(
-        function (data) {
+        data => {
             $('.ui-signin').hide();
             $('.ui-or').hide();
             $('.ui-welcome').show();
@@ -83,7 +85,7 @@ function pageInit() {
             $(".ui-history").click();
             parseServerToHistory(historyList, parseHistoryCallback);
         },
-        function () {
+        () => {
             $('.ui-signin').show();
             $('.ui-or').show();
             $('.ui-welcome').hide();
@@ -100,14 +102,14 @@ $(".masthead-nav li").click(function () {
     $(this).addClass("active");
 });
 
-$(".ui-home").click(function () {
+$(".ui-home").click(() => {
     if (!$("#home").is(':visible')) {
         $(".section:visible").hide();
         $("#home").fadeIn();
     }
 });
 
-$(".ui-history").click(function () {
+$(".ui-history").click(() => {
     if (!$("#history").is(':visible')) {
         $(".section:visible").hide();
         $("#history").fadeIn();
@@ -120,7 +122,7 @@ function checkHistoryList() {
         $(".ui-import-from-browser").hide();
     } else if ($("#history-list").children().length == 0) {
         $(".ui-nohistory").slideDown();
-        getStorageHistory(function (data) {
+        getStorageHistory(data => {
             if (data && data.length > 0 && getLoginState() && historyList.items.length == 0) {
                 $(".ui-import-from-browser").slideDown();
             }
@@ -130,35 +132,35 @@ function checkHistoryList() {
 
 function parseHistoryCallback(list, notehistory) {
     checkHistoryList();
-	//sort by pinned then timestamp
-	list.sort('', {
-        sortFunction: function (a, b) {
-			var notea = a.values();
-            var noteb = b.values();
-			if (notea.pinned && !noteb.pinned) {
+    //sort by pinned then timestamp
+    list.sort('', {
+        sortFunction(a, b) {
+            const notea = a.values();
+            const noteb = b.values();
+            if (notea.pinned && !noteb.pinned) {
                 return -1;
             } else if (!notea.pinned && noteb.pinned) {
                 return 1;
             } else {
-				if (notea.timestamp > noteb.timestamp) {
-                	return -1;
-				} else if (notea.timestamp < noteb.timestamp) {
-					return 1;
-				} else {
-					return 0;
-				}
-			}
-		}
-	});
+                if (notea.timestamp > noteb.timestamp) {
+                    return -1;
+                } else if (notea.timestamp < noteb.timestamp) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+    });
     // parse filter tags
-    var filtertags = [];
-    for (var i = 0, l = list.items.length; i < l; i++) {
-        var tags = list.items[i]._values.tags;
+    const filtertags = [];
+    for (let i = 0, l = list.items.length; i < l; i++) {
+        const tags = list.items[i]._values.tags;
         if (tags && tags.length > 0) {
-            for (var j = 0; j < tags.length; j++) {
+            for (let j = 0; j < tags.length; j++) {
                 //push info filtertags if not found
-                var found = false;
-                if (filtertags.indexOf(tags[j]) != -1)
+                let found = false;
+                if (filtertags.includes(tags[j]))
                     found = true;
                 if (!found)
                     filtertags.push(tags[j]);
@@ -169,17 +171,17 @@ function parseHistoryCallback(list, notehistory) {
 }
 
 // update items whenever list updated
-historyList.on('updated', function (e) {
-    for (var i = 0, l = e.items.length; i < l; i++) {
-        var item = e.items[i];
+historyList.on('updated', e => {
+    for (let i = 0, l = e.items.length; i < l; i++) {
+        const item = e.items[i];
         if (item.visible()) {
-            var itemEl = $(item.elm);
-            var values = item._values;
-            var a = itemEl.find("a");
-            var pin = itemEl.find(".ui-history-pin");
-            var tagsEl = itemEl.find(".tags");
+            const itemEl = $(item.elm);
+            const values = item._values;
+            const a = itemEl.find("a");
+            const pin = itemEl.find(".ui-history-pin");
+            const tagsEl = itemEl.find(".tags");
             //parse link to element a
-            a.attr('href', serverurl + '/' + values.id);
+            a.attr('href', `${serverurl}/${values.id}`);
             //parse pinned
             if (values.pinned) {
                 pin.addClass('active');
@@ -187,12 +189,12 @@ historyList.on('updated', function (e) {
                 pin.removeClass('active');
             }
             //parse tags
-            var tags = values.tags;
+            const tags = values.tags;
             if (tags && tags.length > 0 && tagsEl.children().length <= 0) {
-                var labels = [];
-                for (var j = 0; j < tags.length; j++) {
+                const labels = [];
+                for (let j = 0; j < tags.length; j++) {
                     //push into the item label
-                    labels.push("<span class='label label-default'>" + tags[j] + "</span>");
+                    labels.push(`<span class='label label-default'>${tags[j]}</span>`);
                 }
                 tagsEl.html(labels.join(' '));
             }
@@ -206,21 +208,21 @@ historyList.on('updated', function (e) {
 
 function historyCloseClick(e) {
     e.preventDefault();
-    var id = $(this).closest("a").siblings("span").html();
-    var value = historyList.get('id', id)[0]._values;
+    const id = $(this).closest("a").siblings("span").html();
+    const value = historyList.get('id', id)[0]._values;
     $('.ui-delete-modal-msg').text('Do you really want to delete below history?');
-    $('.ui-delete-modal-item').html('<i class="fa fa-file-text"></i> ' + value.text + '<br><i class="fa fa-clock-o"></i> ' + value.time);
+    $('.ui-delete-modal-item').html(`<i class="fa fa-file-text"></i> ${value.text}<br><i class="fa fa-clock-o"></i> ${value.time}`);
     clearHistory = false;
     deleteId = id;
 }
 
 function historyPinClick(e) {
     e.preventDefault();
-    var $this = $(this);
-    var id = $this.closest("a").siblings("span").html();
-    var item = historyList.get('id', id)[0];
-    var values = item._values;
-    var pinned = values.pinned;
+    const $this = $(this);
+    const id = $this.closest("a").siblings("span").html();
+    const item = historyList.get('id', id)[0];
+    const values = item._values;
+    let pinned = values.pinned;
     if (!values.pinned) {
         pinned = true;
         item._values.pinned = true;
@@ -228,10 +230,10 @@ function historyPinClick(e) {
         pinned = false;
         item._values.pinned = false;
     }
-    checkIfAuth(function () {
+    checkIfAuth(() => {
         postHistoryToServer(id, {
-            pinned: pinned
-        }, function (err, result) {
+            pinned
+        }, (err, result) => {
             if (!err) {
                 if (pinned)
                     $this.addClass('active');
@@ -239,9 +241,9 @@ function historyPinClick(e) {
                     $this.removeClass('active');
             }
         });
-    }, function () {
-        getHistory(function (notehistory) {
-            for(var i = 0; i < notehistory.length; i++) {
+    }, () => {
+        getHistory(notehistory => {
+            for(let i = 0; i < notehistory.length; i++) {
                 if (notehistory[i].id == id) {
                     notehistory[i].pinned = pinned;
                     break;
@@ -260,10 +262,10 @@ function historyPinClick(e) {
 setInterval(updateItemFromNow, 60000);
 
 function updateItemFromNow() {
-    var items = $('.item').toArray();
-    for (var i = 0; i < items.length; i++) {
-        var item = $(items[i]);
-        var timestamp = parseInt(item.find('.timestamp').text());
+    const items = $('.item').toArray();
+    for (let i = 0; i < items.length; i++) {
+        const item = $(items[i]);
+        const timestamp = parseInt(item.find('.timestamp').text());
         item.find('.fromNow').text(moment(timestamp).fromNow());
     }
 }
@@ -272,8 +274,8 @@ var clearHistory = false;
 var deleteId = null;
 
 function deleteHistory() {
-    checkIfAuth(function () {
-        deleteServerHistory(deleteId, function (err, result) {
+    checkIfAuth(() => {
+        deleteServerHistory(deleteId, (err, result) => {
             if (!err) {
                 if (clearHistory) {
                     historyList.clear();
@@ -287,7 +289,7 @@ function deleteHistory() {
             deleteId = null;
             clearHistory = false;
         });
-    }, function () {
+    }, () => {
         if (clearHistory) {
             saveHistory([]);
             historyList.clear();
@@ -295,8 +297,8 @@ function deleteHistory() {
             deleteId = null;
         } else {
             if (!deleteId) return;
-            getHistory(function (notehistory) {
-                var newnotehistory = removeHistory(deleteId, notehistory);
+            getHistory(notehistory => {
+                const newnotehistory = removeHistory(deleteId, notehistory);
                 saveHistory(newnotehistory);
                 historyList.remove('id', deleteId);
                 checkHistoryList();
@@ -308,36 +310,36 @@ function deleteHistory() {
     });
 }
 
-$(".ui-delete-modal-confirm").click(function () {
+$(".ui-delete-modal-confirm").click(() => {
     deleteHistory();
 });
 
-$(".ui-import-from-browser").click(function () {
-    saveStorageHistoryToServer(function () {
+$(".ui-import-from-browser").click(() => {
+    saveStorageHistoryToServer(() => {
         parseStorageToHistory(historyList, parseHistoryCallback);
     });
 });
 
-$(".ui-save-history").click(function () {
-    getHistory(function (data) {
-        var history = JSON.stringify(data);
-        var blob = new Blob([history], {
+$(".ui-save-history").click(() => {
+    getHistory(data => {
+        const history = JSON.stringify(data);
+        const blob = new Blob([history], {
             type: "application/json;charset=utf-8"
         });
-        saveAs(blob, 'hackmd_history_' + moment().format('YYYYMMDDHHmmss'));
+        saveAs(blob, `hackmd_history_${moment().format('YYYYMMDDHHmmss')}`);
     });
 });
 
-$(".ui-open-history").bind("change", function (e) {
-    var files = e.target.files || e.dataTransfer.files;
-    var file = files[0];
-    var reader = new FileReader();
-    reader.onload = function () {
-        var notehistory = JSON.parse(reader.result);
+$(".ui-open-history").bind("change", e => {
+    const files = e.target.files || e.dataTransfer.files;
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+        const notehistory = JSON.parse(reader.result);
         //console.log(notehistory);
         if (!reader.result) return;
-        getHistory(function (data) {
-            var mergedata = data.concat(notehistory);
+        getHistory(data => {
+            let mergedata = data.concat(notehistory);
             mergedata = clearDuplicatedHistory(mergedata);
             saveHistory(mergedata);
             parseHistory(historyList, parseHistoryCallback);
@@ -347,18 +349,18 @@ $(".ui-open-history").bind("change", function (e) {
     reader.readAsText(file);
 });
 
-$(".ui-clear-history").click(function () {
+$(".ui-clear-history").click(() => {
     $('.ui-delete-modal-msg').text('Do you really want to clear all history?');
     $('.ui-delete-modal-item').html('There is no turning back.');
     clearHistory = true;
     deleteId = null;
 });
 
-$(".ui-refresh-history").click(function () {
-    var lastTags = $(".ui-use-tags").select2('val');
+$(".ui-refresh-history").click(() => {
+    const lastTags = $(".ui-use-tags").select2('val');
     $(".ui-use-tags").select2('val', '');
     historyList.filter();
-    var lastKeyword = $('.search').val();
+    const lastKeyword = $('.search').val();
     $('.search').val('');
     historyList.search();
     $('#history-list').slideUp('fast');
@@ -366,7 +368,7 @@ $(".ui-refresh-history").click(function () {
 
     resetCheckAuth();
     historyList.clear();
-    parseHistory(historyList, function (list, notehistory) {
+    parseHistory(historyList, (list, notehistory) => {
         parseHistoryCallback(list, notehistory);
         $(".ui-use-tags").select2('val', lastTags);
         $(".ui-use-tags").trigger('change');
@@ -378,16 +380,16 @@ $(".ui-refresh-history").click(function () {
     });
 });
 
-$(".ui-logout").click(function () {
+$(".ui-logout").click(() => {
     clearLoginState();
-    location.href = serverurl + '/logout';
+    location.href = `${serverurl}/logout`;
 });
 
-var filtertags = [];
+let filtertags = [];
 $(".ui-use-tags").select2({
     placeholder: $(".ui-use-tags").attr('placeholder'),
     multiple: true,
-    data: function () {
+    data() {
         return {
             results: filtertags
         };
@@ -397,7 +399,7 @@ $('.select2-input').css('width', 'inherit');
 buildTagsFilter([]);
 
 function buildTagsFilter(tags) {
-    for (var i = 0; i < tags.length; i++)
+    for (let i = 0; i < tags.length; i++)
         tags[i] = {
             id: i,
             text: S(tags[i]).unescapeHTML().s
@@ -405,17 +407,17 @@ function buildTagsFilter(tags) {
     filtertags = tags;
 }
 $(".ui-use-tags").on('change', function () {
-    var tags = [];
-    var data = $(this).select2('data');
-    for (var i = 0; i < data.length; i++)
+    const tags = [];
+    const data = $(this).select2('data');
+    for (let i = 0; i < data.length; i++)
         tags.push(data[i].text);
     if (tags.length > 0) {
-        historyList.filter(function (item) {
-            var values = item.values();
+        historyList.filter(item => {
+            const values = item.values();
             if (!values.tags) return false;
-            var found = false;
-            for (var i = 0; i < tags.length; i++) {
-                if (values.tags.indexOf(tags[i]) != -1) {
+            let found = false;
+            for (let i = 0; i < tags.length; i++) {
+                if (values.tags.includes(tags[i])) {
                     found = true;
                     break;
                 }
@@ -428,6 +430,6 @@ $(".ui-use-tags").on('change', function () {
     checkHistoryList();
 });
 
-$('.search').keyup(function () {
+$('.search').keyup(() => {
     checkHistoryList();
 });

@@ -1,10 +1,9 @@
-var store = require('store');
-var S = require('string');
-
-var common = require('./common');
-var checkIfAuth = common.checkIfAuth;
-var urlpath = common.urlpath;
-var getLoginState = common.getLoginState;
+import store from 'store';
+import S from 'string';
+import {
+    checkIfAuth,
+    urlpath
+} from './common';
 
 window.migrateHistoryFromTempCallback = null;
 
@@ -12,22 +11,22 @@ migrateHistoryFromTemp();
 
 function migrateHistoryFromTemp() {
     if (url('#tempid')) {
-        $.get(serverurl + '/temp', {
+        $.get(`${serverurl}/temp`, {
                 tempid: url('#tempid')
             })
-            .done(function (data) {
+            .done(data => {
                 if (data && data.temp) {
-                    getStorageHistory(function (olddata) {
+                    getStorageHistory(olddata => {
                         if (!olddata || olddata.length == 0) {
                             saveHistoryToStorage(JSON.parse(data.temp));
                         }
                     });
                 }
             })
-            .always(function () {
-                var hash = location.hash.split('#')[1];
+            .always(() => {
+                let hash = location.hash.split('#')[1];
                 hash = hash.split('&');
-                for (var i = 0; i < hash.length; i++)
+                for (let i = 0; i < hash.length; i++)
                     if (hash[i].indexOf('tempid') == 0) {
                         hash.splice(i, 1);
                         i--;
@@ -40,12 +39,12 @@ function migrateHistoryFromTemp() {
     }
 }
 
-function saveHistory(notehistory) {
+export function saveHistory(notehistory) {
     checkIfAuth(
-        function () {
+        () => {
             saveHistoryToServer(notehistory);
         },
-        function () {
+        () => {
             saveHistoryToStorage(notehistory);
         }
     );
@@ -65,7 +64,7 @@ function saveHistoryToCookie(notehistory) {
 }
 
 function saveHistoryToServer(notehistory) {
-    $.post(serverurl + '/history', {
+    $.post(`${serverurl}/history`, {
         history: JSON.stringify(notehistory)
     });
 }
@@ -75,37 +74,37 @@ function saveCookieHistoryToStorage(callback) {
     callback();
 }
 
-function saveStorageHistoryToServer(callback) {
-    var data = store.get('notehistory');
+export function saveStorageHistoryToServer(callback) {
+    const data = store.get('notehistory');
     if (data) {
-        $.post(serverurl + '/history', {
+        $.post(`${serverurl}/history`, {
                 history: data
             })
-            .done(function (data) {
+            .done(data => {
                 callback(data);
             });
     }
 }
 
 function saveCookieHistoryToServer(callback) {
-    $.post(serverurl + '/history', {
+    $.post(`${serverurl}/history`, {
             history: Cookies.get('notehistory')
         })
-        .done(function (data) {
+        .done(data => {
             callback(data);
         });
 }
 
-function clearDuplicatedHistory(notehistory) {
-    var newnotehistory = [];
-    for (var i = 0; i < notehistory.length; i++) {
-        var found = false;
-        for (var j = 0; j < newnotehistory.length; j++) {
-            var id = notehistory[i].id.replace(/\=+$/, '');
-            var newId = newnotehistory[j].id.replace(/\=+$/, '');
+export function clearDuplicatedHistory(notehistory) {
+    const newnotehistory = [];
+    for (let i = 0; i < notehistory.length; i++) {
+        let found = false;
+        for (let j = 0; j < newnotehistory.length; j++) {
+            const id = notehistory[i].id.replace(/\=+$/, '');
+            const newId = newnotehistory[j].id.replace(/\=+$/, '');
             if (id == newId || notehistory[i].id == newnotehistory[j].id || !notehistory[i].id || !newnotehistory[j].id) {
-                var time = (typeof notehistory[i].time === 'number' ? moment(notehistory[i].time) : moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a'));
-                var newTime = (typeof newnotehistory[i].time === 'number' ? moment(newnotehistory[i].time) : moment(newnotehistory[i].time, 'MMMM Do YYYY, h:mm:ss a'));
+                const time = (typeof notehistory[i].time === 'number' ? moment(notehistory[i].time) : moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a'));
+                const newTime = (typeof newnotehistory[i].time === 'number' ? moment(newnotehistory[i].time) : moment(newnotehistory[i].time, 'MMMM Do YYYY, h:mm:ss a'));
                 if(time >= newTime) {
                     newnotehistory[j] = notehistory[i];
                 }
@@ -123,42 +122,42 @@ function addHistory(id, text, time, tags, pinned, notehistory) {
     // only add when note id exists
     if (id) {
       notehistory.push({
-          id: id,
-          text: text,
-          time: time,
-          tags: tags,
-          pinned: pinned
+          id,
+          text,
+          time,
+          tags,
+          pinned
       });
     }
     return notehistory;
 }
 
-function removeHistory(id, notehistory) {
-    for (var i = 0; i < notehistory.length; i++) {
+export function removeHistory(id, notehistory) {
+    for (let i = 0; i < notehistory.length; i++) {
         if (notehistory[i].id == id) {
             notehistory.splice(i, 1);
-			i--;
-		}
+            i -= 1;
+        }
     }
     return notehistory;
 }
 
 //used for inner
-function writeHistory(title, tags) {
+export function writeHistory(title, tags) {
     checkIfAuth(
-        function () {
+        () => {
             // no need to do this anymore, this will count from server-side
             // writeHistoryToServer(title, tags);
         },
-        function () {
+        () => {
             writeHistoryToStorage(title, tags);
         }
     );
 }
 
 function writeHistoryToServer(title, tags) {
-    $.get(serverurl + '/history')
-        .done(function (data) {
+    $.get(`${serverurl}/history`)
+        .done(data => {
             try {
                 if (data.history) {
                     var notehistory = data.history;
@@ -171,10 +170,10 @@ function writeHistoryToServer(title, tags) {
             if (!notehistory)
                 notehistory = [];
 
-            var newnotehistory = generateHistory(title, tags, notehistory);
+            const newnotehistory = generateHistory(title, tags, notehistory);
             saveHistoryToServer(newnotehistory);
         })
-        .fail(function (xhr, status, error) {
+        .fail((xhr, status, error) => {
             console.error(xhr.responseText);
         });
 }
@@ -188,13 +187,13 @@ function writeHistoryToCookie(title, tags) {
     if (!notehistory)
         notehistory = [];
 
-    var newnotehistory = generateHistory(title, tags, notehistory);
+    const newnotehistory = generateHistory(title, tags, notehistory);
     saveHistoryToCookie(newnotehistory);
 }
 
 function writeHistoryToStorage(title, tags) {
     if (store.enabled) {
-        var data = store.get('notehistory');
+        let data = store.get('notehistory');
         if (data) {
             if (typeof data == "string")
                 data = JSON.parse(data);
@@ -204,7 +203,7 @@ function writeHistoryToStorage(title, tags) {
         if (!notehistory)
             notehistory = [];
 
-        var newnotehistory = generateHistory(title, tags, notehistory);
+        const newnotehistory = generateHistory(title, tags, notehistory);
         saveHistoryToStorage(newnotehistory);
     } else {
         writeHistoryToCookie(title, tags);
@@ -212,32 +211,30 @@ function writeHistoryToStorage(title, tags) {
 }
 
 if (!Array.isArray) {
-    Array.isArray = function(arg) {
-        return Object.prototype.toString.call(arg) === '[object Array]';
-    };
+    Array.isArray = arg => Object.prototype.toString.call(arg) === '[object Array]';
 }
 
 function renderHistory(title, tags) {
     //console.debug(tags);
-    var id = urlpath ? location.pathname.slice(urlpath.length + 1, location.pathname.length).split('/')[1] : location.pathname.split('/')[1];
+    const id = urlpath ? location.pathname.slice(urlpath.length + 1, location.pathname.length).split('/')[1] : location.pathname.split('/')[1];
     return {
-        id: id,
+        id,
         text: title,
         time: moment().valueOf(),
-        tags: tags
+        tags
     };
 }
 
 function generateHistory(title, tags, notehistory) {
-    var info = renderHistory(title, tags);
-	//keep any pinned data
-	var pinned = false;
-	for (var i = 0; i < notehistory.length; i++) {
-		if (notehistory[i].id == info.id && notehistory[i].pinned) {
-			pinned = true;
-			break;
-		}
-	}
+    const info = renderHistory(title, tags);
+    //keep any pinned data
+    let pinned = false;
+    for (let i = 0; i < notehistory.length; i++) {
+        if (notehistory[i].id == info.id && notehistory[i].pinned) {
+            pinned = true;
+            break;
+        }
+    }
     notehistory = removeHistory(info.id, notehistory);
     notehistory = addHistory(info.id, info.text, info.time, info.tags, pinned, notehistory);
     notehistory = clearDuplicatedHistory(notehistory);
@@ -245,25 +242,25 @@ function generateHistory(title, tags, notehistory) {
 }
 
 //used for outer
-function getHistory(callback) {
+export function getHistory(callback) {
     checkIfAuth(
-        function () {
+        () => {
             getServerHistory(callback);
         },
-        function () {
+        () => {
             getStorageHistory(callback);
         }
     );
 }
 
 function getServerHistory(callback) {
-    $.get(serverurl + '/history')
-        .done(function (data) {
+    $.get(`${serverurl}/history`)
+        .done(data => {
             if (data.history) {
                 callback(data.history);
             }
         })
-        .fail(function (xhr, status, error) {
+        .fail((xhr, status, error) => {
             console.error(xhr.responseText);
         });
 }
@@ -272,9 +269,9 @@ function getCookieHistory(callback) {
     callback(Cookies.getJSON('notehistory'));
 }
 
-function getStorageHistory(callback) {
+export function getStorageHistory(callback) {
     if (store.enabled) {
-        var data = store.get('notehistory');
+        let data = store.get('notehistory');
         if (data) {
             if (typeof data == "string")
                 data = JSON.parse(data);
@@ -286,37 +283,37 @@ function getStorageHistory(callback) {
     }
 }
 
-function parseHistory(list, callback) {
+export function parseHistory(list, callback) {
     checkIfAuth(
-        function () {
+        () => {
             parseServerToHistory(list, callback);
         },
-        function () {
+        () => {
             parseStorageToHistory(list, callback);
         }
     );
 }
 
-function parseServerToHistory(list, callback) {
-    $.get(serverurl + '/history')
-        .done(function (data) {
+export function parseServerToHistory(list, callback) {
+    $.get(`${serverurl}/history`)
+        .done(data => {
             if (data.history) {
                 parseToHistory(list, data.history, callback);
             }
         })
-        .fail(function (xhr, status, error) {
+        .fail((xhr, status, error) => {
             console.error(xhr.responseText);
         });
 }
 
 function parseCookieToHistory(list, callback) {
-    var notehistory = Cookies.getJSON('notehistory');
+    const notehistory = Cookies.getJSON('notehistory');
     parseToHistory(list, notehistory, callback);
 }
 
-function parseStorageToHistory(list, callback) {
+export function parseStorageToHistory(list, callback) {
     if (store.enabled) {
-        var data = store.get('notehistory');
+        let data = store.get('notehistory');
         if (data) {
             if (typeof data == "string")
                 data = JSON.parse(data);
@@ -332,9 +329,9 @@ function parseToHistory(list, notehistory, callback) {
     if (!callback) return;
     else if (!list || !notehistory) callback(list, notehistory);
     else if (notehistory && notehistory.length > 0) {
-        for (var i = 0; i < notehistory.length; i++) {
+        for (let i = 0; i < notehistory.length; i++) {
             //parse time to timestamp and fromNow
-            var timestamp = (typeof notehistory[i].time === 'number' ? moment(notehistory[i].time) : moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a'));
+            const timestamp = (typeof notehistory[i].time === 'number' ? moment(notehistory[i].time) : moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a'));
             notehistory[i].timestamp = timestamp.valueOf();
             notehistory[i].fromNow = timestamp.fromNow();
             notehistory[i].time = timestamp.format('llll');
@@ -349,42 +346,23 @@ function parseToHistory(list, notehistory, callback) {
     callback(list, notehistory);
 }
 
-function postHistoryToServer(noteId, data, callback) {
-    $.post(serverurl + '/history/' + noteId, data)
-    .done(function (result) {
-        return callback(null, result);
-    })
-    .fail(function (xhr, status, error) {
+export function postHistoryToServer(noteId, data, callback) {
+    $.post(`${serverurl}/history/${noteId}`, data)
+    .done(result => callback(null, result))
+    .fail((xhr, status, error) => {
         console.error(xhr.responseText);
         return callback(error, null);
     });
 }
 
-function deleteServerHistory(noteId, callback) {
+export function deleteServerHistory(noteId, callback) {
     $.ajax({
-        url: serverurl + '/history' + (noteId ? '/' + noteId : ""),
+        url: `${serverurl}/history${noteId ? '/' + noteId : ""}`,
         type: 'DELETE'
     })
-    .done(function (result) {
-        return callback(null, result);
-    })
-    .fail(function (xhr, status, error) {
+    .done(result => callback(null, result))
+    .fail((xhr, status, error) => {
         console.error(xhr.responseText);
         return callback(error, null);
     });
-}
-
-module.exports = {
-    writeHistory: writeHistory,
-    parseHistory: parseHistory,
-    getStorageHistory: getStorageHistory,
-    getHistory: getHistory,
-    saveHistory: saveHistory,
-    removeHistory: removeHistory,
-    parseStorageToHistory: parseStorageToHistory,
-    postHistoryToServer: postHistoryToServer,
-    deleteServerHistory: deleteServerHistory,
-    parseServerToHistory: parseServerToHistory,
-    saveStorageHistoryToServer: saveStorageHistoryToServer,
-    clearDuplicatedHistory: clearDuplicatedHistory
 }

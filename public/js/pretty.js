@@ -4,31 +4,33 @@ require('../css/site.css');
 
 require('highlight.js/styles/github-gist.css');
 
-var extra = require('./extra');
-var md = extra.md;
-var finishView = extra.finishView;
-var autoLinkify = extra.autoLinkify;
-var deduplicatedHeaderId = extra.deduplicatedHeaderId;
-var renderTOC = extra.renderTOC;
-var generateToc = extra.generateToc;
-var smoothHashScroll = extra.smoothHashScroll;
-var postProcess = extra.postProcess;
-var updateLastChange = extra.updateLastChange;
-var parseMeta = extra.parseMeta;
-var scrollToHash = extra.scrollToHash;
-var preventXSS = require('./render').preventXSS;
+import {
+    autoLinkify,
+    deduplicatedHeaderId,
+    finishView,
+    generateToc,
+    md,
+    parseMeta,
+    postProcess,
+    renderTOC,
+    scrollToHash,
+    smoothHashScroll,
+    updateLastChange
+} from './extra';
 
-var markdown = $("#doc.markdown-body");
-var text = markdown.text();
-var lastMeta = md.meta;
+import { preventXSS } from './render';
+
+const markdown = $("#doc.markdown-body");
+const text = markdown.text();
+const lastMeta = md.meta;
 md.meta = {};
-var rendered = md.render(text);
+let rendered = md.render(text);
 if (md.meta.type && md.meta.type === 'slide') {
-    var slideOptions = {
+    const slideOptions = {
         separator: '^(\r\n?|\n)---(\r\n?|\n)$',
         verticalSeparator: '^(\r\n?|\n)----(\r\n?|\n)$'
     };
-    var slides = RevealMarkdown.slidify(text, slideOptions);
+    const slides = RevealMarkdown.slidify(text, slideOptions);
     markdown.html(slides);
     RevealMarkdown.initialize();
     // prevent XSS
@@ -46,10 +48,11 @@ if (md.meta.type && md.meta.type === 'slide') {
     }
     // prevent XSS
     rendered = preventXSS(rendered);
-    var result = postProcess(rendered);
+    const result = postProcess(rendered);
     markdown.html(result.html());
 }
 $(document.body).show();
+
 finishView(markdown);
 autoLinkify(markdown);
 deduplicatedHeaderId(markdown);
@@ -60,17 +63,18 @@ smoothHashScroll();
 createtime = lastchangeui.time.attr('data-createtime');
 lastchangetime = lastchangeui.time.attr('data-updatetime');
 updateLastChange();
-var url = window.location.pathname;
-$('.ui-edit').attr('href', url + '/edit');
-var toc = $('.ui-toc');
-var tocAffix = $('.ui-affix-toc');
-var tocDropdown = $('.ui-toc-dropdown');
+
+const url = window.location.pathname;
+$('.ui-edit').attr('href', `${url}/edit`);
+const toc = $('.ui-toc');
+const tocAffix = $('.ui-affix-toc');
+const tocDropdown = $('.ui-toc-dropdown');
 //toc
-tocDropdown.click(function (e) {
+tocDropdown.click(e => {
     e.stopPropagation();
 });
 
-var enoughForAffixToc = true;
+let enoughForAffixToc = true;
 
 function generateScrollspy() {
     $(document.body).scrollspy({
@@ -89,18 +93,18 @@ function generateScrollspy() {
 
 function windowResize() {
     //toc right
-    var paddingRight = parseFloat(markdown.css('padding-right'));
-    var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
-    toc.css('right', right + 'px');
+    const paddingRight = parseFloat(markdown.css('padding-right'));
+    const right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+    toc.css('right', `${right}px`);
     //affix toc left
-    var newbool;
-    var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+    let newbool;
+    const rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
     //for ipad or wider device
     if (rightMargin >= 133) {
         newbool = true;
-        var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
-        var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
-        tocAffix.css('left', left + 'px');
+        const affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+        const left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+        tocAffix.css('left', `${left}px`);
     } else {
         newbool = false;
     }
@@ -109,10 +113,10 @@ function windowResize() {
         generateScrollspy();
     }
 }
-$(window).resize(function () {
+$(window).resize(() => {
     windowResize();
 });
-$(document).ready(function () {
+$(document).ready(() => {
     windowResize();
     generateScrollspy();
     setTimeout(scrollToHash, 0);
@@ -120,13 +124,13 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
-function scrollToTop() {
+export function scrollToTop() {
     $('body, html').stop(true, true).animate({
         scrollTop: 0
     }, 100, "linear");
 }
 
-function scrollToBottom() {
+export function scrollToBottom() {
     $('body, html').stop(true, true).animate({
         scrollTop: $(document.body)[0].scrollHeight
     }, 100, "linear");
@@ -134,8 +138,3 @@ function scrollToBottom() {
 
 window.scrollToTop = scrollToTop;
 window.scrollToBottom = scrollToBottom;
-
-module.exports = {
-  scrollToBottom: scrollToBottom,
-  scrollToTop: scrollToTop
-}
