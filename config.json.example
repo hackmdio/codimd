@@ -51,6 +51,18 @@
             "clientID": "change this",
             "clientSecret": "change this"
         },
+        "ldap": {
+            "url": "ldap://change_this",
+            "bindDn": null,
+            "bindCredentials": null,
+            "tokenSecret": "change this",
+            "searchBase": "change this",
+            "searchFilter": "change this",
+            "searchAttributes": "change this",
+            "tlsOptions": {
+                "changeme": "See https://nodejs.org/api/tls.html#tls_tls_connect_options_callback"
+            }
+        },
         "imgur": {
             "clientID": "change this"
         }
