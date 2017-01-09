@@ -42,7 +42,7 @@
                 <hr>
                 <% }%>
                 <% if(ldap) { %>
-                <h4>Via LDAP</h4>
+                <h4>Via <% if (ldap.providerName) { %> <%- ldap.providerName %> (LDAP) <% } else { %> LDAP <% } %></h4>
                 <form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="form-group">
                         <div class="col-sm-12">
