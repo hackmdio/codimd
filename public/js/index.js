@@ -2288,16 +2288,22 @@ function updatePermission(newPermission) {
             title = "Signed people can edit";
             break;
         case "limited":
-            label = '<i class="fa fa-shield"></i> Limited';
-            title = "Signed people can view & edit"
+            label = '<span class="fa-stack" aria-hidden="true">' +
+                    '<i class="fa fa-shield fa-stack-1x"></i>' +
+                    '<i class="fa fa-circle-thin fa-stack-2x"></i>' +
+                    '</span> Limited';
+            title = "Signed people can edit & guest can't view"
             break;
         case "private":
             label = '<i class="fa fa-hand-stop-o"></i> Private';
             title = "Only owner can view & edit";
             break;
         case "protected":
-            label = '<i class="fa fa-hand-stop-o"></i> Protected';
-            title = "Signed people can view";
+            label = '<span class="fa-stack aria-hidden="true">' +
+                    '<i class="fa fa-hand-stop-o"></i>' +
+                    '<i class="fa fa-circle-thin fa-stack-2x"></i>' +
+                    '</span> Protected';
+            title = "Only owner can edit & guest can't view";
             break;
         case "locked":
             label = '<i class="fa fa-lock"></i> Locked';
