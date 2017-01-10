@@ -2288,7 +2288,7 @@ function updatePermission(newPermission) {
             title = "Signed people can edit";
             break;
         case "limited":
-            label = '<i class="fa fa-exclamation-circle"></i> Limited';
+            label = '<i class="fa fa-id-card"></i> Limited';
             title = "Signed people can edit & guest can't view"
             break;
         case "private":
