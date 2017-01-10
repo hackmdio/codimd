@@ -125,7 +125,6 @@ Environment variables (will overwrite other server configs)
 | HMD_URL_ADDPORT | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
 | HMD_USECDN | `true` or `false` | set to use CDN resources or not (default is `true`) |
 | HMD_ALLOW_ANONYMOUS | `true` or `false` | set to allow anonymous usage (default is `true`) |
-| HMD_ALLOW_ANONYMOUS_VIEW | `true` or `false` | set to allow anonymous view note (default is `true`) |
 | HMD_ALLOW_FREEURL | `true` or `false` | set to allow new note by accessing not exist note url |
 | HMD_DB_URL | `mysql://localhost:3306/database` | set the db url |
 | HMD_FACEBOOK_CLIENTID | no example | Facebook API client id |
