@@ -857,7 +857,9 @@ window.ui = {
             freely: $(".ui-permission-freely"),
             editable: $(".ui-permission-editable"),
             locked: $(".ui-permission-locked"),
-            private: $(".ui-permission-private")
+            private: $(".ui-permission-private"),
+            limited: $(".ui-permission-limited"),
+            protected: $(".ui-permission-protected")
         },
         delete: $(".ui-delete-note")
     },
@@ -2247,6 +2249,14 @@ ui.infobar.permission.locked.click(function () {
 ui.infobar.permission.private.click(function () {
     emitPermission("private");
 });
+//limited
+ui.infobar.permission.limited.click(function() {
+    emitPermission("limited");
+});
+//protected
+ui.infobar.permission.protected.click(function() {
+    emitPermission("protected");
+});
 // delete note
 ui.infobar.delete.click(function () {
     $('.delete-modal').modal('show');
@@ -2285,6 +2295,14 @@ function updatePermission(newPermission) {
             label = '<i class="fa fa-hand-stop-o"></i> Private';
             title = "Only owner can view & edit";
             break;
+        case "limited":
+            label = '<i class="fa fa-hand-shield"></i> Limited';
+            title = "Signed people can view and edit"
+            break;
+        case "protected":
+            label = '<i class="fa fa-hand-stop-o"></i> Protected';
+            title = "Signed people can view";
+            break;
     }
     if (personalInfo.userid && owner && personalInfo.userid == owner) {
         label += ' <i class="fa fa-caret-down"></i>';
@@ -2302,6 +2320,7 @@ function havePermission() {
             bool = true;
             break;
         case "editable":
+        case "limited":
             if (!personalInfo.login) {
                 bool = false;
             } else {
@@ -2310,6 +2329,7 @@ function havePermission() {
             break;
         case "locked":
         case "private":
+        case "protected":
             if (!owner || personalInfo.userid != owner) {
                 bool = false;
             } else {
