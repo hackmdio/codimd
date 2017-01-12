@@ -395,34 +395,36 @@ if (config.ldap) {
 }
 // email auth
 if (config.email) {
-    app.post('/register', urlencodedParser, function (req, res, next) {
-        if (!req.body.email || !req.body.password) return response.errorBadRequest(res);
-        if (!validator.isEmail(req.body.email)) return response.errorBadRequest(res);
-        models.User.findOrCreate({
-            where: {
-                email: req.body.email
-            },
-            defaults: {
-                password: req.body.password
-            }
-        }).spread(function (user, created) {
-            if (user) {
-                if (created) {
-                    if (config.debug) logger.info('user registered: ' + user.id);
-                    req.flash('info', "You've successfully registered, please signin.");
-                } else {
-                    if (config.debug) logger.info('user found: ' + user.id);
-                    req.flash('error', "This email has been used, please try another one.");
+    if (config.allowemailregister)
+        app.post('/register', urlencodedParser, function (req, res, next) {
+            if (!req.body.email || !req.body.password) return response.errorBadRequest(res);
+            if (!validator.isEmail(req.body.email)) return response.errorBadRequest(res);
+            models.User.findOrCreate({
+                where: {
+                    email: req.body.email
+                },
+                defaults: {
+                    password: req.body.password
                 }
+            }).spread(function (user, created) {
+                if (user) {
+                    if (created) {
+                        if (config.debug) logger.info('user registered: ' + user.id);
+                        req.flash('info', "You've successfully registered, please signin.");
+                    } else {
+                        if (config.debug) logger.info('user found: ' + user.id);
+                        req.flash('error', "This email has been used, please try another one.");
+                    }
+                    return res.redirect(config.serverurl + '/');
+                }
+                req.flash('error', "Failed to register your account, please try again.");
                 return res.redirect(config.serverurl + '/');
-            }
-            req.flash('error', "Failed to register your account, please try again.");
-            return res.redirect(config.serverurl + '/');
-        }).catch(function (err) {
-            logger.error('auth callback failed: ' + err);
-            return response.errorInternalError(res);
+            }).catch(function (err) {
+                logger.error('auth callback failed: ' + err);
+                return response.errorInternalError(res);
+            });
         });
-    });
+
     app.post('/login', urlencodedParser, function (req, res, next) {
         if (!req.body.email || !req.body.password) return response.errorBadRequest(res);
         if (!validator.isEmail(req.body.email)) return response.errorBadRequest(res);
