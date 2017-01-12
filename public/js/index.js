@@ -2291,17 +2291,17 @@ function updatePermission(newPermission) {
             label = '<i class="fa fa-id-card"></i> Limited';
             title = "Signed people can edit & guest can't view"
             break;
-        case "private":
-            label = '<i class="fa fa-hand-stop-o"></i> Private';
-            title = "Only owner can view & edit";
+        case "locked":
+            label = '<i class="fa fa-lock"></i> Locked';
+            title = "Only owner can edit";
             break;
         case "protected":
             label = '<i class="fa fa-umbrella"></i> Protected';
             title = "Only owner can edit & guest can't view";
             break;
-        case "locked":
-            label = '<i class="fa fa-lock"></i> Locked';
-            title = "Only owner can edit";
+        case "private":
+            label = '<i class="fa fa-hand-stop-o"></i> Private';
+            title = "Only owner can view & edit";
             break;
     }
     if (personalInfo.userid && owner && personalInfo.userid == owner) {
