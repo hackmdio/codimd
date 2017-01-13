@@ -1,9 +1,13 @@
 import store from 'store';
 import S from 'string';
+
 import {
-    checkIfAuth,
+    checkIfAuth
+} from './lib/common/login';
+
+import {
     urlpath
-} from './common';
+} from './lib/config';
 
 window.migrateHistoryFromTempCallback = null;
 

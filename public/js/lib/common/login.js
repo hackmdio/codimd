@@ -1,4 +1,4 @@
-import { serverurl } from './lib/config';
+import { serverurl } from '../config';
 
 let checkAuth = false;
 let profile = null;

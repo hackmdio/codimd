@@ -9,7 +9,7 @@ import {
     getLoginState,
     resetCheckAuth,
     setloginStateChangeEvent
-} from './common';
+} from './lib/common/login';
 
 import {
     clearDuplicatedHistory,
