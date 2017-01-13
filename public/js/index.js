@@ -861,7 +861,9 @@ window.ui = {
             freely: $(".ui-permission-freely"),
             editable: $(".ui-permission-editable"),
             locked: $(".ui-permission-locked"),
-            private: $(".ui-permission-private")
+            private: $(".ui-permission-private"),
+            limited: $(".ui-permission-limited"),
+            protected: $(".ui-permission-protected")
         },
         delete: $(".ui-delete-note")
     },
@@ -2251,6 +2253,14 @@ ui.infobar.permission.locked.click(function () {
 ui.infobar.permission.private.click(function () {
     emitPermission("private");
 });
+//limited
+ui.infobar.permission.limited.click(function() {
+    emitPermission("limited");
+});
+//protected
+ui.infobar.permission.protected.click(function() {
+    emitPermission("protected");
+});
 // delete note
 ui.infobar.delete.click(function () {
     $('.delete-modal').modal('show');
@@ -2281,9 +2291,17 @@ function updatePermission(newPermission) {
             label = '<i class="fa fa-shield"></i> Editable';
             title = "Signed people can edit";
             break;
+        case "limited":
+            label = '<i class="fa fa-id-card"></i> Limited';
+            title = "Signed people can edit (forbid guest)"
+            break;
         case "locked":
             label = '<i class="fa fa-lock"></i> Locked';
             title = "Only owner can edit";
+            break;
+        case "protected":
+            label = '<i class="fa fa-umbrella"></i> Protected';
+            title = "Only owner can edit (forbid guest)";
             break;
         case "private":
             label = '<i class="fa fa-hand-stop-o"></i> Private';
@@ -2306,6 +2324,7 @@ function havePermission() {
             bool = true;
             break;
         case "editable":
+        case "limited":
             if (!personalInfo.login) {
                 bool = false;
             } else {
@@ -2314,6 +2333,7 @@ function havePermission() {
             break;
         case "locked":
         case "private":
+        case "protected":
             if (!owner || personalInfo.userid != owner) {
                 bool = false;
             } else {
@@ -2930,14 +2950,14 @@ function sortOnlineUserList(list) {
                     else if (usera.idle && !userb.idle)
                         return 1;
                     else {
-                        if (usera.name && usera.name.toLowerCase() < userb.name.toLowerCase()) {
+                        if (usera.name && userb.name && usera.name.toLowerCase() < userb.name.toLowerCase()) {
                             return -1;
-                        } else if (usera.name && usera.name.toLowerCase() > userb.name.toLowerCase()) {
+                        } else if (usera.name && userb.name && usera.name.toLowerCase() > userb.name.toLowerCase()) {
                             return 1;
                         } else {
-                            if (usera.color && usera.color.toLowerCase() < userb.color.toLowerCase())
+                            if (usera.color && userb.color && usera.color.toLowerCase() < userb.color.toLowerCase())
                                 return -1;
-                            else if (usera.color && usera.color.toLowerCase() > userb.color.toLowerCase())
+                            else if (usera.color && userb.color && usera.color.toLowerCase() > userb.color.toLowerCase())
                                 return 1;
                             else
                                 return 0;

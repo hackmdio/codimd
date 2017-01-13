@@ -240,6 +240,9 @@ body {
 }
 .dropdown-menu > li > a {
     cursor: pointer;
+    text-overflow: ellipsis;
+    max-width: calc(100vw - 30px);
+    overflow: hidden;
 }
 .dropdown-menu.CodeMirror-other-cursor {
     transition: none;
