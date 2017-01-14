@@ -45,11 +45,13 @@
         },
         "dropbox": {
             "clientID": "change this",
-            "clientSecret": "change this"
+            "clientSecret": "change this",
+            "appKey": "change this"
         },
         "google": {
             "clientID": "change this",
-            "clientSecret": "change this"
+            "clientSecret": "change this",
+            "apiKey": "change this"
         },
         "imgur": {
             "clientID": "change this"
