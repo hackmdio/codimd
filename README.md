@@ -97,18 +97,8 @@ Configuration files
 There are some configs you need to change in the files below
 
 ```
-./config.json			--- for server settings
-./public/js/config.js	--- for client settings
+./config.json      ----application settings
 ```
-
-Client settings `config.js`
----
-
-| variables | example values | description |
-| --------- | ------ | ----------- |
-| debug | `true` or `false` | set debug mode, show more logs |
-| domain | `localhost` | domain name |
-| urlpath | `hackmd` | sub url path, like: `www.example.com/<urlpath>` |
 
 Environment variables (will overwrite other server configs)
 ---
@@ -148,7 +138,7 @@ Environment variables (will overwrite other server configs)
 | HMD_S3_REGION | `ap-northeast-1` | AWS S3 region |
 | HMD_S3_BUCKET | no example | AWS S3 bucket name |
 
-Server settings `config.json`
+Application settings `config.json`
 ---
 
 | variables | example values | description |
@@ -196,7 +186,7 @@ Third-party integration api key settings
 | ------- | --------- | ----------- |
 | facebook, twitter, github, gitlab, dropbox, google | environment variables or `config.json` | for signin |
 | imgur | environment variables or `config.json` | for image upload |
-| google drive, dropbox | `public/js/config.js` | for export and import |
+| google drive(`google/apiKey`, `google/clientID`), dropbox(`dropbox/appKey`) | `config.json` | for export and import |
 
 Third-party integration oauth callback urls
 ---
