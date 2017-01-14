@@ -32,7 +32,7 @@ export function setLoginState(bool, id) {
 
 export function checkLoginStateChanged() {
     if (getLoginState() != lastLoginState || getUserId() != lastUserId) {
-        if(loginStateChangeEvent) {
+        if (loginStateChangeEvent) {
             loginStateChangeEvent();
         }
         return true;
