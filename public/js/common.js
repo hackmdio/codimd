@@ -18,7 +18,8 @@ var checkAuth = false;
 var profile = null;
 var lastLoginState = getLoginState();
 var lastUserId = getUserId();
-var loginStateChangeEvent = null;
+
+window.loginStateChangeEvent = null;
 
 function resetCheckAuth() {
     checkAuth = false;
@@ -42,8 +43,7 @@ function setLoginState(bool, id) {
 
 function checkLoginStateChanged() {
     if (getLoginState() != lastLoginState || getUserId() != lastUserId) {
-        if(loginStateChangeEvent)
-            loginStateChangeEvent();
+        if(loginStateChangeEvent) setTimeout(loginStateChangeEvent, 100);
         return true;
     } else {
         return false;
@@ -65,8 +65,7 @@ function clearLoginState() {
 
 function checkIfAuth(yesCallback, noCallback) {
     var cookieLoginState = getLoginState();
-    if (checkLoginStateChanged())
-        checkAuth = false;
+    if (checkLoginStateChanged()) checkAuth = false;
     if (!checkAuth || typeof cookieLoginState == 'undefined') {
         $.get(serverurl + '/me')
             .done(function (data) {
@@ -107,7 +106,6 @@ module.exports = {
     profile: profile,
     lastLoginState: lastLoginState,
     lastUserId: lastUserId,
-    loginStateChangeEvent: loginStateChangeEvent,
 
     /* export functions */
     resetCheckAuth: resetCheckAuth,
