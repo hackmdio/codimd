@@ -355,7 +355,6 @@ $(".ui-refresh-history").click(function () {
     $('.search').val('');
     historyList.search();
     $('#history-list').slideUp('fast');
-    $('.pagination').slideUp('fast');
 
     resetCheckAuth();
     historyList.clear();
@@ -367,7 +366,6 @@ $(".ui-refresh-history").click(function () {
         $('.search').val(lastKeyword);
         checkHistoryList();
         $('#history-list').slideDown('fast');
-        $('.pagination').slideDown('fast');
     });
 });
 
