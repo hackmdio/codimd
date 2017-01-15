@@ -19,7 +19,10 @@ var List = require('list.js');
 
 import {
     checkLoginStateChanged,
-    setloginStateChangeEvent,
+    setloginStateChangeEvent
+} from './lib/common/login';
+
+import {
     debug,
     DROPBOX_APP_KEY,
     GOOGLE_API_KEY,
@@ -28,7 +31,7 @@ import {
     noteurl,
     urlpath,
     version
-} from './common';
+} from './lib/config';
 
 import {
     autoLinkify,

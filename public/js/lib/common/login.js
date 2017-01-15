@@ -1,21 +1,4 @@
-// import config from './config';
-
-import {
-    domain, // domain name
-    urlpath, // sub url path, like: www.example.com/<urlpath>
-    debug,
-    GOOGLE_API_KEY,
-    GOOGLE_CLIENT_ID,
-    DROPBOX_APP_KEY
-} from './config';
-
-//common
-export const port = window.location.port;
-window.serverurl = `${window.location.protocol}//${domain ? domain : window.location.hostname}${port ? ':' + port : ''}${urlpath ? '/' + urlpath : ''}`;
-export const noteid = urlpath ? window.location.pathname.slice(urlpath.length + 1, window.location.pathname.length).split('/')[1] : window.location.pathname.split('/')[1];
-export const noteurl = `${serverurl}/${noteid}`;
-
-export const version = '0.5.0';
+import { serverurl } from '../config';
 
 let checkAuth = false;
 let profile = null;
@@ -49,7 +32,7 @@ export function setLoginState(bool, id) {
 
 export function checkLoginStateChanged() {
     if (getLoginState() != lastLoginState || getUserId() != lastUserId) {
-        if(loginStateChangeEvent) {
+        if (loginStateChangeEvent) {
             loginStateChangeEvent();
         }
         return true;
@@ -101,12 +84,6 @@ export function checkIfAuth(yesCallback, noCallback) {
 }
 
 export default {
-    domain,
-    urlpath,
-    debug,
-    GOOGLE_API_KEY,
-    GOOGLE_CLIENT_ID,
-    DROPBOX_APP_KEY,
     checkAuth,
     profile,
     lastLoginState,

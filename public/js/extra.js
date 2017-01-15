@@ -11,7 +11,7 @@ import PDFObject from 'pdfobject';
 import S from 'string';
 import { saveAs } from 'file-saver';
 
-require('./common');
+require('./lib/common/login');
 require('../vendor/md-toc');
 var Viz = require("viz.js");
 

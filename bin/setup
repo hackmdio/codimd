@@ -21,10 +21,6 @@ if [ ! -f config.json ]; then
   cp config.json.example config.json
 fi
 
-if [ ! -f publis/js/config.js ]; then
-  cp public/js/config.js.example public/js/config.js
-fi
-
 if [ ! -f .sequelizerc ]; then
   cp .sequelizerc.example .sequelizerc
 fi
