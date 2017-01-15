@@ -118,9 +118,11 @@ $(".ui-history").click(() => {
 
 function checkHistoryList() {
     if ($("#history-list").children().length > 0) {
+        $('.pagination').show();
         $(".ui-nohistory").hide();
         $(".ui-import-from-browser").hide();
     } else if ($("#history-list").children().length == 0) {
+        $('.pagination').hide();
         $(".ui-nohistory").slideDown();
         getStorageHistory(data => {
             if (data && data.length > 0 && getLoginState() && historyList.items.length == 0) {
