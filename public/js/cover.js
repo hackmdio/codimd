@@ -359,6 +359,7 @@ $(".ui-refresh-history").click(function () {
     $('.search').val('');
     historyList.search();
     $('#history-list').slideUp('fast');
+    $('.pagination').hide();
 
     resetCheckAuth();
     historyList.clear();
