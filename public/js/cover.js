@@ -91,14 +91,18 @@ $(".masthead-nav li").click(function () {
     $(this).addClass("active");
 });
 
-$(".ui-home").click(function () {
+$(".ui-home").click(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
     if (!$("#home").is(':visible')) {
         $(".section:visible").hide();
         $("#home").fadeIn();
     }
 });
 
-$(".ui-history").click(function () {
+$(".ui-history").click(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
     if (!$("#history").is(':visible')) {
         $(".section:visible").hide();
         $("#history").fadeIn();
