@@ -78,6 +78,13 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+.masthead-nav {
+    text-align: left;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 .masthead-nav > li {
     display: inline-block;
 }
@@ -263,9 +270,14 @@ input {
     text-decoration: underline;
 }
 .ui-avatar {
-    border-radius: 15em;
-    height: auto;
-    width: 60px;
+    display: inline-block;
+    overflow: hidden;
+    line-height: 1;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+.ui-avatar.circle {
+    border-radius: 50%;
 }
 .ui-history-close {
     position: absolute;
@@ -336,6 +348,10 @@ input {
     line-height: 20px;
     vertical-align: middle !important;
     display: inline-block !important;
+}
+
+.btn-link, .btn-link:hover, .btn-link:focus, .btn-link:active {
+    color: white;
 }
 
 select {

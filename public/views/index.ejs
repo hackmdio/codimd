@@ -40,6 +40,25 @@
                                 </li>
                                 <li class="ui-history<% if(signin) { %> active<% } %>"><a href="#"><%= __('History') %></a>
                                 </li>
+                                <div class="ui-signin" style="float: right; margin-top: 8px;<% if(signin) { %> display: none;<% } %>">
+                                    <% if(allowAnonymous) { %>
+                                    <a type="button" href="<%- url %>/new" class="btn btn-sm btn-link"><i class="fa fa-plus"></i> <%= __('New guest note') %></a>
+                                    <% } %>
+                                    <% if(facebook || twitter || github || gitlab || dropbox || google || ldap || email) { %>
+                                    <button class="btn btn-sm btn-success ui-signin" data-toggle="modal" data-target=".signin-modal"><%= __('Sign In') %></button>
+                                    <% } %>
+                                </div>
+                                <div class="ui-signout" style="float: right; margin-top: 8px;<% if(!signin) { %> display: none;<% } %>">
+                                    <a type="button" href="<%- url %>/new" class="btn btn-sm btn-link"><i class="fa fa-plus"></i> <%= __('New note') %></a>
+                                    <span class="ui-profile dropdown pull-right">
+                                        <button id="profileLabel" class="btn btn-sm btn-link ui-profile-label" style="padding-right: 0;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img class="ui-avatar" width="20" height="20"><span class="hidden-xs hidden-sm">&ensp;<span class="ui-name"></span></span>&ensp;<i class="fa fa-caret-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="profileLabel">
+                                            <li><a href="<%- url %>/logout"><i class="fa fa-sign-out fa-fw"></i> <%= __('Sign Out') %></a></li>
+                                        </ul>
+                                    </span>
+                                </div>
                             </ul>
                         </nav>
                     </div>
@@ -60,19 +79,15 @@
                         <% if(facebook || twitter || github || gitlab || dropbox || google || ldap || email) { %>
                         <span class="ui-signin">
                             <br>
-                            <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="min-width: 170px;"><%= __('Sign In') %></a>
+                            <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="min-width: 200px;"><%= __('Sign In') %></a>
                         </span>
-                        <% }%>
-                        <% if((facebook || twitter || github || gitlab || dropbox || google || email) && allowAnonymous) { %>
                         <span class="ui-or"><%= __('or') %></span>
-                        <% }%>
-                        <% if(allowAnonymous) { %>
+                        <% } %>
                         <span class="ui-signin">
-                            <a href="<%- url %>/new" class="btn btn-lg btn-default" style="min-width: 170px;"><%= __('New guest note') %></a>
+                            <a type="button" href="<%- url %>/features" class="btn btn-lg btn-primary" style="min-width: 200px;"><%= __('Explore all features') %></a>
                             <br>
                             <br>
                         </span>
-                        <% }%>
                         <div class="lead row" style="width: 90%; margin: 0 auto;">
                             <div class="col-md-4 inner">
                                 <a href="<%- url %>/features#share-notes">
@@ -97,21 +112,10 @@
                 </div>
 
                 <div id="history" class="section"<% if(!signin) { %> style="display:none;"<% } %>>
-                    <% if(facebook || twitter || github || gitlab || dropbox || google || ldap || email) { %>
-                    <div class="ui-signin">
+                    <div class="ui-signin"<% if(signin) { %> style="display:none;"<% } %>>
                         <p><%= __('Below is the history from browser') %></p>
                     </div>
-                    <div class="ui-signout" style="display:none;">
-                        <img class="ui-avatar">
-                        <h4 class="ui-welcome"><%= __('Welcome!') %> <span class="ui-name"></span></h4>
-                        <a href="<%- url %>/new" class="btn btn-md btn-default"><%= __('New note') %></a> <%= __('or') %>
-                        <a href="#" class="btn btn-danger ui-logout"><%= __('Sign Out') %></a>
-                    </div>
-                    <% }%>
-                    <h4>
-                        <a type="button" href="<%- url %>/features" class="btn btn-primary"><%= __('Explore all features') %></a>
-                    </h4>
-                    <hr>
+                    <br>
                     <form class="form-inline">
                         <div class="form-group" style="vertical-align: bottom;">
                             <input class="form-control ui-use-tags" placeholder="<%= __('Select tags...') %>" />
