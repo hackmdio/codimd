@@ -1754,6 +1754,10 @@ ui.toolbar.uploadImage.bind('change', function (e) {
 ui.toc.dropdown.click(function (e) {
     e.stopPropagation();
 });
+// prevent empty link change hash
+$('a[href="#"]').click(function (e) {
+    e.preventDefault();
+});
 
 //modal actions
 var revisions = [];

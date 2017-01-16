@@ -91,9 +91,12 @@ $(".masthead-nav li").click(function () {
     $(this).addClass("active");
 });
 
-$(".ui-home").click(function (e) {
+// prevent empty link change hash
+$('a[href="#"]').click(function (e) {
     e.preventDefault();
-    e.stopPropagation();
+});
+
+$(".ui-home").click(function (e) {
     if (!$("#home").is(':visible')) {
         $(".section:visible").hide();
         $("#home").fadeIn();
@@ -101,8 +104,6 @@ $(".ui-home").click(function (e) {
 });
 
 $(".ui-history").click(function (e) {
-    e.preventDefault();
-    e.stopPropagation();
     if (!$("#history").is(':visible')) {
         $(".section:visible").hide();
         $("#history").fadeIn();
