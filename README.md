@@ -136,6 +136,7 @@ Environment variables (will overwrite other server configs)
 | HMD_GITLAB_BASEURL | no example | GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional) |
 | HMD_GITLAB_CLIENTID | no example | GitLab API client id |
 | HMD_GITLAB_CLIENTSECRET | no example | GitLab API client secret |
+| HMD_GITLAB_SCOPE | `read_user` | GitLab API requested scope |
 | HMD_DROPBOX_CLIENTID | no example | Dropbox API client id |
 | HMD_DROPBOX_CLIENTSECRET | no example | Dropbox API client secret |
 | HMD_GOOGLE_CLIENTID | no example | Google API client id |
