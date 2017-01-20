@@ -626,8 +626,8 @@ process.on('uncaughtException', function (err) {
     process.exit(1);
 });
 
-// gracefully exit
-process.on('SIGINT', function () {
+// install exit handler
+function handleTermSignals() {
     config.maintenance = true;
     // disconnect all socket.io clients
     Object.keys(io.sockets.sockets).forEach(function (key) {
@@ -649,4 +649,6 @@ process.on('SIGINT', function () {
             });
         }
     }, 100);
-});
+}
+process.on('SIGINT', handleTermSignals);
+process.on('SIGTERM', handleTermSignals);
