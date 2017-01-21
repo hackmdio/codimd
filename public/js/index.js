@@ -17,51 +17,58 @@ var _ = require("lodash");
 
 var List = require('list.js');
 
-var common = require('./common.js');
-var urlpath = common.urlpath;
-var noteid = common.noteid;
-var debug = common.debug;
-var version = common.version;
-var GOOGLE_API_KEY = common.GOOGLE_API_KEY;
-var GOOGLE_CLIENT_ID = common.GOOGLE_CLIENT_ID;
-var DROPBOX_APP_KEY = common.DROPBOX_APP_KEY;
-var noteurl = common.noteurl;
+import {
+    checkLoginStateChanged,
+    setloginStateChangeEvent
+} from './lib/common/login';
 
-var checkLoginStateChanged = common.checkLoginStateChanged;
+import {
+    debug,
+    DROPBOX_APP_KEY,
+    GOOGLE_API_KEY,
+    GOOGLE_CLIENT_ID,
+    noteid,
+    noteurl,
+    urlpath,
+    version
+} from './lib/config';
 
-var extra = require('./extra');
-var md = extra.md;
-var updateLastChange = extra.updateLastChange;
-var postProcess = extra.postProcess;
-var finishView = extra.finishView;
-var autoLinkify = extra.autoLinkify;
-var generateToc = extra.generateToc;
-var smoothHashScroll = extra.smoothHashScroll;
-var deduplicatedHeaderId = extra.deduplicatedHeaderId;
-var renderTOC = extra.renderTOC;
-var renderTitle = extra.renderTitle;
-var renderFilename = extra.renderFilename;
-var renderTags = extra.renderTags;
-var isValidURL = extra.isValidURL;
-var scrollToHash = extra.scrollToHash;
-var updateLastChangeUser = extra.updateLastChangeUser;
-var updateOwner = extra.updateOwner;
-var parseMeta = extra.parseMeta;
-var exportToHTML = extra.exportToHTML;
-var exportToRawHTML = extra.exportToRawHTML;
+import {
+    autoLinkify,
+    deduplicatedHeaderId,
+    exportToHTML,
+    exportToRawHTML,
+    finishView,
+    generateToc,
+    isValidURL,
+    md,
+    parseMeta,
+    postProcess,
+    renderFilename,
+    renderTOC,
+    renderTags,
+    renderTitle,
+    scrollToHash,
+    smoothHashScroll,
+    updateLastChange,
+    updateLastChangeUser,
+    updateOwner
+} from './extra';
 
-var syncScroll = require('./syncscroll');
-var setupSyncAreas = syncScroll.setupSyncAreas;
-var clearMap = syncScroll.clearMap;
-var syncScrollToEdit = syncScroll.syncScrollToEdit;
-var syncScrollToView = syncScroll.syncScrollToView;
+import {
+    clearMap,
+    setupSyncAreas,
+    syncScrollToEdit,
+    syncScrollToView
+} from './syncscroll';
 
-var historyModule = require('./history');
-var writeHistory = historyModule.writeHistory;
-var deleteServerHistory = historyModule.deleteServerHistory;
-var getHistory = historyModule.getHistory;
-var saveHistory = historyModule.saveHistory;
-var removeHistory = historyModule.removeHistory;
+import {
+    writeHistory,
+    deleteServerHistory,
+    getHistory,
+    saveHistory,
+    removeHistory
+} from './history';
 
 var renderer = require('./render');
 var preventXSS = renderer.preventXSS;
@@ -963,10 +970,10 @@ function setNeedRefresh() {
     showStatus(statusType.offline);
 }
 
-loginStateChangeEvent = function () {
+setloginStateChangeEvent(function () {
     setRefreshModal('user-state-changed');
     setNeedRefresh();
-};
+});
 
 //visibility
 var wasFocus = false;
@@ -3717,6 +3724,7 @@ function checkCursorMenuInner() {
     var offsetLeft = 0;
     var offsetTop = defaultTextHeight;
     // set up side down
+    window.upSideDown = false;
     var lastUpSideDown = upSideDown = false;
     // only do when have width and height
     if (width > 0 && height > 0) {

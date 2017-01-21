@@ -1,12 +1,13 @@
 // Inject line numbers for sync scroll.
 
-var extra = require('./extra');
-var md = extra.md;
+import markdownitContainer from 'markdown-it-container';
+
+import { md } from './extra';
 
 function addPart(tokens, idx) {
     if (tokens[idx].map && tokens[idx].level === 0) {
-        var startline = tokens[idx].map[0] + 1;
-        var endline = tokens[idx].map[1];
+        const startline = tokens[idx].map[0] + 1;
+        const endline = tokens[idx].map[1];
         tokens[idx].attrJoin('class', 'part');
         tokens[idx].attrJoin('data-startline', startline);
         tokens[idx].attrJoin('data-endline', endline);
@@ -16,48 +17,48 @@ function addPart(tokens, idx) {
 md.renderer.rules.blockquote_open = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');
     addPart(tokens, idx);
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
 md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
     addPart(tokens, idx);
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
 md.renderer.rules.bullet_list_open = function (tokens, idx, options, env, self) {
     addPart(tokens, idx);
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
 md.renderer.rules.list_item_open = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');
     if (tokens[idx].map) {
-        var startline = tokens[idx].map[0] + 1;
-        var endline = tokens[idx].map[1];
+        const startline = tokens[idx].map[0] + 1;
+        const endline = tokens[idx].map[1];
         tokens[idx].attrJoin('data-startline', startline);
         tokens[idx].attrJoin('data-endline', endline);
     }
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
 md.renderer.rules.ordered_list_open = function (tokens, idx, options, env, self) {
     addPart(tokens, idx);
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
 md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
     addPart(tokens, idx);
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
 md.renderer.rules.paragraph_open = function (tokens, idx, options, env, self) {
     addPart(tokens, idx);
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
 md.renderer.rules.heading_open = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');
     addPart(tokens, idx);
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
-md.renderer.rules.fence = function (tokens, idx, options, env, self) {
-    var token = tokens[idx],
-      info = token.info ? md.utils.unescapeAll(token.info).trim() : '',
-      langName = '',
-      highlighted;
+md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+    const info = token.info ? md.utils.unescapeAll(token.info).trim() : '';
+    let langName = '';
+    let highlighted;
 
     if (info) {
         langName = info.split(/\s+/g)[0];
@@ -74,38 +75,33 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
     }
 
     if (highlighted.indexOf('<pre') === 0) {
-        return highlighted + '\n';
+        return `${highlighted}\n`;
     }
 
     if (tokens[idx].map && tokens[idx].level === 0) {
-        var startline = tokens[idx].map[0] + 1;
-        var endline = tokens[idx].map[1];
-        return '<pre class="part" data-startline="' + startline + '" data-endline="' + endline + '"><code' + self.renderAttrs(token) + '>'
-        + highlighted
-        + '</code></pre>\n';
+        const startline = tokens[idx].map[0] + 1;
+        const endline = tokens[idx].map[1];
+        return `<pre class="part" data-startline="${startline}" data-endline="${endline}"><code${self.renderAttrs(token)}>${highlighted}</code></pre>\n`;
     }
 
-    return '<pre><code' + self.renderAttrs(token) + '>'
-        + highlighted
-        + '</code></pre>\n';
+    return `<pre><code${self.renderAttrs(token)}>${highlighted}</code></pre>\n`;
 };
-md.renderer.rules.code_block = function (tokens, idx, options, env, self) {
+md.renderer.rules.code_block = (tokens, idx, options, env, self) => {
     if (tokens[idx].map && tokens[idx].level === 0) {
-        var startline = tokens[idx].map[0] + 1;
-        var endline = tokens[idx].map[1];
-        return '<pre class="part" data-startline="' + startline + '" data-endline="' + endline + '"><code>' + md.utils.escapeHtml(tokens[idx].content) + '</code></pre>\n';
+        const startline = tokens[idx].map[0] + 1;
+        const endline = tokens[idx].map[1];
+        return `<pre class="part" data-startline="${startline}" data-endline="${endline}"><code>${md.utils.escapeHtml(tokens[idx].content)}</code></pre>\n`;
     }
-    return '<pre><code>' + md.utils.escapeHtml(tokens[idx].content) + '</code></pre>\n';
+    return `<pre><code>${md.utils.escapeHtml(tokens[idx].content)}</code></pre>\n`;
 };
 function renderContainer(tokens, idx, options, env, self) {
     tokens[idx].attrJoin('role', 'alert');
     tokens[idx].attrJoin('class', 'alert');
-    tokens[idx].attrJoin('class', 'alert-' + tokens[idx].info.trim());
+    tokens[idx].attrJoin('class', `alert-${tokens[idx].info.trim()}`);
     addPart(tokens, idx);
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 }
 
-var markdownitContainer = require('markdown-it-container');
 md.use(markdownitContainer, 'success', { render: renderContainer });
 md.use(markdownitContainer, 'info', { render: renderContainer });
 md.use(markdownitContainer, 'warning', { render: renderContainer });
@@ -117,18 +113,18 @@ window.syncscroll = true;
 window.preventSyncScrollToEdit = false;
 window.preventSyncScrollToView = false;
 
-var editScrollThrottle = 5;
-var viewScrollThrottle = 5;
-var buildMapThrottle = 100;
+const editScrollThrottle = 5;
+const viewScrollThrottle = 5;
+const buildMapThrottle = 100;
 
-var viewScrolling = false;
-var editScrolling = false;
+let viewScrolling = false;
+let editScrolling = false;
 
-var editArea = null;
-var viewArea = null;
-var markdownArea = null;
+let editArea = null;
+let viewArea = null;
+let markdownArea = null;
 
-function setupSyncAreas(edit, view, markdown) {
+export function setupSyncAreas(edit, view, markdown) {
     editArea = edit;
     viewArea = view;
     markdownArea = markdown;
@@ -136,26 +132,24 @@ function setupSyncAreas(edit, view, markdown) {
     viewArea.on('scroll', _.throttle(syncScrollToEdit, viewScrollThrottle));
 }
 
-var scrollMap, lineHeightMap, viewTop, viewBottom;
+let scrollMap, lineHeightMap, viewTop, viewBottom;
 
-window.viewAjaxCallback = clearMap;
-
-function clearMap() {
+export function clearMap() {
     scrollMap = null;
     lineHeightMap = null;
     viewTop = null;
     viewBottom = null;
 }
+window.viewAjaxCallback = clearMap;
 
-var buildMap = _.throttle(buildMapInner, buildMapThrottle);
+const buildMap = _.throttle(buildMapInner, buildMapThrottle);
 
 // Build offsets for each line (lines can be wrapped)
 // That's a bit dirty to process each line everytime, but ok for demo.
 // Optimizations are required only for big texts.
 function buildMapInner(callback) {
     if (!viewArea || !markdownArea) return;
-    var i, offset, nonEmptyList, pos, a, b, _lineHeightMap, linesCount,
-        acc, _scrollMap;
+    let i, offset, nonEmptyList, pos, a, b, _lineHeightMap, linesCount, acc, _scrollMap;
 
     offset = viewArea.scrollTop() - viewArea.offset().top;
     _scrollMap = [];
@@ -165,10 +159,10 @@ function buildMapInner(callback) {
     viewBottom = viewArea[0].scrollHeight - viewArea.height();
 
     acc = 0;
-    var lines = editor.getValue().split('\n');
-    var lineHeight = editor.defaultTextHeight();
+    const lines = editor.getValue().split('\n');
+    const lineHeight = editor.defaultTextHeight();
     for (i = 0; i < lines.length; i++) {
-        var str = lines[i];
+        const str = lines[i];
 
         _lineHeightMap.push(acc);
 
@@ -177,7 +171,7 @@ function buildMapInner(callback) {
             continue;
         }
 
-        var h = editor.heightAtLine(i + 1) - editor.heightAtLine(i);
+        const h = editor.heightAtLine(i + 1) - editor.heightAtLine(i);
         acc += Math.round(h / lineHeight);
     }
     _lineHeightMap.push(acc);
@@ -191,10 +185,10 @@ function buildMapInner(callback) {
     // make the first line go top
     _scrollMap[0] = viewTop;
 
-    var parts = markdownArea.find('.part').toArray();
+    const parts = markdownArea.find('.part').toArray();
     for (i = 0; i < parts.length; i++) {
-        var $el = $(parts[i]),
-            t = $el.attr('data-startline') - 1;
+        const $el = $(parts[i]);
+        let t = $el.attr('data-startline') - 1;
         if (t === '') {
             return;
         }
@@ -229,9 +223,9 @@ function buildMapInner(callback) {
 }
 
 // sync view scroll progress to edit
-var viewScrollingTimer = null;
+let viewScrollingTimer = null;
 
-function syncScrollToEdit(event, preventAnimate) {
+export function syncScrollToEdit(event, preventAnimate) {
     if (currentMode != modeType.both || !syncscroll || !editArea) return;
     if (preventSyncScrollToEdit) {
         if (typeof preventSyncScrollToEdit === 'number') {
@@ -242,15 +236,15 @@ function syncScrollToEdit(event, preventAnimate) {
         return;
     }
     if (!scrollMap || !lineHeightMap) {
-        buildMap(function () {
+        buildMap(() => {
             syncScrollToEdit(event, preventAnimate);
         });
         return;
     }
     if (editScrolling) return;
 
-    var scrollTop = viewArea[0].scrollTop;
-    var lineIndex = 0;
+    const scrollTop = viewArea[0].scrollTop;
+    let lineIndex = 0;
     for (var i = 0, l = scrollMap.length; i < l; i++) {
         if (scrollMap[i] > scrollTop) {
             break;
@@ -258,8 +252,8 @@ function syncScrollToEdit(event, preventAnimate) {
             lineIndex = i;
         }
     }
-    var lineNo = 0;
-    var lineDiff = 0;
+    let lineNo = 0;
+    let lineDiff = 0;
     for (var i = 0, l = lineHeightMap.length; i < l; i++) {
         if (lineHeightMap[i] > lineIndex) {
             break;
@@ -269,14 +263,14 @@ function syncScrollToEdit(event, preventAnimate) {
         }
     }
 
-    var posTo = 0;
-    var topDiffPercent = 0;
-    var posToNextDiff = 0;
-    var scrollInfo = editor.getScrollInfo();
-    var textHeight = editor.defaultTextHeight();
-    var preLastLineHeight = scrollInfo.height - scrollInfo.clientHeight - textHeight;
-    var preLastLineNo = Math.round(preLastLineHeight / textHeight);
-    var preLastLinePos = scrollMap[preLastLineNo];
+    let posTo = 0;
+    let topDiffPercent = 0;
+    let posToNextDiff = 0;
+    const scrollInfo = editor.getScrollInfo();
+    const textHeight = editor.defaultTextHeight();
+    const preLastLineHeight = scrollInfo.height - scrollInfo.clientHeight - textHeight;
+    const preLastLineNo = Math.round(preLastLineHeight / textHeight);
+    const preLastLinePos = scrollMap[preLastLineNo];
 
     if (scrollInfo.height > scrollInfo.clientHeight && scrollTop >= preLastLinePos) {
         posTo = preLastLineHeight;
@@ -293,7 +287,7 @@ function syncScrollToEdit(event, preventAnimate) {
     if (preventAnimate) {
         editArea.scrollTop(posTo);
     } else {
-        var posDiff = Math.abs(scrollInfo.top - posTo);
+        const posDiff = Math.abs(scrollInfo.top - posTo);
         var duration = posDiff / 50;
         duration = duration >= 100 ? duration : 100;
         editArea.stop(true, true).animate({
@@ -311,9 +305,9 @@ function viewScrollingTimeoutInner() {
 }
 
 // sync edit scroll progress to view
-var editScrollingTimer = null;
+let editScrollingTimer = null;
 
-function syncScrollToView(event, preventAnimate) {
+export function syncScrollToView(event, preventAnimate) {
     if (currentMode != modeType.both || !syncscroll || !viewArea) return;
     if (preventSyncScrollToView) {
         if (typeof preventSyncScrollToView === 'number') {
@@ -324,20 +318,20 @@ function syncScrollToView(event, preventAnimate) {
         return;
     }
     if (!scrollMap || !lineHeightMap) {
-        buildMap(function () {
+        buildMap(() => {
             syncScrollToView(event, preventAnimate);
         });
         return;
     }
     if (viewScrolling) return;
 
-    var lineNo, posTo;
-    var topDiffPercent, posToNextDiff;
-    var scrollInfo = editor.getScrollInfo();
-    var textHeight = editor.defaultTextHeight();
+    let lineNo, posTo;
+    let topDiffPercent, posToNextDiff;
+    const scrollInfo = editor.getScrollInfo();
+    const textHeight = editor.defaultTextHeight();
     lineNo = Math.floor(scrollInfo.top / textHeight);
     // if reach the last line, will start lerp to the bottom
-    var diffToBottom = (scrollInfo.top + scrollInfo.clientHeight) - (scrollInfo.height - textHeight);
+    const diffToBottom = (scrollInfo.top + scrollInfo.clientHeight) - (scrollInfo.height - textHeight);
     if (scrollInfo.height > scrollInfo.clientHeight && diffToBottom > 0) {
         topDiffPercent = diffToBottom / textHeight;
         posTo = scrollMap[lineNo + 1];
@@ -353,7 +347,7 @@ function syncScrollToView(event, preventAnimate) {
     if (preventAnimate) {
         viewArea.scrollTop(posTo);
     } else {
-        var posDiff = Math.abs(viewArea.scrollTop() - posTo);
+        const posDiff = Math.abs(viewArea.scrollTop() - posTo);
         var duration = posDiff / 50;
         duration = duration >= 100 ? duration : 100;
         viewArea.stop(true, true).animate({
@@ -369,10 +363,3 @@ function syncScrollToView(event, preventAnimate) {
 function editScrollingTimeoutInner() {
     editScrolling = false;
 }
-
-module.exports = {
-  setupSyncAreas: setupSyncAreas,
-  clearMap: clearMap,
-  syncScrollToEdit: syncScrollToEdit,
-  syncScrollToView: syncScrollToView
-};

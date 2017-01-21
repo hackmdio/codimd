@@ -28,8 +28,6 @@ EOF
 
 EOF
 
-  cp public/js/config.js.example public/js/config.js
-
   # build app
-  npm run build:prod
+  npm run build
 fi
