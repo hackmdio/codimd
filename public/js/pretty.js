@@ -24,6 +24,7 @@ const markdown = $("#doc.markdown-body");
 const text = markdown.text();
 const lastMeta = md.meta;
 md.meta = {};
+delete md.metaError;
 let rendered = md.render(text);
 if (md.meta.type && md.meta.type === 'slide') {
     const slideOptions = {
