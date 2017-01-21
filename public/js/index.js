@@ -3445,6 +3445,7 @@ function updateViewInner() {
     var value = editor.getValue();
     var lastMeta = md.meta;
     md.meta = {};
+    delete md.metaError;
     var rendered = md.render(value);
     if (md.meta.type && md.meta.type === 'slide') {
         var slideOptions = {

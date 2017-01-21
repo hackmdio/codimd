@@ -22,6 +22,7 @@ var markdown = $("#doc.markdown-body");
 var text = markdown.text();
 var lastMeta = md.meta;
 md.meta = {};
+delete md.metaError;
 var rendered = md.render(text);
 if (md.meta.type && md.meta.type === 'slide') {
     var slideOptions = {
