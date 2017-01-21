@@ -338,7 +338,7 @@ module.exports = {
             path.resolve(__dirname, 'src'),
             path.resolve(__dirname, 'node_modules')
         ],
-        extensions: ["", ".js", ".vue"],
+        extensions: ["", ".js"],
         alias: {
             codemirror: path.join(__dirname, 'node_modules/codemirror/codemirror.min.js'),
             inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
@@ -372,12 +372,6 @@ module.exports = {
         loaders: [{
             test: /\.json$/,
             loader: 'json-loader'
-        }, {
-            test: /\.vue$/,
-            loader: 'vue',
-            options: {
-            // vue-loader options go here
-            }
         }, {
             test: /\.js$/,
             loader: 'babel',

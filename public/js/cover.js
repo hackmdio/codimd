@@ -29,14 +29,6 @@ import { saveAs } from 'file-saver';
 import List from 'list.js';
 import S from 'string';
 
-import Cover from './views/Cover';
-import Vue from 'vue';
-
-new Vue({
-    el: '#cover-app',
-    render: (h) => h(Cover)
-})
-
 const options = {
     valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
     item: '<li class="col-xs-12 col-sm-6 col-md-6 col-lg-4">\
