@@ -4,7 +4,7 @@ let checkAuth = false;
 let profile = null;
 let lastLoginState = getLoginState();
 let lastUserId = getUserId();
-let loginStateChangeEvent = null;
+var loginStateChangeEvent = null;
 
 export function setloginStateChangeEvent(func) {
     loginStateChangeEvent = func;
@@ -32,9 +32,7 @@ export function setLoginState(bool, id) {
 
 export function checkLoginStateChanged() {
     if (getLoginState() != lastLoginState || getUserId() != lastUserId) {
-        if (loginStateChangeEvent) {
-            loginStateChangeEvent();
-        }
+        if (loginStateChangeEvent) setTimeout(loginStateChangeEvent, 100);
         return true;
     } else {
         return false;
@@ -56,8 +54,7 @@ export function clearLoginState() {
 
 export function checkIfAuth(yesCallback, noCallback) {
     const cookieLoginState = getLoginState();
-    if (checkLoginStateChanged())
-        checkAuth = false;
+    if (checkLoginStateChanged()) checkAuth = false;
     if (!checkAuth || typeof cookieLoginState == 'undefined') {
         $.get(`${serverurl}/me`)
             .done(data => {

@@ -102,7 +102,12 @@ $(".masthead-nav li").click(function () {
     $(this).addClass("active");
 });
 
-$(".ui-home").click(() => {
+// prevent empty link change hash
+$('a[href="#"]').click(function (e) {
+    e.preventDefault();
+});
+
+$(".ui-home").click(function (e) {
     if (!$("#home").is(':visible')) {
         $(".section:visible").hide();
         $("#home").fadeIn();
@@ -366,7 +371,7 @@ $(".ui-refresh-history").click(() => {
     $('.search').val('');
     historyList.search();
     $('#history-list').slideUp('fast');
-    $('.pagination').slideUp('fast');
+    $('.pagination').hide();
 
     resetCheckAuth();
     historyList.clear();
@@ -378,7 +383,6 @@ $(".ui-refresh-history").click(() => {
         $('.search').val(lastKeyword);
         checkHistoryList();
         $('#history-list').slideDown('fast');
-        $('.pagination').slideDown('fast');
     });
 });
 
