@@ -28,7 +28,7 @@
     <link rel="stylesheet" href='<%- url %>/build/emojify.js/dist/css/basic/emojify.min.css'>
     <%- include build/pretty-pack-header %>
 	<% } %>
-    <%- include polyfill %>
+    <%- include shared/polyfill %>
 </head>
 
 <body style="display:none;">
@@ -66,7 +66,7 @@
     <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="display:none;"></div>
     <% if(typeof disqus !== 'undefined' && disqus) { %>
     <div class="container-fluid" style="max-width: 758px; margin-bottom: 40px;">
-        <%- include disqus %>
+        <%- include shared/disqus %>
     </div>
     <% } %>
 </body>
@@ -96,4 +96,4 @@
 <script src="<%- url %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
 <%- include build/pretty-pack-scripts %>
 <% } %>
-<%- include ga %>
+<%- include shared/ga %>

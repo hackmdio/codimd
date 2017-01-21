@@ -20,9 +20,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.4.1/viz.js" integrity="sha256-U0a9HpXT7zG0N3tVzo58B5S+QXUxo4FdBIjrBMYrxZI=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.8/validator.min.js" integrity="sha256-LHeY7YoYJ0SSXbCx7sR14Pqna+52moaH3bhv0Mjzd/M=" crossorigin="anonymous" defer></script>
-<%- include build/index-scripts %>
+<%- include ../build/index-scripts %>
 <% } else { %>
 <script src="<%- url %>/build/MathJax/MathJax.js" defer></script>
 <script src="<%- url %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
-<%- include build/index-pack-scripts %>
+<%- include ../build/index-pack-scripts %>
 <% } %>
