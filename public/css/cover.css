@@ -354,6 +354,12 @@ input {
     color: white;
 }
 
+.screenshot {
+    margin: 30px auto;
+    width: 100%;
+    border-radius: 3px;
+}
+
 select {
     color: black;
 }
