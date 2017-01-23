@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # run command at repo root
 CURRENT_PATH=$PWD
 if [ -d .git ]; then
