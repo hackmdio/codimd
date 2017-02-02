@@ -345,30 +345,21 @@ export function finishView(view) {
     });
     //graphviz
     var graphvizs = view.find("div.graphviz.raw").removeClass("raw");
-    function parseGraphviz(key, value) {
-        var $value = $(value);
-        var $ele = $(value).parent().parent();
-
-        var graphviz = Viz($value.text());
-        if (!graphviz) throw Error('viz.js output empty graph');
-        $value.html(graphviz);
-
-        $ele.addClass('graphviz');
-        $value.children().unwrap().unwrap();
-    }
     graphvizs.each(function (key, value) {
         try {
-            parseGraphviz(key, value);
+            var $value = $(value);
+            var $ele = $(value).parent().parent();
+
+            var graphviz = Viz($value.text());
+            if (!graphviz) throw Error('viz.js output empty graph');
+            $value.html(graphviz);
+
+            $ele.addClass('graphviz');
+            $value.children().unwrap().unwrap();
         } catch (err) {
-            // workaround for graphviz not recover from error
-            try {
-                parseGraphviz(key, value);
-            } catch (err) {
-                var $value = $(value);
-                $value.unwrap();
-                $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
-                console.warn(err);
-            }
+            $value.unwrap();
+            $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
+            console.warn(err);
         }
     });
     //mermaid
