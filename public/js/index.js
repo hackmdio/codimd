@@ -2675,7 +2675,7 @@ editor.on('update', function () {
     });
     // clear tooltip which described element has been removed
     $('[id^="tooltip"]').each(function (index, element) {
-        $ele = $(element);
+        var $ele = $(element);
         if ($('[aria-describedby="' + $ele.attr('id') + '"]').length <= 0) $ele.remove();
     });
 });
