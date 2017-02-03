@@ -26,7 +26,6 @@ var validator = require('validator');
 var config = require("./lib/config.js");
 var logger = require("./lib/logger.js");
 var auth = require("./lib/auth.js");
-var history = require("./lib/history.js");
 var response = require("./lib/response.js");
 var models = require("./lib/models");
 
@@ -443,6 +442,7 @@ app.get('/logout', function (req, res) {
     req.logout();
     res.redirect(config.serverurl + '/');
 });
+var history = require("./lib/history.js");
 //get history
 app.get('/history', history.historyGet);
 //post history
@@ -608,7 +608,7 @@ function startListen() {
 // sync db then start listen
 models.sequelize.sync().then(function () {
     // check if realtime is ready
-    if (history.isReady() && realtime.isReady()) {
+    if (realtime.isReady()) {
         models.Revision.checkAllNotesRevision(function (err, notes) {
             if (err) throw new Error(err);
             if (!notes || notes.length <= 0) return startListen();
@@ -639,7 +639,7 @@ function handleTermSignals() {
         }, 0);
     });
     var checkCleanTimer = setInterval(function () {
-        if (history.isReady() && realtime.isReady()) {
+        if (realtime.isReady()) {
             models.Revision.checkAllNotesRevision(function (err, notes) {
                 if (err) return logger.error(err);
                 if (!notes || notes.length <= 0) {
