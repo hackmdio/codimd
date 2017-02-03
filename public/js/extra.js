@@ -833,7 +833,7 @@ export function deduplicatedHeaderId(view) {
                 const newId = id + j;
                 const $duplicatedHeader = $(duplicatedHeaders[j]);
                 $duplicatedHeader.attr('id', newId);
-                const $headerLink = $duplicatedHeader.find('> .header-link');
+                const $headerLink = $duplicatedHeader.find(`> a.anchor[href="#${id}"]`);
                 $headerLink.attr('href', `#${newId}`);
                 $headerLink.attr('title', newId);
             }
