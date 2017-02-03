@@ -612,7 +612,7 @@ export function exportToRawHTML(view) {
     const blob = new Blob([html], {
         type: "text/html;charset=utf-8"
     });
-    saveAs(blob, filename);
+    saveAs(blob, filename, true);
 }
 
 //extract markdown body to html and compile to template
@@ -644,7 +644,7 @@ export function exportToHTML(view) {
             const blob = new Blob([html], {
                 type: "text/html;charset=utf-8"
             });
-            saveAs(blob, filename);
+            saveAs(blob, filename, true);
         });
     });
 }
