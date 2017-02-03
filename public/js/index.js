@@ -3953,7 +3953,7 @@ $(editor.getInputField())
             match: /(?:^|\n|\s)(\>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|\:|)\s*\w*)$/,
             search: function (term, callback) {
                 var line = editor.getLine(editor.getCursor().line);
-                quote = line.match(this.match)[1].trim();
+                var quote = line.match(this.match)[1].trim();
                 var list = [];
                 if (quote.indexOf('>') == 0) {
                     $.map(supportExtraTags, function (extratag) {
