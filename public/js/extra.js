@@ -792,7 +792,8 @@ const anchorForId = id => {
 const linkifyAnchors = (level, containingElement) => {
     const headers = containingElement.getElementsByTagName(`h${level}`);
 
-    for (const header of headers) {
+    for (let i = 0, l = headers.length; i < l; i++) {
+        let header = headers[i];
         if (header.getElementsByClassName("anchor").length == 0) {
             if (typeof header.id == "undefined" || header.id == "") {
                 //to escape characters not allow in css and humanize
