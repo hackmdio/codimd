@@ -1542,7 +1542,7 @@ ui.toolbar.download.markdown.click(function (e) {
     var blob = new Blob([markdown], {
         type: "text/markdown;charset=utf-8"
     });
-    saveAs(blob, filename);
+    saveAs(blob, filename, true);
 });
 //html
 ui.toolbar.download.html.click(function (e) {
@@ -1922,7 +1922,7 @@ $('#revisionModalDownload').click(function () {
     var blob = new Blob([revision.content], {
         type: "text/markdown;charset=utf-8"
     });
-    saveAs(blob, filename);
+    saveAs(blob, filename, true);
 });
 $('#revisionModalRevert').click(function () {
     if (!revision) return;
