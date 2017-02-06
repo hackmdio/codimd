@@ -52,7 +52,7 @@ Prerequisite
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm
 - gcc/make
-	- `yum groupinstall 'Development Tools'` for RHEL, `sudo apt-get install build-essential` for Debian
+	- `sudo yum groupinstall 'Development Tools'` for RHEL, `sudo apt-get install build-essential` for Debian
 
 Get started
 ---
