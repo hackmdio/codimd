@@ -130,15 +130,15 @@ Environment variables (will overwrite other server configs)
 | HMD_DROPBOX_CLIENTSECRET | no example | Dropbox API client secret |
 | HMD_GOOGLE_CLIENTID | no example | Google API client id |
 | HMD_GOOGLE_CLIENTSECRET | no example | Google API client secret |
-| HMD_LDAP_URL | ldap://example.com | url of LDAP server |
+| HMD_LDAP_URL | `ldap://example.com` | url of LDAP server |
 | HMD_LDAP_BINDDN | no example | bindDn for LDAP access |
 | HMD_LDAP_BINDCREDENTIALS | no example | bindCredentials for LDAP access |
-| HMD_LDAP_TOKENSECRET | supersecretkey | secret used for generating access/refresh tokens |
-| HMD_LDAP_SEARCHBASE | o=users,dc=example,dc=com | LDAP directory to begin search from |
-| HMD_LDAP_SEARCHFILTER | (uid={{username}}) | LDAP filter to search with |
+| HMD_LDAP_TOKENSECRET | `supersecretkey` | secret used for generating access/refresh tokens |
+| HMD_LDAP_SEARCHBASE | `o=users,dc=example,dc=com` | LDAP directory to begin search from |
+| HMD_LDAP_SEARCHFILTER | `(uid={{username}})` | LDAP filter to search with |
 | HMD_LDAP_SEARCHATTRIBUTES | no example | LDAP attributes to search with |
-| HMD_LDAP_TLS_CA | no example | Root CA for LDAP TLS in PEM format |
-| HMD_LDAP_PROVIDERNAME | My institution | Optional name to be displayed at login form indicating the LDAP provider | 
+| HMD_LDAP_TLS_CA | `server-cert.pem, root.pem` | Root CA for LDAP TLS in PEM format (use comma to separate) |
+| HMD_LDAP_PROVIDERNAME | `My institution` | Optional name to be displayed at login form indicating the LDAP provider | 
 | HMD_IMGUR_CLIENTID | no example | Imgur API client id |
 | HMD_EMAIL | `true` or `false` | set to allow email signin |
 | HMD_ALLOW_EMAIL_REGISTER | `true` or `false` | set to allow email register (only applied when email is set, default is `true`) |
