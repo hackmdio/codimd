@@ -50,7 +50,7 @@ Prerequisite
 
 - Node.js 4.x or up (test up to 6.7.0)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
-- npm
+- npm (and its dependencies, especially [uWebSockets](https://github.com/uWebSockets/uWebSockets#nodejs-developers), [node-gyp](https://github.com/nodejs/node-gyp#installation))
 
 Get started
 ---
