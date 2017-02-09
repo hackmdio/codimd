@@ -502,7 +502,7 @@ app.post('/uploadimage', function (req, res) {
                 switch (config.imageUploadType) {
                 case 'filesystem':
                     res.send({
-                        link: url.resolve(config.serverurl, files.image.path.match(/^public(.+$)/)[1])
+                        link: url.resolve(config.serverurl + '/', files.image.path.match(/^public\/(.+$)/)[1])
                     });
 
                     break;
