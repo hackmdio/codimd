@@ -1,7 +1,9 @@
 HackMD
 ===
 
-[![Join the chat at https://gitter.im/hackmdio/hackmd](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/hackmdio/hackmd][gitter-image]][gitter-url]
+[![build status][travis-image]][travis-url]
+
 
 HackMD lets you create realtime collaborative markdown notes on all platforms.  
 Inspired by Hackpad, with more focus on speed and flexibility.  
@@ -48,7 +50,7 @@ Browsers Requirement
 Prerequisite
 ---
 
-- Node.js 4.x or up (test up to 6.7.0)
+- Node.js 6.x or up (test up to 6.7.0)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm (and its dependencies, especially [uWebSockets](https://github.com/uWebSockets/uWebSockets#nodejs-developers), [node-gyp](https://github.com/nodejs/node-gyp#installation))
 
@@ -222,3 +224,7 @@ Additionally, now can show other clients' selections.
 See more at [http://operational-transformation.github.io/](http://operational-transformation.github.io/)
 
 **License under MIT.**
+[gitter-image]: https://badges.gitter.im/Join%20Chat.svg
+[gitter-url]: https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+[travis-image]: https://travis-ci.org/hackmdio/hackmd.svg?branch=master
+[travis-url]: https://travis-ci.org/hackmdio/hackmd

@@ -5,6 +5,7 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
+    "test": "make lint",
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
     "build": "webpack --config webpack.production.js --progress --colors",
     "postinstall": "bin/heroku",
@@ -150,6 +151,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
     "ejs-loader": "^0.3.0",
+    "eslint": "^3.15.0",
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
