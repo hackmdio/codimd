@@ -1,0 +1,18 @@
+body
+{
+    background-color: #f6efdc !important;
+	color: #586e75;
+    font-weight: bold;
+}
+h1,h2,h3,h4,h5,h6{color: #1e2126;}
+ul{color: #586e75;}
+ul ul{color:#586;}
+.alert-info
+{
+    border-color:#000000;
+    background-color: #f6efdc !important;
+	color: #586e75;
+    font-weight: bold;
+    border-style:dotted
+}
+.task-list-item{color:#000000}
