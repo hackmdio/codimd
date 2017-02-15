@@ -121,7 +121,7 @@
     "xss": "^0.3.3"
   },
   "engines": {
-    "node": ">=4.x"
+    "node": ">=6.x"
   },
   "bugs": "https://github.com/hackmdio/hackmd/issues",
   "keywords": [
