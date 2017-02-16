@@ -5,7 +5,8 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "test": "make lint",
+    "test": "npm run-script lint",
+    "lint": "eslint .",
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
     "build": "webpack --config webpack.production.js --progress --colors",
     "postinstall": "bin/heroku",
