@@ -5,6 +5,8 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
+    "test": "npm run-script lint",
+    "lint": "eslint .",
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
     "build": "webpack --config webpack.production.js --progress --colors",
     "postinstall": "bin/heroku",
@@ -120,7 +122,7 @@
     "xss": "^0.3.3"
   },
   "engines": {
-    "node": ">=4.x"
+    "node": ">=6.x"
   },
   "bugs": "https://github.com/hackmdio/hackmd/issues",
   "keywords": [
@@ -150,6 +152,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
     "ejs-loader": "^0.3.0",
+    "eslint": "^3.15.0",
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
