@@ -9,6 +9,8 @@ var dataUriRegex = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base
 var whiteList = filterXSS.whiteList;
 // allow ol specify start number
 whiteList['ol'] = ['start'];
+// allow li specify value number
+whiteList['li'] = ['value'];
 // allow style tag
 whiteList['style'] = [];
 // allow kbd tag
