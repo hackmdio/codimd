@@ -36,7 +36,8 @@
         "gitlab": {
             "baseURL": "change this",
             "clientID": "change this",
-            "clientSecret": "change this"
+            "clientSecret": "change this",
+            "scope": "read_user"
         },
         "dropbox": {
             "clientID": "change this",
