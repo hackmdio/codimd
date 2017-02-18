@@ -408,7 +408,8 @@ window.lastInfo = {
         cursor: {
             line: null,
             ch: null
-        }
+        },
+        selections: null
     },
     view: {
         scroll: {
@@ -3394,6 +3395,7 @@ function saveInfo() {
             break;
     }
     lastInfo.edit.cursor = editor.getCursor();
+    lastInfo.edit.selections = editor.listSelections();
     lastInfo.needRestore = true;
 }
 
@@ -3403,6 +3405,7 @@ function restoreInfo() {
         var line = lastInfo.edit.cursor.line;
         var ch = lastInfo.edit.cursor.ch;
         editor.setCursor(line, ch);
+        editor.setSelections(lastInfo.edit.selections);
         switch (currentMode) {
             case modeType.edit:
                 if (scrollbarStyle == 'native') {
