@@ -2519,7 +2519,7 @@ var addStyleRule = (function () {
 }());
 function updateAuthorshipInner() {
     // ignore when ot not synced yet
-    if (cmClient && Object.keys(cmClient.state).length > 0) return;
+    if (havePendingOperation()) return;
     authorMarks = {};
     for (var i = 0; i < authorship.length; i++) {
         var atom = authorship[i];
@@ -2734,12 +2734,16 @@ var EditorClient = ot.EditorClient;
 var SocketIOAdapter = ot.SocketIOAdapter;
 var CodeMirrorAdapter = ot.CodeMirrorAdapter;
 var cmClient = null;
+var synchronized_ = null;
+
+function havePendingOperation() {
+    return (cmClient && cmClient.state && cmClient.state.hasOwnProperty('outstanding')) ? true : false;
+}
 
 socket.on('doc', function (obj) {
     var body = obj.str;
     var bodyMismatch = editor.getValue() !== body;
-    var havePendingOperation = cmClient && Object.keys(cmClient.state).length > 0;
-    var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && !havePendingOperation))) || obj.force;
+    var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && !havePendingOperation()))) || obj.force;
 
     saveInfo();
     if (setDoc && bodyMismatch) {
@@ -2764,16 +2768,17 @@ socket.on('doc', function (obj) {
             obj.revision, obj.clients,
             new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
         );
+        synchronized_ = cmClient.state;
     } else if (setDoc) {
         if (bodyMismatch) {
             cmClient.undoManager.undoStack.length = 0;
             cmClient.undoManager.redoStack.length = 0;
         }
         cmClient.revision = obj.revision;
-        cmClient.setState(new ot.Client.Synchronized());
+        cmClient.setState(synchronized_);
         cmClient.initializeClientList();
         cmClient.initializeClients(obj.clients);
-    } else if (havePendingOperation) {
+    } else if (havePendingOperation()) {
         cmClient.serverReconnect();
     }
 
