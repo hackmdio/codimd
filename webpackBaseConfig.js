@@ -123,8 +123,13 @@ module.exports = {
         new CopyWebpackPlugin([
             {
                 context: path.join(__dirname, 'node_modules/mathjax'),
+                from: 'MathJax.js',
+                to: 'MathJax/'
+            },
+            {
+                context: path.join(__dirname, 'node_modules/mathjax'),
                 from: {
-                    glob: '**/*',
+                    glob: 'config/**/*.js',
                     dot: false
                 },
                 to: 'MathJax/'
@@ -132,17 +137,29 @@ module.exports = {
             {
                 context: path.join(__dirname, 'node_modules/emojify.js'),
                 from: {
-                    glob: '**/*',
+                    glob: 'dist/**/*',
                     dot: false
                 },
                 to: 'emojify.js/'
             },
             {
                 context: path.join(__dirname, 'node_modules/reveal.js'),
-                from: {
-                    glob: '**/*',
-                    dot: false
+                from: 'js',
+                to: 'reveal.js/'
+            },
+            {
+                context: path.join(__dirname, 'node_modules/reveal.js'),
+                from: 'css',
+                to: 'reveal.js/'
                 },
+            {
+                context: path.join(__dirname, 'node_modules/reveal.js'),
+                from: 'lib',
+                to: 'reveal.js/'
+            },
+            {
+                context: path.join(__dirname, 'node_modules/reveal.js'),
+                from: 'plugin',
                 to: 'reveal.js/'
             }
         ])
