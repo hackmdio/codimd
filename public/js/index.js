@@ -479,6 +479,7 @@ var statusIndent = null;
 var statusTheme = null;
 var statusSpellcheck = null;
 var statusPreferences = null;
+var statusViewTheme = null;
 
 function getStatusBarTemplate(callback) {
     $.get(serverurl + '/views/statusbar.html', function (template) {
@@ -503,6 +504,7 @@ function addStatusBar() {
     statusTheme = statusBar.find('.status-theme');
     statusSpellcheck = statusBar.find('.status-spellcheck');
     statusPreferences = statusBar.find('.status-preferences');
+    statusViewTheme = statusBar.find('.status-viewtheme');
     statusPanel = editor.addPanel(statusBar[0], {
         position: "bottom"
     });
@@ -510,6 +512,7 @@ function addStatusBar() {
     setIndent();
     setKeymap();
     setTheme();
+    setViewTheme();
     setSpellcheck();
     setPreferences();
 }
@@ -676,6 +679,13 @@ function setTheme() {
         }
     }
     checkTheme();
+}
+
+function setViewTheme() {
+  var themes = statusViewTheme.find('.dropdown-menu a');
+  themes.click(() => {
+    socket.emit('viewtheme', 'test');
+  })
 }
 
 function setSpellcheck() {
