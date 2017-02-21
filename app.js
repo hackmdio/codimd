@@ -173,6 +173,7 @@ app.use(require('./lib/web/auth'))
 app.use(require('./lib/web/historyRouter'))
 app.use(require('./lib/web/userRouter'))
 app.use(require('./lib/web/imageRouter'))
+app.use(require('./lib/web/folderRouter'))
 app.use(require('./lib/web/noteRouter'))
 
 // response not found if no any route matxches
