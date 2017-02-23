@@ -11,6 +11,8 @@
                             </li>
                             <li class="ui-history<% if(signin) { %> active<% } %>"><a href="#"><%= __('History') %></a>
                             </li>
+                            <li class="ui-folder"><a href="#"><%= __('Folder') %></a>
+                            </li>
                             <div class="ui-signin" style="float: right; margin-top: 8px;<% if(signin) { %> display: none;<% } %>">
                                 <% if(allowAnonymous) { %>
                                 <a type="button" href="<%- url %>/new" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> <%= __('New guest note') %></a>
@@ -120,6 +122,35 @@
                 <ul class="pagination"></ul>
             </div>
 
+            <div id="folder" class="section" style="display:none;">
+                <div id="folder-container" class="row">
+                    <input id="folder-search" class="search form-control" placeholder="<%= __('Search keyword...') %>" />
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"></div>
+                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                        <h1 id="folder-button"><i class="fa fa-folder-open" aria-hidden="true" data-action="selectfolder" data-toggle="modal" data-target=".folder-modal"></i></h1>
+                        <h1 id="folder-title" style="display: none;"></h1>
+                        <h1 id="root-folder-title" style="display: none;"><%= __('Root') %></h1>
+                        <span id="folder-tool">
+                            <button class="btn btn-default"><i class="fa fa-plus"></i><span><%= __('New note') %></span></button>
+                            <button class="btn btn-success" data-toggle="modal" data-target=".folder-modal" data-action="movefolder"><i class="fa fa-exchange"></i></button>
+                            <button class="btn btn-danger" data-toggle="modal" data-target=".folder-modal" data-action="deletefolder"><i class="fa fa-close"></i></button>
+                        </span>
+                    </div>
+                    <div id="folder-list" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <button class="btn btn-default" data-toggle="modal" data-target=".folder-modal" data-action="newfolder"><i class="fa fa-plus"></i><%= __('New folder') %></button>
+                        <div id="folder-tree" class="treeview">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                        <div id="note-list" class="treeview">
+                            <h2 id="folder-empty" style="color: white; display: none;"><%= __('Empty') %></h2>
+                            <ul id="notes" class="list-group">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="mastfoot">
                 <div class="inner">
                     <h6 class="social-foot">
@@ -171,6 +202,36 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('Cancel') %></button>
                 <button type="button" class="btn btn-danger ui-delete-modal-confirm"><%= __('Yes, do it!') %></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- folder modal -->
+<div class="modal fade folder-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title new-folder" id="myModalLabel"><%= __('New folder') %></h4>
+                <h4 class="modal-title rename-folder" id="myModalLabel"><%= __('Rename folder') %></h4>
+                <h4 class="modal-title choose-folder" id="myModalLabel"><%= __('Choose folder') %></h4>
+                <h4 class="modal-title delete-folder" id="myModalLabel"><%= __('Delete folder') %></h4>
+                <h4 class="modal-title move-folder" id="myModalLabel"><%= __('Move folder') %></h4>
+                <h4 class="modal-title move-note" id="myModalLabel"><%= __('Move note') %></h4>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-primary" style="display: none;"><i class="fa fa-plus"></i><%= __('New folder') %></button>
+                <div id="move-folder-tree" class="treeview">
+                </div>
+                <input id="folder-name" class="form-control" placeholder="<%= __('New name...') %>" style="display: none;" />
+                <span class="alert alert-danger part" style="padding: 1%; display: none;"><%= __('Choose warning') %></span>
+                <h4 class="delete-alert" style="display: none;"><%= __('Delete!?') %></h4>
+                <h5 class="delete-name" style="display: none;"></h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success confirm-btn"><%= __('Confirm') %></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('Cancel') %></button>
             </div>
         </div>
     </div>

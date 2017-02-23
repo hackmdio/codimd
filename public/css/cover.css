@@ -372,3 +372,147 @@ select {
         max-width: 100%;
     }
 }
+
+.note.tags {
+    margin-left: 1em;
+}
+
+.note.label {
+    margin-left: 0.5em;
+}
+
+.note.tool {
+    position: absolute;
+    float: right;
+    top: 0;
+    right: 0;
+    margin: 2%;
+    display: none;
+}
+
+.note.detail {
+    display: block;
+}
+
+.note.tool button {
+    margin-right: 0.5em;
+}
+
+#modal-folder-tree {
+    height: 60vh;
+    overflow: auto;
+    text-align: left;
+}
+
+#folder-tool {
+    position: absolute;
+    top: 1.5em;
+    right: 1.5em;
+}
+
+#folder-tool .btn-danger, #folder-tool .btn-success {
+    display: none;
+}
+
+#notes {
+    color: black;
+}
+
+.treeview {
+    text-align: left;
+}
+
+.treeview ul {
+    height: 60vh;
+    overflow: auto;
+}
+
+i {
+    cursor: pointer;
+}
+
+.folder-modal > .modal-title {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    #folder-container {
+        text-align: left;
+    }
+
+    #folder-search {
+        width: 30%;
+        margin: auto;
+        margin-bottom: 25px;
+    }
+
+    #folder-button {
+        display: none;
+    }
+
+    .note.detail:hover + .note.tool {
+        display: block;
+    }
+
+    .note.tool:hover {
+        display: block;
+    }
+
+    #folder-list .btn-default {
+        position: absolute;
+        top: -3em;
+    }
+
+    #notes {
+        height: 60vh;
+        overflow: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    #folder-search {
+        width: 80%;
+        margin: auto;
+    }
+
+    #root-folder-title {
+        text-align: left;
+        left: 2.5em;
+        line-height: 2em;
+        font-size: 1.5em;
+        position: relative;
+    }
+
+    #folder-title {
+        text-align: left;
+        left: 2.5em;
+        line-height: 2em;
+        font-size: 1.5em;
+        position: relative;
+    }
+
+    #folder-container {
+        text-align: left;
+    }
+
+    #folder-list {
+        display: none;
+    }
+
+    #notes {
+        height: 60vh;
+        overflow: auto;
+    }
+
+    #folder-button {
+        position: absolute;
+    }
+
+    .note.tool {
+        display: block;
+    }
+
+    .btn-default span {
+        display: none;
+    }
+}

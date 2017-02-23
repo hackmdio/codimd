@@ -100,5 +100,18 @@
 	"Select From Available Snippets": "從可用的 Snippets 中選擇",
 	"OR": "或是",
 	"Export to Snippet": "匯出到 Snippet",
-	"Select Visibility Level": "選擇可見層級"
+	"Select Visibility Level": "選擇可見層級",
+	"Folder": "資料夾",
+	"New folder": "新增資料夾",
+	"Root": "根目錄",
+	"Empty": "這個資料夾是空的",
+	"Choose folder": "請選擇資料夾",
+	"Confirm": "確認",
+	"Choose warning": "請選擇資料夾！",
+	"New name...": "請輸入資料夾名稱",
+	"Delete!?": "你確定要刪除此資料夾嗎？",
+	"Rename folder": "重新命名資料夾",
+	"Delete folder": "刪除資料夾",
+	"Move folder": "移動資料夾",
+	"Move note": "移動筆記"
 }

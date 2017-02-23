@@ -100,5 +100,18 @@
 	"Select From Available Snippets": "Select From Available Snippets",
 	"OR": "OR",
 	"Export to Snippet": "Export to Snippet",
-	"Select Visibility Level": "Select Visibility Level"
+	"Select Visibility Level": "Select Visibility Level",
+	"Folder": "Folder",
+	"New folder": "New folder",
+	"Root": "Root folder",
+	"Empty": "This folder is empty",
+	"Choose folder": "Please choose the folder",
+	"Confirm": "Confirm",
+	"Choose warning": "Please choose the folder!",
+	"New name...": "Please input the folder name",
+	"Delete!?": "Are you sure that you want to delete this folder?",
+	"Rename folder": "Rename folder",
+	"Delete folder": "Delete folder",
+	"Move folder": "Move folder",
+	"Move note": "Move note"
 }
