@@ -324,7 +324,6 @@ if (config.facebook) {
             if(req.isAuthenticated()) {
                 note.transferAllNotes(models.Note, req.user.id, user.id)
                 .then(() => {
-                    console.log('finish');
                     return res.redirect(config.serverurl + '/');
                 }).catch((err) => {
                     return next(err);
