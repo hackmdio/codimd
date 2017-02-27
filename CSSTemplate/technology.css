@@ -1,0 +1,207 @@
+nav.navbar{
+    color: #000000 !important;
+    font-weight: bold;
+    border:outset 2px rgba(0, 255, 255, 0.2);
+    background-color: rgba(0, 255, 255,0.2) !important;
+    box-shadow: 0 0 10px #00FFFF;
+}
+#ui-toc-affix {
+    border: solid 2px rgba(0, 255, 255,0.3);
+    border-radius: 10px; 
+    background-color: rgba(0, 255,255,0.2);
+    box-shadow: 0 0 10px #00FFFF ;
+}
+.ui-toc-label{
+    color:#FFFFFF!important;
+    background-color:rgba(0,255,255,0.6)!important;
+}
+.ui-toc-label:hover{
+    box-shadow:0 0 10px 5px rgba(0,255,255,0.5);
+}
+.nav>.active>a{
+    color:#AAFFFF!important;
+    text-shadow:0 0 6px rgba(255,255,255,0.6);
+    border-color:rgba(180,255,255,0.8)!important;
+    box-shadow:19px 0 10px -10px rgba(170,255,255,0.4) inset;
+}
+a[smoothhashscroll=""]{
+    color:#EEEEEE!important;
+}
+a[smoothhashscroll=""]:hover{
+    color:#AAFFFF!important;
+    text-shadow:0 0 10px rgba(255,255,255,0.5);
+    border-color:#AAFFFF!important;
+}
+.expand-toggle,.back-to-top,.go-to-bottom{
+    color:#BBBBBB;
+}
+.expand-toggle:hover,.back-to-top:hover,.go-to-bottom:hover{
+    color:#AAFFFF!important;
+}
+.expand-toggle:focus,.back-to-top:focus,.go-to-bottom:focus{
+    color:#FFFFFF!important;
+    font-weight:bold;
+    text-shadow:0 0 10px rgba(255,255,255,1);
+}
+.label-primary{
+    font-weight: bold;
+    border:outset 4px rgba(0,100,255, 0.3);
+    background-color:rgba(0,100,255,0.6);
+}
+.label-primary:hover{
+    text-shadow: 0 0 9px rgba(211,211,211,0.7);
+    border-color: rgba(100,100,255, 0.3) ; 
+    background-color:rgba(0,100,255,0.8);
+    box-shadow: 0 0 20px 3px rgba(0,100,255, 1);
+}
+.dropdown-menu{
+    background-color:rgba(0,100,100,0.9)!important;
+    border: outset 5px rgba(0,150,150,0.7);
+}
+.list>li>a , .dropdown-menu>li>a{
+    color:#FFFFFF!important;
+}
+.list>li>a:focus, .dropdown-menu>li>a:hover{
+    background-color:rgba(200,200,200,0.4)!important;
+    box-shadow: 0 0 20px 3px rgba(255,255,255, 0.5);
+    color:#FFFFFF!important;
+    text-shadow: 0 0 3px rgba(211,211,211,0.7);
+}
+.dropdown-header{
+    color:#AAAAFF;
+    font-weight:bold;
+}
+.navbar-default .navbar-nav>.open>a{
+    color:#FFFFFF !important;
+    background-color:rgba(200,200,200,0.4)!important;
+    box-shadow:0 0 7px 5px rgba(200,200,200,0.2) inset,0 0 7px 5px rgba(200,200,200,0.5);
+}
+.navbar-nav>li>a{
+    color:#BBBBBB!important;
+}
+.navbar-nav>li>a:hover{
+    color:#FFFFFF!important;
+    text-shadow: 0 0 15px rgba(211,211,211,0.7);
+}
+.btn-default{
+    color:#BBBBBB;
+    border-color:rgba(0,200,200,0.1);
+    background-color:rgba(0,200,200,0.2);
+}
+.btn-default:hover{
+    color:#FFFFFF;
+    text-shadow:0 0 10px rgba(255,255,255,1);
+    border-color:rgba(0,200,200,0.1);
+    background-color:rgba(0,200,200,0.2);
+}
+.btn-default.active, .btn-default:active{
+    color:#FFFFFF!important;
+    border-color:rgba(0,200,200,0.1)!important;
+    background-color:rgba(0,200,200,0.5)!important;
+}
+.navbar-default .navbar-brand,.navbar-default .btn-link{
+    color:#BBBBBB!important;
+}
+.navbar-default .navbar-brand:hover,.navbar-default .btn-link:hover{
+    text-shadow:0 0 15px rgba(255,255,255,0.7);
+}
+h1,h2{
+    color: #B3B3FF;
+    font-weight: bold;
+    font-family: Microsoft JhengHei;
+    text-shadow: 0 0 5px #99BBFF;
+}
+h3,h4,h5{
+    color: #B3E0FF;
+    font-weight: bold;
+    font-family: Microsoft JhengHei;
+    text-shadow: 0 0 5px #99BBFF;
+}
+h6{
+    color: #D3D3D3!important;
+    font-family: Microsoft JhengHei;
+    text-shadow: 0 0 1px #99BBFF;
+}
+body{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image:url('https://i.imgur.com/jarxLes.jpg');
+    background-color: #000000 !important;
+}
+ul {
+    color: #80CCFF!important;
+    font-family: Microsoft JhengHei;
+    font-weight: bold;
+}
+ul ul {
+    color: #80DFFF!important;
+    font-family: Microsoft JhengHei;
+}
+ul ul ul{
+    color: #80FFFF!important;
+}
+p.part{
+    color:#FFFFFF;
+}
+.alert-success{
+    color: #000000;
+    font-weight: bold;
+    font-family: Microsoft JhengHei;
+    text-shadow: -4px 3px 1px rgba(211,211,211,0.3);
+    border:outset 5px rgba(102,255,194, 0.5);
+    background-image:url('https://i.imgur.com/wGc0xwO.png');
+    background-color: rgba(204, 255, 230,0.5)!important;
+    box-shadow: 0 0 20px #00FF99;
+}
+.alert-warning{
+	color: #000000;
+    font-weight: bold;
+    font-family: Microsoft JhengHei;
+    text-shadow: -4px 3px 1px rgba(211,211,211,0.3);
+    border:outset 5px rgba(255,255,102, 0.5);
+    background-image:url('https://i.imgur.com/wGc0xwO.png');
+    background-color: rgba(230, 255, 204,0.5)!important;
+    box-shadow: 0 0 20px #FFFF00;
+}
+.alert-danger{
+	color: #000000;
+    font-weight: bold;
+    font-family: Microsoft JhengHei;
+    text-shadow: -4px 3px 1px rgba(211,211,211,0.3);
+    border:outset 5px rgba(255,102,102, 0.5);
+    background-image:url('https://i.imgur.com/wGc0xwO.png');
+    background-color: rgba(255, 204, 204,0.5)!important;
+    box-shadow: 0 0 20px #FF0033;
+}
+.alert-info{
+	color: #000000;
+    font-weight: bold;
+    font-family: Microsoft JhengHei;
+    text-shadow: -4px 3px 1px rgba(211,211,211,0.3);
+    background-image:url('https://i.imgur.com/wGc0xwO.png');
+    background-color: rgba(204, 230, 255,0.5)!important;
+    box-shadow: 0 0 20px #0099FF;
+    border:outset 5px rgba(102,194,255, 0.5);
+}
+.task-list-item{
+    color:#99CCFF;
+}
+blockquote.part{
+    color:#FFEEFF !important;
+    font-weight:bold;
+    text-shadow: 1.5px 2.5px 1px rgba(211,211,211,0.3);
+    border-color:#9999FF!important;
+    background-color: rgba(170,170,255,0.3);
+    box-shadow: -5px 0 20px 10px rgba(170,170,255,0.3),-7px 0 10px -5px rgba(170,170,255,0.3),10px 0 15px -10px rgba(170,170,255,0.5) inset;
+}
+blockquote{
+    color:#BBBBFF !important;
+    text-shadow: 2px 1.5px 1px rgba(190,190,211,0.3);
+    border-color:#80AAFF!important;
+    box-shadow: 13px 0 7px -7px rgba(128,170,255,0.5) inset;
+}
+hr{
+    background-color:rgba(255,255,255,0.85)!important;
+    box-shadow:0 0 10px 3px #FFFFFF;
+}
