@@ -158,6 +158,7 @@ module.exports = {
             "bootstrap"
         ],
         cover: [
+            "babel-polyfill",
             path.join(__dirname, 'public/js/cover.js')
         ],
         "cover-styles-pack": [
@@ -168,6 +169,7 @@ module.exports = {
             path.join(__dirname, 'node_modules/select2/select2-bootstrap.css'),
         ],
         "cover-pack": [
+            "babel-polyfill",
             "bootstrap-validator",
             "script!listPagnation",
             "expose?select2!select2",
@@ -176,6 +178,7 @@ module.exports = {
             path.join(__dirname, 'public/js/cover.js')
         ],
         index: [
+            "babel-polyfill",
             "script!jquery-ui-resizable",
             "script!js-url",
             "expose?filterXSS!xss",
@@ -221,6 +224,7 @@ module.exports = {
             path.join(__dirname, 'node_modules/octicons/octicons/octicons.css')
         ],
         "index-pack": [
+            "babel-polyfill",
             "expose?Spinner!spin.js",
             "script!jquery-ui-resizable",
             "bootstrap-validator",
@@ -251,6 +255,7 @@ module.exports = {
             path.join(__dirname, 'public/js/index.js')
         ],
         pretty: [
+            "babel-polyfill",
             "expose?filterXSS!xss",
             "flowchart.js",
             "js-sequence-diagrams",
@@ -270,6 +275,7 @@ module.exports = {
             path.join(__dirname, 'node_modules/octicons/octicons/octicons.css')
         ],
         "pretty-pack": [
+            "babel-polyfill",
             "expose?jsyaml!js-yaml",
             "script!mermaid",
             "expose?moment!moment",
@@ -285,6 +291,7 @@ module.exports = {
             path.join(__dirname, 'public/js/pretty.js')
         ],
         slide: [
+            "babel-polyfill",
             "bootstrap-tooltip",
             "expose?filterXSS!xss",
             "flowchart.js",
@@ -304,6 +311,7 @@ module.exports = {
             path.join(__dirname, 'node_modules/octicons/octicons/octicons.css')
         ],
         "slide-pack": [
+            "babel-polyfill",
             "expose?jQuery!expose?$!jquery",
             "velocity-animate",
             "imports?$=jquery!jquery-mousewheel",
@@ -372,6 +380,10 @@ module.exports = {
         loaders: [{
             test: /\.json$/,
             loader: 'json-loader'
+        }, {
+            test: /\.js$/,
+            loader: 'babel',
+            exclude: [/node_modules/, /public\/vendor/]
         }, {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract('style-loader', 'css-loader')

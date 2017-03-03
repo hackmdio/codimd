@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # run command at repo root
 CURRENT_PATH=$PWD
 if [ -d .git ]; then
@@ -19,10 +21,6 @@ fi
 echo "copy config files"
 if [ ! -f config.json ]; then
   cp config.json.example config.json
-fi
-
-if [ ! -f publis/js/config.js ]; then
-  cp public/js/config.js.example public/js/config.js
 fi
 
 if [ ! -f .sequelizerc ]; then

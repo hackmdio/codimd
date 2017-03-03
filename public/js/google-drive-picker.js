@@ -52,6 +52,7 @@
             var view = new google.picker.DocsView();
             view.setMimeTypes("text/markdown,text/html");
             view.setIncludeFolders(true);
+            view.setOwnedByMe(true);
 			this.picker = new google.picker.PickerBuilder().
                 enableFeature(google.picker.Feature.NAV_HIDDEN).
 				addView(view).

@@ -1,15 +1,17 @@
 require('prismjs/themes/prism.css');
-
-var Prism = require('prismjs');
 require('prismjs/components/prism-wiki');
 require('prismjs/components/prism-haskell');
 require('prismjs/components/prism-go');
 require('prismjs/components/prism-typescript');
 require('prismjs/components/prism-jsx');
-var hljs = require('highlight.js');
-var PDFObject = require('pdfobject');
-var S = require('string');
-var saveAs = require('file-saver').saveAs;
+
+import Prism from 'prismjs';
+import hljs from 'highlight.js';
+import PDFObject from 'pdfobject';
+import S from 'string';
+import { saveAs } from 'file-saver';
+
+require('./lib/common/login');
 require('../vendor/md-toc');
 var Viz = require("viz.js");
 
@@ -22,9 +24,10 @@ window.lastchangeui = {
     user: $(".ui-lastchangeuser"),
     nouser: $(".ui-no-lastchangeuser")
 }
-var ownerui = $(".ui-owner");
 
-function updateLastChange() {
+const ownerui = $(".ui-owner");
+
+export function updateLastChange() {
     if (!lastchangeui) return;
     if (createtime) {
         if (createtime && !lastchangetime) {
@@ -32,7 +35,7 @@ function updateLastChange() {
         } else {
             lastchangeui.status.text('changed');
         }
-        var time = lastchangetime || createtime;
+        const time = lastchangetime || createtime;
         lastchangeui.time.html(moment(time).fromNow());
         lastchangeui.time.attr('title', moment(time).format('llll'));
     }
@@ -41,13 +44,14 @@ setInterval(updateLastChange, 60000);
 
 window.lastchangeuser = null;
 window.lastchangeuserprofile = null;
-function updateLastChangeUser() {
+
+export function updateLastChangeUser() {
     if (lastchangeui) {
       if (lastchangeuser && lastchangeuserprofile) {
-          var icon = lastchangeui.user.children('i');
+          const icon = lastchangeui.user.children('i');
           icon.attr('title', lastchangeuserprofile.name).tooltip('fixTitle');
           if (lastchangeuserprofile.photo)
-              icon.attr('style', 'background-image:url(' + lastchangeuserprofile.photo + ')');
+              icon.attr('style', `background-image:url(${lastchangeuserprofile.photo})`);
           lastchangeui.user.show();
           lastchangeui.nouser.hide();
       } else {
@@ -59,12 +63,13 @@ function updateLastChangeUser() {
 
 window.owner = null;
 window.ownerprofile = null;
-function updateOwner() {
+
+export function updateOwner() {
     if (ownerui) {
       if (owner && ownerprofile && owner !== lastchangeuser) {
-          var icon = ownerui.children('i');
+          const icon = ownerui.children('i');
           icon.attr('title', ownerprofile.name).tooltip('fixTitle');
-          var styleString = 'background-image:url(' + ownerprofile.photo + ')';
+          const styleString = `background-image:url(${ownerprofile.photo})`;
           if (ownerprofile.photo && icon.attr('style') !== styleString)
               icon.attr('style', styleString);
           ownerui.show();
@@ -76,11 +81,11 @@ function updateOwner() {
 
 //get title
 function getTitle(view) {
-    var title = "";
+    let title = "";
     if (md && md.meta && md.meta.title && (typeof md.meta.title == "string" || typeof md.meta.title == "number")) {
         title = md.meta.title;
     } else {
-        var h1s = view.find("h1");
+        const h1s = view.find("h1");
         if (h1s.length > 0) {
             title = h1s.first().text();
         } else {
@@ -91,8 +96,8 @@ function getTitle(view) {
 }
 
 //render title
-function renderTitle(view) {
-    var title = getTitle(view);
+export function renderTitle(view) {
+    let title = getTitle(view);
     if (title) {
         title += ' - HackMD';
     } else {
@@ -102,8 +107,8 @@ function renderTitle(view) {
 }
 
 //render filename
-function renderFilename(view) {
-    var filename = getTitle(view);
+export function renderFilename(view) {
+    let filename = getTitle(view);
     if (!filename) {
         filename = 'Untitled';
     }
@@ -111,29 +116,29 @@ function renderFilename(view) {
 }
 
 // render tags
-function renderTags(view) {
-    var tags = [];
-    var rawtags = [];
+export function renderTags(view) {
+    const tags = [];
+    const rawtags = [];
     if (md && md.meta && md.meta.tags && (typeof md.meta.tags == "string" || typeof md.meta.tags == "number")) {
-        var metaTags = ('' + md.meta.tags).split(',');
+        const metaTags = (`${md.meta.tags}`).split(',');
         for (var i = 0; i < metaTags.length; i++) {
-            var text = metaTags[i].trim();
+            const text = metaTags[i].trim();
             if (text) rawtags.push(text);
         }
     } else {
-        view.find('h6').each(function (key, value) {
+        view.find('h6').each((key, value) => {
             if (/^tags/gmi.test($(value).text())) {
-                var codes = $(value).find("code");
-                for (var i = 0; i < codes.length; i++) {
-                    var text = codes[i].innerHTML.trim();
+                const codes = $(value).find("code");
+                for (let i = 0; i < codes.length; i++) {
+                    const text = codes[i].innerHTML.trim();
                     if (text) rawtags.push(text);
                 }
             }
         });
     }
     for (var i = 0; i < rawtags.length; i++) {
-        var found = false;
-        for (var j = 0; j < tags.length; j++) {
+        let found = false;
+        for (let j = 0; j < tags.length; j++) {
             if (tags[j] == rawtags[i]) {
                 found = true;
                 break;
@@ -146,13 +151,13 @@ function renderTags(view) {
 }
 
 function slugifyWithUTF8(text) {
-    var newText = S(text.toLowerCase()).trim().stripTags().dasherize().s;
+    let newText = S(text.toLowerCase()).trim().stripTags().dasherize().s;
     newText = newText.replace(/([\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\`\{\|\}\~])/g, '');
     return newText;
 }
 
-function isValidURL(str) {
-    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+export function isValidURL(str) {
+    const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
         '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
         '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
@@ -166,12 +171,12 @@ function isValidURL(str) {
 }
 
 //parse meta
-function parseMeta(md, edit, view, toc, tocAffix) {
-    var lang = null;
-    var dir = null;
-    var breaks = true;
+export function parseMeta(md, edit, view, toc, tocAffix) {
+    let lang = null;
+    let dir = null;
+    let breaks = true;
     if (md && md.meta) {
-        var meta = md.meta;
+        const meta = md.meta;
         lang = meta.lang;
         dir = meta.dir;
         breaks = meta.breaks;
@@ -211,13 +216,13 @@ function parseMeta(md, edit, view, toc, tocAffix) {
 window.viewAjaxCallback = null;
 
 //regex for extra tags
-var spaceregex = /\s*/;
-var notinhtmltagregex = /(?![^<]*>|[^<>]*<\/)/;
-var coloregex = /\[color=([#|\(|\)|\s|\,|\w]*?)\]/;
+const spaceregex = /\s*/;
+const notinhtmltagregex = /(?![^<]*>|[^<>]*<\/)/;
+let coloregex = /\[color=([#|\(|\)|\s|\,|\w]*?)\]/;
 coloregex = new RegExp(coloregex.source + notinhtmltagregex.source, "g");
-var nameregex = /\[name=(.*?)\]/;
-var timeregex = /\[time=([:|,|+|-|\(|\)|\s|\w]*?)\]/;
-var nameandtimeregex = new RegExp(nameregex.source + spaceregex.source + timeregex.source + notinhtmltagregex.source, "g");
+let nameregex = /\[name=(.*?)\]/;
+let timeregex = /\[time=([:|,|+|-|\(|\)|\s|\w]*?)\]/;
+const nameandtimeregex = new RegExp(nameregex.source + spaceregex.source + timeregex.source + notinhtmltagregex.source, "g");
 nameregex = new RegExp(nameregex.source + notinhtmltagregex.source, "g");
 timeregex = new RegExp(timeregex.source + notinhtmltagregex.source, "g");
 
@@ -232,35 +237,36 @@ function replaceExtraTags(html) {
 if (typeof mermaid !== 'undefined' && mermaid) mermaid.startOnLoad = false;
 
 //dynamic event or object binding here
-function finishView(view) {
+export function finishView(view) {
     //todo list
-    var lis = view.find('li.raw').removeClass("raw").sortByDepth().toArray();
-    for (var i = 0; i < lis.length; i++) {
-        var li = lis[i];
-        var html = $(li).clone()[0].innerHTML;
-        var p = $(li).children('p');
+    const lis = view.find('li.raw').removeClass("raw").sortByDepth().toArray();
+
+    for (let li of lis) {
+        let html = $(li).clone()[0].innerHTML;
+        const p = $(li).children('p');
         if (p.length == 1) {
             html = p.html();
             li = p[0];
         }
         html = replaceExtraTags(html);
         li.innerHTML = html;
-        var disabled = 'disabled';
+        let disabled = 'disabled';
         if(typeof editor !== 'undefined' && havePermission())
             disabled = '';
         if (/^\s*\[[x ]\]\s*/.test(html)) {
-            li.innerHTML = html.replace(/^\s*\[ \]\s*/, '<input type="checkbox" class="task-list-item-checkbox "' + disabled + '><label></label>')
-                .replace(/^\s*\[x\]\s*/, '<input type="checkbox" class="task-list-item-checkbox" checked ' + disabled + '><label></label>');
-            lis[i].setAttribute('class', 'task-list-item');
+            li.innerHTML = html.replace(/^\s*\[ \]\s*/, `<input type="checkbox" class="task-list-item-checkbox "${disabled}><label></label>`)
+                .replace(/^\s*\[x\]\s*/, `<input type="checkbox" class="task-list-item-checkbox" checked ${disabled}><label></label>`);
+            li.setAttribute('class', 'task-list-item');
         }
         if (typeof editor !== 'undefined' && havePermission())
             $(li).find('input').change(toggleTodoEvent);
         //color tag in list will convert it to tag icon with color
-        var tag_color = $(li).closest('ul').find(".color");
-        tag_color.each(function (key, value) {
+        const tag_color = $(li).closest('ul').find(".color");
+        tag_color.each((key, value) => {
             $(value).addClass('fa fa-tag').css('color', $(value).attr('data-color'));
         });
     }
+
     //youtube
     view.find("div.youtube.raw").removeClass("raw")
         .click(function () {
@@ -271,41 +277,41 @@ function finishView(view) {
         .click(function () {
             imgPlayiframe(this, '//player.vimeo.com/video/');
         })
-        .each(function (key, value) {
+        .each((key, value) => {
             $.ajax({
                 type: 'GET',
-                url: '//vimeo.com/api/v2/video/' + $(value).attr('data-videoid') + '.json',
+                url: `//vimeo.com/api/v2/video/${$(value).attr('data-videoid')}.json`,
                 jsonp: 'callback',
                 dataType: 'jsonp',
-                success: function (data) {
-                    var thumbnail_src = data[0].thumbnail_large;
-                    var image = '<img src="' + thumbnail_src + '" />';
+                success(data) {
+                    const thumbnail_src = data[0].thumbnail_large;
+                    const image = `<img src="${thumbnail_src}" />`;
                     $(value).prepend(image);
                     if(viewAjaxCallback) viewAjaxCallback();
                 }
             });
         });
     //gist
-    view.find("code[data-gist-id]").each(function (key, value) {
+    view.find("code[data-gist-id]").each((key, value) => {
         if ($(value).children().length == 0)
             $(value).gist(viewAjaxCallback);
     });
     //sequence diagram
-    var sequences = view.find("div.sequence-diagram.raw").removeClass("raw");
-    sequences.each(function (key, value) {
+    const sequences = view.find("div.sequence-diagram.raw").removeClass("raw");
+    sequences.each((key, value) => {
         try {
             var $value = $(value);
-            var $ele = $(value).parent().parent();
+            const $ele = $(value).parent().parent();
 
-            var sequence = $value;
+            const sequence = $value;
             sequence.sequenceDiagram({
                 theme: 'simple'
             });
 
             $ele.addClass('sequence-diagram');
             $value.children().unwrap().unwrap();
-            var svg = $ele.find('> svg');
-            svg[0].setAttribute('viewBox', '0 0 ' + svg.attr('width') + ' ' + svg.attr('height'));
+            const svg = $ele.find('> svg');
+            svg[0].setAttribute('viewBox', `0 0 ${svg.attr('width')} ${svg.attr('height')}`);
             svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet');
         } catch (err) {
             $value.unwrap();
@@ -314,13 +320,13 @@ function finishView(view) {
         }
     });
     //flowchart
-    var flow = view.find("div.flow-chart.raw").removeClass("raw");
-    flow.each(function (key, value) {
+    const flow = view.find("div.flow-chart.raw").removeClass("raw");
+    flow.each((key, value) => {
         try {
             var $value = $(value);
-            var $ele = $(value).parent().parent();
+            const $ele = $(value).parent().parent();
 
-            var chart = flowchart.parse($value.text());
+            const chart = flowchart.parse($value.text());
             $value.html('');
             chart.drawSVG(value, {
                 'line-width': 2,
@@ -339,41 +345,32 @@ function finishView(view) {
     });
     //graphviz
     var graphvizs = view.find("div.graphviz.raw").removeClass("raw");
-    function parseGraphviz(key, value) {
-        var $value = $(value);
-        var $ele = $(value).parent().parent();
-
-        var graphviz = Viz($value.text());
-        if (!graphviz) throw Error('viz.js output empty graph');
-        $value.html(graphviz);
-
-        $ele.addClass('graphviz');
-        $value.children().unwrap().unwrap();
-    }
     graphvizs.each(function (key, value) {
         try {
-            parseGraphviz(key, value);
+            var $value = $(value);
+            var $ele = $(value).parent().parent();
+
+            var graphviz = Viz($value.text());
+            if (!graphviz) throw Error('viz.js output empty graph');
+            $value.html(graphviz);
+
+            $ele.addClass('graphviz');
+            $value.children().unwrap().unwrap();
         } catch (err) {
-            // workaround for graphviz not recover from error
-            try {
-                parseGraphviz(key, value);
-            } catch (err) {
-                var $value = $(value);
-                $value.unwrap();
-                $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
-                console.warn(err);
-            }
+            $value.unwrap();
+            $value.parent().append('<div class="alert alert-warning">' + err + '</div>');
+            console.warn(err);
         }
     });
     //mermaid
-    var mermaids = view.find("div.mermaid.raw").removeClass("raw");
-    mermaids.each(function (key, value) {
+    const mermaids = view.find("div.mermaid.raw").removeClass("raw");
+    mermaids.each((key, value) => {
         try {
             var $value = $(value);
-            var $ele = $(value).closest('pre');
+            const $ele = $(value).closest('pre');
 
-            var mermaidError = null;
-            mermaid.parseError = function (err, hash) {
+            let mermaidError = null;
+            mermaid.parseError = (err, hash) => {
                 mermaidError = err;
             };
 
@@ -391,44 +388,44 @@ function finishView(view) {
         }
     });
     //image href new window(emoji not included)
-    var images = view.find("img.raw[src]").removeClass("raw");
-    images.each(function (key, value) {
+    const images = view.find("img.raw[src]").removeClass("raw");
+    images.each((key, value) => {
         // if it's already wrapped by link, then ignore
-        var $value = $(value);
-        $value[0].onload = function (e) {
+        const $value = $(value);
+        $value[0].onload = e => {
             if(viewAjaxCallback) viewAjaxCallback();
         };
     });
     //blockquote
-    var blockquote = view.find("blockquote.raw").removeClass("raw");
-    var blockquote_p = blockquote.find("p");
-    blockquote_p.each(function (key, value) {
-        var html = $(value).html();
+    const blockquote = view.find("blockquote.raw").removeClass("raw");
+    const blockquote_p = blockquote.find("p");
+    blockquote_p.each((key, value) => {
+        let html = $(value).html();
         html = replaceExtraTags(html);
         $(value).html(html);
     });
     //color tag in blockquote will change its left border color
-    var blockquote_color = blockquote.find(".color");
-    blockquote_color.each(function (key, value) {
+    const blockquote_color = blockquote.find(".color");
+    blockquote_color.each((key, value) => {
         $(value).closest("blockquote").css('border-left-color', $(value).attr('data-color'));
     });
     //slideshare
     view.find("div.slideshare.raw").removeClass("raw")
-        .each(function (key, value) {
+        .each((key, value) => {
             $.ajax({
                 type: 'GET',
-                url: '//www.slideshare.net/api/oembed/2?url=http://www.slideshare.net/' + $(value).attr('data-slideshareid') + '&format=json',
+                url: `//www.slideshare.net/api/oembed/2?url=http://www.slideshare.net/${$(value).attr('data-slideshareid')}&format=json`,
                 jsonp: 'callback',
                 dataType: 'jsonp',
-                success: function (data) {
-                    var $html = $(data.html);
-                    var iframe = $html.closest('iframe');
-                    var caption = $html.closest('div');
-                    var inner = $('<div class="inner"></div>').append(iframe);
-                    var height = iframe.attr('height');
-                    var width = iframe.attr('width');
-                    var ratio = (height / width) * 100;
-                    inner.css('padding-bottom', ratio + '%');
+                success(data) {
+                    const $html = $(data.html);
+                    const iframe = $html.closest('iframe');
+                    const caption = $html.closest('div');
+                    const inner = $('<div class="inner"></div>').append(iframe);
+                    const height = iframe.attr('height');
+                    const width = iframe.attr('width');
+                    const ratio = (height / width) * 100;
+                    inner.css('padding-bottom', `${ratio}%`);
                     $(value).html(inner).append(caption);
                     if(viewAjaxCallback) viewAjaxCallback();
                 }
@@ -436,31 +433,31 @@ function finishView(view) {
         });
     //speakerdeck
     view.find("div.speakerdeck.raw").removeClass("raw")
-        .each(function (key, value) {
-            var url = 'https://speakerdeck.com/oembed.json?url=https%3A%2F%2Fspeakerdeck.com%2F' + encodeURIComponent($(value).attr('data-speakerdeckid'));
+        .each((key, value) => {
+            const url = `https://speakerdeck.com/oembed.json?url=https%3A%2F%2Fspeakerdeck.com%2F${encodeURIComponent($(value).attr('data-speakerdeckid'))}`;
             //use yql because speakerdeck not support jsonp
             $.ajax({
                 url: 'https://query.yahooapis.com/v1/public/yql',
                 data: {
-                    q: "select * from json where url ='" + url + "'",
+                    q: `select * from json where url ='${url}'`,
                     format: "json"
                 },
                 dataType: "jsonp",
-                success: function (data) {
+                success(data) {
                     if (!data.query || !data.query.results) return;
-                    var json = data.query.results.json;
-                    var html = json.html;
+                    const json = data.query.results.json;
+                    const html = json.html;
                     var ratio = json.height / json.width;
                     $(value).html(html);
-                    var iframe = $(value).children('iframe');
-                    var src = iframe.attr('src');
+                    const iframe = $(value).children('iframe');
+                    const src = iframe.attr('src');
                     if (src.indexOf('//') == 0)
-                        iframe.attr('src', 'https:' + src);
-                    var inner = $('<div class="inner"></div>').append(iframe);
-                    var height = iframe.attr('height');
-                    var width = iframe.attr('width');
+                        iframe.attr('src', `https:${src}`);
+                    const inner = $('<div class="inner"></div>').append(iframe);
+                    const height = iframe.attr('height');
+                    const width = iframe.attr('width');
                     var ratio = (height / width) * 100;
-                    inner.css('padding-bottom', ratio + '%');
+                    inner.css('padding-bottom', `${ratio}%`);
                     $(value).html(inner);
                     if(viewAjaxCallback) viewAjaxCallback();
                 }
@@ -469,8 +466,8 @@ function finishView(view) {
     //pdf
     view.find("div.pdf.raw").removeClass("raw")
             .each(function (key, value) {
-                var url = $(value).attr('data-pdfurl');
-                var inner = $('<div></div>');
+                const url = $(value).attr('data-pdfurl');
+                const inner = $('<div></div>');
                 $(this).append(inner);
                 PDFObject.embed(url, inner, {
                     height: '400px'
@@ -478,12 +475,12 @@ function finishView(view) {
             });
     //syntax highlighting
     view.find("code.raw").removeClass("raw")
-        .each(function (key, value) {
-            var langDiv = $(value);
+        .each((key, value) => {
+            const langDiv = $(value);
             if (langDiv.length > 0) {
-                var reallang = langDiv[0].className.replace(/hljs|wrap/g, '').trim();
-                var codeDiv = langDiv.find('.code');
-                var code = "";
+                const reallang = langDiv[0].className.replace(/hljs|wrap/g, '').trim();
+                const codeDiv = langDiv.find('.code');
+                let code = "";
                 if (codeDiv.length > 0) code = codeDiv.html();
                 else code = langDiv.html();
                 if (!reallang) {
@@ -502,8 +499,8 @@ function finishView(view) {
                     };
                 } else {
                     code = S(code).unescapeHTML().s;
-                    var languages = hljs.listLanguages();
-                    if (languages.indexOf(reallang) == -1) {
+                    const languages = hljs.listLanguages();
+                    if (!languages.includes(reallang)) {
                         var result = hljs.highlightAuto(code);
                     } else {
                         var result = hljs.highlight(reallang, code);
@@ -514,7 +511,7 @@ function finishView(view) {
             }
         });
     //mathjax
-    var mathjaxdivs = view.find('span.mathjax.raw').removeClass("raw").toArray();
+    const mathjaxdivs = view.find('span.mathjax.raw').removeClass("raw").toArray();
     try {
         if (mathjaxdivs.length > 1) {
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathjaxdivs]);
@@ -531,16 +528,16 @@ function finishView(view) {
 }
 
 //only static transform should be here
-function postProcess(code) {
-    var result = $('<div>' + code + '</div>');
+export function postProcess(code) {
+    const result = $(`<div>${code}</div>`);
     //link should open in new window or tab
     result.find('a:not([href^="#"]):not([target])').attr('target', '_blank');
 	//update continue line numbers
-	var linenumberdivs = result.find('.gutter.linenumber').toArray();
-	for (var i = 0; i < linenumberdivs.length; i++) {
+	const linenumberdivs = result.find('.gutter.linenumber').toArray();
+	for (let i = 0; i < linenumberdivs.length; i++) {
 		if ($(linenumberdivs[i]).hasClass('continue')) {
-			var startnumber = linenumberdivs[i - 1] ? parseInt($(linenumberdivs[i - 1]).find('> span').last().attr('data-linenumber')) : 0;
-			$(linenumberdivs[i]).find('> span').each(function(key, value) {
+			const startnumber = linenumberdivs[i - 1] ? parseInt($(linenumberdivs[i - 1]).find('> span').last().attr('data-linenumber')) : 0;
+			$(linenumberdivs[i]).find('> span').each((key, value) => {
 				$(value).attr('data-linenumber', startnumber + key + 1);
 			});
 		}
@@ -560,8 +557,8 @@ function postProcess(code) {
 window.postProcess = postProcess;
 
 function generateCleanHTML(view) {
-    var src = view.clone();
-    var eles = src.find('*');
+    const src = view.clone();
+    const eles = src.find('*');
     //remove syncscroll parts
     eles.removeClass('part');
     src.find('*[class=""]').removeAttr('class');
@@ -572,24 +569,24 @@ function generateCleanHTML(view) {
     //disable todo list
     src.find("input.task-list-item-checkbox").attr('disabled', '');
     //replace emoji image path
-    src.find("img.emoji").each(function (key, value) {
-        var name = $(value).attr('alt');
+    src.find("img.emoji").each((key, value) => {
+        let name = $(value).attr('alt');
         name = name.substr(1);
         name = name.slice(0, name.length - 1);
-        $(value).attr('src', 'https://www.tortue.me/emoji/' + name + '.png');
+        $(value).attr('src', `https://www.tortue.me/emoji/${name}.png`);
     });
     //replace video to iframe
-    src.find("div[data-videoid]").each(function (key, value) {
-        var id = $(value).attr('data-videoid');
-        var style = $(value).attr('style');
-        var url = null;
+    src.find("div[data-videoid]").each((key, value) => {
+        const id = $(value).attr('data-videoid');
+        const style = $(value).attr('style');
+        let url = null;
         if ($(value).hasClass('youtube')) {
             url = 'https://www.youtube.com/embed/';
         } else if ($(value).hasClass('vimeo')) {
             url = 'https://player.vimeo.com/video/';
         }
         if (url) {
-            var iframe = $('<iframe frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');
+            const iframe = $('<iframe frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');
             iframe.attr('src', url + id);
             iframe.attr('style', style);
             $(value).html(iframe);
@@ -598,65 +595,63 @@ function generateCleanHTML(view) {
     return src;
 }
 
-function exportToRawHTML(view) {
-    var filename = renderFilename(ui.area.markdown) + '.html';
-    var src = generateCleanHTML(view);
+export function exportToRawHTML(view) {
+    const filename = `${renderFilename(ui.area.markdown)}.html`;
+    const src = generateCleanHTML(view);
     $(src).find('a.anchor').remove();
-    var html = src[0].outerHTML;
-    var blob = new Blob([html], {
+    const html = src[0].outerHTML;
+    const blob = new Blob([html], {
         type: "text/html;charset=utf-8"
     });
-    saveAs(blob, filename);
+    saveAs(blob, filename, true);
 }
 
-var common = require('./common.js');
 //extract markdown body to html and compile to template
-function exportToHTML(view) {
-    var title = renderTitle(ui.area.markdown);
-    var filename = renderFilename(ui.area.markdown) + '.html';
-    var src = generateCleanHTML(view);
+export function exportToHTML(view) {
+    const title = renderTitle(ui.area.markdown);
+    const filename = `${renderFilename(ui.area.markdown)}.html`;
+    const src = generateCleanHTML(view);
     //generate toc
-    var toc = $('#ui-toc').clone();
+    const toc = $('#ui-toc').clone();
     toc.find('*').removeClass('active').find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll');
-    var tocAffix = $('#ui-toc-affix').clone();
+    const tocAffix = $('#ui-toc-affix').clone();
     tocAffix.find('*').removeClass('active').find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll');
     //generate html via template
-    $.get(serverurl + '/build/html.min.css', function (css) {
-        $.get(serverurl + '/views/html.hbs', function (data) {
-            var template = Handlebars.compile(data);
-            var context = {
+    $.get(`${serverurl}/build/html.min.css`, css => {
+        $.get(`${serverurl}/views/html.hbs`, data => {
+            const template = Handlebars.compile(data);
+            const context = {
                 url: serverurl,
-                title: title,
-                css: css,
+                title,
+                css,
                 html: src[0].outerHTML,
                 'ui-toc': toc.html(),
                 'ui-toc-affix': tocAffix.html(),
-                lang: (md && md.meta && md.meta.lang) ? 'lang="' + md.meta.lang + '"' : null,
-                dir: (md && md.meta && md.meta.dir) ? 'dir="' + md.meta.dir + '"' : null
+                lang: (md && md.meta && md.meta.lang) ? `lang="${md.meta.lang}"` : null,
+                dir: (md && md.meta && md.meta.dir) ? `dir="${md.meta.dir}"` : null
             };
-            var html = template(context);
+            const html = template(context);
             //        console.log(html);
-            var blob = new Blob([html], {
+            const blob = new Blob([html], {
                 type: "text/html;charset=utf-8"
             });
-            saveAs(blob, filename);
+            saveAs(blob, filename, true);
         });
     });
 }
 
 //jQuery sortByDepth
 $.fn.sortByDepth = function () {
-    var ar = this.map(function () {
+    const ar = this.map(function () {
             return {
                 length: $(this).parents().length,
                 elt: this
             }
-        }).get(),
-        result = [],
-        i = ar.length;
-    ar.sort(function (a, b) {
-        return a.length - b.length;
-    });
+        }).get();
+
+    const result = [];
+    let i = ar.length;
+    ar.sort((a, b) => a.length - b.length);
     while (i--) {
         result.push(ar[i].elt);
     }
@@ -664,16 +659,16 @@ $.fn.sortByDepth = function () {
 };
 
 function toggleTodoEvent(e) {
-    var startline = $(this).closest('li').attr('data-startline') - 1;
-    var line = editor.getLine(startline);
-    var matches = line.match(/^[>\s]*[\-\+\*]\s\[([x ])\]/);
+    const startline = $(this).closest('li').attr('data-startline') - 1;
+    const line = editor.getLine(startline);
+    const matches = line.match(/^[>\s]*[\-\+\*]\s\[([x ])\]/);
     if (matches && matches.length >= 2) {
-        var checked = null;
+        let checked = null;
         if (matches[1] == 'x')
             checked = true;
         else if (matches[1] == ' ')
             checked = false;
-        var replacements = matches[0].match(/(^[>\s]*[\-\+\*]\s\[)([x ])(\])/);
+        const replacements = matches[0].match(/(^[>\s]*[\-\+\*]\s\[)([x ])(\])/);
         editor.replaceRange(checked ? ' ' : 'x', {
             line: startline,
             ch: replacements[1].length
@@ -689,11 +684,11 @@ function removeHash() {
     history.pushState("", document.title, window.location.pathname + window.location.search);
 }
 
-var tocExpand = false;
+let tocExpand = false;
 
 function checkExpandToggle() {
-    var toc = $('.ui-toc-dropdown .toc');
-    var toggle = $('.expand-toggle');
+    const toc = $('.ui-toc-dropdown .toc');
+    const toggle = $('.expand-toggle');
     if (!tocExpand) {
         toc.removeClass('expand');
         toggle.text('Expand all');
@@ -704,8 +699,8 @@ function checkExpandToggle() {
 }
 
 //toc
-function generateToc(id) {
-    var target = $('#' + id);
+export function generateToc(id) {
+    const target = $(`#${id}`);
     target.html('');
     new Toc('doc', {
         'level': 3,
@@ -717,25 +712,25 @@ function generateToc(id) {
     });
     if (target.text() == 'undefined')
         target.html('');
-    var tocMenu = $('<div class="toc-menu"></div');
-    var toggle = $('<a class="expand-toggle" href="#">Expand all</a>');
-    var backtotop = $('<a class="back-to-top" href="#">Back to top</a>');
-    var gotobottom = $('<a class="go-to-bottom" href="#">Go to bottom</a>');
+    const tocMenu = $('<div class="toc-menu"></div');
+    const toggle = $('<a class="expand-toggle" href="#">Expand all</a>');
+    const backtotop = $('<a class="back-to-top" href="#">Back to top</a>');
+    const gotobottom = $('<a class="go-to-bottom" href="#">Go to bottom</a>');
     checkExpandToggle();
-    toggle.click(function (e) {
+    toggle.click(e => {
         e.preventDefault();
         e.stopPropagation();
         tocExpand = !tocExpand;
         checkExpandToggle();
     });
-    backtotop.click(function (e) {
+    backtotop.click(e => {
         e.preventDefault();
         e.stopPropagation();
         if (scrollToTop)
             scrollToTop();
         removeHash();
     });
-    gotobottom.click(function (e) {
+    gotobottom.click(e => {
         e.preventDefault();
         e.stopPropagation();
         if (scrollToBottom)
@@ -747,18 +742,18 @@ function generateToc(id) {
 }
 
 //smooth all hash trigger scrolling
-function smoothHashScroll() {
-    var hashElements = $("a[href^='#']:not([smoothhashscroll])").toArray();
-    for (var i = 0; i < hashElements.length; i++) {
-        var element = hashElements[i];
-        var $element = $(element);
-        var hash = element.hash;
+export function smoothHashScroll() {
+    const hashElements = $("a[href^='#']:not([smoothhashscroll])").toArray();
+
+    for (const element of hashElements) {
+        const $element = $(element);
+        const hash = element.hash;
         if (hash) {
             $element.on('click', function (e) {
                 // store hash
-                var hash = decodeURIComponent(this.hash);
+                const hash = decodeURIComponent(this.hash);
                 // escape special characters in jquery selector
-                var $hash = $(hash.replace(/(:|\.|\[|\]|,)/g, "\\$1"));
+                const $hash = $(hash.replace(/(:|\.|\[|\]|,)/g, "\\$1"));
                 // return if no element been selected
                 if ($hash.length <= 0) return;
                 // prevent default anchor click behavior
@@ -766,7 +761,7 @@ function smoothHashScroll() {
                 // animate
                 $('body, html').stop(true, true).animate({
                     scrollTop: $hash.offset().top
-                }, 100, "linear", function () {
+                }, 100, "linear", () => {
                     // when done, add hash to url
                     // (default click behaviour)
                     window.location.hash = hash;
@@ -779,29 +774,30 @@ function smoothHashScroll() {
 
 function imgPlayiframe(element, src) {
     if (!$(element).attr("data-videoid")) return;
-    var iframe = $("<iframe frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>");
-    $(iframe).attr("src", src + $(element).attr("data-videoid") + '?autoplay=1');
+    const iframe = $("<iframe frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>");
+    $(iframe).attr("src", `${src + $(element).attr("data-videoid")}?autoplay=1`);
     $(element).find('img').css('visibility', 'hidden');
     $(element).append(iframe);
 }
 
-var anchorForId = function (id) {
-    var anchor = document.createElement("a");
+const anchorForId = id => {
+    const anchor = document.createElement("a");
     anchor.className = "anchor hidden-xs";
-    anchor.href = "#" + id;
+    anchor.href = `#${id}`;
     anchor.innerHTML = "<span class=\"octicon octicon-link\"></span>";
     anchor.title = id;
     return anchor;
 };
 
-var linkifyAnchors = function (level, containingElement) {
-    var headers = containingElement.getElementsByTagName("h" + level);
-    for (var h = 0; h < headers.length; h++) {
-        var header = headers[h];
+const linkifyAnchors = (level, containingElement) => {
+    const headers = containingElement.getElementsByTagName(`h${level}`);
+
+    for (let i = 0, l = headers.length; i < l; i++) {
+        let header = headers[i];
         if (header.getElementsByClassName("anchor").length == 0) {
             if (typeof header.id == "undefined" || header.id == "") {
                 //to escape characters not allow in css and humanize
-                var id = slugifyWithUTF8(getHeaderContent(header));
+                const id = slugifyWithUTF8(getHeaderContent(header));
                 header.id = id;
             }
             header.insertBefore(anchorForId(header.id), header.firstChild);
@@ -809,49 +805,49 @@ var linkifyAnchors = function (level, containingElement) {
     }
 };
 
-function autoLinkify(view) {
-    var contentBlock = view[0];
+export function autoLinkify(view) {
+    const contentBlock = view[0];
     if (!contentBlock) {
         return;
     }
-    for (var level = 1; level <= 6; level++) {
+    for (let level = 1; level <= 6; level++) {
         linkifyAnchors(level, contentBlock);
     }
 }
 
 function getHeaderContent(header) {
-    var headerHTML = $(header).clone();
+    const headerHTML = $(header).clone();
     headerHTML.find('.MathJax_Preview').remove();
     headerHTML.find('.MathJax').remove();
     return headerHTML[0].innerHTML;
 }
 
-function deduplicatedHeaderId(view) {
-    var headers = view.find(':header.raw').removeClass('raw').toArray();
-    for (var i = 0; i < headers.length; i++) {
-        var id = $(headers[i]).attr('id');
+export function deduplicatedHeaderId(view) {
+    const headers = view.find(':header.raw').removeClass('raw').toArray();
+    for (let i = 0; i < headers.length; i++) {
+        const id = $(headers[i]).attr('id');
         if (!id) continue;
-        var duplicatedHeaders = view.find(':header[id="' + id + '"]').toArray();
-        for (var j = 0; j < duplicatedHeaders.length; j++) {
+        const duplicatedHeaders = view.find(`:header[id="${id}"]`).toArray();
+        for (let j = 0; j < duplicatedHeaders.length; j++) {
             if (duplicatedHeaders[j] != headers[i]) {
-                var newId = id + j;
-                var $duplicatedHeader = $(duplicatedHeaders[j]);
+                const newId = id + j;
+                const $duplicatedHeader = $(duplicatedHeaders[j]);
                 $duplicatedHeader.attr('id', newId);
-                var $headerLink = $duplicatedHeader.find('> .header-link');
-                $headerLink.attr('href', '#' + newId);
+                const $headerLink = $duplicatedHeader.find(`> a.anchor[href="#${id}"]`);
+                $headerLink.attr('href', `#${newId}`);
                 $headerLink.attr('title', newId);
             }
         }
     }
 }
 
-function renderTOC(view) {
-    var tocs = view.find('.toc').toArray();
-	for (var i = 0; i < tocs.length; i++) {
-        var toc = $(tocs[i]);
-        var id = 'toc' + i;
+export function renderTOC(view) {
+    const tocs = view.find('.toc').toArray();
+	for (let i = 0; i < tocs.length; i++) {
+        const toc = $(tocs[i]);
+        const id = `toc${i}`;
         toc.attr('id', id);
-        var target = $('#' + id);
+        const target = $(`#${id}`);
         target.html('');
         new Toc('doc', {
             'level': 3,
@@ -866,8 +862,8 @@ function renderTOC(view) {
     }
 }
 
-function scrollToHash() {
-    var hash = location.hash;
+export function scrollToHash() {
+    const hash = location.hash;
     location.hash = "";
     location.hash = hash;
 }
@@ -877,39 +873,39 @@ function highlightRender(code, lang) {
         return;
     code = S(code).escapeHTML().s
     if (lang == 'sequence') {
-        return '<div class="sequence-diagram raw">' + code + '</div>';
+        return `<div class="sequence-diagram raw">${code}</div>`;
     } else if (lang == 'flow') {
-        return '<div class="flow-chart raw">' + code + '</div>';
+        return `<div class="flow-chart raw">${code}</div>`;
     } else if (lang == 'graphviz') {
-        return '<div class="graphviz raw">' + code + '</div>';
+        return `<div class="graphviz raw">${code}</div>`;
     } else if (lang == 'mermaid') {
-        return '<div class="mermaid raw">' + code + '</div>';
+        return `<div class="mermaid raw">${code}</div>`;
     }
-    var result = {
+    const result = {
         value: code
     };
-	var showlinenumbers = /\=$|\=\d+$|\=\+$/.test(lang);
+	const showlinenumbers = /\=$|\=\d+$|\=\+$/.test(lang);
     if (showlinenumbers) {
-		var startnumber = 1;
-		var matches = lang.match(/\=(\d+)$/);
+		let startnumber = 1;
+		const matches = lang.match(/\=(\d+)$/);
 		if (matches)
 			startnumber = parseInt(matches[1]);
-        var lines = result.value.split('\n');
-        var linenumbers = [];
-        for (var i = 0; i < lines.length - 1; i++) {
-            linenumbers[i] = "<span data-linenumber='" + (startnumber + i) + "'></span>";
+        const lines = result.value.split('\n');
+        const linenumbers = [];
+        for (let i = 0; i < lines.length - 1; i++) {
+            linenumbers[i] = `<span data-linenumber='${startnumber + i}'></span>`;
         }
-		var continuelinenumber = /\=\+$/.test(lang);
-        var linegutter = "<div class='gutter linenumber" + (continuelinenumber ? " continue" : "") + "'>" + linenumbers.join('\n') + "</div>";
-        result.value = "<div class='wrapper'>" + linegutter + "<div class='code'>" + result.value + "</div></div>";
+		const continuelinenumber = /\=\+$/.test(lang);
+        const linegutter = `<div class='gutter linenumber${continuelinenumber ? " continue" : ""}'>${linenumbers.join('\n')}</div>`;
+        result.value = `<div class='wrapper'>${linegutter}<div class='code'>${result.value}</div></div>`;
     }
     return result.value;
 }
 
-var markdownit = require('markdown-it');
-var markdownitContainer = require('markdown-it-container');
+import markdownit from 'markdown-it';
+import markdownitContainer from 'markdown-it-container';
 
-var md = markdownit('default', {
+export let md = markdownit('default', {
     html: true,
     breaks: true,
     langPrefix: "",
@@ -945,19 +941,17 @@ emojify.setConfig({
         elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
         classes: ['no-emojify']
     },
-    img_dir: serverurl + '/build/emojify.js/dist/images/basic',
+    img_dir: `${serverurl}/build/emojify.js/dist/images/basic`,
     ignore_emoticons: true
 });
 
-md.renderer.rules.emoji = function(token, idx) {
-    return emojify.replace(':' + token[idx].markup + ':');
-};
+md.renderer.rules.emoji = (token, idx) => emojify.replace(`:${token[idx].markup}:`);
 
 function renderContainer(tokens, idx, options, env, self) {
     tokens[idx].attrJoin('role', 'alert');
     tokens[idx].attrJoin('class', 'alert');
-    tokens[idx].attrJoin('class', 'alert-' + tokens[idx].info.trim());
-    return self.renderToken.apply(self, arguments);
+    tokens[idx].attrJoin('class', `alert-${tokens[idx].info.trim()}`);
+    return self.renderToken(...arguments);
 }
 md.use(markdownitContainer, 'success', { render: renderContainer });
 md.use(markdownitContainer, 'info', { render: renderContainer });
@@ -966,25 +960,25 @@ md.use(markdownitContainer, 'danger', { render: renderContainer });
 
 md.renderer.rules.image = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
 md.renderer.rules.list_item_open = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
 md.renderer.rules.blockquote_open = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
 md.renderer.rules.heading_open = function (tokens, idx, options, env, self) {
     tokens[idx].attrJoin('class', 'raw');
-    return self.renderToken.apply(self, arguments);
+    return self.renderToken(...arguments);
 };
-md.renderer.rules.fence = function (tokens, idx, options, env, self) {
-    var token = tokens[idx],
-      info = token.info ? md.utils.unescapeAll(token.info).trim() : '',
-      langName = '',
-      highlighted;
+md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+    const info = token.info ? md.utils.unescapeAll(token.info).trim() : '';
+    let langName = '';
+    let highlighted;
 
     if (info) {
         langName = info.split(/\s+/g)[0];
@@ -1001,110 +995,99 @@ md.renderer.rules.fence = function (tokens, idx, options, env, self) {
     }
 
     if (highlighted.indexOf('<pre') === 0) {
-        return highlighted + '\n';
+        return `${highlighted}\n`;
     }
 
-    return  '<pre><code' + self.renderAttrs(token) + '>'
-        + highlighted
-        + '</code></pre>\n';
+    return  `<pre><code${self.renderAttrs(token)}>${highlighted}</code></pre>\n`;
 };
 
 /* Defined regex markdown it plugins */
-var Plugin = require('markdown-it-regexp');
+import Plugin from 'markdown-it-regexp';
 
 //youtube
-var youtubePlugin = new Plugin(
+const youtubePlugin = new Plugin(
     // regexp to match
     /{%youtube\s*([\d\D]*?)\s*%}/,
 
-    // this function will be called when something matches
-    function (match, utils) {
-        var videoid = match[1];
+    (match, utils) => {
+        const videoid = match[1];
         if (!videoid) return;
-        var div = $('<div class="youtube raw"></div>');
+        const div = $('<div class="youtube raw"></div>');
         div.attr('data-videoid', videoid);
-        var thumbnail_src = '//img.youtube.com/vi/' + videoid + '/hqdefault.jpg';
-        var image = '<img src="' + thumbnail_src + '" />';
+        const thumbnail_src = `//img.youtube.com/vi/${videoid}/hqdefault.jpg`;
+        const image = `<img src="${thumbnail_src}" />`;
         div.append(image);
-        var icon = '<i class="icon fa fa-youtube-play fa-5x"></i>';
+        const icon = '<i class="icon fa fa-youtube-play fa-5x"></i>';
         div.append(icon);
         return div[0].outerHTML;
     }
 );
 //vimeo
-var vimeoPlugin = new Plugin(
+const vimeoPlugin = new Plugin(
     // regexp to match
     /{%vimeo\s*([\d\D]*?)\s*%}/,
 
-    // this function will be called when something matches
-    function (match, utils) {
-        var videoid = match[1];
+    (match, utils) => {
+        const videoid = match[1];
         if (!videoid) return;
-        var div = $('<div class="vimeo raw"></div>');
+        const div = $('<div class="vimeo raw"></div>');
         div.attr('data-videoid', videoid);
-        var icon = '<i class="icon fa fa-vimeo-square fa-5x"></i>';
+        const icon = '<i class="icon fa fa-vimeo-square fa-5x"></i>';
         div.append(icon);
         return div[0].outerHTML;
     }
 );
 //gist
-var gistPlugin = new Plugin(
+const gistPlugin = new Plugin(
     // regexp to match
     /{%gist\s*([\d\D]*?)\s*%}/,
 
-    // this function will be called when something matches
-    function (match, utils) {
-        var gistid = match[1];
-        var code = '<code data-gist-id="' + gistid + '"/>';
+    (match, utils) => {
+        const gistid = match[1];
+        const code = `<code data-gist-id="${gistid}"/>`;
         return code;
     }
 );
 //TOC
-var tocPlugin = new Plugin(
+const tocPlugin = new Plugin(
     // regexp to match
     /^\[TOC\]$/i,
 
-    // this function will be called when something matches
-    function (match, utils) {
-        return '<div class="toc"></div>';
-    }
+    (match, utils) => '<div class="toc"></div>'
 );
 //slideshare
-var slidesharePlugin = new Plugin(
+const slidesharePlugin = new Plugin(
     // regexp to match
     /{%slideshare\s*([\d\D]*?)\s*%}/,
 
-    // this function will be called when something matches
-    function (match, utils) {
-        var slideshareid = match[1];
-        var div = $('<div class="slideshare raw"></div>');
+    (match, utils) => {
+        const slideshareid = match[1];
+        const div = $('<div class="slideshare raw"></div>');
         div.attr('data-slideshareid', slideshareid);
         return div[0].outerHTML;
     }
 );
 //speakerdeck
-var speakerdeckPlugin = new Plugin(
+const speakerdeckPlugin = new Plugin(
     // regexp to match
     /{%speakerdeck\s*([\d\D]*?)\s*%}/,
 
-    // this function will be called when something matches
-    function (match, utils) {
-        var speakerdeckid = match[1];
-        var div = $('<div class="speakerdeck raw"></div>');
+    (match, utils) => {
+        const speakerdeckid = match[1];
+        const div = $('<div class="speakerdeck raw"></div>');
         div.attr('data-speakerdeckid', speakerdeckid);
         return div[0].outerHTML;
     }
 );
 //pdf
-var pdfPlugin = new Plugin(
+const pdfPlugin = new Plugin(
     // regexp to match
     /{%pdf\s*([\d\D]*?)\s*%}/,
 
-    // this function will be called when something matches
-    function (match, utils) {
-        var pdfurl = match[1];
+    (match, utils) => {
+        const pdfurl = match[1];
         if (!isValidURL(pdfurl)) return match[0];
-        var div = $('<div class="pdf raw"></div>');
+        const div = $('<div class="pdf raw"></div>');
         div.attr('data-pdfurl', pdfurl);
         return div[0].outerHTML;
     }
@@ -1112,8 +1095,8 @@ var pdfPlugin = new Plugin(
 
 //yaml meta, from https://github.com/eugeneware/remarkable-meta
 function get(state, line) {
-    var pos = state.bMarks[line];
-    var max = state.eMarks[line];
+    const pos = state.bMarks[line];
+    const max = state.eMarks[line];
     return state.src.substr(pos, max - pos);
 }
 
@@ -1122,9 +1105,9 @@ function meta(state, start, end, silent) {
     if (state.tShift[start] < 0) return false;
     if (!get(state, start).match(/^---$/)) return false;
 
-    var data = [];
+    const data = [];
     for (var line = start + 1; line < end; line++) {
-        var str = get(state, line);
+        const str = get(state, line);
         if (str.match(/^(\.{3}|-{3})$/)) break;
         if (state.tShift[line] < 0) break;
         data.push(str);
@@ -1162,24 +1145,6 @@ md.use(slidesharePlugin);
 md.use(speakerdeckPlugin);
 md.use(pdfPlugin);
 
-module.exports = {
-  md: md,
-  updateLastChange: updateLastChange,
-  postProcess: postProcess,
-  finishView: finishView,
-  autoLinkify: autoLinkify,
-  deduplicatedHeaderId: deduplicatedHeaderId,
-  renderTOC: renderTOC,
-  renderTitle: renderTitle,
-  renderFilename: renderFilename,
-  renderTags: renderTags,
-  isValidURL: isValidURL,
-  generateToc: generateToc,
-  smoothHashScroll: smoothHashScroll,
-  scrollToHash: scrollToHash,
-  updateLastChangeUser: updateLastChangeUser,
-  updateOwner: updateOwner,
-  parseMeta: parseMeta,
-  exportToHTML: exportToHTML,
-  exportToRawHTML: exportToRawHTML
+export default {
+  md
 };

@@ -28,7 +28,7 @@
     <link rel="stylesheet" href='<%- url %>/build/emojify.js/dist/css/basic/emojify.min.css'>
     <%- include build/pretty-pack-header %>
 	<% } %>
-    <%- include polyfill %>
+    <%- include shared/polyfill %>
 </head>
 
 <body style="display:none;">
@@ -66,7 +66,7 @@
     <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="display:none;"></div>
     <% if(typeof disqus !== 'undefined' && disqus) { %>
     <div class="container-fluid" style="max-width: 758px; margin-bottom: 40px;">
-        <%- include disqus %>
+        <%- include shared/disqus %>
     </div>
     <% } %>
 </body>
@@ -84,16 +84,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js" integrity="sha256-yYfngbEKv4RENfGDvNUqJTqGFcKf31NJEe9OTnnMH3Y=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-immzXfCGLhnx3Zfi9F/dUcqxEM8K3o3oTFy9Bh6HCwg=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.min.js" integrity="sha256-vvT7Ok9u6GbfnBPXnbM6FVDEO8E1kTdgHOFZOAXrktA=" crossorigin="anonymous" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/6.0.0/mermaid.min.js" integrity="sha256-Yabf6Mj1TPKd6h4F6z5xRR1/2son0Wg8NhvjYnhcQcY=" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.0.0/mermaid.min.js" integrity="sha256-1uR+pqxH5fN/rOZcZTb9c5+bR3OIYEKzu2sI11Dnj9A=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/js/emojify.min.js" integrity="sha256-VAB5tAlKBvgaxw8oJ1crWMVbdmBVl4mP/2M8MNRl+4E=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js" integrity="sha256-1O3BtOwnPyyRzOszK6P+gqaRoXHV6JXj8HkjZmPYhCI=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.4.1/viz.js" integrity="sha256-U0a9HpXT7zG0N3tVzo58B5S+QXUxo4FdBIjrBMYrxZI=" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/1.7.0/viz.js" integrity="sha256-8t+rndrF+TU4JtelmOH1lDHTMe2ovhO2UbzDArp5lY8=" crossorigin="anonymous" defer></script>
 <%- include build/pretty-scripts %>
 <% } else { %>
 <script src="<%- url %>/build/MathJax/MathJax.js" defer></script>
 <script src="<%- url %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
 <%- include build/pretty-pack-scripts %>
 <% } %>
-<%- include ga %>
+<%- include shared/ga %>

@@ -1,0 +1,13 @@
+<% if(useCDN) { %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.0/velocity.min.js" integrity="sha256-bhm0lgEt6ITaZCDzZpkr/VXVrLa5RP4u9v2AYsbzSUk=" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js" integrity="sha256-WwTza96H3BgcQTfEfxX7MFaFc/dZA0QrPRKDRLdFHJo=" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js" integrity="sha256-HzzZFiY4t0PIv02Tm8/R3CVvLpcjHhO1z/YAUCp4oQ4=" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.min.js" integrity="sha256-vvT7Ok9u6GbfnBPXnbM6FVDEO8E1kTdgHOFZOAXrktA=" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-url/2.3.0/url.min.js" integrity="sha256-HOZJz4x+1mn1Si84WT5XKXPtOlTytmZLnMb6n1v4+5Q=" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.8/validator.min.js" integrity="sha256-LHeY7YoYJ0SSXbCx7sR14Pqna+52moaH3bhv0Mjzd/M=" crossorigin="anonymous" defer></script>
+<%- include ../build/cover-scripts %>
+<% } else { %>
+<%- include ../build/cover-pack-scripts %>
+<% } %>

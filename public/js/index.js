@@ -17,51 +17,58 @@ var _ = require("lodash");
 
 var List = require('list.js');
 
-var common = require('./common.js');
-var urlpath = common.urlpath;
-var noteid = common.noteid;
-var debug = common.debug;
-var version = common.version;
-var GOOGLE_API_KEY = common.GOOGLE_API_KEY;
-var GOOGLE_CLIENT_ID = common.GOOGLE_CLIENT_ID;
-var DROPBOX_APP_KEY = common.DROPBOX_APP_KEY;
-var noteurl = common.noteurl;
+import {
+    checkLoginStateChanged,
+    setloginStateChangeEvent
+} from './lib/common/login';
 
-var checkLoginStateChanged = common.checkLoginStateChanged;
+import {
+    debug,
+    DROPBOX_APP_KEY,
+    GOOGLE_API_KEY,
+    GOOGLE_CLIENT_ID,
+    noteid,
+    noteurl,
+    urlpath,
+    version
+} from './lib/config';
 
-var extra = require('./extra');
-var md = extra.md;
-var updateLastChange = extra.updateLastChange;
-var postProcess = extra.postProcess;
-var finishView = extra.finishView;
-var autoLinkify = extra.autoLinkify;
-var generateToc = extra.generateToc;
-var smoothHashScroll = extra.smoothHashScroll;
-var deduplicatedHeaderId = extra.deduplicatedHeaderId;
-var renderTOC = extra.renderTOC;
-var renderTitle = extra.renderTitle;
-var renderFilename = extra.renderFilename;
-var renderTags = extra.renderTags;
-var isValidURL = extra.isValidURL;
-var scrollToHash = extra.scrollToHash;
-var updateLastChangeUser = extra.updateLastChangeUser;
-var updateOwner = extra.updateOwner;
-var parseMeta = extra.parseMeta;
-var exportToHTML = extra.exportToHTML;
-var exportToRawHTML = extra.exportToRawHTML;
+import {
+    autoLinkify,
+    deduplicatedHeaderId,
+    exportToHTML,
+    exportToRawHTML,
+    finishView,
+    generateToc,
+    isValidURL,
+    md,
+    parseMeta,
+    postProcess,
+    renderFilename,
+    renderTOC,
+    renderTags,
+    renderTitle,
+    scrollToHash,
+    smoothHashScroll,
+    updateLastChange,
+    updateLastChangeUser,
+    updateOwner
+} from './extra';
 
-var syncScroll = require('./syncscroll');
-var setupSyncAreas = syncScroll.setupSyncAreas;
-var clearMap = syncScroll.clearMap;
-var syncScrollToEdit = syncScroll.syncScrollToEdit;
-var syncScrollToView = syncScroll.syncScrollToView;
+import {
+    clearMap,
+    setupSyncAreas,
+    syncScrollToEdit,
+    syncScrollToView
+} from './syncscroll';
 
-var historyModule = require('./history');
-var writeHistory = historyModule.writeHistory;
-var deleteServerHistory = historyModule.deleteServerHistory;
-var getHistory = historyModule.getHistory;
-var saveHistory = historyModule.saveHistory;
-var removeHistory = historyModule.removeHistory;
+import {
+    writeHistory,
+    deleteServerHistory,
+    getHistory,
+    saveHistory,
+    removeHistory
+} from './history';
 
 var renderer = require('./render');
 var preventXSS = renderer.preventXSS;
@@ -401,7 +408,8 @@ window.lastInfo = {
         cursor: {
             line: null,
             ch: null
-        }
+        },
+        selections: null
     },
     view: {
         scroll: {
@@ -963,10 +971,10 @@ function setNeedRefresh() {
     showStatus(statusType.offline);
 }
 
-loginStateChangeEvent = function () {
+setloginStateChangeEvent(function () {
     setRefreshModal('user-state-changed');
     setNeedRefresh();
-};
+});
 
 //visibility
 var wasFocus = false;
@@ -1535,7 +1543,7 @@ ui.toolbar.download.markdown.click(function (e) {
     var blob = new Blob([markdown], {
         type: "text/markdown;charset=utf-8"
     });
-    saveAs(blob, filename);
+    saveAs(blob, filename, true);
 });
 //html
 ui.toolbar.download.html.click(function (e) {
@@ -1915,7 +1923,7 @@ $('#revisionModalDownload').click(function () {
     var blob = new Blob([revision.content], {
         type: "text/markdown;charset=utf-8"
     });
-    saveAs(blob, filename);
+    saveAs(blob, filename, true);
 });
 $('#revisionModalRevert').click(function () {
     if (!revision) return;
@@ -2511,7 +2519,7 @@ var addStyleRule = (function () {
 }());
 function updateAuthorshipInner() {
     // ignore when ot not synced yet
-    if (cmClient && Object.keys(cmClient.state).length > 0) return;
+    if (havePendingOperation()) return;
     authorMarks = {};
     for (var i = 0; i < authorship.length; i++) {
         var atom = authorship[i];
@@ -2668,7 +2676,7 @@ editor.on('update', function () {
     });
     // clear tooltip which described element has been removed
     $('[id^="tooltip"]').each(function (index, element) {
-        $ele = $(element);
+        var $ele = $(element);
         if ($('[aria-describedby="' + $ele.attr('id') + '"]').length <= 0) $ele.remove();
     });
 });
@@ -2726,12 +2734,16 @@ var EditorClient = ot.EditorClient;
 var SocketIOAdapter = ot.SocketIOAdapter;
 var CodeMirrorAdapter = ot.CodeMirrorAdapter;
 var cmClient = null;
+var synchronized_ = null;
+
+function havePendingOperation() {
+    return (cmClient && cmClient.state && cmClient.state.hasOwnProperty('outstanding')) ? true : false;
+}
 
 socket.on('doc', function (obj) {
     var body = obj.str;
     var bodyMismatch = editor.getValue() !== body;
-    var havePendingOperation = cmClient && Object.keys(cmClient.state).length > 0;
-    var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && !havePendingOperation))) || obj.force;
+    var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && !havePendingOperation()))) || obj.force;
 
     saveInfo();
     if (setDoc && bodyMismatch) {
@@ -2756,16 +2768,17 @@ socket.on('doc', function (obj) {
             obj.revision, obj.clients,
             new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
         );
+        synchronized_ = cmClient.state;
     } else if (setDoc) {
         if (bodyMismatch) {
             cmClient.undoManager.undoStack.length = 0;
             cmClient.undoManager.redoStack.length = 0;
         }
         cmClient.revision = obj.revision;
-        cmClient.setState(new ot.Client.Synchronized());
+        cmClient.setState(synchronized_);
         cmClient.initializeClientList();
         cmClient.initializeClients(obj.clients);
-    } else if (havePendingOperation) {
+    } else if (havePendingOperation()) {
         cmClient.serverReconnect();
     }
 
@@ -3387,6 +3400,7 @@ function saveInfo() {
             break;
     }
     lastInfo.edit.cursor = editor.getCursor();
+    lastInfo.edit.selections = editor.listSelections();
     lastInfo.needRestore = true;
 }
 
@@ -3396,6 +3410,7 @@ function restoreInfo() {
         var line = lastInfo.edit.cursor.line;
         var ch = lastInfo.edit.cursor.ch;
         editor.setCursor(line, ch);
+        editor.setSelections(lastInfo.edit.selections);
         switch (currentMode) {
             case modeType.edit:
                 if (scrollbarStyle == 'native') {
@@ -3445,6 +3460,7 @@ function updateViewInner() {
     var value = editor.getValue();
     var lastMeta = md.meta;
     md.meta = {};
+    delete md.metaError;
     var rendered = md.render(value);
     if (md.meta.type && md.meta.type === 'slide') {
         var slideOptions = {
@@ -3716,6 +3732,7 @@ function checkCursorMenuInner() {
     var offsetLeft = 0;
     var offsetTop = defaultTextHeight;
     // set up side down
+    window.upSideDown = false;
     var lastUpSideDown = upSideDown = false;
     // only do when have width and height
     if (width > 0 && height > 0) {
@@ -3944,7 +3961,7 @@ $(editor.getInputField())
             match: /(?:^|\n|\s)(\>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|\:|)\s*\w*)$/,
             search: function (term, callback) {
                 var line = editor.getLine(editor.getCursor().line);
-                quote = line.match(this.match)[1].trim();
+                var quote = line.match(this.match)[1].trim();
                 var list = [];
                 if (quote.indexOf('>') == 0) {
                     $.map(supportExtraTags, function (extratag) {

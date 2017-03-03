@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+var ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 
 module.exports = [Object.assign({}, baseConfig, {
     plugins: baseConfig.plugins.concat([
@@ -11,12 +12,14 @@ module.exports = [Object.assign({}, baseConfig, {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            mangle: false,
-            sourceMap: false
+        new ParallelUglifyPlugin({
+            uglifyJS: {
+                compress: {
+                    warnings: false
+                },
+                mangle: false,
+                sourceMap: false
+            }
         }),
         new ExtractTextPlugin("[name].[hash].css")
     ]),
