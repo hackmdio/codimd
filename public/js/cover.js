@@ -28,6 +28,11 @@ import {
     saveStorageHistoryToServer
 } from './history'
 
+import {
+    getFolders,
+    getNotes
+} from './folder'
+
 import { saveAs } from 'file-saver'
 import List from 'list.js'
 import S from 'string'
@@ -59,6 +64,8 @@ const options = {
   }]
 }
 const historyList = new List('history', options)
+var rootFolderId = null
+var currFolderId = null
 
 window.migrateHistoryFromTempCallback = pageInit
 setloginStateChangeEvent(pageInit)
@@ -68,6 +75,8 @@ pageInit()
 function pageInit () {
   checkIfAuth(
         data => {
+          rootFolderId = data.folderId
+          currFolderId = rootFolderId
           $('.ui-signin').hide()
           $('.ui-or').hide()
           $('.ui-welcome').show()
@@ -75,11 +84,13 @@ function pageInit () {
           else $('.ui-avatar').prop('src', '').hide()
           $('.ui-name').html(data.name)
           $('.ui-signout').show()
-          $('.ui-history').click()
+          $('.ui-folder').click()
           $('.ui-folder').show()
+          getFolders(getFoldersCallback)
           parseServerToHistory(historyList, parseHistoryCallback)
         },
         () => {
+          rootFolderId = null
           $('.ui-signin').show()
           $('.ui-or').show()
           $('.ui-welcome').hide()
@@ -113,6 +124,7 @@ $('.ui-history').click(() => {
   if (!$('#history').is(':visible')) {
     $('.section:visible').hide()
     $('#history').fadeIn()
+    $('.ui-signout').children('a').fadeIn()
   }
 })
 
@@ -120,6 +132,7 @@ $('.ui-folder').click(() => {
   if (!$('#folder').is(':visible')) {
     $('.section:visible').hide()
     $('#folder').fadeIn()
+    $('.ui-signout').children('a').fadeOut()
   }
 })
 
@@ -175,6 +188,96 @@ function parseHistoryCallback (list, notehistory) {
     }
   }
   buildTagsFilter(filtertags)
+}
+
+function getFoldersCallback (folders) {
+  folders.sort(function (a, b) {
+    if (a.text > b.text) return 1
+    if (a.text < b.text) return -1
+    return 0
+  })
+  $('#folder-tree').treeview({
+    color: '#000000',
+    backColor: '#FFFFFF',
+    nodeIcon: 'fa fa-folder',
+    expandIcon: 'fa fa-chevron-right',
+    collapseIcon: 'fa fa-chevron-down',
+    levels: 4,
+    data: [{
+      text: $('#root-folder-title').text(),
+      nodes: folders
+    }],
+    onNodeSelected: function (event, data) {
+      $('#notes').hide()
+      if (data.id) {
+        currFolderId = data.id
+        getNotes(data.id, getNotesCallback)
+        $('#folder-title').html(data.text + ' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target=".folder-modal" data-action="renamefolder" ></i>')
+        $('#folder-title').show()
+        $('#root-folder-title').hide()
+        $('#folder-tool').find('.btn-success').attr('data-source-id', data.id)
+        $('#folder-tool').find('.btn-danger').attr('data-source-id', data.id)
+        $('#folder-tool').find('.btn-success').show()
+        $('#folder-tool').find('.btn-danger').show()
+      } else {
+        currFolderId = rootFolderId
+        getNotes(rootFolderId, getNotesCallback)
+        $('#folder-title').hide()
+        $('#root-folder-title').show()
+        $('#folder-tool').find('.btn-success').hide()
+        $('#folder-tool').find('.btn-danger').hide()
+      }
+    }
+  })
+  $('#folder-tree').on('rendered', function (event, data) {
+    if (currFolderId === rootFolderId) {
+      $('#folder-tree ul li').first().click()
+    } else {
+      $('#folder-tree').find('li[id="' + currFolderId + '"]').click()
+    }
+  })
+}
+
+function getNotesCallback (notes) {
+  $('#folder-empty').hide()
+  if (notes.length > 0) {
+    notes.sort(function (a, b) {
+      if (a.text > b.text) return 1
+      if (a.text < b.text) return -1
+      return 0
+    })
+    $('#notes').html('')
+    notes.forEach(function (note) {
+      var tags = ''
+      note.tag.forEach(function (tag) {
+        tags += '<span class="note label label-default">' + tag + '</span>'
+      })
+      $('#notes').append('<li class="list-group-item node-folder-tree" data-note-id="' + note.id + '" timestamp="' + note.time + '">' +
+          '<span class="note detail">' +
+            '<span class="note icon"><i class="fa fa-file-text"></i></span>' +
+            '<span class="note title" style="font-size: 1.5em;"> ' + note.text + '</span>' +
+            '<span class="note tags">' +
+              tags +
+            '</span>' +
+            '<br>' +
+            '<i><i class="fa fa-clock-o"></i> visited </i>' +
+            '<i class="note fromNow">' + moment(note.time).fromNow() + '</i>' +
+            '<i>, </i>' +
+            '<i class="note lastTime">' + moment(note.time).format('ddd, MMM DD, YYYY h:mm a') + '</i>' +
+          '</span>' +
+          '<span class="note tool">' +
+            '<button class="btn btn-success" data-source-id="' + note.id + '" data-action="movenote" data-toggle="modal" data-target=".folder-modal"><i class="fa fa-exchange"></i></button>' +
+          '</span>' +
+        '</li>')
+    })
+    $('#notes').find('li .detail').on('click', function () {
+      location.href = `${serverurl}/` + $(this).parent().attr('data-note-id')
+    })
+  } else {
+    $('#notes').html('')
+    $('#folder-empty').fadeIn()
+  }
+  $('#notes').fadeIn()
 }
 
 // update items whenever list updated
