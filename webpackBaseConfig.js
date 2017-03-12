@@ -436,5 +436,11 @@ module.exports = {
 
     node: {
         fs: "empty"
+    },
+
+    quiet: false,
+    noInfo: false,
+    stats: {
+        assets: false
     }
 };
