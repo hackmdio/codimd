@@ -103,6 +103,7 @@
     "select2": "^3.5.2-browserify",
     "sequelize": "^3.28.0",
     "sequelize-cli": "^2.5.1",
+    "sequelize-hierarchy": "^1.2.0",
     "shortid": "2.2.6",
     "socket.io": "~1.7.2",
     "socket.io-client": "~1.7.2",
