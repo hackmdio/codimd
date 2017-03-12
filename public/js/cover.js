@@ -94,6 +94,8 @@ $(".masthead-nav li").click(function () {
     $(this).addClass("active");
 });
 
+$(".ui-profile li").unbind("click");
+
 // prevent empty link change hash
 $('a[href="#"]').click(function (e) {
     e.preventDefault();

@@ -27,6 +27,10 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="profileLabel">
                                         <li><a href="<%- url %>/features"><i class="fa fa-dot-circle-o fa-fw"></i> <%= __('Features') %></a></li>
+                                        <li>
+                                          <a href="#" style="text-decoration:none" data-toggle="modal" data-target=".notes-transfer-modal">
+                                          <i class="fa fa-long-arrow-right" aria-hidden="true"></i> <%= __('Notes Transfer') %></a>
+                                        </li>
                                         <li><a href="<%- url %>/logout"><i class="fa fa-sign-out fa-fw"></i> <%= __('Sign Out') %></a></li>
                                     </ul>
                                 </span>
@@ -174,3 +178,4 @@
     </div>
 </div>
 <%- include ../shared/signin-modal %>
+<%- include ../shared/notes-transfer-modal %>

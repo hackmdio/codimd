@@ -28,6 +28,7 @@ var logger = require("./lib/logger.js");
 var auth = require("./lib/auth.js");
 var response = require("./lib/response.js");
 var models = require("./lib/models");
+var note = require("./lib/note.js");
 
 //server setup
 if (config.usessl) {
@@ -310,6 +311,31 @@ if (config.facebook) {
             successReturnToOrRedirect: config.serverurl + '/',
             failureRedirect: config.serverurl + '/'
         }));
+
+    app.get('/transferNotes/facebook', function (req, res, next) {
+        setReturnToFromReferer(req);
+        passport.authenticate('facebook-transferNotes')(req, res, next);
+    });
+    // facebook auth transferNotes callback
+    app.get('/transferNotes/facebook/callback', (req, res, next) => {
+        passport.authenticate('facebook-transferNotes', (err, user, info) => {
+            if (err) return next(err);
+            if (!user) return res.redirect(config.serverurl + '/');
+            if(req.isAuthenticated()) {
+                note.transferAllNotes(models.Note, req.user.id, user.id)
+                .then(() => {
+                    return res.redirect(config.serverurl + '/');
+                }).catch((err) => {
+                    return next(err);
+                });
+            } else {
+                req.logIn(user, function(err) {
+                    if (err) return next(err);
+                    return res.redirect(config.serverurl + '/');
+                });
+            }
+        })(req, res, next);
+    });
 }
 //twitter auth
 if (config.twitter) {
