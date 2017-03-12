@@ -276,8 +276,8 @@ div[contenteditable]:empty:not(:focus):before{
     max-height: 40vh;
     overflow: auto;
 }
-.dropdown-menu.list::-webkit-scrollbar { 
-    display: none; 
+.dropdown-menu.list::-webkit-scrollbar {
+    display: none;
 }
 .dropdown-menu .emoji {
     margin-bottom: 0 !important;
@@ -408,7 +408,8 @@ div[contenteditable]:empty:not(:focus):before{
 .status-bar .status-indicators .status-keymap > a,
 .status-bar .status-indicators .status-theme > a,
 .status-bar .status-indicators .status-spellcheck > a,
-.status-bar .status-indicators .status-preferences > a {
+.status-bar .status-indicators .status-preferences > a,
+.status-bar .status-indicators .status-viewtheme > a {
     color: inherit;
     text-decoration: none;
 }
@@ -481,8 +482,8 @@ div[contenteditable]:empty:not(:focus):before{
     border: 1px solid #2893ef;
 }
 
-.status-bar .indent-width-input::-webkit-inner-spin-button, 
-.status-bar .indent-width-input::-webkit-outer-spin-button { 
+.status-bar .indent-width-input::-webkit-inner-spin-button,
+.status-bar .indent-width-input::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
