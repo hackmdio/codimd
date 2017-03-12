@@ -1,0 +1,184 @@
+body{
+    background-image: url('http://i.imgur.com/9sVCHgS.png');
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 20%;
+    background-color: #E3E3E3 !important;
+}
+/*有字樣大小tag的*/
+
+h1,h2,h3,h4,h5,h6{
+    color: #000000;
+    font-style: oblique;
+    font-weight: bolder;
+    font-family: Courier New, Microsoft JhengHei;
+    text-shadow: 0 3px 5px #969696;
+    
+}
+ul {
+    color: #000000;
+    font-family: Courier New, Microsoft JhengHei;
+    text-shadow: 0 0 15px #FFFFFF;
+    font-weight: bold;
+}
+ul ul {
+    color: #D10000;
+    font-family: Courier New, Microsoft JhengHei;
+    font-style: oblique;
+    text-shadow: 0 0 10px #C9C9C9 !important;
+}
+.alert-info{
+    font-family: Courier New, Microsoft JhengHei;
+    box-shadow: 5px 5px 20px #FFB5B5; 
+    background-color: #303030 ;
+    color: #FFFFFF;
+    font-style: italic;
+    text-shadow: 0 0 0px #96FFFF;
+    border-color: #D10000;
+    border-width: 3px;
+    border-radius: 20px;
+    border-style: inset;
+}
+.task-list-item{
+    color: #0000B8;
+    font-style: normal;
+    text-shadow: 0 0px 5px #96FFFF;
+}
+#ui-toc-affix {
+    font-style: normal !important;
+    text-shadow: none !important;
+    border-width: 2px;
+    border-style: dashed; 
+    background-color: #FFECC9;
+    background-image: url('http://i.imgur.com/Fm7wMuH.png');
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+div.navbar-collapse{
+    background-color: #000000;
+}
+label.btn-default{
+    background-color: #7D7D7D;
+}
+span.label{
+    background-color:#D10000;
+    text-shadow: none !important;
+}
+.ui-new{
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+}
+.ui-new:hover{
+    color: #D10000 !important; 
+    font-size: 110%;
+    text-shadow: none !important;
+}
+.ui-publish{
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+}
+.ui-publish:hover{
+    color: #D10000 !important;
+    font-size: 110%;
+    text-shadow: none !important;
+}
+a[data-toggle="dropdown"]{
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+}
+a[data-toggle="dropdown"]:hover{
+    color: #D10000 !important;
+    text-shadow: none !important;
+    font-size: 110%;
+}
+.dropdown-menu{
+    background-color: #000000 !important;
+}
+.dropdown-header{
+    color: #FFFFFF !important;
+    font-style: normal;
+    text-shadow: none !important;
+}
+a[role="menuitem"]{
+    color: #FFFFFF !important;
+    font-style: normal;
+    text-shadow: none !important;
+}    /*Menu下拉式選單的文字*/
+a[role="menuitem"]:hover{
+    color: #D10000 !important;
+    font-style: normal;
+    font-size: 110%;
+    text-shadow: none !important;
+}
+a[class="navbar-brand pull-left"]{
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+}    
+a[class="navbar-brand pull-left"]:hover{
+    color: #D10000 !important;
+    text-shadow: none !important;
+    font-size: 140%;
+}
+.fa-question-circle{
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+}
+.fa-question-circle:hover{
+    color: #D10000 !important;
+    text-shadow: none !important;
+    font-size: 110%;
+}
+.ui-upload-image{
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+}
+.ui-upload-image:hover{
+    color: #D10000 !important;
+    text-shadow: none !important;
+    font-size: 110%;
+}
+.name{
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+    font-style: normal;
+}    /*線上使用者欄*/
+.name:hover{
+    color: #D10000 !important;
+    text-shadow: none !important;
+    font-style: normal;
+}
+a[class="ui-permission-label text-uppercase disabled"]{
+    color: #000000 !important;
+    text-shadow: none !important;
+    font-style: normal;
+}    /*EDITABLE按鈕*/
+a[smoothhashscroll=""]{
+    color: #D10000 !important;
+    text-shadow: none !important;
+    font-style: normal;
+}    /*右上欄的文字(不包含下面)*/
+a[smoothhashscroll=""]:hover{
+    color: #000000 !important;
+    text-shadow: none !important;
+    font-style: normal;
+}    /*右上欄的文字(不包含下面) 滑鼠移至上方*/
+.ui-toc-dropdown{
+    font-style: normal !important;
+    text-shadow: none !important;
+    border-width: 2px !important;
+    border-style: dashed !important; 
+    background-color: #FFECC9!important;
+    background-image: url('http://i.imgur.com/Fm7wMuH.png');
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}    /*網頁縮小後的右上欄*/
+.ui-toc-label{
+    background-color: #000000 !important;
+}    /*網頁縮小後開啟右上欄的按鈕外框*/
+.fa-bars{
+   color: #D10000 !important;
+}    /*網頁縮小後開啟右上欄的按鈕內框*/
