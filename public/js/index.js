@@ -83,6 +83,7 @@ import getUIElements from './lib/editor/ui-elements'
 
 var defaultTextHeight = 20
 var viewportMargin = 20
+var defaultEditorMode = 'gfm'
 
 var idleTime = 300000 // 5 mins
 var updateViewDebounce = 100
@@ -363,7 +364,9 @@ function updateStatusBar () {
 }
 
 //  initalize ui reference
+// TODO: fix ui exporting
 const ui = getUIElements()
+window.ui = ui
 
 // page actions
 var opts = {

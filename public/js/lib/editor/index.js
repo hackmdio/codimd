@@ -10,7 +10,7 @@ const jumpToAddressBarKeymapName = isMac ? 'Cmd-L' : 'Ctrl-L'
 export default class Editor {
   constructor () {
     this.editor = null
-
+    this.jumpToAddressBarKeymapValue = null
     this.defaultExtraKeys = {
       F10: function (cm) {
         cm.setOption('fullScreen', !cm.getOption('fullScreen'))
@@ -116,8 +116,6 @@ export default class Editor {
         utils.wrapTextWith(this.editor, cm, 'Backspace')
       }
     }
-
-    this.jumpToAddressBarKeymapValue = null
   }
 
   getStatusBarTemplate (callback) {
