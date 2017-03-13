@@ -1,6 +1,8 @@
 HackMD
 ===
 
+[![Standard - JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
 [![Join the chat at https://gitter.im/hackmdio/hackmd][gitter-image]][gitter-url]
 [![build status][travis-image]][travis-url]
 
