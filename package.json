@@ -188,7 +188,8 @@
       "MediaUploader",
       "hex2rgb",
       "num_loaded",
-      "Visibility"
+      "Visibility",
+      "inlineAttachment"
     ],
     "ignore": [
       "lib/ot",
