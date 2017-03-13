@@ -170,6 +170,26 @@
     "webpack-parallel-uglify-plugin": "^0.2.0"
   },
   "standard": {
+    "globals": [
+      "$",
+      "CodeMirror",
+      "Cookies",
+      "moment", "editor",
+      "ui",
+      "Spinner",
+      "modeType",
+      "Idle",
+      "serverurl",
+      "key",
+      "gapi",
+      "Dropbox",
+      "FilePicker",
+      "ot",
+      "MediaUploader",
+      "hex2rgb",
+      "num_loaded",
+      "Visibility"
+    ],
     "ignore": [
       "lib/ot",
       "public/vendor"
