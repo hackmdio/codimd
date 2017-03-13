@@ -9,7 +9,7 @@ You can sign-in via **Facebook**, **Twitter**, **GitHub**, or **Dropbox** in the
 
 Note that this service is still in an early stage, and thus still has some [_issues_](https://github.com/hackmdio/hackmd/issues?q=is%3Aopen+is%3Aissue+label%3Abug).
 Please report new issues in [GitHub](https://github.com/hackmdio/hackmd/issues/new).
-If you need instant help, please send us a [Facebook message](https://www.facebook.com/messages/866415986748945).
+If you need instant help, please send us a [Facebook message](https://www.facebook.com/hackmdio/messages).
 **Thank you very much!**
 
 Workspace
