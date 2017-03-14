@@ -581,7 +581,7 @@ function generateCleanHTML (view) {
     let name = $(value).attr('alt')
     name = name.substr(1)
     name = name.slice(0, name.length - 1)
-    $(value).attr('src', `https://www.tortue.me/emoji/${name}.png`)
+    $(value).attr('src', `https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/${name}.png`)
   })
     // replace video to iframe
   src.find('div[data-videoid]').each((key, value) => {
