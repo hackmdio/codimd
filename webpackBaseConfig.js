@@ -182,7 +182,6 @@ module.exports = {
     'cover-pack': [
       'babel-polyfill',
       'bootstrap-validator',
-      'script!listPagnation',
       'expose?select2!select2',
       'expose?moment!moment',
       'script!js-url',
@@ -365,7 +364,6 @@ module.exports = {
       codemirrorSpellChecker: path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
       codemirrorInlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
       ot: path.join(__dirname, 'public/vendor/ot/ot.min.js'),
-      listPagnation: path.join(__dirname, 'node_modules/list.pagination.js/dist/list.pagination.min.js'),
       mermaid: path.join(__dirname, 'node_modules/mermaid/dist/mermaid.min.js'),
       handlebars: path.join(__dirname, 'node_modules/handlebars/dist/handlebars.min.js'),
       'jquery-ui-resizable': path.join(__dirname, 'public/vendor/jquery-ui/jquery-ui.min.js'),

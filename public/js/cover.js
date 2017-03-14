@@ -54,11 +54,9 @@ const options = {
             '</a>' +
            '</li>',
   page: 18,
-  plugins: [
-    window.ListPagination({
-      outerWindow: 1
-    })
-  ]
+  pagination: [{
+    outerWindow: 1
+  }]
 }
 const historyList = new List('history', options)
 
