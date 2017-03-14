@@ -89,6 +89,10 @@
             "description": "GitLab API client secret",
             "required": false
         },
+        "HMD_GITLAB_SCOPE": {
+            "description": "GitLab API client scope (optional)",
+            "required": false
+        },
         "HMD_DROPBOX_CLIENTID": {
             "description": "Dropbox API client id",
             "required": false

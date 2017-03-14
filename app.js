@@ -335,8 +335,10 @@ if (config.github) {
           successReturnToOrRedirect: config.serverurl + '/',
           failureRedirect: config.serverurl + '/'
         }))
-  // github callback actions
-  app.get('/auth/github/callback/:noteId/:action', response.githubActions)
+  if (!config.gitlab.scope || config.gitlab.scope === 'api') {
+    // gitlab callback actions
+    app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions)
+  }
 }
 // gitlab auth
 if (config.gitlab) {

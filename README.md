@@ -128,6 +128,7 @@ Environment variables (will overwrite other server configs)
 | HMD_TWITTER_CONSUMERSECRET | no example | Twitter API consumer secret |
 | HMD_GITHUB_CLIENTID | no example | GitHub API client id |
 | HMD_GITHUB_CLIENTSECRET | no example | GitHub API client secret |
+| HMD_GITLAB_SCOPE | `read_user` or `api` | GitLab API requested scope (default is `api`) (gitlab snippet import/export need `api` scope) |
 | HMD_GITLAB_BASEURL | no example | GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional) |
 | HMD_GITLAB_CLIENTID | no example | GitLab API client id |
 | HMD_GITLAB_CLIENTSECRET | no example | GitLab API client secret |

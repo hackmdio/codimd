@@ -36,7 +36,8 @@
         "gitlab": {
             "baseURL": "change this",
             "clientID": "change this",
-            "clientSecret": "change this"
+            "clientSecret": "change this",
+            "scope": "use 'read_user' scope for auth user only or remove this property if you need gitlab snippet import/export support (will result to be default scope 'api')"
         },
         "dropbox": {
             "clientID": "change this",
