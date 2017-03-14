@@ -4,7 +4,7 @@
 require('../css/extra.css')
 require('../css/site.css')
 
-import { md, updateLastChange, finishView } from './extra'
+import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
 
 const body = $('.slides').text()
 
@@ -109,6 +109,7 @@ function renderSlide (event) {
   if (window.location.search.match(/print-pdf/gi)) {
     const slides = $('.slides')
     let title = document.title
+    removeDOMEvents(slides)
     finishView(slides)
     document.title = title
     Reveal.layout()
@@ -116,6 +117,7 @@ function renderSlide (event) {
     const markdown = $(event.currentSlide)
     if (!markdown.attr('data-rendered')) {
       let title = document.title
+      removeDOMEvents(markdown)
       finishView(markdown)
       markdown.attr('data-rendered', 'true')
       document.title = title

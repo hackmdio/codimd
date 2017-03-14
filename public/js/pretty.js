@@ -10,6 +10,7 @@ require('highlight.js/styles/github-gist.css')
 import {
     autoLinkify,
     deduplicatedHeaderId,
+    removeDOMEvents,
     finishView,
     generateToc,
     md,
@@ -57,6 +58,7 @@ if (md.meta.type && md.meta.type === 'slide') {
 }
 $(document.body).show()
 
+removeDOMEvents(markdown)
 finishView(markdown)
 autoLinkify(markdown)
 deduplicatedHeaderId(markdown)

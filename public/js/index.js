@@ -42,6 +42,7 @@ import {
     deduplicatedHeaderId,
     exportToHTML,
     exportToRawHTML,
+    removeDOMEvents,
     finishView,
     generateToc,
     isValidURL,
@@ -3374,6 +3375,7 @@ function updateViewInner () {
     if (result && lastResult && result.length !== lastResult.length) { updateDataAttrs(result, ui.area.markdown.children().toArray()) }
     lastResult = $(result).clone()
   }
+  removeDOMEvents(ui.area.markdown)
   finishView(ui.area.markdown)
   autoLinkify(ui.area.markdown)
   deduplicatedHeaderId(ui.area.markdown)
