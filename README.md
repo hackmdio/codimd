@@ -1,7 +1,7 @@
 HackMD
 ===
 
-[![Standard - JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+[![Standard - JavaScript Style Guide][standardjs-image]][standardjs-url]
 
 [![Join the chat at https://gitter.im/hackmdio/hackmd][gitter-image]][gitter-url]
 [![build status][travis-image]][travis-url]
@@ -227,7 +227,10 @@ Additionally, now can show other clients' selections.
 See more at [http://operational-transformation.github.io/](http://operational-transformation.github.io/)
 
 **License under MIT.**
+
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [travis-image]: https://travis-ci.org/hackmdio/hackmd.svg?branch=master
 [travis-url]: https://travis-ci.org/hackmdio/hackmd
+[standardjs-image]: https://cdn.rawgit.com/feross/standard/master/badge.svg
+[standardjs-url]: https://github.com/feross/standard

@@ -78,141 +78,13 @@ import {
 var renderer = require('./render')
 var preventXSS = renderer.preventXSS
 
+import Editor from './lib/editor'
+
+import getUIElements from './lib/editor/ui-elements'
+
 var defaultTextHeight = 20
 var viewportMargin = 20
-var mac = CodeMirror.keyMap['default'] === CodeMirror.keyMap.macDefault
 var defaultEditorMode = 'gfm'
-var defaultExtraKeys = {
-  'F10': function (cm) {
-    cm.setOption('fullScreen', !cm.getOption('fullScreen'))
-  },
-  'Esc': function (cm) {
-    if (cm.getOption('keyMap').substr(0, 3) === 'vim') return CodeMirror.Pass
-    else if (cm.getOption('fullScreen')) cm.setOption('fullScreen', false)
-  },
-  'Cmd-S': function () {
-    return false
-  },
-  'Ctrl-S': function () {
-    return false
-  },
-  'Enter': 'newlineAndIndentContinueMarkdownList',
-  'Tab': function (cm) {
-    var tab = '\t'
-    var spaces = Array(parseInt(cm.getOption('indentUnit')) + 1).join(' ')
-        // auto indent whole line when in list or blockquote
-    var cursor = cm.getCursor()
-    var line = cm.getLine(cursor.line)
-    var regex = /^(\s*)(>[> ]*|[*+-]\s|(\d+)([.)]))/
-    var match
-    var multiple = cm.getSelection().split('\n').length > 1 || cm.getSelections().length > 1
-    if (multiple) {
-      cm.execCommand('defaultTab')
-    } else if ((match = regex.exec(line)) !== null) {
-      var ch = match[1].length
-      var pos = {
-        line: cursor.line,
-        ch: ch
-      }
-      if (cm.getOption('indentWithTabs')) { cm.replaceRange(tab, pos, pos, '+input') } else { cm.replaceRange(spaces, pos, pos, '+input') }
-    } else {
-      if (cm.getOption('indentWithTabs')) { cm.execCommand('defaultTab') } else {
-        cm.replaceSelection(spaces)
-      }
-    }
-  },
-  'Cmd-Left': 'goLineLeftSmart',
-  'Cmd-Right': 'goLineRight',
-  'Ctrl-C': function (cm) {
-    if (!mac && cm.getOption('keyMap').substr(0, 3) === 'vim') document.execCommand('copy')
-    else return CodeMirror.Pass
-  },
-  'Ctrl-*': function (cm) {
-    wrapTextWith(cm, '*')
-  },
-  'Shift-Ctrl-8': function (cm) {
-    wrapTextWith(cm, '*')
-  },
-  'Ctrl-_': function (cm) {
-    wrapTextWith(cm, '_')
-  },
-  'Shift-Ctrl--': function (cm) {
-    wrapTextWith(cm, '_')
-  },
-  'Ctrl-~': function (cm) {
-    wrapTextWith(cm, '~')
-  },
-  'Shift-Ctrl-`': function (cm) {
-    wrapTextWith(cm, '~')
-  },
-  'Ctrl-^': function (cm) {
-    wrapTextWith(cm, '^')
-  },
-  'Shift-Ctrl-6': function (cm) {
-    wrapTextWith(cm, '^')
-  },
-  'Ctrl-+': function (cm) {
-    wrapTextWith(cm, '+')
-  },
-  'Shift-Ctrl-=': function (cm) {
-    wrapTextWith(cm, '+')
-  },
-  'Ctrl-=': function (cm) {
-    wrapTextWith(cm, '=')
-  },
-  'Shift-Ctrl-Backspace': function (cm) {
-    wrapTextWith(cm, 'Backspace')
-  }
-}
-
-var wrapSymbols = ['*', '_', '~', '^', '+', '=']
-
-function wrapTextWith (cm, symbol) {
-  if (!cm.getSelection()) {
-    return CodeMirror.Pass
-  } else {
-    var ranges = cm.listSelections()
-    for (var i = 0; i < ranges.length; i++) {
-      var range = ranges[i]
-      if (!range.empty()) {
-        var from = range.from()
-        var to = range.to()
-        if (symbol !== 'Backspace') {
-          cm.replaceRange(symbol, to, to, '+input')
-          cm.replaceRange(symbol, from, from, '+input')
-                    // workaround selection range not correct after add symbol
-          var _ranges = cm.listSelections()
-          var anchorIndex = window.editor.indexFromPos(_ranges[i].anchor)
-          var headIndex = window.editor.indexFromPos(_ranges[i].head)
-          if (anchorIndex > headIndex) {
-            _ranges[i].anchor.ch--
-          } else {
-            _ranges[i].head.ch--
-          }
-          cm.setSelections(_ranges)
-        } else {
-          var preEndPos = {
-            line: to.line,
-            ch: to.ch + 1
-          }
-          var preText = cm.getRange(to, preEndPos)
-          var preIndex = wrapSymbols.indexOf(preText)
-          var postEndPos = {
-            line: from.line,
-            ch: from.ch - 1
-          }
-          var postText = cm.getRange(postEndPos, from)
-          var postIndex = wrapSymbols.indexOf(postText)
-                    // check if surround symbol are list in array and matched
-          if (preIndex > -1 && postIndex > -1 && preIndex === postIndex) {
-            cm.replaceRange('', to, preEndPos, '+delete')
-            cm.replaceRange('', postEndPos, from, '+delete')
-          }
-        }
-      }
-    }
-  }
-}
 
 var idleTime = 300000 // 5 mins
 var updateViewDebounce = 100
@@ -435,343 +307,23 @@ window.fileTypes = {
 
 // editor settings
 var textit = document.getElementById('textit')
-if (!textit) throw new Error('There was no textit area!')
-window.editor = CodeMirror.fromTextArea(textit, {
-  mode: defaultEditorMode,
-  backdrop: defaultEditorMode,
-  keyMap: 'sublime',
-  viewportMargin: viewportMargin,
-  styleActiveLine: true,
-  lineNumbers: true,
-  lineWrapping: true,
-  showCursorWhenSelecting: true,
-  highlightSelectionMatches: true,
-  indentUnit: 4,
-  continueComments: 'Enter',
-  theme: 'one-dark',
-  inputStyle: 'textarea',
-  matchBrackets: true,
-  autoCloseBrackets: true,
-  matchTags: {
-    bothTags: true
-  },
-  autoCloseTags: true,
-  foldGutter: true,
-  gutters: ['CodeMirror-linenumbers', 'authorship-gutters', 'CodeMirror-foldgutter'],
-  extraKeys: defaultExtraKeys,
-  flattenSpans: true,
-  addModeClass: true,
-  readOnly: true,
-  autoRefresh: true,
-  otherCursors: true,
-  placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
-})
-var inlineAttach = window.inlineAttachment.editors.codemirror4.attach(editor)
+if (!textit) {
+  throw new Error('There was no textit area!')
+}
+
+const editorInstance = new Editor()
+var editor = editorInstance.init(textit)
+
+// TODO: global referncing in jquery-textcomplete patch
+window.editor = editor
+
+var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor)
 defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
-
-var statusBarTemplate = null
-var statusBar = null
-var statusCursor = null
-var statusFile = null
-var statusIndicators = null
-var statusLength = null
-var statusTheme = null
-var statusSpellcheck = null
-
-function getStatusBarTemplate (callback) {
-  $.get(serverurl + '/views/statusbar.html', function (template) {
-    statusBarTemplate = template
-    if (callback) callback()
-  })
-}
-getStatusBarTemplate()
-
-function addStatusBar () {
-  if (!statusBarTemplate) {
-    getStatusBarTemplate(addStatusBar)
-    return
-  }
-  statusBar = $(statusBarTemplate)
-  statusCursor = statusBar.find('.status-cursor')
-  statusFile = statusBar.find('.status-file')
-  statusIndicators = statusBar.find('.status-indicators')
-  statusBar.find('.status-indent')
-  statusBar.find('.status-keymap')
-  statusLength = statusBar.find('.status-length')
-  statusTheme = statusBar.find('.status-theme')
-  statusSpellcheck = statusBar.find('.status-spellcheck')
-  statusBar.find('.status-preferences')
-  editor.addPanel(statusBar[0], {
-    position: 'bottom'
-  })
-
-  setIndent()
-  setKeymap()
-  setTheme()
-  setSpellcheck()
-  setPreferences()
-}
-
-function setIndent () {
-  var cookieIndentType = Cookies.get('indent_type')
-  var cookieTabSize = parseInt(Cookies.get('tab_size'))
-  var cookieSpaceUnits = parseInt(Cookies.get('space_units'))
-  if (cookieIndentType) {
-    if (cookieIndentType === 'tab') {
-      editor.setOption('indentWithTabs', true)
-      if (cookieTabSize) { editor.setOption('indentUnit', cookieTabSize) }
-    } else if (cookieIndentType === 'space') {
-      editor.setOption('indentWithTabs', false)
-      if (cookieSpaceUnits) { editor.setOption('indentUnit', cookieSpaceUnits) }
-    }
-  }
-  if (cookieTabSize) { editor.setOption('tabSize', cookieTabSize) }
-
-  var type = statusIndicators.find('.indent-type')
-  var widthLabel = statusIndicators.find('.indent-width-label')
-  var widthInput = statusIndicators.find('.indent-width-input')
-
-  function setType () {
-    if (editor.getOption('indentWithTabs')) {
-      Cookies.set('indent_type', 'tab', {
-        expires: 365
-      })
-      type.text('Tab Size:')
-    } else {
-      Cookies.set('indent_type', 'space', {
-        expires: 365
-      })
-      type.text('Spaces:')
-    }
-  }
-  setType()
-
-  function setUnit () {
-    var unit = editor.getOption('indentUnit')
-    if (editor.getOption('indentWithTabs')) {
-      Cookies.set('tab_size', unit, {
-        expires: 365
-      })
-    } else {
-      Cookies.set('space_units', unit, {
-        expires: 365
-      })
-    }
-    widthLabel.text(unit)
-  }
-  setUnit()
-
-  type.click(function () {
-    if (editor.getOption('indentWithTabs')) {
-      editor.setOption('indentWithTabs', false)
-      cookieSpaceUnits = parseInt(Cookies.get('space_units'))
-      if (cookieSpaceUnits) { editor.setOption('indentUnit', cookieSpaceUnits) }
-    } else {
-      editor.setOption('indentWithTabs', true)
-      cookieTabSize = parseInt(Cookies.get('tab_size'))
-      if (cookieTabSize) {
-        editor.setOption('indentUnit', cookieTabSize)
-        editor.setOption('tabSize', cookieTabSize)
-      }
-    }
-    setType()
-    setUnit()
-  })
-  widthLabel.click(function () {
-    if (widthLabel.is(':visible')) {
-      widthLabel.addClass('hidden')
-      widthInput.removeClass('hidden')
-      widthInput.val(editor.getOption('indentUnit'))
-      widthInput.select()
-    } else {
-      widthLabel.removeClass('hidden')
-      widthInput.addClass('hidden')
-    }
-  })
-  widthInput.on('change', function () {
-    var val = parseInt(widthInput.val())
-    if (!val) val = editor.getOption('indentUnit')
-    if (val < 1) val = 1
-    else if (val > 10) val = 10
-
-    if (editor.getOption('indentWithTabs')) {
-      editor.setOption('tabSize', val)
-    }
-    editor.setOption('indentUnit', val)
-    setUnit()
-  })
-  widthInput.on('blur', function () {
-    widthLabel.removeClass('hidden')
-    widthInput.addClass('hidden')
-  })
-}
-
-function setKeymap () {
-  var cookieKeymap = Cookies.get('keymap')
-  if (cookieKeymap) { editor.setOption('keyMap', cookieKeymap) }
-
-  var label = statusIndicators.find('.ui-keymap-label')
-  var sublime = statusIndicators.find('.ui-keymap-sublime')
-  var emacs = statusIndicators.find('.ui-keymap-emacs')
-  var vim = statusIndicators.find('.ui-keymap-vim')
-
-  function setKeymapLabel () {
-    var keymap = editor.getOption('keyMap')
-    Cookies.set('keymap', keymap, {
-      expires: 365
-    })
-    label.text(keymap)
-    restoreOverrideEditorKeymap()
-    setOverrideBrowserKeymap()
-  }
-  setKeymapLabel()
-
-  sublime.click(function () {
-    editor.setOption('keyMap', 'sublime')
-    setKeymapLabel()
-  })
-  emacs.click(function () {
-    editor.setOption('keyMap', 'emacs')
-    setKeymapLabel()
-  })
-  vim.click(function () {
-    editor.setOption('keyMap', 'vim')
-    setKeymapLabel()
-  })
-}
-
-function setTheme () {
-  var cookieTheme = Cookies.get('theme')
-  if (cookieTheme) {
-    editor.setOption('theme', cookieTheme)
-  }
-
-  var themeToggle = statusTheme.find('.ui-theme-toggle')
-  themeToggle.click(function () {
-    var theme = editor.getOption('theme')
-    if (theme === 'one-dark') {
-      theme = 'default'
-    } else {
-      theme = 'one-dark'
-    }
-    editor.setOption('theme', theme)
-    Cookies.set('theme', theme, {
-      expires: 365
-    })
-    checkTheme()
-  })
-  function checkTheme () {
-    var theme = editor.getOption('theme')
-    if (theme === 'one-dark') {
-      themeToggle.removeClass('active')
-    } else {
-      themeToggle.addClass('active')
-    }
-  }
-  checkTheme()
-}
-
-function setSpellcheck () {
-  var cookieSpellcheck = Cookies.get('spellcheck')
-  if (cookieSpellcheck) {
-    var mode = null
-    if (cookieSpellcheck === 'true' || cookieSpellcheck === true) {
-      mode = 'spell-checker'
-    } else {
-      mode = defaultEditorMode
-    }
-    if (mode && mode !== editor.getOption('mode')) {
-      editor.setOption('mode', mode)
-    }
-  }
-
-  var spellcheckToggle = statusSpellcheck.find('.ui-spellcheck-toggle')
-  spellcheckToggle.click(function () {
-    var mode = editor.getOption('mode')
-    if (mode === defaultEditorMode) {
-      mode = 'spell-checker'
-    } else {
-      mode = defaultEditorMode
-    }
-    if (mode && mode !== editor.getOption('mode')) {
-      editor.setOption('mode', mode)
-    }
-    Cookies.set('spellcheck', (mode === 'spell-checker'), {
-      expires: 365
-    })
-    checkSpellcheck()
-  })
-  function checkSpellcheck () {
-    var mode = editor.getOption('mode')
-    if (mode === defaultEditorMode) {
-      spellcheckToggle.removeClass('active')
-    } else {
-      spellcheckToggle.addClass('active')
-    }
-  }
-  checkSpellcheck()
-
-  // workaround spellcheck might not activate beacuse the ajax loading
-  /* eslint-disable camelcase */
-  if (num_loaded < 2) {
-    var spellcheckTimer = setInterval(function () {
-      if (num_loaded >= 2) {
-        if (editor.getOption('mode') === 'spell-checker') { editor.setOption('mode', 'spell-checker') }
-        clearInterval(spellcheckTimer)
-      }
-    }, 100)
-  }
-  /* eslint-endable camelcase */
-}
-
-var jumpToAddressBarKeymapName = mac ? 'Cmd-L' : 'Ctrl-L'
-var jumpToAddressBarKeymapValue = null
-function resetEditorKeymapToBrowserKeymap () {
-  var keymap = editor.getOption('keyMap')
-  if (!jumpToAddressBarKeymapValue) {
-    jumpToAddressBarKeymapValue = CodeMirror.keyMap[keymap][jumpToAddressBarKeymapName]
-    delete CodeMirror.keyMap[keymap][jumpToAddressBarKeymapName]
-  }
-}
-function restoreOverrideEditorKeymap () {
-  var keymap = editor.getOption('keyMap')
-  if (jumpToAddressBarKeymapValue) {
-    CodeMirror.keyMap[keymap][jumpToAddressBarKeymapName] = jumpToAddressBarKeymapValue
-    jumpToAddressBarKeymapValue = null
-  }
-}
-function setOverrideBrowserKeymap () {
-  var overrideBrowserKeymap = $('.ui-preferences-override-browser-keymap label > input[type="checkbox"]')
-  if (overrideBrowserKeymap.is(':checked')) {
-    Cookies.set('preferences-override-browser-keymap', true, {
-      expires: 365
-    })
-    restoreOverrideEditorKeymap()
-  } else {
-    Cookies.remove('preferences-override-browser-keymap')
-    resetEditorKeymapToBrowserKeymap()
-  }
-}
-
-function setPreferences () {
-  var overrideBrowserKeymap = $('.ui-preferences-override-browser-keymap label > input[type="checkbox"]')
-  var cookieOverrideBrowserKeymap = Cookies.get('preferences-override-browser-keymap')
-  if (cookieOverrideBrowserKeymap && cookieOverrideBrowserKeymap === 'true') {
-    overrideBrowserKeymap.prop('checked', true)
-  } else {
-    overrideBrowserKeymap.prop('checked', false)
-  }
-  setOverrideBrowserKeymap()
-
-  overrideBrowserKeymap.change(function () {
-    setOverrideBrowserKeymap()
-  })
-}
 
 var selection = null
 
 function updateStatusBar () {
-  if (!statusBar) return
+  if (!editorInstance.statusBar) return
   var cursor = editor.getCursor()
   var cursorText = 'Line ' + (cursor.line + 1) + ', Columns ' + (cursor.ch + 1)
   if (selection) {
@@ -781,112 +333,41 @@ function updateStatusBar () {
     var end = head.line >= anchor.line ? head : anchor
     var selectionText = ' — Selected '
     var selectionCharCount = Math.abs(head.ch - anchor.ch)
-        // borrow from brackets EditorStatusBar.js
+      // borrow from brackets EditorStatusBar.js
     if (start.line !== end.line) {
       var lines = end.line - start.line + 1
       if (end.ch === 0) {
         lines--
       }
       selectionText += lines + ' lines'
-    } else if (selectionCharCount > 0) { selectionText += selectionCharCount + ' columns' }
-    if (start.line !== end.line || selectionCharCount > 0) { cursorText += selectionText }
+    } else if (selectionCharCount > 0) {
+      selectionText += selectionCharCount + ' columns'
+    }
+    if (start.line !== end.line || selectionCharCount > 0) {
+      cursorText += selectionText
+    }
   }
-  statusCursor.text(cursorText)
+  editorInstance.statusCursor.text(cursorText)
   var fileText = ' — ' + editor.lineCount() + ' Lines'
-  statusFile.text(fileText)
+  editorInstance.statusFile.text(fileText)
   var docLength = editor.getValue().length
-  statusLength.text('Length ' + docLength)
+  editorInstance.statusLength.text('Length ' + docLength)
   if (docLength > (docmaxlength * 0.95)) {
-    statusLength.css('color', 'red')
-    statusLength.attr('title', 'Your almost reach note max length limit.')
+    editorInstance.statusLength.css('color', 'red')
+    editorInstance.statusLength.attr('title', 'Your almost reach note max length limit.')
   } else if (docLength > (docmaxlength * 0.8)) {
-    statusLength.css('color', 'orange')
-    statusLength.attr('title', 'You nearly fill the note, consider to make more pieces.')
+    editorInstance.statusLength.css('color', 'orange')
+    editorInstance.statusLength.attr('title', 'You nearly fill the note, consider to make more pieces.')
   } else {
-    statusLength.css('color', 'white')
-    statusLength.attr('title', 'You could write up to ' + docmaxlength + ' characters in this note.')
+    editorInstance.statusLength.css('color', 'white')
+    editorInstance.statusLength.attr('title', 'You could write up to ' + docmaxlength + ' characters in this note.')
   }
 }
 
-// ui vars
-window.ui = {
-  spinner: $('.ui-spinner'),
-  content: $('.ui-content'),
-  toolbar: {
-    shortStatus: $('.ui-short-status'),
-    status: $('.ui-status'),
-    new: $('.ui-new'),
-    publish: $('.ui-publish'),
-    extra: {
-      revision: $('.ui-extra-revision'),
-      slide: $('.ui-extra-slide')
-    },
-    download: {
-      markdown: $('.ui-download-markdown'),
-      html: $('.ui-download-html'),
-      rawhtml: $('.ui-download-raw-html'),
-      pdf: $('.ui-download-pdf-beta')
-    },
-    export: {
-      dropbox: $('.ui-save-dropbox'),
-      googleDrive: $('.ui-save-google-drive'),
-      gist: $('.ui-save-gist'),
-      snippet: $('.ui-save-snippet')
-    },
-    import: {
-      dropbox: $('.ui-import-dropbox'),
-      googleDrive: $('.ui-import-google-drive'),
-      gist: $('.ui-import-gist'),
-      snippet: $('.ui-import-snippet'),
-      clipboard: $('.ui-import-clipboard')
-    },
-    mode: $('.ui-mode'),
-    edit: $('.ui-edit'),
-    view: $('.ui-view'),
-    both: $('.ui-both'),
-    uploadImage: $('.ui-upload-image')
-  },
-  infobar: {
-    lastchange: $('.ui-lastchange'),
-    lastchangeuser: $('.ui-lastchangeuser'),
-    nolastchangeuser: $('.ui-no-lastchangeuser'),
-    permission: {
-      permission: $('.ui-permission'),
-      label: $('.ui-permission-label'),
-      freely: $('.ui-permission-freely'),
-      editable: $('.ui-permission-editable'),
-      locked: $('.ui-permission-locked'),
-      private: $('.ui-permission-private'),
-      limited: $('.ui-permission-limited'),
-      protected: $('.ui-permission-protected')
-    },
-    delete: $('.ui-delete-note')
-  },
-  toc: {
-    toc: $('.ui-toc'),
-    affix: $('.ui-affix-toc'),
-    label: $('.ui-toc-label'),
-    dropdown: $('.ui-toc-dropdown')
-  },
-  area: {
-    edit: $('.ui-edit-area'),
-    view: $('.ui-view-area'),
-    codemirror: $('.ui-edit-area .CodeMirror'),
-    codemirrorScroll: $('.ui-edit-area .CodeMirror .CodeMirror-scroll'),
-    codemirrorSizer: $('.ui-edit-area .CodeMirror .CodeMirror-sizer'),
-    codemirrorSizerInner: $('.ui-edit-area .CodeMirror .CodeMirror-sizer > div'),
-    markdown: $('.ui-view-area .markdown-body'),
-    resize: {
-      handle: $('.ui-resizable-handle'),
-      syncToggle: $('.ui-sync-toggle')
-    }
-  },
-  modal: {
-    snippetImportProjects: $('#snippetImportModalProjects'),
-    snippetImportSnippets: $('#snippetImportModalSnippets'),
-    revision: $('#revisionModal')
-  }
-}
+//  initalize ui reference
+// TODO: fix ui exporting
+const ui = getUIElements()
+window.ui = ui
 
 // page actions
 var opts = {
@@ -1135,7 +616,7 @@ var lastEditorWidth = 0
 var previousFocusOnEditor = null
 
 function checkEditorStyle () {
-  var desireHeight = statusBar ? (ui.area.edit.height() - statusBar.outerHeight()) : ui.area.edit.height()
+  var desireHeight = editorInstance.statusBar ? (ui.area.edit.height() - editorInstance.statusBar.outerHeight()) : ui.area.edit.height()
     // set editor height and min height based on scrollbar style and mode
   var scrollbarStyle = editor.getOption('scrollbarStyle')
   if (scrollbarStyle === 'overlay' || window.currentMode === modeType.both) {
@@ -1369,12 +850,12 @@ function changeMode (type) {
   }
   if (window.currentMode === modeType.edit || window.currentMode === modeType.both) {
     ui.toolbar.uploadImage.fadeIn()
-        // add and update status bar
-    if (!statusBar) {
-      addStatusBar()
+      // add and update status bar
+    if (!editorInstance.statusBar) {
+      editorInstance.addStatusBar()
       updateStatusBar()
     }
-        // work around foldGutter might not init properly
+      // work around foldGutter might not init properly
     editor.setOption('foldGutter', false)
     editor.setOption('foldGutter', true)
   } else {
@@ -1388,7 +869,11 @@ function changeMode (type) {
   }
     // check resizable editor style
   if (window.currentMode === modeType.both) {
-    if (lastEditorWidth > 0) { ui.area.edit.css('width', lastEditorWidth + 'px') } else { ui.area.edit.css('width', '') }
+    if (lastEditorWidth > 0) {
+      ui.area.edit.css('width', lastEditorWidth + 'px')
+    } else {
+      ui.area.edit.css('width', '')
+    }
     ui.area.resize.handle.show()
   } else {
     ui.area.edit.css('width', '')
@@ -3924,6 +3409,6 @@ $(editor.getInputField())
       },
       'textComplete:hide': function (e) {
         $(this).data('autocompleting', false)
-        editor.setOption('extraKeys', defaultExtraKeys)
+        editor.setOption('extraKeys', editorInstance.defaultExtraKeys)
       }
     })
