@@ -29,6 +29,22 @@ var auth = require('./lib/auth.js')
 var response = require('./lib/response.js')
 var models = require('./lib/models')
 
+// generate front-end constants by template
+var constpath = path.join(__dirname, './public/js/lib/common/constant.ejs')
+var data = {
+  domain: config.domain,
+  urlpath: config.urlpath,
+  debug: config.debug,
+  version: config.version,
+  GOOGLE_API_KEY: config.google && config.google.GOOGLE_API_KEY,
+  GOOGLE_CLIENT_ID: config.google && config.google.GOOGLE_CLIENT_ID,
+  DROPBOX_APP_KEY: config.dropbox && config.google.DROPBOX_APP_KEY
+}
+ejs.renderFile(constpath, data, {}, function (err, str) {
+  if (err) throw new Error(err)
+  fs.writeFileSync(path.join(__dirname, './public/build/constant.js'), str)
+})
+
 // server setup
 var app = express()
 var server = null

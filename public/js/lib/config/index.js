@@ -1,14 +1,10 @@
-import configJson from '../../../../config.json' // root path json config
+export const GOOGLE_API_KEY = window.GOOGLE_API_KEY || ''
+export const GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID || ''
+export const DROPBOX_APP_KEY = window.DROPBOX_APP_KEY || ''
 
-const config = process.env.NODE_ENV === 'production' ? configJson.production : configJson.development
-
-export const GOOGLE_API_KEY = (config.google && config.google.apiKey) || ''
-export const GOOGLE_CLIENT_ID = (config.google && config.google.clientID) || ''
-export const DROPBOX_APP_KEY = (config.dropbox && config.dropbox.appKey) || ''
-
-export const domain = config.domain || '' // domain name
-export const urlpath = config.urlpath || '' // sub url path, like: www.example.com/<urlpath>
-export const debug = config.debug || false
+export const domain = window.domain || '' // domain name
+export const urlpath = window.urlpath || '' // sub url path, like: www.example.com/<urlpath>
+export const debug = window.debug || false
 
 export const port = window.location.port
 export const serverurl = `${window.location.protocol}//${domain || window.location.hostname}${port ? ':' + port : ''}${urlpath ? '/' + urlpath : ''}`
@@ -16,4 +12,4 @@ window.serverurl = serverurl
 export const noteid = urlpath ? window.location.pathname.slice(urlpath.length + 1, window.location.pathname.length).split('/')[1] : window.location.pathname.split('/')[1]
 export const noteurl = `${serverurl}/${noteid}`
 
-export const version = '0.5.0'
+export const version = window.version
