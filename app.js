@@ -36,9 +36,9 @@ var data = {
   urlpath: config.urlpath,
   debug: config.debug,
   version: config.version,
-  GOOGLE_API_KEY: config.google && config.google.GOOGLE_API_KEY,
-  GOOGLE_CLIENT_ID: config.google && config.google.GOOGLE_CLIENT_ID,
-  DROPBOX_APP_KEY: config.dropbox && config.google.DROPBOX_APP_KEY
+  GOOGLE_API_KEY: config.google ? config.google.GOOGLE_API_KEY : '',
+  GOOGLE_CLIENT_ID: config.google ? config.google.GOOGLE_CLIENT_ID : '',
+  DROPBOX_APP_KEY: config.dropbox ? config.dropbox.DROPBOX_APP_KEY : ''
 }
 ejs.renderFile(constpath, data, {}, function (err, str) {
   if (err) throw new Error(err)
