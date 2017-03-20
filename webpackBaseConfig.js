@@ -170,7 +170,9 @@ module.exports = {
     ],
     cover: [
       'babel-polyfill',
-      path.join(__dirname, 'public/js/cover.js')
+      path.join(__dirname, 'public/js/cover.js'),
+      path.join(__dirname, 'node_modules/patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.js'),
+      path.join(__dirname, 'node_modules/patternfly-bootstrap-treeview/dist/bootstrap-treeview.min.css')
     ],
     'cover-styles-pack': [
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),

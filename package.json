@@ -91,6 +91,7 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "passport.socketio": "^3.7.0",
+    "patternfly-bootstrap-treeview": "^2.1.1",
     "pdfobject": "^2.0.201604172",
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
