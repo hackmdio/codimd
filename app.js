@@ -648,6 +648,7 @@ process.on('uncaughtException', function (err) {
 
 // install exit handler
 function handleTermSignals () {
+  logger.info('hackmd has been killed by signal, try to exit gracefully...')
   config.maintenance = true
   // disconnect all socket.io clients
   Object.keys(io.sockets.sockets).forEach(function (key) {
