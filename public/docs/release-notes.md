@@ -1,6 +1,52 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 0.5.1 `Doppio` <i class="fa fa-clock-o"></i> 2017-03-23 00:20
+---
+### Enhancements
+* Update to indicate version in status API header
+* Update to generate front-end constants on server startup
+* Update to add gitlab api scope option and auto adapt gitlab snippet feature on it
+* Update to add default permission config option
+* Update to add basics for secret management by Docker 1.13
+* Update webpack config to use parallel uglify plugin to speed up production build
+* Update realtime to use timer to avoid memory leaks on busy tick
+* Update to remove history cache to lower application coupling
+* Update to add screenshot on index page
+* Update index layout to add profile on navbar
+* Update to support allow email register option
+* Update to support disable anonymous view option
+* Update to add limited and protected permission
+* Update to allow displaying LDAP provider name on sign-in modal
+* Update to show yaml-metadata and diagram parsing error in the view
+
+### Fixes
+* Fix XSS vulnerability in link regex [Security Issue]
+* Fix todo list item class might add in wrong element
+* Fix pagination error in list.js over v1.5.0
+* Fix update doc from filesystem cause redundant authorship stringify
+* Fix export html to replace fallen cdn tortue.me to cdnjs
+* Fix rendering might result XSS attribute on self closing tag [Security Issue]
+* Fix out of sync when deleting on same cursor position on several clients
+* Fix not determine OT have pending operations properly
+* Fix to keep selections on save and restore info
+* Fix image path problem when using filesystem backend
+* Fix meta error not clear on before rendering
+* Fix duplicated headers anchor link not been updated properly
+* Fix checkLoginStateChanged might fall into infinite loop while calling loginStateChangeEvent
+* Fix to workaround text shadow for font antialias might cause cut off in Edge
+* Fix and refactor extracting content using metaMarked directly might lead in invalid object
+
+### Refactors
+* Refactor editor related code
+* Refactor code with JavaScript Standard Style
+* Refactor templates, partials and rearrange its path
+* Refactor front-end code with more modular concepts
+* Refactor front-end code using ES6 (also unify configs to `config.json`)
+
+### Removes
+- Removed UTF-8 BOM in download function
+
 <i class="fa fa-tag"></i> 0.5.0 `Ristretto` <i class="fa fa-clock-o"></i> 2017-01-02 02:35
 ---
 ### Enhancements
