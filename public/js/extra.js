@@ -67,7 +67,7 @@ window.owner = null
 window.ownerprofile = null
 
 export function updateOwner () {
-  if (window.ownerui) {
+  if (ownerui) {
     if (window.owner && window.ownerprofile && window.owner !== window.lastchangeuser) {
       const icon = ownerui.children('i')
       icon.attr('title', window.ownerprofile.name).tooltip('fixTitle')
