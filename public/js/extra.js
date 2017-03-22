@@ -253,7 +253,11 @@ export function finishView (view) {
     if (/^\s*\[[x ]\]\s*/.test(html)) {
       li.innerHTML = html.replace(/^\s*\[ \]\s*/, `<input type="checkbox" class="task-list-item-checkbox "${disabled}><label></label>`)
                 .replace(/^\s*\[x\]\s*/, `<input type="checkbox" class="task-list-item-checkbox" checked ${disabled}><label></label>`)
-      li.setAttribute('class', 'task-list-item')
+      if (li.tagName.toLowerCase() !== 'li') {
+        li.parentElement.setAttribute('class', 'task-list-item')
+      } else {
+        li.setAttribute('class', 'task-list-item')
+      }
     }
     if (typeof editor !== 'undefined' && window.havePermission()) { $(li).find('input').change(toggleTodoEvent) }
         // color tag in list will convert it to tag icon with color
