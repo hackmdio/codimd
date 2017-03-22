@@ -672,3 +672,4 @@ function handleTermSignals () {
 }
 process.on('SIGINT', handleTermSignals)
 process.on('SIGTERM', handleTermSignals)
+process.on('SIGQUIT', handleTermSignals)
