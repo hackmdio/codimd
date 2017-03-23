@@ -1126,7 +1126,8 @@ ui.toolbar.import.dropbox.click(function () {
 })
 // import from google drive
 function buildImportFromGoogleDrive () {
-  FilePicker({
+  /* eslint-disable no-unused-vars */
+  let picker = new FilePicker({
     apiKey: GOOGLE_API_KEY,
     clientId: GOOGLE_CLIENT_ID,
     buttonEl: ui.toolbar.import.googleDrive,
@@ -1153,6 +1154,7 @@ function buildImportFromGoogleDrive () {
       }
     }
   })
+  /* eslint-enable no-unused-vars */
 }
 // import from gist
 ui.toolbar.import.gist.click(function () {
