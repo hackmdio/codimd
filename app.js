@@ -30,15 +30,19 @@ var response = require('./lib/response.js')
 var models = require('./lib/models')
 
 // generate front-end constants by template
+var configJson = config.raw
 var constpath = path.join(__dirname, './public/js/lib/common/constant.ejs')
+var googleApiKey = (fs.existsSync('/run/secrets/google_apiKey') && config.handleDockerSecret('google_apiKey')) || process.env.HMD_GOOGLE_API_KEY || (configJson.google && configJson.google.apiKey) || ''
+var googleClientID = (fs.existsSync('/run/secrets/google_clientID') && config.handleDockerSecret('google_clientID')) || process.env.HMD_GOOGLE_CLIENT_ID || (configJson.google && configJson.google.clientID) || ''
+var dropboxAppKey = (fs.existsSync('/run/secrets/dropbox_appKey') && config.handleDockerSecret('dropbox_appKey')) || process.env.HMD_DROPBOX_APP_KEY || (configJson.dropbox && configJson.dropbox.appKey) || ''
 var data = {
   domain: config.domain,
   urlpath: config.urlpath,
   debug: config.debug,
   version: config.version,
-  GOOGLE_API_KEY: config.google ? config.google.GOOGLE_API_KEY : '',
-  GOOGLE_CLIENT_ID: config.google ? config.google.GOOGLE_CLIENT_ID : '',
-  DROPBOX_APP_KEY: config.dropbox ? config.dropbox.DROPBOX_APP_KEY : ''
+  GOOGLE_API_KEY: googleApiKey,
+  GOOGLE_CLIENT_ID: googleClientID,
+  DROPBOX_APP_KEY: dropboxAppKey
 }
 ejs.renderFile(constpath, data, {}, function (err, str) {
   if (err) throw new Error(err)

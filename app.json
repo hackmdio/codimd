@@ -101,12 +101,20 @@
             "description": "Dropbox API client secret",
             "required": false
         },
+        "HMD_DROPBOX_APP_KEY": {
+            "description": "Dropbox app key (for import/export)",
+            "required": false
+        },
         "HMD_GOOGLE_CLIENTID": {
             "description": "Google API client id",
             "required": false
         },
         "HMD_GOOGLE_CLIENTSECRET": {
             "description": "Google API client secret",
+            "required": false
+        },
+        "HMD_GOOGLE_API_KEY": {
+            "description": "Google API key (for import/export)",
             "required": false
         },
         "HMD_IMGUR_CLIENTID": {
