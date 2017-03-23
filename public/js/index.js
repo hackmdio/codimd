@@ -3313,17 +3313,13 @@ $(editor.getInputField())
           return !isInCode
         }
       },
-      { // extra tags for blockquote
-        match: /(?:^|\n|\s)(>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|:|)\s*\w*)$/,
+      { // extra tags for list
+        match: /(^[>\s]*[-+*]\s(?:\[[x ]\]|.*))(\[\])(\w*)$/,
         search: function (term, callback) {
-          var line = editor.getLine(editor.getCursor().line)
-          var quote = line.match(this.match)[1].trim()
           var list = []
-          if (quote.indexOf('>') === 0) {
-            $.map(supportExtraTags, function (extratag) {
-              if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
-            })
-          }
+          $.map(supportExtraTags, function (extratag) {
+            if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
+          })
           $.map(supportReferrals, function (referral) {
             if (referral.search.indexOf(term) === 0) { list.push(referral.text) }
           })
@@ -3336,13 +3332,17 @@ $(editor.getInputField())
           return !isInCode
         }
       },
-      { // extra tags for list
-        match: /(^[>\s]*[-+*]\s(?:\[[x ]\]|.*))(\[\])(\w*)$/,
+      { // extra tags for blockquote
+        match: /(?:^|\n|\s)(>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|:|)\s*\w*)$/,
         search: function (term, callback) {
+          var line = editor.getLine(editor.getCursor().line)
+          var quote = line.match(this.match)[1].trim()
           var list = []
-          $.map(supportExtraTags, function (extratag) {
-            if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
-          })
+          if (quote.indexOf('>') === 0) {
+            $.map(supportExtraTags, function (extratag) {
+              if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
+            })
+          }
           $.map(supportReferrals, function (referral) {
             if (referral.search.indexOf(term) === 0) { list.push(referral.text) }
           })
