@@ -170,7 +170,7 @@ Application settings `config.json`
 | usecdn | `true` or `false` | set to use CDN resources or not (default is `true`) |
 | allowanonymous | `true` or `false` | set to allow anonymous usage (default is `true`) |
 | allowfreeurl | `true` or `false` | set to allow new note by accessing not exist note url |
-| defaultpermission | `freely`, `editable`, `limited`, `locked` or `private` | set notes default permission (only applied on signed users) |
+| defaultpermission | `freely`, `editable`, `limited`, `locked`, `protected` or `private` | set notes default permission (only applied on signed users) |
 | dburl | `mysql://localhost:3306/database` | set the db url, if set this variable then below db config won't be applied |
 | db | `{ "dialect": "sqlite", "storage": "./db.hackmd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
 | sslkeypath | `./cert/client.key` | ssl key path (only need when you set usessl) |
