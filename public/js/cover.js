@@ -30,7 +30,14 @@ import {
 
 import {
     getFolders,
-    getNotes
+    getNotes,
+    newNote,
+    moveFolder,
+    moveNote,
+    newFolder,
+    renameFolder,
+    deleteFolder,
+    searchKeyword
 } from './folder'
 
 import { saveAs } from 'file-saver'
@@ -235,6 +242,7 @@ function getFoldersCallback (folders) {
     } else {
       $('#folder-tree').find('li[id="' + currFolderId + '"]').click()
     }
+    highlightSearch()
   })
 }
 
@@ -278,6 +286,7 @@ function getNotesCallback (notes) {
     $('#folder-empty').fadeIn()
   }
   $('#notes').fadeIn()
+  highlightSearch()
 }
 
 // update items whenever list updated
@@ -536,3 +545,220 @@ $('.ui-use-tags').on('change', function () {
 $('.search').keyup(() => {
   checkHistoryList()
 })
+
+$('#folder-tool .btn-default').on('click', function (event) {
+  newNote(currFolderId, function (note) {
+    location.href = `${serverurl}/` + note.id
+  })
+})
+
+$('.folder-modal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  var action = button.attr('data-action')
+  var sourceId = button.attr('data-source-id')
+  $(this).find('.btn-success').attr('data-action', action)
+  $(this).find('.btn-success').attr('data-source-id', sourceId)
+  getFolders(function (folders) {
+    folders.sort(function (a, b) {
+      if (a.text > b.text) return 1
+      if (a.text < b.text) return -1
+      return 0
+    })
+    $('#move-folder-tree').treeview({
+      color: '#000000',
+      backColor: '#FFFFFF',
+      nodeIcon: 'fa fa-folder',
+      expandIcon: 'fa fa-chevron-right',
+      collapseIcon: 'fa fa-chevron-down',
+      levels: 4,
+      data: [{
+        text: $('#root-folder-title').text(),
+        nodes: folders
+      }],
+      onNodeSelected: function (event, data) {
+        if (data.id) {
+          $(this).parent().parent().find('.btn-success').attr('data-target-id', data.id)
+          $(this).parent().parent().find('.btn-success').attr('data-target-text', data.text)
+        } else {
+          $(this).parent().parent().find('.btn-success').attr('data-target-id', rootFolderId)
+          $(this).parent().parent().find('.btn-success').attr('data-target-text', $('#root-folder-title').text())
+        }
+      }
+    })
+    if (action === 'selectfolder') {
+      $('#move-folder-tree').on('rendered', function (event, data) {
+        if (currFolderId === rootFolderId) {
+          $('#move-folder-tree ul li').first().click()
+        } else {
+          $('#move-folder-tree').find('li[id="' + currFolderId + '"]').click()
+        }
+        highlightSearch()
+      })
+    }
+  })
+  $(this).find('.modal-title').hide()
+  switch (action) {
+    case 'newfolder':
+      $(this).find('.modal-title.new-folder').show()
+      $('#folder-name').show()
+      break
+    case 'renamefolder':
+      $(this).find('.modal-title.rename-folder').show()
+      $(this).find('.treeview').hide()
+      $('#folder-name').val($('#folder-title').html()
+        .replace(' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target=".folder-modal" data-action="renamefolder"></i>', ''))
+      $('#folder-name').show()
+      break
+    case 'selectfolder':
+      $(this).find('.modal-title.choose-folder').show()
+      $(this).find('.btn-primary').show()
+      $(this).find('.btn-primary').on('click', function () {
+        $('#folder-name').show()
+        $(this).parent().parent().find('.btn-success').attr('data-action', 'newfolder')
+      })
+      break
+    case 'deletefolder':
+      $(this).find('.modal-title.delete-folder').show()
+      $(this).find('.treeview').hide()
+      $(this).find('.confirm-btn').removeClass('btn-success')
+      $(this).find('.confirm-btn').addClass('btn-danger')
+      $(this).find('.delete-alert').show()
+      $(this).find('.delete-name').show()
+      $(this).find('.delete-name').html('<i class="fa fa-folder"></i> ' +
+        $('#folder-title').html().replace(' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target=".folder-modal" data-action="renamefolder"></i>', ''))
+      break
+    case 'movefolder':
+      $(this).find('.modal-title.move-folder').show()
+      break
+    case 'movenote':
+      $(this).find('.modal-title.move-note').show()
+      break
+    default:
+      break
+  }
+})
+
+$('.folder-modal').on('hidden.bs.modal', function (event) {
+  $(this).find('.confirm-btn').addClass('btn-success')
+  $(this).find('.confirm-btn').removeClass('btn-danger')
+  $(this).find('.alert').hide()
+  $(this).find('.btn-primary').hide()
+  $(this).find('.treeview').show()
+  $('#folder-name').val('')
+  $('#folder-name').hide()
+  $(this).find('.delete-alert').hide()
+  $(this).find('.delete-name').hide()
+})
+
+$('.folder-modal').find('.btn-success').on('click', function () {
+  var action = $(this).attr('data-action')
+  var sourceId = $(this).attr('data-source-id')
+  var targetId = $(this).attr('data-target-id')
+  var targetText = $(this).attr('data-target-text')
+  var folderName = $('#folder-name').val()
+  if (action !== 'renamefolder' && action !== 'deletefolder' && typeof targetId === 'undefined') {
+    $(this).parent().parent().find('.alert').fadeIn()
+  } else {
+    switch (action) {
+      case 'selectfolder':
+        if (targetId !== rootFolderId) {
+          currFolderId = targetId
+          getNotes(targetId, getNotesCallback)
+          $('#folder-title').html(targetText + ' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target=".folder-modal" data-action="renamefolder" ></i>')
+          $('#folder-title').show()
+          $('#root-folder-title').hide()
+          $('#folder-tool').find('.btn-success').attr('data-source-id', targetId)
+          $('#folder-tool').find('.btn-danger').attr('data-source-id', targetId)
+          $('#folder-tool').find('.btn-success').show()
+          $('#folder-tool').find('.btn-danger').show()
+        } else {
+          currFolderId = rootFolderId
+          getNotes(rootFolderId, getNotesCallback)
+          $('#folder-title').hide()
+          $('#root-folder-title').show()
+          $('#folder-tool').find('.btn-success').hide()
+          $('#folder-tool').find('.btn-danger').hide()
+        }
+        break
+      case 'movefolder':
+        moveFolder(sourceId, targetId, function (data) {
+          if (data) {
+            getFolders(getFoldersCallback)
+          } else {
+            console.log(data)
+          }
+        })
+        break
+      case 'movenote':
+        moveNote(sourceId, targetId, function (data) {
+          if (!data) {
+            getNotes(currFolderId, getNotesCallback)
+          } else {
+            console.log(data)
+          }
+        })
+        break
+      case 'newfolder':
+        newFolder(targetId, folderName, function (data) {
+          if (data) {
+            getFolders(getFoldersCallback)
+          } else {
+            console.log(data)
+          }
+        })
+        break
+      case 'renamefolder':
+        renameFolder(currFolderId, folderName, function (data) {
+          if (!data) {
+            getFolders(getFoldersCallback)
+          } else {
+            console.log(data)
+          }
+        })
+        break
+      case 'deletefolder':
+        deleteFolder(sourceId, function (data) {
+          if (!data) {
+            currFolderId = rootFolderId
+            getFolders(getFoldersCallback)
+          } else {
+            console.log(data)
+          }
+        })
+        break
+      default:
+        break
+    }
+    $('.folder-modal').modal('hide')
+  }
+})
+
+var keyword = ''
+
+$('#folder-search').on('keyup', function (event) {
+  keyword = $('#folder-search').val()
+  highlightSearch()
+})
+
+function highlightSearch () {
+  $('li').each(function () {
+    $(this).css('background', '')
+  })
+  if (keyword !== '') {
+    searchKeyword(keyword, function (data) {
+      var notes = data.notes
+      var folders = data.folders
+      notes.forEach(function (note) {
+        $('li[data-note-id="' + note.id + '"]').css('background', 'lightgoldenrodyellow')
+        if (!$('li[id="' + note.folderId + '"]').hasClass('node-selected')) {
+          $('li[id="' + note.folderId + '"]').css('background', 'lightgoldenrodyellow')
+        }
+      })
+      folders.forEach(function (folder) {
+        if (!$('li[id="' + folder.id + '"]').hasClass('node-selected')) {
+          $('li[id="' + folder.id + '"]').css('background', 'lightgoldenrodyellow')
+        }
+      })
+    })
+  }
+}
