@@ -7,6 +7,7 @@ require('prismjs/components/prism-haskell')
 require('prismjs/components/prism-go')
 require('prismjs/components/prism-typescript')
 require('prismjs/components/prism-jsx')
+require('prismjs/components/prism-makefile')
 
 import Prism from 'prismjs'
 import hljs from 'highlight.js'
@@ -515,6 +516,11 @@ export function finishView (view) {
               code = S(code).unescapeHTML().s
               result = {
                 value: Prism.highlight(code, Prism.languages.wiki)
+              }
+            } else if (reallang === 'cmake') {
+              code = S(code).unescapeHTML().s
+              result = {
+                value: Prism.highlight(code, Prism.languages.makefile)
               }
             } else {
               code = S(code).unescapeHTML().s
