@@ -393,7 +393,7 @@ export function finishView (view) {
       var $value = $(value)
       var $ele = $(value).parent().parent()
 
-      ABCJS.renderAbc(value, $value.text())
+      window.ABCJS.renderAbc(value, $value.text())
 
       $ele.addClass('abc')
       $value.children().unwrap().unwrap()
