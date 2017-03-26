@@ -280,10 +280,24 @@ gantt
     anther task      : 24d
 ```
 
+### Abc
+```abc
+X:1
+T:Speed the Plough
+M:4/4
+C:Trad.
+K:G
+|:GABc dedB|dedB dedB|c2ec B2dB|c2A2 A2BA|
+GABc dedB|dedB dedB|c2ec B2dB|A2F2 G4:|
+|:g2gf gdBd|g2f2 e2d2|c2ec B2dB|c2A2 A2df|
+g2gf g2Bd|g2f2 e2d2|c2ec B2dB|A2F2 G4:|
+```
+
 > More information about **sequence diagrams** syntax [here](http://bramp.github.io/js-sequence-diagrams/).
 > More information about **flow charts** syntax [here](http://adrai.github.io/flowchart.js/).
 > More information about **graphviz** syntax [here](http://www.tonyballantyne.com/graphs.html)
 > More information about **mermaid** syntax [here](http://knsv.github.io/mermaid)
+> More information about **abc** syntax [here](http://abcnotation.com/learn)
 
 Alert Area
 ---

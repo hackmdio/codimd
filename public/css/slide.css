@@ -221,7 +221,8 @@ code[data-gist-id]:after {
 pre.flow-chart,
 pre.sequence-diagram,
 pre.graphviz,
-pre.mermaid {
+pre.mermaid,
+pre.abc {
     text-align: center;
     background-color: white;
     border-radius: 0;
@@ -231,14 +232,16 @@ pre.mermaid {
 pre.flow-chart > code,
 pre.sequence-diagram > code,
 pre.graphviz > code,
-pre.mermaid > code {
+pre.mermaid > code,
+pre.abc > code {
     text-align: left;
 }
 
 pre.flow-chart > svg,
 pre.sequence-diagram > svg,
 pre.graphviz > svg,
-pre.mermaid > svg {
+pre.mermaid > svg,
+pre.abc > svg {
     max-width: 100%;
     height: 100%;
 }

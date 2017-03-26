@@ -202,6 +202,7 @@ module.exports = {
       'script!ot',
       'flowchart.js',
       'js-sequence-diagrams',
+      'script!abcjs',
       'expose?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/google-drive-upload.js'),
       path.join(__dirname, 'public/js/google-drive-picker.js'),
@@ -258,6 +259,7 @@ module.exports = {
       'flowchart.js',
       'js-sequence-diagrams',
       'expose?Viz!viz.js',
+      'script!abcjs',
       'expose?io!socket.io-client',
       'expose?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/google-drive-upload.js'),
@@ -269,6 +271,7 @@ module.exports = {
       'expose?filterXSS!xss',
       'flowchart.js',
       'js-sequence-diagrams',
+      'script!abcjs',
       'expose?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
     ],
@@ -297,6 +300,7 @@ module.exports = {
       'flowchart.js',
       'js-sequence-diagrams',
       'expose?Viz!viz.js',
+      'script!abcjs',
       'expose?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
     ],
@@ -306,6 +310,7 @@ module.exports = {
       'expose?filterXSS!xss',
       'flowchart.js',
       'js-sequence-diagrams',
+      'script!abcjs',
       'expose?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/slide.js')
     ],
@@ -337,6 +342,7 @@ module.exports = {
       'flowchart.js',
       'js-sequence-diagrams',
       'expose?Viz!viz.js',
+      'script!abcjs',
       'headjs',
       'expose?Reveal!reveal.js',
       'expose?RevealMarkdown!reveal-markdown',
@@ -370,7 +376,8 @@ module.exports = {
       'gist-embed': path.join(__dirname, 'node_modules/gist-embed/gist-embed.min.js'),
       'bootstrap-tooltip': path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.js'),
       'headjs': path.join(__dirname, 'node_modules/reveal.js/lib/js/head.min.js'),
-      'reveal-markdown': path.join(__dirname, 'public/js/reveal-markdown.js')
+      'reveal-markdown': path.join(__dirname, 'public/js/reveal-markdown.js'),
+      abcjs: path.join(__dirname, 'public/vendor/abcjs_basic_3.1.1-min.js')
     }
   },
 

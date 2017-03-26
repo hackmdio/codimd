@@ -386,6 +386,26 @@ export function finishView (view) {
       console.warn(err)
     }
   })
+  // abc.js
+  const abcs = view.find('div.abc.raw').removeClass('raw')
+  abcs.each((key, value) => {
+    try {
+      var $value = $(value)
+      var $ele = $(value).parent().parent()
+
+      ABCJS.renderAbc(value, $value.text())
+
+      $ele.addClass('abc')
+      $value.children().unwrap().unwrap()
+      const svg = $ele.find('> svg')
+      svg[0].setAttribute('viewBox', `0 0 ${svg.attr('width')} ${svg.attr('height')}`)
+      svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet')
+    } catch (err) {
+      $value.unwrap()
+      $value.parent().append('<div class="alert alert-warning">' + err + '</div>')
+      console.warn(err)
+    }
+  })
     // image href new window(emoji not included)
   const images = view.find('img.raw[src]').removeClass('raw')
   images.each((key, value) => {
@@ -888,6 +908,8 @@ function highlightRender (code, lang) {
     return `<div class="graphviz raw">${code}</div>`
   } else if (lang === 'mermaid') {
     return `<div class="mermaid raw">${code}</div>`
+  } else if (lang === 'abc') {
+    return `<div class="abc raw">${code}</div>`
   }
   const result = {
     value: code
