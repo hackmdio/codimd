@@ -314,7 +314,7 @@ if (!textit) {
 const editorInstance = new Editor()
 var editor = editorInstance.init(textit)
 
-// TODO: global referncing in jquery-textcomplete patch
+// FIXME: global referncing in jquery-textcomplete patch
 window.editor = editor
 
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor)
@@ -365,8 +365,8 @@ function updateStatusBar () {
 }
 
 //  initalize ui reference
-// TODO: fix ui exporting
 const ui = getUIElements()
+// FIXME: fix global ui element expose
 window.ui = ui
 
 // page actions
