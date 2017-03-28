@@ -2690,7 +2690,7 @@ editorInstance.on('changes', function (cm, changes) {
     }
   }
 })
-editorInstance.on('focus', function (cm) {
+editorInstance.on('focus', function (editor) {
   for (var i = 0; i < window.onlineUsers.length; i++) {
     if (window.onlineUsers[i].id === window.personalInfo.id) {
       window.onlineUsers[i].cursor = editor.getCursor()
