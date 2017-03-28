@@ -322,8 +322,6 @@ defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
 
 //  initalize ui reference
 const ui = getUIElements()
-// FIXME: fix global ui element expose
-window.ui = ui
 
 // page actions
 var opts = {
