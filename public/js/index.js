@@ -2699,10 +2699,23 @@ editorInstance.on('focus', function (cm) {
   window.personalInfo['cursor'] = editor.getCursor()
   socket.emit('cursor focus', editor.getCursor())
 })
-editorInstance.on('cursorActivity', function (cm) {
-  updateStatusBar()
-  cursorActivity()
-})
+
+const cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce)
+
+function cursorActivityInner () {
+  if (editorHasFocus() && !Visibility.hidden()) {
+    for (var i = 0; i < window.onlineUsers.length; i++) {
+      if (window.onlineUsers[i].id === window.personalInfo.id) {
+        window.onlineUsers[i].cursor = editor.getCursor()
+      }
+    }
+    window.personalInfo['cursor'] = editor.getCursor()
+    socket.emit('cursor activity', editor.getCursor())
+  }
+}
+
+editorInstance.on('cursorActivity', updateStatusBar)
+editorInstance.on('cursorActivity', cursorActivity)
 
 editorInstance.on('beforeSelectionChange', updateStatusBar)
 editorInstance.on('beforeSelectionChange', function (doc, selections) {
@@ -2737,19 +2750,6 @@ editorInstance.on('beforeSelectionChange', function (doc, selections) {
   }
 })
 
-var cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce)
-
-function cursorActivityInner () {
-  if (editorHasFocus() && !Visibility.hidden()) {
-    for (var i = 0; i < window.onlineUsers.length; i++) {
-      if (window.onlineUsers[i].id === window.personalInfo.id) {
-        window.onlineUsers[i].cursor = editor.getCursor()
-      }
-    }
-    window.personalInfo['cursor'] = editor.getCursor()
-    socket.emit('cursor activity', editor.getCursor())
-  }
-}
 editorInstance.on('blur', function (cm) {
   for (var i = 0; i < window.onlineUsers.length; i++) {
     if (window.onlineUsers[i].id === window.personalInfo.id) {
