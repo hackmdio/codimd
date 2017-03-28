@@ -1,4 +1,5 @@
 import * as utils from './utils'
+import config from './config'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -164,6 +165,28 @@ export default class Editor {
       this.setTheme()
       this.setSpellcheck()
       this.setPreferences()
+    }
+  }
+
+  updateStatusBar () {
+    if (!this.statusBar) return
+
+    var cursor = this.editor.getCursor()
+    var cursorText = 'Line ' + (cursor.line + 1) + ', Columns ' + (cursor.ch + 1)
+    this.statusCursor.text(cursorText)
+    var fileText = ' — ' + editor.lineCount() + ' Lines'
+    this.statusFile.text(fileText)
+    var docLength = editor.getValue().length
+    this.statusLength.text('Length ' + docLength)
+    if (docLength > (config.docmaxlength * 0.95)) {
+      this.statusLength.css('color', 'red')
+      this.statusLength.attr('title', 'Your almost reach note max length limit.')
+    } else if (docLength > (config.docmaxlength * 0.8)) {
+      this.statusLength.css('color', 'orange')
+      this.statusLength.attr('title', 'You nearly fill the note, consider to make more pieces.')
+    } else {
+      this.statusLength.css('color', 'white')
+      this.statusLength.attr('title', 'You could write up to ' + config.docmaxlength + ' characters in this note.')
     }
   }
 

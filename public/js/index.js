@@ -79,6 +79,7 @@ var renderer = require('./render')
 var preventXSS = renderer.preventXSS
 
 import Editor from './lib/editor'
+import EditorConfig from './lib/editor/config'
 
 import getUIElements from './lib/editor/ui-elements'
 
@@ -319,27 +320,6 @@ window.editor = editor
 
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor)
 defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
-
-function updateStatusBar () {
-  if (!editorInstance.statusBar) return
-  var cursor = editor.getCursor()
-  var cursorText = 'Line ' + (cursor.line + 1) + ', Columns ' + (cursor.ch + 1)
-  editorInstance.statusCursor.text(cursorText)
-  var fileText = ' — ' + editor.lineCount() + ' Lines'
-  editorInstance.statusFile.text(fileText)
-  var docLength = editor.getValue().length
-  editorInstance.statusLength.text('Length ' + docLength)
-  if (docLength > (docmaxlength * 0.95)) {
-    editorInstance.statusLength.css('color', 'red')
-    editorInstance.statusLength.attr('title', 'Your almost reach note max length limit.')
-  } else if (docLength > (docmaxlength * 0.8)) {
-    editorInstance.statusLength.css('color', 'orange')
-    editorInstance.statusLength.attr('title', 'You nearly fill the note, consider to make more pieces.')
-  } else {
-    editorInstance.statusLength.css('color', 'white')
-    editorInstance.statusLength.attr('title', 'You could write up to ' + docmaxlength + ' characters in this note.')
-  }
-}
 
 //  initalize ui reference
 const ui = getUIElements()
@@ -830,7 +810,7 @@ function changeMode (type) {
     // add and update status bar
     if (!editorInstance.statusBar) {
       editorInstance.addStatusBar()
-      updateStatusBar()
+      editorInstance.updateStatusBar()
     }
     // work around foldGutter might not init properly
     editor.setOption('foldGutter', false)
@@ -2105,12 +2085,12 @@ socket.on('check', function (data) {
 socket.on('permission', function (data) {
   updatePermission(data.permission)
 })
-var docmaxlength = null
+
 var permission = null
 socket.on('refresh', function (data) {
     // console.log(data);
-  docmaxlength = data.docmaxlength
-  editor.setOption('maxLength', docmaxlength)
+  EditorConfig.docmaxlength = data.docmaxlength
+  editor.setOption('maxLength', EditorConfig.docmaxlength)
   updateInfo(data)
   updatePermission(data.permission)
   if (!window.loaded) {
@@ -2714,10 +2694,10 @@ function cursorActivityInner (editor) {
   }
 }
 
-editorInstance.on('cursorActivity', updateStatusBar)
+editorInstance.on('cursorActivity', editorInstance.updateStatusBar)
 editorInstance.on('cursorActivity', cursorActivity)
 
-editorInstance.on('beforeSelectionChange', updateStatusBar)
+editorInstance.on('beforeSelectionChange', editorInstance.updateStatusBar)
 editorInstance.on('beforeSelectionChange', function (doc, selections) {
   // check selection and whether the statusbar has added
   if (selections && editorInstance.statusSelection) {
