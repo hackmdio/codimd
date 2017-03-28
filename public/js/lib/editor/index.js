@@ -144,7 +144,8 @@ export default class Editor {
       return
     }
     this.statusBar = $(this.statusBarTemplate)
-    this.statusCursor = this.statusBar.find('.status-cursor')
+    this.statusCursor = this.statusBar.find('.status-cursor > .status-line-column')
+    this.statusSelection = this.statusBar.find('.status-cursor > .status-selection')
     this.statusFile = this.statusBar.find('.status-file')
     this.statusIndicators = this.statusBar.find('.status-indicators')
     this.statusIndent = this.statusBar.find('.status-indent')

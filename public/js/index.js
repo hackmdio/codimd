@@ -320,33 +320,10 @@ window.editor = editor
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor)
 defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
 
-var selection = null
-
 function updateStatusBar () {
   if (!editorInstance.statusBar) return
   var cursor = editor.getCursor()
   var cursorText = 'Line ' + (cursor.line + 1) + ', Columns ' + (cursor.ch + 1)
-  if (selection) {
-    var anchor = selection.anchor
-    var head = selection.head
-    var start = head.line <= anchor.line ? head : anchor
-    var end = head.line >= anchor.line ? head : anchor
-    var selectionText = ' — Selected '
-    var selectionCharCount = Math.abs(head.ch - anchor.ch)
-    // borrow from brackets EditorStatusBar.js
-    if (start.line !== end.line) {
-      var lines = end.line - start.line + 1
-      if (end.ch === 0) {
-        lines--
-      }
-      selectionText += lines + ' lines'
-    } else if (selectionCharCount > 0) {
-      selectionText += selectionCharCount + ' columns'
-    }
-    if (start.line !== end.line || selectionCharCount > 0) {
-      cursorText += selectionText
-    }
-  }
   editorInstance.statusCursor.text(cursorText)
   var fileText = ' — ' + editor.lineCount() + ' Lines'
   editorInstance.statusFile.text(fileText)
@@ -2726,9 +2703,38 @@ editorInstance.on('cursorActivity', function (cm) {
   updateStatusBar()
   cursorActivity()
 })
+
+editorInstance.on('beforeSelectionChange', updateStatusBar)
 editorInstance.on('beforeSelectionChange', function (doc, selections) {
-  if (selections) { selection = selections.ranges[0] } else { selection = null }
-  updateStatusBar()
+  // check selection and whether the statusbar has added
+  if (selections && editorInstance.statusSelection) {
+    const selection = selections.ranges[0]
+
+    const anchor = selection.anchor
+    const head = selection.head
+    const start = head.line <= anchor.line ? head : anchor
+    const end = head.line >= anchor.line ? head : anchor
+    const selectionCharCount = Math.abs(head.ch - anchor.ch)
+
+    let selectionText = ' — Selected '
+
+    // borrow from brackets EditorStatusBar.js
+    if (start.line !== end.line) {
+      var lines = end.line - start.line + 1
+      if (end.ch === 0) {
+        lines--
+      }
+      selectionText += lines + ' lines'
+    } else if (selectionCharCount > 0) {
+      selectionText += selectionCharCount + ' columns'
+    }
+
+    if (start.line !== end.line || selectionCharCount > 0) {
+      editorInstance.statusSelection.text(selectionText)
+    } else {
+      editorInstance.statusSelection.text('')
+    }
+  }
 })
 
 var cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce)
