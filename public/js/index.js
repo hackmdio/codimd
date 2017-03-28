@@ -443,29 +443,29 @@ $(document).ready(function () {
     clearMap()
   }
   checkEditorStyle()
-    /* we need this only on touch devices */
+  /* we need this only on touch devices */
   if (window.isTouchDevice) {
-        /* cache dom references */
+    /* cache dom references */
     var $body = jQuery('body')
 
-        /* bind events */
+    /* bind events */
     $(document)
-            .on('focus', 'textarea, input', function () {
-              $body.addClass('fixfixed')
-            })
-            .on('blur', 'textarea, input', function () {
-              $body.removeClass('fixfixed')
-            })
+    .on('focus', 'textarea, input', function () {
+      $body.addClass('fixfixed')
+    })
+    .on('blur', 'textarea, input', function () {
+      $body.removeClass('fixfixed')
+    })
   }
-    // showup
+  // showup
   $().showUp('.navbar', {
     upClass: 'navbar-hide',
     downClass: 'navbar-show'
   })
-    // tooltip
+  // tooltip
   $('[data-toggle="tooltip"]').tooltip()
-    // shortcuts
-    // allow on all tags
+  // shortcuts
+  // allow on all tags
   key.filter = function (e) { return true }
   key('ctrl+alt+e', function (e) {
     changeMode(modeType.edit)
@@ -476,7 +476,7 @@ $(document).ready(function () {
   key('ctrl+alt+b', function (e) {
     changeMode(modeType.both)
   })
-    // toggle-dropdown
+  // toggle-dropdown
   $(document).on('click', '.toggle-dropdown .dropdown-menu', function (e) {
     e.stopPropagation()
   })
@@ -491,10 +491,10 @@ $(window).resize(function () {
 })
 // when page unload
 $(window).on('unload', function () {
-    // updateHistoryInner();
+// updateHistoryInner();
 })
 $(window).on('error', function () {
-    // setNeedRefresh();
+  // setNeedRefresh();
 })
 
 setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown)
@@ -516,7 +516,7 @@ function windowResizeInner (callback) {
   checkEditorStyle()
   checkTocStyle()
   checkCursorMenu()
-    // refresh editor
+  // refresh editor
   if (window.loaded) {
     if (editor.getOption('scrollbarStyle') === 'native') {
       setTimeout(function () {
@@ -526,13 +526,13 @@ function windowResizeInner (callback) {
         if (callback && typeof callback === 'function') { callback() }
       }, 1)
     } else {
-            // force it load all docs at once to prevent scroll knob blink
+      // force it load all docs at once to prevent scroll knob blink
       editor.setOption('viewportMargin', Infinity)
       setTimeout(function () {
         clearMap()
         autoSyncscroll()
         editor.setOption('viewportMargin', viewportMargin)
-                // add or update user cursors
+        // add or update user cursors
         for (var i = 0; i < window.onlineUsers.length; i++) {
           if (window.onlineUsers[i].id !== window.personalInfo.id) { buildCursor(window.onlineUsers[i]) }
         }
@@ -581,9 +581,9 @@ function checkEditorStyle () {
     ui.area.codemirrorScroll.css('height', '')
     ui.area.codemirrorScroll.css('min-height', desireHeight + 'px')
   }
-    // workaround editor will have wrong doc height when editor height changed
+  // workaround editor will have wrong doc height when editor height changed
   editor.setSize(null, ui.area.edit.height())
-    // make editor resizable
+  // make editor resizable
   if (!ui.area.resize.handle.length) {
     ui.area.edit.resizable({
       handles: 'e',
@@ -662,8 +662,8 @@ var checkEditorScrollbar = _.debounce(function () {
 }, 50)
 
 function checkEditorScrollbarInner () {
-    // workaround simple scroll bar knob
-    // will get wrong position when editor height changed
+  // workaround simple scroll bar knob
+  // will get wrong position when editor height changed
   var scrollInfo = editor.getScrollInfo()
   editor.scrollTo(null, scrollInfo.top - 1)
   editor.scrollTo(null, scrollInfo.top)
@@ -687,7 +687,7 @@ function checkTocStyle () {
   } else {
     newbool = false
   }
-    // toc scrollspy
+  // toc scrollspy
   ui.toc.toc.removeClass('scrollspy-body, scrollspy-view')
   ui.toc.affix.removeClass('scrollspy-body, scrollspy-view')
   if (window.currentMode === modeType.both) {
@@ -1895,10 +1895,6 @@ function initMarkAndCheckGutter (mark, author, timestamp) {
   }
   return mark
 }
-var gutterStylePrefix = 'border-left: 3px solid '
-var gutterStylePostfix = '; height: ' + defaultTextHeight + 'px; margin-left: 3px;'
-var textMarkderStylePrefix = 'background-image: linear-gradient(to top, '
-var textMarkderStylePostfix = ' 1px, transparent 1px);'
 var addStyleRule = (function () {
   var added = {}
   var styleElement = document.createElement('style')
@@ -2015,11 +2011,11 @@ function updateAuthorshipInner () {
   for (let i = 0; i < addTextMarkers.length; i++) {
     let textMarker = addTextMarkers[i]
     let author = authors[textMarker.userid]
-    var rgbcolor = hex2rgb(author.color)
-    var colorString = 'rgba(' + rgbcolor.red + ',' + rgbcolor.green + ',' + rgbcolor.blue + ',0.7)'
-    var styleString = textMarkderStylePrefix + colorString + textMarkderStylePostfix
-    let className = 'authorship-inline-' + author.color.substr(1)
-    var rule = '.' + className + '{' + styleString + '}'
+    const rgbcolor = hex2rgb(author.color)
+    const colorString = `rgba(${rgbcolor.red},${rgbcolor.green},${rgbcolor.blue},0.7)`
+    const styleString = `background-image: linear-gradient(to top, ${colorString} 1px, transparent 1px);`
+    let className = `authorship-inline-${author.color.substr(1)}`
+    const rule = `.${className} { ${styleString} }`
     addStyleRule(rule)
     editor.markText(textMarker.pos[0], textMarker.pos[1], {
       className: 'authorship-inline ' + className,
@@ -2033,12 +2029,12 @@ function iterateLine (line) {
   var author = currMark ? authors[currMark.gutter.userid] : null
   if (currMark && author) {
     let className = 'authorship-gutter-' + author.color.substr(1)
-    var gutters = line.gutterMarkers
+    const gutters = line.gutterMarkers
     if (!gutters || !gutters['authorship-gutters'] ||
-            !gutters['authorship-gutters'].className ||
-            !gutters['authorship-gutters'].className.indexOf(className) < 0) {
-      var styleString = gutterStylePrefix + author.color + gutterStylePostfix
-      var rule = '.' + className + '{' + styleString + '}'
+        !gutters['authorship-gutters'].className ||
+        !gutters['authorship-gutters'].className.indexOf(className) < 0) {
+      const styleString = `border-left: 3px solid ${author.color}; height: ${defaultTextHeight}px; margin-left: 3px;`
+      const rule = `.${className} { ${styleString} }`
       addStyleRule(rule)
       var gutter = $('<div>', {
         class: 'authorship-gutter ' + className,
@@ -2069,14 +2065,14 @@ editorInstance.on('update', function () {
     placement: 'bottom',
     delay: { 'show': 500, 'hide': 100 }
   })
-    // clear tooltip which described element has been removed
+  // clear tooltip which described element has been removed
   $('[id^="tooltip"]').each(function (index, element) {
     var $ele = $(element)
     if ($('[aria-describedby="' + $ele.attr('id') + '"]').length <= 0) $ele.remove()
   })
 })
 socket.on('check', function (data) {
-    // console.log(data);
+  // console.log(data);
   updateInfo(data)
 })
 socket.on('permission', function (data) {
@@ -2096,7 +2092,7 @@ socket.on('refresh', function (data) {
     if (nocontent) {
       if (window.visibleXS) { window.currentMode = modeType.edit } else { window.currentMode = modeType.both }
     }
-        // parse mode from url
+    // parse mode from url
     if (window.location.search.length > 0) {
       var urlMode = modeType[window.location.search.substr(1)]
       if (urlMode) window.currentMode = urlMode
@@ -2112,9 +2108,9 @@ socket.on('refresh', function (data) {
     emitUserStatus() // send first user status
     updateOnlineStatus() // update first online status
     setTimeout(function () {
-            // work around editor not refresh or doc not fully loaded
+      // work around editor not refresh or doc not fully loaded
       windowResizeInner()
-            // work around might not scroll to hash
+      // work around might not scroll to hash
       scrollToHash()
     }, 1)
   }
@@ -2148,7 +2144,7 @@ socket.on('doc', function (obj) {
     ui.spinner.hide()
     ui.content.fadeIn()
   } else {
-        // if current doc is equal to the doc before disconnect
+    // if current doc is equal to the doc before disconnect
     if (setDoc && bodyMismatch) editor.clearHistory()
     else if (window.lastInfo.history) editor.setHistory(window.lastInfo.history)
     window.lastInfo.history = null
@@ -2156,9 +2152,9 @@ socket.on('doc', function (obj) {
 
   if (!cmClient) {
     cmClient = window.cmClient = new EditorClient(
-            obj.revision, obj.clients,
-            new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
-        )
+      obj.revision, obj.clients,
+      new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
+    )
     synchronized_ = cmClient.state
   } else if (setDoc) {
     if (bodyMismatch) {
@@ -2263,11 +2259,11 @@ socket.on('cursor blur', function (data) {
 var options = {
   valueNames: ['id', 'name'],
   item: '<li class="ui-user-item">' +
-            '<span class="id" style="display:none;"></span>' +
-            '<a href="#">' +
-                '<span class="pull-left"><i class="ui-user-icon"></i></span><span class="ui-user-name name"></span><span class="pull-right"><i class="fa fa-circle ui-user-status"></i></span>' +
-            '</a>' +
-           '</li>'
+        '<span class="id" style="display:none;"></span>' +
+        '<a href="#">' +
+            '<span class="pull-left"><i class="ui-user-icon"></i></span><span class="ui-user-name name"></span><span class="pull-right"><i class="fa fa-circle ui-user-status"></i></span>' +
+        '</a>' +
+        '</li>'
 }
 var onlineUserList = new List('online-user-list', options)
 var shortOnlineUserList = new List('short-online-user-list', options)
