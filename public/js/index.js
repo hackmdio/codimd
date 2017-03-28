@@ -12,14 +12,14 @@ require('../css/site.css')
 
 require('highlight.js/styles/github-gist.css')
 
-var toMarkdown = require('to-markdown')
+import toMarkdown from 'to-markdown'
 
-var saveAs = require('file-saver').saveAs
-var randomColor = require('randomcolor')
+import { saveAs } from 'file-saver'
+import randomColor from 'randomcolor'
 
-var _ = require('lodash')
+import _ from 'lodash'
 
-var List = require('list.js')
+import List from 'list.js'
 
 import {
     checkLoginStateChanged,
@@ -75,8 +75,7 @@ import {
     removeHistory
 } from './history'
 
-var renderer = require('./render')
-var preventXSS = renderer.preventXSS
+import { preventXSS } from './render'
 
 import Editor from './lib/editor'
 import EditorConfig from './lib/editor/config'
