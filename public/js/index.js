@@ -2646,7 +2646,7 @@ editorInstance.on('cut', function () {
 editorInstance.on('paste', function () {
     // na
 })
-editorInstance.on('changes', function (cm, changes) {
+editorInstance.on('changes', function (editor, changes) {
   updateHistory()
   var docLength = editor.getValue().length
     // workaround for big documents
