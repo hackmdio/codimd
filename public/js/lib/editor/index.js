@@ -116,6 +116,19 @@ export default class Editor {
         utils.wrapTextWith(this.editor, cm, 'Backspace')
       }
     }
+    this.eventListeners = {}
+  }
+
+  on (event, cb) {
+    if (!this.eventListeners[event]) {
+      this.eventListeners[event] = [cb]
+    } else {
+      this.eventListeners[event].push(cb)
+    }
+
+    this.editor.on(event, (...args) => {
+      this.eventListeners[event].forEach(cb => cb(...args))
+    })
   }
 
   getStatusBarTemplate (callback) {

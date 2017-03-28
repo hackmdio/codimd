@@ -2104,7 +2104,7 @@ function iterateLine (line) {
     }
   }
 }
-editor.on('update', function () {
+editorInstance.on('update', function () {
   $('.authorship-gutter:not([data-original-title])').tooltip({
     container: '.CodeMirror-lines',
     placement: 'right',
@@ -2655,7 +2655,7 @@ function enforceMaxLength (cm, change) {
   return false
 }
 var ignoreEmitEvents = ['setValue', 'ignoreHistory']
-editor.on('beforeChange', function (cm, change) {
+editorInstance.on('beforeChange', function (cm, change) {
   if (debug) { console.debug(change) }
   removeNullByte(cm, change)
   if (enforceMaxLength(cm, change)) {
@@ -2683,13 +2683,13 @@ editor.on('beforeChange', function (cm, change) {
   }
   if (cmClient && !socket.connected) { cmClient.editorAdapter.ignoreNextChange = true }
 })
-editor.on('cut', function () {
+editorInstance.on('cut', function () {
     // na
 })
-editor.on('paste', function () {
+editorInstance.on('paste', function () {
     // na
 })
-editor.on('changes', function (cm, changes) {
+editorInstance.on('changes', function (cm, changes) {
   updateHistory()
   var docLength = editor.getValue().length
     // workaround for big documents
@@ -2713,7 +2713,7 @@ editor.on('changes', function (cm, changes) {
     }
   }
 })
-editor.on('focus', function (cm) {
+editorInstance.on('focus', function (cm) {
   for (var i = 0; i < window.onlineUsers.length; i++) {
     if (window.onlineUsers[i].id === window.personalInfo.id) {
       window.onlineUsers[i].cursor = editor.getCursor()
@@ -2722,11 +2722,11 @@ editor.on('focus', function (cm) {
   window.personalInfo['cursor'] = editor.getCursor()
   socket.emit('cursor focus', editor.getCursor())
 })
-editor.on('cursorActivity', function (cm) {
+editorInstance.on('cursorActivity', function (cm) {
   updateStatusBar()
   cursorActivity()
 })
-editor.on('beforeSelectionChange', function (doc, selections) {
+editorInstance.on('beforeSelectionChange', function (doc, selections) {
   if (selections) { selection = selections.ranges[0] } else { selection = null }
   updateStatusBar()
 })
@@ -2744,7 +2744,7 @@ function cursorActivityInner () {
     socket.emit('cursor activity', editor.getCursor())
   }
 }
-editor.on('blur', function (cm) {
+editorInstance.on('blur', function (cm) {
   for (var i = 0; i < window.onlineUsers.length; i++) {
     if (window.onlineUsers[i].id === window.personalInfo.id) {
       window.onlineUsers[i].cursor = null
