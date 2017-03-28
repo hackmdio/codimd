@@ -127,7 +127,7 @@ export default class Editor {
     }
 
     this.editor.on(event, (...args) => {
-      this.eventListeners[event].forEach(cb => cb(...args))
+      this.eventListeners[event].forEach(cb => cb.bind(this)(...args))
     })
   }
 
