@@ -1845,7 +1845,7 @@ socket.on('disconnect', function (data) {
 socket.on('reconnect', function (data) {
     // sync back any change in offline
   emitUserStatus(true)
-  cursorActivity()
+  cursorActivity(editor)
   socket.emit('online users')
 })
 socket.on('connect', function (data) {
@@ -2702,7 +2702,7 @@ editorInstance.on('focus', function (editor) {
 
 const cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce)
 
-function cursorActivityInner () {
+function cursorActivityInner (editor) {
   if (editorHasFocus() && !Visibility.hidden()) {
     for (var i = 0; i < window.onlineUsers.length; i++) {
       if (window.onlineUsers[i].id === window.personalInfo.id) {
