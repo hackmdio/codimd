@@ -7046,9 +7046,9 @@ uuid@3.0.0, uuid@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.0.tgz#6728fc0459c450d796a99c31837569bdf672d728"
 
-uws@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/uws/-/uws-0.12.0.tgz#07163ea6e687d9731e66821107b5fdf1ee644cbd"
+uws@~0.14.1:
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/uws/-/uws-0.14.1.tgz#89b8eb7bced272c65621472e878c57f4e0e00640"
 
 v8flags@^2.0.10, v8flags@^2.0.2:
   version "2.0.11"
