@@ -258,12 +258,12 @@ function getNotesCallback (notes) {
     notes.forEach(function (note) {
       var tags = ''
       note.tag.forEach(function (tag) {
-        tags += '<span class="note label label-default">' + tag + '</span>'
+        tags += '<span class="note label label-default">' + S(tag).escapeHTML() + '</span>'
       })
       $('#notes').append('<li class="list-group-item node-folder-tree" data-note-id="' + note.id + '" timestamp="' + note.time + '">' +
           '<span class="note detail">' +
             '<span class="note icon"><i class="fa fa-file-text"></i></span>' +
-            '<span class="note title" style="font-size: 1.5em;"> ' + note.text + '</span>' +
+            '<span class="note title" style="font-size: 1.5em;"> ' + S(note.text).escapeHTML() + '</span>' +
             '<span class="note tags">' +
               tags +
             '</span>' +
