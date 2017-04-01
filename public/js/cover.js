@@ -260,18 +260,25 @@ function getNotesCallback (notes) {
       note.tag.forEach(function (tag) {
         tags += '<span class="note label label-default">' + S(tag).escapeHTML() + '</span>'
       })
+      if (tags !== '') {
+        tags = '<br><span class="note icon"><i class="fa fa-tags"></i></span>' +
+          '<span class="note tags">' +
+            tags +
+          '</span>'
+      }
       $('#notes').append('<li class="list-group-item node-folder-tree" data-note-id="' + note.id + '" timestamp="' + note.time + '">' +
           '<span class="note detail">' +
             '<span class="note icon"><i class="fa fa-file-text"></i></span>' +
-            '<span class="note title" style="font-size: 1.5em;"> ' + S(note.text).escapeHTML() + '</span>' +
-            '<span class="note tags">' +
-              tags +
-            '</span>' +
+            '<span class="note title"> ' + S(note.text).escapeHTML() + '</span>' +
+            tags +
             '<br>' +
-            '<i><i class="fa fa-clock-o"></i> visited </i>' +
-            '<i class="note fromNow">' + moment(note.time).fromNow() + '</i>' +
-            '<i>, </i>' +
-            '<i class="note lastTime">' + moment(note.time).format('ddd, MMM DD, YYYY h:mm a') + '</i>' +
+            '<p>' +
+              '<span class="note icon"><i class="fa fa-clock-o"></i></span>' +
+              '<i> created </i>' +
+              '<i class="note fromNow">' + moment(note.time).fromNow() + '</i>' +
+              '<i>, </i>' +
+              '<i class="note lastTime">' + moment(note.time).format('ddd, MMM DD, YYYY h:mm a') + '</i>' +
+            '</p>' +
           '</span>' +
           '<span class="note tool">' +
             '<button class="btn btn-success" data-source-id="' + note.id + '" data-action="movenote" data-toggle="modal" data-target=".folder-modal"><i class="fa fa-exchange"></i></button>' +

@@ -373,12 +373,8 @@ select {
     }
 }
 
-.note.tags {
-    margin-left: 1em;
-}
-
-.note.label {
-    margin-left: 0.5em;
+.note.title {
+    font-size: 18px;
 }
 
 .note.tool {
@@ -392,6 +388,16 @@ select {
 
 .note.detail {
     display: block;
+}
+
+.note.detail p {
+    color: gray;
+    margin-bottom: 0;
+}
+
+.note.tags {
+    position: relative;
+    top: -2px;
 }
 
 .note.tool button {
@@ -506,6 +512,10 @@ i {
 
     #folder-button {
         position: absolute;
+    }
+
+    .note.detail {
+        margin-right: 3em;
     }
 
     .note.tool {
