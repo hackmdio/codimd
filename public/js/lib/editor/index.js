@@ -1,5 +1,6 @@
 import * as utils from './utils'
 import config from './config'
+import statusBarTemplate from './statusbar.html'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -132,40 +133,27 @@ export default class Editor {
     })
   }
 
-  getStatusBarTemplate () {
-    return new Promise((resolve, reject) => {
-      $.get(window.serverurl + '/views/statusbar.html').done(template => {
-        this.statusBarTemplate = template
-        resolve()
-      }).fail(reject)
-    })
-  }
-
   addStatusBar () {
-    if (!this.statusBarTemplate) {
-      this.getStatusBarTemplate.then(this.addStatusBar)
-    } else {
-      this.statusBar = $(this.statusBarTemplate)
-      this.statusCursor = this.statusBar.find('.status-cursor > .status-line-column')
-      this.statusSelection = this.statusBar.find('.status-cursor > .status-selection')
-      this.statusFile = this.statusBar.find('.status-file')
-      this.statusIndicators = this.statusBar.find('.status-indicators')
-      this.statusIndent = this.statusBar.find('.status-indent')
-      this.statusKeymap = this.statusBar.find('.status-keymap')
-      this.statusLength = this.statusBar.find('.status-length')
-      this.statusTheme = this.statusBar.find('.status-theme')
-      this.statusSpellcheck = this.statusBar.find('.status-spellcheck')
-      this.statusPreferences = this.statusBar.find('.status-preferences')
-      this.statusPanel = this.editor.addPanel(this.statusBar[0], {
-        position: 'bottom'
-      })
+    this.statusBar = $(statusBarTemplate)
+    this.statusCursor = this.statusBar.find('.status-cursor > .status-line-column')
+    this.statusSelection = this.statusBar.find('.status-cursor > .status-selection')
+    this.statusFile = this.statusBar.find('.status-file')
+    this.statusIndicators = this.statusBar.find('.status-indicators')
+    this.statusIndent = this.statusBar.find('.status-indent')
+    this.statusKeymap = this.statusBar.find('.status-keymap')
+    this.statusLength = this.statusBar.find('.status-length')
+    this.statusTheme = this.statusBar.find('.status-theme')
+    this.statusSpellcheck = this.statusBar.find('.status-spellcheck')
+    this.statusPreferences = this.statusBar.find('.status-preferences')
+    this.statusPanel = this.editor.addPanel(this.statusBar[0], {
+      position: 'bottom'
+    })
 
-      this.setIndent()
-      this.setKeymap()
-      this.setTheme()
-      this.setSpellcheck()
-      this.setPreferences()
-    }
+    this.setIndent()
+    this.setKeymap()
+    this.setTheme()
+    this.setSpellcheck()
+    this.setPreferences()
   }
 
   updateStatusBar () {
@@ -507,8 +495,6 @@ export default class Editor {
       otherCursors: true,
       placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
     })
-
-    this.getStatusBarTemplate()
 
     return this.editor
   }
