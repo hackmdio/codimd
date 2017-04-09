@@ -119,6 +119,7 @@ export default class Editor {
       }
     }
     this.eventListeners = {}
+    this.config = config
   }
 
   on (event, cb) {

@@ -78,7 +78,6 @@ import {
 import { preventXSS } from './render'
 
 import Editor from './lib/editor'
-import EditorConfig from './lib/editor/config'
 
 import getUIElements from './lib/editor/ui-elements'
 
@@ -446,7 +445,7 @@ $(document).ready(function () {
   /* we need this only on touch devices */
   if (window.isTouchDevice) {
     /* cache dom references */
-    var $body = jQuery('body')
+    var $body = $('body')
 
     /* bind events */
     $(document)
@@ -2082,8 +2081,8 @@ socket.on('permission', function (data) {
 var permission = null
 socket.on('refresh', function (data) {
     // console.log(data);
-  EditorConfig.docmaxlength = data.docmaxlength
-  editor.setOption('maxLength', EditorConfig.docmaxlength)
+  editorInstance.config.docmaxlength = data.docmaxlength
+  editor.setOption('maxLength', editorInstance.config.docmaxlength)
   updateInfo(data)
   updatePermission(data.permission)
   if (!window.loaded) {
