@@ -19,6 +19,9 @@ require('./lib/common/login')
 require('../vendor/md-toc')
 var Viz = require('viz.js')
 
+import getUIElements from './lib/editor/ui-elements'
+const ui = getUIElements()
+
 // auto update last change
 window.createtime = null
 window.lastchangetime = null
@@ -634,7 +637,7 @@ function generateCleanHTML (view) {
 }
 
 export function exportToRawHTML (view) {
-  const filename = `${renderFilename(window.ui.area.markdown)}.html`
+  const filename = `${renderFilename(ui.area.markdown)}.html`
   const src = generateCleanHTML(view)
   $(src).find('a.anchor').remove()
   const html = src[0].outerHTML
@@ -646,8 +649,8 @@ export function exportToRawHTML (view) {
 
 // extract markdown body to html and compile to template
 export function exportToHTML (view) {
-  const title = renderTitle(window.ui.area.markdown)
-  const filename = `${renderFilename(window.ui.area.markdown)}.html`
+  const title = renderTitle(ui.area.markdown)
+  const filename = `${renderFilename(ui.area.markdown)}.html`
   const src = generateCleanHTML(view)
     // generate toc
   const toc = $('#ui-toc').clone()

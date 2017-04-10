@@ -1,4 +1,5 @@
 import * as utils from './utils'
+import config from './config'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -116,39 +117,77 @@ export default class Editor {
         utils.wrapTextWith(this.editor, cm, 'Backspace')
       }
     }
+    this.eventListeners = {}
   }
 
-  getStatusBarTemplate (callback) {
-    $.get(window.serverurl + '/views/statusbar.html', template => {
-      this.statusBarTemplate = template
-      if (callback) callback()
+  on (event, cb) {
+    if (!this.eventListeners[event]) {
+      this.eventListeners[event] = [cb]
+    } else {
+      this.eventListeners[event].push(cb)
+    }
+
+    this.editor.on(event, (...args) => {
+      this.eventListeners[event].forEach(cb => cb.bind(this)(...args))
+    })
+  }
+
+  getStatusBarTemplate () {
+    return new Promise((resolve, reject) => {
+      $.get(window.serverurl + '/views/statusbar.html').done(template => {
+        this.statusBarTemplate = template
+        resolve()
+      }).fail(reject)
     })
   }
 
   addStatusBar () {
     if (!this.statusBarTemplate) {
-      this.getStatusBarTemplate(this.addStatusBar)
-      return
-    }
-    this.statusBar = $(this.statusBarTemplate)
-    this.statusCursor = this.statusBar.find('.status-cursor')
-    this.statusFile = this.statusBar.find('.status-file')
-    this.statusIndicators = this.statusBar.find('.status-indicators')
-    this.statusIndent = this.statusBar.find('.status-indent')
-    this.statusKeymap = this.statusBar.find('.status-keymap')
-    this.statusLength = this.statusBar.find('.status-length')
-    this.statusTheme = this.statusBar.find('.status-theme')
-    this.statusSpellcheck = this.statusBar.find('.status-spellcheck')
-    this.statusPreferences = this.statusBar.find('.status-preferences')
-    this.statusPanel = this.editor.addPanel(this.statusBar[0], {
-      position: 'bottom'
-    })
+      this.getStatusBarTemplate.then(this.addStatusBar)
+    } else {
+      this.statusBar = $(this.statusBarTemplate)
+      this.statusCursor = this.statusBar.find('.status-cursor > .status-line-column')
+      this.statusSelection = this.statusBar.find('.status-cursor > .status-selection')
+      this.statusFile = this.statusBar.find('.status-file')
+      this.statusIndicators = this.statusBar.find('.status-indicators')
+      this.statusIndent = this.statusBar.find('.status-indent')
+      this.statusKeymap = this.statusBar.find('.status-keymap')
+      this.statusLength = this.statusBar.find('.status-length')
+      this.statusTheme = this.statusBar.find('.status-theme')
+      this.statusSpellcheck = this.statusBar.find('.status-spellcheck')
+      this.statusPreferences = this.statusBar.find('.status-preferences')
+      this.statusPanel = this.editor.addPanel(this.statusBar[0], {
+        position: 'bottom'
+      })
 
-    this.setIndent()
-    this.setKeymap()
-    this.setTheme()
-    this.setSpellcheck()
-    this.setPreferences()
+      this.setIndent()
+      this.setKeymap()
+      this.setTheme()
+      this.setSpellcheck()
+      this.setPreferences()
+    }
+  }
+
+  updateStatusBar () {
+    if (!this.statusBar) return
+
+    var cursor = this.editor.getCursor()
+    var cursorText = 'Line ' + (cursor.line + 1) + ', Columns ' + (cursor.ch + 1)
+    this.statusCursor.text(cursorText)
+    var fileText = ' — ' + editor.lineCount() + ' Lines'
+    this.statusFile.text(fileText)
+    var docLength = editor.getValue().length
+    this.statusLength.text('Length ' + docLength)
+    if (docLength > (config.docmaxlength * 0.95)) {
+      this.statusLength.css('color', 'red')
+      this.statusLength.attr('title', 'Your almost reach note max length limit.')
+    } else if (docLength > (config.docmaxlength * 0.8)) {
+      this.statusLength.css('color', 'orange')
+      this.statusLength.attr('title', 'You nearly fill the note, consider to make more pieces.')
+    } else {
+      this.statusLength.css('color', 'white')
+      this.statusLength.attr('title', 'You could write up to ' + config.docmaxlength + ' characters in this note.')
+    }
   }
 
   setIndent () {

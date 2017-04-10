@@ -12,14 +12,14 @@ require('../css/site.css')
 
 require('highlight.js/styles/github-gist.css')
 
-var toMarkdown = require('to-markdown')
+import toMarkdown from 'to-markdown'
 
-var saveAs = require('file-saver').saveAs
-var randomColor = require('randomcolor')
+import { saveAs } from 'file-saver'
+import randomColor from 'randomcolor'
 
-var _ = require('lodash')
+import _ from 'lodash'
 
-var List = require('list.js')
+import List from 'list.js'
 
 import {
     checkLoginStateChanged,
@@ -75,10 +75,10 @@ import {
     removeHistory
 } from './history'
 
-var renderer = require('./render')
-var preventXSS = renderer.preventXSS
+import { preventXSS } from './render'
 
 import Editor from './lib/editor'
+import EditorConfig from './lib/editor/config'
 
 import getUIElements from './lib/editor/ui-elements'
 
@@ -314,60 +314,14 @@ if (!textit) {
 const editorInstance = new Editor()
 var editor = editorInstance.init(textit)
 
-// TODO: global referncing in jquery-textcomplete patch
+// FIXME: global referncing in jquery-textcomplete patch
 window.editor = editor
 
 var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor)
 defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
 
-var selection = null
-
-function updateStatusBar () {
-  if (!editorInstance.statusBar) return
-  var cursor = editor.getCursor()
-  var cursorText = 'Line ' + (cursor.line + 1) + ', Columns ' + (cursor.ch + 1)
-  if (selection) {
-    var anchor = selection.anchor
-    var head = selection.head
-    var start = head.line <= anchor.line ? head : anchor
-    var end = head.line >= anchor.line ? head : anchor
-    var selectionText = ' — Selected '
-    var selectionCharCount = Math.abs(head.ch - anchor.ch)
-    // borrow from brackets EditorStatusBar.js
-    if (start.line !== end.line) {
-      var lines = end.line - start.line + 1
-      if (end.ch === 0) {
-        lines--
-      }
-      selectionText += lines + ' lines'
-    } else if (selectionCharCount > 0) {
-      selectionText += selectionCharCount + ' columns'
-    }
-    if (start.line !== end.line || selectionCharCount > 0) {
-      cursorText += selectionText
-    }
-  }
-  editorInstance.statusCursor.text(cursorText)
-  var fileText = ' — ' + editor.lineCount() + ' Lines'
-  editorInstance.statusFile.text(fileText)
-  var docLength = editor.getValue().length
-  editorInstance.statusLength.text('Length ' + docLength)
-  if (docLength > (docmaxlength * 0.95)) {
-    editorInstance.statusLength.css('color', 'red')
-    editorInstance.statusLength.attr('title', 'Your almost reach note max length limit.')
-  } else if (docLength > (docmaxlength * 0.8)) {
-    editorInstance.statusLength.css('color', 'orange')
-    editorInstance.statusLength.attr('title', 'You nearly fill the note, consider to make more pieces.')
-  } else {
-    editorInstance.statusLength.css('color', 'white')
-    editorInstance.statusLength.attr('title', 'You could write up to ' + docmaxlength + ' characters in this note.')
-  }
-}
-
 //  initalize ui reference
-// TODO: fix ui exporting
 const ui = getUIElements()
-window.ui = ui
 
 // page actions
 var opts = {
@@ -489,29 +443,29 @@ $(document).ready(function () {
     clearMap()
   }
   checkEditorStyle()
-    /* we need this only on touch devices */
+  /* we need this only on touch devices */
   if (window.isTouchDevice) {
-        /* cache dom references */
+    /* cache dom references */
     var $body = jQuery('body')
 
-        /* bind events */
+    /* bind events */
     $(document)
-            .on('focus', 'textarea, input', function () {
-              $body.addClass('fixfixed')
-            })
-            .on('blur', 'textarea, input', function () {
-              $body.removeClass('fixfixed')
-            })
+    .on('focus', 'textarea, input', function () {
+      $body.addClass('fixfixed')
+    })
+    .on('blur', 'textarea, input', function () {
+      $body.removeClass('fixfixed')
+    })
   }
-    // showup
+  // showup
   $().showUp('.navbar', {
     upClass: 'navbar-hide',
     downClass: 'navbar-show'
   })
-    // tooltip
+  // tooltip
   $('[data-toggle="tooltip"]').tooltip()
-    // shortcuts
-    // allow on all tags
+  // shortcuts
+  // allow on all tags
   key.filter = function (e) { return true }
   key('ctrl+alt+e', function (e) {
     changeMode(modeType.edit)
@@ -522,7 +476,7 @@ $(document).ready(function () {
   key('ctrl+alt+b', function (e) {
     changeMode(modeType.both)
   })
-    // toggle-dropdown
+  // toggle-dropdown
   $(document).on('click', '.toggle-dropdown .dropdown-menu', function (e) {
     e.stopPropagation()
   })
@@ -537,10 +491,10 @@ $(window).resize(function () {
 })
 // when page unload
 $(window).on('unload', function () {
-    // updateHistoryInner();
+// updateHistoryInner();
 })
 $(window).on('error', function () {
-    // setNeedRefresh();
+  // setNeedRefresh();
 })
 
 setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown)
@@ -562,7 +516,7 @@ function windowResizeInner (callback) {
   checkEditorStyle()
   checkTocStyle()
   checkCursorMenu()
-    // refresh editor
+  // refresh editor
   if (window.loaded) {
     if (editor.getOption('scrollbarStyle') === 'native') {
       setTimeout(function () {
@@ -572,13 +526,13 @@ function windowResizeInner (callback) {
         if (callback && typeof callback === 'function') { callback() }
       }, 1)
     } else {
-            // force it load all docs at once to prevent scroll knob blink
+      // force it load all docs at once to prevent scroll knob blink
       editor.setOption('viewportMargin', Infinity)
       setTimeout(function () {
         clearMap()
         autoSyncscroll()
         editor.setOption('viewportMargin', viewportMargin)
-                // add or update user cursors
+        // add or update user cursors
         for (var i = 0; i < window.onlineUsers.length; i++) {
           if (window.onlineUsers[i].id !== window.personalInfo.id) { buildCursor(window.onlineUsers[i]) }
         }
@@ -627,9 +581,9 @@ function checkEditorStyle () {
     ui.area.codemirrorScroll.css('height', '')
     ui.area.codemirrorScroll.css('min-height', desireHeight + 'px')
   }
-    // workaround editor will have wrong doc height when editor height changed
+  // workaround editor will have wrong doc height when editor height changed
   editor.setSize(null, ui.area.edit.height())
-    // make editor resizable
+  // make editor resizable
   if (!ui.area.resize.handle.length) {
     ui.area.edit.resizable({
       handles: 'e',
@@ -708,8 +662,8 @@ var checkEditorScrollbar = _.debounce(function () {
 }, 50)
 
 function checkEditorScrollbarInner () {
-    // workaround simple scroll bar knob
-    // will get wrong position when editor height changed
+  // workaround simple scroll bar knob
+  // will get wrong position when editor height changed
   var scrollInfo = editor.getScrollInfo()
   editor.scrollTo(null, scrollInfo.top - 1)
   editor.scrollTo(null, scrollInfo.top)
@@ -733,7 +687,7 @@ function checkTocStyle () {
   } else {
     newbool = false
   }
-    // toc scrollspy
+  // toc scrollspy
   ui.toc.toc.removeClass('scrollspy-body, scrollspy-view')
   ui.toc.affix.removeClass('scrollspy-body, scrollspy-view')
   if (window.currentMode === modeType.both) {
@@ -853,7 +807,7 @@ function changeMode (type) {
     // add and update status bar
     if (!editorInstance.statusBar) {
       editorInstance.addStatusBar()
-      updateStatusBar()
+      editorInstance.updateStatusBar()
     }
     // work around foldGutter might not init properly
     editor.setOption('foldGutter', false)
@@ -1868,7 +1822,7 @@ socket.on('disconnect', function (data) {
 socket.on('reconnect', function (data) {
     // sync back any change in offline
   emitUserStatus(true)
-  cursorActivity()
+  cursorActivity(editor)
   socket.emit('online users')
 })
 socket.on('connect', function (data) {
@@ -1941,10 +1895,6 @@ function initMarkAndCheckGutter (mark, author, timestamp) {
   }
   return mark
 }
-var gutterStylePrefix = 'border-left: 3px solid '
-var gutterStylePostfix = '; height: ' + defaultTextHeight + 'px; margin-left: 3px;'
-var textMarkderStylePrefix = 'background-image: linear-gradient(to top, '
-var textMarkderStylePostfix = ' 1px, transparent 1px);'
 var addStyleRule = (function () {
   var added = {}
   var styleElement = document.createElement('style')
@@ -2061,11 +2011,11 @@ function updateAuthorshipInner () {
   for (let i = 0; i < addTextMarkers.length; i++) {
     let textMarker = addTextMarkers[i]
     let author = authors[textMarker.userid]
-    var rgbcolor = hex2rgb(author.color)
-    var colorString = 'rgba(' + rgbcolor.red + ',' + rgbcolor.green + ',' + rgbcolor.blue + ',0.7)'
-    var styleString = textMarkderStylePrefix + colorString + textMarkderStylePostfix
-    let className = 'authorship-inline-' + author.color.substr(1)
-    var rule = '.' + className + '{' + styleString + '}'
+    const rgbcolor = hex2rgb(author.color)
+    const colorString = `rgba(${rgbcolor.red},${rgbcolor.green},${rgbcolor.blue},0.7)`
+    const styleString = `background-image: linear-gradient(to top, ${colorString} 1px, transparent 1px);`
+    let className = `authorship-inline-${author.color.substr(1)}`
+    const rule = `.${className} { ${styleString} }`
     addStyleRule(rule)
     editor.markText(textMarker.pos[0], textMarker.pos[1], {
       className: 'authorship-inline ' + className,
@@ -2079,12 +2029,12 @@ function iterateLine (line) {
   var author = currMark ? authors[currMark.gutter.userid] : null
   if (currMark && author) {
     let className = 'authorship-gutter-' + author.color.substr(1)
-    var gutters = line.gutterMarkers
+    const gutters = line.gutterMarkers
     if (!gutters || !gutters['authorship-gutters'] ||
-            !gutters['authorship-gutters'].className ||
-            !gutters['authorship-gutters'].className.indexOf(className) < 0) {
-      var styleString = gutterStylePrefix + author.color + gutterStylePostfix
-      var rule = '.' + className + '{' + styleString + '}'
+        !gutters['authorship-gutters'].className ||
+        !gutters['authorship-gutters'].className.indexOf(className) < 0) {
+      const styleString = `border-left: 3px solid ${author.color}; height: ${defaultTextHeight}px; margin-left: 3px;`
+      const rule = `.${className} { ${styleString} }`
       addStyleRule(rule)
       var gutter = $('<div>', {
         class: 'authorship-gutter ' + className,
@@ -2104,7 +2054,7 @@ function iterateLine (line) {
     }
   }
 }
-editor.on('update', function () {
+editorInstance.on('update', function () {
   $('.authorship-gutter:not([data-original-title])').tooltip({
     container: '.CodeMirror-lines',
     placement: 'right',
@@ -2115,25 +2065,25 @@ editor.on('update', function () {
     placement: 'bottom',
     delay: { 'show': 500, 'hide': 100 }
   })
-    // clear tooltip which described element has been removed
+  // clear tooltip which described element has been removed
   $('[id^="tooltip"]').each(function (index, element) {
     var $ele = $(element)
     if ($('[aria-describedby="' + $ele.attr('id') + '"]').length <= 0) $ele.remove()
   })
 })
 socket.on('check', function (data) {
-    // console.log(data);
+  // console.log(data);
   updateInfo(data)
 })
 socket.on('permission', function (data) {
   updatePermission(data.permission)
 })
-var docmaxlength = null
+
 var permission = null
 socket.on('refresh', function (data) {
     // console.log(data);
-  docmaxlength = data.docmaxlength
-  editor.setOption('maxLength', docmaxlength)
+  EditorConfig.docmaxlength = data.docmaxlength
+  editor.setOption('maxLength', EditorConfig.docmaxlength)
   updateInfo(data)
   updatePermission(data.permission)
   if (!window.loaded) {
@@ -2142,7 +2092,7 @@ socket.on('refresh', function (data) {
     if (nocontent) {
       if (window.visibleXS) { window.currentMode = modeType.edit } else { window.currentMode = modeType.both }
     }
-        // parse mode from url
+    // parse mode from url
     if (window.location.search.length > 0) {
       var urlMode = modeType[window.location.search.substr(1)]
       if (urlMode) window.currentMode = urlMode
@@ -2158,9 +2108,9 @@ socket.on('refresh', function (data) {
     emitUserStatus() // send first user status
     updateOnlineStatus() // update first online status
     setTimeout(function () {
-            // work around editor not refresh or doc not fully loaded
+      // work around editor not refresh or doc not fully loaded
       windowResizeInner()
-            // work around might not scroll to hash
+      // work around might not scroll to hash
       scrollToHash()
     }, 1)
   }
@@ -2194,7 +2144,7 @@ socket.on('doc', function (obj) {
     ui.spinner.hide()
     ui.content.fadeIn()
   } else {
-        // if current doc is equal to the doc before disconnect
+    // if current doc is equal to the doc before disconnect
     if (setDoc && bodyMismatch) editor.clearHistory()
     else if (window.lastInfo.history) editor.setHistory(window.lastInfo.history)
     window.lastInfo.history = null
@@ -2202,9 +2152,9 @@ socket.on('doc', function (obj) {
 
   if (!cmClient) {
     cmClient = window.cmClient = new EditorClient(
-            obj.revision, obj.clients,
-            new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
-        )
+      obj.revision, obj.clients,
+      new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
+    )
     synchronized_ = cmClient.state
   } else if (setDoc) {
     if (bodyMismatch) {
@@ -2309,11 +2259,11 @@ socket.on('cursor blur', function (data) {
 var options = {
   valueNames: ['id', 'name'],
   item: '<li class="ui-user-item">' +
-            '<span class="id" style="display:none;"></span>' +
-            '<a href="#">' +
-                '<span class="pull-left"><i class="ui-user-icon"></i></span><span class="ui-user-name name"></span><span class="pull-right"><i class="fa fa-circle ui-user-status"></i></span>' +
-            '</a>' +
-           '</li>'
+        '<span class="id" style="display:none;"></span>' +
+        '<a href="#">' +
+            '<span class="pull-left"><i class="ui-user-icon"></i></span><span class="ui-user-name name"></span><span class="pull-right"><i class="fa fa-circle ui-user-status"></i></span>' +
+        '</a>' +
+        '</li>'
 }
 var onlineUserList = new List('online-user-list', options)
 var shortOnlineUserList = new List('short-online-user-list', options)
@@ -2655,7 +2605,7 @@ function enforceMaxLength (cm, change) {
   return false
 }
 var ignoreEmitEvents = ['setValue', 'ignoreHistory']
-editor.on('beforeChange', function (cm, change) {
+editorInstance.on('beforeChange', function (cm, change) {
   if (debug) { console.debug(change) }
   removeNullByte(cm, change)
   if (enforceMaxLength(cm, change)) {
@@ -2683,13 +2633,13 @@ editor.on('beforeChange', function (cm, change) {
   }
   if (cmClient && !socket.connected) { cmClient.editorAdapter.ignoreNextChange = true }
 })
-editor.on('cut', function () {
+editorInstance.on('cut', function () {
     // na
 })
-editor.on('paste', function () {
+editorInstance.on('paste', function () {
     // na
 })
-editor.on('changes', function (cm, changes) {
+editorInstance.on('changes', function (editor, changes) {
   updateHistory()
   var docLength = editor.getValue().length
     // workaround for big documents
@@ -2713,7 +2663,7 @@ editor.on('changes', function (cm, changes) {
     }
   }
 })
-editor.on('focus', function (cm) {
+editorInstance.on('focus', function (editor) {
   for (var i = 0; i < window.onlineUsers.length; i++) {
     if (window.onlineUsers[i].id === window.personalInfo.id) {
       window.onlineUsers[i].cursor = editor.getCursor()
@@ -2722,18 +2672,10 @@ editor.on('focus', function (cm) {
   window.personalInfo['cursor'] = editor.getCursor()
   socket.emit('cursor focus', editor.getCursor())
 })
-editor.on('cursorActivity', function (cm) {
-  updateStatusBar()
-  cursorActivity()
-})
-editor.on('beforeSelectionChange', function (doc, selections) {
-  if (selections) { selection = selections.ranges[0] } else { selection = null }
-  updateStatusBar()
-})
 
-var cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce)
+const cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce)
 
-function cursorActivityInner () {
+function cursorActivityInner (editor) {
   if (editorHasFocus() && !Visibility.hidden()) {
     for (var i = 0; i < window.onlineUsers.length; i++) {
       if (window.onlineUsers[i].id === window.personalInfo.id) {
@@ -2744,7 +2686,44 @@ function cursorActivityInner () {
     socket.emit('cursor activity', editor.getCursor())
   }
 }
-editor.on('blur', function (cm) {
+
+editorInstance.on('cursorActivity', editorInstance.updateStatusBar)
+editorInstance.on('cursorActivity', cursorActivity)
+
+editorInstance.on('beforeSelectionChange', editorInstance.updateStatusBar)
+editorInstance.on('beforeSelectionChange', function (doc, selections) {
+  // check selection and whether the statusbar has added
+  if (selections && editorInstance.statusSelection) {
+    const selection = selections.ranges[0]
+
+    const anchor = selection.anchor
+    const head = selection.head
+    const start = head.line <= anchor.line ? head : anchor
+    const end = head.line >= anchor.line ? head : anchor
+    const selectionCharCount = Math.abs(head.ch - anchor.ch)
+
+    let selectionText = ' — Selected '
+
+    // borrow from brackets EditorStatusBar.js
+    if (start.line !== end.line) {
+      var lines = end.line - start.line + 1
+      if (end.ch === 0) {
+        lines--
+      }
+      selectionText += lines + ' lines'
+    } else if (selectionCharCount > 0) {
+      selectionText += selectionCharCount + ' columns'
+    }
+
+    if (start.line !== end.line || selectionCharCount > 0) {
+      editorInstance.statusSelection.text(selectionText)
+    } else {
+      editorInstance.statusSelection.text('')
+    }
+  }
+})
+
+editorInstance.on('blur', function (cm) {
   for (var i = 0; i < window.onlineUsers.length; i++) {
     if (window.onlineUsers[i].id === window.personalInfo.id) {
       window.onlineUsers[i].cursor = null
