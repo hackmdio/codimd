@@ -2466,9 +2466,6 @@ function buildCursor (user) {
       iconClass = 'fa-desktop'
       break
   }
-  if ($('.CodeMirror-other-cursors').length <= 0) {
-    $("<div class='CodeMirror-other-cursors'>").insertAfter('.CodeMirror-cursors')
-  }
   if ($('div[data-clientid="' + user.id + '"]').length <= 0) {
     let cursor = $('<div data-clientid="' + user.id + '" class="CodeMirror-other-cursor" style="display:none;"></div>')
     cursor.attr('data-line', user.cursor.line)
