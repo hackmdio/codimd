@@ -1,7 +1,7 @@
 // app
 // external modules
 var express = require('express')
-var toobusy = require('toobusy-js')
+
 var ejs = require('ejs')
 var passport = require('passport')
 var methodOverride = require('method-override')
@@ -146,13 +146,7 @@ server.on('resumeSession', function (id, cb) {
 })
 
 // middleware which blocks requests when we're too busy
-app.use(function (req, res, next) {
-  if (toobusy()) {
-    response.errorServiceUnavailable(res)
-  } else {
-    next()
-  }
-})
+app.use(require('./lib/web/middleware/tooBusy'))
 
 app.use(flash())
 
