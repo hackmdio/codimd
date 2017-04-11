@@ -4,8 +4,8 @@
 
 import markdownitContainer from 'markdown-it-container'
 
-import { md } from './extra'
-import modeType from './lib/editor/modeType'
+import { md } from '../extra'
+import modeType from '../lib/editor/modeType'
 
 function addPart (tokens, idx) {
   if (tokens[idx].map && tokens[idx].level === 0) {

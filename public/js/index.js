@@ -65,7 +65,7 @@ import {
     setupSyncAreas,
     syncScrollToEdit,
     syncScrollToView
-} from './syncscroll'
+} from './lib/syncscroll'
 
 import {
     writeHistory,
