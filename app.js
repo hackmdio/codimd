@@ -6,7 +6,6 @@ var ejs = require('ejs')
 var passport = require('passport')
 var methodOverride = require('method-override')
 var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
 const {urlencodedParser} = require('./lib/web/utils')
 var compression = require('compression')
 var session = require('express-session')
@@ -21,7 +20,6 @@ var passportSocketIo = require('passport.socketio')
 var helmet = require('helmet')
 var i18n = require('i18n')
 var flash = require('connect-flash')
-var validator = require('validator')
 
 // utils
 var getImageMimeType = require('./lib/utils.js').getImageMimeType
