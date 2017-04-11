@@ -192,28 +192,10 @@ passport.deserializeUser(function (id, done) {
 })
 
 // check uri is valid before going further
-app.use(function (req, res, next) {
-  try {
-    decodeURIComponent(req.path)
-  } catch (err) {
-    logger.error(err)
-    return response.errorBadRequest(res)
-  }
-  next()
-})
+app.use(require('./lib/web/middleware/checkURiValid'))
 
 // redirect url without trailing slashes
-app.use(function (req, res, next) {
-  if (req.method === 'GET' && req.path.substr(-1) === '/' && req.path.length > 1) {
-    var query = req.url.slice(req.path.length)
-    var urlpath = req.path.slice(0, -1)
-    var serverurl = config.serverurl
-    if (config.urlpath) serverurl = serverurl.slice(0, -(config.urlpath.length + 1))
-    res.redirect(301, serverurl + urlpath + query)
-  } else {
-    next()
-  }
-})
+app.use(require('./lib/web/middleware/redirectwithoutTrailingSlashes'))
 
 // routes need sessions
 // template files
