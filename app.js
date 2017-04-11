@@ -29,7 +29,6 @@ var getImageMimeType = require('./lib/utils.js').getImageMimeType
 // core
 var config = require('./lib/config.js')
 var logger = require('./lib/logger.js')
-var auth = require('./lib/auth.js')
 var response = require('./lib/response.js')
 var models = require('./lib/models')
 
@@ -165,7 +164,6 @@ app.use(flash())
 // passport
 app.use(passport.initialize())
 app.use(passport.session())
-auth.registerAuthMethod()
 
 // serialize and deserialize
 passport.serializeUser(function (user, done) {
@@ -200,164 +198,10 @@ app.engine('ejs', ejs.renderFile)
 // set view engine
 app.set('view engine', 'ejs')
 
-function setReturnToFromReferer (req) {
-  var referer = req.get('referer')
-  if (!req.session) req.session = {}
-  req.session.returnTo = referer
-}
-
-// facebook auth
-if (config.facebook) {
-  app.get('/auth/facebook', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('facebook')(req, res, next)
-  })
-  // facebook auth callback
-  app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-}
-// twitter auth
-if (config.twitter) {
-  app.get('/auth/twitter', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('twitter')(req, res, next)
-  })
-  // twitter auth callback
-  app.get('/auth/twitter/callback',
-        passport.authenticate('twitter', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-}
-// github auth
-if (config.github) {
-  app.get('/auth/github', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('github')(req, res, next)
-  })
-  // github auth callback
-  app.get('/auth/github/callback',
-        passport.authenticate('github', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-  if (!config.gitlab.scope || config.gitlab.scope === 'api') {
-    // gitlab callback actions
-    app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions)
-  }
-}
-// gitlab auth
-if (config.gitlab) {
-  app.get('/auth/gitlab', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('gitlab')(req, res, next)
-  })
-  // gitlab auth callback
-  app.get('/auth/gitlab/callback',
-        passport.authenticate('gitlab', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-  // gitlab callback actions
-  app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions)
-}
-// dropbox auth
-if (config.dropbox) {
-  app.get('/auth/dropbox', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('dropbox-oauth2')(req, res, next)
-  })
-  // dropbox auth callback
-  app.get('/auth/dropbox/callback',
-        passport.authenticate('dropbox-oauth2', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-}
-// google auth
-if (config.google) {
-  app.get('/auth/google', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('google', { scope: ['profile'] })(req, res, next)
-  })
-  // google auth callback
-  app.get('/auth/google/callback',
-        passport.authenticate('google', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-}
-// ldap auth
-if (config.ldap) {
-  app.post('/auth/ldap', urlencodedParser, function (req, res, next) {
-    if (!req.body.username || !req.body.password) return response.errorBadRequest(res)
-    setReturnToFromReferer(req)
-    passport.authenticate('ldapauth', {
-      successReturnToOrRedirect: config.serverurl + '/',
-      failureRedirect: config.serverurl + '/',
-      failureFlash: true
-    })(req, res, next)
-  })
-}
-// email auth
-if (config.email) {
-  if (config.allowemailregister) {
-    app.post('/register', urlencodedParser, function (req, res, next) {
-      if (!req.body.email || !req.body.password) return response.errorBadRequest(res)
-      if (!validator.isEmail(req.body.email)) return response.errorBadRequest(res)
-      models.User.findOrCreate({
-        where: {
-          email: req.body.email
-        },
-        defaults: {
-          password: req.body.password
-        }
-      }).spread(function (user, created) {
-        if (user) {
-          if (created) {
-            if (config.debug) {
-              logger.info('user registered: ' + user.id)
-            }
-            req.flash('info', "You've successfully registered, please signin.")
-          } else {
-            if (config.debug) {
-              logger.info('user found: ' + user.id)
-            }
-            req.flash('error', 'This email has been used, please try another one.')
-          }
-          return res.redirect(config.serverurl + '/')
-        }
-        req.flash('error', 'Failed to register your account, please try again.')
-        return res.redirect(config.serverurl + '/')
-      }).catch(function (err) {
-        logger.error('auth callback failed: ' + err)
-        return response.errorInternalError(res)
-      })
-    })
-  }
 app.use(require('./lib/web/baseRouter'))
 app.use(require('./lib/web/statusRouter'))
+app.use(require('./lib/web/auth'))
 
-  app.post('/login', urlencodedParser, function (req, res, next) {
-    if (!req.body.email || !req.body.password) return response.errorBadRequest(res)
-    if (!validator.isEmail(req.body.email)) return response.errorBadRequest(res)
-    setReturnToFromReferer(req)
-    passport.authenticate('local', {
-      successReturnToOrRedirect: config.serverurl + '/',
-      failureRedirect: config.serverurl + '/',
-      failureFlash: 'Invalid email or password.'
-    })(req, res, next)
-  })
-}
-// logout
-app.get('/logout', function (req, res) {
-  if (config.debug && req.isAuthenticated()) { logger.info('user logout: ' + req.user.id) }
-  req.logout()
-  res.redirect(config.serverurl + '/')
-})
 var history = require('./lib/history.js')
 // get history
 app.get('/history', history.historyGet)
