@@ -199,34 +199,7 @@ app.use(require('./lib/web/baseRouter'))
 app.use(require('./lib/web/statusRouter'))
 app.use(require('./lib/web/auth'))
 app.use(require('./lib/web/historyRouter'))
-
-// get me info
-app.get('/me', function (req, res) {
-  if (req.isAuthenticated()) {
-    models.User.findOne({
-      where: {
-        id: req.user.id
-      }
-    }).then(function (user) {
-      if (!user) { return response.errorNotFound(res) }
-      var profile = models.User.getProfile(user)
-      res.send({
-        status: 'ok',
-        id: req.user.id,
-        name: profile.name,
-        photo: profile.photo
-      })
-    }).catch(function (err) {
-      logger.error('read me failed: ' + err)
-      return response.errorInternalError(res)
-    })
-  } else {
-    res.send({
-      status: 'forbidden'
-    })
-  }
-})
-
+app.use(require('./lib/web/userRouter'))
 // upload image
 app.post('/uploadimage', function (req, res) {
   var form = new formidable.IncomingForm()
