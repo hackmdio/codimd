@@ -199,20 +199,6 @@ app.set('views', path.join(__dirname, '/public/views'))
 app.engine('ejs', ejs.renderFile)
 // set view engine
 app.set('view engine', 'ejs')
-// get index
-app.get('/', response.showIndex)
-// get 403 forbidden
-app.get('/403', function (req, res) {
-  response.errorForbidden(res)
-})
-// get 404 not found
-app.get('/404', function (req, res) {
-  response.errorNotFound(res)
-})
-// get 500 internal error
-app.get('/500', function (req, res) {
-  response.errorInternalError(res)
-})
 // get status
 app.get('/status', function (req, res, next) {
   realtime.getStatus(function (data) {
@@ -430,6 +416,7 @@ if (config.email) {
       })
     })
   }
+app.use(require('./lib/web/baseRouter'))
 
   app.post('/login', urlencodedParser, function (req, res, next) {
     if (!req.body.email || !req.body.password) return response.errorBadRequest(res)
