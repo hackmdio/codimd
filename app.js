@@ -199,84 +199,6 @@ app.set('views', path.join(__dirname, '/public/views'))
 app.engine('ejs', ejs.renderFile)
 // set view engine
 app.set('view engine', 'ejs')
-// get status
-app.get('/status', function (req, res, next) {
-  realtime.getStatus(function (data) {
-    res.set({
-      'Cache-Control': 'private', // only cache by client
-      'X-Robots-Tag': 'noindex, nofollow', // prevent crawling
-      'HackMD-Version': config.version
-    })
-    res.send(data)
-  })
-})
-// get status
-app.get('/temp', function (req, res) {
-  var host = req.get('host')
-  if (config.alloworigin.indexOf(host) === -1) {
-    response.errorForbidden(res)
-  } else {
-    var tempid = req.query.tempid
-    if (!tempid) {
-      response.errorForbidden(res)
-    } else {
-      models.Temp.findOne({
-        where: {
-          id: tempid
-        }
-      }).then(function (temp) {
-        if (!temp) {
-          response.errorNotFound(res)
-        } else {
-          res.header('Access-Control-Allow-Origin', '*')
-          res.send({
-            temp: temp.data
-          })
-          temp.destroy().catch(function (err) {
-            if (err) {
-              logger.error('remove temp failed: ' + err)
-            }
-          })
-        }
-      }).catch(function (err) {
-        logger.error(err)
-        return response.errorInternalError(res)
-      })
-    }
-  }
-})
-// post status
-app.post('/temp', urlencodedParser, function (req, res) {
-  var host = req.get('host')
-  if (config.alloworigin.indexOf(host) === -1) {
-    response.errorForbidden(res)
-  } else {
-    var data = req.body.data
-    if (!data) {
-      response.errorForbidden(res)
-    } else {
-      if (config.debug) {
-        logger.info('SERVER received temp from [' + host + ']: ' + req.body.data)
-      }
-      models.Temp.create({
-        data: data
-      }).then(function (temp) {
-        if (temp) {
-          res.header('Access-Control-Allow-Origin', '*')
-          res.send({
-            status: 'ok',
-            id: temp.id
-          })
-        } else {
-          response.errorInternalError(res)
-        }
-      }).catch(function (err) {
-        logger.error(err)
-        return response.errorInternalError(res)
-      })
-    }
-  }
-})
 
 function setReturnToFromReferer (req) {
   var referer = req.get('referer')
@@ -417,6 +339,7 @@ if (config.email) {
     })
   }
 app.use(require('./lib/web/baseRouter'))
+app.use(require('./lib/web/statusRouter'))
 
   app.post('/login', urlencodedParser, function (req, res, next) {
     if (!req.body.email || !req.body.password) return response.errorBadRequest(res)
