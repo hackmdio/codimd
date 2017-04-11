@@ -199,18 +199,8 @@ app.set('view engine', 'ejs')
 app.use(require('./lib/web/baseRouter'))
 app.use(require('./lib/web/statusRouter'))
 app.use(require('./lib/web/auth'))
+app.use(require('./lib/web/historyRouter'))
 
-var history = require('./lib/history.js')
-// get history
-app.get('/history', history.historyGet)
-// post history
-app.post('/history', urlencodedParser, history.historyPost)
-// post history by note id
-app.post('/history/:noteId', urlencodedParser, history.historyPost)
-// delete history
-app.delete('/history', history.historyDelete)
-// delete history by note id
-app.delete('/history/:noteId', history.historyDelete)
 // get me info
 app.get('/me', function (req, res) {
   if (req.isAuthenticated()) {
