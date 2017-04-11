@@ -5,8 +5,10 @@ var path = require('path')
 module.exports = [Object.assign({}, baseConfig, {
   plugins: baseConfig.plugins.concat([
     new ExtractTextPlugin('[name].css')
-  ])
+  ]),
+  devtool: 'source-map'
 }), {
+  devtool: 'source-map',
   entry: {
     htmlExport: path.join(__dirname, 'public/js/htmlExport.js')
   },
