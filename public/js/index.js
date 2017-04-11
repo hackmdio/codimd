@@ -124,7 +124,7 @@ var supportHeaders = [
     search: '###### tags:'
   }
 ]
-var supportReferrals = [
+const supportReferrals = [
   {
     text: '[reference link]',
     search: '[]'
@@ -170,7 +170,7 @@ var supportReferrals = [
     search: '[]'
   }
 ]
-var supportExternals = [
+const supportExternals = [
   {
     text: '{%youtube youtubeid %}',
     search: 'youtube'
@@ -196,12 +196,12 @@ var supportExternals = [
     search: 'pdf'
   }
 ]
-var supportExtraTags = [
+const supportExtraTags = [
   {
     text: '[name tag]',
     search: '[]',
     command: function () {
-      return '[name=' + window.personalInfo.name + ']'
+      return '[name=' + personalInfo.name + ']'
     }
   },
   {
@@ -215,7 +215,7 @@ var supportExtraTags = [
     text: '[my color tag]',
     search: '[]',
     command: function () {
-      return '[color=' + window.personalInfo.color + ']'
+      return '[color=' + personalInfo.color + ']'
     }
   },
   {
@@ -227,7 +227,7 @@ var supportExtraTags = [
     }
   }
 ]
-var statusType = {
+const statusType = {
   connected: {
     msg: 'CONNECTED',
     label: 'label-warning',
@@ -244,7 +244,7 @@ var statusType = {
     fa: 'fa-plug'
   }
 }
-var defaultMode = modeType.view
+const defaultMode = modeType.view
 
 // global vars
 window.loaded = false
@@ -257,8 +257,8 @@ let visibleMD = false
 let visibleLG = false
 const isTouchDevice = 'ontouchstart' in document.documentElement
 window.currentMode = defaultMode
-window.currentStatus = statusType.offline
-window.lastInfo = {
+let currentStatus = statusType.offline
+let lastInfo = {
   needRestore: false,
   cursor: null,
   scroll: null,
@@ -281,9 +281,9 @@ window.lastInfo = {
   },
   history: null
 }
-window.personalInfo = {}
-window.onlineUsers = []
-window.fileTypes = {
+let personalInfo = {}
+let onlineUsers = []
+const fileTypes = {
   'pl': 'perl',
   'cgi': 'perl',
   'js': 'javascript',
@@ -295,7 +295,7 @@ window.fileTypes = {
 }
 
 // editor settings
-var textit = document.getElementById('textit')
+const textit = document.getElementById('textit')
 if (!textit) {
   throw new Error('There was no textit area!')
 }
@@ -522,8 +522,8 @@ function windowResizeInner (callback) {
         autoSyncscroll()
         editor.setOption('viewportMargin', viewportMargin)
         // add or update user cursors
-        for (var i = 0; i < window.onlineUsers.length; i++) {
-          if (window.onlineUsers[i].id !== window.personalInfo.id) { buildCursor(window.onlineUsers[i]) }
+        for (var i = 0; i < onlineUsers.length; i++) {
+          if (onlineUsers[i].id !== personalInfo.id) { buildCursor(onlineUsers[i]) }
         }
         updateScrollspy()
         if (callback && typeof callback === 'function') { callback() }
@@ -696,7 +696,7 @@ function checkTocStyle () {
 }
 
 function showStatus (type, num) {
-  window.currentStatus = type
+  currentStatus = type
   var shortStatus = ui.toolbar.shortStatus
   var status = ui.toolbar.status
   var label = $('<span class="label"></span>')
@@ -707,7 +707,7 @@ function showStatus (type, num) {
   shortStatus.html('')
   status.html('')
 
-  switch (window.currentStatus) {
+  switch (currentStatus) {
     case statusType.connected:
       label.addClass(statusType.connected.label)
       fa.addClass(statusType.connected.fa)
@@ -1533,7 +1533,7 @@ $('#snippetImportModalConfirm').click(function () {
                       if (raw) {
                         content += '\n\n'
                         if (fileInfo[1] !== 'md') {
-                          content += '```' + window.fileTypes[fileInfo[1]] + '\n'
+                          content += '```' + fileTypes[fileInfo[1]] + '\n'
                         }
                         content += raw
                         if (fileInfo[1] !== 'md') {
@@ -1706,7 +1706,7 @@ function updatePermission (newPermission) {
       title = 'Only owner can view & edit'
       break
   }
-  if (window.personalInfo.userid && window.owner && window.personalInfo.userid === window.owner) {
+  if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
     label += ' <i class="fa fa-caret-down"></i>'
     ui.infobar.permission.label.removeClass('disabled')
   } else {
@@ -1723,7 +1723,7 @@ function havePermission () {
       break
     case 'editable':
     case 'limited':
-      if (!window.personalInfo.login) {
+      if (!personalInfo.login) {
         bool = false
       } else {
         bool = true
@@ -1732,7 +1732,7 @@ function havePermission () {
     case 'locked':
     case 'private':
     case 'protected':
-      if (!window.owner || window.personalInfo.userid !== window.owner) {
+      if (!window.owner || personalInfo.userid !== window.owner) {
         bool = false
       } else {
         bool = true
@@ -1779,7 +1779,7 @@ socket.on('error', function (data) {
   if (data.message && data.message.indexOf('AUTH failed') === 0) { location.href = serverurl + '/403' }
 })
 socket.on('delete', function () {
-  if (window.personalInfo.login) {
+  if (personalInfo.login) {
     deleteServerHistory(noteid, function (err, data) {
       if (!err) location.href = serverurl
     })
@@ -1799,7 +1799,7 @@ socket.on('disconnect', function (data) {
   showStatus(statusType.offline)
   if (window.loaded) {
     saveInfo()
-    window.lastInfo.history = editor.getHistory()
+    lastInfo.history = editor.getHistory()
   }
   if (!editor.getOption('readOnly')) { editor.setOption('readOnly', true) }
   if (!retryTimer) {
@@ -1817,7 +1817,7 @@ socket.on('reconnect', function (data) {
 socket.on('connect', function (data) {
   clearInterval(retryTimer)
   retryTimer = null
-  window.personalInfo['id'] = socket.id
+  personalInfo['id'] = socket.id
   showStatus(statusType.connected)
   socket.emit('version')
 })
@@ -2135,8 +2135,8 @@ socket.on('doc', function (obj) {
   } else {
     // if current doc is equal to the doc before disconnect
     if (setDoc && bodyMismatch) editor.clearHistory()
-    else if (window.lastInfo.history) editor.setHistory(window.lastInfo.history)
-    window.lastInfo.history = null
+    else if (lastInfo.history) editor.setHistory(lastInfo.history)
+    lastInfo.history = null
   }
 
   if (!cmClient) {
@@ -2178,7 +2178,7 @@ socket.on('operation', function () {
 
 socket.on('online users', function (data) {
   if (debug) { console.debug(data) }
-  window.onlineUsers = data.users
+  onlineUsers = data.users
   updateOnlineStatus()
   $('.CodeMirror-other-cursors').children().each(function (key, value) {
     var found = false
@@ -2194,14 +2194,14 @@ socket.on('online users', function (data) {
   })
   for (var i = 0; i < data.users.length; i++) {
     var user = data.users[i]
-    if (user.id !== socket.id) { buildCursor(user) } else { window.personalInfo = user }
+    if (user.id !== socket.id) { buildCursor(user) } else { personalInfo = user }
   }
 })
 socket.on('user status', function (data) {
   if (debug) { console.debug(data) }
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === data.id) {
-      window.onlineUsers[i] = data
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === data.id) {
+      onlineUsers[i] = data
     }
   }
   updateOnlineStatus()
@@ -2209,9 +2209,9 @@ socket.on('user status', function (data) {
 })
 socket.on('cursor focus', function (data) {
   if (debug) { console.debug(data) }
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === data.id) {
-      window.onlineUsers[i].cursor = data.cursor
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === data.id) {
+      onlineUsers[i].cursor = data.cursor
     }
   }
   if (data.id !== socket.id) { buildCursor(data) }
@@ -2223,18 +2223,18 @@ socket.on('cursor focus', function (data) {
 })
 socket.on('cursor activity', function (data) {
   if (debug) { console.debug(data) }
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === data.id) {
-      window.onlineUsers[i].cursor = data.cursor
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === data.id) {
+      onlineUsers[i].cursor = data.cursor
     }
   }
   if (data.id !== socket.id) { buildCursor(data) }
 })
 socket.on('cursor blur', function (data) {
   if (debug) { console.debug(data) }
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === data.id) {
-      window.onlineUsers[i].cursor = null
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === data.id) {
+      onlineUsers[i].cursor = null
     }
   }
   if (data.id !== socket.id) { buildCursor(data) }
@@ -2259,7 +2259,7 @@ var shortOnlineUserList = new List('short-online-user-list', options)
 
 function updateOnlineStatus () {
   if (!window.loaded || !socket.connected) return
-  var _onlineUsers = deduplicateOnlineUsers(window.onlineUsers)
+  var _onlineUsers = deduplicateOnlineUsers(onlineUsers)
   showStatus(statusType.online, _onlineUsers.length)
   var items = onlineUserList.items
     // update or remove current list items
@@ -2310,8 +2310,8 @@ function sortOnlineUserList (list) {
     sortFunction: function (a, b) {
       var usera = a.values()
       var userb = b.values()
-      var useraIsSelf = (usera.id === window.personalInfo.id || (usera.login && usera.userid === window.personalInfo.userid))
-      var userbIsSelf = (userb.id === window.personalInfo.id || (userb.login && userb.userid === window.personalInfo.userid))
+      var useraIsSelf = (usera.id === personalInfo.id || (usera.login && usera.userid === personalInfo.userid))
+      var userbIsSelf = (userb.id === personalInfo.id || (userb.login && userb.userid === personalInfo.userid))
       if (useraIsSelf && !userbIsSelf) {
         return -1
       } else if (!useraIsSelf && userbIsSelf) {
@@ -2362,7 +2362,7 @@ function deduplicateOnlineUsers (list) {
       for (var j = 0; j < _onlineUsers.length; j++) {
         if (_onlineUsers[j].userid === user.userid) {
           // keep self color when login
-          if (user.id === window.personalInfo.id) {
+          if (user.id === personalInfo.id) {
             _onlineUsers[j].color = user.color
           }
           // keep idle state if any of self client not idle
@@ -2387,12 +2387,12 @@ function emitUserStatus (force) {
   var type = null
   if (visibleXS) { type = 'xs' } else if (visibleSM) { type = 'sm' } else if (visibleMD) { type = 'md' } else if (visibleLG) { type = 'lg' }
 
-  window.personalInfo['idle'] = idle.isAway
-  window.personalInfo['type'] = type
+  personalInfo['idle'] = idle.isAway
+  personalInfo['type'] = type
 
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === window.personalInfo.id) {
-      window.onlineUsers[i] = window.personalInfo
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === personalInfo.id) {
+      onlineUsers[i] = personalInfo
     }
   }
 
@@ -2653,12 +2653,12 @@ editorInstance.on('changes', function (editor, changes) {
   }
 })
 editorInstance.on('focus', function (editor) {
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === window.personalInfo.id) {
-      window.onlineUsers[i].cursor = editor.getCursor()
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === personalInfo.id) {
+      onlineUsers[i].cursor = editor.getCursor()
     }
   }
-  window.personalInfo['cursor'] = editor.getCursor()
+  personalInfo['cursor'] = editor.getCursor()
   socket.emit('cursor focus', editor.getCursor())
 })
 
@@ -2666,12 +2666,12 @@ const cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce)
 
 function cursorActivityInner (editor) {
   if (editorHasFocus() && !Visibility.hidden()) {
-    for (var i = 0; i < window.onlineUsers.length; i++) {
-      if (window.onlineUsers[i].id === window.personalInfo.id) {
-        window.onlineUsers[i].cursor = editor.getCursor()
+    for (var i = 0; i < onlineUsers.length; i++) {
+      if (onlineUsers[i].id === personalInfo.id) {
+        onlineUsers[i].cursor = editor.getCursor()
       }
     }
-    window.personalInfo['cursor'] = editor.getCursor()
+    personalInfo['cursor'] = editor.getCursor()
     socket.emit('cursor activity', editor.getCursor())
   }
 }
@@ -2713,12 +2713,12 @@ editorInstance.on('beforeSelectionChange', function (doc, selections) {
 })
 
 editorInstance.on('blur', function (cm) {
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === window.personalInfo.id) {
-      window.onlineUsers[i].cursor = null
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === personalInfo.id) {
+      onlineUsers[i].cursor = null
     }
   }
-  window.personalInfo['cursor'] = null
+  personalInfo['cursor'] = null
   socket.emit('cursor blur')
 })
 
@@ -2729,61 +2729,61 @@ function saveInfo () {
   switch (window.currentMode) {
     case modeType.edit:
       if (scrollbarStyle === 'native') {
-        window.lastInfo.edit.scroll.left = left
-        window.lastInfo.edit.scroll.top = top
+        lastInfo.edit.scroll.left = left
+        lastInfo.edit.scroll.top = top
       } else {
-        window.lastInfo.edit.scroll = editor.getScrollInfo()
+        lastInfo.edit.scroll = editor.getScrollInfo()
       }
       break
     case modeType.view:
-      window.lastInfo.view.scroll.left = left
-      window.lastInfo.view.scroll.top = top
+      lastInfo.view.scroll.left = left
+      lastInfo.view.scroll.top = top
       break
     case modeType.both:
-      window.lastInfo.edit.scroll = editor.getScrollInfo()
-      window.lastInfo.view.scroll.left = ui.area.view.scrollLeft()
-      window.lastInfo.view.scroll.top = ui.area.view.scrollTop()
+      lastInfo.edit.scroll = editor.getScrollInfo()
+      lastInfo.view.scroll.left = ui.area.view.scrollLeft()
+      lastInfo.view.scroll.top = ui.area.view.scrollTop()
       break
   }
-  window.lastInfo.edit.cursor = editor.getCursor()
-  window.lastInfo.edit.selections = editor.listSelections()
-  window.lastInfo.needRestore = true
+  lastInfo.edit.cursor = editor.getCursor()
+  lastInfo.edit.selections = editor.listSelections()
+  lastInfo.needRestore = true
 }
 
 function restoreInfo () {
   var scrollbarStyle = editor.getOption('scrollbarStyle')
-  if (window.lastInfo.needRestore) {
-    var line = window.lastInfo.edit.cursor.line
-    var ch = window.lastInfo.edit.cursor.ch
+  if (lastInfo.needRestore) {
+    var line = lastInfo.edit.cursor.line
+    var ch = lastInfo.edit.cursor.ch
     editor.setCursor(line, ch)
-    editor.setSelections(window.lastInfo.edit.selections)
+    editor.setSelections(lastInfo.edit.selections)
     switch (window.currentMode) {
       case modeType.edit:
         if (scrollbarStyle === 'native') {
-          $(window).scrollLeft(window.lastInfo.edit.scroll.left)
-          $(window).scrollTop(window.lastInfo.edit.scroll.top)
+          $(window).scrollLeft(lastInfo.edit.scroll.left)
+          $(window).scrollTop(lastInfo.edit.scroll.top)
         } else {
-          let left = window.lastInfo.edit.scroll.left
-          let top = window.lastInfo.edit.scroll.top
+          let left = lastInfo.edit.scroll.left
+          let top = lastInfo.edit.scroll.top
           editor.scrollIntoView()
           editor.scrollTo(left, top)
         }
         break
       case modeType.view:
-        $(window).scrollLeft(window.lastInfo.view.scroll.left)
-        $(window).scrollTop(window.lastInfo.view.scroll.top)
+        $(window).scrollLeft(lastInfo.view.scroll.left)
+        $(window).scrollTop(lastInfo.view.scroll.top)
         break
       case modeType.both:
-        let left = window.lastInfo.edit.scroll.left
-        let top = window.lastInfo.edit.scroll.top
+        let left = lastInfo.edit.scroll.left
+        let top = lastInfo.edit.scroll.top
         editor.scrollIntoView()
         editor.scrollTo(left, top)
-        ui.area.view.scrollLeft(window.lastInfo.view.scroll.left)
-        ui.area.view.scrollTop(window.lastInfo.view.scroll.top)
+        ui.area.view.scrollLeft(lastInfo.view.scroll.left)
+        ui.area.view.scrollTop(lastInfo.view.scroll.top)
         break
     }
 
-    window.lastInfo.needRestore = false
+    lastInfo.needRestore = false
   }
 }
 
