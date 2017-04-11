@@ -280,23 +280,10 @@ app.post('/uploadimage', function (req, res) {
     }
   })
 })
-// get new note
-app.get('/new', response.newNote)
-// get publish note
-app.get('/s/:shortid', response.showPublishNote)
-// publish note actions
-app.get('/s/:shortid/:action', response.publishNoteActions)
-// get publish slide
-app.get('/p/:shortid', response.showPublishSlide)
-// publish slide actions
-app.get('/p/:shortid/:action', response.publishSlideActions)
-// get note by id
-app.get('/:noteId', response.showNote)
-// note actions
-app.get('/:noteId/:action', response.noteActions)
-// note actions with action id
-app.get('/:noteId/:action/:actionId', response.noteActions)
-// response not found if no any route matches
+
+app.use(require('./lib/web/noteRoute'))
+
+// response not found if no any route matxches
 app.get('*', function (req, res) {
   response.errorNotFound(res)
 })
