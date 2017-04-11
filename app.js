@@ -154,25 +154,6 @@ app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
 
-// serialize and deserialize
-passport.serializeUser(function (user, done) {
-  logger.info('serializeUser: ' + user.id)
-  return done(null, user.id)
-})
-passport.deserializeUser(function (id, done) {
-  models.User.findOne({
-    where: {
-      id: id
-    }
-  }).then(function (user) {
-    logger.info('deserializeUser: ' + user.id)
-    return done(null, user)
-  }).catch(function (err) {
-    logger.error(err)
-    return done(err, null)
-  })
-})
-
 // check uri is valid before going further
 app.use(require('./lib/web/middleware/checkURiValid'))
 
