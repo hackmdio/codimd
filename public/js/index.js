@@ -258,14 +258,14 @@ var defaultMode = modeType.view
 
 // global vars
 window.loaded = false
-window.needRefresh = false
-window.isDirty = false
-window.editShown = false
-window.visibleXS = false
-window.visibleSM = false
-window.visibleMD = false
-window.visibleLG = false
-window.isTouchDevice = 'ontouchstart' in document.documentElement
+let needRefresh = false
+let isDirty = false
+let editShown = false
+let visibleXS = false
+let visibleSM = false
+let visibleMD = false
+let visibleLG = false
+const isTouchDevice = 'ontouchstart' in document.documentElement
 window.currentMode = defaultMode
 window.currentStatus = statusType.offline
 window.lastInfo = {
@@ -393,7 +393,7 @@ function setRefreshModal (status) {
 }
 
 function setNeedRefresh () {
-  window.needRefresh = true
+  needRefresh = true
   editor.setOption('readOnly', true)
   socket.disconnect()
   showStatus(statusType.offline)
@@ -415,7 +415,7 @@ Visibility.change(function (e, state) {
     }
   } else {
     if (wasFocus) {
-      if (!window.visibleXS) {
+      if (!visibleXS) {
         editor.focus()
         editor.refresh()
       }
@@ -432,7 +432,7 @@ $(document).ready(function () {
   checkResponsive()
     // if in smaller screen, we don't need advanced scrollbar
   var scrollbarStyle
-  if (window.visibleXS) {
+  if (visibleXS) {
     scrollbarStyle = 'native'
   } else {
     scrollbarStyle = 'overlay'
@@ -443,7 +443,7 @@ $(document).ready(function () {
   }
   checkEditorStyle()
   /* we need this only on touch devices */
-  if (window.isTouchDevice) {
+  if (isTouchDevice) {
     /* cache dom references */
     var $body = $('body')
 
@@ -553,12 +553,12 @@ function editorHasFocus () {
 
 // 768-792px have a gap
 function checkResponsive () {
-  window.visibleXS = $('.visible-xs').is(':visible')
-  window.visibleSM = $('.visible-sm').is(':visible')
-  window.visibleMD = $('.visible-md').is(':visible')
-  window.visibleLG = $('.visible-lg').is(':visible')
+  visibleXS = $('.visible-xs').is(':visible')
+  visibleSM = $('.visible-sm').is(':visible')
+  visibleMD = $('.visible-md').is(':visible')
+  visibleLG = $('.visible-lg').is(':visible')
 
-  if (window.visibleXS && window.currentMode === modeType.both) {
+  if (visibleXS && window.currentMode === modeType.both) {
     if (editorHasFocus()) { changeMode(modeType.edit) } else { changeMode(modeType.view) }
   }
 
@@ -780,9 +780,9 @@ function changeMode (type) {
     case modeType.edit:
       ui.area.edit.show()
       ui.area.view.hide()
-      if (!window.editShown) {
+      if (!editShown) {
         editor.refresh()
-        window.editShown = true
+        editShown = true
       }
       break
     case modeType.view:
@@ -1764,11 +1764,11 @@ var socket = io.connect({
 // overwrite original event for checking login state
 var on = socket.on
 socket.on = function () {
-  if (!checkLoginStateChanged() && !window.needRefresh) { return on.apply(socket, arguments) }
+  if (!checkLoginStateChanged() && !needRefresh) { return on.apply(socket, arguments) }
 }
 var emit = socket.emit
 socket.emit = function () {
-  if (!checkLoginStateChanged() && !window.needRefresh) { emit.apply(socket, arguments) }
+  if (!checkLoginStateChanged() && !needRefresh) { emit.apply(socket, arguments) }
 }
 socket.on('info', function (data) {
   console.error(data)
@@ -1814,7 +1814,7 @@ socket.on('disconnect', function (data) {
   if (!editor.getOption('readOnly')) { editor.setOption('readOnly', true) }
   if (!retryTimer) {
     retryTimer = setInterval(function () {
-      if (!window.needRefresh) socket.connect()
+      if (!needRefresh) socket.connect()
     }, 1000)
   }
 })
@@ -2089,7 +2089,7 @@ socket.on('refresh', function (data) {
         // auto change mode if no content detected
     var nocontent = editor.getValue().length <= 0
     if (nocontent) {
-      if (window.visibleXS) { window.currentMode = modeType.edit } else { window.currentMode = modeType.both }
+      if (visibleXS) { window.currentMode = modeType.edit } else { window.currentMode = modeType.both }
     }
     // parse mode from url
     if (window.location.search.length > 0) {
@@ -2097,7 +2097,7 @@ socket.on('refresh', function (data) {
       if (urlMode) window.currentMode = urlMode
     }
     changeMode(window.currentMode)
-    if (nocontent && !window.visibleXS) {
+    if (nocontent && !visibleXS) {
       editor.focus()
       editor.refresh()
     }
@@ -2169,7 +2169,7 @@ socket.on('doc', function (obj) {
   }
 
   if (setDoc && bodyMismatch) {
-    window.isDirty = true
+    isDirty = true
     updateView()
   }
 
@@ -2177,12 +2177,12 @@ socket.on('doc', function (obj) {
 })
 
 socket.on('ack', function () {
-  window.isDirty = true
+  isDirty = true
   updateView()
 })
 
 socket.on('operation', function () {
-  window.isDirty = true
+  isDirty = true
   updateView()
 })
 
@@ -2395,7 +2395,7 @@ var userStatusCache = null
 function emitUserStatus (force) {
   if (!window.loaded) return
   var type = null
-  if (window.visibleXS) { type = 'xs' } else if (window.visibleSM) { type = 'sm' } else if (window.visibleMD) { type = 'md' } else if (window.visibleLG) { type = 'lg' }
+  if (visibleXS) { type = 'xs' } else if (visibleSM) { type = 'sm' } else if (visibleMD) { type = 'md' } else if (visibleLG) { type = 'lg' }
 
   window.personalInfo['idle'] = idle.isAway
   window.personalInfo['type'] = type
@@ -2800,7 +2800,7 @@ function restoreInfo () {
 // view actions
 function refreshView () {
   ui.area.markdown.html('')
-  window.isDirty = true
+  isDirty = true
   updateViewInner()
 }
 
@@ -2812,7 +2812,7 @@ var lastResult = null
 var postUpdateEvent = null
 
 function updateViewInner () {
-  if (window.currentMode === modeType.edit || !window.isDirty) return
+  if (window.currentMode === modeType.edit || !isDirty) return
   var value = editor.getValue()
   var lastMeta = md.meta
   md.meta = {}
@@ -2860,7 +2860,7 @@ function updateViewInner () {
   generateScrollspy()
   updateScrollspy()
   smoothHashScroll()
-  window.isDirty = false
+  isDirty = false
   clearMap()
     // buildMap();
   updateTitleReminder()
