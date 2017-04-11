@@ -281,7 +281,7 @@ app.post('/uploadimage', function (req, res) {
   })
 })
 
-app.use(require('./lib/web/noteRoute'))
+app.use(require('./lib/web/noteRouter'))
 
 // response not found if no any route matxches
 app.get('*', function (req, res) {
