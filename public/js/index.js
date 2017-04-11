@@ -2499,12 +2499,12 @@ function buildCursor (user) {
     cursor.attr('data-mode', 'hover')
     cursortag.delay(2000).fadeOut('fast')
     cursor.hover(
-            function () {
-              if (cursor.attr('data-mode') === 'hover') { cursortag.stop(true).fadeIn('fast') }
-            },
-            function () {
-              if (cursor.attr('data-mode') === 'hover') { cursortag.stop(true).fadeOut('fast') }
-            })
+      function () {
+        if (cursor.attr('data-mode') === 'hover') { cursortag.stop(true).fadeIn('fast') }
+      },
+      function () {
+        if (cursor.attr('data-mode') === 'hover') { cursortag.stop(true).fadeOut('fast') }
+      })
 
     var hideCursorTagDelay = 2000
     var hideCursorTagTimer = null
