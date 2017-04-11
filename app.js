@@ -7,6 +7,7 @@ var passport = require('passport')
 var methodOverride = require('method-override')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
+const {urlencodedParser} = require('./lib/web/utils')
 var compression = require('compression')
 var session = require('express-session')
 var SequelizeStore = require('connect-session-sequelize')(session.Store)
@@ -97,12 +98,6 @@ realtime.io = io
 
 // methodOverride
 app.use(methodOverride('_method'))
-
-// create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({
-  extended: false,
-  limit: 1024 * 1024 * 10 // 10 mb
-})
 
 // session store
 var sessionStore = new SequelizeStore({
