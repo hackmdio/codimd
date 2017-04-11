@@ -4,7 +4,7 @@
 var whiteListAttr = ['id', 'class', 'style']
 window.whiteListAttr = whiteListAttr
 // allow link starts with '.', '/' and custom protocol with '://', exclude link starts with javascript://
-var linkRegex = /^(?!javascript:\/\/)([\w|-]+:\/\/)|^([.|/])+/
+var linkRegex = /^(?!javascript:\/\/)([\w|-]+:\/\/)|^([.|/])+/i
 // allow data uri, from https://gist.github.com/bgrins/6194623
 var dataUriRegex = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@/?%\s]*)\s*$/i
 // custom white list
