@@ -80,6 +80,7 @@ import { preventXSS } from './render'
 import Editor from './lib/editor'
 
 import getUIElements from './lib/editor/ui-elements'
+import modeType from './lib/editor/modeType'
 
 var defaultTextHeight = 20
 var viewportMargin = 20
@@ -226,17 +227,6 @@ var supportExtraTags = [
     }
   }
 ]
-window.modeType = {
-  edit: {
-    name: 'edit'
-  },
-  view: {
-    name: 'view'
-  },
-  both: {
-    name: 'both'
-  }
-}
 var statusType = {
   connected: {
     msg: 'CONNECTED',

@@ -5,6 +5,7 @@
 import markdownitContainer from 'markdown-it-container'
 
 import { md } from './extra'
+import modeType from './lib/editor/modeType'
 
 function addPart (tokens, idx) {
   if (tokens[idx].map && tokens[idx].level === 0) {
@@ -228,7 +229,7 @@ function buildMapInner (callback) {
 let viewScrollingTimer = null
 
 export function syncScrollToEdit (event, preventAnimate) {
-  if (window.currentMode !== window.modeType.both || !window.syncscroll || !editArea) return
+  if (window.currentMode !== modeType.both || !window.syncscroll || !editArea) return
   if (window.preventSyncScrollToEdit) {
     if (typeof window.preventSyncScrollToEdit === 'number') {
       window.preventSyncScrollToEdit--
@@ -310,7 +311,7 @@ function viewScrollingTimeoutInner () {
 let editScrollingTimer = null
 
 export function syncScrollToView (event, preventAnimate) {
-  if (window.currentMode !== window.modeType.both || !window.syncscroll || !viewArea) return
+  if (window.currentMode !== modeType.both || !window.syncscroll || !viewArea) return
   if (window.preventSyncScrollToView) {
     if (typeof preventSyncScrollToView === 'number') {
       window.preventSyncScrollToView--
