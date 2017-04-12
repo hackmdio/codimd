@@ -22,9 +22,9 @@ var flash = require('connect-flash')
 var getImageMimeType = require('./lib/utils.js').getImageMimeType
 
 // core
-var config = require('./lib/config.js')
-var logger = require('./lib/logger.js')
-var response = require('./lib/response.js')
+var config = require('./lib/config')
+var logger = require('./lib/logger')
+var response = require('./lib/response')
 var models = require('./lib/models')
 
 // generate front-end constants by template
