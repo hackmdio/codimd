@@ -5,7 +5,8 @@
 import markdownitContainer from 'markdown-it-container'
 
 import { md } from '../extra'
-import modeType from '../lib/editor/modeType'
+import modeType from './modeType'
+import appState from './appState'
 
 function addPart (tokens, idx) {
   if (tokens[idx].map && tokens[idx].level === 0) {
@@ -110,9 +111,6 @@ md.use(markdownitContainer, 'info', { render: renderContainer })
 md.use(markdownitContainer, 'warning', { render: renderContainer })
 md.use(markdownitContainer, 'danger', { render: renderContainer })
 
-// FIXME: expose syncscroll to window
-window.syncscroll = true
-
 window.preventSyncScrollToEdit = false
 window.preventSyncScrollToView = false
 
@@ -127,10 +125,15 @@ let editArea = null
 let viewArea = null
 let markdownArea = null
 
-export function setupSyncAreas (edit, view, markdown) {
+let editor
+
+export function setupSyncAreas (edit, view, markdown, _editor) {
   editArea = edit
   viewArea = view
   markdownArea = markdown
+
+  editor = _editor
+
   editArea.on('scroll', _.throttle(syncScrollToView, editScrollThrottle))
   viewArea.on('scroll', _.throttle(syncScrollToEdit, viewScrollThrottle))
 }
@@ -162,8 +165,8 @@ function buildMapInner (callback) {
   viewBottom = viewArea[0].scrollHeight - viewArea.height()
 
   acc = 0
-  const lines = window.editor.getValue().split('\n')
-  const lineHeight = window.editor.defaultTextHeight()
+  const lines = editor.getValue().split('\n')
+  const lineHeight = editor.defaultTextHeight()
   for (i = 0; i < lines.length; i++) {
     const str = lines[i]
 
@@ -174,7 +177,7 @@ function buildMapInner (callback) {
       continue
     }
 
-    const h = window.editor.heightAtLine(i + 1) - window.editor.heightAtLine(i)
+    const h = editor.heightAtLine(i + 1) - editor.heightAtLine(i)
     acc += Math.round(h / lineHeight)
   }
   _lineHeightMap.push(acc)
@@ -229,7 +232,7 @@ function buildMapInner (callback) {
 let viewScrollingTimer = null
 
 export function syncScrollToEdit (event, preventAnimate) {
-  if (window.currentMode !== modeType.both || !window.syncscroll || !editArea) return
+  if (appState.currentMode !== modeType.both || !appState.syncscroll || !editArea) return
   if (window.preventSyncScrollToEdit) {
     if (typeof window.preventSyncScrollToEdit === 'number') {
       window.preventSyncScrollToEdit--
@@ -269,8 +272,8 @@ export function syncScrollToEdit (event, preventAnimate) {
   let posTo = 0
   let topDiffPercent = 0
   let posToNextDiff = 0
-  const scrollInfo = window.editor.getScrollInfo()
-  const textHeight = window.editor.defaultTextHeight()
+  const scrollInfo = editor.getScrollInfo()
+  const textHeight = editor.defaultTextHeight()
   const preLastLineHeight = scrollInfo.height - scrollInfo.clientHeight - textHeight
   const preLastLineNo = Math.round(preLastLineHeight / textHeight)
   const preLastLinePos = scrollMap[preLastLineNo]
@@ -311,7 +314,7 @@ function viewScrollingTimeoutInner () {
 let editScrollingTimer = null
 
 export function syncScrollToView (event, preventAnimate) {
-  if (window.currentMode !== modeType.both || !window.syncscroll || !viewArea) return
+  if (appState.currentMode !== modeType.both || !appState.syncscroll || !viewArea) return
   if (window.preventSyncScrollToView) {
     if (typeof preventSyncScrollToView === 'number') {
       window.preventSyncScrollToView--
@@ -330,8 +333,8 @@ export function syncScrollToView (event, preventAnimate) {
 
   let lineNo, posTo
   let topDiffPercent, posToNextDiff
-  const scrollInfo = window.editor.getScrollInfo()
-  const textHeight = window.editor.defaultTextHeight()
+  const scrollInfo = editor.getScrollInfo()
+  const textHeight = editor.defaultTextHeight()
   lineNo = Math.floor(scrollInfo.top / textHeight)
     // if reach the last line, will start lerp to the bottom
   const diffToBottom = (scrollInfo.top + scrollInfo.clientHeight) - (scrollInfo.height - textHeight)

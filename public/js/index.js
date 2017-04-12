@@ -80,7 +80,8 @@ import { preventXSS } from './render'
 import Editor from './lib/editor'
 
 import getUIElements from './lib/editor/ui-elements'
-import modeType from './lib/editor/modeType'
+import modeType from './lib/modeType'
+import appState from './lib/appState'
 
 var defaultTextHeight = 20
 var viewportMargin = 20
@@ -244,7 +245,6 @@ const statusType = {
     fa: 'fa-plug'
   }
 }
-const defaultMode = modeType.view
 
 // global vars
 window.loaded = false
@@ -256,7 +256,6 @@ let visibleSM = false
 let visibleMD = false
 let visibleLG = false
 const isTouchDevice = 'ontouchstart' in document.documentElement
-window.currentMode = defaultMode
 let currentStatus = statusType.offline
 let lastInfo = {
   needRestore: false,
@@ -486,7 +485,7 @@ $(window).on('error', function () {
   // setNeedRefresh();
 })
 
-setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown)
+setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown, editor)
 
 function autoSyncscroll () {
   if (editorHasFocus()) {
@@ -548,7 +547,7 @@ function checkResponsive () {
   visibleMD = $('.visible-md').is(':visible')
   visibleLG = $('.visible-lg').is(':visible')
 
-  if (visibleXS && window.currentMode === modeType.both) {
+  if (visibleXS && appState.currentMode === modeType.both) {
     if (editorHasFocus()) { changeMode(modeType.edit) } else { changeMode(modeType.view) }
   }
 
@@ -562,7 +561,7 @@ function checkEditorStyle () {
   var desireHeight = editorInstance.statusBar ? (ui.area.edit.height() - editorInstance.statusBar.outerHeight()) : ui.area.edit.height()
     // set editor height and min height based on scrollbar style and mode
   var scrollbarStyle = editor.getOption('scrollbarStyle')
-  if (scrollbarStyle === 'overlay' || window.currentMode === modeType.both) {
+  if (scrollbarStyle === 'overlay' || appState.currentMode === modeType.both) {
     ui.area.codemirrorScroll.css('height', desireHeight + 'px')
     ui.area.codemirrorScroll.css('min-height', '')
     checkEditorScrollbar()
@@ -618,7 +617,7 @@ function checkEditorStyle () {
       previousFocusOnEditor = null
     })
     ui.area.resize.syncToggle.click(function () {
-      window.syncscroll = !window.syncscroll
+      appState.syncscroll = !appState.syncscroll
       checkSyncToggle()
     })
     ui.area.resize.handle.append(ui.area.resize.syncToggle)
@@ -632,7 +631,7 @@ function checkEditorStyle () {
 }
 
 function checkSyncToggle () {
-  if (window.syncscroll) {
+  if (appState.syncscroll) {
     if (previousFocusOnEditor) {
       window.preventSyncScrollToView = false
       syncScrollToView()
@@ -679,10 +678,10 @@ function checkTocStyle () {
   // toc scrollspy
   ui.toc.toc.removeClass('scrollspy-body, scrollspy-view')
   ui.toc.affix.removeClass('scrollspy-body, scrollspy-view')
-  if (window.currentMode === modeType.both) {
+  if (appState.currentMode === modeType.both) {
     ui.toc.toc.addClass('scrollspy-view')
     ui.toc.affix.addClass('scrollspy-view')
-  } else if (window.currentMode !== modeType.both && !newbool) {
+  } else if (appState.currentMode !== modeType.both && !newbool) {
     ui.toc.toc.addClass('scrollspy-body')
     ui.toc.affix.addClass('scrollspy-body')
   } else {
@@ -737,7 +736,7 @@ function showStatus (type, num) {
 }
 
 function toggleMode () {
-  switch (window.currentMode) {
+  switch (appState.currentMode) {
     case modeType.edit:
       changeMode(modeType.view)
       break
@@ -757,8 +756,8 @@ function changeMode (type) {
   lockNavbar()
   saveInfo()
   if (type) {
-    lastMode = window.currentMode
-    window.currentMode = type
+    lastMode = appState.currentMode
+    appState.currentMode = type
   }
   var responsiveClass = 'col-lg-6 col-md-6 col-sm-6'
   var scrollClass = 'ui-scrollable'
@@ -766,7 +765,7 @@ function changeMode (type) {
   ui.area.edit.removeClass(responsiveClass)
   ui.area.view.removeClass(scrollClass)
   ui.area.view.removeClass(responsiveClass)
-  switch (window.currentMode) {
+  switch (appState.currentMode) {
     case modeType.edit:
       ui.area.edit.show()
       ui.area.view.hide()
@@ -787,11 +786,11 @@ function changeMode (type) {
       break
   }
   // save mode to url
-  if (history.replaceState && window.loaded) history.replaceState(null, '', serverurl + '/' + noteid + '?' + window.currentMode.name)
-  if (window.currentMode === modeType.view) {
+  if (history.replaceState && window.loaded) history.replaceState(null, '', serverurl + '/' + noteid + '?' + appState.currentMode.name)
+  if (appState.currentMode === modeType.view) {
     editor.getInputField().blur()
   }
-  if (window.currentMode === modeType.edit || window.currentMode === modeType.both) {
+  if (appState.currentMode === modeType.edit || appState.currentMode === modeType.both) {
     ui.toolbar.uploadImage.fadeIn()
     // add and update status bar
     if (!editorInstance.statusBar) {
@@ -804,14 +803,14 @@ function changeMode (type) {
   } else {
     ui.toolbar.uploadImage.fadeOut()
   }
-  if (window.currentMode !== modeType.edit) {
+  if (appState.currentMode !== modeType.edit) {
     $(document.body).css('background-color', 'white')
     updateView()
   } else {
     $(document.body).css('background-color', ui.area.codemirror.css('background-color'))
   }
     // check resizable editor style
-  if (window.currentMode === modeType.both) {
+  if (appState.currentMode === modeType.both) {
     if (lastEditorWidth > 0) {
       ui.area.edit.css('width', lastEditorWidth + 'px')
     } else {
@@ -827,22 +826,22 @@ function changeMode (type) {
 
   restoreInfo()
 
-  if (lastMode === modeType.view && window.currentMode === modeType.both) {
+  if (lastMode === modeType.view && appState.currentMode === modeType.both) {
     window.preventSyncScrollToView = 2
     syncScrollToEdit(null, true)
   }
 
-  if (lastMode === modeType.edit && window.currentMode === modeType.both) {
+  if (lastMode === modeType.edit && appState.currentMode === modeType.both) {
     window.preventSyncScrollToEdit = 2
     syncScrollToView(null, true)
   }
 
-  if (lastMode === modeType.both && window.currentMode !== modeType.both) {
+  if (lastMode === modeType.both && appState.currentMode !== modeType.both) {
     window.preventSyncScrollToView = false
     window.preventSyncScrollToEdit = false
   }
 
-  if (lastMode !== modeType.edit && window.currentMode === modeType.edit) {
+  if (lastMode !== modeType.edit && appState.currentMode === modeType.edit) {
     editor.refresh()
   }
 
@@ -1360,7 +1359,7 @@ ui.modal.snippetImportSnippets.change(function () {
 })
 
 function scrollToTop () {
-  if (window.currentMode === modeType.both) {
+  if (appState.currentMode === modeType.both) {
     if (editor.getScrollInfo().top !== 0) { editor.scrollTo(0, 0) } else {
       ui.area.view.animate({
         scrollTop: 0
@@ -1374,7 +1373,7 @@ function scrollToTop () {
 }
 
 function scrollToBottom () {
-  if (window.currentMode === modeType.both) {
+  if (appState.currentMode === modeType.both) {
     var scrollInfo = editor.getScrollInfo()
     var scrollHeight = scrollInfo.height
     if (scrollInfo.top !== scrollHeight) { editor.scrollTo(0, scrollHeight * 2) } else {
@@ -2079,14 +2078,14 @@ socket.on('refresh', function (data) {
         // auto change mode if no content detected
     var nocontent = editor.getValue().length <= 0
     if (nocontent) {
-      if (visibleXS) { window.currentMode = modeType.edit } else { window.currentMode = modeType.both }
+      if (visibleXS) { appState.currentMode = modeType.edit } else { appState.currentMode = modeType.both }
     }
     // parse mode from url
     if (window.location.search.length > 0) {
       var urlMode = modeType[window.location.search.substr(1)]
-      if (urlMode) window.currentMode = urlMode
+      if (urlMode) appState.currentMode = urlMode
     }
-    changeMode(window.currentMode)
+    changeMode(appState.currentMode)
     if (nocontent && !visibleXS) {
       editor.focus()
       editor.refresh()
@@ -2446,7 +2445,7 @@ function checkCursorTag (coord, ele) {
 }
 
 function buildCursor (user) {
-  if (window.currentMode === modeType.view) return
+  if (appState.currentMode === modeType.view) return
   if (!user.cursor) return
   var coord = editor.charCoords(user.cursor, 'windows')
   coord.left = coord.left < 4 ? 4 : coord.left
@@ -2723,7 +2722,7 @@ function saveInfo () {
   var scrollbarStyle = editor.getOption('scrollbarStyle')
   var left = $(window).scrollLeft()
   var top = $(window).scrollTop()
-  switch (window.currentMode) {
+  switch (appState.currentMode) {
     case modeType.edit:
       if (scrollbarStyle === 'native') {
         lastInfo.edit.scroll.left = left
@@ -2754,7 +2753,7 @@ function restoreInfo () {
     var ch = lastInfo.edit.cursor.ch
     editor.setCursor(line, ch)
     editor.setSelections(lastInfo.edit.selections)
-    switch (window.currentMode) {
+    switch (appState.currentMode) {
       case modeType.edit:
         if (scrollbarStyle === 'native') {
           $(window).scrollLeft(lastInfo.edit.scroll.left)
@@ -2799,7 +2798,7 @@ var lastResult = null
 var postUpdateEvent = null
 
 function updateViewInner () {
-  if (window.currentMode === modeType.edit || !isDirty) return
+  if (appState.currentMode === modeType.edit || !isDirty) return
   var value = editor.getValue()
   var lastMeta = md.meta
   md.meta = {}
@@ -2816,13 +2815,13 @@ function updateViewInner () {
         // prevent XSS
     ui.area.markdown.html(preventXSS(ui.area.markdown.html()))
     ui.area.markdown.addClass('slides')
-    window.syncscroll = false
+    appState.syncscroll = false
     checkSyncToggle()
   } else {
     if (lastMeta.type && lastMeta.type === 'slide') {
       refreshView()
       ui.area.markdown.removeClass('slides')
-      window.syncscroll = true
+      appState.syncscroll = true
       checkSyncToggle()
     }
         // only render again when meta changed
