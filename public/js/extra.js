@@ -750,7 +750,7 @@ export function generateToc (id) {
     'targetId': id,
     'process': getHeaderContent
   })
-  /* eslint-enable no-unsed-vars */
+  /* eslint-enable no-unused-vars */
   if (target.text() === 'undefined') { target.html('') }
   const tocMenu = $('<div class="toc-menu"></div')
   const toggle = $('<a class="expand-toggle" href="#">Expand all</a>')
@@ -888,7 +888,7 @@ export function renderTOC (view) {
     const target = $(`#${id}`)
     target.html('')
     /* eslint-disable no-unused-vars */
-    var toc = new window.Toc('doc', {
+    let TOC = new window.Toc('doc', {
       'level': 3,
       'top': -1,
       'class': 'toc',
