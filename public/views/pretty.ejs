@@ -16,18 +16,18 @@
     <% } %>
     <title><%= title %></title>
     <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
-	<link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
-	<% if(useCDN) { %>
+  <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
+  <% if(useCDN) { %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
     <%- include build/pretty-header %>
-	<% } else { %>
+  <% } else { %>
     <link rel="stylesheet" href='<%- url %>/build/emojify.js/dist/css/basic/emojify.min.css'>
     <%- include build/pretty-pack-header %>
-	<% } %>
+  <% } %>
     <%- include shared/polyfill %>
 </head>
 
@@ -38,7 +38,7 @@
                 <% if(lastchangeuserprofile) { %>
                     <span class="ui-lastchangeuser">&thinsp;<i class="ui-user-icon small" style="background-image: url(<%- lastchangeuserprofile.photo %>);" data-toggle="tooltip" data-placement="right" title="<%- lastchangeuserprofile.name %>"></i></span>
                 <% } else { %>
-                	<span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o fa-fw" style="width: 18px;"></i></span>
+                  <span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o fa-fw" style="width: 18px;"></i></span>
                 <% } %>
                 &nbsp;<span class="text-uppercase ui-status-lastchange"></span>
                 <span class="ui-lastchange text-uppercase" data-createtime="<%- createtime %>" data-updatetime="<%- updatetime %>"></span>
