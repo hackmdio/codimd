@@ -37,13 +37,13 @@
         <link rel="stylesheet" href="<%- url %>/css/slide.css">
 
         <!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
             link.href = '<%- url %>/build/reveal.js/' + (window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
 
         <%- include shared/polyfill %>
     </head>
