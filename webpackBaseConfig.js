@@ -202,7 +202,6 @@ module.exports = {
       'script!ot',
       'flowchart.js',
       'js-sequence-diagrams',
-      'script!abcjs',
       'expose?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/google-drive-upload.js'),
       path.join(__dirname, 'public/js/google-drive-picker.js'),
@@ -271,7 +270,6 @@ module.exports = {
       'expose?filterXSS!xss',
       'flowchart.js',
       'js-sequence-diagrams',
-      'script!abcjs',
       'expose?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
     ],
@@ -310,7 +308,6 @@ module.exports = {
       'expose?filterXSS!xss',
       'flowchart.js',
       'js-sequence-diagrams',
-      'script!abcjs',
       'expose?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/slide.js')
     ],
