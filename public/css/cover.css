@@ -373,6 +373,16 @@ select {
     }
 }
 
+.note {
+    cursor: pointer;
+    word-break: break-word;
+    word-wrap: break-word;
+}
+
+.note.icon {
+    margin-right: 5px;
+}
+
 .note.title {
     font-size: 18px;
 }
@@ -384,6 +394,10 @@ select {
     right: 0;
     margin: 2%;
     display: none;
+}
+
+.note.tool button {
+    margin-right: 0.5em;
 }
 
 .note.detail {
@@ -400,8 +414,8 @@ select {
     top: -2px;
 }
 
-.note.tool button {
-    margin-right: 0.5em;
+.note.tags > span {
+    margin-right: 3px;
 }
 
 #modal-folder-tree {
@@ -410,10 +424,30 @@ select {
     text-align: left;
 }
 
+#folder-container {
+    text-align: left;
+}
+
+#folder-title > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+    float: left;
+    max-width: calc(100% - 1.5em);
+}
+
+#folder-title > i {
+    cursor: pointer;
+    position: relative;
+    margin-left: 0.2em;
+    top: 0.05em;
+}
+
 #folder-tool {
     position: absolute;
     top: 1.5em;
-    right: 1.5em;
+    right: 1.1em;
 }
 
 #folder-tool .btn-danger, #folder-tool .btn-success {
@@ -433,8 +467,10 @@ select {
     overflow: auto;
 }
 
-i {
-    cursor: pointer;
+.treeview .list-group-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
 
 .folder-modal > .modal-title {
@@ -442,14 +478,13 @@ i {
 }
 
 @media (min-width: 768px) {
-    #folder-container {
-        text-align: left;
-    }
-
     #folder-search {
         width: 30%;
         margin: auto;
-        margin-bottom: 25px;
+    }
+
+    #folder-title {
+        width: calc(100% - 5.2em);
     }
 
     #folder-button {
@@ -495,10 +530,7 @@ i {
         line-height: 2em;
         font-size: 1.5em;
         position: relative;
-    }
-
-    #folder-container {
-        text-align: left;
+        width: calc(100vw - 10.1em);
     }
 
     #folder-list {

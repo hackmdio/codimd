@@ -219,7 +219,7 @@ function getFoldersCallback (folders) {
       if (data.id) {
         currFolderId = data.id
         getNotes(data.id, getNotesCallback)
-        $('#folder-title').html(data.text + ' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target=".folder-modal" data-action="renamefolder" ></i>')
+        $('#folder-title').html('<span>' + data.text + '</span><i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target=".folder-modal" data-action="renamefolder" ></i>')
         $('#folder-title').show()
         $('#root-folder-title').hide()
         $('#folder-tool').find('.btn-success').attr('data-source-id', data.id)
@@ -266,7 +266,7 @@ function getNotesCallback (notes) {
             tags +
           '</span>'
       }
-      $('#notes').append('<li class="list-group-item node-folder-tree" data-note-id="' + note.id + '" timestamp="' + note.time + '">' +
+      $('#notes').append('<li class="list-group-item" data-note-id="' + note.id + '" timestamp="' + note.time + '">' +
           '<span class="note detail">' +
             '<span class="note icon"><i class="fa fa-file-text"></i></span>' +
             '<span class="note title"> ' + S(note.text).escapeHTML() + '</span>' +
@@ -618,8 +618,7 @@ $('.folder-modal').on('show.bs.modal', function (event) {
     case 'renamefolder':
       $(this).find('.modal-title.rename-folder').show()
       $(this).find('.treeview').hide()
-      $('#folder-name').val($('#folder-title').html()
-        .replace(' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target=".folder-modal" data-action="renamefolder"></i>', ''))
+      $('#folder-name').val($('#folder-title').text())
       $('#folder-name').show()
       break
     case 'selectfolder':
@@ -637,8 +636,7 @@ $('.folder-modal').on('show.bs.modal', function (event) {
       $(this).find('.confirm-btn').addClass('btn-danger')
       $(this).find('.delete-alert').show()
       $(this).find('.delete-name').show()
-      $(this).find('.delete-name').html('<i class="fa fa-folder"></i> ' +
-        $('#folder-title').html().replace(' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target=".folder-modal" data-action="renamefolder"></i>', ''))
+      $(this).find('.delete-name').html('<i class="fa fa-folder"></i> ' + $('#folder-title').text())
       break
     case 'movefolder':
       $(this).find('.modal-title.move-folder').show()
@@ -680,7 +678,7 @@ $('.folder-modal').find('.btn-success').on('click', function () {
         if (targetId !== rootFolderId) {
           currFolderId = targetId
           getNotes(targetId, getNotesCallback)
-          $('#folder-title').html(targetText + ' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target=".folder-modal" data-action="renamefolder" ></i>')
+          $('#folder-title').html('<span>' + targetText + '</span><i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target=".folder-modal" data-action="renamefolder" ></i>')
           $('#folder-title').show()
           $('#root-folder-title').hide()
           $('#folder-tool').find('.btn-success').attr('data-source-id', targetId)

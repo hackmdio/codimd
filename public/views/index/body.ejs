@@ -123,27 +123,34 @@
             </div>
 
             <div id="folder" class="section" style="display:none;">
+                <br>
+                <form class="form">
+                    <div class="form-group">
+                        <input id="folder-search" class="search form-control" placeholder="<%= __('Search keyword...') %>" />
+                    </div>
+                </form>
                 <div id="folder-container" class="row">
-                    <input id="folder-search" class="search form-control" placeholder="<%= __('Search keyword...') %>" />
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"></div>
                     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
                         <h1 id="folder-button"><i class="fa fa-folder-open" aria-hidden="true" data-action="selectfolder" data-toggle="modal" data-target=".folder-modal"></i></h1>
                         <h1 id="folder-title" style="display: none;"></h1>
                         <h1 id="root-folder-title" style="display: none;"><%= __('Root') %></h1>
                         <span id="folder-tool">
-                            <button class="btn btn-default"><i class="fa fa-plus"></i><span><%= __('New note') %></span></button>
+                            <button class="btn btn-default"><i class="fa fa-plus"></i><span> <%= __('New note') %></span></button>
                             <button class="btn btn-success" data-toggle="modal" data-target=".folder-modal" data-action="movefolder"><i class="fa fa-exchange"></i></button>
                             <button class="btn btn-danger" data-toggle="modal" data-target=".folder-modal" data-action="deletefolder"><i class="fa fa-close"></i></button>
                         </span>
                     </div>
+                </div>
+                <div id="folder-container" class="row">
                     <div id="folder-list" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                        <button class="btn btn-default" data-toggle="modal" data-target=".folder-modal" data-action="newfolder"><i class="fa fa-plus"></i><%= __('New folder') %></button>
+                        <button class="btn btn-default" data-toggle="modal" data-target=".folder-modal" data-action="newfolder"><i class="fa fa-plus"></i> <%= __('New folder') %></button>
                         <div id="folder-tree" class="treeview">
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-                        <div id="note-list" class="treeview">
-                            <h2 id="folder-empty" style="color: white; display: none;"><%= __('Empty') %></h2>
+                        <div id="note-list">
+                            <h2 id="folder-empty" style="text-align: center; display: none;"><%= __('Empty') %></h2>
                             <ul id="notes" class="list-group">
                             </ul>
                         </div>
