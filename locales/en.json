@@ -113,5 +113,6 @@
 	"Rename folder": "Rename folder",
 	"Delete folder": "Delete folder",
 	"Move folder": "Move folder",
-	"Move note": "Move note"
+	"Move note": "Move note",
+	"New folder remind": "You can only create folder under the first layer"
 }

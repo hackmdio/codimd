@@ -566,6 +566,11 @@ $('.folder-modal').on('show.bs.modal', function (event) {
   $(this).find('.btn-success').attr('data-action', action)
   $(this).find('.btn-success').attr('data-source-id', sourceId)
   getFolders(function (folders) {
+    if (action === 'newfolder') {
+      folders.forEach(function (folder) {
+        folder.nodes = []
+      })
+    }
     folders.sort(function (a, b) {
       if (a.text > b.text) return 1
       if (a.text < b.text) return -1
@@ -607,6 +612,7 @@ $('.folder-modal').on('show.bs.modal', function (event) {
   switch (action) {
     case 'newfolder':
       $(this).find('.modal-title.new-folder').show()
+      $(this).find('.new-folder-remind').show()
       $('#folder-name').show()
       break
     case 'renamefolder':
@@ -655,6 +661,7 @@ $('.folder-modal').on('hidden.bs.modal', function (event) {
   $('#folder-name').hide()
   $(this).find('.delete-alert').hide()
   $(this).find('.delete-name').hide()
+  $(this).find('.new-folder-remind').hide()
 })
 
 $('.folder-modal').find('.btn-success').on('click', function () {
@@ -663,8 +670,10 @@ $('.folder-modal').find('.btn-success').on('click', function () {
   var targetId = $(this).attr('data-target-id')
   var targetText = $(this).attr('data-target-text')
   var folderName = $('#folder-name').val()
-  if (action !== 'renamefolder' && action !== 'deletefolder' && typeof targetId === 'undefined') {
-    $(this).parent().parent().find('.alert').fadeIn()
+  if ((action === 'newfolder' || action === 'renamefolder') && folderName === '') {
+    $(this).parent().parent().find('.alert').html('請輸入資料夾名稱！').fadeIn()
+  } else if (action !== 'renamefolder' && action !== 'deletefolder' && typeof targetId === 'undefined') {
+    $(this).parent().parent().find('.alert').html('請選擇資料夾！').fadeIn()
   } else {
     switch (action) {
       case 'selectfolder':

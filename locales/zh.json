@@ -113,5 +113,6 @@
 	"Rename folder": "重新命名資料夾",
 	"Delete folder": "刪除資料夾",
 	"Move folder": "移動資料夾",
-	"Move note": "移動筆記"
+	"Move note": "移動筆記",
+	"New folder remind": "資料夾層級至多兩級"
 }

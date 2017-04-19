@@ -221,11 +221,12 @@
                 <h4 class="modal-title move-note" id="myModalLabel"><%= __('Move note') %></h4>
             </div>
             <div class="modal-body">
+                <h6 class="new-folder-remind" style="display: none;"><%= __('New folder remind') %></h6>
                 <button class="btn btn-primary" style="display: none;"><i class="fa fa-plus"></i><%= __('New folder') %></button>
                 <div id="move-folder-tree" class="treeview">
                 </div>
                 <input id="folder-name" class="form-control" placeholder="<%= __('New name...') %>" style="display: none;" />
-                <span class="alert alert-danger part" style="padding: 1%; display: none;"><%= __('Choose warning') %></span>
+                <div class="alert alert-danger part" style="padding: 1%; display: none; margin: auto;"><%= __('Choose warning') %></div>
                 <h4 class="delete-alert" style="display: none;"><%= __('Delete!?') %></h4>
                 <h5 class="delete-name" style="display: none;"></h4>
             </div>
