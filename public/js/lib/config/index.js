@@ -6,9 +6,9 @@ export const domain = window.domain || '' // domain name
 export const urlpath = window.urlpath || '' // sub url path, like: www.example.com/<urlpath>
 export const debug = window.debug || false
 
-export const port = (function(domain){
+export const port = (function (domain) {
   var found = domain.match(/:(\d+$)/)
-  if (found && found[1] == window.location.port) { // there are port in domain.
+  if (found && found[1] === window.location.port) { // there are port in domain.
     return ''
   } else {
     return window.location.port
