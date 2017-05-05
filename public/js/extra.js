@@ -8,6 +8,7 @@ require('prismjs/components/prism-go')
 require('prismjs/components/prism-typescript')
 require('prismjs/components/prism-jsx')
 require('prismjs/components/prism-makefile')
+require('prismjs/components/prism-gherkin')
 
 import Prism from 'prismjs'
 import hljs from 'highlight.js'
@@ -510,7 +511,7 @@ export function finishView (view) {
               result = {
                 value: code
               }
-            } else if (reallang === 'haskell' || reallang === 'go' || reallang === 'typescript' || reallang === 'jsx') {
+            } else if (reallang === 'haskell' || reallang === 'go' || reallang === 'typescript' || reallang === 'jsx' || reallang === 'gherkin') {
               code = S(code).unescapeHTML().s
               result = {
                 value: Prism.highlight(code, Prism.languages[reallang])
