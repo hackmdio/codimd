@@ -152,7 +152,7 @@ app.use(passport.session())
 // check uri is valid before going further
 app.use(require('./lib/web/middleware/checkURIValid'))
 // redirect url without trailing slashes
-app.use(require('./lib/web/middleware/redirectwithoutTrailingSlashes'))
+app.use(require('./lib/web/middleware/redirectWithoutTrailingSlashes'))
 
 // routes need sessions
 // template files
