@@ -10,9 +10,6 @@
     "repository": "https://github.com/hackmdio/hackmd",
     "logo": "https://github.com/hackmdio/hackmd/raw/master/public/hackmd-icon-1024.png",
     "success_url": "/",
-    "scripts": {
-        "postdeploy": "./node_modules/.bin/sequelize db:migrate"
-    },
     "env": {
         "BUILD_ASSETS": {
             "description": "Our build script variable",
