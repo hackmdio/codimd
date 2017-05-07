@@ -3,8 +3,6 @@
 set -e
 
 if [ "$BUILD_ASSETS" = true ]; then
-  BUILD_ASSETS=false npm install
-
   # setup config files
   cat << EOF > .sequelizerc
 var path = require('path');
