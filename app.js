@@ -22,6 +22,9 @@ var i18n = require('i18n')
 var flash = require('connect-flash')
 var validator = require('validator')
 
+// utils
+var getImageMimeType = require('./lib/utils.js').getImageMimeType
+
 // core
 var config = require('./lib/config.js')
 var logger = require('./lib/logger.js')
