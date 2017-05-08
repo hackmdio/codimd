@@ -19,9 +19,6 @@ var helmet = require('helmet')
 var i18n = require('i18n')
 var flash = require('connect-flash')
 
-// utils
-var getImageMimeType = require('./lib/utils.js').getImageMimeType
-
 // core
 var config = require('./lib/config')
 var logger = require('./lib/logger')
