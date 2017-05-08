@@ -548,6 +548,9 @@ app.post('/uploadimage', function (req, res) {
                 Body: buffer
               }
 
+              var mimeType = getImageMimeType(files.image.path)
+              if (mimeType) { params.ContentType = mimeType }
+
               s3.putObject(params, function (err, data) {
                 if (err) {
                   logger.error(err)
