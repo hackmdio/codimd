@@ -22,6 +22,9 @@ var i18n = require('i18n')
 var flash = require('connect-flash')
 var validator = require('validator')
 
+// utils
+var getImageMimeType = require('./lib/utils.js').getImageMimeType
+
 // core
 var config = require('./lib/config.js')
 var logger = require('./lib/logger.js')
@@ -547,6 +550,9 @@ app.post('/uploadimage', function (req, res) {
                 Key: path.join('uploads', path.basename(files.image.path)),
                 Body: buffer
               }
+
+              var mimeType = getImageMimeType(files.image.path)
+              if (mimeType) { params.ContentType = mimeType }
 
               s3.putObject(params, function (err, data) {
                 if (err) {
