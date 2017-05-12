@@ -74,7 +74,7 @@ If you are upgrading HackMD from an older version, follow these steps:
 1. Fully stop your old server first (important)
 2. `git pull` or do whatever that updates the files
 3. `npm install` to update dependencies
-4. Build front-end bundle by `npm run build` (use `npm run dev` if you are in development)
+4. Build front-end bundle by `npm run build:prod` (use `npm run build:dev` if you are in development)
 5. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string
    For example: `postgres://username:password@localhost:5432/hackmd`
 6. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
