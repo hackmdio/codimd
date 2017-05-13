@@ -413,6 +413,9 @@ module.exports = {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'file'
     }, {
+      test: /\.html$/,
+      loader: 'string'
+    }, {
       test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'url?prefix=font/&limit=5000'
     }, {

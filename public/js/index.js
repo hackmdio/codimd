@@ -65,7 +65,7 @@ import {
     setupSyncAreas,
     syncScrollToEdit,
     syncScrollToView
-} from './syncscroll'
+} from './lib/syncscroll'
 
 import {
     writeHistory,
@@ -78,9 +78,10 @@ import {
 import { preventXSS } from './render'
 
 import Editor from './lib/editor'
-import EditorConfig from './lib/editor/config'
 
 import getUIElements from './lib/editor/ui-elements'
+import modeType from './lib/modeType'
+import appState from './lib/appState'
 
 var defaultTextHeight = 20
 var viewportMargin = 20
@@ -124,7 +125,7 @@ var supportHeaders = [
     search: '###### tags:'
   }
 ]
-var supportReferrals = [
+const supportReferrals = [
   {
     text: '[reference link]',
     search: '[]'
@@ -170,7 +171,7 @@ var supportReferrals = [
     search: '[]'
   }
 ]
-var supportExternals = [
+const supportExternals = [
   {
     text: '{%youtube youtubeid %}',
     search: 'youtube'
@@ -196,12 +197,12 @@ var supportExternals = [
     search: 'pdf'
   }
 ]
-var supportExtraTags = [
+const supportExtraTags = [
   {
     text: '[name tag]',
     search: '[]',
     command: function () {
-      return '[name=' + window.personalInfo.name + ']'
+      return '[name=' + personalInfo.name + ']'
     }
   },
   {
@@ -215,7 +216,7 @@ var supportExtraTags = [
     text: '[my color tag]',
     search: '[]',
     command: function () {
-      return '[color=' + window.personalInfo.color + ']'
+      return '[color=' + personalInfo.color + ']'
     }
   },
   {
@@ -227,18 +228,7 @@ var supportExtraTags = [
     }
   }
 ]
-window.modeType = {
-  edit: {
-    name: 'edit'
-  },
-  view: {
-    name: 'view'
-  },
-  both: {
-    name: 'both'
-  }
-}
-var statusType = {
+const statusType = {
   connected: {
     msg: 'CONNECTED',
     label: 'label-warning',
@@ -255,21 +245,19 @@ var statusType = {
     fa: 'fa-plug'
   }
 }
-var defaultMode = modeType.view
 
 // global vars
 window.loaded = false
-window.needRefresh = false
-window.isDirty = false
-window.editShown = false
-window.visibleXS = false
-window.visibleSM = false
-window.visibleMD = false
-window.visibleLG = false
-window.isTouchDevice = 'ontouchstart' in document.documentElement
-window.currentMode = defaultMode
-window.currentStatus = statusType.offline
-window.lastInfo = {
+let needRefresh = false
+let isDirty = false
+let editShown = false
+let visibleXS = false
+let visibleSM = false
+let visibleMD = false
+let visibleLG = false
+const isTouchDevice = 'ontouchstart' in document.documentElement
+let currentStatus = statusType.offline
+let lastInfo = {
   needRestore: false,
   cursor: null,
   scroll: null,
@@ -292,9 +280,9 @@ window.lastInfo = {
   },
   history: null
 }
-window.personalInfo = {}
-window.onlineUsers = []
-window.fileTypes = {
+let personalInfo = {}
+let onlineUsers = []
+const fileTypes = {
   'pl': 'perl',
   'cgi': 'perl',
   'js': 'javascript',
@@ -306,7 +294,7 @@ window.fileTypes = {
 }
 
 // editor settings
-var textit = document.getElementById('textit')
+const textit = document.getElementById('textit')
 if (!textit) {
   throw new Error('There was no textit area!')
 }
@@ -394,7 +382,7 @@ function setRefreshModal (status) {
 }
 
 function setNeedRefresh () {
-  window.needRefresh = true
+  needRefresh = true
   editor.setOption('readOnly', true)
   socket.disconnect()
   showStatus(statusType.offline)
@@ -416,7 +404,7 @@ Visibility.change(function (e, state) {
     }
   } else {
     if (wasFocus) {
-      if (!window.visibleXS) {
+      if (!visibleXS) {
         editor.focus()
         editor.refresh()
       }
@@ -433,7 +421,7 @@ $(document).ready(function () {
   checkResponsive()
     // if in smaller screen, we don't need advanced scrollbar
   var scrollbarStyle
-  if (window.visibleXS) {
+  if (visibleXS) {
     scrollbarStyle = 'native'
   } else {
     scrollbarStyle = 'overlay'
@@ -444,9 +432,9 @@ $(document).ready(function () {
   }
   checkEditorStyle()
   /* we need this only on touch devices */
-  if (window.isTouchDevice) {
+  if (isTouchDevice) {
     /* cache dom references */
-    var $body = jQuery('body')
+    var $body = $('body')
 
     /* bind events */
     $(document)
@@ -497,7 +485,7 @@ $(window).on('error', function () {
   // setNeedRefresh();
 })
 
-setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown)
+setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown, editor)
 
 function autoSyncscroll () {
   if (editorHasFocus()) {
@@ -533,8 +521,8 @@ function windowResizeInner (callback) {
         autoSyncscroll()
         editor.setOption('viewportMargin', viewportMargin)
         // add or update user cursors
-        for (var i = 0; i < window.onlineUsers.length; i++) {
-          if (window.onlineUsers[i].id !== window.personalInfo.id) { buildCursor(window.onlineUsers[i]) }
+        for (var i = 0; i < onlineUsers.length; i++) {
+          if (onlineUsers[i].id !== personalInfo.id) { buildCursor(onlineUsers[i]) }
         }
         updateScrollspy()
         if (callback && typeof callback === 'function') { callback() }
@@ -554,12 +542,12 @@ function editorHasFocus () {
 
 // 768-792px have a gap
 function checkResponsive () {
-  window.visibleXS = $('.visible-xs').is(':visible')
-  window.visibleSM = $('.visible-sm').is(':visible')
-  window.visibleMD = $('.visible-md').is(':visible')
-  window.visibleLG = $('.visible-lg').is(':visible')
+  visibleXS = $('.visible-xs').is(':visible')
+  visibleSM = $('.visible-sm').is(':visible')
+  visibleMD = $('.visible-md').is(':visible')
+  visibleLG = $('.visible-lg').is(':visible')
 
-  if (window.visibleXS && window.currentMode === modeType.both) {
+  if (visibleXS && appState.currentMode === modeType.both) {
     if (editorHasFocus()) { changeMode(modeType.edit) } else { changeMode(modeType.view) }
   }
 
@@ -573,7 +561,7 @@ function checkEditorStyle () {
   var desireHeight = editorInstance.statusBar ? (ui.area.edit.height() - editorInstance.statusBar.outerHeight()) : ui.area.edit.height()
     // set editor height and min height based on scrollbar style and mode
   var scrollbarStyle = editor.getOption('scrollbarStyle')
-  if (scrollbarStyle === 'overlay' || window.currentMode === modeType.both) {
+  if (scrollbarStyle === 'overlay' || appState.currentMode === modeType.both) {
     ui.area.codemirrorScroll.css('height', desireHeight + 'px')
     ui.area.codemirrorScroll.css('min-height', '')
     checkEditorScrollbar()
@@ -629,7 +617,7 @@ function checkEditorStyle () {
       previousFocusOnEditor = null
     })
     ui.area.resize.syncToggle.click(function () {
-      window.syncscroll = !window.syncscroll
+      appState.syncscroll = !appState.syncscroll
       checkSyncToggle()
     })
     ui.area.resize.handle.append(ui.area.resize.syncToggle)
@@ -643,7 +631,7 @@ function checkEditorStyle () {
 }
 
 function checkSyncToggle () {
-  if (window.syncscroll) {
+  if (appState.syncscroll) {
     if (previousFocusOnEditor) {
       window.preventSyncScrollToView = false
       syncScrollToView()
@@ -690,10 +678,10 @@ function checkTocStyle () {
   // toc scrollspy
   ui.toc.toc.removeClass('scrollspy-body, scrollspy-view')
   ui.toc.affix.removeClass('scrollspy-body, scrollspy-view')
-  if (window.currentMode === modeType.both) {
+  if (appState.currentMode === modeType.both) {
     ui.toc.toc.addClass('scrollspy-view')
     ui.toc.affix.addClass('scrollspy-view')
-  } else if (window.currentMode !== modeType.both && !newbool) {
+  } else if (appState.currentMode !== modeType.both && !newbool) {
     ui.toc.toc.addClass('scrollspy-body')
     ui.toc.affix.addClass('scrollspy-body')
   } else {
@@ -707,7 +695,7 @@ function checkTocStyle () {
 }
 
 function showStatus (type, num) {
-  window.currentStatus = type
+  currentStatus = type
   var shortStatus = ui.toolbar.shortStatus
   var status = ui.toolbar.status
   var label = $('<span class="label"></span>')
@@ -718,7 +706,7 @@ function showStatus (type, num) {
   shortStatus.html('')
   status.html('')
 
-  switch (window.currentStatus) {
+  switch (currentStatus) {
     case statusType.connected:
       label.addClass(statusType.connected.label)
       fa.addClass(statusType.connected.fa)
@@ -748,7 +736,7 @@ function showStatus (type, num) {
 }
 
 function toggleMode () {
-  switch (window.currentMode) {
+  switch (appState.currentMode) {
     case modeType.edit:
       changeMode(modeType.view)
       break
@@ -768,8 +756,8 @@ function changeMode (type) {
   lockNavbar()
   saveInfo()
   if (type) {
-    lastMode = window.currentMode
-    window.currentMode = type
+    lastMode = appState.currentMode
+    appState.currentMode = type
   }
   var responsiveClass = 'col-lg-6 col-md-6 col-sm-6'
   var scrollClass = 'ui-scrollable'
@@ -777,13 +765,13 @@ function changeMode (type) {
   ui.area.edit.removeClass(responsiveClass)
   ui.area.view.removeClass(scrollClass)
   ui.area.view.removeClass(responsiveClass)
-  switch (window.currentMode) {
+  switch (appState.currentMode) {
     case modeType.edit:
       ui.area.edit.show()
       ui.area.view.hide()
-      if (!window.editShown) {
+      if (!editShown) {
         editor.refresh()
-        window.editShown = true
+        editShown = true
       }
       break
     case modeType.view:
@@ -798,11 +786,11 @@ function changeMode (type) {
       break
   }
   // save mode to url
-  if (history.replaceState && window.loaded) history.replaceState(null, '', serverurl + '/' + noteid + '?' + window.currentMode.name)
-  if (window.currentMode === modeType.view) {
+  if (history.replaceState && window.loaded) history.replaceState(null, '', serverurl + '/' + noteid + '?' + appState.currentMode.name)
+  if (appState.currentMode === modeType.view) {
     editor.getInputField().blur()
   }
-  if (window.currentMode === modeType.edit || window.currentMode === modeType.both) {
+  if (appState.currentMode === modeType.edit || appState.currentMode === modeType.both) {
     ui.toolbar.uploadImage.fadeIn()
     // add and update status bar
     if (!editorInstance.statusBar) {
@@ -815,14 +803,14 @@ function changeMode (type) {
   } else {
     ui.toolbar.uploadImage.fadeOut()
   }
-  if (window.currentMode !== modeType.edit) {
+  if (appState.currentMode !== modeType.edit) {
     $(document.body).css('background-color', 'white')
     updateView()
   } else {
     $(document.body).css('background-color', ui.area.codemirror.css('background-color'))
   }
     // check resizable editor style
-  if (window.currentMode === modeType.both) {
+  if (appState.currentMode === modeType.both) {
     if (lastEditorWidth > 0) {
       ui.area.edit.css('width', lastEditorWidth + 'px')
     } else {
@@ -838,22 +826,22 @@ function changeMode (type) {
 
   restoreInfo()
 
-  if (lastMode === modeType.view && window.currentMode === modeType.both) {
+  if (lastMode === modeType.view && appState.currentMode === modeType.both) {
     window.preventSyncScrollToView = 2
     syncScrollToEdit(null, true)
   }
 
-  if (lastMode === modeType.edit && window.currentMode === modeType.both) {
+  if (lastMode === modeType.edit && appState.currentMode === modeType.both) {
     window.preventSyncScrollToEdit = 2
     syncScrollToView(null, true)
   }
 
-  if (lastMode === modeType.both && window.currentMode !== modeType.both) {
+  if (lastMode === modeType.both && appState.currentMode !== modeType.both) {
     window.preventSyncScrollToView = false
     window.preventSyncScrollToEdit = false
   }
 
-  if (lastMode !== modeType.edit && window.currentMode === modeType.edit) {
+  if (lastMode !== modeType.edit && appState.currentMode === modeType.edit) {
     editor.refresh()
   }
 
@@ -1371,7 +1359,7 @@ ui.modal.snippetImportSnippets.change(function () {
 })
 
 function scrollToTop () {
-  if (window.currentMode === modeType.both) {
+  if (appState.currentMode === modeType.both) {
     if (editor.getScrollInfo().top !== 0) { editor.scrollTo(0, 0) } else {
       ui.area.view.animate({
         scrollTop: 0
@@ -1385,7 +1373,7 @@ function scrollToTop () {
 }
 
 function scrollToBottom () {
-  if (window.currentMode === modeType.both) {
+  if (appState.currentMode === modeType.both) {
     var scrollInfo = editor.getScrollInfo()
     var scrollHeight = scrollInfo.height
     if (scrollInfo.top !== scrollHeight) { editor.scrollTo(0, scrollHeight * 2) } else {
@@ -1544,7 +1532,7 @@ $('#snippetImportModalConfirm').click(function () {
                       if (raw) {
                         content += '\n\n'
                         if (fileInfo[1] !== 'md') {
-                          content += '```' + window.fileTypes[fileInfo[1]] + '\n'
+                          content += '```' + fileTypes[fileInfo[1]] + '\n'
                         }
                         content += raw
                         if (fileInfo[1] !== 'md') {
@@ -1717,7 +1705,7 @@ function updatePermission (newPermission) {
       title = 'Only owner can view & edit'
       break
   }
-  if (window.personalInfo.userid && window.owner && window.personalInfo.userid === window.owner) {
+  if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
     label += ' <i class="fa fa-caret-down"></i>'
     ui.infobar.permission.label.removeClass('disabled')
   } else {
@@ -1734,7 +1722,7 @@ function havePermission () {
       break
     case 'editable':
     case 'limited':
-      if (!window.personalInfo.login) {
+      if (!personalInfo.login) {
         bool = false
       } else {
         bool = true
@@ -1743,7 +1731,7 @@ function havePermission () {
     case 'locked':
     case 'private':
     case 'protected':
-      if (!window.owner || window.personalInfo.userid !== window.owner) {
+      if (!window.owner || personalInfo.userid !== window.owner) {
         bool = false
       } else {
         bool = true
@@ -1765,11 +1753,11 @@ var socket = io.connect({
 // overwrite original event for checking login state
 var on = socket.on
 socket.on = function () {
-  if (!checkLoginStateChanged() && !window.needRefresh) { return on.apply(socket, arguments) }
+  if (!checkLoginStateChanged() && !needRefresh) { return on.apply(socket, arguments) }
 }
 var emit = socket.emit
 socket.emit = function () {
-  if (!checkLoginStateChanged() && !window.needRefresh) { emit.apply(socket, arguments) }
+  if (!checkLoginStateChanged() && !needRefresh) { emit.apply(socket, arguments) }
 }
 socket.on('info', function (data) {
   console.error(data)
@@ -1790,7 +1778,7 @@ socket.on('error', function (data) {
   if (data.message && data.message.indexOf('AUTH failed') === 0) { location.href = serverurl + '/403' }
 })
 socket.on('delete', function () {
-  if (window.personalInfo.login) {
+  if (personalInfo.login) {
     deleteServerHistory(noteid, function (err, data) {
       if (!err) location.href = serverurl
     })
@@ -1810,12 +1798,12 @@ socket.on('disconnect', function (data) {
   showStatus(statusType.offline)
   if (window.loaded) {
     saveInfo()
-    window.lastInfo.history = editor.getHistory()
+    lastInfo.history = editor.getHistory()
   }
   if (!editor.getOption('readOnly')) { editor.setOption('readOnly', true) }
   if (!retryTimer) {
     retryTimer = setInterval(function () {
-      if (!window.needRefresh) socket.connect()
+      if (!needRefresh) socket.connect()
     }, 1000)
   }
 })
@@ -1828,7 +1816,7 @@ socket.on('reconnect', function (data) {
 socket.on('connect', function (data) {
   clearInterval(retryTimer)
   retryTimer = null
-  window.personalInfo['id'] = socket.id
+  personalInfo['id'] = socket.id
   showStatus(statusType.connected)
   socket.emit('version')
 })
@@ -2082,23 +2070,23 @@ socket.on('permission', function (data) {
 var permission = null
 socket.on('refresh', function (data) {
     // console.log(data);
-  EditorConfig.docmaxlength = data.docmaxlength
-  editor.setOption('maxLength', EditorConfig.docmaxlength)
+  editorInstance.config.docmaxlength = data.docmaxlength
+  editor.setOption('maxLength', editorInstance.config.docmaxlength)
   updateInfo(data)
   updatePermission(data.permission)
   if (!window.loaded) {
         // auto change mode if no content detected
     var nocontent = editor.getValue().length <= 0
     if (nocontent) {
-      if (window.visibleXS) { window.currentMode = modeType.edit } else { window.currentMode = modeType.both }
+      if (visibleXS) { appState.currentMode = modeType.edit } else { appState.currentMode = modeType.both }
     }
     // parse mode from url
     if (window.location.search.length > 0) {
       var urlMode = modeType[window.location.search.substr(1)]
-      if (urlMode) window.currentMode = urlMode
+      if (urlMode) appState.currentMode = urlMode
     }
-    changeMode(window.currentMode)
-    if (nocontent && !window.visibleXS) {
+    changeMode(appState.currentMode)
+    if (nocontent && !visibleXS) {
       editor.focus()
       editor.refresh()
     }
@@ -2146,8 +2134,8 @@ socket.on('doc', function (obj) {
   } else {
     // if current doc is equal to the doc before disconnect
     if (setDoc && bodyMismatch) editor.clearHistory()
-    else if (window.lastInfo.history) editor.setHistory(window.lastInfo.history)
-    window.lastInfo.history = null
+    else if (lastInfo.history) editor.setHistory(lastInfo.history)
+    lastInfo.history = null
   }
 
   if (!cmClient) {
@@ -2170,7 +2158,7 @@ socket.on('doc', function (obj) {
   }
 
   if (setDoc && bodyMismatch) {
-    window.isDirty = true
+    isDirty = true
     updateView()
   }
 
@@ -2178,18 +2166,18 @@ socket.on('doc', function (obj) {
 })
 
 socket.on('ack', function () {
-  window.isDirty = true
+  isDirty = true
   updateView()
 })
 
 socket.on('operation', function () {
-  window.isDirty = true
+  isDirty = true
   updateView()
 })
 
 socket.on('online users', function (data) {
   if (debug) { console.debug(data) }
-  window.onlineUsers = data.users
+  onlineUsers = data.users
   updateOnlineStatus()
   $('.CodeMirror-other-cursors').children().each(function (key, value) {
     var found = false
@@ -2205,14 +2193,14 @@ socket.on('online users', function (data) {
   })
   for (var i = 0; i < data.users.length; i++) {
     var user = data.users[i]
-    if (user.id !== socket.id) { buildCursor(user) } else { window.personalInfo = user }
+    if (user.id !== socket.id) { buildCursor(user) } else { personalInfo = user }
   }
 })
 socket.on('user status', function (data) {
   if (debug) { console.debug(data) }
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === data.id) {
-      window.onlineUsers[i] = data
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === data.id) {
+      onlineUsers[i] = data
     }
   }
   updateOnlineStatus()
@@ -2220,9 +2208,9 @@ socket.on('user status', function (data) {
 })
 socket.on('cursor focus', function (data) {
   if (debug) { console.debug(data) }
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === data.id) {
-      window.onlineUsers[i].cursor = data.cursor
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === data.id) {
+      onlineUsers[i].cursor = data.cursor
     }
   }
   if (data.id !== socket.id) { buildCursor(data) }
@@ -2234,18 +2222,18 @@ socket.on('cursor focus', function (data) {
 })
 socket.on('cursor activity', function (data) {
   if (debug) { console.debug(data) }
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === data.id) {
-      window.onlineUsers[i].cursor = data.cursor
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === data.id) {
+      onlineUsers[i].cursor = data.cursor
     }
   }
   if (data.id !== socket.id) { buildCursor(data) }
 })
 socket.on('cursor blur', function (data) {
   if (debug) { console.debug(data) }
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === data.id) {
-      window.onlineUsers[i].cursor = null
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === data.id) {
+      onlineUsers[i].cursor = null
     }
   }
   if (data.id !== socket.id) { buildCursor(data) }
@@ -2270,7 +2258,7 @@ var shortOnlineUserList = new List('short-online-user-list', options)
 
 function updateOnlineStatus () {
   if (!window.loaded || !socket.connected) return
-  var _onlineUsers = deduplicateOnlineUsers(window.onlineUsers)
+  var _onlineUsers = deduplicateOnlineUsers(onlineUsers)
   showStatus(statusType.online, _onlineUsers.length)
   var items = onlineUserList.items
     // update or remove current list items
@@ -2321,8 +2309,8 @@ function sortOnlineUserList (list) {
     sortFunction: function (a, b) {
       var usera = a.values()
       var userb = b.values()
-      var useraIsSelf = (usera.id === window.personalInfo.id || (usera.login && usera.userid === window.personalInfo.userid))
-      var userbIsSelf = (userb.id === window.personalInfo.id || (userb.login && userb.userid === window.personalInfo.userid))
+      var useraIsSelf = (usera.id === personalInfo.id || (usera.login && usera.userid === personalInfo.userid))
+      var userbIsSelf = (userb.id === personalInfo.id || (userb.login && userb.userid === personalInfo.userid))
       if (useraIsSelf && !userbIsSelf) {
         return -1
       } else if (!useraIsSelf && userbIsSelf) {
@@ -2373,7 +2361,7 @@ function deduplicateOnlineUsers (list) {
       for (var j = 0; j < _onlineUsers.length; j++) {
         if (_onlineUsers[j].userid === user.userid) {
           // keep self color when login
-          if (user.id === window.personalInfo.id) {
+          if (user.id === personalInfo.id) {
             _onlineUsers[j].color = user.color
           }
           // keep idle state if any of self client not idle
@@ -2396,14 +2384,14 @@ var userStatusCache = null
 function emitUserStatus (force) {
   if (!window.loaded) return
   var type = null
-  if (window.visibleXS) { type = 'xs' } else if (window.visibleSM) { type = 'sm' } else if (window.visibleMD) { type = 'md' } else if (window.visibleLG) { type = 'lg' }
+  if (visibleXS) { type = 'xs' } else if (visibleSM) { type = 'sm' } else if (visibleMD) { type = 'md' } else if (visibleLG) { type = 'lg' }
 
-  window.personalInfo['idle'] = idle.isAway
-  window.personalInfo['type'] = type
+  personalInfo['idle'] = idle.isAway
+  personalInfo['type'] = type
 
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === window.personalInfo.id) {
-      window.onlineUsers[i] = window.personalInfo
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === personalInfo.id) {
+      onlineUsers[i] = personalInfo
     }
   }
 
@@ -2457,7 +2445,7 @@ function checkCursorTag (coord, ele) {
 }
 
 function buildCursor (user) {
-  if (window.currentMode === modeType.view) return
+  if (appState.currentMode === modeType.view) return
   if (!user.cursor) return
   var coord = editor.charCoords(user.cursor, 'windows')
   coord.left = coord.left < 4 ? 4 : coord.left
@@ -2476,9 +2464,6 @@ function buildCursor (user) {
     case 'lg':
       iconClass = 'fa-desktop'
       break
-  }
-  if ($('.CodeMirror-other-cursors').length <= 0) {
-    $("<div class='CodeMirror-other-cursors'>").insertAfter('.CodeMirror-cursors')
   }
   if ($('div[data-clientid="' + user.id + '"]').length <= 0) {
     let cursor = $('<div data-clientid="' + user.id + '" class="CodeMirror-other-cursor" style="display:none;"></div>')
@@ -2500,12 +2485,12 @@ function buildCursor (user) {
     cursor.attr('data-mode', 'hover')
     cursortag.delay(2000).fadeOut('fast')
     cursor.hover(
-            function () {
-              if (cursor.attr('data-mode') === 'hover') { cursortag.stop(true).fadeIn('fast') }
-            },
-            function () {
-              if (cursor.attr('data-mode') === 'hover') { cursortag.stop(true).fadeOut('fast') }
-            })
+      function () {
+        if (cursor.attr('data-mode') === 'hover') { cursortag.stop(true).fadeIn('fast') }
+      },
+      function () {
+        if (cursor.attr('data-mode') === 'hover') { cursortag.stop(true).fadeOut('fast') }
+      })
 
     var hideCursorTagDelay = 2000
     var hideCursorTagTimer = null
@@ -2664,12 +2649,12 @@ editorInstance.on('changes', function (editor, changes) {
   }
 })
 editorInstance.on('focus', function (editor) {
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === window.personalInfo.id) {
-      window.onlineUsers[i].cursor = editor.getCursor()
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === personalInfo.id) {
+      onlineUsers[i].cursor = editor.getCursor()
     }
   }
-  window.personalInfo['cursor'] = editor.getCursor()
+  personalInfo['cursor'] = editor.getCursor()
   socket.emit('cursor focus', editor.getCursor())
 })
 
@@ -2677,12 +2662,12 @@ const cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce)
 
 function cursorActivityInner (editor) {
   if (editorHasFocus() && !Visibility.hidden()) {
-    for (var i = 0; i < window.onlineUsers.length; i++) {
-      if (window.onlineUsers[i].id === window.personalInfo.id) {
-        window.onlineUsers[i].cursor = editor.getCursor()
+    for (var i = 0; i < onlineUsers.length; i++) {
+      if (onlineUsers[i].id === personalInfo.id) {
+        onlineUsers[i].cursor = editor.getCursor()
       }
     }
-    window.personalInfo['cursor'] = editor.getCursor()
+    personalInfo['cursor'] = editor.getCursor()
     socket.emit('cursor activity', editor.getCursor())
   }
 }
@@ -2724,12 +2709,12 @@ editorInstance.on('beforeSelectionChange', function (doc, selections) {
 })
 
 editorInstance.on('blur', function (cm) {
-  for (var i = 0; i < window.onlineUsers.length; i++) {
-    if (window.onlineUsers[i].id === window.personalInfo.id) {
-      window.onlineUsers[i].cursor = null
+  for (var i = 0; i < onlineUsers.length; i++) {
+    if (onlineUsers[i].id === personalInfo.id) {
+      onlineUsers[i].cursor = null
     }
   }
-  window.personalInfo['cursor'] = null
+  personalInfo['cursor'] = null
   socket.emit('cursor blur')
 })
 
@@ -2737,71 +2722,71 @@ function saveInfo () {
   var scrollbarStyle = editor.getOption('scrollbarStyle')
   var left = $(window).scrollLeft()
   var top = $(window).scrollTop()
-  switch (window.currentMode) {
+  switch (appState.currentMode) {
     case modeType.edit:
       if (scrollbarStyle === 'native') {
-        window.lastInfo.edit.scroll.left = left
-        window.lastInfo.edit.scroll.top = top
+        lastInfo.edit.scroll.left = left
+        lastInfo.edit.scroll.top = top
       } else {
-        window.lastInfo.edit.scroll = editor.getScrollInfo()
+        lastInfo.edit.scroll = editor.getScrollInfo()
       }
       break
     case modeType.view:
-      window.lastInfo.view.scroll.left = left
-      window.lastInfo.view.scroll.top = top
+      lastInfo.view.scroll.left = left
+      lastInfo.view.scroll.top = top
       break
     case modeType.both:
-      window.lastInfo.edit.scroll = editor.getScrollInfo()
-      window.lastInfo.view.scroll.left = ui.area.view.scrollLeft()
-      window.lastInfo.view.scroll.top = ui.area.view.scrollTop()
+      lastInfo.edit.scroll = editor.getScrollInfo()
+      lastInfo.view.scroll.left = ui.area.view.scrollLeft()
+      lastInfo.view.scroll.top = ui.area.view.scrollTop()
       break
   }
-  window.lastInfo.edit.cursor = editor.getCursor()
-  window.lastInfo.edit.selections = editor.listSelections()
-  window.lastInfo.needRestore = true
+  lastInfo.edit.cursor = editor.getCursor()
+  lastInfo.edit.selections = editor.listSelections()
+  lastInfo.needRestore = true
 }
 
 function restoreInfo () {
   var scrollbarStyle = editor.getOption('scrollbarStyle')
-  if (window.lastInfo.needRestore) {
-    var line = window.lastInfo.edit.cursor.line
-    var ch = window.lastInfo.edit.cursor.ch
+  if (lastInfo.needRestore) {
+    var line = lastInfo.edit.cursor.line
+    var ch = lastInfo.edit.cursor.ch
     editor.setCursor(line, ch)
-    editor.setSelections(window.lastInfo.edit.selections)
-    switch (window.currentMode) {
+    editor.setSelections(lastInfo.edit.selections)
+    switch (appState.currentMode) {
       case modeType.edit:
         if (scrollbarStyle === 'native') {
-          $(window).scrollLeft(window.lastInfo.edit.scroll.left)
-          $(window).scrollTop(window.lastInfo.edit.scroll.top)
+          $(window).scrollLeft(lastInfo.edit.scroll.left)
+          $(window).scrollTop(lastInfo.edit.scroll.top)
         } else {
-          let left = window.lastInfo.edit.scroll.left
-          let top = window.lastInfo.edit.scroll.top
+          let left = lastInfo.edit.scroll.left
+          let top = lastInfo.edit.scroll.top
           editor.scrollIntoView()
           editor.scrollTo(left, top)
         }
         break
       case modeType.view:
-        $(window).scrollLeft(window.lastInfo.view.scroll.left)
-        $(window).scrollTop(window.lastInfo.view.scroll.top)
+        $(window).scrollLeft(lastInfo.view.scroll.left)
+        $(window).scrollTop(lastInfo.view.scroll.top)
         break
       case modeType.both:
-        let left = window.lastInfo.edit.scroll.left
-        let top = window.lastInfo.edit.scroll.top
+        let left = lastInfo.edit.scroll.left
+        let top = lastInfo.edit.scroll.top
         editor.scrollIntoView()
         editor.scrollTo(left, top)
-        ui.area.view.scrollLeft(window.lastInfo.view.scroll.left)
-        ui.area.view.scrollTop(window.lastInfo.view.scroll.top)
+        ui.area.view.scrollLeft(lastInfo.view.scroll.left)
+        ui.area.view.scrollTop(lastInfo.view.scroll.top)
         break
     }
 
-    window.lastInfo.needRestore = false
+    lastInfo.needRestore = false
   }
 }
 
 // view actions
 function refreshView () {
   ui.area.markdown.html('')
-  window.isDirty = true
+  isDirty = true
   updateViewInner()
 }
 
@@ -2813,7 +2798,7 @@ var lastResult = null
 var postUpdateEvent = null
 
 function updateViewInner () {
-  if (window.currentMode === modeType.edit || !window.isDirty) return
+  if (appState.currentMode === modeType.edit || !isDirty) return
   var value = editor.getValue()
   var lastMeta = md.meta
   md.meta = {}
@@ -2830,13 +2815,13 @@ function updateViewInner () {
         // prevent XSS
     ui.area.markdown.html(preventXSS(ui.area.markdown.html()))
     ui.area.markdown.addClass('slides')
-    window.syncscroll = false
+    appState.syncscroll = false
     checkSyncToggle()
   } else {
     if (lastMeta.type && lastMeta.type === 'slide') {
       refreshView()
       ui.area.markdown.removeClass('slides')
-      window.syncscroll = true
+      appState.syncscroll = true
       checkSyncToggle()
     }
         // only render again when meta changed
@@ -2861,7 +2846,7 @@ function updateViewInner () {
   generateScrollspy()
   updateScrollspy()
   smoothHashScroll()
-  window.isDirty = false
+  isDirty = false
   clearMap()
     // buildMap();
   updateTitleReminder()
