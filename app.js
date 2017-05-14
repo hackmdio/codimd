@@ -1,52 +1,42 @@
+'use strict'
 // app
 // external modules
 var express = require('express')
-var toobusy = require('toobusy-js')
+
 var ejs = require('ejs')
 var passport = require('passport')
 var methodOverride = require('method-override')
 var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
 var compression = require('compression')
 var session = require('express-session')
 var SequelizeStore = require('connect-session-sequelize')(session.Store)
 var fs = require('fs')
-var url = require('url')
 var path = require('path')
-var imgur = require('imgur')
-var formidable = require('formidable')
+
 var morgan = require('morgan')
 var passportSocketIo = require('passport.socketio')
 var helmet = require('helmet')
 var i18n = require('i18n')
 var flash = require('connect-flash')
-var validator = require('validator')
-
-// utils
-var getImageMimeType = require('./lib/utils.js').getImageMimeType
 
 // core
-var config = require('./lib/config.js')
-var logger = require('./lib/logger.js')
-var auth = require('./lib/auth.js')
-var response = require('./lib/response.js')
+var config = require('./lib/config')
+var logger = require('./lib/logger')
+var response = require('./lib/response')
 var models = require('./lib/models')
 
 // generate front-end constants by template
-var configJson = config.raw
 var constpath = path.join(__dirname, './public/js/lib/common/constant.ejs')
-var googleApiKey = (fs.existsSync('/run/secrets/google_apiKey') && config.handleDockerSecret('google_apiKey')) || process.env.HMD_GOOGLE_API_KEY || (configJson.google && configJson.google.apiKey) || ''
-var googleClientID = (fs.existsSync('/run/secrets/google_clientID') && config.handleDockerSecret('google_clientID')) || process.env.HMD_GOOGLE_CLIENT_ID || (configJson.google && configJson.google.clientID) || ''
-var dropboxAppKey = (fs.existsSync('/run/secrets/dropbox_appKey') && config.handleDockerSecret('dropbox_appKey')) || process.env.HMD_DROPBOX_APP_KEY || (configJson.dropbox && configJson.dropbox.appKey) || ''
 var data = {
   domain: config.domain,
   urlpath: config.urlpath,
   debug: config.debug,
   version: config.version,
-  GOOGLE_API_KEY: googleApiKey,
-  GOOGLE_CLIENT_ID: googleClientID,
-  DROPBOX_APP_KEY: dropboxAppKey
+  GOOGLE_API_KEY: config.google.clientSecret,
+  GOOGLE_CLIENT_ID: config.google.clientID,
+  DROPBOX_APP_KEY: config.dropbox.clientSecret
 }
+
 ejs.renderFile(constpath, data, {}, function (err, str) {
   if (err) throw new Error(err)
   fs.writeFileSync(path.join(__dirname, './public/build/constant.js'), str)
@@ -79,7 +69,7 @@ if (config.usessl) {
 
 // logger
 app.use(morgan('combined', {
-  'stream': logger.stream
+  'stream': logger
 }))
 
 // socket io
@@ -97,12 +87,6 @@ realtime.io = io
 
 // methodOverride
 app.use(methodOverride('_method'))
-
-// create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({
-  extended: false,
-  limit: 1024 * 1024 * 10 // 10 mb
-})
 
 // session store
 var sessionStore = new SequelizeStore({
@@ -157,63 +141,18 @@ server.on('resumeSession', function (id, cb) {
 })
 
 // middleware which blocks requests when we're too busy
-app.use(function (req, res, next) {
-  if (toobusy()) {
-    response.errorServiceUnavailable(res)
-  } else {
-    next()
-  }
-})
+app.use(require('./lib/web/middleware/tooBusy'))
 
 app.use(flash())
 
 // passport
 app.use(passport.initialize())
 app.use(passport.session())
-auth.registerAuthMethod()
-
-// serialize and deserialize
-passport.serializeUser(function (user, done) {
-  logger.info('serializeUser: ' + user.id)
-  return done(null, user.id)
-})
-passport.deserializeUser(function (id, done) {
-  models.User.findOne({
-    where: {
-      id: id
-    }
-  }).then(function (user) {
-    logger.info('deserializeUser: ' + user.id)
-    return done(null, user)
-  }).catch(function (err) {
-    logger.error(err)
-    return done(err, null)
-  })
-})
 
 // check uri is valid before going further
-app.use(function (req, res, next) {
-  try {
-    decodeURIComponent(req.path)
-  } catch (err) {
-    logger.error(err)
-    return response.errorBadRequest(res)
-  }
-  next()
-})
-
+app.use(require('./lib/web/middleware/checkURIValid'))
 // redirect url without trailing slashes
-app.use(function (req, res, next) {
-  if (req.method === 'GET' && req.path.substr(-1) === '/' && req.path.length > 1) {
-    var query = req.url.slice(req.path.length)
-    var urlpath = req.path.slice(0, -1)
-    var serverurl = config.serverurl
-    if (config.urlpath) serverurl = serverurl.slice(0, -(config.urlpath.length + 1))
-    res.redirect(301, serverurl + urlpath + query)
-  } else {
-    next()
-  }
-})
+app.use(require('./lib/web/middleware/redirectWithoutTrailingSlashes'))
 
 // routes need sessions
 // template files
@@ -222,390 +161,16 @@ app.set('views', path.join(__dirname, '/public/views'))
 app.engine('ejs', ejs.renderFile)
 // set view engine
 app.set('view engine', 'ejs')
-// get index
-app.get('/', response.showIndex)
-// get 403 forbidden
-app.get('/403', function (req, res) {
-  response.errorForbidden(res)
-})
-// get 404 not found
-app.get('/404', function (req, res) {
-  response.errorNotFound(res)
-})
-// get 500 internal error
-app.get('/500', function (req, res) {
-  response.errorInternalError(res)
-})
-// get status
-app.get('/status', function (req, res, next) {
-  realtime.getStatus(function (data) {
-    res.set({
-      'Cache-Control': 'private', // only cache by client
-      'X-Robots-Tag': 'noindex, nofollow', // prevent crawling
-      'HackMD-Version': config.version
-    })
-    res.send(data)
-  })
-})
-// get status
-app.get('/temp', function (req, res) {
-  var host = req.get('host')
-  if (config.alloworigin.indexOf(host) === -1) {
-    response.errorForbidden(res)
-  } else {
-    var tempid = req.query.tempid
-    if (!tempid) {
-      response.errorForbidden(res)
-    } else {
-      models.Temp.findOne({
-        where: {
-          id: tempid
-        }
-      }).then(function (temp) {
-        if (!temp) {
-          response.errorNotFound(res)
-        } else {
-          res.header('Access-Control-Allow-Origin', '*')
-          res.send({
-            temp: temp.data
-          })
-          temp.destroy().catch(function (err) {
-            if (err) {
-              logger.error('remove temp failed: ' + err)
-            }
-          })
-        }
-      }).catch(function (err) {
-        logger.error(err)
-        return response.errorInternalError(res)
-      })
-    }
-  }
-})
-// post status
-app.post('/temp', urlencodedParser, function (req, res) {
-  var host = req.get('host')
-  if (config.alloworigin.indexOf(host) === -1) {
-    response.errorForbidden(res)
-  } else {
-    var data = req.body.data
-    if (!data) {
-      response.errorForbidden(res)
-    } else {
-      if (config.debug) {
-        logger.info('SERVER received temp from [' + host + ']: ' + req.body.data)
-      }
-      models.Temp.create({
-        data: data
-      }).then(function (temp) {
-        if (temp) {
-          res.header('Access-Control-Allow-Origin', '*')
-          res.send({
-            status: 'ok',
-            id: temp.id
-          })
-        } else {
-          response.errorInternalError(res)
-        }
-      }).catch(function (err) {
-        logger.error(err)
-        return response.errorInternalError(res)
-      })
-    }
-  }
-})
 
-function setReturnToFromReferer (req) {
-  var referer = req.get('referer')
-  if (!req.session) req.session = {}
-  req.session.returnTo = referer
-}
+app.use(require('./lib/web/baseRouter'))
+app.use(require('./lib/web/statusRouter'))
+app.use(require('./lib/web/auth'))
+app.use(require('./lib/web/historyRouter'))
+app.use(require('./lib/web/userRouter'))
+app.use(require('./lib/web/imageRouter'))
+app.use(require('./lib/web/noteRouter'))
 
-// facebook auth
-if (config.facebook) {
-  app.get('/auth/facebook', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('facebook')(req, res, next)
-  })
-  // facebook auth callback
-  app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-}
-// twitter auth
-if (config.twitter) {
-  app.get('/auth/twitter', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('twitter')(req, res, next)
-  })
-  // twitter auth callback
-  app.get('/auth/twitter/callback',
-        passport.authenticate('twitter', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-}
-// github auth
-if (config.github) {
-  app.get('/auth/github', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('github')(req, res, next)
-  })
-  // github auth callback
-  app.get('/auth/github/callback',
-        passport.authenticate('github', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-  if (!config.gitlab.scope || config.gitlab.scope === 'api') {
-    // gitlab callback actions
-    app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions)
-  }
-}
-// gitlab auth
-if (config.gitlab) {
-  app.get('/auth/gitlab', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('gitlab')(req, res, next)
-  })
-  // gitlab auth callback
-  app.get('/auth/gitlab/callback',
-        passport.authenticate('gitlab', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-  // gitlab callback actions
-  app.get('/auth/gitlab/callback/:noteId/:action', response.gitlabActions)
-}
-// dropbox auth
-if (config.dropbox) {
-  app.get('/auth/dropbox', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('dropbox-oauth2')(req, res, next)
-  })
-  // dropbox auth callback
-  app.get('/auth/dropbox/callback',
-        passport.authenticate('dropbox-oauth2', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-}
-// google auth
-if (config.google) {
-  app.get('/auth/google', function (req, res, next) {
-    setReturnToFromReferer(req)
-    passport.authenticate('google', { scope: ['profile'] })(req, res, next)
-  })
-  // google auth callback
-  app.get('/auth/google/callback',
-        passport.authenticate('google', {
-          successReturnToOrRedirect: config.serverurl + '/',
-          failureRedirect: config.serverurl + '/'
-        }))
-}
-// ldap auth
-if (config.ldap) {
-  app.post('/auth/ldap', urlencodedParser, function (req, res, next) {
-    if (!req.body.username || !req.body.password) return response.errorBadRequest(res)
-    setReturnToFromReferer(req)
-    passport.authenticate('ldapauth', {
-      successReturnToOrRedirect: config.serverurl + '/',
-      failureRedirect: config.serverurl + '/',
-      failureFlash: true
-    })(req, res, next)
-  })
-}
-// email auth
-if (config.email) {
-  if (config.allowemailregister) {
-    app.post('/register', urlencodedParser, function (req, res, next) {
-      if (!req.body.email || !req.body.password) return response.errorBadRequest(res)
-      if (!validator.isEmail(req.body.email)) return response.errorBadRequest(res)
-      models.User.findOrCreate({
-        where: {
-          email: req.body.email
-        },
-        defaults: {
-          password: req.body.password
-        }
-      }).spread(function (user, created) {
-        if (user) {
-          if (created) {
-            if (config.debug) {
-              logger.info('user registered: ' + user.id)
-            }
-            req.flash('info', "You've successfully registered, please signin.")
-          } else {
-            if (config.debug) {
-              logger.info('user found: ' + user.id)
-            }
-            req.flash('error', 'This email has been used, please try another one.')
-          }
-          return res.redirect(config.serverurl + '/')
-        }
-        req.flash('error', 'Failed to register your account, please try again.')
-        return res.redirect(config.serverurl + '/')
-      }).catch(function (err) {
-        logger.error('auth callback failed: ' + err)
-        return response.errorInternalError(res)
-      })
-    })
-  }
-
-  app.post('/login', urlencodedParser, function (req, res, next) {
-    if (!req.body.email || !req.body.password) return response.errorBadRequest(res)
-    if (!validator.isEmail(req.body.email)) return response.errorBadRequest(res)
-    setReturnToFromReferer(req)
-    passport.authenticate('local', {
-      successReturnToOrRedirect: config.serverurl + '/',
-      failureRedirect: config.serverurl + '/',
-      failureFlash: 'Invalid email or password.'
-    })(req, res, next)
-  })
-}
-// logout
-app.get('/logout', function (req, res) {
-  if (config.debug && req.isAuthenticated()) { logger.info('user logout: ' + req.user.id) }
-  req.logout()
-  res.redirect(config.serverurl + '/')
-})
-var history = require('./lib/history.js')
-// get history
-app.get('/history', history.historyGet)
-// post history
-app.post('/history', urlencodedParser, history.historyPost)
-// post history by note id
-app.post('/history/:noteId', urlencodedParser, history.historyPost)
-// delete history
-app.delete('/history', history.historyDelete)
-// delete history by note id
-app.delete('/history/:noteId', history.historyDelete)
-// get me info
-app.get('/me', function (req, res) {
-  if (req.isAuthenticated()) {
-    models.User.findOne({
-      where: {
-        id: req.user.id
-      }
-    }).then(function (user) {
-      if (!user) { return response.errorNotFound(res) }
-      var profile = models.User.getProfile(user)
-      res.send({
-        status: 'ok',
-        id: req.user.id,
-        name: profile.name,
-        photo: profile.photo
-      })
-    }).catch(function (err) {
-      logger.error('read me failed: ' + err)
-      return response.errorInternalError(res)
-    })
-  } else {
-    res.send({
-      status: 'forbidden'
-    })
-  }
-})
-
-// upload image
-app.post('/uploadimage', function (req, res) {
-  var form = new formidable.IncomingForm()
-
-  form.keepExtensions = true
-
-  if (config.imageUploadType === 'filesystem') {
-    form.uploadDir = 'public/uploads'
-  }
-
-  form.parse(req, function (err, fields, files) {
-    if (err || !files.image || !files.image.path) {
-      response.errorForbidden(res)
-    } else {
-      if (config.debug) { logger.info('SERVER received uploadimage: ' + JSON.stringify(files.image)) }
-
-      try {
-        switch (config.imageUploadType) {
-          case 'filesystem':
-            res.send({
-              link: url.resolve(config.serverurl + '/', files.image.path.match(/^public\/(.+$)/)[1])
-            })
-
-            break
-
-          case 's3':
-            var AWS = require('aws-sdk')
-            var awsConfig = new AWS.Config(config.s3)
-            var s3 = new AWS.S3(awsConfig)
-
-            fs.readFile(files.image.path, function (err, buffer) {
-              if (err) {
-                logger.error(err)
-                res.status(500).end('upload image error')
-                return
-              }
-              var params = {
-                Bucket: config.s3bucket,
-                Key: path.join('uploads', path.basename(files.image.path)),
-                Body: buffer
-              }
-
-              var mimeType = getImageMimeType(files.image.path)
-              if (mimeType) { params.ContentType = mimeType }
-
-              s3.putObject(params, function (err, data) {
-                if (err) {
-                  logger.error(err)
-                  res.status(500).end('upload image error')
-                  return
-                }
-                res.send({
-                  link: `https://s3-${config.s3.region}.amazonaws.com/${config.s3bucket}/${params.Key}`
-                })
-              })
-            })
-            break
-          case 'imgur':
-          default:
-            imgur.setClientId(config.imgur.clientID)
-            imgur.uploadFile(files.image.path)
-              .then(function (json) {
-                if (config.debug) { logger.info('SERVER uploadimage success: ' + JSON.stringify(json)) }
-                res.send({
-                  link: json.data.link.replace(/^http:\/\//i, 'https://')
-                })
-              })
-              .catch(function (err) {
-                logger.error(err)
-                return res.status(500).end('upload image error')
-              })
-            break
-        }
-      } catch (err) {
-        logger.error(err)
-        return res.status(500).end('upload image error')
-      }
-    }
-  })
-})
-// get new note
-app.get('/new', response.newNote)
-// get publish note
-app.get('/s/:shortid', response.showPublishNote)
-// publish note actions
-app.get('/s/:shortid/:action', response.publishNoteActions)
-// get publish slide
-app.get('/p/:shortid', response.showPublishSlide)
-// publish slide actions
-app.get('/p/:shortid/:action', response.publishSlideActions)
-// get note by id
-app.get('/:noteId', response.showNote)
-// note actions
-app.get('/:noteId/:action', response.noteActions)
-// note actions with action id
-app.get('/:noteId/:action/:actionId', response.noteActions)
-// response not found if no any route matches
+// response not found if no any route matxches
 app.get('*', function (req, res) {
   response.errorNotFound(res)
 })
@@ -632,7 +197,7 @@ function startListen () {
   server.listen(config.port, function () {
     var schema = config.usessl ? 'HTTPS' : 'HTTP'
     logger.info('%s Server listening at port %d', schema, config.port)
-    config.maintenance = false
+    realtime.maintenance = false
   })
 }
 
@@ -660,7 +225,7 @@ process.on('uncaughtException', function (err) {
 // install exit handler
 function handleTermSignals () {
   logger.info('hackmd has been killed by signal, try to exit gracefully...')
-  config.maintenance = true
+  realtime.maintenance = true
   // disconnect all socket.io clients
   Object.keys(io.sockets.sockets).forEach(function (key) {
     var socket = io.sockets.sockets[key]
