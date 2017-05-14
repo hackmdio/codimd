@@ -32,11 +32,6 @@
             "description": "sub url path, like `www.example.com/<URL_PATH>`",
             "required": false
         },
-        "HMD_PORT": {
-            "description": "web app port",
-            "required": false,
-            "value": "80"
-        },
         "HMD_ALLOW_ORIGIN": {
             "description": "domain name whitelist (use comma to separate)",
             "required": false,
