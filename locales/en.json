@@ -1,6 +1,6 @@
 {
 	"Collaborative markdown notes": "Collaborative markdown notes",
-	"Realtime collaborative markdown notes on all platforms.": "Callaborate on markdown notes on all platforms.",
+	"Realtime collaborative markdown notes on all platforms.": "Collaborate on markdown notes on all platforms in realtime.",
 	"Best way to write and share your knowledge in markdown.": "The best way to write and share your knowledge in markdown.",
 	"Intro": "Intro",
 	"History": "History",
@@ -83,7 +83,7 @@
 	"Code": "Code",
 	"Externals": "Externals",
 	"This is a alert area.": "This is an alert area.",
-	"Revert": "Undo",
+	"Revert": "Revert",
 	"Import from clipboard": "Import from clipboard",
 	"Paste your markdown or webpage here...": "Paste your markdown or webpage here...",
 	"Clear": "Clear",
