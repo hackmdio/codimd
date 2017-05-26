@@ -92,7 +92,7 @@
 	"OK": "OK",
 	"Reach the limit": "Reach the limit",
 	"Sorry, you've reached the max length this note can be.": "Sorry, you've reached the maximmum length this note can be.",
-	"Please reduce the content or divide it to more notes, thank you!": "Please shorten the file.",
+	"Please reduce the content or divide it to more notes, thank you!": "Please shorten the note.",
 	"Import from Gist": "Import from Gist",
 	"Paste your gist url here...": "Paste your gist url here...",
 	"Import from Snippet": "Import from Snippet",
