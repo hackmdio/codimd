@@ -30,7 +30,11 @@
         <% } %>
 
         <!-- For reveal.js theme -->
+        <% if(typeof theme !== 'undefined' && theme) { %>
+        <link rel="stylesheet" href="<%- url %>/build/reveal.js/css/theme/<%= theme %>.css" id="theme">
+        <% } else { %>
         <link rel="stylesheet" href="<%- url %>/build/reveal.js/css/theme/black.css" id="theme">
+        <% } %>
         <!-- For syntax highlighting -->
         <link rel="stylesheet" href="<%- url %>/build/reveal.js/lib/css/zenburn.css">
         <!-- For overwrite reveal.js -->
