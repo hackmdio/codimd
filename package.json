@@ -7,8 +7,8 @@
   "scripts": {
     "test": "npm run-script standard",
     "standard": "node ./node_modules/standard/bin/cmd.js",
-    "dev": "webpack --config webpack.config.js --progress --colors --watch",
-    "build": "webpack --config webpack.production.js --progress --colors",
+    "dev": "./node_modules/.bin/webpack --config webpack.config.js --progress --colors --watch",
+    "build": "./node_modules/.bin/webpack --config webpack.production.js --progress --colors",
     "postinstall": "bin/heroku",
     "start": "node app.js"
   },
