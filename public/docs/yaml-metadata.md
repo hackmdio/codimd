@@ -134,6 +134,9 @@ This option allow you provide custom options to slide mode.
 Please below document for more details:
 https://github.com/hakimel/reveal.js/#configuration
 
+You could also set slide theme which named in below css files:
+https://github.com/hakimel/reveal.js/tree/master/css/theme
+
 **Notice: always use two spaces as indention in YAML metadata!**
 
 > default: not set (which use default slide options)
@@ -142,4 +145,5 @@ https://github.com/hakimel/reveal.js/#configuration
 ```xml
 slideOptions:
   transition: fade
+  theme: white
 ```
