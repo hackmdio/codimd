@@ -18,7 +18,7 @@ import { md } from './extra'
   }
 }(this, function () {
   var DEFAULT_SLIDE_SEPARATOR = '^\r?\n---\r?\n$'
-  var DEFAULT_NOTES_SEPARATOR = 'note:'
+  var DEFAULT_NOTES_SEPARATOR = '^note:'
   var DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\.element\\s*?(.+?)$'
   var DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '\\.slide:\\s*?(\\S.+?)$'
 
