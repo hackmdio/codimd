@@ -132,6 +132,8 @@ $('.ui-history').click(() => {
     $('.section:visible').hide()
     $('#history').fadeIn()
     $('.ui-signout').children('a').fadeIn()
+    historyList.clear()
+    parseHistory(historyList, parseHistoryCallback)
   }
 })
 
