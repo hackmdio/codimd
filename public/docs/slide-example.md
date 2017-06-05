@@ -22,7 +22,7 @@ Is the divider of slides
 
 ----
 
-### First branch of first slide
+### First branch of first the slide
 
 `----`
 
@@ -32,9 +32,9 @@ Use the _Space_ key to navigate through all slides.
 
 ----
 
-### Second branch of first slide
+### Second branch of first the slide
 
-Nested slides are useful for adding additional detail underneath a high level horizontal slide.
+Nested slides are useful for adding additional detail underneath a high-level horizontal slide.
 
 ---
 
@@ -69,7 +69,7 @@ Note:
 
 ## Fragment Styles
 
-There's different types of fragments, like:
+There are different types of fragments, like:
 
 grow
 
@@ -94,7 +94,8 @@ Different background transitions are available via the transition option. This o
 
 Is the transition syntax
 
-you can use:  
+You can use:
+
 none/fade/slide/convex/concave/zoom
 
 ---
@@ -103,10 +104,12 @@ none/fade/slide/convex/concave/zoom
 
 `<!-- .slide: data-transition="fade-in convex-out" -->`
 
-Also can set different in/out transition
+Also, you can set different in/out transition
 
-you can use:  
-none/fade/slide/convex/concave/zoom  
+You can use:
+
+none/fade/slide/convex/concave/zoom
+
 postfix with `-in` or `-out`
 
 ---
@@ -117,18 +120,21 @@ postfix with `-in` or `-out`
 
 Custom the transition speed!
 
-you can use:  
+You can use:
+
 default/fast/slow
 
 ---
 
 ## Themes
 
-reveal.js comes with a few themes built in:  
-Black (default) - White - League - Sky - Beige - Simple  
+reveal.js comes with a few themes built in:
+
+Black (default) - White - League - Sky - Beige - Simple
+
 Serif - Blood - Night - Moon - Solarized
 
-It can be set in Yaml slideOptions
+It can be set in YAML slideOptions
 
 ---
 
@@ -188,9 +194,9 @@ Is the background syntax
 function linkify( selector ) {
   if( supports3DTransforms ) {
 
-    var nodes = document.querySelectorAll( selector );
+    const nodes = document.querySelectorAll( selector );
 
-    for( var i = 0, len = nodes.length; i < len; i++ ) {
+    for( const i = 0, len = nodes.length; i < len; i++ ) {
       var node = nodes[i];
 
       if( !node.className ) {
@@ -206,28 +212,28 @@ Code syntax highlighting courtesy of [highlight.js](http://softwaremaniacs.org/s
 
 ## Marvelous List
 
-*   No order here
-*   Or here
-*   Or here
-*   Or here
+- No order here
+- Or here
+- Or here
+- Or here
 
 ---
 
 ## Fantastic Ordered List
 
-1.  One is smaller than...
-2.  Two is smaller than...
-3.  Three!
+1. One is smaller than...
+2. Two is smaller than...
+3. Three!
 
 ---
 
 ## Tabular Tables
 
-| Item | Value | Quantity |
-| ---- | ----- | -------- |
-| Apples | $1 | 7 |
-| Lemonade | $2 | 18 |
-| Bread | $3 | 2 |
+| Item     | Value | Quantity |
+| ----     | ----- | -------- |
+| Apples   | $1    | 7        |
+| Lemonade | $2    | 18       |
+| Bread    | $3    | 2        |
 
 ---
 
@@ -243,21 +249,21 @@ You can link between slides internally, [like this](#/1/3).
 
 ---
 
-## Speaker View
+## Speaker
 
 There's a [speaker view](https://github.com/hakimel/reveal.js#speaker-notes). It includes a timer, preview of the upcoming slide as well as your speaker notes.
 
 Press the _S_ key to try it out.
 
 Note:
-  Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+  Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit `s` on your keyboard).
 
 ---
 
 ## Take a Moment
 
-Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
+Press `B` or `.` on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
 
 ---
 
-# THE END
+# The End
