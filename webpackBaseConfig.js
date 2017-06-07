@@ -381,7 +381,6 @@ module.exports = {
   externals: {
     'viz.js': 'Viz',
     'socket.io-client': 'io',
-    'lodash': '_',
     'jquery': '$',
     'moment': 'moment',
     'handlebars': 'Handlebars',
@@ -408,7 +407,7 @@ module.exports = {
       loader: ExtractTextPlugin.extract('style-loader', 'less-loader')
     }, {
       test: require.resolve('js-sequence-diagrams'),
-      loader: 'imports?Raphael=raphael'
+      loader: 'imports?_=lodash&Raphael=raphael'
     }, {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'file'
