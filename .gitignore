@@ -1,3 +1,4 @@
+/node_modules
 node_modules
 composer.phar
 composer.lock
@@ -26,3 +27,5 @@ public/views/build
 
 public/uploads/*
 !public/uploads/.gitkeep
+node_modules
+npm-debug.log

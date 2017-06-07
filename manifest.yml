@@ -1,0 +1,12 @@
+---
+applications:
+- name: hackmd
+  host: datagov-hackmd
+  memory: 1024M
+  instances: 1
+  random-route: true
+  command: node app.js
+  services:
+    - hackmd-psql
+  env:
+    NODE_ENV: production

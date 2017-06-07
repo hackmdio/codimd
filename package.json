@@ -20,6 +20,7 @@
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "bootstrap-validator": "^0.11.8",
+    "cfenv": "^1.0.4",
     "chance": "^1.0.4",
     "cheerio": "^0.22.0",
     "codemirror": "git+https://github.com/hackmdio/CodeMirror.git",
@@ -118,11 +119,13 @@
     "velocity-animate": "^1.4.0",
     "visibilityjs": "^1.2.4",
     "viz.js": "^1.7.0",
+    "webpack": "1.15.0",
     "winston": "^2.3.0",
     "xss": "^0.3.3"
   },
   "engines": {
-    "node": ">=6.x"
+    "node": "6.10.x",
+    "npm": "3.10.x"
   },
   "bugs": "https://github.com/hackmdio/hackmd/issues",
   "keywords": [
