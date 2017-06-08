@@ -124,8 +124,8 @@
     "xss": "^0.3.3"
   },
   "engines": {
-    "node": "6.10.x",
-    "npm": "3.10.x"
+    "node": "6.x.x",
+    "npm": "3.x.x"
   },
   "bugs": "https://github.com/hackmdio/hackmd/issues",
   "keywords": [

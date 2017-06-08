@@ -12,64 +12,19 @@
         }
     },
     "production": {
-        "domain": "localhost",
-        "db": {
-            "username": "",
-            "password": "",
-            "database": "hackmd",
-            "host": "localhost",
-            "port": "5432",
-            "dialect": "postgres"
-        },
-        "facebook": {
-            "clientID": "change this",
-            "clientSecret": "change this"
-        },
-        "twitter": {
-            "consumerKey": "change this",
-            "consumerSecret": "change this"
-        },
+        "domain": "datagov-hackmd.app.cloud.gov",
+        "debug": "true",
+        "dburl": "$DATABASE_URL",
         "github": {
-            "clientID": "change this",
-            "clientSecret": "change this"
-        },
-        "gitlab": {
-            "baseURL": "change this",
-            "clientID": "change this",
-            "clientSecret": "change this",
-            "scope": "use 'read_user' scope for auth user only or remove this property if you need gitlab snippet import/export support (will result to be default scope 'api')"
-        },
-        "dropbox": {
-            "clientID": "change this",
-            "clientSecret": "change this",
-            "appKey": "change this"
-        },
-        "google": {
-            "clientID": "change this",
-            "clientSecret": "change this",
-            "apiKey": "change this"
-        },
-        "ldap": {
-            "url": "ldap://change_this",
-            "bindDn": null,
-            "bindCredentials": null,
-            "tokenSecret": "change this",
-            "searchBase": "change this",
-            "searchFilter": "change this",
-            "searchAttributes": "change this",
-            "tlsOptions": {
-                "changeme": "See https://nodejs.org/api/tls.html#tls_tls_connect_options_callback"
-            }
-        },
-        "imgur": {
-            "clientID": "change this"
+            "clientID": "CHANGEME",
+            "clientSecret": "CHANGEME"
         },
         "imageUploadType": "s3",
         "s3": { 
-            "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", 
-            "secretAccessKey": "YOUR_S3_ACCESS_KEY", 
-            "region": "YOUR_S3_REGION", 
-            "bucket": "YOUR_S3_BUCKET_NAME" 
+            "accessKeyId": "VCAP_S3_ACCESS_KEY_ID", 
+            "secretAccessKey": "VCAP_S3_ACCESS_KEY", 
+            "region": "VCAP_S3_REGION", 
+            "bucket": "VCAP_S3_BUCKET_NAME" 
         }
     }
 }

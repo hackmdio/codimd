@@ -2,9 +2,8 @@
 applications:
 - name: hackmd
   host: datagov-hackmd
-  memory: 1024M
+  memory: 512M
   instances: 1
-  random-route: true
   command: node app.js
   services:
     - hackmd-psql
