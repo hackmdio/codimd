@@ -319,6 +319,10 @@ html, body {
     position: absolute;
 }
 
+.reveal .slide-number {
+    right: 24px;
+}
+
 .print-pdf .container {
     position: relative;
     overflow-y: hidden;
