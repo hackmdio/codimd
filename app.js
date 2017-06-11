@@ -104,7 +104,7 @@ app.use(helmet.hsts({
 }))
 
 i18n.configure({
-  locales: ['en', 'zh', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo'],
+  locales: ['en', 'zh', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da'],
   cookie: 'locale',
   directory: path.join(__dirname, '/locales')
 })
