@@ -132,6 +132,6 @@ Reveal.addEventListener('ready', event => {
 })
 Reveal.addEventListener('slidechanged', renderSlide)
 
-const isMacLike = !!navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i)
+const isWinLike = navigator.platform.indexOf('Win') > -1
 
-if (!isMacLike) $('.container').addClass('hidescrollbar')
+if (isWinLike) $('.container').addClass('hidescrollbar')
