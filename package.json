@@ -13,7 +13,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "Idle.Js": "github:shawnmclean/Idle.js",
+    "Idle.Js": "git+https://github.com/shawnmclean/Idle.js",
     "async": "^2.1.4",
     "aws-sdk": "^2.7.20",
     "blueimp-md5": "^2.6.0",
@@ -96,7 +96,7 @@
     "pg-hstore": "^2.3.2",
     "prismjs": "^1.6.0",
     "randomcolor": "^0.4.4",
-    "raphael": "github:dmitrybaranovskiy/raphael",
+    "raphael": "git+https://github.com/dmitrybaranovskiy/raphael",
     "request": "^2.79.0",
     "reveal.js": "^3.3.0",
     "scrypt": "^6.0.3",
