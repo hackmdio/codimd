@@ -1,6 +1,6 @@
 {
-	"Collaborative markdown notes": "Спільні примітки щодо знижок",
-	"Realtime collaborative markdown notes on all platforms.": "Спільні примітки щодо знижок в реальному часі на всіх платформах.",
+	"Collaborative asciidoc notes": "Спільні примітки щодо знижок",
+	"Realtime collaborative asciidoc notes on all platforms.": "Спільні примітки щодо знижок в реальному часі на всіх платформах.",
 	"Best way to write and share your knowledge in markdown.": "Кращий спосіб, щоб записувати і ділитись своїми знаннями щодо знижок в реальному часі.",
 	"Intro": "Вступ",
 	"History": "Історія",
@@ -85,7 +85,7 @@
 	"This is a alert area.": "Це область повідомлення.",
 	"Revert": "Відмінити",
 	"Import from clipboard": "Імпорт з буферу обміну",
-	"Paste your markdown or webpage here...": "Вставте ваш markdown або веб-сторінку тут...",
+	"Paste your markdown or webpage here...": "Вставте ваш asciidoc або веб-сторінку тут...",
 	"Clear": "Очистити",
 	"This note is locked": "Ця замітка заблокована",
 	"Sorry, only owner can edit this note.": "Вибачте, лише власник може редагувати цю замітку.",
