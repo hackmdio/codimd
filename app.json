@@ -1,14 +1,14 @@
 {
-    "name": "HackMD",
-    "description": "Realtime collaborative markdown notes on all platforms",
+    "name": "HackADoc",
+    "description": "Realtime collaborative asciidoc notes on all platforms",
     "keywords": [
         "Collaborative",
         "Markdown",
         "Notes"
     ],
-    "website": "https://hackmd.io",
-    "repository": "https://github.com/hackmdio/hackmd",
-    "logo": "https://github.com/hackmdio/hackmd/raw/master/public/hackmd-icon-1024.png",
+    "website": "https://github.com/hackergarten/hackadoc",
+    "repository": "https://github.com/hackergarten/hackadoc",
+    "logo": "https://github.com/hackergarten/hackadoc/raw/master/public/hackadoc-icon-1024.png",
     "success_url": "/",
     "env": {
         "BUILD_ASSETS": {
