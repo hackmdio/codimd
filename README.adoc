@@ -1,8 +1,9 @@
 = HackAdoc
 
-
 This is a fork of the great http://hackmd.io[hackmd.io].
 We just thought it would be even greater with asciidoctor.js ;)
+
+So we integrated https://github.com/asciidoctor/asciidoctor.js[asciidoctor.js] and changed the name accordingly.
 
 
 == Original Readme
