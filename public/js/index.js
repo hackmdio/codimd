@@ -2803,7 +2803,7 @@ function updateViewInner () {
   var lastMeta = md.meta
   md.meta = {}
   delete md.metaError
-  var rendered = md.render(value)
+  var rendered = adoc.convert(value)
   if (md.meta.type && md.meta.type === 'slide') {
     var slideOptions = {
       separator: '^(\r\n?|\n)---(\r\n?|\n)$',
@@ -2827,7 +2827,7 @@ function updateViewInner () {
         // only render again when meta changed
     if (JSON.stringify(md.meta) !== JSON.stringify(lastMeta)) {
       parseMeta(md, ui.area.codemirror, ui.area.markdown, $('#ui-toc'), $('#ui-toc-affix'))
-      rendered = md.render(value)
+      rendered = adoc.convert(value)
     }
         // prevent XSS
     rendered = preventXSS(rendered)

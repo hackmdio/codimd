@@ -975,6 +975,9 @@ md.use(require('markdown-it-emoji'), {
   shortcuts: {}
 })
 
+export let adoc = Asciidoctor()
+window.adoc = adoc;
+
 window.emojify.setConfig({
   blacklist: {
     elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],

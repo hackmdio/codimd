@@ -194,6 +194,7 @@ module.exports = {
       'expose?filterXSS!xss',
       'script!Idle.Js',
       'expose?LZString!lz-string',
+      'script!asciidoctor',
       'script!codemirror',
       'script!inlineAttachment',
       'script!jqueryTextcomplete',
@@ -249,6 +250,7 @@ module.exports = {
       'script!Idle.Js',
       'script!gist-embed',
       'expose?LZString!lz-string',
+      'script!asciidoctor',
       'script!codemirror',
       'script!inlineAttachment',
       'script!jqueryTextcomplete',
@@ -286,6 +288,7 @@ module.exports = {
       path.join(__dirname, 'node_modules/octicons/octicons/octicons.css')
     ],
     'pretty-pack': [
+      'script!asciidoctor',
       'babel-polyfill',
       'expose?jsyaml!js-yaml',
       'script!mermaid',
@@ -361,6 +364,7 @@ module.exports = {
     ],
     extensions: ['', '.js'],
     alias: {
+      asciidoctor: path.join(__dirname, 'node_modules/asciidoctor.js/dist/asciidoctor.js'),
       codemirror: path.join(__dirname, 'node_modules/codemirror/codemirror.min.js'),
       inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
       jqueryTextcomplete: path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
