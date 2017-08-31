@@ -15,6 +15,7 @@
     "doctoc": "doctoc --title='# Table of Contents' README.md"
   },
   "dependencies": {
+    "@passport-next/passport-openid": "^1.0.0",
     "Idle.Js": "git+https://github.com/shawnmclean/Idle.js",
     "archiver": "^2.1.1",
     "async": "^2.1.4",
