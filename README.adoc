@@ -103,15 +103,16 @@ https://github.com/nodejs/node-gyp#installation[node-gyp])
 Get started
 ~~~~~~~~~~~
 
-1.  Download a release and unzip or clone into a directory
-2.  Enter the directory and type `bin/setup`, which will install npm
+. Download a release and unzip or clone into a directory
+. Enter the directory and type `bin/setup`, which will install npm
 dependencies and create configs. The setup script is written in Bash,
 you would need bash as a prerequisite.
-3.  Setup the configs, see more below
-4.  Setup environment variables which will overwrite the configs
-5.  Build front-end bundle by `npm run build` (use `npm run dev` if you
+.  Setup the configs, see more below
+.  Setup environment variables which will overwrite the configs
+.. To use sqlite you need to install `npm install sqlite3`
+.  Build front-end bundle by `npm run build` (use `npm run dev` if you
 are in development)
-6.  Run the server as you like (node, forever, pm2)
+.  Run the server as you like (node, forever, pm2)
 
 [[upgrade-guide]]
 Upgrade guide
@@ -119,17 +120,17 @@ Upgrade guide
 
 If you are upgrading HackMD from an older version, follow these steps:
 
-1.  Fully stop your old server first (important)
-2.  `git pull` or do whatever that updates the files
-3.  `npm install` to update dependencies
-4.  Build front-end bundle by `npm run build` (use `npm run dev` if you
+.  Fully stop your old server first (important)
+.  `git pull` or do whatever that updates the files
+.  `npm install` to update dependencies
+.  Build front-end bundle by `npm run build` (use `npm run dev` if you
 are in development)
-5.  Modify the file named `.sequelizerc`, change the value of the
+.  Modify the file named `.sequelizerc`, change the value of the
 variable `url` with your db connection string For example:
 `postgres://username:password@localhost:5432/hackmd`
-6.  Run `node_modules/.bin/sequelize db:migrate`, this step will migrate
+.  Run `node_modules/.bin/sequelize db:migrate`, this step will migrate
 your db to the latest schema
-7.  Start your whole new server!
+.  Start your whole new server!
 
 [[structure]]
 Structure
