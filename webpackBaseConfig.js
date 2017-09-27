@@ -268,6 +268,7 @@ module.exports = {
       path.join(__dirname, 'public/js/index.js')
     ],
     pretty: [
+      'script!asciidoctor',
       'babel-polyfill',
       'expose?filterXSS!xss',
       'flowchart.js',
