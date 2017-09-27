@@ -27,7 +27,7 @@ var filterXSSOptions = {
   whiteList: whiteList,
   escapeHtml: function (html) {
     // allow html comment in multiple lines
-    return html.replace(/<(.*?)>/g, '&lt;$1&gt;')
+    return html.replace(/<(?!!--)/g, '&lt;').replace(/-->/g, '__HTML_COMMENT_END__').replace(/>/g, '&gt;').replace(/__HTML_COMMENT_END__/g, '-->')
   },
   onIgnoreTag: function (tag, html, options) {
     // allow comment tag
