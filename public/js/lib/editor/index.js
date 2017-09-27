@@ -74,6 +74,8 @@ export default class Editor {
       },
       'Cmd-Left': 'goLineLeftSmart',
       'Cmd-Right': 'goLineRight',
+      'Home': 'goLineLeftSmart',
+      'End': 'goLineRight',
       'Ctrl-C': function (cm) {
         if (!isMac && cm.getOption('keyMap').substr(0, 3) === 'vim') {
           document.execCommand('copy')
