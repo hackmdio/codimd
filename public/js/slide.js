@@ -4,9 +4,10 @@
 require('../css/extra.css')
 require('../css/site.css')
 
+import { preventXSS } from './render'
 import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
 
-const body = $('.slides').text()
+const body = preventXSS($('.slides').text())
 
 window.createtime = window.lastchangeui.time.attr('data-createtime')
 window.lastchangetime = window.lastchangeui.time.attr('data-updatetime')
