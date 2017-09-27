@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"Idle.Js@github:shawnmclean/Idle.js":
+"Idle.Js@git+https://github.com/shawnmclean/Idle.js":
   version "0.0.1"
-  resolved "https://codeload.github.com/shawnmclean/Idle.js/tar.gz/f46e86f0328071b933035fd2121b82feb57aabb1"
+  resolved "git+https://github.com/shawnmclean/Idle.js#db9beb3483a460ad638ec947867720f0ed066a62"
 
 abab@^1.0.3:
   version "1.0.3"
@@ -5682,9 +5682,9 @@ raphael@2.2.7:
   dependencies:
     eve-raphael "0.5.0"
 
-"raphael@github:dmitrybaranovskiy/raphael":
+"raphael@git+https://github.com/dmitrybaranovskiy/raphael":
   version "2.2.7"
-  resolved "https://codeload.github.com/dmitrybaranovskiy/raphael/tar.gz/fe8e591e1c86b5aeb4c252b33c08e647434504c5"
+  resolved "git+https://github.com/dmitrybaranovskiy/raphael#fe8e591e1c86b5aeb4c252b33c08e647434504c5"
   dependencies:
     eve-raphael "0.5.0"
 
