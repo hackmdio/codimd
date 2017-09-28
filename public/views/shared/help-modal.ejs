@@ -69,15 +69,15 @@
                                         </tr>
                                         <tr>
                                             <td><strong><%= __('Bold font') %></strong></td>
-                                            <td>**<%= __('Bold font') %>**</td>
+                                            <td>*<%= __('Bold font') %>*</td>
                                         </tr>
                                         <tr>
                                             <td><i><%= __('Italics font') %></i></td>
-                                            <td>*<%= __('Italics font') %>*</td>
+                                            <td>_<%= __('Italics font') %>_</td>
                                         </tr>
                                         <tr>
                                             <td><s><%= __('Strikethrough') %></s></td>
-                                            <td>~~<%= __('Strikethrough') %>~~</td>
+                                            <td>[line-through]#<%= __('Strikethrough') %>#</td>
                                         </tr>
                                         <tr>
                                             <td>19<sup>th</sup></td>
@@ -89,19 +89,19 @@
                                         </tr>
                                         <tr>
                                             <td><ins><%= __('Inserted text') %></ins></td>
-                                            <td>++<%= __('Inserted text') %>++</td>
+                                            <td>[.underline]#<%= __('Inserted text') %>#</td>
                                         </tr>
                                         <tr>
                                             <td><mark><%= __('Marked text') %></mark></td>
-                                            <td>==<%= __('Marked text') %>==</td>
+                                            <td>#<%= __('Marked text') %>#</td>
                                         </tr>
                                         <tr>
                                             <td><a><%= __('Link') %></a></td>
-                                            <td>[link text](https:// "title")</td>
+                                            <td>https://www.link.de[link text]</td>
                                         </tr>
                                         <tr>
                                             <td><%= __('Image') %></td>
-                                            <td>![image alt](https:// "title")</td>
+                                            <td>image::https://image.png[image alt]</td>
                                         </tr>
                                         <tr>
                                             <td><code><%= __('Code') %></code></td>
@@ -110,7 +110,7 @@
                                         <tr>
                                             <td><pre style="border:none !important;"><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span></div><div class="code"><span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
 </div></div></code></pre></td>
-                                            <td>```javascript<br>var i = 0;<br>```</td>
+                                            <td>[source,ruby]<br>----<br>var i = 0;<br>----</td>
                                         </tr>
                                         <tr>
                                             <td><img align="absmiddle" alt=":smile:" class="emoji" src="./build/emojify.js/dist/images/basic/smile.png" title=":smile:"></img></td>
@@ -118,7 +118,10 @@
                                         </tr>
                                         <tr>
                                             <td><%= __('Externals') %></td>
-                                            <td>{%youtube youtube_id %}</td>
+                                            <td>video::rPQoq7ThGAU[youtube]
+                                                <br>
+                                                video::67480300[vimeo, 480, 360, start=60]
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>L<sup>a</sup>T<sub>e</sub>X</td>
@@ -126,7 +129,11 @@
                                         </tr>
                                         <tr>
                                             <td><div class="alert alert-info"><p><%= __('This is a alert area.') %></p></div></td>
-                                            <td>:::info<br><%= __('This is a alert area.') %><br>:::</td>
+                                            <td>
+                                                ****<br>
+                                                <%= __('This is a alert area.') %><br>
+                                                ****<br>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
