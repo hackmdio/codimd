@@ -2803,7 +2803,8 @@ function updateViewInner () {
   var lastMeta = md.meta
   md.meta = {}
   delete md.metaError
-  var rendered = adoc.convert(value)
+  var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@']})
+  var rendered = adoc.convert(value, adoc_options)
   if (md.meta.type && md.meta.type === 'slide') {
     var slideOptions = {
       separator: '^(\r\n?|\n)---(\r\n?|\n)$',
@@ -2827,7 +2828,7 @@ function updateViewInner () {
         // only render again when meta changed
     if (JSON.stringify(md.meta) !== JSON.stringify(lastMeta)) {
       parseMeta(md, ui.area.codemirror, ui.area.markdown, $('#ui-toc'), $('#ui-toc-affix'))
-      rendered = adoc.convert(value)
+      rendered = adoc.convert(value, adoc_options)
     }
         // prevent XSS
     rendered = preventXSS(rendered)
