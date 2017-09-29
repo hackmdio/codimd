@@ -177,7 +177,7 @@ HackADoc will take the first *level 1 header* as the note title.
 [[tags]]
 === Tags
 
-NOTE TODO: implement tags and describe here.
+NOTE: TODO implement tags and describe here.
 
 ////
 Using tags as follows, the specified tags will show in your *history*.
