@@ -362,6 +362,6 @@ small .dropdown a:focus, small .dropdown a:hover {
         page-break-inside: avoid !important;
     }
     a[href]:after {
-        font-size: 12px !important;
+        content: none !important;
     }
 }
