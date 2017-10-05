@@ -320,7 +320,7 @@ import { md } from './extra'
 
         var notes = section.querySelector('aside.notes')
         var markdown = getMarkdownFromSlide(section)
-
+        markdown = markdown.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
         var rendered = md.render(markdown)
         rendered = preventXSS(rendered)
         var result = window.postProcess(rendered)

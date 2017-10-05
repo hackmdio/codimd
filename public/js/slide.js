@@ -55,8 +55,6 @@ const slideOptions = {
 const slides = RevealMarkdown.slidify(body, slideOptions)
 $('.slides').html(slides)
 RevealMarkdown.initialize()
-// fix < and > were doubly escaped
-$('.slides')[0].innerHTML = $('.slides')[0].innerHTML.replace(/&amp;lt;/g, '&lt;').replace(/&amp;gt;/g, '&gt;')
 removeDOMEvents($('.slides'))
 $('.slides').show()
 
