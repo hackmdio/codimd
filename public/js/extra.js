@@ -552,10 +552,6 @@ export function finishView (view) {
   } catch (err) {
     console.warn(err)
   }
-  // unescape > symbel inside the style tags
-  view.find('style').each((key, value) => {
-    $(value).html($(value).html().replace(/&gt;/g, '>'))
-  })
     // render title
   document.title = renderTitle(view)
 }
@@ -563,6 +559,15 @@ export function finishView (view) {
 // only static transform should be here
 export function postProcess (code) {
   const result = $(`<div>${code}</div>`)
+  // process style tags
+  result.find('style').each((key, value) => {
+    let html = $(value).html()
+    // unescape > symbel inside the style tags
+    html = html.replace(/&gt;/g, '>')
+    // remove css @import to prevent XSS
+    html = html.replace(/@import url\(([^)]*)\);?/gi, '')
+    $(value).html(html)
+  })
   // link should open in new window or tab
   result.find('a:not([href^="#"]):not([target])').attr('target', '_blank')
   // update continue line numbers
