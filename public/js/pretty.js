@@ -30,7 +30,8 @@ const text = markdown.text()
 const lastMeta = md.meta
 md.meta = {}
 delete md.metaError
-let rendered = adoc.convert(text)
+var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@']})
+let rendered = adoc.convert(text, adoc_options)
 if (md.meta.type && md.meta.type === 'slide') {
   const slideOptions = {
     separator: '^(\r\n?|\n)---(\r\n?|\n)$',
@@ -50,7 +51,7 @@ if (md.meta.type && md.meta.type === 'slide') {
     // only render again when meta changed
   if (JSON.stringify(md.meta) !== JSON.stringify(lastMeta)) {
     parseMeta(md, null, markdown, $('#ui-toc'), $('#ui-toc-affix'))
-    rendered = adoc.convert(text)
+    rendered = adoc.convert(text, adoc_options)
   }
     // prevent XSS
   rendered = preventXSS(rendered)

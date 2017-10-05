@@ -1,0 +1,845 @@
+[[features]]
+= Features
+:toc:
+:sectnums:
+//:icons: font
+//ifdef::env-github[]
+//:tip-caption: :bulb:
+//:note-caption: :information_source:
+//:important-caption: :heavy_exclamation_mark:
+//:caution-caption: :fire:
+//:warning-caption: :warning:
+//endif::[]
+
+[[introduction]]
+== Introduction
+
+icon:file-text[] *HackMD* is a realtime, multiplatform collaborative AsciiDoc note editor. This
+means that you can write notes with other people on your *desktop*, *tablet* or
+even on the *phone*. You can sign-in via *Facebook*, *Twitter*, *GitHub*, or
+*Dropbox* in the link:/[_homepage_].
+
+Note that this service is still in an early stage, and thus still has some
+https://github.com/hackergarten/hackadoc/issues?q=is%3Aopen+is%3Aissue+label%3Abug[_issues_].
+Please report new issues in https://github.com/hackergarten/hackadoc/issues/new[GitHub]. 
+*Thank you very much!*
+// TODO original offers contacting via facebook message. Can this be offered for HackADoc too?
+
+[[workspace]]
+== Workspace
+
+[[modes]]
+=== Modes
+
+==== Desktop & Tablet
+
+icon:edit[] Edit: See only the editor. + 
+icon:eye[] View: See only the result. + 
+icon:columns[] Both: See both in split view.
+
+==== Mobile
+
+icon:toggle-on[] View: See only the result. + 
+icon:toggle-off[] Edit: See only the editor.
+
+[[image-upload]]
+=== Image Upload
+
+You can upload an image simply by clicking on the camera button icon:camera[]. + 
+Alternatively,
+you can *drag-n-drop* an image into the editor. Even *pasting* images is
+possible! This will automatically upload the image to *http://imgur.com[imgur]*,
+nothing to worry. image:https://i.imgur.com/9cgQVqD.png[image]
+
+[[share-notes]]
+=== Share Notes
+
+If you want to share an *editable* note, just copy the URL. + 
+If you want to share a *read-only* note, simply press publish button icon:share-square-o[] and copy the URL.
+
+[[save-a-note]]
+=== Save a Note
+
+Currently, you can save to *Dropbox* icon:dropbox[] or save an `.adoc` file icon:file-text[] locally.
+
+[[import-notes]]
+=== Import Notes
+
+Similarly to the _save_ feature, you can also import an `.adoc` file from
+*Dropbox* icon:dropbox[], or import content from your *clipboard* icon:clipboard[], and that can parse some
+*html* which might be useful.
+
+[[permissions]]
+=== Permissions
+
+It is possible to change the access permission to a note through the little
+button on the top right of the view.
+
+There are four possible options:
+
+icon:leaf[] *Freely*: Anyone can edit this note. + 
+icon:pencil[] *Editable*: A signed-in user can edit this note. + 
+icon:id-card[] *Limited*: People have to sign-in to view and edit this note. + 
+icon:lock[] *Locked*: Anyone can view this note but only the owner can edit it. + 
+icon:umbrella[] *Protected*: People have to sign-in to view this note but only owner can edit. + 
+icon:hand-stop-o[] *Private*: Only the owner can view and edit this note.
+
+*Only the owner of the note can change the note's permissions.*
+
+[[embed-a-note]]
+=== Embed a Note
+
+Notes can be embedded as follows:
+
+[source,xml]
+----
+<iframe width="100%" height="500" src="https://hackmd.io/features" frameborder="0"></iframe>
+----
+
+NOTE: TODO change url in example to some HackADoc specific url
+
+[[slide-mode]]
+=== link:./slide-example[Slide Mode]
+
+NOTE: TODO implement slide mode and describe
+
+////
+You can use a special syntax to organize your note into slides. After that, you
+can use the *Slide Mode* icon:tv[] to make a presentation. Visit the above link for
+details.
+////
+
+[[view]]
+== View
+
+[[table-of-contents]]
+=== Table of Contents
+
+NOTE: TODO table of content is not working.
+
+////
+You can look at the bottom right section of the view area, there is a _ToC_
+button icon:bars[]. Pressing that button will show you a current _Table of Contents_, and
+will highlight which section you're at. ToCs support *two header levels* by default.
+However, you set a different number of levels using the `toclevel` attribute.
+
+[source,asciidoc]
+----
+= My Document
+:toc:
+:toclevels: 3
+----
+////
+
+[[permalink]]
+=== Permalink
+
+Every header will automatically be assigned a permalink. +
+You can hover and click icon:chain[] to anchor on it.
+
+
+[[edit]]
+== Edit
+
+[[shortcut-keys]]
+=== Shortcut Keys
+
+In the editor, you can select from three different key modes:
+
+Vim:: Vim key bindings. See https://hea-www.harvard.edu/~fine/Tech/vi.html[here]
+
+Emacs:: Emacs key bindings. See https://www.gnu.org/software/emacs/manual/html_node/emacs/Key-Bindings.html[here].
+
+Sublime:: Just like Sublime text, which is pretty quick and convenient. For more
+infomation, see https://codemirror.net/demo/sublime.html[here].
+
+[[auto-complete]]
+=== Auto-Complete
+
+This editor provides full auto-complete hints in AsciiDoc.
+
+NOTE: TODO implement auto completion and describe here
+
+////
+Emojis:: type `:` to show hints.
+Code blocks:: type `\`\`\`` plus a character to show hint.
+Headers:: type`#`to show hint.
+Referrals:: type`[]` to show hint.
+Externals:: type``to show hint.
+Images:: type`!` to show hint.
+////
+
+[[title]]
+=== Title
+
+HackADoc will take the first *level 1 header* as the note title.
+
+[[tags]]
+=== Tags
+
+NOTE: TODO implement tags and describe here.
+
+////
+Using tags as follows, the specified tags will show in your *history*.
+
+[code,asciidoc]
+----
+tags: features cool updated
+----
+////
+
+[[yaml-metadata]]
+=== link:./yaml-metadata[YAML Metadata]
+
+NOTE: TODO implement yaml-metadata and describe here.
+
+////
+You can provide advanced note information to set the browser behavior (visit
+above link for details):
+
+robots:: set web robots meta
+lang:: set browser language
+dir:: set text direction
+breaks:: set to use line breaks
+GA:: set to use Google Analytics
+disqus:: set to use Disqus
+slideOptions:: setup slide mode options
+////
+
+[[toc]]
+=== ToC
+
+Use the syntax `:toc:` to embed table of content into your note.
+
+NOTE: TODO currently not working
+
+[[emoji]]
+=== Emoji
+
+NOTE: TODO emojis not working
+////
+You can type any emoji like this :smile: :smiley: :cry: :wink: > See full emoji
+list http://www.emoji-cheat-sheet.com/[here].
+////
+
+[[todo-list]]
+=== ToDo List
+
+* [ ] ToDos
+** [x] Buy some salad
+** [ ] Brush teeth
+** [x] Drink some water
+
+[source,asciidoc]
+----
+* [ ] ToDos
+** [x] Buy some salad
+** [ ] Brush teeth
+** [x] Drink some water
+----
+
+[[code-block]]
+=== Code Block
+
+NOTE: TODO syntax highlight and line numbers not working
+
+
+We support many programming languages, use the auto complete function to see the
+entire list.
+
+[source,javascript,linenums]
+----
+var s = "JavaScript syntax highlighting";
+alert(s);
+function $initHighlight(block, cls) {
+  try {
+    if (cls.search(/\bno\-highlight\b/) != -1)
+      return process(block, true, 0x0F) + 
+             ' class=""';
+  } catch (e) {
+    /* handle exception */
+  }
+  for (var i = 0 / 2; i < classes.length; i++) {
+    if (checkCondition(classes[i]) === undefined)
+      return /\d+[\s/]/g;
+  }
+}
+----
+
+////
+If you want *line numbers*, type `=` after specifying the code block languagues.
+Also, you can specify the start line number. Like below, the line number starts
+from 101:
+
+[source,javascript=101]
+----
+var s = "JavaScript syntax highlighting";
+alert(s);
+function $initHighlight(block, cls) {
+  try {
+    if (cls.search(/\bno\-highlight\b/) != -1)
+      return process(block, true, 0x0F) + 
+             ' class=""';
+  } catch (e) {
+    /* handle exception */
+  }
+  for (var i = 0 / 2; i < classes.length; i++) {
+    if (checkCondition(classes[i]) === undefined)
+      return /\d+[\s/]/g;
+  }
+}
+----
+
+Or you might want to continue the previous code block's line number, use `=+`
+
+[source,javascript=+]
+----
+var s = "JavaScript syntax highlighting";
+alert(s);
+----
+
+Somtimes you have a super long text without breaks. It's time to use `!` to wrap
+your code.
+
+[source,!]
+----
+When you’re a carpenter making a beautiful chest of drawers, you’re not going to use a piece of plywood on the back.
+----
+////
+
+[[blockquote-tags]]
+==== Blockquote Tags
+
+[quote]
+----
+Using the syntax below to specifiy your *name, time and color* to vary the
+blockquotes.
+[name=ChengHan Wu] [time=Sun, Jun 28, 2015 9:59 PM] [color=#907bf7]
+> Even support the nest blockquotes! > [name=ChengHan Wu] [time=Sun, Jun 28, 2015 10:00 PM] [color=red]
+----
+
+NOTE: TODO nested blockquotes not working. Can AsciiDoc not do it?
+
+
+[[externals]]
+=== Externals
+
+[[youtube]]
+==== YouTube
+
+video::iG4isv_Fylg[youtube]
+
+[source,asciidoc]
+----
+video::iG4isv_Fylg[youtube]
+----
+
+[[vimeo]]
+==== Vimeo
+
+video::124148255[vimeo]
+
+[source,asciidoc]
+----
+video::124148255[vimeo]
+----
+
+[[gist]]
+==== Gist
+
+NOTE: TODO how to embed gist?
+
+////
+\{%gist schacon/4277%}
+////
+
+[[slideshare]]
+==== SlideShare
+
+NOTE: TODO enable and describe slideshare
+
+////
+\{%slideshare briansolis/26-disruptive-technology-trends-2016-2018-56796196 %}
+////
+
+
+[[speakerdeck]]
+==== Speakerdeck
+
+NOTE: TODO enable and describe speakerdeck 
+
+////
+\{%speakerdeck sugarenia/xxlcss-how-to-scale-css-and-keep-your-sanity %}
+////
+
+
+[[pdf]]
+==== PDF
+
+
+NOTE: TODO enable and describe embedding pdfs
+
+////
+*Caution: this might be blocked by your browser if not using an `https` URL.*
+\{%pdf
+https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf
+%}
+////
+
+[[mathjax]]
+=== MathJax
+
+NOTE: TODO enable and describe MathJax
+
+////
+You can render _LaTeX_ mathematical expressions using *MathJax*, as on
+http://math.stackexchange.com/[math.stackexchange.com]:
+
+The _Gamma function_ satisfying
+latexmath:[$\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$] is via the Euler
+integral
+
+latexmath:[\[
+x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
+\]]
+
+latexmath:[\[
+\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
+\]]
+
+TIP: More information about *LaTeX* mathematical expressions
+http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference[here].
+////
+
+[[uml-diagrams]]
+=== UML Diagrams
+
+NOTE: TODO enable and describe UML diagrams (sequence diagrams, flow charts, graphviz, mermaid, abc)
+
+////
+[[sequence-diagrams]]
+==== Sequence Diagrams
+
+You can render sequence diagrams like this:
+
+[source,sequence]
+----
+Alice->Bob: Hello Bob, how are you?
+Note right of Bob: Bob thinks
+Bob-->Alice: I am good thanks!
+Note left of Alice: Alice responds
+Alice->Bob: Where have you been?
+----
+
+[[flow-charts]]
+==== Flow Charts
+
+Flow charts can be specified like this:
+
+[source,flow]
+----
+st=>start: Start
+e=>end: End
+op=>operation: My Operation
+op2=>operation: lalala
+cond=>condition: Yes or No?
+
+st->op->op2->cond
+cond(yes)->e
+cond(no)->op2
+----
+
+[[graphviz]]
+==== Graphviz
+
+[source,graphviz]
+----
+digraph hierarchy {
+
+                nodesep=1.0 // increases the separation between nodes
+                
+                node [color=Red,fontname=Courier,shape=box] //All nodes will this shape and colour
+                edge [color=Blue, style=dashed] //All the lines look like this
+
+                Headteacher->{Deputy1 Deputy2 BusinessManager}
+                Deputy1->{Teacher1 Teacher2}
+                BusinessManager->ITManager
+                {rank=same;ITManager Teacher1 Teacher2}  // Put them on the same level
+}
+----
+
+[[mermaid]]
+==== Mermaid
+
+[source,mermaid]
+----
+gantt
+    title A Gantt Diagram
+
+    section Section
+    A task           :a1, 2014-01-01, 30d
+    Another task     :after a1  , 20d
+    section Another
+    Task in sec      :2014-01-12  , 12d
+    anther task      : 24d
+----
+
+[[abc]]
+==== Abc
+
+[source,abc]
+----
+X:1
+T:Speed the Plough
+M:4/4
+C:Trad.
+K:G
+|:GABc dedB|dedB dedB|c2ec B2dB|c2A2 A2BA|
+GABc dedB|dedB dedB|c2ec B2dB|A2F2 G4:|
+|:g2gf gdBd|g2f2 e2d2|c2ec B2dB|c2A2 A2df|
+g2gf g2Bd|g2f2 e2d2|c2ec B2dB|A2F2 G4:|
+----
+
+TIP: More information about *sequence diagrams* syntax
+http://bramp.github.io/js-sequence-diagrams/[here]. More information about *flow
+charts* syntax http://adrai.github.io/flowchart.js/[here]. More information
+about *graphviz* syntax http://www.tonyballantyne.com/graphs.html[here] More
+information about *mermaid* syntax http://knsv.github.io/mermaid[here] More
+information about *abc* syntax http://abcnotation.com/learn[here]
+////
+
+[[admonitions]]
+=== Admonitions
+
+NOTE: TODO admonition icons not rendering
+
+[source,asciidoc]
+----
+NOTE: something to be aware of 
+
+TIP: Pro tip...
+
+IMPORTANT: Don't forget...
+
+WARNING: Watch out for...
+
+CAUTION: Ensure that...
+----
+
+[[alert-area]]
+=== Alert Area
+
+NOTE: TODO is there an equivalent to the alerts in AsciiDoc?
+
+////
+:::success Yes :tada: :::
+
+:::info This is a message :mega: :::
+
+:::warning Watch out :zap: :::
+
+:::danger Oh No! :fire: :::
+////
+
+[[typography]]
+=== Typography
+
+[[headers]]
+==== Headers
+
+[source,asciidoc]
+----
+= h1 Heading, Title
+== h2 Heading
+=== h3 Heading
+==== h4 Heading
+===== h5 Heading
+====== h6 Heading
+----
+
+[[horizontal-rules]]
+==== Horizontal Rules
+
+'''
+
+[source,asciidoc]
+----
+'''
+----
+
+'''
+
+[[typographic-replacements]]
+==== Typographic Replacements
+
+(C) (R) (TM) <= <- -> =>
+
+test.. test... test..... test?..... test!....
+
+"`Smartypants, double quotes`"
+
+'`Smartypants, single quotes`'
+
+[source,asciidoc]
+----
+(C) (R) (TM) <= <- -> =>
+
+test.. test... test..... test?..... test!....
+
+"`Smartypants, double quotes`"
+
+'`Smartypants, single quotes`'
+----
+
+[[emphasis]]
+==== Emphasis
+
+*This is bold text*
+
+This is p**art**ially bold text
+
+_This is italic text_
+
+This is __italic te__xt
+
+lu~lala~
+
+Superscript: 19^th^
+
+Subscript: H~2~O
+
+[source,asciidoc]
+----
+*This is bold text*
+
+This is p**art**ially bold text
+
+_This is italic text_
+
+This is __italic te__xt
+
+lu~lala~
+
+Superscript: 19^th^
+
+Subscript: H~2~O
+----
+
+
+[[blockquotes]]
+==== Blockquotes
+
+NOTE: TODO nested block quote not working
+[quote]
+----
+Blockquotes can also be nested... > ...by using additional greater-than signs
+right next to each other... > > ...or with spaces between arrows.
+----
+
+[[lists]]
+==== Lists
+
+[[unordered]]
+===== Unordered
+
+* Create a list by starting a line with `*`, or `-`
+* Sub-lists are made by indenting 2 spaces:
+* Marker character change forces new list start:
+** Ac tristique libero volutpat at
+** Facilisis in pretium nisl aliquet
+** Nulla volutpat aliquam velit
+* Very easy!
+
+[source,asciidoc]
+----
+* Create a list by starting a line with `*`, or `-`
+* Sub-lists are made by indenting 2 spaces:
+* Marker character change forces new list start:
+** Ac tristique libero volutpat at
+** Facilisis in pretium nisl aliquet
+** Nulla volutpat aliquam velit
+* Very easy!
+----
+
+
+[[ordered]]
+===== Ordered
+
+. Lorem ipsum dolor sit amet
+. Consectetur adipiscing elit
+. Integer molestie lorem at massa
+. feafw
+. 332
+. 242
+. 2552
+. e2
+
+[source,asciidoc]
+----
+. Lorem ipsum dolor sit amet
+. Consectetur adipiscing elit
+. Integer molestie lorem at massa
+. feafw
+. 332
+. 242
+. 2552
+. e2
+----
+
+Start numbering with offset:
+
+[start=10]
+.  foo
+.  bar
+
+[source,asciidoc]
+----
+[start=10]
+. foo
+. bar
+----
+
+
+[[code]]
+==== Code
+
+Inline `code`
+
+[source,asciidoc]
+----
+Inline `code`
+----
+
+
+Indented code
+
+[source,java]
+----
+// Some comments
+line 1 of code
+line 2 of code
+line 3 of code
+----
+
+Block code "fences"
+
+....
+Sample text here...
+....
+
+Syntax highlighting
+
+NOTE: TODO syntax highlighting and numbering not working
+
+[source,js]
+----
+var foo = function (bar) {
+  return bar++;
+};
+
+console.log(foo(5));
+----
+
+[[tables]]
+==== Tables
+
+NOTE: TODO column alignment not working
+
+[cols=",",options="header",]
+|===============================================================================
+|Option |Description
+|data |path to data files to supply the data that will be passed into templates.
+|engine |engine to be used for processing templates. Handlebars is the default.
+|ext |extension to be used for dest files.
+|===============================================================================
+
+Right aligned columns
+
+[cols=">,>",options="header",]
+|===============================================================================
+|Option |Description
+|data |path to data files to supply the data that will be passed into templates.
+|engine |engine to be used for processing templates. Handlebars is the default.
+|ext |extension to be used for dest files.
+|===============================================================================
+
+Left aligned columns
+
+[cols="<,<",options="header",]
+|===============================================================================
+|Option |Description
+|data |path to data files to supply the data that will be passed into templates.
+|engine |engine to be used for processing templates. Handlebars is the default.
+|ext |extension to be used for dest files.
+|===============================================================================
+
+Center aligned columns
+
+[cols="^,^",options="header",]
+|===============================================================================
+|Option |Description
+|data |path to data files to supply the data that will be passed into templates.
+|engine |engine to be used for processing templates. Handlebars is the default.
+|ext |extension to be used for dest files.
+|===============================================================================
+
+[[links]]
+==== Links
+
+http://dev.nodeca.com[link text] http://nodeca.github.io/pica/demo/[link with
+title] Autoconverted link https://github.com/nodeca/pica
+
+[[images]]
+==== Images
+
+image:https://octodex.github.com/images/minion.png[Minion]
+image:https://octodex.github.com/images/stormtroopocat.jpg[Stormtroopocat,title="The Stormtroopocat"]
+Like links, Images also have a footnote style syntax
+image:https://octodex.github.com/images/dojocat.jpg[Alt
+text,title="The Dojocat"] With a reference later in the document defining the
+URL location:
+
+image:https://octodex.github.com/images/minion.png[Minion,200,200] Show the
+image with given size
+
+[[footnotes]]
+==== Footnotes
+
+Footnote 1footnote:[Footnote *can have markup*]
+Footnote 2footnoteref:[footnote2, Footnote text.]. Inline footnotefootnote:[Text of
+inline footnote] definition. Duplicated footnote footnoteref:[footnote2].
+
+[[labeled-lists]]
+==== Labeled Lists
+
+Term 1::
+  Definition 1 with lazy continuation.
+Term 2 with _inline markup_::
+  Definition 2
++
+----
+{ some code, part of Definition 2 }
+----
++
+Third paragraph of definition 2.
+
+
+_Compact style:_
+
+Term 1::
+  Definition 1
+Term 2::
+  Definition 2a +
+  Definition 2b
+
+[[abbreviations]]
+==== Abbreviations
+
+NOTE: TODO is there something like abbreviations in AsciiDoc?
+
+This is an HTML abbreviation example. It converts "HTML", but keeps intact
+partial entries like "xxxHTMLyyy" and so on.
+
+////
+*[HTML]: Hyper Text Markup Language
+////
