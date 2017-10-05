@@ -552,6 +552,10 @@ export function finishView (view) {
   } catch (err) {
     console.warn(err)
   }
+  // unescape > symbel inside the style tags
+  view.find('style').each((key, value) => {
+    $(value).html($(value).html().replace(/&gt;/g, '>'))
+  })
     // render title
   document.title = renderTitle(view)
 }
