@@ -195,7 +195,8 @@ Application settings `config.json`
 | email | `true` or `false` | set to allow email signin |
 | allowemailregister  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`) |
 | imageUploadType | `imgur`(default), `s3` or `filesystem` | Where to upload image
-| s3 | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION", "bucket": "YOUR_S3_BUCKET_NAME" }` | When `imageUploadType` be setted to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
+| s3 | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageUploadType` be setted to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
+| s3bucket | `YOUR_S3_BUCKET_NAME` | bucket name when `imageUploadType` is set to `s3` |
 
 Third-party integration api key settings
 ---
