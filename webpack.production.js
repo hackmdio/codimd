@@ -17,6 +17,9 @@ module.exports = [Object.assign({}, baseConfig, {
         compress: {
           warnings: false
         },
+        output: {
+          max_line_len: 1000000
+        },
         mangle: false,
         sourceMap: false
       }
