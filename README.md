@@ -14,34 +14,7 @@ Still in the early stage, feel free to fork or contribute to HackMD.
 
 Thanks for using! :smile:
 
-[docker-hackmd](https://github.com/hackmdio/docker-hackmd)
----
-
-Before you go too far, here is the great docker repo for HackMD.  
-With docker, you can deploy a server in minutes without any downtime.
-
-Heroku Deployment
----
-
-You can quickly setup a sample heroku hackmd application by clicking the button below.
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-[migration-to-0.5.0](https://github.com/hackmdio/migration-to-0.5.0)
----
-
-We don't use LZString to compress socket.io data and DB data after version 0.5.0.  
-Please run the migration tool if you're upgrading from the old version.
-
-[migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
----
-
-We've dropped MongoDB after version 0.4.0.  
-So here is the migration tool for you to transfer the old DB data to the new DB.  
-This tool is also used for official service.
-
-Browsers Requirement
----
+# Browsers Requirement
 
 - Chrome >= 47, Chrome for Android >= 47
 - Safari >= 9, iOS Safari >= 8.4
@@ -50,15 +23,17 @@ Browsers Requirement
 - Opera >= 34, Opera Mini not supported
 - Android Browser >= 4.4
 
-Prerequisite
----
+# Installation
+
+## Getting started (Native install)
+
+### Prerequisite
 
 - Node.js 6.x or up (test up to 7.5.0)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm (and its dependencies, especially [uWebSockets](https://github.com/uWebSockets/uWebSockets#nodejs-developers), [node-gyp](https://github.com/nodejs/node-gyp#installation))
 
-Get started
----
+### Instructions
 
 1. Download a release and unzip or clone into a directory
 2. Enter the directory and type `bin/setup`, which will install npm dependencies and create configs. The setup script is written in Bash, you would need bash as a prerequisite.
@@ -67,8 +42,22 @@ Get started
 5. Build front-end bundle by `npm run build` (use `npm run dev` if you are in development)
 6. Run the server as you like (node, forever, pm2)
 
-Upgrade guide
----
+## Heroku Deployment
+
+You can quickly setup a sample heroku hackmd application by clicking the button below.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+## HackMD by docker container
+
+[docker-hackmd](https://github.com/hackmdio/docker-hackmd)
+
+Before you go too far, here is the great docker repo for HackMD.
+With docker, you can deploy a server in minutes without any downtime.
+
+# Upgrade
+
+## Native setup
 
 If you are upgrading HackMD from an older version, follow these steps:
 
@@ -81,23 +70,18 @@ If you are upgrading HackMD from an older version, follow these steps:
 6. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
 7. Start your whole new server!
 
-Structure
----
+* [migration-to-0.5.0](https://github.com/hackmdio/migration-to-0.5.0)
 
-```text
-hackmd/
-├── tmp/            --- temporary files
-├── docs/           --- document files
-├── lib/            --- server libraries
-└── public/         --- client files
-    ├── css/        --- css styles
-    ├── js/         --- js scripts
-    ├── vendor/     --- vendor includes
-    └── views/      --- view templates
-```
+We don't use LZString to compress socket.io data and DB data after version 0.5.0.  
+Please run the migration tool if you're upgrading from the old version.
 
-Configuration files
----
+* [migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
+
+We've dropped MongoDB after version 0.4.0.  
+So here is the migration tool for you to transfer the old DB data to the new DB.  
+This tool is also used for official service.
+
+# Configuration
 
 There are some configs you need to change in the files below
 
@@ -105,8 +89,7 @@ There are some configs you need to change in the files below
 ./config.json      ----application settings
 ```
 
-Environment variables (will overwrite other server configs)
----
+## Environment variables (will overwrite other server configs)
 
 | variables | example values | description |
 | --------- | ------ | ----------- |
@@ -155,8 +138,7 @@ Environment variables (will overwrite other server configs)
 | HMD_S3_REGION | `ap-northeast-1` | AWS S3 region |
 | HMD_S3_BUCKET | no example | AWS S3 bucket name |
 
-Application settings `config.json`
----
+## Application settings `config.json`
 
 | variables | example values | description |
 | --------- | ------ | ----------- |
@@ -199,8 +181,7 @@ Application settings `config.json`
 | s3 | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageUploadType` be setted to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
 | s3bucket | `YOUR_S3_BUCKET_NAME` | bucket name when `imageUploadType` is set to `s3` |
 
-Third-party integration api key settings
----
+## Third-party integration api key settings
 
 | service | settings location | description |
 | ------- | --------- | ----------- |
@@ -208,8 +189,7 @@ Third-party integration api key settings
 | imgur | environment variables or `config.json` | for image upload |
 | google drive(`google/apiKey`, `google/clientID`), dropbox(`dropbox/appKey`) | `config.json` | for export and import |
 
-Third-party integration oauth callback urls
----
+## Third-party integration oauth callback urls
 
 | service | callback url (after the server url) |
 | ------- | --------- |
@@ -220,13 +200,32 @@ Third-party integration oauth callback urls
 | dropbox | `/auth/dropbox/callback` |
 | google | `/auth/google/callback` |
 
-Operational Transformation
----
+# Developer Notes
+
+## Structure
+
+```text
+hackmd/
+├── tmp/            --- temporary files
+├── docs/           --- document files
+├── lib/            --- server libraries
+└── public/         --- client files
+    ├── css/        --- css styles
+    ├── js/         --- js scripts
+    ├── vendor/     --- vendor includes
+    └── views/      --- view templates
+```
+
+## Operational Transformation
 
 From 0.3.2, we started supporting operational transformation.  
 It makes concurrent editing safe and will not break up other users' operations.  
 Additionally, now can show other clients' selections.  
 See more at [http://operational-transformation.github.io/](http://operational-transformation.github.io/)
+
+
+
+# License
 
 **License under MIT.**
 
