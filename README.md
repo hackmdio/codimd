@@ -5,6 +5,7 @@ HackMD
 
 [![Join the chat at https://gitter.im/hackmdio/hackmd][gitter-image]][gitter-url]
 [![build status][travis-image]][travis-url]
+[![version][github-version-badge]][github-release-page]
 
 
 HackMD lets you create realtime collaborative markdown notes on all platforms.  
@@ -233,5 +234,7 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 [gitter-url]: https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [travis-image]: https://travis-ci.org/hackmdio/hackmd.svg?branch=master
 [travis-url]: https://travis-ci.org/hackmdio/hackmd
+[github-version-badge]: https://img.shields.io/github/release/hackmdio/hackmd.svg
+[github-release-page]: https://github.com/hackmdio/hackmd/releases
 [standardjs-image]: https://cdn.rawgit.com/feross/standard/master/badge.svg
 [standardjs-url]: https://github.com/feross/standard
