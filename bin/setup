@@ -5,7 +5,7 @@ set -e
 # run command at repo root
 CURRENT_PATH=$PWD
 if [ -d .git ]; then
-  cd $(git rev-parse --show-toplevel)
+  cd "$(git rev-parse --show-toplevel)"
 fi
 
 if ! type npm > /dev/null
@@ -43,4 +43,4 @@ Read more info at https://github.com/hackmdio/hackmd#configuration-files
 EOF
 
 # change directory back
-cd $CURRENT_PATH
+cd "$CURRENT_PATH"
