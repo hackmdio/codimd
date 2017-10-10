@@ -10,7 +10,7 @@
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
     "build": "webpack --config webpack.production.js --progress --colors --bail",
     "postinstall": "bin/heroku",
-    "start": "node app.js"
+    "start": "ls -la ./public/build/ && node app.js"
   },
   "dependencies": {
     "Idle.Js": "git+https://github.com/shawnmclean/Idle.js",
