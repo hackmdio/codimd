@@ -933,10 +933,10 @@ ui.toolbar.extra.slide.attr('href', noteurl + '/slide')
 ui.toolbar.download.markdown.click(function (e) {
   e.preventDefault()
   e.stopPropagation()
-  var filename = renderFilename(ui.area.markdown) + '.md'
+  var filename = renderFilename(ui.area.markdown) + '.adoc'
   var markdown = editor.getValue()
   var blob = new Blob([markdown], {
-    type: 'text/markdown;charset=utf-8'
+    type: 'text/asciidoc;charset=utf-8'
   })
   saveAs(blob, filename, true)
 })
@@ -975,7 +975,7 @@ function uploadToGoogleDrive (accessToken) {
   var filename = renderFilename(ui.area.markdown) + '.md'
   var markdown = editor.getValue()
   var blob = new Blob([markdown], {
-    type: 'text/markdown;charset=utf-8'
+    type: 'text/asciidoc;charset=utf-8'
   })
   blob.name = filename
   var uploader = new MediaUploader({
@@ -1317,7 +1317,7 @@ $('#revisionModalDownload').click(function () {
   if (!revision) return
   var filename = renderFilename(ui.area.markdown) + '_' + revisionTime + '.md'
   var blob = new Blob([revision.content], {
-    type: 'text/markdown;charset=utf-8'
+    type: 'text/asciidoc;charset=utf-8'
   })
   saveAs(blob, filename, true)
 })
