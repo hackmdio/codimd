@@ -3,7 +3,6 @@ dist: trusty
 node_js:
   - 6
   - 7
-  - lts/boron
 env:
   - CXX=g++-4.8
 cache: yarn
