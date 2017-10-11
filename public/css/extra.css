@@ -365,3 +365,5 @@ small .dropdown a:focus, small .dropdown a:hover {
         font-size: 12px !important;
     }
 }
+
+.line-through{text-decoration:line-through}
