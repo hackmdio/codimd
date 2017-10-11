@@ -604,6 +604,10 @@ This is __italic te__xt
 
 lu~lala~
 
+[line-through]#Deleted Text#
+
+Partially de[line-through]##lete##d text
+
 Superscript: 19^th^
 
 Subscript: H~2~O
@@ -619,6 +623,10 @@ _This is italic text_
 This is __italic te__xt
 
 lu~lala~
+
+[line-through]#Deleted Text#
+
+Partially de[line-through]##lete##d text
 
 Superscript: 19^th^
 
