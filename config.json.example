@@ -6,6 +6,9 @@
         }
     },
     "development": {
+        "hsts": {
+            "enable": false
+        },
         "db": {
             "dialect": "sqlite",
             "storage": "./db.hackmd.sqlite"
@@ -13,6 +16,12 @@
     },
     "production": {
         "domain": "localhost",
+        "hsts": {
+            "enable": "true",
+            "maxAgeSeconds": "31536000",
+            "includeSubdomains": "true",
+            "preload": "true"
+        },
         "db": {
             "username": "",
             "password": "",

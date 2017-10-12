@@ -166,6 +166,7 @@ Application settings `config.json`
 | port | `80` | web app port |
 | alloworigin | `['localhost']` | domain name whitelist |
 | usessl | `true` or `false` | set to use ssl server (if true will auto turn on `protocolusessl`) |
+| hsts | `{"enable": "true", "maxAgeSeconds": "31536000", "includeSubdomains": "true", "preload": "true"}` | [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) options to use with HTTPS (default is the example value, max age is a year) |
 | protocolusessl | `true` or `false` | set to use ssl protocol for resources path (only applied when domain is set) |
 | urladdport | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
 | usecdn | `true` or `false` | set to use CDN resources or not (default is `true`) |
