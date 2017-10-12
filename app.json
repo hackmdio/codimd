@@ -23,7 +23,10 @@
             "description": "Specify database type. See sequelize available databases. Default using postgres",
             "value": "postgres"
         },
-
+        "HMD_HSTS_ENABLE": {
+            "description": "whether to also use HSTS if HTTPS is enabled",
+            "required": false
+        },
         "HMD_DOMAIN": {
             "description": "domain name",
             "required": false

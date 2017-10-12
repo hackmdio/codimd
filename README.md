@@ -154,6 +154,7 @@ Environment variables (will overwrite other server configs)
 | HMD_S3_SECRET_ACCESS_KEY | no example | AWS secret key |
 | HMD_S3_REGION | `ap-northeast-1` | AWS S3 region |
 | HMD_S3_BUCKET | no example | AWS S3 bucket name |
+| HMD_HSTS_ENABLE | ` true`  | set to enable [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) if HTTPS is also enabled (default is ` true`) |
 
 Application settings `config.json`
 ---
