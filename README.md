@@ -155,6 +155,9 @@ Environment variables (will overwrite other server configs)
 | HMD_S3_REGION | `ap-northeast-1` | AWS S3 region |
 | HMD_S3_BUCKET | no example | AWS S3 bucket name |
 | HMD_HSTS_ENABLE | ` true`  | set to enable [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) if HTTPS is also enabled (default is ` true`) |
+| HMD_HSTS_INCLUDE_SUBDOMAINS | `true` | set to include subdomains in HSTS (default is `true`) |
+| HMD_HSTS_MAX_AGE | `31536000` | max duration in seconds to tell clients to keep HSTS status (default is a year) |
+| HMD_HSTS_PRELOAD | `true` | whether to allow preloading of the site's HSTS status (e.g. into browsers) |
 
 Application settings `config.json`
 ---
