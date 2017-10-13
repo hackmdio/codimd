@@ -14,6 +14,8 @@ Still in the early stage, feel free to fork or contribute to HackMD.
 
 Thanks for using! :smile:
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 # Table of Contents
 
 - [Browsers Requirement](#browsers-requirement)
@@ -34,6 +36,8 @@ Thanks for using! :smile:
   - [Structure](#structure)
   - [Operational Transformation](#operational-transformation)
 - [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Browsers Requirement
 
