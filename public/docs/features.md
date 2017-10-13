@@ -47,12 +47,15 @@ or import content from your **clipboard** <i class="fa fa-clipboard"></i>, and t
 It is possible to change the access permission to a note through the little button on the top right of the view.
 There are four possible options:
 
-<i class="fa fa-leaf fa-fw"></i> **Freely**: Anyone can edit this note.
-<i class="fa fa-pencil fa-fw"></i> **Editable**: A signed-in user can edit this note.
-<i class="fa fa-id-card fa-fw"></i> **Limited**: People have to sign-in to view and edit this note.
-<i class="fa fa-lock fa-fw"></i> **Locked**: Anyone can view this note but only the owner can edit it.
-<i class="fa fa-umbrella fa-fw"></i> **Protected**: People have to sign-in to view this note but only owner can edit.
-<i class="fa fa-hand-stop-o fa-fw"></i> **Private**: Only the owner can view and edit this note.
+|                              |Owner read/write|Signed-in read|Signed-in write|Guest read|Guest write|
+|:-----------------------------|:--------------:|:------------:|:-------------:|:--------:|:---------:|
+|<span class="text-nowrap"><i class="fa fa-leaf fa-fw"></i> **Freely**</span>               |✔|✔|✔|✔|✔|
+|<span class="text-nowrap"><i class="fa fa-pencil fa-fw"></i> **Editable**</span>           |✔|✔|✔|✔|✖|
+|<span class="text-nowrap"><i class="fa fa-id-card fa-fw"></i> **Limited**</span>           |✔|✔|✔|✖|✖|
+|<span class="text-nowrap"><i class="fa fa-lock fa-fw"></i> **Locked**</span>               |✔|✔|✖|✔|✖|
+|<span class="text-nowrap"><i class="fa fa-umbrella fa-fw"></i> **Protected**</span>        |✔|✔|✖|✖|✖|
+|<span class="text-nowrap"><i class="fa fa-hand-stop-o fa-fw"></i> **Private**</span>       |✔|✖|✖|✖|✖|
+
 
 **Only the owner of the note can change the note's permissions.**
 
