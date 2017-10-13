@@ -14,6 +14,27 @@ Still in the early stage, feel free to fork or contribute to HackMD.
 
 Thanks for using! :smile:
 
+# Table of Contents
+
+- [Browsers Requirement](#browsers-requirement)
+- [Installation](#installation)
+  - [Getting started (Native install)](#getting-started-native-install)
+    - [Prerequisite](#prerequisite)
+    - [Instructions](#instructions)
+  - [Heroku Deployment](#heroku-deployment)
+  - [HackMD by docker container](#hackmd-by-docker-container)
+- [Upgrade](#upgrade)
+  - [Native setup](#native-setup)
+- [Configuration](#configuration)
+  - [Environment variables (will overwrite other server configs)](#environment-variables-will-overwrite-other-server-configs)
+  - [Application settings `config.json`](#application-settings-configjson)
+  - [Third-party integration api key settings](#third-party-integration-api-key-settings)
+  - [Third-party integration oauth callback urls](#third-party-integration-oauth-callback-urls)
+- [Developer Notes](#developer-notes)
+  - [Structure](#structure)
+  - [Operational Transformation](#operational-transformation)
+- [License](#license)
+
 # Browsers Requirement
 
 - Chrome >= 47, Chrome for Android >= 47
