@@ -23,7 +23,22 @@
             "description": "Specify database type. See sequelize available databases. Default using postgres",
             "value": "postgres"
         },
-
+        "HMD_HSTS_ENABLE": {
+            "description": "whether to also use HSTS if HTTPS is enabled",
+            "required": false
+        },
+        "HMD_HSTS_MAX_AGE": {
+            "description": "max duration, in seconds, to tell clients to keep HSTS status",
+            "required": false
+        },
+        "HMD_HSTS_INCLUDE_SUBDOMAINS": {
+            "description": "whether to tell clients to also regard subdomains as HSTS hosts",
+            "required": false
+        },
+        "HMD_HSTS_PRELOAD": {
+            "description": "whether to allow at all adding of the site to HSTS preloads (e.g. in browsers)",
+            "required": false
+        },
         "HMD_DOMAIN": {
             "description": "domain name",
             "required": false

@@ -97,11 +97,16 @@ var sessionStore = new SequelizeStore({
 app.use(compression())
 
 // use hsts to tell https users stick to this
-app.use(helmet.hsts({
-  maxAge: 31536000 * 1000, // 365 days
-  includeSubdomains: true,
-  preload: true
-}))
+if (config.hsts.enable) {
+  app.use(helmet.hsts({
+    maxAge: config.hsts.maxAgeSeconds * 1000,
+    includeSubdomains: config.hsts.includeSubdomains,
+    preload: config.hsts.preload
+  }))
+} else if (config.usessl) {
+  logger.info('Consider enabling HSTS for extra security:')
+  logger.info('https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security')
+}
 
 i18n.configure({
   locales: ['en', 'zh', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da'],
