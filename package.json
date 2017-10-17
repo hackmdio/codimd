@@ -5,7 +5,8 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "test": "npm run-script standard",
+    "test": "npm run-script standard && npm run-script jsonlint",
+    "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' | while read json; do echo $json ; jsonlint -q $json; done",
     "standard": "node ./node_modules/standard/bin/cmd.js",
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
     "build": "webpack --config webpack.production.js --progress --colors --bail",
@@ -159,6 +160,7 @@
     "html-webpack-plugin": "^2.25.0",
     "imports-loader": "^0.7.0",
     "json-loader": "^0.5.4",
+    "jsonlint": "^1.6.2",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "optimize-css-assets-webpack-plugin": "^1.3.0",
