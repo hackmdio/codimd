@@ -109,7 +109,7 @@ if (config.hsts.enable) {
 }
 
 i18n.configure({
-  locales: ['en', 'zh', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da'],
+  locales: ['en', 'zh', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da'],
   cookie: 'locale',
   directory: path.join(__dirname, '/locales')
 })
