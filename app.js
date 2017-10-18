@@ -126,6 +126,11 @@ if (config.csp.enable) {
       directives[propertyName] = directive;
     }
   }
+  if(config.csp.upgradeInsecureRequests === 'auto') {
+    directives.upgradeInsecureRequests = config.usessl === 'true'
+  } else {
+    directives.upgradeInsecureRequests = config.csp.upgradeInsecureRequests === 'true'
+  }
   app.use(helmet.contentSecurityPolicy({
     directives: directives
   }))
