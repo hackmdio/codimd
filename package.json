@@ -114,6 +114,7 @@
     "tedious": "^1.14.0",
     "to-markdown": "^3.0.3",
     "toobusy-js": "^0.5.1",
+    "uuid": "^3.1.0",
     "uws": "~0.14.1",
     "validator": "^6.2.0",
     "velocity-animate": "^1.4.0",

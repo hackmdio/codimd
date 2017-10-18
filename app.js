@@ -12,6 +12,7 @@ var session = require('express-session')
 var SequelizeStore = require('connect-session-sequelize')(session.Store)
 var fs = require('fs')
 var path = require('path')
+var uuid = require('uuid')
 
 var morgan = require('morgan')
 var passportSocketIo = require('passport.socketio')
@@ -108,6 +109,11 @@ if (config.hsts.enable) {
   logger.info('https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security')
 }
 
+app.use((req, res, next) => {
+  res.locals.nonce = uuid.v4()
+  next()
+})
+
 // use Content-Security-Policy to limit XSS, dangerous plugins, etc.
 // https://helmetjs.github.io/docs/csp/
 if (config.csp.enable) {
@@ -126,6 +132,7 @@ if (config.csp.enable) {
       directives[propertyName] = directive;
     }
   }
+  directives.scriptSrc.push(function (req, res) { return "'nonce-" + res.locals.nonce + "'" })
   if(config.csp.upgradeInsecureRequests === 'auto') {
     directives.upgradeInsecureRequests = config.usessl === 'true'
   } else {
