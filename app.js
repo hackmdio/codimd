@@ -108,6 +108,31 @@ if (config.hsts.enable) {
   logger.info('https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security')
 }
 
+// use Content-Security-Policy to limit XSS, dangerous plugins, etc.
+// https://helmetjs.github.io/docs/csp/
+if (config.csp.enable) {
+  var cdnDirectives = {
+    scriptSrc: ["https://cdnjs.cloudflare.com"],
+    styleSrc: ["https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
+    fontSrc: ["https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"]
+  }
+  var directives = {}
+  for (var propertyName in config.csp.directives) {
+    if(config.csp.directives.hasOwnProperty(propertyName)) {
+      var directive = config.csp.directives[propertyName]
+      if (config.usecdn && !!cdnDirectives[propertyName]) {
+        directive = directive.concat(cdnDirectives[propertyName])
+      }
+      directives[propertyName] = directive;
+    }
+  }
+  app.use(helmet.contentSecurityPolicy({
+    directives: directives
+  }))
+} else {
+  logger.info('Content-Security-Policy is disabled. This may be a security risk.');
+}
+
 i18n.configure({
   locales: ['en', 'zh', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da'],
   cookie: 'locale',
