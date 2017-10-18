@@ -118,22 +118,22 @@ app.use((req, res, next) => {
 // https://helmetjs.github.io/docs/csp/
 if (config.csp.enable) {
   var cdnDirectives = {
-    scriptSrc: ["https://cdnjs.cloudflare.com"],
-    styleSrc: ["https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
-    fontSrc: ["https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"]
+    scriptSrc: ['https://cdnjs.cloudflare.com', 'https://cdn.mathjax.org'],
+    styleSrc: ['https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com'],
+    fontSrc: ['https://cdnjs.cloudflare.com', 'https://fonts.gstatic.com']
   }
   var directives = {}
   for (var propertyName in config.csp.directives) {
-    if(config.csp.directives.hasOwnProperty(propertyName)) {
+    if (config.csp.directives.hasOwnProperty(propertyName)) {
       var directive = config.csp.directives[propertyName]
       if (config.usecdn && !!cdnDirectives[propertyName]) {
         directive = directive.concat(cdnDirectives[propertyName])
       }
-      directives[propertyName] = directive;
+      directives[propertyName] = directive
     }
   }
   directives.scriptSrc.push(function (req, res) { return "'nonce-" + res.locals.nonce + "'" })
-  if(config.csp.upgradeInsecureRequests === 'auto') {
+  if (config.csp.upgradeInsecureRequests === 'auto') {
     directives.upgradeInsecureRequests = config.usessl === 'true'
   } else {
     directives.upgradeInsecureRequests = config.csp.upgradeInsecureRequests === 'true'
@@ -142,7 +142,7 @@ if (config.csp.enable) {
     directives: directives
   }))
 } else {
-  logger.info('Content-Security-Policy is disabled. This may be a security risk.');
+  logger.info('Content-Security-Policy is disabled. This may be a security risk.')
 }
 
 i18n.configure({
