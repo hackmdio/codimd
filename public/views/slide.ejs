@@ -54,19 +54,19 @@
     <body>
         <div class="container">
             <div class="reveal">
-                <div class="slides" style="display: none;"><%= body %></div>
+                <div class="slides"><%= body %></div>
             </div>
 
-            <div id="meta" style="display: none;"><%= meta %></div>
+            <div id="meta"><%= meta %></div>
 
             <div class="footer">
-                <div class="unselectable hidden-print" style="color: #777;">
+                <div class="unselectable hidden-print gray-font">
                     <small>
                         <span>
                             <% if(lastchangeuserprofile) { %>
                                 <span class="ui-lastchangeuser">&thinsp;<i class="ui-user-icon small" style="background-image: url(<%- lastchangeuserprofile.photo %>);" data-toggle="tooltip" data-placement="right" title="<%- lastchangeuserprofile.name %>"></i></span>
                             <% } else { %>
-                                <span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o fa-fw" style="width: 18px;"></i></span>
+                                <span class="ui-no-lastchangeuser">&thinsp;<i class="fa fa-clock-o fa-fw"></i></span>
                             <% } %>
                             &nbsp;<span class="text-uppercase ui-status-lastchange"></span>
                             <span class="ui-lastchange text-uppercase" data-createtime="<%- createtime %>" data-updatetime="<%- updatetime %>"></span>
@@ -82,7 +82,7 @@
                     </small>
                 </div>
                 <% if(typeof disqus !== 'undefined' && disqus) { %>
-                <div style="margin-top: 25px; margin-bottom: 15px;">
+                <div class="slides-disqus">
                     <%- include shared/disqus %>
                 </div>
                 <% } %>
