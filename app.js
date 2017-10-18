@@ -116,6 +116,15 @@ app.use((req, res, next) => {
 
 // use Content-Security-Policy to limit XSS, dangerous plugins, etc.
 // https://helmetjs.github.io/docs/csp/
+function getCspNonce (req, res) {
+  return "'nonce-" + res.locals.nonce + "'"
+}
+
+function getCspWebSocketUrl (req, res) {
+  // wss: is included in 'self', but 'ws:' is not
+  return (req.protocol === 'http' ? 'ws:' : 'wss:') + config.serverurl.replace(/https?:/, "")
+}
+
 if (config.csp.enable) {
   var cdnDirectives = {
     scriptSrc: ['https://cdnjs.cloudflare.com', 'https://cdn.mathjax.org'],
@@ -125,14 +134,15 @@ if (config.csp.enable) {
   var directives = {}
   for (var propertyName in config.csp.directives) {
     if (config.csp.directives.hasOwnProperty(propertyName)) {
-      var directive = config.csp.directives[propertyName]
+      var directive = [].concat(config.csp.directives[propertyName])
       if (config.usecdn && !!cdnDirectives[propertyName]) {
         directive = directive.concat(cdnDirectives[propertyName])
       }
       directives[propertyName] = directive
     }
   }
-  directives.scriptSrc.push(function (req, res) { return "'nonce-" + res.locals.nonce + "'" })
+  directives.scriptSrc.push(getCspNonce)
+  directives.connectSrc.push(getCspWebSocketUrl)
   if (config.csp.upgradeInsecureRequests === 'auto') {
     directives.upgradeInsecureRequests = config.usessl === 'true'
   } else {
