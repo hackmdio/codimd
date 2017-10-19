@@ -56,6 +56,7 @@
     "js-yaml": "^3.7.0",
     "jsdom-nogyp": "^0.8.3",
     "keymaster": "^1.6.2",
+    "legacy-loader": "0.0.2",
     "list.js": "^1.5.0",
     "lodash": "^4.17.4",
     "lz-string": "1.4.4",

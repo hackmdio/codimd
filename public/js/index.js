@@ -3,6 +3,7 @@
    modeType, Idle, serverurl, key, gapi, Dropbox, FilePicker
    ot, MediaUploader, hex2rgb, num_loaded, Visibility */
 
+
 require('../vendor/showup/showup')
 
 require('../css/index.css')
@@ -20,6 +21,8 @@ import randomColor from 'randomcolor'
 import _ from 'lodash'
 
 import List from 'list.js'
+
+var jsUrl = require('js-url')
 
 import {
     checkLoginStateChanged,
@@ -1474,12 +1477,12 @@ $('#gistImportModalConfirm').click(function () {
   if (!isValidURL(gisturl)) {
     showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid URL :(', '', '', false)
   } else {
-    var hostname = window.url('hostname', gisturl)
+    var hostname = jsUrl('hostname', gisturl)
     if (hostname !== 'gist.github.com') {
       showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', '', false)
     } else {
       ui.spinner.show()
-      $.get('https://api.github.com/gists/' + window.url('-1', gisturl))
+      $.get('https://api.github.com/gists/' + jsUrl('-1', gisturl))
                 .done(function (data) {
                   if (data.files) {
                     var contents = ''
