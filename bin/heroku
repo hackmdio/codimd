@@ -28,4 +28,8 @@ EOF
 
   # build app
   npm run build
+
+  # Link "constant.js" to the writable temp directory for Heroku deployments
+  ln -s ./tmp/constant.js ./public/build/constant.js
 fi
+
