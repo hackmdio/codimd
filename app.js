@@ -145,7 +145,7 @@ if (config.csp.enable) {
     fontSrc: ['\'self\'', 'https://public.slidesharecdn.com'],
     objectSrc: ['*'], // Chrome PDF viewer treats PDFs as objects :/
     childSrc: ['*'],
-    connectSrc: ['\'self\'', 'https://links.services.disqus.com', 'wss://realtime.services.disqus.com']
+    connectSrc: ['*']
   };
   var cdnDirectives = {
     scriptSrc: ['https://cdnjs.cloudflare.com', 'https://cdn.mathjax.org'],
