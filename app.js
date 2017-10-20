@@ -171,7 +171,9 @@ if (config.csp.enable) {
       )
     }
   }
-  directives.scriptSrc.push(getCspNonce)
+  if (directives.scriptSrc.indexOf('\'unsafe-inline\'') === -1) {
+    directives.scriptSrc.push(getCspNonce)
+  }
   directives.connectSrc.push(getCspWebSocketUrl)
   if (config.csp.upgradeInsecureRequests === 'auto') {
     directives.upgradeInsecureRequests = config.usessl === 'true'
