@@ -125,7 +125,28 @@ function getCspWebSocketUrl (req, res) {
   return (req.protocol === 'http' ? 'ws:' : 'wss:') + config.serverurl.replace(/https?:/, "")
 }
 
+function mergeWithDefaults(configured, defaultDirective, cdnDirective) {
+  var directive = [].concat(configured)
+  if (config.csp.addDefaults && defaultDirective) {
+    directive = directive.concat(defaultDirective)
+  }
+  if (config.usecdn && cdnDirective) {
+    directive = directive.concat(cdnDirective)
+  }
+  return directive
+}
+
 if (config.csp.enable) {
+  var defaultDirectives = {
+    defaultSrc: ['\'self\''],
+    scriptSrc: ['\'self\'', 'vimeo.com', 'https://gist.github.com', 'www.slideshare.net', 'https://query.yahooapis.com', 'https://*.disqus.com', '\'unsafe-eval\''], // TODO: Remove unsafe-eval - webpack script-loader issues
+    imgSrc: ['*'],
+    styleSrc: ['\'self\'', '\'unsafe-inline\'', 'https://assets-cdn.github.com'], // unsafe-inline is required for some libs, plus used in views
+    fontSrc: ['\'self\'', 'https://public.slidesharecdn.com'],
+    objectSrc: ['*'], // Chrome PDF viewer treats PDFs as objects :/
+    childSrc: ['*'],
+    connectSrc: ['\'self\'', 'https://links.services.disqus.com', 'wss://realtime.services.disqus.com']
+  };
   var cdnDirectives = {
     scriptSrc: ['https://cdnjs.cloudflare.com', 'https://cdn.mathjax.org'],
     styleSrc: ['https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com'],
@@ -134,11 +155,20 @@ if (config.csp.enable) {
   var directives = {}
   for (var propertyName in config.csp.directives) {
     if (config.csp.directives.hasOwnProperty(propertyName)) {
-      var directive = [].concat(config.csp.directives[propertyName])
-      if (config.usecdn && !!cdnDirectives[propertyName]) {
-        directive = directive.concat(cdnDirectives[propertyName])
-      }
-      directives[propertyName] = directive
+      directives[propertyName] = mergeWithDefaults(
+        config.csp.directives[propertyName],
+        defaultDirectives[propertyName],
+        cdnDirectives[propertyName]
+      )
+    }
+  }
+  for (var propertyName in defaultDirectives) {
+    if (!directives[propertyName]) {
+      directives[propertyName] = mergeWithDefaults(
+        [],
+        defaultDirectives[propertyName],
+        cdnDirectives[propertyName]
+      )
     }
   }
   directives.scriptSrc.push(getCspNonce)

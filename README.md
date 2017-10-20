@@ -158,6 +158,7 @@ Environment variables (will overwrite other server configs)
 | HMD_HSTS_INCLUDE_SUBDOMAINS | `true` | set to include subdomains in HSTS (default is `true`) |
 | HMD_HSTS_MAX_AGE | `31536000` | max duration in seconds to tell clients to keep HSTS status (default is a year) |
 | HMD_HSTS_PRELOAD | `true` | whether to allow preloading of the site's HSTS status (e.g. into browsers) |
+| HMD_CSP_ENABLE | `true` | whether to enable Content Security Policy (directives cannot be configured with environment variables) |
 
 Application settings `config.json`
 ---
@@ -171,6 +172,7 @@ Application settings `config.json`
 | alloworigin | `['localhost']` | domain name whitelist |
 | usessl | `true` or `false` | set to use ssl server (if true will auto turn on `protocolusessl`) |
 | hsts | `{"enable": "true", "maxAgeSeconds": "31536000", "includeSubdomains": "true", "preload": "true"}` | [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) options to use with HTTPS (default is the example value, max age is a year) |
+| csp | `{"enable": "true", "directives": {"scriptSrc": "trustwodthy-scripts.example.com"}, "upgradeInsecureRequests": "auto", "addDefaults": "true"}` | Configures [Content Security Policy](https://helmetjs.github.io/docs/csp/). Directives are directly passed to Helmet, so [their format](https://helmetjs.github.io/docs/csp/) applies. Further, some defaults are added so  that the application doesn't break. To disable adding these defaults, set `addDefaults` to `false`. If `usecdn` is on, default CDN locations are allowed too. By default (`auto`), insecure (HTTP) requests are upgraded to HTTPS via CSP if `usessl` is on. To change this behaviour, set `upgradeInsecureRequests` to either `true` or `false`. |
 | protocolusessl | `true` or `false` | set to use ssl protocol for resources path (only applied when domain is set) |
 | urladdport | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
 | usecdn | `true` or `false` | set to use CDN resources or not (default is `true`) |

@@ -22,6 +22,13 @@
             "includeSubdomains": "true",
             "preload": "true"
         },
+        csp: {
+	    "enable": "true",
+            "directives": {
+            },
+            "upgradeInsecureRequests": "auto"
+            "addDefaults": "true"
+        },
         "db": {
             "username": "",
             "password": "",
