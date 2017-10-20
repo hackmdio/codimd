@@ -173,6 +173,10 @@ if (config.csp.enable) {
   }
   if (directives.scriptSrc.indexOf('\'unsafe-inline\'') === -1) {
     directives.scriptSrc.push(getCspNonce)
+    // TODO: This is the SHA-256 hash of the inline script in
+    // build/reveal.js/plugins/notes/notes.html . Any cleaner
+    // solution appreciated.
+    directives.scriptSrc.push('\'sha256-EtvSSxRwce5cLeFBZbvZvDrTiRoyoXbWWwvEVciM5Ag=\'')
   }
   directives.connectSrc.push(getCspWebSocketUrl)
   if (config.csp.upgradeInsecureRequests === 'auto') {
