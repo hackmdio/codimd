@@ -12,7 +12,6 @@ var session = require('express-session')
 var SequelizeStore = require('connect-session-sequelize')(session.Store)
 var fs = require('fs')
 var path = require('path')
-var uuid = require('uuid')
 
 var morgan = require('morgan')
 var passportSocketIo = require('passport.socketio')
@@ -25,6 +24,7 @@ var config = require('./lib/config')
 var logger = require('./lib/logger')
 var response = require('./lib/response')
 var models = require('./lib/models')
+var csp = require('./lib/csp')
 
 // generate front-end constants by template
 var constpath = path.join(__dirname, './public/js/lib/common/constant.ejs')
@@ -109,83 +109,14 @@ if (config.hsts.enable) {
   logger.info('https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security')
 }
 
-app.use((req, res, next) => {
-  res.locals.nonce = uuid.v4()
-  next()
-})
+// Generate a random nonce per request, for CSP with inline scripts
+app.use(csp.addNonceToLocals)
 
 // use Content-Security-Policy to limit XSS, dangerous plugins, etc.
 // https://helmetjs.github.io/docs/csp/
-function getCspNonce (req, res) {
-  return "'nonce-" + res.locals.nonce + "'"
-}
-
-function getCspWebSocketUrl (req, res) {
-  // wss: is included in 'self', but 'ws:' is not
-  return (req.protocol === 'http' ? 'ws:' : 'wss:') + config.serverurl.replace(/https?:/, "")
-}
-
-function mergeWithDefaults(configured, defaultDirective, cdnDirective) {
-  var directive = [].concat(configured)
-  if (config.csp.addDefaults && defaultDirective) {
-    directive = directive.concat(defaultDirective)
-  }
-  if (config.usecdn && cdnDirective) {
-    directive = directive.concat(cdnDirective)
-  }
-  return directive
-}
-
 if (config.csp.enable) {
-  var defaultDirectives = {
-    defaultSrc: ['\'self\''],
-    scriptSrc: ['\'self\'', 'vimeo.com', 'https://gist.github.com', 'www.slideshare.net', 'https://query.yahooapis.com', 'https://*.disqus.com', '\'unsafe-eval\''], // TODO: Remove unsafe-eval - webpack script-loader issues
-    imgSrc: ['*'],
-    styleSrc: ['\'self\'', '\'unsafe-inline\'', 'https://assets-cdn.github.com'], // unsafe-inline is required for some libs, plus used in views
-    fontSrc: ['\'self\'', 'https://public.slidesharecdn.com'],
-    objectSrc: ['*'], // Chrome PDF viewer treats PDFs as objects :/
-    childSrc: ['*'],
-    connectSrc: ['*']
-  };
-  var cdnDirectives = {
-    scriptSrc: ['https://cdnjs.cloudflare.com', 'https://cdn.mathjax.org'],
-    styleSrc: ['https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com'],
-    fontSrc: ['https://cdnjs.cloudflare.com', 'https://fonts.gstatic.com']
-  }
-  var directives = {}
-  for (var propertyName in config.csp.directives) {
-    if (config.csp.directives.hasOwnProperty(propertyName)) {
-      directives[propertyName] = mergeWithDefaults(
-        config.csp.directives[propertyName],
-        defaultDirectives[propertyName],
-        cdnDirectives[propertyName]
-      )
-    }
-  }
-  for (var propertyName in defaultDirectives) {
-    if (!directives[propertyName]) {
-      directives[propertyName] = mergeWithDefaults(
-        [],
-        defaultDirectives[propertyName],
-        cdnDirectives[propertyName]
-      )
-    }
-  }
-  if (directives.scriptSrc.indexOf('\'unsafe-inline\'') === -1) {
-    directives.scriptSrc.push(getCspNonce)
-    // TODO: This is the SHA-256 hash of the inline script in
-    // build/reveal.js/plugins/notes/notes.html . Any cleaner
-    // solution appreciated.
-    directives.scriptSrc.push('\'sha256-EtvSSxRwce5cLeFBZbvZvDrTiRoyoXbWWwvEVciM5Ag=\'')
-  }
-  directives.connectSrc.push(getCspWebSocketUrl)
-  if (config.csp.upgradeInsecureRequests === 'auto') {
-    directives.upgradeInsecureRequests = config.usessl === 'true'
-  } else {
-    directives.upgradeInsecureRequests = config.csp.upgradeInsecureRequests === 'true'
-  }
   app.use(helmet.contentSecurityPolicy({
-    directives: directives
+    directives: csp.computeDirectives()
   }))
 } else {
   logger.info('Content-Security-Policy is disabled. This may be a security risk.')

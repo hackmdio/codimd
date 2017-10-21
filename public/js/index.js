@@ -3,7 +3,6 @@
    modeType, Idle, serverurl, key, gapi, Dropbox, FilePicker
    ot, MediaUploader, hex2rgb, num_loaded, Visibility */
 
-
 require('../vendor/showup/showup')
 
 require('../css/index.css')
