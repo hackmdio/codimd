@@ -1092,7 +1092,7 @@ const gistPlugin = new Plugin(
 
     (match, utils) => {
       const gistid = match[1]
-      const code = `<code data-gist-id="${gistid}"/>`
+      const code = `<code data-gist-id="${gistid}"></code>`
       return code
     }
 )
