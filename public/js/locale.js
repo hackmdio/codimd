@@ -11,6 +11,9 @@ $('.ui-locale option').each(function () {
 })
 if (Cookies.get('locale')) {
   lang = Cookies.get('locale')
+  if (lang === 'zh') {
+    lang = 'zh-TW'
+  }
 } else if (supportLangs.indexOf(userLang) !== -1) {
   lang = supportLangs[supportLangs.indexOf(userLang)]
 } else if (supportLangs.indexOf(userLangCode) !== -1) {
