@@ -127,6 +127,10 @@
         "HMD_IMGUR_CLIENTID": {
             "description": "Imgur API client id",
             "required": false
+        },
+        "HMD_ALLOW_PDF_EXPORT": {
+            "description": "Enable or disable PDF exports",
+            "required": false
         }
     },
     "addons": [

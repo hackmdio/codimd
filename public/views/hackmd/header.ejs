@@ -70,8 +70,10 @@
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-download-raw-html" tabindex="-1" href="#" target="_self"><i class="fa fa-file-code-o fa-fw"></i> <%= __('Raw HTML') %></a>
                 </li>
-                <li role="presentation"><a role="menuitem" class="ui-download-pdf-beta" tabindex="-1" href="#" target="_self"><i class="fa fa-file-pdf-o fa-fw"></i> PDF (Beta)</a>
-                </li>
+                <% if(allowpdfexport) {%>
+                  <li role="presentation"><a role="menuitem" class="ui-download-pdf-beta" tabindex="-1" href="#" target="_self"><i class="fa fa-file-pdf-o fa-fw"></i> PDF (Beta)</a>
+                  </li>
+                <% } %>
                 <li class="divider"></li>
                 <li role="presentation"><a role="menuitem" class="ui-help" href="#" data-toggle="modal" data-target=".help-modal"><i class="fa fa-question-circle fa-fw"></i> Help</a>
                 </li>
@@ -169,8 +171,10 @@
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-download-raw-html" tabindex="-1" href="#" target="_self"><i class="fa fa-file-code-o fa-fw"></i> <%= __('Raw HTML') %></a>
                     </li>
-                    <li role="presentation"><a role="menuitem" class="ui-download-pdf-beta" tabindex="-1" href="#" target="_self"><i class="fa fa-file-pdf-o fa-fw"></i> PDF (Beta)</a>
-                    </li>
+                    <% if(allowpdfexport) {%>
+                      <li role="presentation"><a role="menuitem" class="ui-download-pdf-beta" tabindex="-1" href="#" target="_self"><i class="fa fa-file-pdf-o fa-fw"></i> PDF (Beta)</a>
+                      </li>
+                    <% } %>
                 </ul>
             </li>
         </ul>
