@@ -77,6 +77,12 @@
         },
         "imgur": {
             "clientID": "change this"
-        }
+        },
+        "s3": {
+          "accessKeyId": "change this",
+          "secretAccessKey": "change this",
+          "region": "change this"
+        },
+        "s3bucket": "change this"
     }
 }
