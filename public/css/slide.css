@@ -258,6 +258,10 @@ pre.abc > svg {
     transform-style: preserve-3d;
 }
 
+.slides, #meta {
+    display: none;
+}
+
 .reveal .slides > section,
 .reveal .slides > section > section {
     transform-style: flat;
@@ -283,10 +287,23 @@ pre.abc > svg {
     padding: 25px 15px;
 }
 
+.footer .gray-font {
+    color: #777;
+}
+
 .footer > * {
     margin-left: auto;
     margin-right: auto;
     max-width: 758px;
+}
+
+.footer .ui-no-lastchangeuser {
+    width: 18px;
+}
+
+.footer .slides-disqus {
+    margin-top: 25px;
+    margin-bottom: 15px;
 }
 
 html, body {
