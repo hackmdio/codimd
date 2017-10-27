@@ -19,3 +19,19 @@ jobs:
       before_install:
         - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.1.0
         - export PATH="$HOME/.yarn/bin:$PATH"
+    - env: task=ShellCheck
+      script:
+        - shellcheck bin/*
+      language: generic
+    - env: task=doctoc
+      install: npm install doctoc
+      script:
+        - cp README.md README.md.orig
+        - npm run doctoc
+        - diff -q README.md README.md.orig
+      language: generic
+    - env: task=json-lint
+      install: npm install jsonlint
+      script:
+        - npm run jsonlint
+      language: generic
