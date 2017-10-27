@@ -11,7 +11,8 @@
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
     "build": "webpack --config webpack.production.js --progress --colors --bail",
     "postinstall": "bin/heroku",
-    "start": "node app.js"
+    "start": "node app.js",
+    "doctoc": "doctoc --title='# Table of Contents' README.md"
   },
   "dependencies": {
     "Idle.Js": "git+https://github.com/shawnmclean/Idle.js",
@@ -152,6 +153,7 @@
     "babel-runtime": "^6.20.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
+    "doctoc": "^1.3.0",
     "ejs-loader": "^0.3.0",
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",
