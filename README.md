@@ -74,11 +74,26 @@ You can quickly setup a sample heroku hackmd application by clicking the button 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## HackMD by docker container
+[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/docker-hackmd/raw/master/docker-compose.yml&stack_name=hackmd)
 
-[docker-hackmd](https://github.com/hackmdio/docker-hackmd)
 
-Before you go too far, here is the great docker repo for HackMD.
-With docker, you can deploy a server in minutes without any downtime.
+**Debian-based version:**
+
+[![latest](https://images.microbadger.com/badges/version/hackmdio/hackmd.svg)](https://microbadger.com/images/hackmdio/hackmd "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd.svg)](https://microbadger.com/images/hackmdio/hackmd "Get your own image badge on microbadger.com")
+
+
+**Alpine-based version:**
+
+[![latest-alpine](https://images.microbadger.com/badges/version/hackmdio/hackmd:latest-alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:latest-alpine "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd:latest-alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:latest-alpine "Get your own image badge on microbadger.com")
+
+The easiest way to setup HackMD using docker are using the following three commands:
+
+```console
+git clone https://github.com/hackmdio/docker-hackmd.git
+cd docker-hackmd
+docker-compose up
+```
+Read more about it in the [docker repository…](https://github.com/hackmdio/docker-hackmd)
 
 # Upgrade
 
