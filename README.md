@@ -8,8 +8,8 @@ HackMD
 [![version][github-version-badge]][github-release-page]
 
 
-HackMD lets you create realtime collaborative markdown notes on all platforms.  
-Inspired by Hackpad, with more focus on speed and flexibility.  
+HackMD lets you create realtime collaborative markdown notes on all platforms.
+Inspired by Hackpad, with more focus on speed and flexibility.
 Still in the early stage, feel free to fork or contribute to HackMD.
 
 Thanks for using! :smile:
@@ -97,13 +97,13 @@ If you are upgrading HackMD from an older version, follow these steps:
 
 * [migration-to-0.5.0](https://github.com/hackmdio/migration-to-0.5.0)
 
-We don't use LZString to compress socket.io data and DB data after version 0.5.0.  
+We don't use LZString to compress socket.io data and DB data after version 0.5.0.
 Please run the migration tool if you're upgrading from the old version.
 
 * [migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
 
-We've dropped MongoDB after version 0.4.0.  
-So here is the migration tool for you to transfer the old DB data to the new DB.  
+We've dropped MongoDB after version 0.4.0.
+So here is the migration tool for you to transfer the old DB data to the new DB.
 This tool is also used for official service.
 
 # Configuration
@@ -141,6 +141,9 @@ There are some configs you need to change in the files below
 | HMD_GITLAB_BASEURL | no example | GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional) |
 | HMD_GITLAB_CLIENTID | no example | GitLab API client id |
 | HMD_GITLAB_CLIENTSECRET | no example | GitLab API client secret |
+| HMD_MATTERMOST_BASEURL | no example | Mattermost authentication endpoint |
+| HMD_MATTERMOST_CLIENTID | no example | Mattermost API client id |
+| HMD_MATTERMOST_CLIENTSECRET | no example | Mattermost API client secret |
 | HMD_DROPBOX_CLIENTID | no example | Dropbox API client id |
 | HMD_DROPBOX_CLIENTSECRET | no example | Dropbox API client secret |
 | HMD_GOOGLE_CLIENTID | no example | Google API client id |
@@ -216,7 +219,7 @@ There are some configs you need to change in the files below
 
 | service | settings location | description |
 | ------- | --------- | ----------- |
-| facebook, twitter, github, gitlab, dropbox, google, ldap | environment variables or `config.json` | for signin |
+| facebook, twitter, github, gitlab, mattermost, dropbox, google, ldap | environment variables or `config.json` | for signin |
 | imgur | environment variables or `config.json` | for image upload |
 | google drive(`google/apiKey`, `google/clientID`), dropbox(`dropbox/appKey`) | `config.json` | for export and import |
 
@@ -228,6 +231,7 @@ There are some configs you need to change in the files below
 | twitter | `/auth/twitter/callback` |
 | github | `/auth/github/callback` |
 | gitlab | `/auth/gitlab/callback` |
+| mattermost | `/auth/mattermost/callback` |
 | dropbox | `/auth/dropbox/callback` |
 | google | `/auth/google/callback` |
 
@@ -249,9 +253,9 @@ hackmd/
 
 ## Operational Transformation
 
-From 0.3.2, we started supporting operational transformation.  
-It makes concurrent editing safe and will not break up other users' operations.  
-Additionally, now can show other clients' selections.  
+From 0.3.2, we started supporting operational transformation.
+It makes concurrent editing safe and will not break up other users' operations.
+Additionally, now can show other clients' selections.
 See more at [http://operational-transformation.github.io/](http://operational-transformation.github.io/)
 
 

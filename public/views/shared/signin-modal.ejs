@@ -28,6 +28,11 @@
                     <i class="fa fa-gitlab"></i> <%= __('Sign in via %s', 'GitLab') %>
                 </a>
                 <% } %>
+                <% if(mattermost) { %>
+                <a href="<%- url %>/auth/mattermost" class="btn btn-lg btn-block btn-social btn-soundcloud">
+                    <i class="fa fa-mattermost"></i> <%= __('Sign in via %s', 'Mattermost') %>
+                </a>
+                <% } %>
                 <% if(dropbox) { %>
                 <a href="<%- url %>/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
                     <i class="fa fa-dropbox"></i> <%= __('Sign in via %s', 'Dropbox') %>
@@ -38,7 +43,7 @@
                     <i class="fa fa-google"></i> <%= __('Sign in via %s', 'Google') %>
                 </a>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || dropbox || google) && ldap) { %>
+                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google) && ldap) { %>
                 <hr>
                 <% }%>
                 <% if(ldap) { %>
@@ -63,7 +68,7 @@
                     </div>
                 </form>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || dropbox || google || ldap) && email) { %>
+                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap) && email) { %>
                 <hr>
                 <% }%>
                 <% if(email) { %>

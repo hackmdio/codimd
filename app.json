@@ -100,6 +100,18 @@
             "description": "GitLab API client scope (optional)",
             "required": false
         },
+        "HMD_MATTERMOST_BASEURL": {
+            "description": "Mattermost authentication endpoint",
+            "required": false
+        },
+        "HMD_MATTERMOST_CLIENTID": {
+            "description": "Mattermost API client id",
+            "required": false
+        },
+        "HMD_MATTERMOST_CLIENTSECRET": {
+            "description": "Mattermost API client secret",
+            "required": false
+        },
         "HMD_DROPBOX_CLIENTID": {
             "description": "Dropbox API client id",
             "required": false
