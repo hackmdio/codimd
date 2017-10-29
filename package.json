@@ -75,7 +75,7 @@
     "markdown-it-sup": "^1.0.0",
     "markdown-pdf": "^7.0.0",
     "mathjax": "~2.7.0",
-    "mermaid": "~7.0.0",
+    "mermaid": "~7.1.0",
     "meta-marked": "^0.4.2",
     "method-override": "^2.3.7",
     "moment": "^2.17.1",
