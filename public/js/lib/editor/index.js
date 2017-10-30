@@ -171,13 +171,13 @@ export default class Editor {
     this.statusLength.text('Length ' + docLength)
     if (docLength > (config.docmaxlength * 0.95)) {
       this.statusLength.css('color', 'red')
-      this.statusLength.attr('title', 'Your almost reach note max length limit.')
+      this.statusLength.attr('title', 'You have almost reached the limit for this document.')
     } else if (docLength > (config.docmaxlength * 0.8)) {
       this.statusLength.css('color', 'orange')
-      this.statusLength.attr('title', 'You nearly fill the note, consider to make more pieces.')
+      this.statusLength.attr('title', 'This document is nearly full, consider splitting it or creating a new one.')
     } else {
       this.statusLength.css('color', 'white')
-      this.statusLength.attr('title', 'You could write up to ' + config.docmaxlength + ' characters in this note.')
+      this.statusLength.attr('title', 'You can write up to ' + config.docmaxlength + ' characters in this document.')
     }
   }
 
