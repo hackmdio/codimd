@@ -41,11 +41,11 @@ Thanks for using! :smile:
 
 # Browsers Requirement
 
-- Chrome >= 47, Chrome for Android >= 47
-- Safari >= 9, iOS Safari >= 8.4
-- Firefox >= 44
-- IE >= 9, Edge >= 12
-- Opera >= 34, Opera Mini not supported
+- ![Chrome](http://browserbadge.com/chrome/47/18px) Chrome >= 47, Chrome for Android >= 47
+- ![Safari](http://browserbadge.com/safari/9/18px) Safari >= 9, iOS Safari >= 8.4
+- ![Firefox](http://browserbadge.com/firefox/44/18px) Firefox >= 44
+- ![IE](http://browserbadge.com/ie/9/18px) IE >= 9, Edge >= 12
+- ![Opera](http://browserbadge.com/opera/34/18px) Opera >= 34, Opera Mini not supported
 - Android Browser >= 4.4
 
 # Installation
