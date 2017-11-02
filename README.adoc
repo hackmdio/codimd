@@ -22,6 +22,7 @@ Known drawbacks are:
 * Auto-Completion by typing [ does not work as expected , see https://github.com/hackergarten/hackadoc/issues/17[Issue #17], see https://github.com/hackergarten/hackadoc/issues/30[Issue #30]
 
 
+You can find a complete and up-to-date list at https://github.com/hackergarten/hackadoc/issues[open issues].
 
 
 
