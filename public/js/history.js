@@ -12,16 +12,14 @@ import {
     urlpath
 } from './lib/config'
 
-var jsUrl = require('js-url')
-
 window.migrateHistoryFromTempCallback = null
 
 migrateHistoryFromTemp()
 
 function migrateHistoryFromTemp () {
-  if (jsUrl('#tempid')) {
+  if (window.url('#tempid')) {
     $.get(`${serverurl}/temp`, {
-      tempid: jsUrl('#tempid')
+      tempid: window.url('#tempid')
     })
     .done(data => {
       if (data && data.temp) {

@@ -21,8 +21,6 @@ import _ from 'lodash'
 
 import List from 'list.js'
 
-var jsUrl = require('js-url')
-
 import {
     checkLoginStateChanged,
     setloginStateChangeEvent
@@ -1476,12 +1474,12 @@ $('#gistImportModalConfirm').click(function () {
   if (!isValidURL(gisturl)) {
     showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid URL :(', '', '', false)
   } else {
-    var hostname = jsUrl('hostname', gisturl)
+    var hostname = window.url('hostname', gisturl)
     if (hostname !== 'gist.github.com') {
       showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', '', false)
     } else {
       ui.spinner.show()
-      $.get('https://api.github.com/gists/' + jsUrl('-1', gisturl))
+      $.get('https://api.github.com/gists/' + window.url('-1', gisturl))
                 .done(function (data) {
                   if (data.files) {
                     var contents = ''

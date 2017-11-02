@@ -190,7 +190,7 @@ module.exports = {
     index: [
       'babel-polyfill',
       'script!jquery-ui-resizable',
-      'js-url',
+      'script!js-url',
       'expose?filterXSS!xss',
       'script!Idle.Js',
       'expose?LZString!lz-string',
@@ -241,7 +241,7 @@ module.exports = {
       'expose?jsyaml!js-yaml',
       'script!mermaid',
       'expose?moment!moment',
-      'js-url',
+      'script!js-url',
       'script!handlebars',
       'expose?hljs!highlight.js',
       'expose?emojify!emojify.js',
@@ -374,8 +374,7 @@ module.exports = {
       'bootstrap-tooltip': path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.js'),
       'headjs': path.join(__dirname, 'node_modules/reveal.js/lib/js/head.min.js'),
       'reveal-markdown': path.join(__dirname, 'public/js/reveal-markdown.js'),
-      abcjs: path.join(__dirname, 'public/vendor/abcjs_basic_3.1.1-min.js'),
-      'js-url': path.join(__dirname, 'node_modules/js-url/url.js')
+      abcjs: path.join(__dirname, 'public/vendor/abcjs_basic_3.1.1-min.js')
     }
   },
 
@@ -430,9 +429,6 @@ module.exports = {
     }, {
       test: /\.gif(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'url?limit=10000&mimetype=image/gif'
-    }, {
-      test: /\/node_modules\/js-url\/url.js/,
-      loader: 'legacy'
     }]
   },
   node: {
