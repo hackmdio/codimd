@@ -389,19 +389,21 @@ https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-netw
 [[mathjax]]
 === MathJax
 
-NOTE: TODO enable and describe MathJax
-
-////
 You can render _LaTeX_ mathematical expressions using *MathJax*, as on
 http://math.stackexchange.com/[math.stackexchange.com]:
-
-The _Gamma function_ satisfying
-latexmath:[$\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$] is via the Euler
-integral
 
 latexmath:[\[
 x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
 \]]
+
+The _Gamma function_ satisfying
+[source,!]
+----
+latexmath:[\[ 
+  \Gamma(n) = (n-1)!\quad\forall n\in\mathbb N 
+\]] 
+----
+is via the Euler integral:
 
 latexmath:[\[
 \Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
@@ -409,7 +411,6 @@ latexmath:[\[
 
 TIP: More information about *LaTeX* mathematical expressions
 http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference[here].
-////
 
 [[uml-diagrams]]
 === UML Diagrams

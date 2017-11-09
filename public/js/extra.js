@@ -546,7 +546,21 @@ export function finishView (view) {
 
   for (const para of allParagraphs) {
     const text = para.innerText;
+
+    // \(\[
+    //  $x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$
+    //  ]\)
+
     if (text && text.startsWith('$') && text.endsWith('$')) {
+      mathjaxdivs.push(para);
+      continue;
+    }
+
+    if (text && text.startsWith('\\(\\[') && text.endsWith(']\\)')) {
+      let parsed = text.replace('\\(\\[', '$');
+      parsed = parsed.replace(']\\)', '$');
+      para.innerHTML = parsed;
+      console.log(para.innerHTML);
       mathjaxdivs.push(para);
     }
   }
