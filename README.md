@@ -235,7 +235,7 @@ There are some configs you need to change in the files below
 | service | settings location | description |
 | ------- | --------- | ----------- |
 | facebook, twitter, github, gitlab, mattermost, dropbox, google, ldap | environment variables or `config.json` | for signin |
-| imgur | environment variables or `config.json` | for image upload |
+| imgur, s3 | environment variables or `config.json` | for image upload |
 | google drive(`google/apiKey`, `google/clientID`), dropbox(`dropbox/appKey`) | `config.json` | for export and import |
 
 ## Third-party integration oauth callback urls
