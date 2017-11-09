@@ -118,6 +118,10 @@ export default class Editor {
         utils.wrapTextWith(this.editor, cm, 'Backspace')
       }
     }
+    if (isMac) {
+      this.defaultExtraKeys['Alt-G'] = false
+    }
+
     this.eventListeners = {}
     this.config = config
   }
