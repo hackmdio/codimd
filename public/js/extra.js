@@ -539,8 +539,18 @@ export function finishView (view) {
             else langDiv.html(result.value)
           }
         })
-    // mathjax
-  const mathjaxdivs = view.find('span.mathjax.raw').removeClass('raw').toArray()
+  
+  // mathjax
+  const allParagraphs = view.find('div.paragraph p');
+  const mathjaxdivs = [];
+
+  for (const para of allParagraphs) {
+    const text = para.innerText;
+    if (text && text.startsWith('$') && text.endsWith('$')) {
+      mathjaxdivs.push(para);
+    }
+  }
+  
   try {
     if (mathjaxdivs.length > 1) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, mathjaxdivs])
