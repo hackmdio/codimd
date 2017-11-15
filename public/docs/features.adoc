@@ -14,14 +14,14 @@
 [[introduction]]
 == Introduction
 
-icon:file-text[] *HackMD* is a realtime, multiplatform collaborative AsciiDoc note editor. This
+icon:file-text[] *HackADoc* is a realtime, multiplatform collaborative AsciiDoc note editor. This
 means that you can write notes with other people on your *desktop*, *tablet* or
 even on the *phone*. You can sign-in via *Facebook*, *Twitter*, *GitHub*, or
 *Dropbox* in the link:/[_homepage_].
 
 Note that this service is still in an early stage, and thus still has some
 https://github.com/hackergarten/hackadoc/issues?q=is%3Aopen+is%3Aissue+label%3Abug[_issues_].
-Please report new issues in https://github.com/hackergarten/hackadoc/issues/new[GitHub]. 
+Please report new issues in https://github.com/hackergarten/hackadoc/issues/new[GitHub].
 *Thank you very much!*
 // TODO original offers contacting via facebook message. Can this be offered for HackADoc too?
 
@@ -33,28 +33,32 @@ Please report new issues in https://github.com/hackergarten/hackadoc/issues/new[
 
 ==== Desktop & Tablet
 
-icon:edit[] Edit: See only the editor. + 
-icon:eye[] View: See only the result. + 
+icon:edit[] Edit: See only the editor. +
+icon:eye[] View: See only the result. +
 icon:columns[] Both: See both in split view.
 
 ==== Mobile
 
-icon:toggle-on[] View: See only the result. + 
+icon:toggle-on[] View: See only the result. +
 icon:toggle-off[] Edit: See only the editor.
 
 [[image-upload]]
 === Image Upload
 
-You can upload an image simply by clicking on the camera button icon:camera[]. + 
+You can upload an image simply by clicking on the camera button icon:camera[]. +
 Alternatively,
 you can *drag-n-drop* an image into the editor. Even *pasting* images is
-possible! This will automatically upload the image to *http://imgur.com[imgur]*,
+possible!
+
+If HackADoc is configured that way, the image will automatically upload the image to *http://imgur.com[imgur]*,
 nothing to worry. image:https://i.imgur.com/9cgQVqD.png[image]
+
+Default is local upload to the server hosting HackADoc, alternatives involve AmazonS3 storage,
 
 [[share-notes]]
 === Share Notes
 
-If you want to share an *editable* note, just copy the URL. + 
+If you want to share an *editable* note, just copy the URL. +
 If you want to share a *read-only* note, simply press publish button icon:share-square-o[] and copy the URL.
 
 [[save-a-note]]
@@ -77,11 +81,11 @@ button on the top right of the view.
 
 There are four possible options:
 
-icon:leaf[] *Freely*: Anyone can edit this note. + 
-icon:pencil[] *Editable*: A signed-in user can edit this note. + 
-icon:id-card[] *Limited*: People have to sign-in to view and edit this note. + 
-icon:lock[] *Locked*: Anyone can view this note but only the owner can edit it. + 
-icon:umbrella[] *Protected*: People have to sign-in to view this note but only owner can edit. + 
+icon:leaf[] *Freely*: Anyone can edit this note. +
+icon:pencil[] *Editable*: A signed-in user can edit this note. +
+icon:id-card[] *Limited*: People have to sign-in to view and edit this note. +
+icon:lock[] *Locked*: Anyone can view this note but only the owner can edit it. +
+icon:umbrella[] *Protected*: People have to sign-in to view this note but only owner can edit. +
 icon:hand-stop-o[] *Private*: Only the owner can view and edit this note.
 
 *Only the owner of the note can change the note's permissions.*
@@ -254,7 +258,7 @@ alert(s);
 function $initHighlight(block, cls) {
   try {
     if (cls.search(/\bno\-highlight\b/) != -1)
-      return process(block, true, 0x0F) + 
+      return process(block, true, 0x0F) +
              ' class=""';
   } catch (e) {
     /* handle exception */
@@ -278,7 +282,7 @@ alert(s);
 function $initHighlight(block, cls) {
   try {
     if (cls.search(/\bno\-highlight\b/) != -1)
-      return process(block, true, 0x0F) + 
+      return process(block, true, 0x0F) +
              ' class=""';
   } catch (e) {
     /* handle exception */
@@ -366,7 +370,7 @@ NOTE: TODO enable and describe slideshare
 [[speakerdeck]]
 ==== Speakerdeck
 
-NOTE: TODO enable and describe speakerdeck 
+NOTE: TODO enable and describe speakerdeck
 
 ////
 \{%speakerdeck sugarenia/xxlcss-how-to-scale-css-and-keep-your-sanity %}
@@ -458,7 +462,7 @@ cond(no)->op2
 digraph hierarchy {
 
                 nodesep=1.0 // increases the separation between nodes
-                
+
                 node [color=Red,fontname=Courier,shape=box] //All nodes will this shape and colour
                 edge [color=Blue, style=dashed] //All the lines look like this
 
@@ -516,7 +520,7 @@ NOTE: TODO admonition icons not rendering
 
 [source,asciidoc]
 ----
-NOTE: something to be aware of 
+NOTE: something to be aware of
 
 TIP: Pro tip...
 
