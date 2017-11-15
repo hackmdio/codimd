@@ -14,17 +14,15 @@ But there are certaily many thing missing, so please feel free to report those y
 
 Known drawbacks are:
 
-* Help / Cheatsheet still addressing MarkDown
-* syntax highlighting in editor (eg. marking bold formatted text also bold within the editor) still addresses the md syntax
+* syntax highlighting in editor (eg. marking bold formatted text also bold within the editor) still addresses the md syntax, see https://github.com/hackergarten/hackadoc/issues/1[Issue #1]
 * the menue has not been adjusted
-* PDF Export
-* We need to validate all export features
-* Adjust features dokument located at http://localhost:3000/features
-* Publish seems to be broken
-* TOC plugin does not reflect the actual TOC
-* Auto-Completion by typing [ does not work as expected
+* PDF Export, see https://github.com/hackergarten/hackadoc/issues/7[Issue #7] + https://github.com/hackergarten/hackadoc/issues/25[Issue #25]
+* Publish seems to be broken  
+* TOC plugin does not reflect the actual TOC , see https://github.com/hackergarten/hackadoc/issues/16[Issue #16]
+* Auto-Completion by typing [ does not work as expected , see https://github.com/hackergarten/hackadoc/issues/17[Issue #17], see https://github.com/hackergarten/hackadoc/issues/30[Issue #30]
 
 
+You can find a complete and up-to-date list at https://github.com/hackergarten/hackadoc/issues[open issues].
 
 
 
