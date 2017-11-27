@@ -22,6 +22,7 @@ Thanks for using! :smile:
 - [Installation](#installation)
   - [Getting started (Native install)](#getting-started-native-install)
     - [Prerequisite](#prerequisite)
+    - [Windows](#windows)
     - [Instructions](#instructions)
   - [Heroku Deployment](#heroku-deployment)
   - [HackMD by docker container](#hackmd-by-docker-container)
@@ -57,6 +58,14 @@ Thanks for using! :smile:
 - Node.js 6.x or up (test up to 7.5.0)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm (and its dependencies, especially [uWebSockets](https://github.com/uWebSockets/uWebSockets#nodejs-developers), [node-gyp](https://github.com/nodejs/node-gyp#installation))
+
+### Windows
+
+You need to setup bash for npm first before the Instructions below.
+1. Install [git-for-windows](https://git-for-windows.github.io/) to get BASH emulation(bash.exe) for Windows 
+2. Update npm to 5.1.0 or up by `npm install npm@latest -g`
+3. Set config by `npm config set script-shell = "path/to/bash.exe"`
+   (default path is `C:\Program Files\Git\bin\bash.exe`)
 
 ### Instructions
 

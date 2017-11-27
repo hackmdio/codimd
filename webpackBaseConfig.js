@@ -395,7 +395,7 @@ module.exports = {
     }, {
       test: /\.js$/,
       loader: 'babel',
-      exclude: [/node_modules/, /public\/vendor/]
+      exclude: [/node_modules/, /public[\\/]vendor/]
     }, {
       test: /\.css$/,
       loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
