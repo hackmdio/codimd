@@ -94,6 +94,7 @@
     "passport-local": "^1.0.0",
     "passport-oauth2": "^1.4.0",
     "passport-twitter": "^1.0.4",
+    "passport-saml": "^0.31.0",
     "passport.socketio": "^3.7.0",
     "pdfobject": "^2.0.201604172",
     "pg": "^6.1.2",

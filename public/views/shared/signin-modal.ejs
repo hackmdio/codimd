@@ -43,7 +43,12 @@
                     <i class="fa fa-google"></i> <%= __('Sign in via %s', 'Google') %>
                 </a>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google) && ldap) { %>
+                <% if(saml) { %>
+                <a href="<%- url %>/auth/saml" class="btn btn-lg btn-block btn-social btn-success">
+                    <i class="fa fa-users"></i> <%= __('Sign in via %s', 'SAML') %>
+                </a>
+                <% } %>
+                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || saml) && ldap) { %>
                 <hr>
                 <% }%>
                 <% if(ldap) { %>
