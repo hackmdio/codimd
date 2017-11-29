@@ -79,7 +79,6 @@
             "idpSsoUrl": "change: authentication endpoint of IdP",
             "idpCert": "change: certificate file path of IdP in PEM format",
             "issuer": "change or delete: identity of the service provider (default: serverurl)",
-            "callbackUrl": "change or delete: callback url to consume assertions (default: serverurl+'/auth/saml/callback')",
             "identifierFormat": "change or delete: name identifier format (default: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress')",
             "groupAttribute": "change or delete: attribute name for group list (ex: memberOf)",
             "requiredGroups": [ "change or delete: group names that allowed" ],
