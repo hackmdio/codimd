@@ -172,7 +172,7 @@ There are some configs you need to change in the files below
 | HMD_LDAP_SEARCHATTRIBUTES | no example | LDAP attributes to search with |
 | HMD_LDAP_TLS_CA | `server-cert.pem, root.pem` | Root CA for LDAP TLS in PEM format (use comma to separate) |
 | HMD_LDAP_PROVIDERNAME | `My institution` | Optional name to be displayed at login form indicating the LDAP provider |
-| HMD_SAML_IDPSSOURL | `https://idp.example.com/sso` | authentication endpoint of IdP |
+| HMD_SAML_IDPSSOURL | `https://idp.example.com/sso` | authentication endpoint of IdP. for details, see [guide](docs/guides/auth.md#saml-onelogin). |
 | HMD_SAML_IDPCERT | `/path/to/cert.pem` | certificate file path of IdP in PEM format |
 | HMD_SAML_ISSUER | no example | identity of the service provider (optional, default: serverurl)" |
 | HMD_SAML_IDENTIFIERFORMAT | no example | name identifier format (optional, default: `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`) |
@@ -181,7 +181,6 @@ There are some configs you need to change in the files below
 | HMD_SAML_EXTERNALGROUPS | `Temporary-staff` | group names that not allowed (use vertical bar to separate) (optional) |
 | HMD_SAML_ATTRIBUTE_ID | `sAMAccountName` | attribute map for `id` (optional, default: NameID of SAML response) |
 | HMD_SAML_ATTRIBUTE_USERNAME | `mailNickname` | attribute map for `username` (optional, default: NameID of SAML response) |
-| HMD_SAML_ATTRIBUTE_DISPLAYNAME | `displayName` | attribute map for `displayname` (optional, default: NameID of SAML response) |
 | HMD_SAML_ATTRIBUTE_EMAIL | `mail` | attribute map for `email` (optional, default: NameID of SAML response if `HMD_SAML_IDENTIFIERFORMAT` is default) |
 | HMD_IMGUR_CLIENTID | no example | Imgur API client id |
 | HMD_EMAIL | `true` or `false` | set to allow email signin |

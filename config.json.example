@@ -86,7 +86,6 @@
             "attribute": {
                "id": "change or delete this: attribute map for `id` (default: NameID)",
                "username": "change or delete this: attribute map for `username` (default: NameID)",
-               "displayName": "change or delete this: attribute map for `displayName` (default: NameID)",
                "email": "change or delete this: attribute map for `email` (default: NameID)"
             }
         },
