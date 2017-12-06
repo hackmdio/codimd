@@ -3,7 +3,7 @@
   "version": "0.5.1",
   "description": "Realtime collaborative markdown notes on all platforms.",
   "main": "app.js",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "scripts": {
     "test": "npm run-script standard && npm run-script jsonlint",
     "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' | while read json; do echo $json ; jsonlint -q $json; done",
