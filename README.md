@@ -169,7 +169,7 @@ There are some configs you need to change in the files below
 | HMD_LDAP_TOKENSECRET | `supersecretkey` | secret used for generating access/refresh tokens |
 | HMD_LDAP_SEARCHBASE | `o=users,dc=example,dc=com` | LDAP directory to begin search from |
 | HMD_LDAP_SEARCHFILTER | `(uid={{username}})` | LDAP filter to search with |
-| HMD_LDAP_SEARCHATTRIBUTES | no example | LDAP attributes to search with |
+| HMD_LDAP_SEARCHATTRIBUTES | `displayName, mail` | LDAP attributes to search with (use comma to separate) |
 | HMD_LDAP_TLS_CA | `server-cert.pem, root.pem` | Root CA for LDAP TLS in PEM format (use comma to separate) |
 | HMD_LDAP_PROVIDERNAME | `My institution` | Optional name to be displayed at login form indicating the LDAP provider |
 | HMD_SAML_IDPSSOURL | `https://idp.example.com/sso` | authentication endpoint of IdP. for details, see [guide](docs/guides/auth.md#saml-onelogin). |
