@@ -288,7 +288,7 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 
 # License
 
-**License under MIT.**
+**License under AGPL.**
 
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
