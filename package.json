@@ -25,6 +25,7 @@
     "chance": "^1.0.4",
     "cheerio": "^0.22.0",
     "codemirror": "git+https://github.com/hackmdio/CodeMirror.git",
+    "codemirror-composition-mod": "^5.0.0",
     "compression": "^1.6.2",
     "connect-flash": "^0.1.1",
     "connect-session-sequelize": "^4.1.0",
