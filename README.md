@@ -169,7 +169,7 @@ There are some configs you need to change in the files below
 | HMD_LDAP_TOKENSECRET | `supersecretkey` | secret used for generating access/refresh tokens |
 | HMD_LDAP_SEARCHBASE | `o=users,dc=example,dc=com` | LDAP directory to begin search from |
 | HMD_LDAP_SEARCHFILTER | `(uid={{username}})` | LDAP filter to search with |
-| HMD_LDAP_SEARCHATTRIBUTES | no example | LDAP attributes to search with |
+| HMD_LDAP_SEARCHATTRIBUTES | `displayName, mail` | LDAP attributes to search with (use comma to separate) |
 | HMD_LDAP_USERNAMEFIELD | `uid` | The LDAP field which is used as the username on HackMD |
 | HMD_LDAP_TLS_CA | `server-cert.pem, root.pem` | Root CA for LDAP TLS in PEM format (use comma to separate) |
 | HMD_LDAP_PROVIDERNAME | `My institution` | Optional name to be displayed at login form indicating the LDAP provider |
@@ -289,7 +289,7 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 
 # License
 
-**License under MIT.**
+**License under AGPL.**
 
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
