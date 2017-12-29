@@ -419,6 +419,7 @@ Visibility.change(function (e, state) {
 $(document).ready(function () {
   idle.checkAway()
   checkResponsive()
+  addExitFullscreenListeners()
     // if in smaller screen, we don't need advanced scrollbar
   var scrollbarStyle
   if (visibleXS) {
@@ -865,6 +866,39 @@ function changeMode (type) {
   }
   unlockNavbar()
 }
+function changeFullscreenStatus (status) {
+  if (typeof status === 'undefined') return
+  appState.fullscreen = (status==='on') ? true : false
+}
+function exitFullscreenHandler () {
+  if (!isFullScreen()) {
+    changeFullscreenStatus('off');
+  }
+}
+function addExitFullscreenListeners () {
+  if (document.addEventListener) {
+    document.addEventListener('webkitfullscreenchange', exitFullscreenHandler, false)
+    document.addEventListener('mozfullscreenchange', exitFullscreenHandler, false)
+    document.addEventListener('fullscreenchange', exitFullscreenHandler, false)
+    document.addEventListener('MSFullscreenChange', exitFullscreenHandler, false)
+  }
+}
+function isFullScreen () {
+  return !(!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
+}
+function toggleFullscreen () {
+  var doc = window.document
+  var docEl = doc.documentElement
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen
+  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen
+  if (isFullScreen()) {
+    changeFullscreenStatus('off')
+    cancelFullScreen.call(doc)
+  }else{
+    changeFullscreenStatus('on')
+    requestFullScreen.call(docEl)
+  }
+}
 
 function lockNavbar () {
   $('.navbar').addClass('locked')
@@ -928,6 +962,11 @@ ui.toolbar.publish.attr('href', noteurl + '/publish')
 // extra
 // slide
 ui.toolbar.extra.slide.attr('href', noteurl + '/slide')
+ui.toolbar.extra.fullscreen.click(function (e) {
+  e.preventDefault()
+  e.stopPropagation()
+  toggleFullscreen()
+})
 // download
 // markdown
 ui.toolbar.download.markdown.click(function (e) {
