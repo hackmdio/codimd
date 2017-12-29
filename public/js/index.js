@@ -868,11 +868,11 @@ function changeMode (type) {
 }
 function changeFullscreenStatus (status) {
   if (typeof status === 'undefined') return
-  appState.fullscreen = (status==='on') ? true : false
+  appState.fullscreen = (status === 'on')
 }
 function exitFullscreenHandler () {
   if (!isFullScreen()) {
-    changeFullscreenStatus('off');
+    changeFullscreenStatus('off')
   }
 }
 function addExitFullscreenListeners () {
@@ -894,7 +894,7 @@ function toggleFullscreen () {
   if (isFullScreen()) {
     changeFullscreenStatus('off')
     cancelFullScreen.call(doc)
-  }else{
+  } else {
     changeFullscreenStatus('on')
     requestFullScreen.call(docEl)
   }
