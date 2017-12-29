@@ -32,6 +32,8 @@
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
                 </li>
+                <li role="presentation"><a role="menuitem" class="ui-extra-fullscreen" tabindex="-1" href="#" target="_blank"><i class="fa fa-arrows-alt"></i> <%= __('Fullscreen') %></a>
+                </li>
                 <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || (typeof google !== 'undefined' && google) || (typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api'))) { %>
                 <li class="divider"></li>
                 <li class="dropdown-header"><%= __('Export') %></li>
@@ -132,6 +134,8 @@
                     <li role="presentation"><a role="menuitem" class="ui-extra-revision" tabindex="-1" data-toggle="modal" data-target="#revisionModal"><i class="fa fa-history fa-fw"></i> <%= __('Revision') %></a>
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
+                    </li>
+                    <li role="presentation"><a role="menuitem" class="ui-extra-fullscreen" tabindex="-1" href="#" target="_blank"><i class="fa fa-arrows-alt fa-fw"></i> <%= __('Fullscreen') %></a>
                     </li>
                     <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || (typeof google !== 'undefined' && google) || (typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api'))) { %>
                     <li class="divider"></li>
