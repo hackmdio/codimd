@@ -6,7 +6,7 @@ HackMD
 [![Join the chat at https://gitter.im/hackmdio/hackmd][gitter-image]][gitter-url]
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
-
+[![Help Contribute to Open Source][codetriage-image]][codetriage-url]
 
 HackMD lets you create realtime collaborative markdown notes on all platforms.
 Inspired by Hackpad, with more focus on speed and flexibility.
@@ -299,3 +299,5 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 [github-release-page]: https://github.com/hackmdio/hackmd/releases
 [standardjs-image]: https://cdn.rawgit.com/feross/standard/master/badge.svg
 [standardjs-url]: https://github.com/feross/standard
+[codetriage-image]: https://www.codetriage.com/hackmdio/hackmd/badges/users.svg
+[codetriage-url]: https://www.codetriage.com/hackmdio/hackmd
