@@ -68,6 +68,9 @@
     color: #777;
     border-left: 0.25em solid #ddd;
 }
+.night .markdown-body blockquote{
+    color: #bcbcbc;
+}
 
 .markdown-body blockquote>:first-child {
     margin-top: 0;
@@ -107,6 +110,15 @@
     line-height: 1.25;
 }
 
+.night .markdown-body h1,
+.night .markdown-body h2,
+.night .markdown-body h3,
+.night .markdown-body h4,
+.night .markdown-body h5,
+.night .markdown-body h6 {
+    color: #ddd;
+}
+
 .markdown-body h1 .octicon-link,
 .markdown-body h2 .octicon-link,
 .markdown-body h3 .octicon-link,
@@ -116,6 +128,15 @@
     color: #000;
     vertical-align: middle;
     visibility: hidden;
+}
+
+.night .markdown-body h1 .octicon-link,
+.night .markdown-body h2 .octicon-link,
+.night .markdown-body h3 .octicon-link,
+.night .markdown-body h4 .octicon-link,
+.night .markdown-body h5 .octicon-link,
+.night .markdown-body h6 .octicon-link {
+    color: #fff;
 }
 
 .markdown-body h1:hover .anchor,
@@ -179,6 +200,8 @@
     font-size: 0.85em;
     color: #777
 }
+
+
 
 .markdown-body ul,
 .markdown-body ol {
@@ -246,9 +269,17 @@
     background-color: #fff;
     border-top: 1px solid #ccc;
 }
+.night .markdown-body table tr {
+    background-color: #5f5f5f;
+}
 
 .markdown-body table tr:nth-child(2n) {
     background-color: #f8f8f8;
+}
+
+.night .markdown-body table tr:nth-child(2n){
+
+    background-color: #4f4f4f;
 }
 
 .markdown-body img {
@@ -368,6 +399,14 @@
     font-size: 85%;
     background-color: rgba(0, 0, 0, 0.04);
     border-radius: 3px;
+}
+
+.night .markdown-body code,
+.night .markdown-body tt {
+
+    color: #eee;
+    background-color: rgba(230, 230, 230, 0.36);
+
 }
 
 .markdown-body code::before,
