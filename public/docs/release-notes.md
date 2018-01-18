@@ -1,6 +1,45 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 1.0.0-ce <i class="fa fa-clock-o"></i> 2018-01-18 12:00
+---
+### License
+* Switch from MIT to AGPL
+
+### Enhancements
+* Improve language support
+* Allow themes for reveal
+* Add dark theme for editor and view
+* Add danish translation
+* Add simplified chinese translation
+* Provide new permission table
+* Make HSTS configurable
+* Make PDF export configurable
+* Add Mattermost auth support
+* Add SAML support
+
+### Fixes
+* Fix regex for speaker notes
+* Fix S3 endpoint support
+* Fix German translation
+* Fix English translation
+* Fix broken profile images
+* Fix XSS attacks
+* Fix history order
+* Fix missing boolean settings
+* Fix LDAP auth
+* Fix too long notes droping content
+* Fix mermaid compatiblity with new version
+* Fix SSL CA path parsing
+
+### Refactor
+* Refactor main page
+* Refactor status pages
+* Refactor config handling
+* Refactor auth backend
+* Refactor code styling
+* Refactor middleware to modules
+
 <i class="fa fa-tag"></i> 0.5.1 `Doppio` <i class="fa fa-clock-o"></i> 2017-03-23 00:20
 ---
 ### Enhancements
