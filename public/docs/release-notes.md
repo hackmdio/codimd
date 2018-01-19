@@ -1,6 +1,20 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 1.0.1-ce <i class="fa fa-clock-o"></i> 2018-01-19 15:00
+---
+
+### Security
+* Fix Dropbox client secret leak
+
+### Enhancements
+* Improve version handling
+* It's 2018!
+
+### Fixes
+* Fix image alt-tag rendering
+* Fix Dropbox appkey
+
 <i class="fa fa-tag"></i> 1.0.0-ce <i class="fa fa-clock-o"></i> 2018-01-18 12:00
 ---
 ### License

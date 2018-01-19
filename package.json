@@ -1,6 +1,6 @@
 {
   "name": "hackmd",
-  "version": "1.0.0-ce",
+  "version": "1.0.1-ce",
   "description": "Realtime collaborative markdown notes on all platforms.",
   "main": "app.js",
   "license": "AGPL-3.0",
