@@ -1007,9 +1007,10 @@ md.use(markdownitContainer, 'info', { render: renderContainer })
 md.use(markdownitContainer, 'warning', { render: renderContainer })
 md.use(markdownitContainer, 'danger', { render: renderContainer })
 
+let defaultImageRender = md.renderer.rules.image
 md.renderer.rules.image = function (tokens, idx, options, env, self) {
   tokens[idx].attrJoin('class', 'raw')
-  return self.renderToken(...arguments)
+  return defaultImageRender(...arguments)
 }
 md.renderer.rules.list_item_open = function (tokens, idx, options, env, self) {
   tokens[idx].attrJoin('class', 'raw')
