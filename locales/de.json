@@ -29,6 +29,8 @@
 	"Import from browser": "Vom Browser importieren",
 	"Releases": "Versionen",
 	"Are you sure?": "Sind sie sicher?",
+	"Do you really want to delete this note?": "Möchten Sie diese Notiz wirklich löschen?",
+	"All users will lose their connection.": "Alle Benutzer werden getrennt.",
 	"Cancel": "Abbrechen",
 	"Yes, do it!": "Ja, mach es!",
 	"Choose method": "Methode wählen",
@@ -100,5 +102,6 @@
 	"Select From Available Snippets": "Aus verfügbaren Snippets wählen",
 	"OR": "Oder",
 	"Export to Snippet": "Zu Snippet exportieren",
-	"Select Visibility Level": "Sichtbarkeit bestimmen"
+	"Select Visibility Level": "Sichtbarkeit bestimmen",
+	"Night Theme": "Nachtmodus"
 }
