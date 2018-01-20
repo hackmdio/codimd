@@ -3,13 +3,12 @@ Features
 
 Introduction
 ===
-<i class="fa fa-file-text"></i> **HackMD** is a realtime, multiplatform collaborative markdown note editor.
+<i class="fa fa-file-text"></i> **HackMD** is a realtime, multi-platform collaborative markdown note editor.
 This means that you can write notes with other people on your **desktop**, **tablet** or even on the **phone**.
-You can sign-in via **Facebook**, **Twitter**, **GitHub**, or **Dropbox** in the [_homepage_](/).
+You can sign-in via multiple auth providers like **Facebook**, **Twitter**, **GitHub** and many more on the [_homepage_](/).
 
-Note that this service is still in an early stage, and thus still has some [_issues_](https://github.com/hackmdio/hackmd/issues?q=is%3Aopen+is%3Aissue+label%3Abug).
-Please report new issues in [GitHub](https://github.com/hackmdio/hackmd/issues/new).
-If you need instant help, please send us a [Facebook message](https://www.messenger.com/t/hackmdio).
+If you experience any _issues_, feel free to report it on [**GitHub**](https://github.com/hackmdio/hackmd/issues).
+Or meet us on [**Gitter**](https://gitter.im/hackmdio/hackmd) for dev-talk and interactive help.
 **Thank you very much!**
 
 Workspace
@@ -137,7 +136,7 @@ alert(s);
 function $initHighlight(block, cls) {
   try {
     if (cls.search(/\bno\-highlight\b/) != -1)
-      return process(block, true, 0x0F) + 
+      return process(block, true, 0x0F) +
              ' class=""';
   } catch (e) {
     /* handle exception */
@@ -157,7 +156,7 @@ alert(s);
 function $initHighlight(block, cls) {
   try {
     if (cls.search(/\bno\-highlight\b/) != -1)
-      return process(block, true, 0x0F) + 
+      return process(block, true, 0x0F) +
              ' class=""';
   } catch (e) {
     /* handle exception */
@@ -259,7 +258,7 @@ cond(no)->op2
 digraph hierarchy {
 
                 nodesep=1.0 // increases the separation between nodes
-                
+
                 node [color=Red,fontname=Courier,shape=box] //All nodes will this shape and colour
                 edge [color=Blue, style=dashed] //All the lines look like this
 
@@ -386,7 +385,7 @@ Subscript: H~2~O
 
 > Blockquotes can also be nested...
 >> ...by using additional greater-than signs right next to each other...
-> > > ...or with spaces between arrows. 
+> > > ...or with spaces between arrows.
 
 
 ### Lists
