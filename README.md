@@ -143,6 +143,7 @@ There are some configs you need to change in the files below
 | HMD_URL_ADDPORT | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
 | HMD_USECDN | `true` or `false` | set to use CDN resources or not (default is `true`) |
 | HMD_ALLOW_ANONYMOUS | `true` or `false` | set to allow anonymous usage (default is `true`) |
+| HMD_ALLOW_ANONYMOUS_EDITS | `true` or `false` | if `allowanonymous` is `true`: allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
 | HMD_ALLOW_FREEURL | `true` or `false` | set to allow new note by accessing not exist note url |
 | HMD_DEFAULT_PERMISSION | `freely`, `editable`, `limited`, `locked` or `private` | set notes default permission (only applied on signed users) |
 | HMD_DB_URL | `mysql://localhost:3306/database` | set the db url |
@@ -212,6 +213,7 @@ There are some configs you need to change in the files below
 | urladdport | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
 | usecdn | `true` or `false` | set to use CDN resources or not (default is `true`) |
 | allowanonymous | `true` or `false` | set to allow anonymous usage (default is `true`) |
+| allowanonymousedits | `true` or `false` | if `allowanonymous` is `true`: allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
 | allowfreeurl | `true` or `false` | set to allow new note by accessing not exist note url |
 | defaultpermission | `freely`, `editable`, `limited`, `locked`, `protected` or `private` | set notes default permission (only applied on signed users) |
 | dburl | `mysql://localhost:3306/database` | set the db url, if set this variable then below db config won't be applied |
