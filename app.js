@@ -34,7 +34,8 @@ var data = {
   version: config.version,
   GOOGLE_API_KEY: config.google.clientSecret,
   GOOGLE_CLIENT_ID: config.google.clientID,
-  DROPBOX_APP_KEY: config.dropbox.appKey
+  DROPBOX_APP_KEY: config.dropbox.appKey,
+  allowedUploadMimeTypes: config.allowedUploadMimeTypes
 }
 
 ejs.renderFile(constpath, data, {}, function (err, str) {
