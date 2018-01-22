@@ -24,6 +24,7 @@ var config = require('./lib/config')
 var logger = require('./lib/logger')
 var response = require('./lib/response')
 var models = require('./lib/models')
+var csp = require('./lib/csp')
 
 // generate front-end constants by template
 var constpath = path.join(__dirname, './public/js/lib/common/constant.ejs')
@@ -106,6 +107,19 @@ if (config.hsts.enable) {
 } else if (config.usessl) {
   logger.info('Consider enabling HSTS for extra security:')
   logger.info('https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security')
+}
+
+// Generate a random nonce per request, for CSP with inline scripts
+app.use(csp.addNonceToLocals)
+
+// use Content-Security-Policy to limit XSS, dangerous plugins, etc.
+// https://helmetjs.github.io/docs/csp/
+if (config.csp.enable) {
+  app.use(helmet.contentSecurityPolicy({
+    directives: csp.computeDirectives()
+  }))
+} else {
+  logger.info('Content-Security-Policy is disabled. This may be a security risk.')
 }
 
 i18n.configure({

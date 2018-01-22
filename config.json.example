@@ -17,10 +17,17 @@
     "production": {
         "domain": "localhost",
         "hsts": {
-            "enable": "true",
+            "enable": true,
             "maxAgeSeconds": "31536000",
-            "includeSubdomains": "true",
-            "preload": "true"
+            "includeSubdomains": true,
+            "preload": true
+        },
+        csp: {
+            "enable": true,
+            "directives": {
+            },
+            "upgradeInsecureRequests": "auto"
+            "addDefaults": true
         },
         "db": {
             "username": "",

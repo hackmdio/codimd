@@ -41,7 +41,7 @@
         <link rel="stylesheet" href="<%- url %>/css/slide.css">
 
         <!-- Printing and PDF exports -->
-        <script>
+        <script nonce="<%= cspNonce %>">
             var link = document.createElement( 'link' );
             link.rel = 'stylesheet';
             link.type = 'text/css';
@@ -89,9 +89,7 @@
             </div>
         </div>
 
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({ messageStyle: "none", skipStartupTypeset: true ,tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true }});
-        </script>
+        <script src="<%= url %>/js/mathjax-config-extra.js"></script>
         <% if(useCDN) { %>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/lib/js/head.min.js" integrity="sha256-+09kLhwACKXFPDvqo4xMMvi4+uXFsRZ2uYGbeN1U8sI=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/js/reveal.min.js" integrity="sha256-lvaInSKflJWLPqf5N5oHr/UZFwXKD6gckerdwoHqECY=" crossorigin="anonymous"></script>
