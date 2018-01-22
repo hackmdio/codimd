@@ -101,5 +101,8 @@
 	"Select From Available Snippets": "从可用的 Snippets 中选择",
 	"OR": "或是",
 	"Export to Snippet": "导出到 Snippet",
-	"Select Visibility Level": "选择可见层级"
+	"Select Visibility Level": "选择可见层级",
+	"Night Theme": "夜间主题",
+	"Do you really want to delete this note?": "确定要删除这个文件吗？",
+	"All users will lose their connection.": "所有用户将失去连接"
 }
