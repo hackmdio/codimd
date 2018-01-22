@@ -123,12 +123,6 @@
 
             <div class="mastfoot">
                 <div class="inner">
-                    <h6 class="social-foot">
-                        <iframe src="//ghbtns.com/github-btn.html?user=hackmdio&repo=hackmd&type=star&count=true" frameborder="0" scrolling="0" width="104px" height="20px"></iframe>
-                    </h6>
-                    <p>
-                        &copy; 2018 <a href="https://www.facebook.com/hackmdio" target="_blank"><i class="fa fa-facebook-square"></i> HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank"><%= __('Releases') %></a>
-                    </p>
                     <select class="ui-locale">
                         <option value="en">English</option>
                         <option value="zh-CN">简体中文</option>
@@ -152,6 +146,12 @@
                         <option value="eo">Esperanto</option>
                         <option value="da">dansk</option>
                     </select>
+                    <p>
+                        &copy; 2018 <a href="https://hackmd.io">HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank"><%= __('Releases') %></a>
+                    </p>
+                    <h6 class="social-foot">
+                        <%- __('Follow us on %s and %s.', '<a href="https://github.com/hackmdio/HackMD" target="_blank"><i class="fa fa-github"></i> GitHub</a>, <a href="https://twitter.com/hackmdio" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>', '<a href="https://www.facebook.com/hackmdio" target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a>') %>
+                    </h6>
                 </div>
             </div>
         </div>
