@@ -713,11 +713,11 @@ $.fn.sortByDepth = function () {
 function toggleTodoEvent (e) {
   const startline = $(this).closest('li').attr('data-startline') - 1
   const line = window.editor.getLine(startline)
-  const matches = line.match(/^[>\s]*[-+*]\s\[([x ])\]/)
+  const matches = line.match(/^[>\s-]*[-+*]\s\[([x ])\]/)
   if (matches && matches.length >= 2) {
     let checked = null
     if (matches[1] === 'x') { checked = true } else if (matches[1] === ' ') { checked = false }
-    const replacements = matches[0].match(/(^[>\s]*[-+*]\s\[)([x ])(\])/)
+    const replacements = matches[0].match(/(^[>\s-]*[-+*]\s\[)([x ])(\])/)
     window.editor.replaceRange(checked ? ' ' : 'x', {
       line: startline,
       ch: replacements[1].length
