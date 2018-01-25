@@ -193,6 +193,11 @@ There are some configs you need to change in the files below
 | HMD_S3_SECRET_ACCESS_KEY | no example | AWS secret key |
 | HMD_S3_REGION | `ap-northeast-1` | AWS S3 region |
 | HMD_S3_BUCKET | no example | AWS S3 bucket name |
+| HMD_MINIO_ACCESS_KEY | no example | Minio access key |
+| HMD_MINIO_SECRET_KEY | no example | Minio secret key |
+| HMD_MINIO_ENDPOINT | `minio.example.org` | Address of your Minio endpoint/instance |
+| HMD_MINIO_PORT | `9000` | Port that is used for your minio instance |
+| HMD_MINIO_SECURE | `true` | If set to true HTTPS is used for minio |
 | HMD_HSTS_ENABLE | ` true`  | set to enable [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) if HTTPS is also enabled (default is ` true`) |
 | HMD_HSTS_INCLUDE_SUBDOMAINS | `true` | set to include subdomains in HSTS (default is `true`) |
 | HMD_HSTS_MAX_AGE | `31536000` | max duration in seconds to tell clients to keep HSTS status (default is a year) |
@@ -242,8 +247,9 @@ There are some configs you need to change in the files below
 | email | `true` or `false` | set to allow email signin |
 | allowemailregister  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`) |
 | imageUploadType | `imgur`(default), `s3` or `filesystem` | Where to upload image
+| minio | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageUploadType` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
 | s3 | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageUploadType` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
-| s3bucket | `YOUR_S3_BUCKET_NAME` | bucket name when `imageUploadType` is set to `s3` |
+| s3bucket | `YOUR_S3_BUCKET_NAME` | bucket name when `imageUploadType` is set to `s3` or `minio` |
 
 ## Third-party integration api key settings
 
