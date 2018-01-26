@@ -57,6 +57,7 @@ Thanks for using! :smile:
 - Node.js 6.x or up (test up to 7.5.0)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm (and its dependencies, especially [uWebSockets](https://github.com/uWebSockets/uWebSockets#nodejs-developers), [node-gyp](https://github.com/nodejs/node-gyp#installation))
+- For **building** HackMD we recommend to use a machine with at least **2GB** RAM
 
 ### Instructions
 
