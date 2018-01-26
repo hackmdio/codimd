@@ -63,7 +63,7 @@
     {
         "production": {
             ...
-            "imageUploadType": "s3",
+            "imageuploadtype": "s3",
             "s3": {
                 "accessKeyId": "YOUR_S3_ACCESS_KEY_ID",
                 "secretAccessKey": "YOUR_S3_ACCESS_KEY",

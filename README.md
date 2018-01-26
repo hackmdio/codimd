@@ -246,10 +246,10 @@ There are some configs you need to change in the files below
 | documentmaxlength | `100000` | note max length |
 | email | `true` or `false` | set to allow email signin |
 | allowemailregister  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`) |
-| imageUploadType | `imgur`(default), `s3`, `minio` or `filesystem` | Where to upload image
-| minio | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageUploadType` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
-| s3 | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageUploadType` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
-| s3bucket | `YOUR_S3_BUCKET_NAME` | bucket name when `imageUploadType` is set to `s3` or `minio` |
+| imageuploadtype | `imgur`(default), `s3`, `minio` or `filesystem` | Where to upload image
+| minio | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageuploadtype` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
+| s3 | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageuploadtype` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
+| s3bucket | `YOUR_S3_BUCKET_NAME` | bucket name when `imageuploadtype` is set to `s3` or `minio` |
 
 ## Third-party integration api key settings
 
