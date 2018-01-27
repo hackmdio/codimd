@@ -22,7 +22,7 @@ jobs:
         - export PATH="$HOME/.yarn/bin:$PATH"
     - env: task=ShellCheck
       script:
-        - shellcheck bin/*
+        - shellcheck bin/heroku bin/setup
       language: generic
     - env: task=doctoc
       install: npm install doctoc
