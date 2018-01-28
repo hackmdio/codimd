@@ -4443,7 +4443,7 @@ math-interval-parser@^1.1.0:
   dependencies:
     xregexp "^2.0.0"
 
-mathjax@~2.7.0:
+mathjax@~2.7.2:
   version "2.7.2"
   resolved "https://registry.yarnpkg.com/mathjax/-/mathjax-2.7.2.tgz#97d78bbebfb65a8621ce33fb7c1f10917355a878"
 
