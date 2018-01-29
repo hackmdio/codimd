@@ -62,7 +62,7 @@ Minio Guide for HackMD
 8. Set upload type.
 
    ```JSON
-   "imageUploadType": "minio"
+   "imageuploadtype": "minio"
    ```
 
 9. Review your config.
@@ -78,6 +78,6 @@ Minio Guide for HackMD
        "secure": false
      },
      "s3bucket": "hackmd",
-     "imageUploadType": "minio"
+     "imageuploadtype": "minio"
    }
    ```
