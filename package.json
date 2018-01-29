@@ -104,7 +104,7 @@
     "randomcolor": "^0.4.4",
     "raphael": "git+https://github.com/dmitrybaranovskiy/raphael",
     "request": "^2.79.0",
-    "reveal.js": "^3.3.0",
+    "reveal.js": "~3.6.0",
     "scrypt": "^6.0.3",
     "select2": "^3.5.2-browserify",
     "sequelize": "^3.28.0",
