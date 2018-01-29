@@ -80,12 +80,12 @@ You can quickly setup a sample heroku hackmd application by clicking the button 
 
 **Debian-based version:**
 
-[![latest](https://images.microbadger.com/badges/version/hackmdio/hackmd.svg)](https://microbadger.com/images/hackmdio/hackmd "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd.svg)](https://microbadger.com/images/hackmdio/hackmd "Get your own image badge on microbadger.com")
+[![latest](https://images.microbadger.com/badges/version/hackmdio/hackmd:latest.svg)](https://microbadger.com/images/hackmdio/hackmd "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd:latest.svg)](https://microbadger.com/images/hackmdio/hackmd "Get your own image badge on microbadger.com")
 
 
 **Alpine-based version:**
 
-[![latest-alpine](https://images.microbadger.com/badges/version/hackmdio/hackmd:latest-alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:latest-alpine "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd:latest-alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:latest-alpine "Get your own image badge on microbadger.com")
+[![alpine](https://images.microbadger.com/badges/version/hackmdio/hackmd:alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:alpine "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd:alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:alpine "Get your own image badge on microbadger.com")
 
 The easiest way to setup HackMD using docker are using the following three commands:
 
