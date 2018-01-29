@@ -6231,9 +6231,9 @@ retry-as-promised@^2.0.0:
     bluebird "^3.4.6"
     debug "^2.2.0"
 
-reveal.js@^3.3.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/reveal.js/-/reveal.js-3.5.0.tgz#95545949ad682636acecfdaea05cf0ca892d442d"
+reveal.js@~3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/reveal.js/-/reveal.js-3.6.0.tgz#ce0e64f30cbebd6e5ce885c2f384085c5e5821e8"
 
 right-align@^0.1.1:
   version "0.1.3"
