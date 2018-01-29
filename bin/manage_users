@@ -33,7 +33,7 @@ async function createUser(argv) {
 		var pass = readline.question("Password for "+argv["add"]+":", {hideEchoBack: true});
 	} else {
 		console.log("Using password from commandline...");
-		var pass = argv["pass"];
+		var pass = "" + argv["pass"];
 	}
 
 	// Lets try to create, and check success
