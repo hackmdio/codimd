@@ -4,5 +4,8 @@ window.MathJax = {
   tex2jax: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     processEscapes: true
+  },
+  asciimath2jax: {
+    delimiters: [['$','$'], ['\\(','\\)']]
   }
 }
