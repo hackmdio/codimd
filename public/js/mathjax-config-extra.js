@@ -6,6 +6,6 @@ window.MathJax = {
     processEscapes: true
   },
   asciimath2jax: {
-    delimiters: [['$','$'], ['\\(', '\\)']]
+    delimiters: [['$', '$'], ['\\(', '\\)']]
   }
 }
