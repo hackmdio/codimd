@@ -112,6 +112,14 @@
           "secretAccessKey": "change this",
           "region": "change this"
         },
+        "customS3Endpoint": {
+            "enable": false,
+            "endpoint": change this,
+            "s3ForcePathStyle": false,
+            "selfSignedCA": false,
+            "rejectUnauthorized": false,
+            "signedCAChain": "/path/to/CAchain.pem"
+        },
         "s3bucket": "change this"
     }
 }
