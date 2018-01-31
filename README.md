@@ -70,9 +70,11 @@ Thanks for using! :smile:
 
 ## Heroku Deployment
 
-You can quickly setup a sample heroku hackmd application by clicking the button below.
+You can quickly setup a sample Heroku HackMD application by clicking the button below.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy on Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/hackmdio/hackmd/tree/master)
+
+If you deploy it without the button, keep in mind to use the right buildpacks. For details check `app.json`.
 
 ## HackMD by docker container
 [![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/docker-hackmd/raw/master/docker-compose.yml&stack_name=hackmd)
