@@ -1762,6 +1762,9 @@ window.havePermission = havePermission
 var io = require('socket.io-client')
 var socket = io.connect({
   path: urlpath ? '/' + urlpath + '/socket.io/' : '',
+  query: {
+    noteId: noteid
+  },
   timeout: 5000, // 5 secs to timeout,
   reconnectionAttempts: 20 // retry 20 times on connect failed
 })
