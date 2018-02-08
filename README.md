@@ -4,6 +4,7 @@ HackMD Community Edition
 [![Standard - JavaScript Style Guide][standardjs-image]][standardjs-url]
 
 [![Join the chat at https://gitter.im/hackmdio/hackmd][gitter-image]][gitter-url]
+[![#HackMD on matrix.org][matrix.org-image]][matrix.org-url]
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
 [![Help Contribute to Open Source][codetriage-image]][codetriage-url]
@@ -306,6 +307,8 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+[matrix.org-image]: https://img.shields.io/badge/Matrix.org-%23HackMD@matrix.org-green.svg
+[matrix.org-url]: https://riot.im/app/#/room/#hackmd:matrix.org
 [travis-image]: https://travis-ci.org/hackmdio/hackmd.svg?branch=master
 [travis-url]: https://travis-ci.org/hackmdio/hackmd
 [github-version-badge]: https://img.shields.io/github/release/hackmdio/hackmd.svg
