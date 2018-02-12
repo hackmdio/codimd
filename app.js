@@ -110,6 +110,13 @@ if (config.hsts.enable) {
   logger.info('https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security')
 }
 
+// Add referrer policy to improve privacy
+app.use(
+  helmet.referrerPolicy({
+    policy: 'same-origin'
+  })
+)
+
 // Generate a random nonce per request, for CSP with inline scripts
 app.use(csp.addNonceToLocals)
 
