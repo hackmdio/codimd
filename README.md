@@ -32,7 +32,7 @@ Thanks for using! :smile:
   - [Environment variables (will overwrite other server configs)](#environment-variables-will-overwrite-other-server-configs)
   - [Application settings `config.json`](#application-settings-configjson)
   - [Third-party integration API key settings](#third-party-integration-api-key-settings)
-  - [Third-party integration oauth callback URLs](#third-party-integration-oauth-callback-urls)
+  - [Third-party integration OAuth callback URLs](#third-party-integration-oauth-callback-urls)
 - [Developer Notes](#developer-notes)
   - [Structure](#structure)
   - [Operational Transformation](#operational-transformation)
@@ -255,7 +255,7 @@ There are some config settings you need to change in the files below.
 | `s3` | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageuploadtype` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
 | `s3bucket` | `YOUR_S3_BUCKET_NAME` | bucket name when `imageuploadtype` is set to `s3` or `minio` |
 
-## Third-party integration api key settings
+## Third-party integration API key settings
 
 | service | settings location | description |
 | ------- | --------- | ----------- |
