@@ -99,6 +99,14 @@
                "email": "change or delete this: attribute map for `email` (default: NameID)"
             }
         },
+        "ipsilon": {
+            "clientID": "change this",
+            "clientSecret": "change this",
+            "issuerHost": "change this",
+            "issuerTitle": "Ipsilon or change this",
+            "requiredGroups": [ "change or delete: group names that allowed" ],
+            "externalGroups": [ "change or delete: group names that not allowed" ]
+        },
         "imgur": {
             "clientID": "change this"
         },

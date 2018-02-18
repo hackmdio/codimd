@@ -198,6 +198,10 @@ There are some config settings you need to change in the files below.
 | `HMD_SAML_ATTRIBUTE_ID` | `sAMAccountName` | attribute map for `id` (optional, default: NameID of SAML response) |
 | `HMD_SAML_ATTRIBUTE_USERNAME` | `mailNickname` | attribute map for `username` (optional, default: NameID of SAML response) |
 | `HMD_SAML_ATTRIBUTE_EMAIL` | `mail` | attribute map for `email` (optional, default: NameID of SAML response if `HMD_SAML_IDENTIFIERFORMAT` is default) |
+| `HMD_IPSILON_ISSUERTITLE` | `Ipsilon` | Ipsilon instance name for Sign In dialog |
+| `HMD_IPSILON_ISSUERHOST` | `https:/example.com/ipsilon/openidc` | authentication endpoint of IdP. For details, see [guide](docs/guides/auth.md#ipsilon). |
+| `HMD_IPSILON_REQUIREDGROUPS` | `Hackmd-users` | group names that allowed (use vertical bar to separate) (optional) |
+| `HMD_IPSILON_EXTERNALGROUPS` | `Temporary-staff` | group names that not allowed (use vertical bar to separate) (optional) |
 | `HMD_IMGUR_CLIENTID` | no example | Imgur API client id |
 | `HMD_EMAIL` | `true` or `false` | set to allow email signin |
 | `HMD_ALLOW_PDF_EXPORT` | `true` or `false` | Enable or disable PDF exports |
@@ -270,7 +274,7 @@ There are some config settings you need to change in the files below.
 
 | service | settings location | description |
 | ------- | --------- | ----------- |
-| facebook, twitter, github, gitlab, mattermost, dropbox, google, ldap, saml | environment variables or `config.json` | for signin |
+| facebook, twitter, github, gitlab, mattermost, dropbox, google, ldap, saml, ipsilon | environment variables or `config.json` | for signin |
 | imgur, s3, minio | environment variables or `config.json` | for image upload |
 | dropbox(`dropbox/appKey`) | `config.json` | for export and import |
 
@@ -286,6 +290,7 @@ There are some config settings you need to change in the files below.
 | dropbox | `/auth/dropbox/callback` |
 | google | `/auth/google/callback` |
 | saml | `/auth/saml/callback` |
+| ipsilon | `/auth/ipsilon/callback` |
 
 # Developer Notes
 

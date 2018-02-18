@@ -15,7 +15,7 @@
                                 <% if(allowAnonymous) { %>
                                 <a type="button" href="<%- url %>/new" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> <%= __('New guest note') %></a>
                                 <% } %>
-                                <% if(facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap || saml || email) { %>
+                                <% if(facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap || saml || ipsilon || email) { %>
                                 <button class="btn btn-sm btn-success ui-signin" data-toggle="modal" data-target=".signin-modal"><%= __('Sign In') %></button>
                                 <% } %>
                             </div>
@@ -49,7 +49,7 @@
                     <% if (errorMessage && errorMessage.length > 0) { %>
                     <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;"><%= errorMessage %></div>
                     <% } %>
-                    <% if(facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap || saml || email) { %>
+                    <% if(facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap || saml || ipsilon || email) { %>
                     <span class="ui-signin">
                         <br>
                         <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="min-width: 200px;"><%= __('Sign In') %></a>

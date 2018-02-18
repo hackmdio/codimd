@@ -209,6 +209,53 @@ The basic procedure is the same as the case of OneLogin which is mentioned above
     HMD_SAML_EXTERNALGROUPS=temporary-staff
     ````
 
+### Ipsilon
+
+Ipsilon Project (https://ipsilon-project.org/) is a server and a toolkit to configure Apache-based Service Providers.
+
+Ipsilon has support for multiple authentication protocols, including OpenID Connect.
+
+Once you have installed Ipsilon and configured it to use an identity provider of your choice, login into an administrative interface and add a new OpenID Connect client (a service provider)
+
+Ipsilon generates most of the parameters automatically, only following values should be set:
+
+* ClientID: your client identifier, say, `hackmd.example.com`
+* Client name: a free text title to distinguish your client at Ipsilon login page, say, `Hackmd instance`
+* Redirect URIs: an HTTPS URL of your Hackmd deployment ending with `/auth/ipsilon/callback`, say, `https://example.com/hackmd/auth/ipsilon/callback`
+* Application type: `web`
+* Client URI: an HTTPS url of your Hackmd deployment, `https://example.com/hackmd`
+* Subject type: `public`
+* Response type: `code`, `code id_token` (you can tick all boxes if unsure)
+* Grant types: `authorization_code`, `implicit`, `refresh_token`
+* Token Andpoint Auth Method: `client_secret_basic`
+* Request Object signing Alg: `none`
+* Initiate Login URI: an HTTPS url of your Hackmd deployment, `https://example.com/hackmd`
+
+Once saved, copy value of a generated `Client Secret` field to `config.json`
+along with the other values. Below is how a typical Ipsilon deployment with
+FreeIPA would look like:
+
+* config.json:
+    ````javascript
+    {
+      "production": {
+        "ipsilon": {
+          "clientID": "hackmd.example.com",
+          "clientSecret": "<generated Ipsilon client secret>",
+          "issuerHost": "https://ipsilon.example.com/ipsilon/openidc/",
+          "issuerTitle": "My FreeIPA",
+          "requiredGroups": [ "ipausers" ],
+          "externalGroups": [ ]
+        }
+      }
+    }
+    ````
+
+A setting `issuerTitle` is supposed to be used in the sign-in dialog in Hackmd to provide a user-friendly `Sign in via $issuerTitle` text.
+
+It is possible to limit what users can and cannot sign into a Hackmd instance with `requiredGroups` and `externalGroups` correspondingly.
+
+User email, if provided, is automatically matched against a gravatar server to provide a gravatar.
 
 ### GitLab (self-hosted)
 

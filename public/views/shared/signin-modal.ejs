@@ -48,7 +48,12 @@
                     <i class="fa fa-users"></i> <%= __('Sign in via %s', 'SAML') %>
                 </a>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || saml) && ldap) { %>
+                <% if(ipsilon) { %>
+                <a href="<%- url %>/auth/ipsilon" class="btn btn-lg btn-block btn-social btn-success">
+                    <i class="fa fa-users"></i> <%= __('Sign in via %s', ipsilonIssuerTitle ) %>
+                </a>
+                <% } %>
+                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || saml || ipsilon) && ldap) { %>
                 <hr>
                 <% }%>
                 <% if(ldap) { %>

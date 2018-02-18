@@ -143,6 +143,30 @@
         "HMD_ALLOW_PDF_EXPORT": {
             "description": "Enable or disable PDF exports",
             "required": false
+        },
+        "HMD_IPSILON_CLIENTID": {
+            "description": "Ipsilon OpenID Connect API client id",
+            "required": false
+        },
+        "HMD_IPSILON_CLIENTSECRET": {
+            "description": "Ipsilon OpenID Connect API client secret",
+            "required": false
+        },
+        "HMD_IPSILON_ISSUERTITLE": {
+            "description": "Ipsilon instance name for Sign In dialog",
+            "required": false
+        },
+        "HMD_IPSILON_ISSUERHOST": {
+            "description": "Ipsilon instance URL",
+            "required": false
+        },
+        "HMD_IPSILON_EXTERNALGROUPS": {
+            "description": "Ipsilon-reported groups not allowed to access this instance",
+            "required": false
+        },
+        "HMD_IPSILON_REQUIREDGROUPS": {
+            "description": "Ipsilon-reported groups required to access this instance",
+            "required": false
         }
     },
     "addons": [
