@@ -31,8 +31,8 @@ Thanks for using! :smile:
 - [Configuration](#configuration)
   - [Environment variables (will overwrite other server configs)](#environment-variables-will-overwrite-other-server-configs)
   - [Application settings `config.json`](#application-settings-configjson)
-  - [Third-party integration api key settings](#third-party-integration-api-key-settings)
-  - [Third-party integration oauth callback urls](#third-party-integration-oauth-callback-urls)
+  - [Third-party integration API key settings](#third-party-integration-api-key-settings)
+  - [Third-party integration OAuth callback URLs](#third-party-integration-oauth-callback-urls)
 - [Developer Notes](#developer-notes)
   - [Structure](#structure)
   - [Operational Transformation](#operational-transformation)
@@ -127,7 +127,7 @@ This tool is also used for official service.
 
 # Configuration
 
-There are some configs you need to change in the files below
+There are some config settings you need to change in the files below.
 
 ```
 ./config.json      ----application settings
@@ -137,125 +137,125 @@ There are some configs you need to change in the files below
 
 | variables | example values | description |
 | --------- | ------ | ----------- |
-| NODE_ENV  | `production` or `development` | set current environment (will apply corresponding settings in the `config.json`) |
-| DEBUG | `true` or `false` | set debug mode, show more logs |
-| HMD_DOMAIN | `hackmd.io` | domain name |
-| HMD_URL_PATH | `hackmd` | sub url path, like `www.example.com/<URL_PATH>` |
-| HMD_PORT | `80` | web app port |
-| HMD_ALLOW_ORIGIN | `localhost, hackmd.io` | domain name whitelist (use comma to separate) |
-| HMD_PROTOCOL_USESSL | `true` or `false` | set to use ssl protocol for resources path (only applied when domain is set) |
-| HMD_URL_ADDPORT | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
-| HMD_USECDN | `true` or `false` | set to use CDN resources or not (default is `true`) |
-| HMD_ALLOW_ANONYMOUS | `true` or `false` | set to allow anonymous usage (default is `true`) |
-| HMD_ALLOW_ANONYMOUS_EDITS | `true` or `false` | if `allowanonymous` is `true`: allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
-| HMD_ALLOW_FREEURL | `true` or `false` | set to allow new note by accessing not exist note url |
-| HMD_DEFAULT_PERMISSION | `freely`, `editable`, `limited`, `locked` or `private` | set notes default permission (only applied on signed users) |
-| HMD_DB_URL | `mysql://localhost:3306/database` | set the db url |
-| HMD_FACEBOOK_CLIENTID | no example | Facebook API client id |
-| HMD_FACEBOOK_CLIENTSECRET | no example | Facebook API client secret |
-| HMD_TWITTER_CONSUMERKEY | no example | Twitter API consumer key |
-| HMD_TWITTER_CONSUMERSECRET | no example | Twitter API consumer secret |
-| HMD_GITHUB_CLIENTID | no example | GitHub API client id |
-| HMD_GITHUB_CLIENTSECRET | no example | GitHub API client secret |
-| HMD_GITLAB_SCOPE | `read_user` or `api` | GitLab API requested scope (default is `api`) (gitlab snippet import/export need `api` scope) |
-| HMD_GITLAB_BASEURL | no example | GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional) |
-| HMD_GITLAB_CLIENTID | no example | GitLab API client id |
-| HMD_GITLAB_CLIENTSECRET | no example | GitLab API client secret |
-| HMD_MATTERMOST_BASEURL | no example | Mattermost authentication endpoint |
-| HMD_MATTERMOST_CLIENTID | no example | Mattermost API client id |
-| HMD_MATTERMOST_CLIENTSECRET | no example | Mattermost API client secret |
-| HMD_DROPBOX_CLIENTID | no example | Dropbox API client id |
-| HMD_DROPBOX_CLIENTSECRET | no example | Dropbox API client secret |
-| HMD_GOOGLE_CLIENTID | no example | Google API client id |
-| HMD_GOOGLE_CLIENTSECRET | no example | Google API client secret |
-| HMD_LDAP_URL | `ldap://example.com` | url of LDAP server |
-| HMD_LDAP_BINDDN | no example | bindDn for LDAP access |
-| HMD_LDAP_BINDCREDENTIALS | no example | bindCredentials for LDAP access |
-| HMD_LDAP_TOKENSECRET | `supersecretkey` | secret used for generating access/refresh tokens |
-| HMD_LDAP_SEARCHBASE | `o=users,dc=example,dc=com` | LDAP directory to begin search from |
-| HMD_LDAP_SEARCHFILTER | `(uid={{username}})` | LDAP filter to search with |
-| HMD_LDAP_SEARCHATTRIBUTES | `displayName, mail` | LDAP attributes to search with (use comma to separate) |
-| HMD_LDAP_USERNAMEFIELD | `uid` | The LDAP field which is used as the username on HackMD |
-| HMD_LDAP_TLS_CA | `server-cert.pem, root.pem` | Root CA for LDAP TLS in PEM format (use comma to separate) |
-| HMD_LDAP_PROVIDERNAME | `My institution` | Optional name to be displayed at login form indicating the LDAP provider |
-| HMD_SAML_IDPSSOURL | `https://idp.example.com/sso` | authentication endpoint of IdP. for details, see [guide](docs/guides/auth.md#saml-onelogin). |
-| HMD_SAML_IDPCERT | `/path/to/cert.pem` | certificate file path of IdP in PEM format |
-| HMD_SAML_ISSUER | no example | identity of the service provider (optional, default: serverurl)" |
-| HMD_SAML_IDENTIFIERFORMAT | no example | name identifier format (optional, default: `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`) |
-| HMD_SAML_GROUPATTRIBUTE | `memberOf` | attribute name for group list (optional) |
-| HMD_SAML_REQUIREDGROUPS | `Hackmd-users` | group names that allowed (use vertical bar to separate) (optional) |
-| HMD_SAML_EXTERNALGROUPS | `Temporary-staff` | group names that not allowed (use vertical bar to separate) (optional) |
-| HMD_SAML_ATTRIBUTE_ID | `sAMAccountName` | attribute map for `id` (optional, default: NameID of SAML response) |
-| HMD_SAML_ATTRIBUTE_USERNAME | `mailNickname` | attribute map for `username` (optional, default: NameID of SAML response) |
-| HMD_SAML_ATTRIBUTE_EMAIL | `mail` | attribute map for `email` (optional, default: NameID of SAML response if `HMD_SAML_IDENTIFIERFORMAT` is default) |
-| HMD_IMGUR_CLIENTID | no example | Imgur API client id |
-| HMD_EMAIL | `true` or `false` | set to allow email signin |
-| HMD_ALLOW_PDF_EXPORT | `true` or `false` | Enable or disable PDF exports |
-| HMD_ALLOW_EMAIL_REGISTER | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
-| HMD_IMAGE_UPLOAD_TYPE | `imgur`, `s3`, `minio` or `filesystem` | Where to upload image. For S3, see our Image Upload Guides for [S3](docs/guides/s3-image-upload.md) or [Minio](docs/guides/minio-image-upload.md) |
-| HMD_S3_ACCESS_KEY_ID | no example | AWS access key id |
-| HMD_S3_SECRET_ACCESS_KEY | no example | AWS secret key |
-| HMD_S3_REGION | `ap-northeast-1` | AWS S3 region |
-| HMD_S3_BUCKET | no example | AWS S3 bucket name |
-| HMD_MINIO_ACCESS_KEY | no example | Minio access key |
-| HMD_MINIO_SECRET_KEY | no example | Minio secret key |
-| HMD_MINIO_ENDPOINT | `minio.example.org` | Address of your Minio endpoint/instance |
-| HMD_MINIO_PORT | `9000` | Port that is used for your minio instance |
-| HMD_MINIO_SECURE | `true` | If set to true HTTPS is used for minio |
-| HMD_HSTS_ENABLE | ` true`  | set to enable [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) if HTTPS is also enabled (default is ` true`) |
-| HMD_HSTS_INCLUDE_SUBDOMAINS | `true` | set to include subdomains in HSTS (default is `true`) |
-| HMD_HSTS_MAX_AGE | `31536000` | max duration in seconds to tell clients to keep HSTS status (default is a year) |
-| HMD_HSTS_PRELOAD | `true` | whether to allow preloading of the site's HSTS status (e.g. into browsers) |
-| HMD_CSP_ENABLE | `true` | whether to enable Content Security Policy (directives cannot be configured with environment variables) |
+| `NODE_ENV`  | `production` or `development` | set current environment (will apply corresponding settings in the `config.json`) |
+| `DEBUG` | `true` or `false` | set debug mode; show more logs |
+| `HMD_DOMAIN` | `hackmd.io` | domain name |
+| `HMD_URL_PATH` | `hackmd` | sub URL path, like `www.example.com/<URL_PATH>` |
+| `HMD_PORT` | `80` | web app port |
+| `HMD_ALLOW_ORIGIN` | `localhost, hackmd.io` | domain name whitelist (use comma to separate) |
+| `HMD_PROTOCOL_USESSL` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
+| `HMD_URL_ADDPORT` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
+| `HMD_USECDN` | `true` or `false` | set to use CDN resources or not (default is `true`) |
+| `HMD_ALLOW_ANONYMOUS` | `true` or `false` | set to allow anonymous usage (default is `true`) |
+| `HMD_ALLOW_ANONYMOUS_EDITS` | `true` or `false` | if `allowanonymous` is `true`, allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
+| `HMD_ALLOW_FREEURL` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
+| `HMD_DEFAULT_PERMISSION` | `freely`, `editable`, `limited`, `locked` or `private` | set notes default permission (only applied on signed users) |
+| `HMD_DB_URL` | `mysql://localhost:3306/database` | set the database URL |
+| `HMD_FACEBOOK_CLIENTID` | no example | Facebook API client id |
+| `HMD_FACEBOOK_CLIENTSECRET` | no example | Facebook API client secret |
+| `HMD_TWITTER_CONSUMERKEY` | no example | Twitter API consumer key |
+| `HMD_TWITTER_CONSUMERSECRET` | no example | Twitter API consumer secret |
+| `HMD_GITHUB_CLIENTID` | no example | GitHub API client id |
+| `HMD_GITHUB_CLIENTSECRET` | no example | GitHub API client secret |
+| `HMD_GITLAB_SCOPE` | `read_user` or `api` | GitLab API requested scope (default is `api`) (GitLab snippet import/export need `api` scope) |
+| `HMD_GITLAB_BASEURL` | no example | GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional) |
+| `HMD_GITLAB_CLIENTID` | no example | GitLab API client id |
+| `HMD_GITLAB_CLIENTSECRET` | no example | GitLab API client secret |
+| `HMD_MATTERMOST_BASEURL` | no example | Mattermost authentication endpoint |
+| `HMD_MATTERMOST_CLIENTID` | no example | Mattermost API client id |
+| `HMD_MATTERMOST_CLIENTSECRET` | no example | Mattermost API client secret |
+| `HMD_DROPBOX_CLIENTID` | no example | Dropbox API client id |
+| `HMD_DROPBOX_CLIENTSECRET` | no example | Dropbox API client secret |
+| `HMD_GOOGLE_CLIENTID` | no example | Google API client id |
+| `HMD_GOOGLE_CLIENTSECRET` | no example | Google API client secret |
+| `HMD_LDAP_URL` | `ldap://example.com` | URL of LDAP server |
+| `HMD_LDAP_BINDDN` | no example | bindDn for LDAP access |
+| `HMD_LDAP_BINDCREDENTIALS` | no example | bindCredentials for LDAP access |
+| `HMD_LDAP_TOKENSECRET` | `supersecretkey` | secret used for generating access/refresh tokens |
+| `HMD_LDAP_SEARCHBASE` | `o=users,dc=example,dc=com` | LDAP directory to begin search from |
+| `HMD_LDAP_SEARCHFILTER` | `(uid={{username}})` | LDAP filter to search with |
+| `HMD_LDAP_SEARCHATTRIBUTES` | `displayName, mail` | LDAP attributes to search with (use comma to separate) |
+| `HMD_LDAP_USERNAMEFIELD` | `uid` | The LDAP field which is used as the username on HackMD |
+| `HMD_LDAP_TLS_CA` | `server-cert.pem, root.pem` | Root CA for LDAP TLS in PEM format (use comma to separate) |
+| `HMD_LDAP_PROVIDERNAME` | `My institution` | Optional name to be displayed at login form indicating the LDAP provider |
+| `HMD_SAML_IDPSSOURL` | `https://idp.example.com/sso` | authentication endpoint of IdP. for details, see [guide](docs/guides/auth.md#saml-onelogin). |
+| `HMD_SAML_IDPCERT` | `/path/to/cert.pem` | certificate file path of IdP in PEM format |
+| `HMD_SAML_ISSUER` | no example | identity of the service provider (optional, default: serverurl)" |
+| `HMD_SAML_IDENTIFIERFORMAT` | no example | name identifier format (optional, default: `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`) |
+| `HMD_SAML_GROUPATTRIBUTE` | `memberOf` | attribute name for group list (optional) |
+| `HMD_SAML_REQUIREDGROUPS` | `Hackmd-users` | group names that allowed (use vertical bar to separate) (optional) |
+| `HMD_SAML_EXTERNALGROUPS` | `Temporary-staff` | group names that not allowed (use vertical bar to separate) (optional) |
+| `HMD_SAML_ATTRIBUTE_ID` | `sAMAccountName` | attribute map for `id` (optional, default: NameID of SAML response) |
+| `HMD_SAML_ATTRIBUTE_USERNAME` | `mailNickname` | attribute map for `username` (optional, default: NameID of SAML response) |
+| `HMD_SAML_ATTRIBUTE_EMAIL` | `mail` | attribute map for `email` (optional, default: NameID of SAML response if `HMD_SAML_IDENTIFIERFORMAT` is default) |
+| `HMD_IMGUR_CLIENTID` | no example | Imgur API client id |
+| `HMD_EMAIL` | `true` or `false` | set to allow email signin |
+| `HMD_ALLOW_PDF_EXPORT` | `true` or `false` | Enable or disable PDF exports |
+| `HMD_ALLOW_EMAIL_REGISTER` | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
+| `HMD_IMAGE_UPLOAD_TYPE` | `imgur`, `s3`, `minio` or `filesystem` | Where to upload image. For S3, see our Image Upload Guides for [S3](docs/guides/s3-image-upload.md) or [Minio](docs/guides/minio-image-upload.md) |
+| `HMD_S3_ACCESS_KEY_ID` | no example | AWS access key id |
+| `HMD_S3_SECRET_ACCESS_KEY` | no example | AWS secret key |
+| `HMD_S3_REGION` | `ap-northeast-1` | AWS S3 region |
+| `HMD_S3_BUCKET` | no example | AWS S3 bucket name |
+| `HMD_MINIO_ACCESS_KEY` | no example | Minio access key |
+| `HMD_MINIO_SECRET_KEY` | no example | Minio secret key |
+| `HMD_MINIO_ENDPOINT` | `minio.example.org` | Address of your Minio endpoint/instance |
+| `HMD_MINIO_PORT` | `9000` | Port that is used for your Minio instance |
+| `HMD_MINIO_SECURE` | `true` | If set to `true` HTTPS is used for Minio |
+| `HMD_HSTS_ENABLE` | ` true`  | set to enable [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) if HTTPS is also enabled (default is ` true`) |
+| `HMD_HSTS_INCLUDE_SUBDOMAINS` | `true` | set to include subdomains in HSTS (default is `true`) |
+| `HMD_HSTS_MAX_AGE` | `31536000` | max duration in seconds to tell clients to keep HSTS status (default is a year) |
+| `HMD_HSTS_PRELOAD` | `true` | whether to allow preloading of the site's HSTS status (e.g. into browsers) |
+| `HMD_CSP_ENABLE` | `true` | whether to enable Content Security Policy (directives cannot be configured with environment variables) |
 
 ## Application settings `config.json`
 
 | variables | example values | description |
 | --------- | ------ | ----------- |
-| debug | `true` or `false` | set debug mode, show more logs |
-| domain | `localhost` | domain name |
-| urlpath | `hackmd` | sub url path, like `www.example.com/<urlpath>` |
-| port | `80` | web app port |
-| alloworigin | `['localhost']` | domain name whitelist |
-| usessl | `true` or `false` | set to use ssl server (if true will auto turn on `protocolusessl`) |
-| hsts | `{"enable": true, "maxAgeSeconds": 31536000, "includeSubdomains": true, "preload": true}` | [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) options to use with HTTPS (default is the example value, max age is a year) |
-| csp | `{"enable": true, "directives": {"scriptSrc": "trustworthy-scripts.example.com"}, "upgradeInsecureRequests": "auto", "addDefaults": true}` | Configures [Content Security Policy](https://helmetjs.github.io/docs/csp/). Directives are passed to Helmet - see [their documentation](https://helmetjs.github.io/docs/csp/) for more information on the format. Some defaults are added to the configured values so that the application doesn't break. To disable this behaviour, set `addDefaults` to `false`. Further, if `usecdn` is on, some CDN locations are allowed too. By default (`auto`), insecure (HTTP) requests are upgraded to HTTPS via CSP if `usessl` is on. To change this behaviour, set `upgradeInsecureRequests` to either `true` or `false`. |
-| protocolusessl | `true` or `false` | set to use ssl protocol for resources path (only applied when domain is set) |
-| urladdport | `true` or `false` | set to add port on callback url (port 80 or 443 won't applied) (only applied when domain is set) |
-| usecdn | `true` or `false` | set to use CDN resources or not (default is `true`) |
-| allowanonymous | `true` or `false` | set to allow anonymous usage (default is `true`) |
-| allowanonymousedits | `true` or `false` | if `allowanonymous` is `true`: allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
-| allowfreeurl | `true` or `false` | set to allow new note by accessing not exist note url |
-| defaultpermission | `freely`, `editable`, `limited`, `locked`, `protected` or `private` | set notes default permission (only applied on signed users) |
-| dburl | `mysql://localhost:3306/database` | set the db url, if set this variable then below db config won't be applied |
-| db | `{ "dialect": "sqlite", "storage": "./db.hackmd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
-| sslkeypath | `./cert/client.key` | ssl key path (only need when you set usessl) |
-| sslcertpath | `./cert/hackmd_io.crt` | ssl cert path (only need when you set usessl) |
-| sslcapath | `['./cert/COMODORSAAddTrustCA.crt']` | ssl ca chain (only need when you set usessl) |
-| dhparampath | `./cert/dhparam.pem` | ssl dhparam path (only need when you set usessl) |
-| tmppath | `./tmp/` | temp directory path |
-| defaultnotepath | `./public/default.md` | default note file path |
-| docspath | `./public/docs` | docs directory path |
-| indexpath | `./public/views/index.ejs` | index template file path |
-| hackmdpath | `./public/views/hackmd.ejs` | hackmd template file path |
-| errorpath | `./public/views/error.ejs` | error template file path |
-| prettypath | `./public/views/pretty.ejs` | pretty template file path |
-| slidepath | `./public/views/slide.hbs` | slide template file path |
-| sessionname | `connect.sid` | cookie session name |
-| sessionsecret | `secret` | cookie session secret |
-| sessionlife | `14 * 24 * 60 * 60 * 1000` | cookie session life |
-| staticcachetime | `1 * 24 * 60 * 60 * 1000` | static file cache time |
-| heartbeatinterval | `5000` | socket.io heartbeat interval |
-| heartbeattimeout | `10000` | socket.io heartbeat timeout |
-| documentmaxlength | `100000` | note max length |
-| email | `true` or `false` | set to allow email signin |
-| allowemailregister  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
-| imageuploadtype | `imgur`(default), `s3`, `minio` or `filesystem` | Where to upload image
-| minio | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageuploadtype` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
-| s3 | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageuploadtype` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
-| s3bucket | `YOUR_S3_BUCKET_NAME` | bucket name when `imageuploadtype` is set to `s3` or `minio` |
+| `debug` | `true` or `false` | set debug mode, show more logs |
+| `domain` | `localhost` | domain name |
+| `urlpath` | `hackmd` | sub URL path, like `www.example.com/<urlpath>` |
+| `port` | `80` | web app port |
+| `alloworigin` | `['localhost']` | domain name whitelist |
+| `usessl` | `true` or `false` | set to use SSL server (if `true`, will auto turn on `protocolusessl`) |
+| `hsts` | `{"enable": true, "maxAgeSeconds": 31536000, "includeSubdomains": true, "preload": true}` | [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) options to use with HTTPS (default is the example value, max age is a year) |
+| `csp` | `{"enable": true, "directives": {"scriptSrc": "trustworthy-scripts.example.com"}, "upgradeInsecureRequests": "auto", "addDefaults": true}` | Configures [Content Security Policy](https://helmetjs.github.io/docs/csp/). Directives are passed to Helmet - see [their documentation](https://helmetjs.github.io/docs/csp/) for more information on the format. Some defaults are added to the configured values so that the application doesn't break. To disable this behaviour, set `addDefaults` to `false`. Further, if `usecdn` is on, some CDN locations are allowed too. By default (`auto`), insecure (HTTP) requests are upgraded to HTTPS via CSP if `usessl` is on. To change this behaviour, set `upgradeInsecureRequests` to either `true` or `false`. |
+| `protocolusessl` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
+| `urladdport` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
+| `usecdn` | `true` or `false` | set to use CDN resources or not (default is `true`) |
+| `allowanonymous` | `true` or `false` | set to allow anonymous usage (default is `true`) |
+| `allowanonymousedits` | `true` or `false` | if `allowanonymous` is `true`: allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
+| `allowfreeurl` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
+| `defaultpermission` | `freely`, `editable`, `limited`, `locked`, `protected` or `private` | set notes default permission (only applied on signed users) |
+| `dburl` | `mysql://localhost:3306/database` | set the db URL; if set, then db config (below) won't be applied |
+| `db` | `{ "dialect": "sqlite", "storage": "./db.hackmd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
+| `sslkeypath` | `./cert/client.key` | SSL key path (only need when you set `usessl`) |
+| `sslcertpath` | `./cert/hackmd_io.crt` | SSL cert path (only need when you set `usessl`) |
+| `sslcapath` | `['./cert/COMODORSAAddTrustCA.crt']` | SSL ca chain (only need when you set `usessl`) |
+| `dhparampath` | `./cert/dhparam.pem` | SSL dhparam path (only need when you set `usessl`) |
+| `tmppath` | `./tmp/` | temp directory path |
+| `defaultnotepath` | `./public/default.md` | default note file path |
+| `docspath` | `./public/docs` | docs directory path |
+| `indexpath` | `./public/views/index.ejs` | index template file path |
+| `hackmdpath` | `./public/views/hackmd.ejs` | hackmd template file path |
+| `errorpath` | `./public/views/error.ejs` | error template file path |
+| `prettypath` | `./public/views/pretty.ejs` | pretty template file path |
+| `slidepath` | `./public/views/slide.hbs` | slide template file path |
+| `sessionname` | `connect.sid` | cookie session name |
+| `sessionsecret` | `secret` | cookie session secret |
+| `sessionlife` | `14 * 24 * 60 * 60 * 1000` | cookie session life |
+| `staticcachetime` | `1 * 24 * 60 * 60 * 1000` | static file cache time |
+| `heartbeatinterval` | `5000` | socket.io heartbeat interval |
+| `heartbeattimeout` | `10000` | socket.io heartbeat timeout |
+| `documentmaxlength` | `100000` | note max length |
+| `email` | `true` or `false` | set to allow email signin |
+| `allowemailregister`  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
+| `imageuploadtype` | `imgur`(default), `s3`, `minio` or `filesystem` | Where to upload image
+| `minio` | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageuploadtype` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
+| `s3` | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageuploadtype` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
+| `s3bucket` | `YOUR_S3_BUCKET_NAME` | bucket name when `imageuploadtype` is set to `s3` or `minio` |
 
-## Third-party integration api key settings
+## Third-party integration API key settings
 
 | service | settings location | description |
 | ------- | --------- | ----------- |
@@ -263,9 +263,9 @@ There are some configs you need to change in the files below
 | imgur, s3, minio | environment variables or `config.json` | for image upload |
 | google drive(`google/apiKey`, `google/clientID`), dropbox(`dropbox/appKey`) | `config.json` | for export and import |
 
-## Third-party integration oauth callback urls
+## Third-party integration OAuth callback URLs
 
-| service | callback url (after the server url) |
+| service | callback URL (after the server URL) |
 | ------- | --------- |
 | facebook | `/auth/facebook/callback` |
 | twitter | `/auth/twitter/callback` |
