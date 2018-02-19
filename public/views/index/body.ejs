@@ -12,7 +12,7 @@
                             <li class="ui-history<% if(signin) { %> active<% } %>"><a href="#"><%= __('History') %></a>
                             </li>
                             <div class="ui-signin" style="float: right; margin-top: 8px;<% if(signin) { %> display: none;<% } %>">
-                                <% if(allowAnonymous) { %>
+                                <% if(allowAnonymousEdits) { %>
                                 <a type="button" href="<%- url %>/new" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> <%= __('New guest note') %></a>
                                 <% } %>
                                 <% if(facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap || saml || email) { %>
