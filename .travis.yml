@@ -32,7 +32,10 @@ jobs:
         - diff -q README.md README.md.orig
       language: generic
     - env: task=json-lint
-      install: npm install jsonlint
+      addons:
+        apt:
+          packages:
+          - jq
       script:
         - npm run jsonlint
       language: generic
