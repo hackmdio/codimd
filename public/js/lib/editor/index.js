@@ -18,10 +18,10 @@ export default class Editor {
         cm.setOption('fullScreen', !cm.getOption('fullScreen'))
       },
       Esc: function (cm) {
-        if (cm.getOption('keyMap').substr(0, 3) === 'vim') {
-          return CodeMirror.Pass
-        } else if (cm.getOption('fullScreen')) {
+        if (cm.getOption('fullScreen') && !(cm.getOption('keyMap').substr(0, 3) === 'vim')) {
           cm.setOption('fullScreen', false)
+        } else {
+          return CodeMirror.Pass
         }
       },
       'Cmd-S': function () {
