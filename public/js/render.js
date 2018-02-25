@@ -19,8 +19,18 @@ whiteList['style'] = []
 whiteList['kbd'] = []
 // allow ifram tag with some safe attributes
 whiteList['iframe'] = ['allowfullscreen', 'name', 'referrerpolicy', 'sandbox', 'src', 'width', 'height']
-// allow summary tag
+// allow details tag
+whiteList['details'] = []
+// allow summary tag for details
 whiteList['summary'] = []
+// allow ruby tag
+whiteList['ruby'] = []
+// allow rt tag for ruby
+whiteList['rt'] = []
+// allow figure tag
+whiteList['figure'] = []
+// allow figcaption tag
+whiteList['figcaption'] = []
 
 var filterXSSOptions = {
   allowCommentTag: true,
