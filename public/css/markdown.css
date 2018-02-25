@@ -188,3 +188,12 @@
 .markdown-body .alert > ul {
     margin-bottom: 0;
 }
+
+/* Make details boxes look like on GitHub */
+.markdown-body details summary {
+    cursor: pointer;
+}
+
+.markdown-body summary {
+    display: list-item;
+}
