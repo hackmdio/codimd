@@ -190,10 +190,22 @@
 }
 
 /* Make details boxes look like on GitHub */
+.markdown-body summary {
+    display: list-item;
+}
+
+.markdown-body summary:focus {
+    outline: none;
+}
+
 .markdown-body details summary {
     cursor: pointer;
 }
 
-.markdown-body summary {
-    display: list-item;
+.markdown-body details:not([open]) > *:not(summary) {
+    display: none;
+}
+
+.markdown-body figure {
+    margin: 1em 40px;
 }

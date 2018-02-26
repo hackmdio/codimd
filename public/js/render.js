@@ -19,12 +19,12 @@ whiteList['style'] = []
 whiteList['kbd'] = []
 // allow ifram tag with some safe attributes
 whiteList['iframe'] = ['allowfullscreen', 'name', 'referrerpolicy', 'sandbox', 'src', 'width', 'height']
-// allow details tag
-whiteList['details'] = []
-// allow summary tag for details
+// allow summary tag
 whiteList['summary'] = []
 // allow ruby tag
 whiteList['ruby'] = []
+// allow rp tag for ruby
+whiteList['rp'] = []
 // allow rt tag for ruby
 whiteList['rt'] = []
 // allow figure tag
