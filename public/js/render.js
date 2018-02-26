@@ -23,6 +23,8 @@ whiteList['iframe'] = ['allowfullscreen', 'name', 'referrerpolicy', 'sandbox', '
 whiteList['summary'] = []
 // allow ruby tag
 whiteList['ruby'] = []
+// allow rp tag for ruby
+whiteList['rp'] = []
 // allow rt tag for ruby
 whiteList['rt'] = []
 // allow figure tag
