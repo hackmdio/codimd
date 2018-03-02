@@ -13,8 +13,8 @@
             <ul class="dropdown-menu list" role="menu" aria-labelledby="menu">
             </ul>
         </div>
-        <a class="navbar-brand pull-left" href="<%- url %>/"><i class="fa fa-file-text"></i> HackMD</a>
-        <div class="nav-mobile pull-right visible-xs">
+        <a class="navbar-brand pull-left station-hide" href="<%- url %>/"><i class="fa fa-file-text"></i> HackMD</a>
+        <div class="nav-mobile pull-right visible-xs station-hide">
             <span class="btn btn-link btn-file ui-upload-image" title="Upload Image" style="display:none;">
                 <i class="fa fa-camera"></i><input type="file" accept="image/*" name="upload" multiple>
             </span>
@@ -96,7 +96,7 @@
                     <input type="radio" name="mode" autocomplete="off"><i class="fa fa-pencil"></i>
                 </label>
             </div>
-            <div class="btn-group" data-toggle="buttons">
+            <div class="btn-group station-hide" data-toggle="buttons">
                 <label class="btn ui-night" title="<%= __('Night Theme') %>">
                     <input type="checkbox" name="night"><i class="fa fa-moon-o"></i>
                 </label>
@@ -108,7 +108,7 @@
                 <i class="fa fa-camera"></i><input type="file" accept="image/*" name="upload" multiple>
             </span>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right station-hide">
             <li id="online-user-list">
                 <a class="ui-status" data-toggle="dropdown">
                     <span class="label label-danger"><i class="fa fa-plug"></i> OFFLINE</span>
@@ -117,7 +117,7 @@
                 </ul>
             </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right" style="padding:0;">
+        <ul class="nav navbar-nav navbar-right station-hide" style="padding:0;">
             <li>
                 <a href="<%- url %>/new" target="_blank" class="ui-new">
                     <i class="fa fa-plus"></i> <%= __('New') %>

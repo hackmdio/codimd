@@ -85,6 +85,7 @@
 }
 
 .ui-infobar {
+    display: none;
     position: relative;
     z-index: 2;
     max-width: 758px;
@@ -304,6 +305,7 @@
 }
 
 .ui-affix-toc {
+    display: none;
     position: fixed;
     top: 0;
     max-width: 15vw;

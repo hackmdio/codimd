@@ -20,3 +20,11 @@
 <%- include ../build/index-pack-header %>
 <% } %>
 <%- include ../shared/polyfill %>
+<link rel="stylesheet" href="<%- url %>/css/station-override.css" />
+<script>
+  $(function () {
+      var $body = $('body');
+      $body.addClass('night');
+      appState.nightMode = true;
+  });
+</script>

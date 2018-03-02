@@ -120,10 +120,10 @@ function windowResize () {
   }
 }
 $(window).resize(() => {
-  windowResize()
+  //windowResize()
 })
 $(document).ready(() => {
-  windowResize()
+  //windowResize()
   generateScrollspy()
   setTimeout(scrollToHash, 0)
     // tooltip
