@@ -1,0 +1,43 @@
+body.night {
+  background-color: transparent !important;
+}
+
+#ui-toc-affix {
+  display: none !important;
+}
+
+.station-hide {
+  display: none !important;
+}
+.night .ui-content {
+  padding: 10px;
+  background: transparent !important;
+}
+.night .navbar {
+  background: transparent !important;
+  border-bottom-color:rgba(255,255,255, 0.4) !important;
+}
+
+.night .ui-view-area {
+  background: transparent !important;
+}
+
+.night .navbar .btn-default {
+    background-color: rgba(255,255,255, 0.2);
+    border-color: rgba(255,255,255, 0.2);
+    color:rgba(255, 255, 255, 0.6);
+}
+.night .navbar .btn-default.active{
+    background-color: rgba(255,255,255, 0.4) !important;
+}
+.navbar-default .btn-link {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.navbar-default .btn-link:hover, .navbar-default .btn-link:focus,.navbar-default .btn-link:active {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.markdown-body {
+  font-size: 10px;
+}

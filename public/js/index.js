@@ -320,7 +320,8 @@ var opts = {
   corners: 0, // Corner roundness (0..1)
   rotate: 0, // The rotation offset
   direction: 1, // 1: clockwise, -1: counterclockwise
-  color: '#000', // #rgb or #rrggbb or array of colors
+  color: '#ffffff', // #rgb or #rrggbb or array of colors
+  fadeColor: 'transparent',
   speed: 1.1, // Rounds per second
   trail: 60, // Afterglow percentage
   shadow: false, // Whether to render a shadow
@@ -471,11 +472,11 @@ $(document).ready(function () {
 })
 // when page resize
 $(window).resize(function () {
-  checkLayout()
-  checkEditorStyle()
-  checkTocStyle()
-  checkCursorMenu()
-  windowResize()
+  // checkLayout()
+  // checkEditorStyle()
+  // checkTocStyle()
+  // checkCursorMenu()
+  // windowResize()
 })
 // when page unload
 $(window).on('unload', function () {
@@ -1681,6 +1682,13 @@ function toggleNightMode () {
     appState.nightMode = true
   }
 }
+
+$(function() {
+  var $body = $('body');
+  $body.addClass('night');
+  appState.nightMode = true;
+});
+
 function emitPermission (_permission) {
   if (_permission !== permission) {
     socket.emit('permission', _permission)
