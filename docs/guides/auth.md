@@ -161,7 +161,7 @@ The basic procedure is the same as the case of OneLogin which is mentioned above
   * `attribute.id`: A primary key of user table for your HackMD
   * `attribute.username`: Attribute name of displaying user name on HackMD
   * `attribute.email`: Attribute name of email address, which will be also used for Gravatar
-    * _Note: Default value of all attributes is NameID of SAML response, which is email address if `idfentifierFormat` is default._
+    * _Note: Default value of all attributes is NameID of SAML response, which is email address if `identifierFormat` is default._
   * config.json:
     ````javascript
     {
