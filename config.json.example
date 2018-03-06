@@ -74,7 +74,6 @@
             "url": "ldap://change_this",
             "bindDn": null,
             "bindCredentials": null,
-            "tokenSecret": "change this",
             "searchBase": "change this",
             "searchFilter": "change this",
             "searchAttributes": ["change this"],

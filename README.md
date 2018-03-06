@@ -171,7 +171,6 @@ There are some config settings you need to change in the files below.
 | `HMD_LDAP_URL` | `ldap://example.com` | URL of LDAP server |
 | `HMD_LDAP_BINDDN` | no example | bindDn for LDAP access |
 | `HMD_LDAP_BINDCREDENTIALS` | no example | bindCredentials for LDAP access |
-| `HMD_LDAP_TOKENSECRET` | `supersecretkey` | secret used for generating access/refresh tokens |
 | `HMD_LDAP_SEARCHBASE` | `o=users,dc=example,dc=com` | LDAP directory to begin search from |
 | `HMD_LDAP_SEARCHFILTER` | `(uid={{username}})` | LDAP filter to search with |
 | `HMD_LDAP_SEARCHATTRIBUTES` | `displayName, mail` | LDAP attributes to search with (use comma to separate) |
