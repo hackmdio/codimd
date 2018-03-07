@@ -355,10 +355,7 @@ module.exports = {
   },
 
   resolve: {
-    modulesDirectories: [
-      path.resolve(__dirname, 'src'),
-      path.resolve(__dirname, 'node_modules')
-    ],
+    modulesDirectories: ['node_modules'],
     extensions: ['', '.js'],
     alias: {
       codemirror: path.join(__dirname, 'node_modules/codemirror/codemirror.min.js'),
@@ -374,7 +371,8 @@ module.exports = {
       'bootstrap-tooltip': path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.js'),
       'headjs': path.join(__dirname, 'node_modules/reveal.js/lib/js/head.min.js'),
       'reveal-markdown': path.join(__dirname, 'public/js/reveal-markdown.js'),
-      abcjs: path.join(__dirname, 'public/vendor/abcjs_basic_3.1.1-min.js')
+      abcjs: path.join(__dirname, 'public/vendor/abcjs_basic_3.1.1-min.js'),
+      raphael: path.join(__dirname, 'node_modules/raphael/raphael.no-deps.js')
     }
   },
 
@@ -407,7 +405,7 @@ module.exports = {
       loader: ExtractTextPlugin.extract('style-loader', 'less-loader')
     }, {
       test: require.resolve('js-sequence-diagrams'),
-      loader: 'imports?_=lodash&Raphael=raphael'
+      loader: 'imports?_=lodash&Raphael=raphael&eve=eve'
     }, {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'file'
