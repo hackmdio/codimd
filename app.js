@@ -30,7 +30,7 @@ var csp = require('./lib/csp')
 var constpath = path.join(__dirname, './public/js/lib/common/constant.ejs')
 var data = {
   domain: config.domain,
-  urlpath: config.urlpath,
+  urlpath: config.urlPath,
   debug: config.debug,
   version: config.version,
   GOOGLE_API_KEY: config.google.clientSecret,
@@ -47,20 +47,20 @@ ejs.renderFile(constpath, data, {}, function (err, str) {
 // server setup
 var app = express()
 var server = null
-if (config.usessl) {
+if (config.useSSL) {
   var ca = (function () {
     var i, len, results
     results = []
-    for (i = 0, len = config.sslcapath.length; i < len; i++) {
-      results.push(fs.readFileSync(config.sslcapath[i], 'utf8'))
+    for (i = 0, len = config.sslCAPath.length; i < len; i++) {
+      results.push(fs.readFileSync(config.sslCAPath[i], 'utf8'))
     }
     return results
   })()
   var options = {
-    key: fs.readFileSync(config.sslkeypath, 'utf8'),
-    cert: fs.readFileSync(config.sslcertpath, 'utf8'),
+    key: fs.readFileSync(config.sslKeyPath, 'utf8'),
+    cert: fs.readFileSync(config.sslCertPath, 'utf8'),
     ca: ca,
-    dhparam: fs.readFileSync(config.dhparampath, 'utf8'),
+    dhparam: fs.readFileSync(config.dhParamPath, 'utf8'),
     requestCert: false,
     rejectUnauthorized: false
   }
@@ -105,7 +105,7 @@ if (config.hsts.enable) {
     includeSubdomains: config.hsts.includeSubdomains,
     preload: config.hsts.preload
   }))
-} else if (config.usessl) {
+} else if (config.useSSL) {
   logger.info('Consider enabling HSTS for extra security:')
   logger.info('https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security')
 }
@@ -142,17 +142,17 @@ app.use(i18n.init)
 
 // routes without sessions
 // static files
-app.use('/', express.static(path.join(__dirname, '/public'), { maxAge: config.staticcachetime }))
+app.use('/', express.static(path.join(__dirname, '/public'), { maxAge: config.staticCacheTime }))
 
 // session
 app.use(session({
-  name: config.sessionname,
-  secret: config.sessionsecret,
+  name: config.sessionName,
+  secret: config.sessionSecret,
   resave: false, // don't save session if unmodified
   saveUninitialized: true, // always create session to ensure the origin
   rolling: true, // reset maxAge on every response
   cookie: {
-    maxAge: config.sessionlife
+    maxAge: config.sessionLife
   },
   store: sessionStore
 }))
@@ -207,22 +207,22 @@ io.use(realtime.secure)
 // socket.io auth
 io.use(passportSocketIo.authorize({
   cookieParser: cookieParser,
-  key: config.sessionname,
-  secret: config.sessionsecret,
+  key: config.sessionName,
+  secret: config.sessionSecret,
   store: sessionStore,
   success: realtime.onAuthorizeSuccess,
   fail: realtime.onAuthorizeFail
 }))
 // socket.io heartbeat
-io.set('heartbeat interval', config.heartbeatinterval)
-io.set('heartbeat timeout', config.heartbeattimeout)
+io.set('heartbeat interval', config.heartbeatInterval)
+io.set('heartbeat timeout', config.heartbeatTimeout)
 // socket.io connection
 io.sockets.on('connection', realtime.connection)
 
 // listen
 function startListen () {
   server.listen(config.port, function () {
-    var schema = config.usessl ? 'HTTPS' : 'HTTP'
+    var schema = config.useSSL ? 'HTTPS' : 'HTTP'
     logger.info('%s Server listening at port %d', schema, config.port)
     realtime.maintenance = false
   })
