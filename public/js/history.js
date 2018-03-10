@@ -304,7 +304,7 @@ function parseToHistory (list, notehistory, callback) {
           notehistory[i].id = encodeNoteId(id)
         }
       } catch (err) {
-        // na
+        logger.error(err)
       }
             // parse time to timestamp and fromNow
       const timestamp = (typeof notehistory[i].time === 'number' ? moment(notehistory[i].time) : moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a'))
