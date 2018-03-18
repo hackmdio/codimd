@@ -131,7 +131,7 @@
      * Extension which will be used when a file extension could not
      * be detected
      */
-    defualtExtension: 'png',
+    defaultExtension: 'png',
 
     /**
      * JSON field which refers to the uploaded file URL
@@ -220,7 +220,7 @@
       xhr = new XMLHttpRequest(),
       id = id,
       settings = this.settings,
-      extension = settings.defualtExtension;
+      extension = settings.defaultExtension;
 
     if (typeof settings.setupFormData === 'function') {
       settings.setupFormData(formData, file);
