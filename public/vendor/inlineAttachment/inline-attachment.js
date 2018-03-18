@@ -370,8 +370,11 @@
         if (this.isFileAllowed(item)) {
           result = true;
           var id = ID();
-          this.onFileInserted(item.getAsFile(), id);
-          this.uploadFile(item.getAsFile(), id);
+          var file = item.getAsFile();
+          if (file !== null) {
+            this.onFileInserted(file, id);
+            this.uploadFile(file, id);
+          }
         }
       }
     }
