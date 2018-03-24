@@ -16,6 +16,7 @@ import toMarkdown from 'to-markdown'
 
 import { saveAs } from 'file-saver'
 import randomColor from 'randomcolor'
+import store from 'store'
 
 import _ from 'lodash'
 
@@ -431,11 +432,12 @@ $(document).ready(function () {
     clearMap()
   }
   checkEditorStyle()
+
+  /* cache dom references */
+  var $body = $('body')
+
   /* we need this only on touch devices */
   if (isTouchDevice) {
-    /* cache dom references */
-    var $body = $('body')
-
     /* bind events */
     $(document)
     .on('focus', 'textarea, input', function () {
@@ -445,6 +447,12 @@ $(document).ready(function () {
       $body.removeClass('fixfixed')
     })
   }
+
+  // Re-enable nightmode
+  if (store.get('nightMode') || Cookies.get('nightMode')) {
+    $body.addClass('night')
+  }
+
   // showup
   $().showUp('.navbar', {
     upClass: 'navbar-hide',
@@ -1679,6 +1687,13 @@ function toggleNightMode () {
   } else {
     $body.addClass('night')
     appState.nightMode = true
+  }
+  if (store.enabled) {
+    store.set('nightMode', !isActive)
+  } else {
+    Cookies.set('nightMode', !isActive, {
+      expires: 365
+    })
   }
 }
 function emitPermission (_permission) {
