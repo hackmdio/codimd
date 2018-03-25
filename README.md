@@ -147,7 +147,7 @@ There are some config settings you need to change in the files below.
 | `HMD_URL_ADDPORT` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
 | `HMD_USECDN` | `true` or `false` | set to use CDN resources or not (default is `true`) |
 | `HMD_ALLOW_ANONYMOUS` | `true` or `false` | set to allow anonymous usage (default is `true`) |
-| `HMD_ALLOW_ANONYMOUS_EDITS` | `true` or `false` | if `allowanonymous` is `true`, allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
+| `HMD_ALLOW_ANONYMOUS_EDITS` | `true` or `false` | if `allowAnonymous` is `true`, allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
 | `HMD_ALLOW_FREEURL` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
 | `HMD_DEFAULT_PERMISSION` | `freely`, `editable`, `limited`, `locked` or `private` | set notes default permission (only applied on signed users) |
 | `HMD_DB_URL` | `mysql://localhost:3306/database` | set the database URL |
@@ -215,46 +215,46 @@ There are some config settings you need to change in the files below.
 | --------- | ------ | ----------- |
 | `debug` | `true` or `false` | set debug mode, show more logs |
 | `domain` | `localhost` | domain name |
-| `urlpath` | `hackmd` | sub URL path, like `www.example.com/<urlpath>` |
+| `urlPath` | `hackmd` | sub URL path, like `www.example.com/<urlpath>` |
 | `port` | `80` | web app port |
-| `alloworigin` | `['localhost']` | domain name whitelist |
-| `usessl` | `true` or `false` | set to use SSL server (if `true`, will auto turn on `protocolusessl`) |
+| `allowOrigin` | `['localhost']` | domain name whitelist |
+| `useSSL` | `true` or `false` | set to use SSL server (if `true`, will auto turn on `protocolUseSSL`) |
 | `hsts` | `{"enable": true, "maxAgeSeconds": 31536000, "includeSubdomains": true, "preload": true}` | [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) options to use with HTTPS (default is the example value, max age is a year) |
-| `csp` | `{"enable": true, "directives": {"scriptSrc": "trustworthy-scripts.example.com"}, "upgradeInsecureRequests": "auto", "addDefaults": true}` | Configures [Content Security Policy](https://helmetjs.github.io/docs/csp/). Directives are passed to Helmet - see [their documentation](https://helmetjs.github.io/docs/csp/) for more information on the format. Some defaults are added to the configured values so that the application doesn't break. To disable this behaviour, set `addDefaults` to `false`. Further, if `usecdn` is on, some CDN locations are allowed too. By default (`auto`), insecure (HTTP) requests are upgraded to HTTPS via CSP if `usessl` is on. To change this behaviour, set `upgradeInsecureRequests` to either `true` or `false`. |
-| `protocolusessl` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
-| `urladdport` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
-| `usecdn` | `true` or `false` | set to use CDN resources or not (default is `true`) |
-| `allowanonymous` | `true` or `false` | set to allow anonymous usage (default is `true`) |
-| `allowanonymousedits` | `true` or `false` | if `allowanonymous` is `true`: allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
-| `allowfreeurl` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
-| `defaultpermission` | `freely`, `editable`, `limited`, `locked`, `protected` or `private` | set notes default permission (only applied on signed users) |
-| `dburl` | `mysql://localhost:3306/database` | set the db URL; if set, then db config (below) won't be applied |
+| `csp` | `{"enable": true, "directives": {"scriptSrc": "trustworthy-scripts.example.com"}, "upgradeInsecureRequests": "auto", "addDefaults": true}` | Configures [Content Security Policy](https://helmetjs.github.io/docs/csp/). Directives are passed to Helmet - see [their documentation](https://helmetjs.github.io/docs/csp/) for more information on the format. Some defaults are added to the configured values so that the application doesn't break. To disable this behaviour, set `addDefaults` to `false`. Further, if `usecdn` is on, some CDN locations are allowed too. By default (`auto`), insecure (HTTP) requests are upgraded to HTTPS via CSP if `useSSL` is on. To change this behaviour, set `upgradeInsecureRequests` to either `true` or `false`. |
+| `protocolUseSSL` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
+| `urlAddPort` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
+| `useCDN` | `true` or `false` | set to use CDN resources or not (default is `true`) |
+| `allowAnonymous` | `true` or `false` | set to allow anonymous usage (default is `true`) |
+| `allowAnonymousEdits` | `true` or `false` | if `allowAnonymous` is `true`: allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
+| `allowFreeURL` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
+| `defaultPermission` | `freely`, `editable`, `limited`, `locked`, `protected` or `private` | set notes default permission (only applied on signed users) |
+| `dbURL` | `mysql://localhost:3306/database` | set the db URL; if set, then db config (below) won't be applied |
 | `db` | `{ "dialect": "sqlite", "storage": "./db.hackmd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
-| `sslkeypath` | `./cert/client.key` | SSL key path (only need when you set `usessl`) |
-| `sslcertpath` | `./cert/hackmd_io.crt` | SSL cert path (only need when you set `usessl`) |
-| `sslcapath` | `['./cert/COMODORSAAddTrustCA.crt']` | SSL ca chain (only need when you set `usessl`) |
-| `dhparampath` | `./cert/dhparam.pem` | SSL dhparam path (only need when you set `usessl`) |
-| `tmppath` | `./tmp/` | temp directory path |
-| `defaultnotepath` | `./public/default.md` | default note file path |
-| `docspath` | `./public/docs` | docs directory path |
-| `indexpath` | `./public/views/index.ejs` | index template file path |
-| `hackmdpath` | `./public/views/hackmd.ejs` | hackmd template file path |
-| `errorpath` | `./public/views/error.ejs` | error template file path |
-| `prettypath` | `./public/views/pretty.ejs` | pretty template file path |
-| `slidepath` | `./public/views/slide.hbs` | slide template file path |
-| `sessionname` | `connect.sid` | cookie session name |
-| `sessionsecret` | `secret` | cookie session secret |
-| `sessionlife` | `14 * 24 * 60 * 60 * 1000` | cookie session life |
-| `staticcachetime` | `1 * 24 * 60 * 60 * 1000` | static file cache time |
-| `heartbeatinterval` | `5000` | socket.io heartbeat interval |
-| `heartbeattimeout` | `10000` | socket.io heartbeat timeout |
-| `documentmaxlength` | `100000` | note max length |
+| `sslKeyPath` | `./cert/client.key` | SSL key path (only need when you set `useSSL`) |
+| `sslCertPath` | `./cert/hackmd_io.crt` | SSL cert path (only need when you set `useSSL`) |
+| `sslCAPath` | `['./cert/COMODORSAAddTrustCA.crt']` | SSL ca chain (only need when you set `useSSL`) |
+| `dhParamPath` | `./cert/dhparam.pem` | SSL dhparam path (only need when you set `useSSL`) |
+| `tmpPath` | `./tmp/` | temp directory path |
+| `defaultNotePath` | `./public/default.md` | default note file path |
+| `docsPath` | `./public/docs` | docs directory path |
+| `indexPath` | `./public/views/index.ejs` | index template file path |
+| `hackmdPath` | `./public/views/hackmd.ejs` | hackmd template file path |
+| `errorPath` | `./public/views/error.ejs` | error template file path |
+| `prettyPath` | `./public/views/pretty.ejs` | pretty template file path |
+| `slidePath` | `./public/views/slide.hbs` | slide template file path |
+| `sessionName` | `connect.sid` | cookie session name |
+| `sessionSecret` | `secret` | cookie session secret |
+| `sessionLife` | `14 * 24 * 60 * 60 * 1000` | cookie session life |
+| `staticCacheTime` | `1 * 24 * 60 * 60 * 1000` | static file cache time |
+| `heartbeatInterval` | `5000` | socket.io heartbeat interval |
+| `heartbeatTimeout` | `10000` | socket.io heartbeat timeout |
+| `documentMaxLength` | `100000` | note max length |
 | `email` | `true` or `false` | set to allow email signin |
-| `allowemailregister`  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
-| `imageuploadtype` | `imgur`(default), `s3`, `minio` or `filesystem` | Where to upload image
-| `minio` | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageuploadtype` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
+| `allowEmailRegister`  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
+| `imageUploadType` | `imgur`(default), `s3`, `minio` or `filesystem` | Where to upload image
+| `minio` | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageUploadType` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
 | `s3` | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageuploadtype` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
-| `s3bucket` | `YOUR_S3_BUCKET_NAME` | bucket name when `imageuploadtype` is set to `s3` or `minio` |
+| `s3bucket` | `YOUR_S3_BUCKET_NAME` | bucket name when `imageUploadType` is set to `s3` or `minio` |
 
 ## Third-party integration API key settings
 
