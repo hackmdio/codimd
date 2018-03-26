@@ -451,6 +451,7 @@ $(document).ready(function () {
   // Re-enable nightmode
   if (store.get('nightMode') || Cookies.get('nightMode')) {
     $body.addClass('night')
+    ui.toolbar.night.addClass('active')
   }
 
   // showup
