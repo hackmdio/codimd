@@ -151,6 +151,8 @@ There are some config settings you need to change in the files below.
 | `HMD_ALLOW_FREEURL` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
 | `HMD_DEFAULT_PERMISSION` | `freely`, `editable`, `limited`, `locked` or `private` | set notes default permission (only applied on signed users) |
 | `HMD_DB_URL` | `mysql://localhost:3306/database` | set the database URL |
+| `HMD_SESSION_SECRET` | no example | Secret used to sign the session cookie. If non is set, one will randomly generated on startup |
+| `HMD_SESSION_LIFE` | `1209600000` | Session life time. (milliseconds) |
 | `HMD_FACEBOOK_CLIENTID` | no example | Facebook API client id |
 | `HMD_FACEBOOK_CLIENTSECRET` | no example | Facebook API client secret |
 | `HMD_TWITTER_CONSUMERKEY` | no example | Twitter API consumer key |
