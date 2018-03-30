@@ -27,7 +27,9 @@
             "directives": {
             },
             "upgradeInsecureRequests": "auto"
-            "addDefaults": true
+            "addDefaults": true,
+            "addDisqus": true,
+            "addGoogleAnalytics": true
         },
         "db": {
             "username": "",
