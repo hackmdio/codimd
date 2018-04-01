@@ -112,7 +112,7 @@ If you are upgrading HackMD from an older version, follow these steps:
 5. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string
    For example: `postgres://username:password@localhost:5432/hackmd`
 6. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
-7. Start your whole new server!
+7. Start your whole new server! `nodejs app.js`
 
 * [migration-to-0.5.0](https://github.com/hackmdio/migration-to-0.5.0)
 
