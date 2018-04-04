@@ -13,6 +13,10 @@
     border: inherit !important;
 }
 
+.night .markdown-body pre {
+  filter: invert(100%);
+}
+
 .markdown-body code {
     color: inherit !important;
 }
@@ -78,6 +82,7 @@
 .markdown-body code[data-gist-id] {
     background: none;
     padding: 0;
+    filter: invert(100%);
 }
 
 .markdown-body code[data-gist-id]:before {
