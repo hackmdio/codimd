@@ -114,12 +114,19 @@ If you are upgrading HackMD from an older version, follow these steps:
 6. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
 7. Start your whole new server!
 
-* [migration-to-0.5.0](https://github.com/hackmdio/migration-to-0.5.0)
+
+* **migrate-to-1.1.0**
+
+We deprecated the older lower case config style and moved on to camel case style. Please have a look at the current `config.json.example` and check the warnings on startup.
+
+*Notice: This is not a breaking change right now but in the future*
+
+* [**migration-to-0.5.0**](https://github.com/hackmdio/migration-to-0.5.0)
 
 We don't use LZString to compress socket.io data and DB data after version 0.5.0.
 Please run the migration tool if you're upgrading from the old version.
 
-* [migration-to-0.4.0](https://github.com/hackmdio/migration-to-0.4.0)
+* [**migration-to-0.4.0**](https://github.com/hackmdio/migration-to-0.4.0)
 
 We've dropped MongoDB after version 0.4.0.
 So here is the migration tool for you to transfer the old DB data to the new DB.
