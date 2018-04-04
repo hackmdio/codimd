@@ -156,6 +156,10 @@ body.night{
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.night .ui-edit-area .ui-sync-toggle {
+    box-shadow: 2px 0px 2px #353535;
+}
+
 .ui-edit-area .ui-sync-toggle:active {
     box-shadow: inset 0 3px 5px rgba(0,0,0,.125), 2px 0px 2px #e7e7e7;
 }
@@ -292,6 +296,13 @@ body.night{
     background: #222;
 }
 
+.night .modal-content,
+.night .panel,
+.night .panel-heading {
+  color: #eee;
+  background-color: #333;
+}
+
 .dropdown-menu.CodeMirror-other-cursor {
     transition: none;
 }
@@ -340,7 +351,8 @@ div[contenteditable]:empty:not(:focus):before{
     background: inherit;
 }
 
-.night .navbar .btn-default{
+.night .navbar .btn-default,
+.night .close {
     background-color: #333;
     border-color: #565656;
     color: #eee;
@@ -372,8 +384,10 @@ div[contenteditable]:empty:not(:focus):before{
 
 .night .btn.focus,
 .night .btn:focus,
-.night .btn:hover{
+.night .btn:hover,
+.night .close {
     color: #fff;
+    background-color: #333;
 }
 
 .info-label {
