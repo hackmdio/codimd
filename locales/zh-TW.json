@@ -60,7 +60,7 @@
 	"Refresh": "重新整理",
 	"Contacts": "聯絡方式",
 	"Report an issue": "回報問題",
-	"Meet us on Gitter": "透過 Gitter 聯絡我們",
+	"Meet us on %s": "透過 %s 聯絡我們",
 	"Send us email": "寄信給我們",
 	"Documents": "文件",
 	"Features": "功能簡介",
