@@ -1,36 +1,37 @@
 Release Notes
 ===
 
-<i class="fa fa-tag"></i> 1.1.0-ce <i class="fa fa-clock-o"></i> 2018-03-28 15:00
+<i class="fa fa-tag"></i> 1.1.0-ce <i class="fa fa-clock-o"></i> 2018-04-06 12:00
 ---
 
 ### Security
 * Adding CSP headers
 * Prevent data-leak by wrong LDAP config
-* Generate dynamic sessionSecret if none is specifed
+* Generate dynamic `sessionSecret` if none is specified
 
 ### Enhancements
 * Add Minio support
 * Allow posting content to new notes by API
 * Add anonymous edit function in restricted mode
-* Add support for more Mimetypes on S3, minio and local filesystem uploads
-* Add basic cli tooling for local user management
+* Add support for more Mimetypes on S3, Minio and local filesystem uploads
+* Add basic CLI tooling for local user management
 * Add referrer policy
 * Add more usable HTML5 tags
-* Add useridField in LDAP config
+* Add `useridField` in LDAP config
 * Add option for ReportURI for CSP violations
 * Add persistance for night mode
-* Allow setting sessionSecret by environment variable
+* Allow setting of `sessionSecret` by environment variable
 * Add night mode to features page
+* Add Riot / Matrix - Community link to help page
 
 ### Fixes
-* Fix todo toggle function
-* Fix LDAP provider name usage
+* Fix ToDo-toggle function
+* Fix LDAP provider name in front-end
 * Fix errors on authenticated sessions for deleted users
 * Fix typo in database migration
 * Fix possible data truncation of authorship
 * Minor fixes in README.md
-* Allow usage of esc-key by codemirror
+* Allow usage of ESC-key by codemirror
 * Fix array of emails in LDAP
 * Fix type errors by environment configs
 * Fix error message on some file API errors
