@@ -8,7 +8,7 @@ This means that you can write notes with other people on your **desktop**, **tab
 You can sign-in via multiple auth providers like **Facebook**, **Twitter**, **GitHub** and many more on the [_homepage_](/).
 
 If you experience any _issues_, feel free to report it on [**GitHub**](https://github.com/hackmdio/hackmd/issues).
-Or meet us on [**Gitter**](https://gitter.im/hackmdio/hackmd) for dev-talk and interactive help.
+Or meet us on [**Matrix.org**](https://riot.im/app/#/room/#hackmd:matrix.org) or [**Gitter**](https://gitter.im/hackmdio/hackmd) for dev-talk and interactive help.
 **Thank you very much!**
 
 Workspace
@@ -25,11 +25,16 @@ Workspace
 <i class="fa fa-toggle-on fa-fw"></i> View: See only the result.
 <i class="fa fa-toggle-off fa-fw"></i> Edit: See only the editor.
 
+## Night Mode:
+When you are tired of a white screen and like a night mode, click on the little moon <i class="fa fa-moon-o"></i> and turn on the night view of HackMD.
+
+The editor view, which is in night mode by default, can also be toggled between night and day view using the the little sun<i class="fa fa-sun-o fa-fw"></i>.
+
 ## Image Upload:
 You can upload an image simply by clicking on the camera button <i class="fa fa-camera"></i>.
 Alternatively, you can **drag-n-drop** an image into the editor. Even **pasting** images is possible!
-This will automatically upload the image to **[imgur](http://imgur.com)**, nothing to worry. :tada:
-![](https://i.imgur.com/9cgQVqD.png)
+This will automatically upload the image to **[imgur](http://imgur.com)**, **[Amazon S3](https://aws.amazon.com/s3/)**, **[Minio](https://minio.io)** or **local filesystem**, nothing to worry about. :tada:
+![imgur](https://i.imgur.com/9cgQVqD.png)
 
 ## Share Notes:
 If you want to share an **editable** note, just copy the URL.
