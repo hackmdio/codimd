@@ -18,16 +18,26 @@ whiteList['style'] = []
 // allow kbd tag
 whiteList['kbd'] = []
 // allow ifram tag with some safe attributes
-whiteList['iframe'] = ['allowfullscreen', 'name', 'referrerpolicy', 'sandbox', 'src', 'srcdoc', 'width', 'height']
+whiteList['iframe'] = ['allowfullscreen', 'name', 'referrerpolicy', 'sandbox', 'src', 'width', 'height']
 // allow summary tag
 whiteList['summary'] = []
+// allow ruby tag
+whiteList['ruby'] = []
+// allow rp tag for ruby
+whiteList['rp'] = []
+// allow rt tag for ruby
+whiteList['rt'] = []
+// allow figure tag
+whiteList['figure'] = []
+// allow figcaption tag
+whiteList['figcaption'] = []
 
 var filterXSSOptions = {
   allowCommentTag: true,
   whiteList: whiteList,
   escapeHtml: function (html) {
     // allow html comment in multiple lines
-    return html.replace(/<(.*?)>/g, '&lt;$1&gt;')
+    return html.replace(/<(?!!--)/g, '&lt;').replace(/-->/g, '__HTML_COMMENT_END__').replace(/>/g, '&gt;').replace(/__HTML_COMMENT_END__/g, '-->')
   },
   onIgnoreTag: function (tag, html, options) {
     // allow comment tag

@@ -1,6 +1,123 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 1.1.0-ce <i class="fa fa-clock-o"></i> 2018-04-06 12:00
+---
+
+### Security
+* Adding CSP headers
+* Prevent data-leak by wrong LDAP config
+* Generate dynamic `sessionSecret` if none is specified
+
+### Enhancements
+* Add Minio support
+* Allow posting content to new notes by API
+* Add anonymous edit function in restricted mode
+* Add support for more Mimetypes on S3, Minio and local filesystem uploads
+* Add basic CLI tooling for local user management
+* Add referrer policy
+* Add more usable HTML5 tags
+* Add `useridField` in LDAP config
+* Add option for ReportURI for CSP violations
+* Add persistance for night mode
+* Allow setting of `sessionSecret` by environment variable
+* Add night mode to features page
+* Add Riot / Matrix - Community link to help page
+
+### Fixes
+* Fix ToDo-toggle function
+* Fix LDAP provider name in front-end
+* Fix errors on authenticated sessions for deleted users
+* Fix typo in database migration
+* Fix possible data truncation of authorship
+* Minor fixes in README.md
+* Allow usage of ESC-key by codemirror
+* Fix array of emails in LDAP
+* Fix type errors by environment configs
+* Fix error message on some file API errors
+* Fix minor CSS issues in night mode
+
+### Refactors
+* Refactor contact
+* Refactor social media integration on main page
+* Refactor socket.io code to no longer use referrer
+* Refactor webpack config to need less dependencies in package.json
+* Refactor imageRouter for modularity
+* Refactor configs to be camel case
+
+### Removes
+* Remove unused `tokenSecret` from LDAP config
+
+### Deprecations
+* All non-camelcase config
+
+### Honorable mentions
+* [Dario Ernst (Nebukadneza)](https://github.com/Nebukadneza)
+* [David Mehren (davidmehren)](https://github.com/davidmehren)
+* [Dustin Frisch (fooker)](https://github.com/fooker)
+* [Felix Schäfer (thegcat)](https://github.com/thegcat)
+* [Literallie (xxyy)](https://github.com/xxyy)
+* [Marc Deop (marcdeop)](https://github.com/marcdeop)
+* [Max Wu (jackycute)](https://github.com/jackycute)
+* [Robin Naundorf (senk)](https://github.com/senk)
+* [Stefan Bühler (stbuehler)](https://github.com/stbuehler)
+* [Takeaki Matsumoto (takmatsu)](https://github.com/takmatsu)
+* [Tang TsungYi (vazontang)](https://github.com/vazontang)
+* [Zearin (Zearin)](https://github.com/Zearin)
+
+<i class="fa fa-tag"></i> 1.0.1-ce <i class="fa fa-clock-o"></i> 2018-01-19 15:00
+---
+
+### Security
+* Fix Dropbox client secret leak
+
+### Enhancements
+* Improve version handling
+* It's 2018!
+
+### Fixes
+* Fix image alt-tag rendering
+* Fix Dropbox appkey
+
+<i class="fa fa-tag"></i> 1.0.0-ce <i class="fa fa-clock-o"></i> 2018-01-18 12:00
+---
+### License
+* Switch from MIT to AGPL
+
+### Enhancements
+* Improve language support
+* Allow themes for reveal
+* Add dark theme for editor and view
+* Add danish translation
+* Add simplified chinese translation
+* Provide new permission table
+* Make HSTS configurable
+* Make PDF export configurable
+* Add Mattermost auth support
+* Add SAML support
+
+### Fixes
+* Fix regex for speaker notes
+* Fix S3 endpoint support
+* Fix German translation
+* Fix English translation
+* Fix broken profile images
+* Fix XSS attacks
+* Fix history order
+* Fix missing boolean settings
+* Fix LDAP auth
+* Fix too long notes droping content
+* Fix mermaid compatiblity with new version
+* Fix SSL CA path parsing
+
+### Refactors
+* Refactor main page
+* Refactor status pages
+* Refactor config handling
+* Refactor auth backend
+* Refactor code styling
+* Refactor middleware to modules
+
 <i class="fa fa-tag"></i> 0.5.1 `Doppio` <i class="fa fa-clock-o"></i> 2017-03-23 00:20
 ---
 ### Enhancements
@@ -129,7 +246,7 @@ Release Notes
 * Fix client socket on delete event might not delete corresponding history record correctly
 * Fix to handle name or color is undefined error
 * Fix history item event not bind properly on pagination change
-* Fix history time should save in UNIX timestamp to avoid time offset issue 
+* Fix history time should save in UNIX timestamp to avoid time offset issue
 
 ### Removes
 - Drop bower the package manager
@@ -177,16 +294,16 @@ Release Notes
 ### Fixes
 * Fix README and features document format and grammar issues
 * Fix some potential memory leaks bugs
-* Fix history storage might not fallback correctly 
+* Fix history storage might not fallback correctly
 * Fix to make mathjax expression display in editor correctly (not italic)
-* Fix note title might have unstriped html tags 
+* Fix note title might have unstriped html tags
 * Fix client reconnect should resend last operation
 * Fix a bug when setting both maxAge and expires may cause user can't signin
 * Fix text complete extra tags for blockquote and referrals
 * Fix bug that when window close will make ajax fail and cause cookies set to wrong state
 * Fix markdown render might fall into regex infinite loop
-* Fix syntax error caused by element contain special characters 
-* Fix reference error caused by some scripts loading order 
+* Fix syntax error caused by element contain special characters
+* Fix reference error caused by some scripts loading order
 * Fix ToC id naming to avoid possible overlap with user ToC
 * Fix header nav bar rwd detect element should use div tag or it might glitch the layout
 * Fix textcomplete of extra tags for blockquote not match space character in the between
@@ -226,7 +343,7 @@ Release Notes
 ### Fixes
 * Workaround vim mode might overwrite copy keyMap on Windows
 * Fix TOC might not update after changeMode
-* Workaround slide mode gets glitch and blurry text on Firefox 47+ 
+* Workaround slide mode gets glitch and blurry text on Firefox 47+
 * Fix idle.js not change isAway property on onAway and onAwayBack events
 * Fix http body request entity too large issue
 * Fix google-diff-match-patch encodeURI exception issue
@@ -234,8 +351,8 @@ Release Notes
 * Fix spellcheck settings from cookies might not a boolean in string type
 * Fix cookies might not in boolean type cause page refresh loop
 * Fix the signin and logout redirect url might be empty
-* Fix realtime might not clear or remove invalid sockets in queue 
-* Fix slide not refresh layout on ajax item loaded 
+* Fix realtime might not clear or remove invalid sockets in queue
+* Fix slide not refresh layout on ajax item loaded
 * Fix retryOnDisconnect not clean up after reconnected
 * Fix some potential memory leaks
 
@@ -289,7 +406,7 @@ Release Notes
 * Support maintenance mode and gracefully exit process on signal
 * Update to update doc in db when doc in filesystem have newer modified time
 * Update to replace animation acceleration library from gsap to velocity
-* Support image syntax with size 
+* Support image syntax with size
 * Update textcomplete rules to support more conditions
 * Update to use bigger user profile image
 * Support showing signin button only when needed

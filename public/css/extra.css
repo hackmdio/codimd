@@ -179,6 +179,11 @@
     border-left: 1px solid black;
 }
 
+.night .ui-toc-dropdown .nav>li>a:focus, .night .ui-toc-dropdown .nav>li>a:hover{
+    color: white;
+    border-left-color: white;
+}
+
 .ui-toc-dropdown[dir='rtl'] .nav>li>a:focus,.ui-toc-dropdown[dir='rtl'] .nav>li>a:hover {
     padding-right: 19px;
     border-left: none;
@@ -191,6 +196,10 @@
     color: black;
     background-color: transparent;
     border-left: 2px solid black;
+}
+.night .ui-toc-dropdown .nav>.active:focus>a,.night .ui-toc-dropdown .nav>.active:hover>a,.night .ui-toc-dropdown .nav>.active>a {
+    color: white;
+    border-left: 2px solid white;
 }
 
 .ui-toc-dropdown[dir='rtl'] .nav>.active:focus>a,.ui-toc-dropdown[dir='rtl'] .nav>.active:hover>a,.ui-toc-dropdown[dir='rtl'] .nav>.active>a {
@@ -214,6 +223,10 @@
     padding-left: 30px;
     font-size: 12px;
     font-weight: 400;
+}
+
+.night .ui-toc-dropdown .nav > li > a{
+    color: #aaa;
 }
 
 .ui-toc-dropdown[dir='rtl'] .nav .nav>li>a {
@@ -350,11 +363,21 @@ small .dropdown a:focus, small .dropdown a:hover {
 }
 
 .unselectable {
-    -moz-user-select: none; 
-    -khtml-user-select: none; 
-    -webkit-user-select: none; 
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
     -o-user-select: none;
     user-select: none;
+}
+
+.night .navbar{
+    background: #333;
+    border-bottom-color: #333;
+    color: #eee;
+}
+
+.night .navbar a{
+    color: #eee;
 }
 
 @media print {

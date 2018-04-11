@@ -32,6 +32,7 @@
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
                 </li>
+                <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || (typeof google !== 'undefined' && google) || (typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api'))) { %>
                 <li class="divider"></li>
                 <li class="dropdown-header"><%= __('Export') %></li>
                 <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
@@ -45,6 +46,7 @@
                 <% if(typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api')) { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-snippet" href="#"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
                 </li>
+                <% } %>
                 <% } %>
                 <li class="divider"></li>
                 <li class="dropdown-header"><%= __('Import') %></li>
@@ -68,8 +70,10 @@
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-download-raw-html" tabindex="-1" href="#" target="_self"><i class="fa fa-file-code-o fa-fw"></i> <%= __('Raw HTML') %></a>
                 </li>
-                <li role="presentation"><a role="menuitem" class="ui-download-pdf-beta" tabindex="-1" href="#" target="_self"><i class="fa fa-file-pdf-o fa-fw"></i> PDF (Beta)</a>
-                </li>
+                <% if(typeof allowPDFExport !== 'undefined' && allowPDFExport) {%>
+                  <li role="presentation"><a role="menuitem" class="ui-download-pdf-beta" tabindex="-1" href="#" target="_self"><i class="fa fa-file-pdf-o fa-fw"></i> PDF (Beta)</a>
+                  </li>
+                <% } %>
                 <li class="divider"></li>
                 <li role="presentation"><a role="menuitem" class="ui-help" href="#" data-toggle="modal" data-target=".help-modal"><i class="fa fa-question-circle fa-fw"></i> Help</a>
                 </li>
@@ -90,6 +94,11 @@
                 </label>
                 <label class="btn btn-default ui-edit" title="<%= __('Edit') %> (Ctrl+Alt+E)">
                     <input type="radio" name="mode" autocomplete="off"><i class="fa fa-pencil"></i>
+                </label>
+            </div>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn ui-night" title="<%= __('Night Theme') %>">
+                    <input type="checkbox" name="night"><i class="fa fa-moon-o"></i>
                 </label>
             </div>
             <span class="btn btn-link btn-file ui-help" title="<%= __('Help') %>" data-toggle="modal" data-target=".help-modal">
@@ -129,6 +138,7 @@
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
                     </li>
+                    <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || (typeof google !== 'undefined' && google) || (typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api'))) { %>
                     <li class="divider"></li>
                     <li class="dropdown-header"><%= __('Export') %></li>
                     <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
@@ -142,6 +152,7 @@
                     <% if(typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api')) { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-snippet" href="#"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
                     </li>
+                    <% } %>
                     <% } %>
                     <li class="divider"></li>
                     <li class="dropdown-header"><%= __('Import') %></li>
@@ -165,8 +176,10 @@
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-download-raw-html" tabindex="-1" href="#" target="_self"><i class="fa fa-file-code-o fa-fw"></i> <%= __('Raw HTML') %></a>
                     </li>
-                    <li role="presentation"><a role="menuitem" class="ui-download-pdf-beta" tabindex="-1" href="#" target="_self"><i class="fa fa-file-pdf-o fa-fw"></i> PDF (Beta)</a>
-                    </li>
+                    <% if(typeof allowPDFExport !== 'undefined' && allowPDFExport) {%>
+                      <li role="presentation"><a role="menuitem" class="ui-download-pdf-beta" tabindex="-1" href="#" target="_self"><i class="fa fa-file-pdf-o fa-fw"></i> PDF (Beta)</a>
+                      </li>
+                    <% } %>
                 </ul>
             </li>
         </ul>

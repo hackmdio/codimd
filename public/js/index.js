@@ -16,6 +16,7 @@ import toMarkdown from 'to-markdown'
 
 import { saveAs } from 'file-saver'
 import randomColor from 'randomcolor'
+import store from 'store'
 
 import _ from 'lodash'
 
@@ -431,11 +432,12 @@ $(document).ready(function () {
     clearMap()
   }
   checkEditorStyle()
+
+  /* cache dom references */
+  var $body = $('body')
+
   /* we need this only on touch devices */
   if (isTouchDevice) {
-    /* cache dom references */
-    var $body = $('body')
-
     /* bind events */
     $(document)
     .on('focus', 'textarea, input', function () {
@@ -445,6 +447,13 @@ $(document).ready(function () {
       $body.removeClass('fixfixed')
     })
   }
+
+  // Re-enable nightmode
+  if (store.get('nightMode') || Cookies.get('nightMode')) {
+    $body.addClass('night')
+    ui.toolbar.night.addClass('active')
+  }
+
   // showup
   $().showUp('.navbar', {
     upClass: 'navbar-hide',
@@ -1633,6 +1642,10 @@ ui.toolbar.view.click(function () {
 ui.toolbar.both.click(function () {
   changeMode(modeType.both)
 })
+
+ui.toolbar.night.click(function () {
+  toggleNightMode()
+})
 // permission
 // freely
 ui.infobar.permission.freely.click(function () {
@@ -1666,6 +1679,24 @@ $('.ui-delete-modal-confirm').click(function () {
   socket.emit('delete')
 })
 
+function toggleNightMode () {
+  var $body = $('body')
+  var isActive = ui.toolbar.night.hasClass('active')
+  if (isActive) {
+    $body.removeClass('night')
+    appState.nightMode = false
+  } else {
+    $body.addClass('night')
+    appState.nightMode = true
+  }
+  if (store.enabled) {
+    store.set('nightMode', !isActive)
+  } else {
+    Cookies.set('nightMode', !isActive, {
+      expires: 365
+    })
+  }
+}
 function emitPermission (_permission) {
   if (_permission !== permission) {
     socket.emit('permission', _permission)
@@ -1747,6 +1778,9 @@ window.havePermission = havePermission
 var io = require('socket.io-client')
 var socket = io.connect({
   path: urlpath ? '/' + urlpath + '/socket.io/' : '',
+  query: {
+    noteId: noteid
+  },
   timeout: 5000, // 5 secs to timeout,
   reconnectionAttempts: 20 // retry 20 times on connect failed
 })

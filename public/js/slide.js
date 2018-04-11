@@ -4,9 +4,10 @@
 require('../css/extra.css')
 require('../css/site.css')
 
+import { preventXSS } from './render'
 import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
 
-const body = $('.slides').text()
+const body = preventXSS($('.slides').text())
 
 window.createtime = window.lastchangeui.time.attr('data-createtime')
 window.lastchangetime = window.lastchangeui.time.attr('data-updatetime')
@@ -132,6 +133,6 @@ Reveal.addEventListener('ready', event => {
 })
 Reveal.addEventListener('slidechanged', renderSlide)
 
-const isMacLike = !!navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i)
+const isWinLike = navigator.platform.indexOf('Win') > -1
 
-if (!isMacLike) $('.container').addClass('hidescrollbar')
+if (isWinLike) $('.container').addClass('hidescrollbar')

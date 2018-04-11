@@ -28,6 +28,11 @@
                     <i class="fa fa-gitlab"></i> <%= __('Sign in via %s', 'GitLab') %>
                 </a>
                 <% } %>
+                <% if(mattermost) { %>
+                <a href="<%- url %>/auth/mattermost" class="btn btn-lg btn-block btn-social btn-soundcloud">
+                    <i class="fa fa-mattermost"></i> <%= __('Sign in via %s', 'Mattermost') %>
+                </a>
+                <% } %>
                 <% if(dropbox) { %>
                 <a href="<%- url %>/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
                     <i class="fa fa-dropbox"></i> <%= __('Sign in via %s', 'Dropbox') %>
@@ -38,11 +43,16 @@
                     <i class="fa fa-google"></i> <%= __('Sign in via %s', 'Google') %>
                 </a>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || dropbox || google) && ldap) { %>
+                <% if(saml) { %>
+                <a href="<%- url %>/auth/saml" class="btn btn-lg btn-block btn-social btn-success">
+                    <i class="fa fa-users"></i> <%= __('Sign in via %s', 'SAML') %>
+                </a>
+                <% } %>
+                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || saml) && ldap) { %>
                 <hr>
                 <% }%>
                 <% if(ldap) { %>
-                <h4>Via <% if (ldap.providerName) { %> <%- ldap.providerName %> (LDAP) <% } else { %> LDAP <% } %></h4>
+                <h4>Via <% if (ldapProviderName) { %> <%= ldapProviderName %> (LDAP) <% } else { %> LDAP <% } %></h4>
                 <form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="form-group">
                         <div class="col-sm-12">
@@ -63,7 +73,7 @@
                     </div>
                 </form>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || dropbox || google || ldap) && email) { %>
+                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap) && email) { %>
                 <hr>
                 <% }%>
                 <% if(email) { %>
@@ -84,7 +94,7 @@
                     <div class="form-group">
                         <div class="col-sm-12">
                             <button type="submit" class="btn btn-primary" formaction="<%- url %>/login">Sign in</button>
-                            <% if(allowemailregister) { %><button type="submit" class="btn btn-default" formaction="<%- url %>/register">Register</button><% }%>
+                            <% if(allowEmailRegister) { %><button type="submit" class="btn btn-default" formaction="<%- url %>/register">Register</button><% }%>
                         </div>
                     </div>
                 </form>

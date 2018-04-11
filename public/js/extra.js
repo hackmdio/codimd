@@ -156,7 +156,11 @@ export function renderTags (view) {
 }
 
 function slugifyWithUTF8 (text) {
-  let newText = S(text.toLowerCase()).trim().stripTags().dasherize().s
+  // remove html tags and trim spaces
+  let newText = S(text).trim().stripTags().s
+  // replace all spaces in between to dashes
+  newText = newText.replace(/\s+/g, '-')
+  // slugify string to make it valid for attribute
   newText = newText.replace(/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g, '')
   return newText
 }
@@ -373,22 +377,19 @@ export function finishView (view) {
       var $value = $(value)
       const $ele = $(value).closest('pre')
 
-      let mermaidError = null
-      window.mermaid.parseError = (err, hash) => {
-        mermaidError = err
+      window.mermaid.mermaidAPI.parse($value.text())
+      $ele.addClass('mermaid')
+      $ele.html($value.text())
+      window.mermaid.init(undefined, $ele)
+    } catch (err) {
+      var errormessage = err
+      if (err.str) {
+        errormessage = err.str
       }
 
-      if (window.mermaidAPI.parse($value.text())) {
-        $ele.addClass('mermaid')
-        $ele.html($value.text())
-        window.mermaid.init(undefined, $ele)
-      } else {
-        throw new Error(mermaidError)
-      }
-    } catch (err) {
       $value.unwrap()
-      $value.parent().append('<div class="alert alert-warning">' + err + '</div>')
-      console.warn(err)
+      $value.parent().append('<div class="alert alert-warning">' + errormessage + '</div>')
+      console.warn(errormessage)
     }
   })
   // abc.js
@@ -559,6 +560,15 @@ export function finishView (view) {
 // only static transform should be here
 export function postProcess (code) {
   const result = $(`<div>${code}</div>`)
+  // process style tags
+  result.find('style').each((key, value) => {
+    let html = $(value).html()
+    // unescape > symbel inside the style tags
+    html = html.replace(/&gt;/g, '>')
+    // remove css @import to prevent XSS
+    html = html.replace(/@import url\(([^)]*)\);?/gi, '')
+    $(value).html(html)
+  })
   // link should open in new window or tab
   result.find('a:not([href^="#"]):not([target])').attr('target', '_blank')
   // update continue line numbers
@@ -703,11 +713,11 @@ $.fn.sortByDepth = function () {
 function toggleTodoEvent (e) {
   const startline = $(this).closest('li').attr('data-startline') - 1
   const line = window.editor.getLine(startline)
-  const matches = line.match(/^[>\s]*[-+*]\s\[([x ])\]/)
+  const matches = line.match(/^[>\s-]*[-+*]\s\[([x ])\]/)
   if (matches && matches.length >= 2) {
     let checked = null
     if (matches[1] === 'x') { checked = true } else if (matches[1] === ' ') { checked = false }
-    const replacements = matches[0].match(/(^[>\s]*[-+*]\s\[)([x ])(\])/)
+    const replacements = matches[0].match(/(^[>\s-]*[-+*]\s\[)([x ])(\])/)
     window.editor.replaceRange(checked ? ' ' : 'x', {
       line: startline,
       ch: replacements[1].length
@@ -997,9 +1007,10 @@ md.use(markdownitContainer, 'info', { render: renderContainer })
 md.use(markdownitContainer, 'warning', { render: renderContainer })
 md.use(markdownitContainer, 'danger', { render: renderContainer })
 
+let defaultImageRender = md.renderer.rules.image
 md.renderer.rules.image = function (tokens, idx, options, env, self) {
   tokens[idx].attrJoin('class', 'raw')
-  return self.renderToken(...arguments)
+  return defaultImageRender(...arguments)
 }
 md.renderer.rules.list_item_open = function (tokens, idx, options, env, self) {
   tokens[idx].attrJoin('class', 'raw')
@@ -1083,7 +1094,7 @@ const gistPlugin = new Plugin(
 
     (match, utils) => {
       const gistid = match[1]
-      const code = `<code data-gist-id="${gistid}"/>`
+      const code = `<code data-gist-id="${gistid}"></code>`
       return code
     }
 )

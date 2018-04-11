@@ -13,6 +13,10 @@
     border: inherit !important;
 }
 
+.night .markdown-body pre {
+  filter: invert(100%);
+}
+
 .markdown-body code {
     color: inherit !important;
 }
@@ -69,9 +73,16 @@
     border-collapse: inherit !important;
 }
 
+.night .markdown-body .gist table tr:nth-child(2n){
+
+    background-color: #ddd;
+
+}
+
 .markdown-body code[data-gist-id] {
     background: none;
     padding: 0;
+    filter: invert(100%);
 }
 
 .markdown-body code[data-gist-id]:before {
@@ -93,6 +104,7 @@
 
 .markdown-body code[data-gist-id] table tr {
     background: unset;
+
 }
 
 /*fixed style for rtl in pre and code*/
@@ -121,6 +133,16 @@
     white-space: inherit;
 }
 
+.night .markdown-body pre.graphviz .graph > polygon{
+    fill: #333;
+}
+
+.night .markdown-body pre.mermaid .titleText,
+.night .markdown-body pre.mermaid text,
+.night .markdown-body pre.mermaid .sectionTitle{
+    fill: white;
+}
+
 .markdown-body pre.flow-chart > code,
 .markdown-body pre.sequence-diagram > code,
 .markdown-body pre.graphviz > code,
@@ -138,6 +160,27 @@
     height: 100%;
 }
 
+.night .markdown-body .abc path{
+    fill: #eee;
+}
+
+.night .markdown-body .abc path.note_selected{
+    fill: ##4DD0E1;
+}
+
+.night tspan{
+    fill: #fefefe;
+}
+
+.night pre rect{
+    fill: transparent;
+}
+
+.night pre.flow-chart rect,
+.night pre.flow-chart path{
+    stroke: white;
+}
+
 .markdown-body pre > code.wrap {
     white-space: pre-wrap;       /* Since CSS 2.1 */
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
@@ -149,4 +192,25 @@
 .markdown-body .alert > p,
 .markdown-body .alert > ul {
     margin-bottom: 0;
+}
+
+/* Make details boxes look like on GitHub */
+.markdown-body summary {
+    display: list-item;
+}
+
+.markdown-body summary:focus {
+    outline: none;
+}
+
+.markdown-body details summary {
+    cursor: pointer;
+}
+
+.markdown-body details:not([open]) > *:not(summary) {
+    display: none;
+}
+
+.markdown-body figure {
+    margin: 1em 40px;
 }

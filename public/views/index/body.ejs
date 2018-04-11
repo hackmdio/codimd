@@ -13,14 +13,14 @@
                             </li>
                             <div class="ui-signin" style="float: right; margin-top: 8px;<% if(signin) { %> display: none;<% } %>">
                                 <% if(allowAnonymous) { %>
-                                <a type="button" href="<%- url %>/new" class="btn btn-sm btn-link"><i class="fa fa-plus"></i> <%= __('New guest note') %></a>
+                                <a type="button" href="<%- url %>/new" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> <%= __('New guest note') %></a>
                                 <% } %>
-                                <% if(facebook || twitter || github || gitlab || dropbox || google || ldap || email) { %>
+                                <% if(facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap || saml || email) { %>
                                 <button class="btn btn-sm btn-success ui-signin" data-toggle="modal" data-target=".signin-modal"><%= __('Sign In') %></button>
                                 <% } %>
                             </div>
                             <div class="ui-signout" style="float: right; margin-top: 8px;<% if(!signin) { %> display: none;<% } %>">
-                                <a type="button" href="<%- url %>/new" class="btn btn-sm btn-link"><i class="fa fa-plus"></i> <%= __('New note') %></a>
+                                <a type="button" href="<%- url %>/new" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> <%= __('New note') %></a>
                                 <span class="ui-profile dropdown pull-right">
                                     <button id="profileLabel" class="btn btn-sm btn-link ui-profile-label" style="padding-right: 0;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <img class="ui-avatar" width="20" height="20"><span class="hidden-xs hidden-sm">&ensp;<span class="ui-name"></span></span>&ensp;<i class="fa fa-caret-down"></i>
@@ -39,6 +39,7 @@
             <div id="home" class="section"<% if(signin) { %> style="display:none;"<% } %>>
                 <div class="inner cover">
                     <h1 class="cover-heading"><i class="fa fa-file-text"></i> HackMD</h1>
+                    <p class="lead"><strong>Community Edition</strong></p>
                     <p class="lead">
                         <%= __('Best way to write and share your knowledge in markdown.') %>
                     </p>
@@ -48,7 +49,7 @@
                     <% if (errorMessage && errorMessage.length > 0) { %>
                     <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;"><%= errorMessage %></div>
                     <% } %>
-                    <% if(facebook || twitter || github || gitlab || dropbox || google || ldap || email) { %>
+                    <% if(facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap || saml || email) { %>
                     <span class="ui-signin">
                         <br>
                         <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="min-width: 200px;"><%= __('Sign In') %></a>
@@ -122,15 +123,10 @@
 
             <div class="mastfoot">
                 <div class="inner">
-                    <h6 class="social-foot">
-                        <iframe src="//ghbtns.com/github-btn.html?user=hackmdio&repo=hackmd&type=star&count=true" frameborder="0" scrolling="0" width="104px" height="20px"></iframe>
-                    </h6>
-                    <p>
-                        &copy; 2017 <a href="https://www.facebook.com/hackmdio" target="_blank"><i class="fa fa-facebook-square"></i> HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank"><%= __('Releases') %></a>
-                    </p>
                     <select class="ui-locale">
                         <option value="en">English</option>
-                        <option value="zh">中文</option>
+                        <option value="zh-CN">简体中文</option>
+                        <option value="zh-TW">繁體中文</option>
                         <option value="fr">Français</option>
                         <option value="de">Deutsch</option>
                         <option value="ja">日本語</option>
@@ -148,7 +144,14 @@
                         <option value="hi">हिन्दी</option>
                         <option value="sv">svenska</option>
                         <option value="eo">Esperanto</option>
+                        <option value="da">dansk</option>
                     </select>
+                    <p>
+                        &copy; 2018 <a href="https://hackmd.io">HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank"><%= __('Releases') %></a>
+                    </p>
+                    <h6 class="social-foot">
+                        <%- __('Follow us on %s and %s.', '<a href="https://github.com/hackmdio/HackMD" target="_blank"><i class="fa fa-github"></i> GitHub</a>, <a href="https://twitter.com/hackmdio" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>', '<a href="https://www.facebook.com/hackmdio" target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a>') %>
+                    </h6>
                 </div>
             </div>
         </div>

@@ -29,6 +29,8 @@
 	"Import from browser": "Vom Browser importieren",
 	"Releases": "Versionen",
 	"Are you sure?": "Sind sie sicher?",
+	"Do you really want to delete this note?": "Möchten Sie diese Notiz wirklich löschen?",
+	"All users will lose their connection.": "Alle Benutzer werden getrennt.",
 	"Cancel": "Abbrechen",
 	"Yes, do it!": "Ja, mach es!",
 	"Choose method": "Methode wählen",
@@ -60,6 +62,7 @@
 	"Refresh": "Neu laden",
 	"Contacts": "Kontakte",
 	"Report an issue": "Fehlerbericht senden",
+	"Meet us on %s": "Triff uns auf %s",
 	"Send us email": "Kontakt",
 	"Documents": "Dokumente",
 	"Features": "Funktionen",
@@ -83,7 +86,7 @@
 	"Code": "Code",
 	"Externals": "Extern",
 	"This is a alert area.": "Hinweisfeld",
-	"Revert": "Widerrufen",
+	"Revert": "Zurücksetzen",
 	"Import from clipboard": "Importieren aus der Zwischenablage",
 	"Paste your markdown or webpage here...": "Markdown oder Website hier einfügen",
 	"Clear": "Zurücksetzen",
@@ -100,5 +103,7 @@
 	"Select From Available Snippets": "Aus verfügbaren Snippets wählen",
 	"OR": "Oder",
 	"Export to Snippet": "Zu Snippet exportieren",
-	"Select Visibility Level": "Sichtbarkeit bestimmen"
+	"Select Visibility Level": "Sichtbarkeit bestimmen",
+	"Night Theme": "Nachtmodus",
+	"Follow us on %s and %s.": "Folge uns auf %s und %s."
 }

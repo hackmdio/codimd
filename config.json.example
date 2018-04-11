@@ -1,0 +1,119 @@
+{
+    "test": {
+        "db": {
+            "dialect": "sqlite",
+            "storage": ":memory:"
+        }
+    },
+    "development": {
+        "hsts": {
+            "enable": false
+        },
+        "db": {
+            "dialect": "sqlite",
+            "storage": "./db.hackmd.sqlite"
+        }
+    },
+    "production": {
+        "domain": "localhost",
+        "hsts": {
+            "enable": true,
+            "maxAgeSeconds": "31536000",
+            "includeSubdomains": true,
+            "preload": true
+        },
+        csp: {
+            "enable": true,
+            "directives": {
+            },
+            "upgradeInsecureRequests": "auto"
+            "addDefaults": true,
+            "addDisqus": true,
+            "addGoogleAnalytics": true
+        },
+        "db": {
+            "username": "",
+            "password": "",
+            "database": "hackmd",
+            "host": "localhost",
+            "port": "5432",
+            "dialect": "postgres"
+        },
+        "facebook": {
+            "clientID": "change this",
+            "clientSecret": "change this"
+        },
+        "twitter": {
+            "consumerKey": "change this",
+            "consumerSecret": "change this"
+        },
+        "github": {
+            "clientID": "change this",
+            "clientSecret": "change this"
+        },
+        "gitlab": {
+            "baseURL": "change this",
+            "clientID": "change this",
+            "clientSecret": "change this",
+            "scope": "use 'read_user' scope for auth user only or remove this property if you need gitlab snippet import/export support (will result to be default scope 'api')"
+        },
+        "mattermost": {
+            "baseURL": "change this",
+            "clientID": "change this",
+            "clientSecret": "change this"
+        },
+        "dropbox": {
+            "clientID": "change this",
+            "clientSecret": "change this",
+            "appKey": "change this"
+        },
+        "google": {
+            "clientID": "change this",
+            "clientSecret": "change this",
+            "apiKey": "change this"
+        },
+        "ldap": {
+            "url": "ldap://change_this",
+            "bindDn": null,
+            "bindCredentials": null,
+            "searchBase": "change this",
+            "searchFilter": "change this",
+            "searchAttributes": ["change this"],
+            "usernameField": "change this e.g. cn",
+            "useridField": "change this e.g. uid",
+            "tlsOptions": {
+                "changeme": "See https://nodejs.org/api/tls.html#tls_tls_connect_options_callback"
+            }
+        },
+        "saml": {
+            "idpSsoUrl": "change: authentication endpoint of IdP",
+            "idpCert": "change: certificate file path of IdP in PEM format",
+            "issuer": "change or delete: identity of the service provider (default: serverurl)",
+            "identifierFormat": "change or delete: name identifier format (default: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress')",
+            "groupAttribute": "change or delete: attribute name for group list (ex: memberOf)",
+            "requiredGroups": [ "change or delete: group names that allowed" ],
+            "externalGroups": [ "change or delete: group names that not allowed" ],
+            "attribute": {
+               "id": "change or delete this: attribute map for `id` (default: NameID)",
+               "username": "change or delete this: attribute map for `username` (default: NameID)",
+               "email": "change or delete this: attribute map for `email` (default: NameID)"
+            }
+        },
+        "imgur": {
+            "clientID": "change this"
+        },
+        "minio": {
+          "accessKey": "change this",
+          "secretKey": "change this",
+          "endPoint": "change this",
+          "secure": true,
+          "port": 9000
+        },
+        "s3": {
+          "accessKeyId": "change this",
+          "secretAccessKey": "change this",
+          "region": "change this"
+        },
+        "s3bucket": "change this"
+    }
+}

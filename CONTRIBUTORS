@@ -1,0 +1,902 @@
+=== .babelrc
+Yukai Huang <yukaihuangtw@gmail.com>
+=== .editorconfig
+bananaappletw <bananaappletw@gmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== .gitignore
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== .sequelizerc.example
+Yukai Huang <yukaihuangtw@gmail.com>
+=== .travis.yml
+bananaappletw <bananaappletw@gmail.com>
+BoHong Li <a60814billy@gmail.com>
+Max Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+=== AUTHORS
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== CONTRIBUTING.md
+Max Wu <jackymaxj@gmail.com>
+=== LICENSE
+Cheng-Han, Wu <jackymaxj@gmail.com>
+jackycute <jacky_cute0808@hotmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== README.md
+alecdwm <alec@owls.io>
+bananaappletw <bananaappletw@gmail.com>
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Florian Rhiem <florian.rhiem@gmail.com>
+jackycute <jackymaxj@gmail.com>
+Jannik Lorenz <dev@janniklorenz.de>
+Jason Croft <jcroft@velocity.org>
+Johannes Weißl <jargon@molb.org>
+Jun SAKATA <jun.bj141400@gmail.com>
+Laura Kyle <laura.kyle91@gmail.com>
+Max Wu <jackymaxj@gmail.com>
+neopostmodern <clemens@neopostmodern.com>
+NV <nvsofts@gmail.com>
+Sheogorath <sheogorath@shivering-isles.com>
+The Gitter Badger <badger@gitter.im>
+Wonder Chang <iwonder.tw@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+蒼時弦也 <elct9620@frost.tw>
+=== app.js
+alecdwm <alec@owls.io>
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+James Stephenson <c4p7.fl1n7@gmail.com>
+Jan Kunzmann <jan-github@phobia.de>
+Jason Croft <jcroft@velocity.org>
+Jordan Matelsky <j6k4m8@gmail.com>
+knjcode <knjcode@gmail.com>
+LluisArevalo <thorin119@gmail.com>
+Max Wu <jackymaxj@gmail.com>
+NV <nvsofts@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Raccoon Li <a60814billy@gmail.com>
+robert <ahmerov.rt@molodost.bz>
+Sheogorath <sheogorath@shivering-isles.com>
+S.Noda <noda@fenrir.co.jp>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+xnum <s000032001@gmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== app.json
+bananaappletw <bananaappletw@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== bin/heroku
+bananaappletw <bananaappletw@gmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== bin/setup
+Sheogorath <sheogorath@shivering-isles.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== config.json.example
+alecdwm <alec@owls.io>
+bananaappletw <bananaappletw@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== docs/guides/images/s3-image-upload/bucket-policy-editor.png
+Yukai Huang <yukaihuangtw@gmail.com>
+=== docs/guides/images/s3-image-upload/bucket-property.png
+Yukai Huang <yukaihuangtw@gmail.com>
+=== docs/guides/images/s3-image-upload/create-bucket.png
+Yukai Huang <yukaihuangtw@gmail.com>
+=== docs/guides/images/s3-image-upload/custom-policy.png
+Yukai Huang <yukaihuangtw@gmail.com>
+=== docs/guides/images/s3-image-upload/iam-user.png
+Yukai Huang <yukaihuangtw@gmail.com>
+=== docs/guides/images/s3-image-upload/review-policy.png
+Yukai Huang <yukaihuangtw@gmail.com>
+=== docs/guides/s3-image-upload.md
+Johannes Weißl <jargon@molb.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== lib/config/default.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/config/defaultSSL.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/config/dockerSecret.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/config/enum.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/config/environment.js
+BoHong Li <a60814billy@gmail.com>
+Raccoon Li <a60814billy@gmail.com>
+=== lib/config/index.js
+BoHong Li <a60814billy@gmail.com>
+tkykm <tkykm@users.noreply.github.com>
+=== lib/config/oldEnvironment.js
+BoHong Li <a60814billy@gmail.com>
+Raccoon Li <a60814billy@gmail.com>
+=== lib/config/utils.js
+Raccoon Li <a60814billy@gmail.com>
+=== lib/history.js
+BoHong Li <a60814billy@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/letter-avatars.js
+alecdwm <alec@owls.io>
+BoHong Li <a60814billy@gmail.com>
+=== lib/logger.js
+BoHong Li <a60814billy@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/migrations/20150504155329-create-users.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/migrations/20150508114741-create-notes.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/migrations/20150515125813-create-temp.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/migrations/20150702001020-update-to-0_3_1.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/migrations/20150915153700-change-notes-title-to-text.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/migrations/20160112220142-note-add-lastchange.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/migrations/20160420180355-note-add-alias.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/migrations/20160515114000-user-add-tokens.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+=== lib/migrations/20160607060246-support-revision.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/migrations/20160703062241-support-authorship.js
+BoHong Li <a60814billy@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/migrations/20161009040430-support-delete-note.js
+BoHong Li <a60814billy@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/migrations/20161201050312-support-email-signin.js
+BoHong Li <a60814billy@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/models/author.js
+BoHong Li <a60814billy@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/models/index.js
+bananaappletw <bananaappletw@gmail.com>
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== lib/models/note.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+NV <nvsofts@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+蒼時弦也 <elct9620@frost.tw>
+=== lib/models/revision.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/models/temp.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+=== lib/models/user.js
+alecdwm <alec@owls.io>
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Jason Croft <jcroft@velocity.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/ot/client.js
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/ot/editor-socketio-server.js
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/ot/index.js
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/ot/selection.js
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/ot/server.js
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/ot/simple-text-operation.js
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/ot/text-operation.js
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/ot/wrapped-operation.js
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== lib/realtime.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Florian Rhiem <florian.rhiem@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+蒼時弦也 <elct9620@frost.tw>
+=== lib/response.js
+alecdwm <alec@owls.io>
+BoHong Li <a60814billy@gmail.com>
+butlerx <butlerx@notthe.cloud>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Florian Rhiem <florian.rhiem@gmail.com>
+Ikumi Shimizu <193s@users.noreply.github.com>
+Jannik Lorenz <dev@janniklorenz.de>
+Jason Croft <jcroft@velocity.org>
+Sheogorath <sheogorath@shivering-isles.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+xnum <s000032001@gmail.com>
+蒼時弦也 <elct9620@frost.tw>
+=== lib/utils.js
+BoHong Li <a60814billy@gmail.com>
+butlerx <butlerx@notthe.cloud>
+LluisArevalo <thorin119@gmail.com>
+=== lib/web/auth/dropbox/index.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/auth/email/index.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/auth/facebook/index.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/auth/github/index.js
+BoHong Li <a60814billy@gmail.com>
+Max Wu <jackymaxj@gmail.com>
+=== lib/web/auth/gitlab/index.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/auth/google/index.js
+BoHong Li <a60814billy@gmail.com>
+Kaiyu Shi <skyisno.1@gmail.com>
+=== lib/web/auth/index.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/auth/ldap/index.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/auth/twitter/index.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/auth/utils.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/baseRouter.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/historyRouter.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/imageRouter.js
+BoHong Li <a60814billy@gmail.com>
+Kotaro Yamamoto <kota.crk@gmail.com>
+Raccoon Li <a60814billy@gmail.com>
+=== lib/web/middleware/checkURIValid.js
+BoHong Li <a60814billy@gmail.com>
+Max Wu <jackymaxj@gmail.com>
+=== lib/web/middleware/redirectWithoutTrailingSlashes.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/middleware/tooBusy.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/noteRouter.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/statusRouter.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/userRouter.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/web/utils.js
+BoHong Li <a60814billy@gmail.com>
+=== lib/workers/dmpWorker.js
+BoHong Li <a60814billy@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== locales/ca.json
+Xavier Marques <xaviermarques4f@gmail.com>
+=== locales/da.json
+Patrick Andersen <patrick@bacha.dk>
+=== locales/de.json
+Jannik Lorenz <dev@janniklorenz.de>
+Philipp Zumstein <zuphilip@users.noreply.github.com>
+Simon Joda Stößer <SimJoSt@users.noreply.github.com>
+=== locales/el.json
+Stratos Gerakakis <stratosgear@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+zachariast <zachariastraianos@gmail.com>
+=== locales/en.json
+alecdwm <alec@owls.io>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== locales/eo.json
+James Stephenson <c4p7.fl1n7@gmail.com>
+=== locales/es.json
+Pablo Guerrero <pablo.guerrero@sap.com>
+Sergio Valverde <svg153@users.noreply.github.com>
+=== locales/fr.json
+Colin Maudry <colin@maudry.com>
+Ho33e5 <ho33e5@gmail.com>
+=== locales/hi.json
+Paras <paraschadha2052@gmail.com>
+=== locales/hr.json
+ivanorsolic <ivanorsolic@users.noreply.github.com>
+=== locales/it.json
+GhiMax <ghina8@gmail.com>
+=== locales/ja.json
+tkqubo <tk.qubo@gmail.com>
+=== locales/nl.json
+Martijnpold <martijntje7@gmail.com>
+Tom Wyckhuys <tomwyckhuys@gmail.com>
+=== locales/pl.json
+Bartlomiej Szala <fenix440@gmail.com>
+Jakub Sygnowski <sygnowski@gmail.com>
+=== locales/pt.json
+Marcelo Alencar <marceloalves@ufpa.br>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== locales/ru.json
+Himura Kazuto <Himura2la@users.noreply.github.com>
+p0v1n0m <p0v1n0m@gmail.com>
+=== locales/sv.json
+Lars Karlsson <lars@kajes.se>
+Patrick Andersen <patrick@bacha.dk>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== locales/tr.json
+Ömer Erdinç Yağmurlu <omeryagmurlu@gmail.com>
+=== locales/uk.json
+Dmytro Kytsmen <dmitrokytsmen@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== locales/zh.json
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== package.json
+alecdwm <alec@owls.io>
+bananaappletw <bananaappletw@gmail.com>
+BoHong Li <a60814billy@gmail.com>
+Bryan Davis <bd808@wikimedia.org>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Fabien Meghazi <agr@amigrave.com>
+greenkeeperio-bot <support@greenkeeper.io>
+Jason Croft <jcroft@velocity.org>
+Max Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Peter Dave Hello <PeterDaveHello@users.noreply.github.com>
+Sheogorath <sheogorath@shivering-isles.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+xnum <s000032001@gmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/apple-touch-icon.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/css/bootstrap-social.css
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/css/center.css
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/css/cover.css
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Jason Croft <jcroft@velocity.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/css/extra.css
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/css/font.css
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/css/github-extract.css
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/css/google-font.css
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/css/index.css
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Jason Croft <jcroft@velocity.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/css/markdown.css
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/css/mermaid.css
+Cheng-Han, Wu <jackymaxj@gmail.com>
+=== public/css/site.css
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/css/slide-preview.css
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/css/slide.css
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/default.md
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/docs/features.md
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Max Wu <jackymaxj@gmail.com>
+Pablo Guerrero <pablo.guerrero@gmail.com>
+Sheogorath <sheogorath@shivering-isles.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/docs/release-notes.md
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/docs/slide-example.md
+butlerx <butlerx@notthe.cloud>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/docs/yaml-metadata.md
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/favicon.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/fonts/SourceCodePro-Black.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Black.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Black.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Bold.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Bold.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Bold.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-ExtraLight.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-ExtraLight.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-ExtraLight.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Light.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Light.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Light.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Medium.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Medium.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Medium.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Regular.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Regular.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Regular.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Semibold.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Semibold.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceCodePro-Semibold.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Black.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Black.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Black.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-BlackItalic.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-BlackItalic.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-BlackItalic.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Bold.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Bold.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Bold.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-BoldItalic.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-BoldItalic.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-BoldItalic.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-ExtraLight.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-ExtraLight.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-ExtraLight.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-ExtraLightItalic.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-ExtraLightItalic.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-ExtraLightItalic.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Italic.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Italic.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Italic.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Light.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Light.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Light.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-LightItalic.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-LightItalic.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-LightItalic.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Regular.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Regular.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Regular.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Semibold.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Semibold.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-Semibold.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-SemiboldItalic.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-SemiboldItalic.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSansPro-SemiboldItalic.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSerifPro-Bold.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSerifPro-Bold.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSerifPro-Bold.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSerifPro-Regular.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSerifPro-Regular.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSerifPro-Regular.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSerifPro-Semibold.eot
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSerifPro-Semibold.ttf
+Peter Dave Hello <hsu@peterdavehello.org>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/fonts/SourceSerifPro-Semibold.woff
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/hackmd-icon-1024.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/js/cover.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Jason Croft <jcroft@velocity.org>
+NV <nvsofts@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/extra.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+NV <nvsofts@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/google-drive-picker.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Max Wu <jackymaxj@gmail.com>
+=== public/js/google-drive-upload.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/js/history.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/htmlExport.js
+BoHong Li <a60814billy@gmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/index.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Jason Croft <jcroft@velocity.org>
+Laura Kyle <laura.kyle91@gmail.com>
+NV <nvsofts@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+xnum <s000032001@gmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+Zankio <xxoojoeooxx1@gmail.com>
+蒼時弦也 <elct9620@frost.tw>
+=== public/js/lib/appState.js
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/lib/common/constant.ejs
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/js/lib/common/login.js
+BoHong Li <a60814billy@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/lib/config/index.js
+BoHong Li <a60814billy@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/lib/editor/config.js
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/lib/editor/index.js
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/lib/editor/statusbar.html
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/lib/editor/ui-elements.js
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/lib/editor/utils.js
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/lib/modeType.js
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/lib/syncscroll.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/locale.js
+BoHong Li <a60814billy@gmail.com>
+Peter Dave Hello <PeterDaveHello@users.noreply.github.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/pretty.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/render.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/js/reveal-markdown.js
+BoHong Li <a60814billy@gmail.com>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/js/slide.js
+BoHong Li <a60814billy@gmail.com>
+Max Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/screenshot.png
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/uploads/.gitkeep
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/vendor/abcjs_basic_3.1.1-min.js
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/bootstrap/tooltip.min.css
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/bootstrap/tooltip.min.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/codemirror-spell-checker/en_US.aff
+Cheng-Han, Wu <jackymaxj@gmail.com>
+=== public/vendor/codemirror-spell-checker/en_US.dic
+Cheng-Han, Wu <jackymaxj@gmail.com>
+=== public/vendor/codemirror-spell-checker/spell-checker.min.css
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/codemirror-spell-checker/spell-checker.min.js
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/vendor/inlineAttachment/codemirror.inline-attachment.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/inlineAttachment/inline-attachment.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-textcomplete/jquery.textcomplete.js
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-bg_flat_0_aaaaaa_40x100.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-bg_flat_75_ffffff_40x100.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-bg_glass_55_fbf9ee_1x400.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-bg_glass_65_ffffff_1x400.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-bg_glass_75_dadada_1x400.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-bg_glass_75_e6e6e6_1x400.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-bg_glass_95_fef1ec_1x400.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-bg_highlight-soft_75_cccccc_1x100.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-icons_222222_256x240.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-icons_2e83ff_256x240.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-icons_454545_256x240.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-icons_888888_256x240.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/images/ui-icons_cd0a0a_256x240.png
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/jquery-ui.min.css
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/jquery-ui/jquery-ui.min.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/md-toc.js
+BoHong Li <a60814billy@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/ajax-adapter.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/client.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/codemirror-adapter.js
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/compress.sh
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/editor-client.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/ot.min.js
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/selection.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/socketio-adapter.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/text-operation.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/undo-manager.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/ot/wrapped-operation.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/showup/showup.css
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/vendor/showup/showup.js
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/error.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/hackmd.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/hackmd/body.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Florian Rhiem <florian.rhiem@gmail.com>
+Ian Dees <ian.dees@gmail.com>
+Jason Croft <jcroft@velocity.org>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+蒼時弦也 <elct9620@frost.tw>
+=== public/views/hackmd/foot.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Jannik Lorenz <dev@janniklorenz.de>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/views/hackmd/footer.ejs
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/hackmd/head.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+xnum <s000032001@gmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/views/hackmd/header.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Jannik Lorenz <dev@janniklorenz.de>
+Jason Croft <jcroft@velocity.org>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+xnum <s000032001@gmail.com>
+=== public/views/html.hbs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/includes/header.ejs
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/views/includes/scripts.ejs
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/views/index.ejs
+alecdwm <alec@owls.io>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Florian Rhiem <florian.rhiem@gmail.com>
+James Stephenson <c4p7.fl1n7@gmail.com>
+Jannik Lorenz <dev@janniklorenz.de>
+Jason Croft <jcroft@velocity.org>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/views/index/body.ejs
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/index/foot.ejs
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/index/footer.ejs
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/index/head.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+xnum <s000032001@gmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/views/index/header.ejs
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/pretty.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== public/views/shared/disqus.ejs
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/shared/ga.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/shared/help-modal.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/shared/polyfill.ejs
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/shared/refresh-modal.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/shared/revision-modal.ejs
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/shared/signin-modal.ejs
+alecdwm <alec@owls.io>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Jason Croft <jcroft@velocity.org>
+neopostmodern <clemens@neopostmodern.com>
+Sheogorath <sheogorath@shivering-isles.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== public/views/slide.ejs
+butlerx <butlerx@notthe.cloud>
+Cheng-Han, Wu <jackymaxj@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== tmp/.keep
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+=== webpack.config.js
+BoHong Li <a60814billy@gmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== webpack.production.js
+BoHong Li <a60814billy@gmail.com>
+geekyd <singhsince94@gmail.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== webpackBaseConfig.js
+BoHong Li <a60814billy@gmail.com>
+Peter Dave Hello <hsu@peterdavehello.org>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>
+=== yarn.lock
+BoHong Li <a60814billy@gmail.com>
+Christian Schuhmann <madebyherzblut@users.noreply.github.com>
+Wu Cheng-Han <jacky_cute0808@hotmail.com>
+Yukai Huang <yukaihuangtw@gmail.com>

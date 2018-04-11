@@ -1,5 +1,6 @@
 /node_modules
 node_modules
+package-lock.json
 composer.phar
 composer.lock
 .env.*.php

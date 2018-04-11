@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+
+// First configure the logger so it does not spam the console
+const logger = require("../lib/logger");
+logger.transports.console.level = "warning";
+
+const models = require("../lib/models/");
+const readline = require("readline-sync");
+const minimist = require("minimist");
+
+var usage = `
+
+Command-line utility to create users for email-signin.
+
+Usage: bin/manage_users [--pass password] (--add | --del) user-email
+	Options:
+		--add 	Add user with the specified user-email
+		--del 	Delete user with specified user-email
+		--pass	Use password from cmdline rather than prompting
+`
+
+// Using an async function to be able to use await inside
+async function createUser(argv) {
+	var existing_user = await models.User.findOne({where: {email: argv["add"]}});
+	// Cannot create already-existing users
+	if(existing_user != undefined) {
+		console.log("User with e-mail "+existing_user.email+" already exists! Aborting ...");
+		process.exit(1);
+	}
+
+	// Find whether we use cmdline or prompt password
+	if(argv["pass"] == undefined) {
+		var pass = readline.question("Password for "+argv["add"]+":", {hideEchoBack: true});
+	} else {
+		console.log("Using password from commandline...");
+		var pass = "" + argv["pass"];
+	}
+
+	// Lets try to create, and check success
+	var ref = await models.User.create({email: argv["add"], password: pass});
+	if(ref == undefined) {
+		console.log("Could not create user with email "+argv["add"]);
+		process.exit(1);
+	} else
+		console.log("Created user with email "+argv["add"]);
+}
+
+// Using an async function to be able to use await inside
+async function deleteUser(argv) {
+	// Cannot delete non-existing users
+	var existing_user = await models.User.findOne({where: {email: argv["del"]}});
+	if(existing_user == undefined) {
+		console.log("User with e-mail "+argv["del"]+" does not exist, cannot delete");
+		process.exit(1);
+	}
+
+	// Sadly .destroy() does not return any success value with all
+	// backends. See sequelize #4124
+	await existing_user.destroy();
+	console.log("Deleted user "+argv["del"]+" ...");
+}
+
+// Perform commandline-parsing
+var argv = minimist(process.argv.slice(2));
+
+// Check for add/delete missing
+if (argv["add"] == undefined && argv["del"] == undefined) {
+	console.log("You did not specify either --add or --del!");
+	console.log(usage);
+	process.exit(1);
+}
+
+// Check if both are specified
+if (argv["add"] != undefined && argv["del"] != undefined) {
+	console.log("You cannot add and delete at the same time!");
+	console.log(usage);
+	process.exit(1);
+}
+
+// Call respective processing functions
+if (argv["add"] != undefined) {
+	createUser(argv).then(function() {
+		process.exit(0);
+	});
+} else if (argv["del"] != undefined) {
+	deleteUser(argv).then(function() {
+		process.exit(0);
+	})
+}

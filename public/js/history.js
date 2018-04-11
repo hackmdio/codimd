@@ -3,6 +3,12 @@
 
 import store from 'store'
 import S from 'string'
+import LZString from 'lz-string'
+
+import {
+  checkNoteIdValid,
+  encodeNoteId
+} from './utils'
 
 import {
     checkIfAuth
@@ -291,6 +297,15 @@ function parseToHistory (list, notehistory, callback) {
   else if (!list || !notehistory) callback(list, notehistory)
   else if (notehistory && notehistory.length > 0) {
     for (let i = 0; i < notehistory.length; i++) {
+      // migrate LZString encoded id to base64url encoded id
+      try {
+        let id = LZString.decompressFromBase64(notehistory[i].id)
+        if (id && checkNoteIdValid(id)) {
+          notehistory[i].id = encodeNoteId(id)
+        }
+      } catch (err) {
+        console.error(err)
+      }
             // parse time to timestamp and fromNow
       const timestamp = (typeof notehistory[i].time === 'number' ? moment(notehistory[i].time) : moment(notehistory[i].time, 'MMMM Do YYYY, h:mm:ss a'))
       notehistory[i].timestamp = timestamp.valueOf()
