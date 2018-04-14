@@ -22,11 +22,11 @@
             "includeSubdomains": true,
             "preload": true
         },
-        csp: {
+        "csp": {
             "enable": true,
             "directives": {
             },
-            "upgradeInsecureRequests": "auto"
+            "upgradeInsecureRequests": "auto",
             "addDefaults": true,
             "addDisqus": true,
             "addGoogleAnalytics": true
