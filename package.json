@@ -6,7 +6,7 @@
   "license": "AGPL-3.0",
   "scripts": {
     "test": "npm run-script standard && npm run-script jsonlint",
-    "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' | while read json; do echo $json ; jq . $json; done",
+    "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' -o -type f -name '*.json.example' | while read json; do echo $json ; jq . $json; done",
     "standard": "node ./node_modules/standard/bin/cmd.js",
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
     "build": "webpack --config webpack.production.js --progress --colors --bail",
