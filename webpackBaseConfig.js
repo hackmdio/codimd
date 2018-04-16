@@ -4,6 +4,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 
+// Fix possible nofile-issues
+var fs = require('fs')
+var gracefulFs = require('graceful-fs')
+gracefulFs.gracefulify(fs)
+
 module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
