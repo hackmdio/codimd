@@ -60,7 +60,6 @@ Thanks for using! :smile:
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm (and its dependencies, especially [uWebSockets](https://github.com/uWebSockets/uWebSockets#nodejs-developers), [node-gyp](https://github.com/nodejs/node-gyp#installation))
 - For **building** HackMD we recommend to use a machine with at least **2GB** RAM
-- (optional) *For development you may need to increase the number of allowed open file descriptors on your machine*
 
 ### Instructions
 
@@ -329,5 +328,5 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 [standardjs-url]: https://github.com/feross/standard
 [codetriage-image]: https://www.codetriage.com/hackmdio/hackmd/badges/users.svg
 [codetriage-url]: https://www.codetriage.com/hackmdio/hackmd
-[poeditor-image]: https://img.shields.io/badge/POEditor-translate-green.svg
+[poeditor-image]: https://img.shields.io/badge/POEditor-translate-blue.svg
 [poeditor-url]: https://poeditor.com/join/project/1OpGjF2Jir

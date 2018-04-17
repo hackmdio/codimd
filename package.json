@@ -42,6 +42,7 @@
     "font-awesome": "^4.7.0",
     "formidable": "^1.0.17",
     "gist-embed": "~2.6.0",
+    "graceful-fs": "^4.1.11",
     "handlebars": "^4.0.6",
     "helmet": "^3.3.0",
     "highlight.js": "~9.9.0",
