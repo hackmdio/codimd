@@ -25,6 +25,7 @@ Thanks for using! :smile:
   - [Getting started (Native install)](#getting-started-native-install)
     - [Prerequisite](#prerequisite)
     - [Instructions](#instructions)
+  - [CentOS Installation](docs/guides/centos-installation.sh)
   - [Heroku Deployment](#heroku-deployment)
   - [HackMD by docker container](#hackmd-by-docker-container)
 - [Upgrade](#upgrade)
