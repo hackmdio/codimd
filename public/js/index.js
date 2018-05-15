@@ -30,8 +30,6 @@ import {
 import {
     debug,
     DROPBOX_APP_KEY,
-    GOOGLE_API_KEY,
-    GOOGLE_CLIENT_ID,
     noteid,
     noteurl,
     urlpath,
@@ -908,29 +906,6 @@ if (DROPBOX_APP_KEY) {
   ui.toolbar.export.dropbox.hide()
 }
 
-// check if google api key and client id are set and load scripts
-if (GOOGLE_API_KEY && GOOGLE_CLIENT_ID) {
-  $('<script>')
-        .attr('type', 'text/javascript')
-        .attr('src', 'https://www.google.com/jsapi?callback=onGoogleAPILoaded')
-        .prop('async', true)
-        .prop('defer', true)
-        .appendTo('body')
-} else {
-  ui.toolbar.import.googleDrive.hide()
-  ui.toolbar.export.googleDrive.hide()
-}
-
-function onGoogleAPILoaded () {
-  $('<script>')
-        .attr('type', 'text/javascript')
-        .attr('src', 'https://apis.google.com/js/client:plusone.js?onload=onGoogleClientLoaded')
-        .prop('async', true)
-        .prop('defer', true)
-        .appendTo('body')
-}
-window.onGoogleAPILoaded = onGoogleAPILoaded
-
 // button actions
 // share
 ui.toolbar.publish.attr('href', noteurl + '/publish')
@@ -978,53 +953,6 @@ ui.toolbar.export.dropbox.click(function () {
     }
   }
   Dropbox.save(options)
-})
-function uploadToGoogleDrive (accessToken) {
-  ui.spinner.show()
-  var filename = renderFilename(ui.area.markdown) + '.md'
-  var markdown = editor.getValue()
-  var blob = new Blob([markdown], {
-    type: 'text/markdown;charset=utf-8'
-  })
-  blob.name = filename
-  var uploader = new MediaUploader({
-    file: blob,
-    token: accessToken,
-    onComplete: function (data) {
-      data = JSON.parse(data)
-      showMessageModal('<i class="fa fa-cloud-upload"></i> Export to Google Drive', 'Export Complete!', data.alternateLink, 'Click here to view your file', true)
-      ui.spinner.hide()
-    },
-    onError: function (data) {
-      showMessageModal('<i class="fa fa-cloud-upload"></i> Export to Google Drive', 'Export Error :(', '', data, false)
-      ui.spinner.hide()
-    }
-  })
-  uploader.upload()
-}
-function googleApiAuth (immediate, callback) {
-  gapi.auth.authorize(
-    {
-      'client_id': GOOGLE_CLIENT_ID,
-      'scope': 'https://www.googleapis.com/auth/drive.file',
-      'immediate': immediate
-    }, callback || function () { })
-}
-function onGoogleClientLoaded () {
-  googleApiAuth(true)
-  buildImportFromGoogleDrive()
-}
-window.onGoogleClientLoaded = onGoogleClientLoaded
-// export to google drive
-ui.toolbar.export.googleDrive.click(function (e) {
-  var token = gapi.auth.getToken()
-  if (token) {
-    uploadToGoogleDrive(token.access_token)
-  } else {
-    googleApiAuth(false, function (result) {
-      uploadToGoogleDrive(result.access_token)
-    })
-  }
 })
 // export to gist
 ui.toolbar.export.gist.attr('href', noteurl + '/gist')
@@ -1075,38 +1003,6 @@ ui.toolbar.import.dropbox.click(function () {
   }
   Dropbox.choose(options)
 })
-// import from google drive
-function buildImportFromGoogleDrive () {
-  /* eslint-disable no-unused-vars */
-  let picker = new FilePicker({
-    apiKey: GOOGLE_API_KEY,
-    clientId: GOOGLE_CLIENT_ID,
-    buttonEl: ui.toolbar.import.googleDrive,
-    onSelect: function (file) {
-      if (file.downloadUrl) {
-        ui.spinner.show()
-        var accessToken = gapi.auth.getToken().access_token
-        $.ajax({
-          type: 'GET',
-          beforeSend: function (request) {
-            request.setRequestHeader('Authorization', 'Bearer ' + accessToken)
-          },
-          url: file.downloadUrl,
-          success: function (data) {
-            if (file.fileExtension === 'html') { parseToEditor(data) } else { replaceAll(data) }
-          },
-          error: function (data) {
-            showMessageModal('<i class="fa fa-cloud-download"></i> Import from Google Drive', 'Import failed :(', '', data, false)
-          },
-          complete: function () {
-            ui.spinner.hide()
-          }
-        })
-      }
-    }
-  })
-  /* eslint-enable no-unused-vars */
-}
 // import from gist
 ui.toolbar.import.gist.click(function () {
     // na

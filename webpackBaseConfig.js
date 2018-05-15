@@ -208,8 +208,6 @@ module.exports = {
       'flowchart.js',
       'js-sequence-diagrams',
       'expose?RevealMarkdown!reveal-markdown',
-      path.join(__dirname, 'public/js/google-drive-upload.js'),
-      path.join(__dirname, 'public/js/google-drive-picker.js'),
       path.join(__dirname, 'public/js/index.js')
     ],
     'index-styles': [
@@ -266,8 +264,6 @@ module.exports = {
       'script!abcjs',
       'expose?io!socket.io-client',
       'expose?RevealMarkdown!reveal-markdown',
-      path.join(__dirname, 'public/js/google-drive-upload.js'),
-      path.join(__dirname, 'public/js/google-drive-picker.js'),
       path.join(__dirname, 'public/js/index.js')
     ],
     pretty: [
