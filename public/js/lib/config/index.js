@@ -1,5 +1,3 @@
-export const GOOGLE_API_KEY = window.GOOGLE_API_KEY || ''
-export const GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID || ''
 export const DROPBOX_APP_KEY = window.DROPBOX_APP_KEY || ''
 
 export const domain = window.domain || '' // domain name

@@ -22,13 +22,11 @@ export const getUIElements = () => ({
     },
     export: {
       dropbox: $('.ui-save-dropbox'),
-      googleDrive: $('.ui-save-google-drive'),
       gist: $('.ui-save-gist'),
       snippet: $('.ui-save-snippet')
     },
     import: {
       dropbox: $('.ui-import-dropbox'),
-      googleDrive: $('.ui-import-google-drive'),
       gist: $('.ui-import-gist'),
       snippet: $('.ui-import-snippet'),
       clipboard: $('.ui-import-clipboard')

@@ -272,7 +272,7 @@ There are some config settings you need to change in the files below.
 | ------- | --------- | ----------- |
 | facebook, twitter, github, gitlab, mattermost, dropbox, google, ldap, saml | environment variables or `config.json` | for signin |
 | imgur, s3, minio | environment variables or `config.json` | for image upload |
-| google drive(`google/apiKey`, `google/clientID`), dropbox(`dropbox/appKey`) | `config.json` | for export and import |
+| dropbox(`dropbox/appKey`) | `config.json` | for export and import |
 
 ## Third-party integration OAuth callback URLs
 
