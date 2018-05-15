@@ -32,10 +32,12 @@
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
                 </li>
-                <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || (typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api'))) { %>
+                <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || (typeof google !== 'undefined' && google) || (typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api'))) { %>
                 <li class="divider"></li>
                 <li class="dropdown-header"><%= __('Export') %></li>
                 <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
+                </li>
+                <li role="presentation"><a role="menuitem" class="ui-save-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-upload fa-fw"></i> Google Drive</a>
                 </li>
                 <% if(typeof github !== 'undefined' && github) { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank"><i class="fa fa-github fa-fw"></i> Gist</a>
@@ -49,6 +51,8 @@
                 <li class="divider"></li>
                 <li class="dropdown-header"><%= __('Import') %></li>
                 <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
+                </li>
+                <li role="presentation"><a role="menuitem" class="ui-import-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-download fa-fw"></i> Google Drive</a>
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-import-gist" href="#" data-toggle="modal" data-target="#gistImportModal"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
@@ -139,6 +143,8 @@
                     <li class="dropdown-header"><%= __('Export') %></li>
                     <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                     </li>
+                    <li role="presentation"><a role="menuitem" class="ui-save-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-upload fa-fw"></i> Google Drive</a>
+                    </li>
                     <% if(typeof github !== 'undefined' && github) { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
@@ -151,6 +157,8 @@
                     <li class="divider"></li>
                     <li class="dropdown-header"><%= __('Import') %></li>
                     <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
+                    </li>
+                    <li role="presentation"><a role="menuitem" class="ui-import-google-drive" tabindex="-1" href="#" target="_self"><i class="fa fa-cloud-download fa-fw"></i> Google Drive</a>
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-import-gist" href="#" data-toggle="modal" data-target="#gistImportModal"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
