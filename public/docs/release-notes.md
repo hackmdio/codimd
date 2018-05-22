@@ -1,6 +1,27 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 1.1.1-ce <i class="fa fa-clock-o"></i> 2018-05-23 12:00
+---
+
+### Security
+* Fix Google Drive integration leaked `clientSecret` for Google integration
+* Update base64url package
+
+### Fixes
+* Fix typos in integrations
+* Fix high need of file descriptors during build
+* Fix heroku deployment by limiting node version to <10.x
+
+### Refactors
+* Refactor letterAvatars to be compliant with CSP
+
+### Removes
+* Google Drive integration
+
+### Honorable mentions
+* [Max Wu (jackycute)](https://github.com/jackycute)
+
 <i class="fa fa-tag"></i> 1.1.0-ce <i class="fa fa-clock-o"></i> 2018-04-06 12:00
 ---
 
