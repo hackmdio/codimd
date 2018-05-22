@@ -147,7 +147,7 @@
                         <option value="da">dansk</option>
                     </select>
                     <p>
-                        &copy; 2018 <a href="https://hackmd.io">HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank"><%= __('Releases') %></a>
+                        &copy; 2018 <a href="https://hackmd.io">HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank"><%= __('Releases') %></a><% if(privacyStatement) { %> | <a href="<%- url %>/s/privacy" target="_blank"><%= __('Privacy') %></a><% } %><% if(termsOfUse) { %> | <a href="<%- url %>/s/terms-of-use" target="_blank"><%= __('Terms of Use') %></a><% } %>
                     </p>
                     <h6 class="social-foot">
                         <%- __('Follow us on %s and %s.', '<a href="https://github.com/hackmdio/HackMD" target="_blank"><i class="fa fa-github"></i> GitHub</a>, <a href="https://twitter.com/hackmdio" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>', '<a href="https://www.facebook.com/hackmdio" target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a>') %>

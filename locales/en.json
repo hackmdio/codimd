@@ -105,5 +105,7 @@
 	"Export to Snippet": "Export to Snippet",
 	"Select Visibility Level": "Select Visibility Level",
 	"Night Theme": "Night Theme",
-	"Follow us on %s and %s.": "Follow us on %s, and %s."
+	"Follow us on %s and %s.": "Follow us on %s, and %s.",
+	"Privacy": "Privacy",
+	"Terms of Use": "Terms of Use"
 }
