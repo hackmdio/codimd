@@ -114,6 +114,11 @@
           "secretAccessKey": "change this",
           "region": "change this"
         },
-        "s3bucket": "change this"
+        "s3bucket": "change this",
+        "azure":
+        {
+          "connectionString": "change this",
+          "container": "change this"
+        }
     }
 }
