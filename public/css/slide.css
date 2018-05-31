@@ -81,7 +81,8 @@
 .task-list-item-checkbox {
     font-size: inherit;
     height: 1em;
-    margin: 0.2em 0 0.2em -0.65em !important;
+    transform: scale(2);
+    margin: 0.15em 0 0.15em -0.84em !important;
 }
 
 pre code .wrapper {
