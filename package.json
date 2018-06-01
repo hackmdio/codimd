@@ -19,6 +19,7 @@
     "async": "^2.1.4",
     "aws-sdk": "^2.7.20",
     "base64url": "^3.0.0",
+    "azure-storage": "^2.7.0",
     "blueimp-md5": "^2.6.0",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",

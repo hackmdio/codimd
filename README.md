@@ -212,6 +212,8 @@ There are some config settings you need to change in the files below.
 | `HMD_MINIO_ENDPOINT` | `minio.example.org` | Address of your Minio endpoint/instance |
 | `HMD_MINIO_PORT` | `9000` | Port that is used for your Minio instance |
 | `HMD_MINIO_SECURE` | `true` | If set to `true` HTTPS is used for Minio |
+| `HMD_AZURE_CONNECTION_STRING` | no example | Azure Blob Storage connection string |
+| `HMD_AZURE_CONTAINER` | no example | Azure Blob Storage container name (automatically created if non existent) |
 | `HMD_HSTS_ENABLE` | ` true`  | set to enable [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) if HTTPS is also enabled (default is ` true`) |
 | `HMD_HSTS_INCLUDE_SUBDOMAINS` | `true` | set to include subdomains in HSTS (default is `true`) |
 | `HMD_HSTS_MAX_AGE` | `31536000` | max duration in seconds to tell clients to keep HSTS status (default is a year) |
@@ -261,7 +263,7 @@ There are some config settings you need to change in the files below.
 | `documentMaxLength` | `100000` | note max length |
 | `email` | `true` or `false` | set to allow email signin |
 | `allowEmailRegister`  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
-| `imageUploadType` | `imgur`(default), `s3`, `minio` or `filesystem` | Where to upload image
+| `imageUploadType` | `imgur`(default), `s3`, `minio`, `azure` or `filesystem` | Where to upload image
 | `minio` | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageUploadType` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
 | `s3` | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageuploadtype` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
 | `s3bucket` | `YOUR_S3_BUCKET_NAME` | bucket name when `imageUploadType` is set to `s3` or `minio` |
@@ -271,7 +273,7 @@ There are some config settings you need to change in the files below.
 | service | settings location | description |
 | ------- | --------- | ----------- |
 | facebook, twitter, github, gitlab, mattermost, dropbox, google, ldap, saml | environment variables or `config.json` | for signin |
-| imgur, s3, minio | environment variables or `config.json` | for image upload |
+| imgur, s3, minio, azure | environment variables or `config.json` | for image upload |
 | dropbox(`dropbox/appKey`) | `config.json` | for export and import |
 
 ## Third-party integration OAuth callback URLs
