@@ -48,7 +48,12 @@
                     <i class="fa fa-users"></i> <%= __('Sign in via %s', 'SAML') %>
                 </a>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || saml) && ldap) { %>
+                <% if(oauth2) { %>
+                <a href="<%- url %>/auth/oauth2" class="btn btn-lg btn-block btn-social btn-soundcloud">
+                    <i class="fa fa-mail-forward"></i> <%= __('Sign in via %s', oauth2ProviderName || 'OAuth2') %>
+                </a>
+                <% } %>
+                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || saml || oauth2) && ldap) { %>
                 <hr>
                 <% }%>
                 <% if(ldap) { %>
@@ -73,7 +78,7 @@
                     </div>
                 </form>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap) && email) { %>
+                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap || oauth2) && email) { %>
                 <hr>
                 <% }%>
                 <% if(email) { %>
