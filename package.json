@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "Idle.Js": "git+https://github.com/shawnmclean/Idle.js",
+    "archiver": "^2.1.1",
     "async": "^2.1.4",
     "aws-sdk": "^2.7.20",
     "base64url": "^3.0.0",

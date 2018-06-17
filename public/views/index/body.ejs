@@ -27,6 +27,8 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="profileLabel">
                                         <li><a href="<%- url %>/features"><i class="fa fa-dot-circle-o fa-fw"></i> <%= __('Features') %></a></li>
+                                        <li><a href="<%- url %>/me/export"><i class="fa fa-cloud-download fa-fw"></i> <%= __('Export user data') %></a></li>
+                                        <li><a class="ui-delete-user" data-toggle="modal" data-target=".delete-user-modal"><i class="fa fa-trash fa-fw"></i> <%= __('Delete user') %></a></li>
                                         <li><a href="<%- url %>/logout"><i class="fa fa-sign-out fa-fw"></i> <%= __('Sign Out') %></a></li>
                                     </ul>
                                 </span>
@@ -108,7 +110,7 @@
                         <span class="btn btn-default btn-file ui-open-history" title="<%= __('Import history') %>">
                             <i class="fa fa-folder-open-o"></i><input type="file" />
                         </span>
-                    <a href="#" class="btn btn-default ui-clear-history" title="<%= __('Clear history') %>" data-toggle="modal" data-target=".delete-modal"><i class="fa fa-trash-o"></i></a>
+                    <a href="#" class="btn btn-default ui-clear-history" title="<%= __('Clear history') %>" data-toggle="modal" data-target=".delete-history-modal"><i class="fa fa-trash-o"></i></a>
                     </span>
                     <a href="#" class="btn btn-default ui-refresh-history" title="<%= __('Refresh history') %>"><i class="fa fa-refresh"></i></a>
                 </form>
@@ -148,7 +150,7 @@
                         <option value="ko">한국어</option>
                     </select>
                     <p>
-                        &copy; 2018 <a href="https://hackmd.io">HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank"><%= __('Releases') %></a>
+                        &copy; 2018 <a href="https://hackmd.io">HackMD</a> | <a href="<%- url %>/s/release-notes" target="_blank"><%= __('Releases') %></a><% if(privacyStatement) { %> | <a href="<%- url %>/s/privacy" target="_blank"><%= __('Privacy') %></a><% } %><% if(termsOfUse) { %> | <a href="<%- url %>/s/terms-of-use" target="_blank"><%= __('Terms of Use') %></a><% } %>
                     </p>
                     <h6 class="social-foot">
                         <%- __('Follow us on %s and %s.', '<a href="https://github.com/hackmdio/HackMD" target="_blank"><i class="fa fa-github"></i> GitHub</a>, <a href="https://twitter.com/hackmdio" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>', '<a href="https://www.facebook.com/hackmdio" target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a>') %>
@@ -158,8 +160,8 @@
         </div>
     </div>
 </div>
-<!-- delete modal -->
-<div class="modal fade delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- delete history modal -->
+<div class="modal fade delete-history-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -168,12 +170,32 @@
                 <h4 class="modal-title" id="myModalLabel"><%= __('Are you sure?') %></h4>
             </div>
             <div class="modal-body" style="color:black;">
-                <h5 class="ui-delete-modal-msg"></h5>
-                <strong class="ui-delete-modal-item"></strong>
+                <h5 class="ui-delete-history-modal-msg"></h5>
+                <strong class="ui-delete-history-modal-item"></strong>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('Cancel') %></button>
-                <button type="button" class="btn btn-danger ui-delete-modal-confirm"><%= __('Yes, do it!') %></button>
+                <button type="button" class="btn btn-danger ui-delete-history-modal-confirm"><%= __('Yes, do it!') %></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- delete user modal -->
+<div class="modal fade delete-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><%= __('Are you sure?') %></h4>
+            </div>
+            <div class="modal-body" style="color:black;">
+                <h5 class="ui-delete-user-modal-msg"><%= __('Do you really want to delete your user account?') %></h5>
+                <strong class="ui-delete-user-modal-item"><%= __('This will delete your account, all notes that are owned by you and remove all references to your account from other notes.') %></strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ui-delete-user-modal-cancel" data-dismiss="modal"><%= __('Cancel') %></button>
+                <a type="button" class="btn btn-danger" href="<%- url %>/me/delete/<%- deleteToken %>"><%= __('Yes, do it!') %></a>
             </div>
         </div>
     </div>
