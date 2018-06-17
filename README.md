@@ -26,6 +26,7 @@ Thanks for using! :smile:
     - [Prerequisite](#prerequisite)
     - [Instructions](#instructions)
   - [Heroku Deployment](#heroku-deployment)
+  - [Kubernetes](#kubernetes)
   - [HackMD by docker container](#hackmd-by-docker-container)
 - [Upgrade](#upgrade)
   - [Native setup](#native-setup)
@@ -77,6 +78,12 @@ You can quickly setup a sample Heroku HackMD application by clicking the button 
 [![Deploy on Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/hackmdio/hackmd/tree/master)
 
 If you deploy it without the button, keep in mind to use the right buildpacks. For details check `app.json`.
+
+## Kubernetes
+
+To install use `helm install stable/hackmd`.
+
+For all further details, please check out the offical HackMD  [K8s helm chart](https://github.com/kubernetes/charts/tree/master/stable/hackmd).
 
 ## HackMD by docker container
 [![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/docker-hackmd/raw/master/docker-compose.yml&stack_name=hackmd)
