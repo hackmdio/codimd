@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css" integrity="sha256-ol2N5Xr80jdDqxK0lte3orKGb9Ja3sOnpAUV7TTADmg=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
         <%- include build/slide-header %>
+        <%- include shared/polyfill %>
         <% } else { %>
         <link rel="stylesheet" href="<%- url %>/build/reveal.js/css/reveal.css">
         <link rel="stylesheet" href='<%- url %>/build/emojify.js/dist/css/basic/emojify.min.css'>
@@ -47,8 +48,6 @@
             link.href = '<%- url %>/build/reveal.js/' + (window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
             document.getElementsByTagName( 'head' )[0].appendChild( link );
         </script>
-
-        <%- include shared/polyfill %>
     </head>
     <body>
         <div class="container">
