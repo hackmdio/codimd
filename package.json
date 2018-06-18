@@ -1,12 +1,12 @@
 {
   "name": "hackmd",
-  "version": "1.1.0-ce",
+  "version": "1.1.1-ce",
   "description": "Realtime collaborative markdown notes on all platforms.",
   "main": "app.js",
   "license": "AGPL-3.0",
   "scripts": {
     "test": "npm run-script standard && npm run-script jsonlint",
-    "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' | while read json; do echo $json ; jq . $json; done",
+    "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' -o -type f -name '*.json.example' | while read json; do echo $json ; jq . $json; done",
     "standard": "node ./node_modules/standard/bin/cmd.js",
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
     "build": "webpack --config webpack.production.js --progress --colors --bail",
@@ -16,9 +16,11 @@
   },
   "dependencies": {
     "Idle.Js": "git+https://github.com/shawnmclean/Idle.js",
+    "archiver": "^2.1.1",
     "async": "^2.1.4",
     "aws-sdk": "^2.7.20",
-    "base64url": "^2.0.0",
+    "base64url": "^3.0.0",
+    "azure-storage": "^2.7.0",
     "blueimp-md5": "^2.6.0",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
@@ -43,6 +45,7 @@
     "font-awesome": "^4.7.0",
     "formidable": "^1.0.17",
     "gist-embed": "~2.6.0",
+    "graceful-fs": "^4.1.11",
     "handlebars": "^4.0.6",
     "helmet": "^3.3.0",
     "highlight.js": "~9.9.0",
@@ -133,8 +136,12 @@
     "xss": "^0.3.3"
   },
   "engines": {
+<<<<<<< HEAD
     "node": "6.x.x",
     "npm": "3.x.x"
+=======
+    "node": ">=6.x <10.x"
+>>>>>>> 82c7f9d07cfecfc110af8c8fc0e47edf070596b2
   },
   "bugs": "https://github.com/hackmdio/hackmd/issues",
   "keywords": [

@@ -26,6 +26,7 @@ Thanks for using! :smile:
     - [Prerequisite](#prerequisite)
     - [Instructions](#instructions)
   - [Heroku Deployment](#heroku-deployment)
+  - [Kubernetes](#kubernetes)
   - [HackMD by docker container](#hackmd-by-docker-container)
 - [Upgrade](#upgrade)
   - [Native setup](#native-setup)
@@ -60,7 +61,6 @@ Thanks for using! :smile:
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm (and its dependencies, especially [uWebSockets](https://github.com/uWebSockets/uWebSockets#nodejs-developers), [node-gyp](https://github.com/nodejs/node-gyp#installation))
 - For **building** HackMD we recommend to use a machine with at least **2GB** RAM
-- (optional) *For development you may need to increase the number of allowed open file descriptors on your machine*
 
 ### Instructions
 
@@ -78,6 +78,12 @@ You can quickly setup a sample Heroku HackMD application by clicking the button 
 [![Deploy on Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/hackmdio/hackmd/tree/master)
 
 If you deploy it without the button, keep in mind to use the right buildpacks. For details check `app.json`.
+
+## Kubernetes
+
+To install use `helm install stable/hackmd`.
+
+For all further details, please check out the offical HackMD  [K8s helm chart](https://github.com/kubernetes/charts/tree/master/stable/hackmd).
 
 ## HackMD by docker container
 [![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/docker-hackmd/raw/master/docker-compose.yml&stack_name=hackmd)
@@ -203,7 +209,7 @@ There are some config settings you need to change in the files below.
 | `HMD_EMAIL` | `true` or `false` | set to allow email signin |
 | `HMD_ALLOW_PDF_EXPORT` | `true` or `false` | Enable or disable PDF exports |
 | `HMD_ALLOW_EMAIL_REGISTER` | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
-| `HMD_IMAGE_UPLOAD_TYPE` | `imgur`, `s3`, `minio` or `filesystem` | Where to upload image. For S3, see our Image Upload Guides for [S3](docs/guides/s3-image-upload.md) or [Minio](docs/guides/minio-image-upload.md) |
+| `HMD_IMAGE_UPLOAD_TYPE` | `imgur`, `s3`, `minio` or `filesystem` | Where to upload images. For S3, see our Image Upload Guides for [S3](docs/guides/s3-image-upload.md) or [Minio](docs/guides/minio-image-upload.md) |
 | `HMD_S3_ACCESS_KEY_ID` | no example | AWS access key id |
 | `HMD_S3_SECRET_ACCESS_KEY` | no example | AWS secret key |
 | `HMD_S3_REGION` | `ap-northeast-1` | AWS S3 region |
@@ -213,6 +219,8 @@ There are some config settings you need to change in the files below.
 | `HMD_MINIO_ENDPOINT` | `minio.example.org` | Address of your Minio endpoint/instance |
 | `HMD_MINIO_PORT` | `9000` | Port that is used for your Minio instance |
 | `HMD_MINIO_SECURE` | `true` | If set to `true` HTTPS is used for Minio |
+| `HMD_AZURE_CONNECTION_STRING` | no example | Azure Blob Storage connection string |
+| `HMD_AZURE_CONTAINER` | no example | Azure Blob Storage container name (automatically created if non existent) |
 | `HMD_HSTS_ENABLE` | ` true`  | set to enable [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) if HTTPS is also enabled (default is ` true`) |
 | `HMD_HSTS_INCLUDE_SUBDOMAINS` | `true` | set to include subdomains in HSTS (default is `true`) |
 | `HMD_HSTS_MAX_AGE` | `31536000` | max duration in seconds to tell clients to keep HSTS status (default is a year) |
@@ -262,7 +270,7 @@ There are some config settings you need to change in the files below.
 | `documentMaxLength` | `100000` | note max length |
 | `email` | `true` or `false` | set to allow email signin |
 | `allowEmailRegister`  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
-| `imageUploadType` | `imgur`(default), `s3`, `minio` or `filesystem` | Where to upload image
+| `imageUploadType` | `imgur`, `s3`, `minio`, `azure` or `filesystem`(default) | Where to upload images. For S3, see our Image Upload Guides for [S3](docs/guides/s3-image-upload.md) or [Minio](docs/guides/minio-image-upload.md)|
 | `minio` | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageUploadType` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
 | `s3` | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageuploadtype` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
 | `s3bucket` | `YOUR_S3_BUCKET_NAME` | bucket name when `imageUploadType` is set to `s3` or `minio` |
@@ -272,8 +280,8 @@ There are some config settings you need to change in the files below.
 | service | settings location | description |
 | ------- | --------- | ----------- |
 | facebook, twitter, github, gitlab, mattermost, dropbox, google, ldap, saml | environment variables or `config.json` | for signin |
-| imgur, s3, minio | environment variables or `config.json` | for image upload |
-| google drive(`google/apiKey`, `google/clientID`), dropbox(`dropbox/appKey`) | `config.json` | for export and import |
+| imgur, s3, minio, azure | environment variables or `config.json` | for image upload |
+| dropbox(`dropbox/appKey`) | `config.json` | for export and import |
 
 ## Third-party integration OAuth callback URLs
 
@@ -329,5 +337,5 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 [standardjs-url]: https://github.com/feross/standard
 [codetriage-image]: https://www.codetriage.com/hackmdio/hackmd/badges/users.svg
 [codetriage-url]: https://www.codetriage.com/hackmdio/hackmd
-[poeditor-image]: https://img.shields.io/badge/POEditor-translate-green.svg
+[poeditor-image]: https://img.shields.io/badge/POEditor-translate-blue.svg
 [poeditor-url]: https://poeditor.com/join/project/1OpGjF2Jir

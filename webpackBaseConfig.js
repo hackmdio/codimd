@@ -4,6 +4,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 
+// Fix possible nofile-issues
+var fs = require('fs')
+var gracefulFs = require('graceful-fs')
+gracefulFs.gracefulify(fs)
+
 module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
@@ -203,8 +208,6 @@ module.exports = {
       'flowchart.js',
       'js-sequence-diagrams',
       'expose?RevealMarkdown!reveal-markdown',
-      path.join(__dirname, 'public/js/google-drive-upload.js'),
-      path.join(__dirname, 'public/js/google-drive-picker.js'),
       path.join(__dirname, 'public/js/index.js')
     ],
     'index-styles': [
@@ -261,8 +264,6 @@ module.exports = {
       'script!abcjs',
       'expose?io!socket.io-client',
       'expose?RevealMarkdown!reveal-markdown',
-      path.join(__dirname, 'public/js/google-drive-upload.js'),
-      path.join(__dirname, 'public/js/google-drive-picker.js'),
       path.join(__dirname, 'public/js/index.js')
     ],
     pretty: [

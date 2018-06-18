@@ -54,6 +54,7 @@
       var j = i + 1
       this._elTitleElement = this.elTitleElements[i]
       this._elTitleElementName = this._elTitleElement.tagName
+      this._elTitleElementTitle = this._elTitleElement.textContent.replace(/"/g, '&quot;')
       this._elTitleElementText = (typeof this.process === 'function' ? this.process(this._elTitleElement) : this._elTitleElement.innerHTML).replace(/<(?:.|\n)*?>/gm, '')
       var id = this._elTitleElement.getAttribute('id')
       if (!id) {
@@ -63,7 +64,7 @@
         id = '#' + id
       }
 
-      this.tocContent += '<li><a href="' + id + '">' + this._elTitleElementText + '</a>'
+      this.tocContent += '<li><a href="' + id + '" title="'+ this._elTitleElementTitle +'">' + this._elTitleElementText + '</a>'
 
       if (j !== this._elTitleElementsLen) {
         this._elNextTitleElementName = this.elTitleElements[j].tagName

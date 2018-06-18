@@ -33,8 +33,6 @@ var data = {
   urlpath: config.urlPath,
   debug: config.debug,
   version: config.version,
-  GOOGLE_API_KEY: config.google.clientSecret,
-  GOOGLE_CLIENT_ID: config.google.clientID,
   DROPBOX_APP_KEY: config.dropbox.appKey,
   allowedUploadMimeTypes: config.allowedUploadMimeTypes
 }
@@ -131,9 +129,10 @@ if (config.csp.enable) {
 }
 
 i18n.configure({
-  locales: ['en', 'zh', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da'],
+  locales: ['en', 'zh', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da', 'ko'],
   cookie: 'locale',
-  directory: path.join(__dirname, '/locales')
+  directory: path.join(__dirname, '/locales'),
+  updateFiles: config.updateI18nFiles
 })
 
 app.use(cookieParser())

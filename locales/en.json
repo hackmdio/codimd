@@ -105,5 +105,11 @@
 	"Export to Snippet": "Export to Snippet",
 	"Select Visibility Level": "Select Visibility Level",
 	"Night Theme": "Night Theme",
-	"Follow us on %s and %s.": "Follow us on %s, and %s."
+	"Follow us on %s and %s.": "Follow us on %s, and %s.",
+	"Privacy": "Privacy",
+	"Terms of Use": "Terms of Use",
+	"Do you really want to delete your user account?": "Do you really want to delete your user account?",
+	"This will delete your account, all notes that are owned by you and remove all references to your account from other notes.": "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.",
+	"Delete user": "Delete user",
+	"Export user data": "Export user data"
 }

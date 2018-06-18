@@ -22,11 +22,11 @@
             "includeSubdomains": true,
             "preload": true
         },
-        csp: {
+        "csp": {
             "enable": true,
             "directives": {
             },
-            "upgradeInsecureRequests": "auto"
+            "upgradeInsecureRequests": "auto",
             "addDefaults": true,
             "addDisqus": true,
             "addGoogleAnalytics": true
@@ -114,6 +114,11 @@
           "secretAccessKey": "change this",
           "region": "change this"
         },
-        "s3bucket": "change this"
+        "s3bucket": "change this",
+        "azure":
+        {
+          "connectionString": "change this",
+          "container": "change this"
+        }
     }
 }
