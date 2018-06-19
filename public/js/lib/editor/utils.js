@@ -46,3 +46,43 @@ export function wrapTextWith (editor, cm, symbol) {
     }
   }
 }
+
+export function insertText (cm, text, cursorEnd = 0) {
+  var cursor = cm.getCursor()
+  cm.replaceSelection(text, cursor, cursor)
+  cm.focus()
+  cm.setCursor({line: cursor.line, ch: cursor.ch + cursorEnd})
+}
+
+export function insertHeader (cm) {
+  let cursor = cm.getCursor()
+  let startOfLine = {line: cursor.line, ch: 0}
+  let startOfLineText = cm.getRange(startOfLine, {line: cursor.line, ch: 1})
+  // See if it is already a header
+  if (startOfLineText === '#') {
+    cm.replaceRange('#', startOfLine, startOfLine)
+  } else {
+    cm.replaceRange('# ', startOfLine, startOfLine)
+  }
+  cm.focus()
+}
+
+export function insertOnStartOfLines (cm, symbol, cursorEnd) {
+  let cursor = cm.getCursor()
+  var ranges = cm.listSelections()
+
+  for (let i = 0; i < ranges.length; i++) {
+    var range = ranges[i]
+    if (!range.empty()) {
+      const from = range.from()
+      const to = range.to()
+      for (let j = from.line; j <= to.line; ++j) {
+        cm.replaceRange(symbol, {line: j, ch: 0}, {line: j, ch: 0})
+      }
+    } else {
+      cm.replaceRange(symbol, {line: cursor.line, ch: 0}, {line: cursor.line, ch: 0})
+    }
+  }
+  cm.setCursor({line: cursor.line, ch: (cursorEnd)? cursorEnd : cursor.ch})
+  cm.focus()
+}

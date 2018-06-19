@@ -1,6 +1,7 @@
 import * as utils from './utils'
 import config from './config'
 import statusBarTemplate from './statusbar.html'
+import toolBarTemplate from './toolbar.html'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -134,6 +135,92 @@ export default class Editor {
     this.editor.on(event, (...args) => {
       this.eventListeners[event].forEach(cb => cb.bind(this)(...args))
     })
+  }
+
+  addToolBar () {
+    this.toolBar = $(toolBarTemplate)
+    //console.log('PLACE', $('#toolbarPlace'))
+    //$('#toolbarPlace').html(this.toolBar)
+    this.toolbarPanel = this.editor.addPanel(this.toolBar[0], {
+       position: 'top'
+    })
+
+    var insertDemo = $('#insertDemo')
+    var makeBold = $('#makeBold')
+    var makeItalic = $('#makeItalic')
+    var makeStrike = $('#makeStrike')
+    var makeHeader = $('#makeHeader')
+    var makeCode = $('#makeCode')
+    var makeQuote = $('#makeQuote')
+    var makeGenericList = $('#makeGenericList')
+    var makeOrderedList = $('#makeOrderedList')
+    var makeCheckList = $('#makeCheckList')
+    var makeLink = $('#makeLink')
+    var makeImage = $('#makeImage')
+    var makeTable = $('#makeTable')
+    var makeLine = $('#makeLine')
+    var makeComment = $('#makeComment')
+
+    makeBold.click(() => {
+        utils.wrapTextWith(this.editor, this.editor, '**')
+        this.editor.focus()
+    })
+
+    makeItalic.click(() => {
+        utils.wrapTextWith(this.editor, this.editor, '*')
+        this.editor.focus()
+    })
+
+    makeStrike.click(() => {
+        utils.wrapTextWith(this.editor, this.editor, '~~')
+        this.editor.focus()
+    })
+
+    makeHeader.click(() => {
+      utils.insertHeader(this.editor)
+    })
+
+    makeCode.click(() => {
+      utils.wrapTextWith(this.editor, this.editor, '```')
+        this.editor.focus()
+    })
+
+    makeQuote.click(() => {
+      utils.insertOnStartOfLines(this.editor, '> ')
+    })
+
+    makeGenericList.click(() => {
+      utils.insertOnStartOfLines(this.editor, '* ')
+    })
+
+    makeOrderedList.click(() => {
+      utils.insertOnStartOfLines(this.editor, '1. ')
+    })
+
+    makeCheckList.click(() => {
+      utils.insertOnStartOfLines(this.editor, '- [ ] ')
+    })
+
+    makeLink.click(() => {
+      utils.insertText(this.editor, '[](https://)', 1)
+    })
+
+    makeImage.click(() => {
+      utils.insertText(this.editor, '![](https://)', 4)
+    })
+
+    makeTable.click(() => {
+      utils.insertText(this.editor, '\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text     | Text     |\n')
+    })
+
+    makeLine.click(() => {
+      utils.insertText(this.editor, '\n----\n')
+    })
+
+    makeComment.click(() => {
+      utils.insertText(this.editor, '> []', 4)
+    })
+
   }
 
   addStatusBar () {
