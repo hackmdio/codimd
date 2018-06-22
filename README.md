@@ -1,18 +1,18 @@
-HackMD Community Edition
+CodiMD
 ===
 
 [![Standard - JavaScript Style Guide][standardjs-image]][standardjs-url]
 
 [![Join the chat at https://gitter.im/hackmdio/hackmd][gitter-image]][gitter-url]
-[![#HackMD on matrix.org][matrix.org-image]][matrix.org-url]
+[![#CodiMD on matrix.org][matrix.org-image]][matrix.org-url]
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
 [![Help Contribute to Open Source][codetriage-image]][codetriage-url]
 [![POEditor][poeditor-image]][poeditor-url]
 
-HackMD lets you create realtime collaborative markdown notes on all platforms.
-Inspired by Hackpad, with more focus on speed and flexibility.
-Still in the early stage, feel free to fork or contribute to HackMD.
+CodiMD lets you create real-time collaborative markdown notes on all platforms.
+Inspired by Hackpad, with more focus on speed and flexibility, and build from [HackMD](https://hackmd.io) source code.
+Feel free to contribute.
 
 Thanks for using! :smile:
 
@@ -27,7 +27,7 @@ Thanks for using! :smile:
     - [Instructions](#instructions)
   - [Heroku Deployment](#heroku-deployment)
   - [Kubernetes](#kubernetes)
-  - [HackMD by docker container](#hackmd-by-docker-container)
+  - [CodiMD by docker container](#codimd-by-docker-container)
 - [Upgrade](#upgrade)
   - [Native setup](#native-setup)
 - [Configuration](#configuration)
@@ -60,7 +60,7 @@ Thanks for using! :smile:
 - Node.js 6.x or up (test up to 7.5.0)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm (and its dependencies, especially [uWebSockets](https://github.com/uWebSockets/uWebSockets#nodejs-developers), [node-gyp](https://github.com/nodejs/node-gyp#installation))
-- For **building** HackMD we recommend to use a machine with at least **2GB** RAM
+- For **building** CodiMD we recommend to use a machine with at least **2GB** RAM
 
 ### Instructions
 
@@ -73,9 +73,9 @@ Thanks for using! :smile:
 
 ## Heroku Deployment
 
-You can quickly setup a sample Heroku HackMD application by clicking the button below.
+You can quickly setup a sample Heroku CodiMD application by clicking the button below.
 
-[![Deploy on Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/hackmdio/hackmd/tree/master)
+[![Deploy on Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/hackmdio/codimd/tree/master)
 
 If you deploy it without the button, keep in mind to use the right buildpacks. For details check `app.json`.
 
@@ -83,10 +83,10 @@ If you deploy it without the button, keep in mind to use the right buildpacks. F
 
 To install use `helm install stable/hackmd`.
 
-For all further details, please check out the offical HackMD  [K8s helm chart](https://github.com/kubernetes/charts/tree/master/stable/hackmd).
+For all further details, please check out the offical CodiMD  [K8s helm chart](https://github.com/kubernetes/charts/tree/master/stable/hackmd).
 
-## HackMD by docker container
-[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/docker-hackmd/raw/master/docker-compose.yml&stack_name=hackmd)
+## CodiMD by docker container
+[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/docker-hackmd/raw/master/docker-compose.yml&stack_name=codimd)
 
 
 **Debian-based version:**
@@ -98,11 +98,11 @@ For all further details, please check out the offical HackMD  [K8s helm chart](h
 
 [![alpine](https://images.microbadger.com/badges/version/hackmdio/hackmd:alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:alpine "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd:alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:alpine "Get your own image badge on microbadger.com")
 
-The easiest way to setup HackMD using docker are using the following three commands:
+The easiest way to setup CodiMD using docker are using the following three commands:
 
 ```console
 git clone https://github.com/hackmdio/docker-hackmd.git
-cd docker-hackmd
+cd docker-codimd
 docker-compose up
 ```
 Read more about it in the [docker repository…](https://github.com/hackmdio/docker-hackmd)
@@ -111,14 +111,14 @@ Read more about it in the [docker repository…](https://github.com/hackmdio/doc
 
 ## Native setup
 
-If you are upgrading HackMD from an older version, follow these steps:
+If you are upgrading CodiMD from an older version, follow these steps:
 
 1. Fully stop your old server first (important)
 2. `git pull` or do whatever that updates the files
 3. `npm install` to update dependencies
 4. Build front-end bundle by `npm run build` (use `npm run dev` if you are in development)
 5. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string
-   For example: `postgres://username:password@localhost:5432/hackmd`
+   For example: `postgres://username:password@localhost:5432/codimd`
 6. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
 7. Start your whole new server!
 
@@ -154,10 +154,10 @@ There are some config settings you need to change in the files below.
 | --------- | ------ | ----------- |
 | `NODE_ENV`  | `production` or `development` | set current environment (will apply corresponding settings in the `config.json`) |
 | `DEBUG` | `true` or `false` | set debug mode; show more logs |
-| `HMD_DOMAIN` | `hackmd.io` | domain name |
-| `HMD_URL_PATH` | `hackmd` | sub URL path, like `www.example.com/<URL_PATH>` |
+| `HMD_DOMAIN` | `codimd.org` | domain name |
+| `HMD_URL_PATH` | `codimd` | sub URL path, like `www.example.com/<URL_PATH>` |
 | `HMD_PORT` | `80` | web app port |
-| `HMD_ALLOW_ORIGIN` | `localhost, hackmd.io` | domain name whitelist (use comma to separate) |
+| `HMD_ALLOW_ORIGIN` | `localhost, codimd.org` | domain name whitelist (use comma to separate) |
 | `HMD_PROTOCOL_USESSL` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
 | `HMD_URL_ADDPORT` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
 | `HMD_USECDN` | `true` or `false` | set to use CDN resources or not (default is `true`) |
@@ -191,8 +191,8 @@ There are some config settings you need to change in the files below.
 | `HMD_LDAP_SEARCHBASE` | `o=users,dc=example,dc=com` | LDAP directory to begin search from |
 | `HMD_LDAP_SEARCHFILTER` | `(uid={{username}})` | LDAP filter to search with |
 | `HMD_LDAP_SEARCHATTRIBUTES` | `displayName, mail` | LDAP attributes to search with (use comma to separate) |
-| `HMD_LDAP_USERIDFIELD` | `uidNumber` or `uid` or `sAMAccountName` | The LDAP field which is used uniquely identify a user on HackMD |
-| `HMD_LDAP_USERNAMEFIELD` | Fallback to userid | The LDAP field which is used as the username on HackMD |
+| `HMD_LDAP_USERIDFIELD` | `uidNumber` or `uid` or `sAMAccountName` | The LDAP field which is used uniquely identify a user on CodiMD |
+| `HMD_LDAP_USERNAMEFIELD` | Fallback to userid | The LDAP field which is used as the username on CodiMD |
 | `HMD_LDAP_TLS_CA` | `server-cert.pem, root.pem` | Root CA for LDAP TLS in PEM format (use comma to separate) |
 | `HMD_LDAP_PROVIDERNAME` | `My institution` | Optional name to be displayed at login form indicating the LDAP provider |
 | `HMD_SAML_IDPSSOURL` | `https://idp.example.com/sso` | authentication endpoint of IdP. for details, see [guide](docs/guides/auth.md#saml-onelogin). |
@@ -235,7 +235,7 @@ There are some config settings you need to change in the files below.
 | --------- | ------ | ----------- |
 | `debug` | `true` or `false` | set debug mode, show more logs |
 | `domain` | `localhost` | domain name |
-| `urlPath` | `hackmd` | sub URL path, like `www.example.com/<urlpath>` |
+| `urlPath` | `codimd` | sub URL path, like `www.example.com/<urlpath>` |
 | `port` | `80` | web app port |
 | `allowOrigin` | `['localhost']` | domain name whitelist |
 | `useSSL` | `true` or `false` | set to use SSL server (if `true`, will auto turn on `protocolUseSSL`) |
@@ -249,9 +249,9 @@ There are some config settings you need to change in the files below.
 | `allowFreeURL` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
 | `defaultPermission` | `freely`, `editable`, `limited`, `locked`, `protected` or `private` | set notes default permission (only applied on signed users) |
 | `dbURL` | `mysql://localhost:3306/database` | set the db URL; if set, then db config (below) won't be applied |
-| `db` | `{ "dialect": "sqlite", "storage": "./db.hackmd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
+| `db` | `{ "dialect": "sqlite", "storage": "./db.codimd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
 | `sslKeyPath` | `./cert/client.key` | SSL key path (only need when you set `useSSL`) |
-| `sslCertPath` | `./cert/hackmd_io.crt` | SSL cert path (only need when you set `useSSL`) |
+| `sslCertPath` | `./cert/codimd_io.crt` | SSL cert path (only need when you set `useSSL`) |
 | `sslCAPath` | `['./cert/COMODORSAAddTrustCA.crt']` | SSL ca chain (only need when you set `useSSL`) |
 | `dhParamPath` | `./cert/dhparam.pem` | SSL dhparam path (only need when you set `useSSL`) |
 | `tmpPath` | `./tmp/` | temp directory path |
@@ -304,7 +304,7 @@ There are some config settings you need to change in the files below.
 ## Structure
 
 ```text
-hackmd/
+codimd/
 ├── tmp/            --- temporary files
 ├── docs/           --- document files
 ├── lib/            --- server libraries
@@ -330,15 +330,15 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-[matrix.org-image]: https://img.shields.io/badge/Matrix.org-%23HackMD@matrix.org-green.svg
-[matrix.org-url]: https://riot.im/app/#/room/#hackmd:matrix.org
-[travis-image]: https://travis-ci.org/hackmdio/hackmd.svg?branch=master
-[travis-url]: https://travis-ci.org/hackmdio/hackmd
-[github-version-badge]: https://img.shields.io/github/release/hackmdio/hackmd.svg
-[github-release-page]: https://github.com/hackmdio/hackmd/releases
+[matrix.org-image]: https://img.shields.io/badge/Matrix.org-%23CodiMD@matrix.org-green.svg
+[matrix.org-url]: https://riot.im/app/#/room/#codimd:matrix.org
+[travis-image]: https://travis-ci.org/hackmdio/codimd.svg?branch=master
+[travis-url]: https://travis-ci.org/hackmdio/codimd
+[github-version-badge]: https://img.shields.io/github/release/hackmdio/codimd.svg
+[github-release-page]: https://github.com/hackmdio/codimd/releases
 [standardjs-image]: https://cdn.rawgit.com/feross/standard/master/badge.svg
 [standardjs-url]: https://github.com/feross/standard
-[codetriage-image]: https://www.codetriage.com/hackmdio/hackmd/badges/users.svg
-[codetriage-url]: https://www.codetriage.com/hackmdio/hackmd
+[codetriage-image]: https://www.codetriage.com/hackmdio/codimd/badges/users.svg
+[codetriage-url]: https://www.codetriage.com/hackmdio/codimd
 [poeditor-image]: https://img.shields.io/badge/POEditor-translate-blue.svg
 [poeditor-url]: https://poeditor.com/join/project/1OpGjF2Jir

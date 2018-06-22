@@ -11,7 +11,7 @@
         },
         "db": {
             "dialect": "sqlite",
-            "storage": "./db.hackmd.sqlite"
+            "storage": "./db.codimd.sqlite"
         }
     },
     "production": {
@@ -34,7 +34,7 @@
         "db": {
             "username": "",
             "password": "",
-            "database": "hackmd",
+            "database": "codimd",
             "host": "localhost",
             "port": "5432",
             "dialect": "postgres"
