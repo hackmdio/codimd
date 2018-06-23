@@ -3,6 +3,7 @@
    modeType, Idle, serverurl, key, gapi, Dropbox, FilePicker
    ot, MediaUploader, hex2rgb, num_loaded, Visibility */
 
+import {excelToMarkdown} from '../vendor/excel-to-markdown-table'
 require('../vendor/showup/showup')
 
 require('../css/index.css')
@@ -2558,8 +2559,8 @@ editorInstance.on('beforeChange', function (cm, change) {
 editorInstance.on('cut', function () {
     // na
 })
-editorInstance.on('paste', function () {
-    // na
+editorInstance.on('paste', function (event) {
+    excelToMarkdown(event)
 })
 editorInstance.on('changes', function (editor, changes) {
   updateHistory()
