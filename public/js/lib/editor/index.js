@@ -139,13 +139,10 @@ export default class Editor {
 
   addToolBar () {
     this.toolBar = $(toolBarTemplate)
-    //console.log('PLACE', $('#toolbarPlace'))
-    //$('#toolbarPlace').html(this.toolBar)
     this.toolbarPanel = this.editor.addPanel(this.toolBar[0], {
-       position: 'top'
+      position: 'top'
     })
 
-    var insertDemo = $('#insertDemo')
     var makeBold = $('#makeBold')
     var makeItalic = $('#makeItalic')
     var makeStrike = $('#makeStrike')
@@ -162,18 +159,18 @@ export default class Editor {
     var makeComment = $('#makeComment')
 
     makeBold.click(() => {
-        utils.wrapTextWith(this.editor, this.editor, '**')
-        this.editor.focus()
+      utils.wrapTextWith(this.editor, this.editor, '**')
+      this.editor.focus()
     })
 
     makeItalic.click(() => {
-        utils.wrapTextWith(this.editor, this.editor, '*')
-        this.editor.focus()
+      utils.wrapTextWith(this.editor, this.editor, '*')
+      this.editor.focus()
     })
 
     makeStrike.click(() => {
-        utils.wrapTextWith(this.editor, this.editor, '~~')
-        this.editor.focus()
+      utils.wrapTextWith(this.editor, this.editor, '~~')
+      this.editor.focus()
     })
 
     makeHeader.click(() => {
@@ -182,7 +179,7 @@ export default class Editor {
 
     makeCode.click(() => {
       utils.wrapTextWith(this.editor, this.editor, '```')
-        this.editor.focus()
+      this.editor.focus()
     })
 
     makeQuote.click(() => {
@@ -202,11 +199,11 @@ export default class Editor {
     })
 
     makeLink.click(() => {
-      utils.insertText(this.editor, '[](https://)', 1)
+      utils.insertLink(this.editor, false)
     })
 
     makeImage.click(() => {
-      utils.insertText(this.editor, '![](https://)', 4)
+      utils.insertLink(this.editor, true)
     })
 
     makeTable.click(() => {
@@ -218,9 +215,8 @@ export default class Editor {
     })
 
     makeComment.click(() => {
-      utils.insertText(this.editor, '> []', 4)
+      utils.insertText(this.editor, '> []')
     })
-
   }
 
   addStatusBar () {

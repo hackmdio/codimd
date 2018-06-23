@@ -30,8 +30,6 @@ import {
 import {
     debug,
     DROPBOX_APP_KEY,
-    GOOGLE_API_KEY,
-    GOOGLE_CLIENT_ID,
     noteid,
     noteurl,
     urlpath,
@@ -569,9 +567,9 @@ var previousFocusOnEditor = null
 function checkEditorStyle () {
   var desireHeight = editorInstance.statusBar ? (ui.area.edit.height() - editorInstance.statusBar.outerHeight()) : ui.area.edit.height()
   if (editorInstance.toolBar) {
-     desireHeight = desireHeight - editorInstance.toolBar.outerHeight()
+    desireHeight = desireHeight - editorInstance.toolBar.outerHeight()
   }
-    // set editor height and min height based on scrollbar style and mode
+  // set editor height and min height based on scrollbar style and mode
   var scrollbarStyle = editor.getOption('scrollbarStyle')
   if (scrollbarStyle === 'overlay' || appState.currentMode === modeType.both) {
     ui.area.codemirrorScroll.css('height', desireHeight + 'px')
