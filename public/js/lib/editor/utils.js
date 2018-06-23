@@ -16,11 +16,11 @@ export function wrapTextWith (editor, cm, symbol) {
           let headIndex = editor.indexFromPos(ranges[i].head)
           cm.replaceRange(symbol + selection + symbol, from, to, '+input')
           if (anchorIndex > headIndex) {
-            ranges[i].anchor.ch+= symbol.length
-            ranges[i].head.ch+= symbol.length
+            ranges[i].anchor.ch += symbol.length
+            ranges[i].head.ch += symbol.length
           } else {
-            ranges[i].head.ch+= symbol.length
-            ranges[i].anchor.ch+= symbol.length
+            ranges[i].head.ch += symbol.length
+            ranges[i].anchor.ch += symbol.length
           }
           cm.setSelections(ranges)
         } else {
@@ -54,7 +54,7 @@ export function insertText (cm, text, cursorEnd = 0) {
   cm.setCursor({line: cursor.line, ch: cursor.ch + cursorEnd})
 }
 
-export function insertLink(cm, isImage) {
+export function insertLink (cm, isImage) {
   let cursor = cm.getCursor()
   let ranges = cm.listSelections()
   const linkEnd = '](https://)'
@@ -71,16 +71,16 @@ export function insertLink(cm, isImage) {
       selection = symbol + selection + linkEnd
       cm.replaceRange(selection, from, to)
       if (anchorIndex > headIndex) {
-        ranges[i].anchor.ch+= symbol.length
-        ranges[i].head.ch+= symbol.length
+        ranges[i].anchor.ch += symbol.length
+        ranges[i].head.ch += symbol.length
       } else {
-        ranges[i].head.ch+= symbol.length
-        ranges[i].anchor.ch+= symbol.length
+        ranges[i].head.ch += symbol.length
+        ranges[i].anchor.ch += symbol.length
       }
       cm.setSelections(ranges)
     } else {
       cm.replaceRange(symbol + linkEnd, cursor, cursor)
-      cm.setCursor({line: cursor.line, ch: cursor.ch + symbol.length + linkend.length})
+      cm.setCursor({line: cursor.line, ch: cursor.ch + symbol.length + linkEnd.length})
     }
   }
   cm.focus()
