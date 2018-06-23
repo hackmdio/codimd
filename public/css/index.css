@@ -20,6 +20,24 @@ body.night{
     background: #333 !important;
 }
 
+.toolbar {
+  background-color: #1c1c1e;
+  border: 1px solid #343434;
+}
+
+.toolbar > .btn-toolbar > .btn-group > .btn {
+  background-color: #1c1c1e;
+  padding: 5px;
+  font-size: 1em;
+}
+
+.toolbar > .btn-toolbar > .btn-group > .btn:hover {
+  background-color: #383a3e;
+
+  padding: 5px;
+}
+
+
 .CodeMirror {
     font-family: "Source Code Pro", Consolas, monaco, monospace;
     letter-spacing: 0.025em;
