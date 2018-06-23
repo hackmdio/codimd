@@ -261,6 +261,7 @@ There are some config settings you need to change in the files below.
 | `errorPath` | `./public/views/error.ejs` | error template file path |
 | `prettyPath` | `./public/views/pretty.ejs` | pretty template file path |
 | `slidePath` | `./public/views/slide.hbs` | slide template file path |
+| `uploadsPath` | `./public/uploads` | uploads directory - needs to be persistent when you use imageUploadType `filesystem` |
 | `sessionName` | `connect.sid` | cookie session name |
 | `sessionSecret` | `secret` | cookie session secret |
 | `sessionLife` | `14 * 24 * 60 * 60 * 1000` | cookie session life |
