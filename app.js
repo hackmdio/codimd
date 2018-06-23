@@ -26,22 +26,6 @@ var response = require('./lib/response')
 var models = require('./lib/models')
 var csp = require('./lib/csp')
 
-// generate front-end constants by template
-var constpath = path.join(__dirname, './public/js/lib/common/constant.ejs')
-var data = {
-  domain: config.domain,
-  urlpath: config.urlPath,
-  debug: config.debug,
-  version: config.version,
-  DROPBOX_APP_KEY: config.dropbox.appKey,
-  allowedUploadMimeTypes: config.allowedUploadMimeTypes
-}
-
-ejs.renderFile(constpath, data, {}, function (err, str) {
-  if (err) throw new Error(err)
-  fs.writeFileSync(path.join(__dirname, './public/build/constant.js'), str)
-})
-
 // server setup
 var app = express()
 var server = null
