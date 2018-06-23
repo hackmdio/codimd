@@ -129,7 +129,7 @@ if (config.csp.enable) {
 }
 
 i18n.configure({
-  locales: ['en', 'zh', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da', 'ko'],
+  locales: ['en', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da', 'ko'],
   cookie: 'locale',
   directory: path.join(__dirname, '/locales'),
   updateFiles: config.updateI18nFiles
