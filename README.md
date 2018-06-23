@@ -209,6 +209,7 @@ There are some config settings you need to change in the files below.
 | `HMD_EMAIL` | `true` or `false` | set to allow email signin |
 | `HMD_ALLOW_PDF_EXPORT` | `true` or `false` | Enable or disable PDF exports |
 | `HMD_ALLOW_EMAIL_REGISTER` | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
+| `HMD_ALLOW_GRAVATAR` | `true` or `false` | set to `false` to disable gravatar as profile picture source on your instance |
 | `HMD_IMAGE_UPLOAD_TYPE` | `imgur`, `s3`, `minio` or `filesystem` | Where to upload images. For S3, see our Image Upload Guides for [S3](docs/guides/s3-image-upload.md) or [Minio](docs/guides/minio-image-upload.md) |
 | `HMD_S3_ACCESS_KEY_ID` | no example | AWS access key id |
 | `HMD_S3_SECRET_ACCESS_KEY` | no example | AWS secret key |
@@ -271,6 +272,7 @@ There are some config settings you need to change in the files below.
 | `documentMaxLength` | `100000` | note max length |
 | `email` | `true` or `false` | set to allow email signin |
 | `allowEmailRegister`  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
+| `allowGravatar` | `true` or `false` | set to `false` to disable gravatar as profile picture source on your instance |
 | `imageUploadType` | `imgur`, `s3`, `minio`, `azure` or `filesystem`(default) | Where to upload images. For S3, see our Image Upload Guides for [S3](docs/guides/s3-image-upload.md) or [Minio](docs/guides/minio-image-upload.md)|
 | `minio` | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageUploadType` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
 | `s3` | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageuploadtype` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
