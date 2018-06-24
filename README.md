@@ -20,6 +20,7 @@ Thanks for using! :smile:
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 # Table of Contents
 
+- [HackMD CE became CodiMD](#hackmd-ce-became-codimd)
 - [Browsers Requirement](#browsers-requirement)
 - [Installation](#installation)
   - [Getting started (Native install)](#getting-started-native-install)
@@ -41,6 +42,16 @@ Thanks for using! :smile:
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# HackMD CE became CodiMD
+
+CodiMD was recently renamed from its former name was HackMD. CodiMD is the free software version of HackMD. It was the original Version of HackMD. The HackMD team initiated CodiMD and provided a solid code base. Due to the need of paying bills, A fork was created and called HackMD EE, which is a SaaS (Software as a Service) product available at [hackmd.io](https://hackmd.io).
+
+We decided to change the name to break the confusion between HackMD and CodiMD, formally known as HackMD CE, as it never was an open core project.
+
+Just to more confusion: We are still friends with HackMD :heart:
+
+*For the whole renaming story, see the [related issue](https://github.com/hackmdio/hackmd/issues/720)*
 
 # Browsers Requirement
 
