@@ -1,6 +1,8 @@
 # GitLab (self-hosted)
 ===
 
+***Note:** This guide was written before the renaming. Just replace `HackMD` with `CodiMD` in your mind :smile: thanks!*
+
 1. Sign in to your GitLab
 2. Navigate to the application management page at `https://your.gitlab.domain/admin/applications` (admin permissions required)
 3. Click **New application** to create a new application and fill out the registration form:

@@ -1,6 +1,8 @@
 Authentication guide - SAML
 ===
 
+***Note:** This guide was written before the renaming. Just replace `HackMD` with `CodiMD` in your mind :smile: thanks!*
+
 The basic procedure is the same as the case of OneLogin which is mentioned in [OneLogin-Guide](./saml-onelogin.md). If you want to match your IdP, you can use more configurations as below.
 
 * If your IdP accepts metadata XML of the service provider to ease configuraion, use this url to download metadata XML.
