@@ -1,5 +1,5 @@
 {
-    "name": "HackMD",
+    "name": "CodiMD",
     "description": "Realtime collaborative markdown notes on all platforms",
     "keywords": [
         "Collaborative",
@@ -7,8 +7,8 @@
         "Notes"
     ],
     "website": "https://hackmd.io",
-    "repository": "https://github.com/hackmdio/hackmd",
-    "logo": "https://github.com/hackmdio/hackmd/raw/master/public/hackmd-icon-1024.png",
+    "repository": "https://github.com/hackmdio/codimd",
+    "logo": "https://github.com/hackmdio/codimd/raw/master/public/codimd-icon-1024.png",
     "success_url": "/",
     "env": {
         "BUILD_ASSETS": {

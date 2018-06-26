@@ -163,6 +163,7 @@ app.use(passport.session())
 app.use(require('./lib/web/middleware/checkURIValid'))
 // redirect url without trailing slashes
 app.use(require('./lib/web/middleware/redirectWithoutTrailingSlashes'))
+app.use(require('./lib/web/middleware/codiMDVersion'))
 
 // routes need sessions
 // template files
@@ -234,7 +235,7 @@ process.on('uncaughtException', function (err) {
 
 // install exit handler
 function handleTermSignals () {
-  logger.info('hackmd has been killed by signal, try to exit gracefully...')
+  logger.info('CodiMD has been killed by signal, try to exit gracefully...')
   realtime.maintenance = true
   // disconnect all socket.io clients
   Object.keys(io.sockets.sockets).forEach(function (key) {

@@ -6,9 +6,9 @@ We process the following data, for the following purposes:
 |your data|our usage|
 |---------|---------|
 |IP-Address|Used to communicate with your browser and our servers. It's may exposed to third-parties which provide resources for this service. These services are, depending on your login method, the document you visit and the setup of this instance: Google, Disqus, MathJax, GitHub, SlideShare/LinkedIn, yahoo, Gravatar, Imgur, Amazon, and Cloudflare.|
-|Usernames and profiles|Your username as well as user profiles that are connected with it are transmitted and stored by us to provide a useful login integration with services like GitHub, Facebook, Twitter, GitLab, Dropbox, Google. Depending on the setup of this HackMD instance there are maybe other third-parties involved using SAML, LDAP or the integration with a Mattermost instance.|
-|Profile pictures| Your profile picture is either loaded from the service you used to login, the HackMD instance or Gravatar.|
-|Uploaded pictures| Pictures that are uploaded for documents are either uploaded to Amazon S3, Imgur, a minio instance or the local filesystem of the HackMD server.|
+|Usernames and profiles|Your username as well as user profiles that are connected with it are transmitted and stored by us to provide a useful login integration with services like GitHub, Facebook, Twitter, GitLab, Dropbox, Google. Depending on the setup of this CodiMD instance there are maybe other third-parties involved using SAML, LDAP or the integration with a Mattermost instance.|
+|Profile pictures| Your profile picture is either loaded from the service you used to login, the CodiMD instance or Gravatar.|
+|Uploaded pictures| Pictures that are uploaded for documents are either uploaded to Amazon S3, Imgur, a minio instance or the local filesystem of the CodiMD server.|
 
 All account data and notes are stored in a mysql/postgres/sqlite database. Besides the user accounts and the document themselves also relationships between the documents and the user accounts are stored. This includes ownership, authorship and revisions of all changes made during the creation of a note.
 

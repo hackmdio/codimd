@@ -1,18 +1,18 @@
-HackMD Community Edition
+CodiMD
 ===
 
 [![Standard - JavaScript Style Guide][standardjs-image]][standardjs-url]
 
 [![Join the chat at https://gitter.im/hackmdio/hackmd][gitter-image]][gitter-url]
-[![#HackMD on matrix.org][matrix.org-image]][matrix.org-url]
+[![#CodiMD on matrix.org][matrix.org-image]][matrix.org-url]
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
 [![Help Contribute to Open Source][codetriage-image]][codetriage-url]
 [![POEditor][poeditor-image]][poeditor-url]
 
-HackMD lets you create realtime collaborative markdown notes on all platforms.
-Inspired by Hackpad, with more focus on speed and flexibility.
-Still in the early stage, feel free to fork or contribute to HackMD.
+CodiMD lets you create real-time collaborative markdown notes on all platforms.
+Inspired by Hackpad, with more focus on speed and flexibility, and build from [HackMD](https://hackmd.io) source code.
+Feel free to contribute.
 
 Thanks for using! :smile:
 
@@ -20,6 +20,7 @@ Thanks for using! :smile:
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 # Table of Contents
 
+- [HackMD CE became CodiMD](#hackmd-ce-became-codimd)
 - [Browsers Requirement](#browsers-requirement)
 - [Installation](#installation)
   - [Getting started (Native install)](#getting-started-native-install)
@@ -27,7 +28,7 @@ Thanks for using! :smile:
     - [Instructions](#instructions)
   - [Heroku Deployment](#heroku-deployment)
   - [Kubernetes](#kubernetes)
-  - [HackMD by docker container](#hackmd-by-docker-container)
+  - [CodiMD by docker container](#codimd-by-docker-container)
 - [Upgrade](#upgrade)
   - [Native setup](#native-setup)
 - [Configuration](#configuration)
@@ -41,6 +42,16 @@ Thanks for using! :smile:
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# HackMD CE became CodiMD
+
+CodiMD was recently renamed from its former name was HackMD. CodiMD is the free software version of HackMD. It was the original Version of HackMD. The HackMD team initiated CodiMD and provided a solid code base. Due to the need of paying bills, A fork was created and called HackMD EE, which is a SaaS (Software as a Service) product available at [hackmd.io](https://hackmd.io).
+
+We decided to change the name to break the confusion between HackMD and CodiMD, formally known as HackMD CE, as it never was an open core project.
+
+Just to more confusion: We are still friends with HackMD :heart:
+
+*For the whole renaming story, see the [related issue](https://github.com/hackmdio/hackmd/issues/720)*
 
 # Browsers Requirement
 
@@ -60,7 +71,7 @@ Thanks for using! :smile:
 - Node.js 6.x or up (test up to 7.5.0)
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm (and its dependencies, especially [uWebSockets](https://github.com/uWebSockets/uWebSockets#nodejs-developers), [node-gyp](https://github.com/nodejs/node-gyp#installation))
-- For **building** HackMD we recommend to use a machine with at least **2GB** RAM
+- For **building** CodiMD we recommend to use a machine with at least **2GB** RAM
 
 ### Instructions
 
@@ -73,9 +84,9 @@ Thanks for using! :smile:
 
 ## Heroku Deployment
 
-You can quickly setup a sample Heroku HackMD application by clicking the button below.
+You can quickly setup a sample Heroku CodiMD application by clicking the button below.
 
-[![Deploy on Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/hackmdio/hackmd/tree/master)
+[![Deploy on Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/hackmdio/codimd/tree/master)
 
 If you deploy it without the button, keep in mind to use the right buildpacks. For details check `app.json`.
 
@@ -83,10 +94,10 @@ If you deploy it without the button, keep in mind to use the right buildpacks. F
 
 To install use `helm install stable/hackmd`.
 
-For all further details, please check out the offical HackMD  [K8s helm chart](https://github.com/kubernetes/charts/tree/master/stable/hackmd).
+For all further details, please check out the offical CodiMD  [K8s helm chart](https://github.com/kubernetes/charts/tree/master/stable/hackmd).
 
-## HackMD by docker container
-[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/docker-hackmd/raw/master/docker-compose.yml&stack_name=hackmd)
+## CodiMD by docker container
+[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/docker-hackmd/raw/master/docker-compose.yml&stack_name=codimd)
 
 
 **Debian-based version:**
@@ -98,11 +109,11 @@ For all further details, please check out the offical HackMD  [K8s helm chart](h
 
 [![alpine](https://images.microbadger.com/badges/version/hackmdio/hackmd:alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:alpine "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd:alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:alpine "Get your own image badge on microbadger.com")
 
-The easiest way to setup HackMD using docker are using the following three commands:
+The easiest way to setup CodiMD using docker are using the following three commands:
 
 ```console
 git clone https://github.com/hackmdio/docker-hackmd.git
-cd docker-hackmd
+cd docker-codimd
 docker-compose up
 ```
 Read more about it in the [docker repository…](https://github.com/hackmdio/docker-hackmd)
@@ -111,14 +122,14 @@ Read more about it in the [docker repository…](https://github.com/hackmdio/doc
 
 ## Native setup
 
-If you are upgrading HackMD from an older version, follow these steps:
+If you are upgrading CodiMD from an older version, follow these steps:
 
 1. Fully stop your old server first (important)
 2. `git pull` or do whatever that updates the files
 3. `npm install` to update dependencies
 4. Build front-end bundle by `npm run build` (use `npm run dev` if you are in development)
 5. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string
-   For example: `postgres://username:password@localhost:5432/hackmd`
+   For example: `postgres://username:password@localhost:5432/codimd`
 6. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
 7. Start your whole new server!
 
@@ -154,80 +165,82 @@ There are some config settings you need to change in the files below.
 | --------- | ------ | ----------- |
 | `NODE_ENV`  | `production` or `development` | set current environment (will apply corresponding settings in the `config.json`) |
 | `DEBUG` | `true` or `false` | set debug mode; show more logs |
-| `HMD_DOMAIN` | `hackmd.io` | domain name |
-| `HMD_URL_PATH` | `hackmd` | sub URL path, like `www.example.com/<URL_PATH>` |
-| `HMD_PORT` | `80` | web app port |
-| `HMD_ALLOW_ORIGIN` | `localhost, hackmd.io` | domain name whitelist (use comma to separate) |
-| `HMD_PROTOCOL_USESSL` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
-| `HMD_URL_ADDPORT` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
-| `HMD_USECDN` | `true` or `false` | set to use CDN resources or not (default is `true`) |
-| `HMD_ALLOW_ANONYMOUS` | `true` or `false` | set to allow anonymous usage (default is `true`) |
-| `HMD_ALLOW_ANONYMOUS_EDITS` | `true` or `false` | if `allowAnonymous` is `true`, allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
-| `HMD_ALLOW_FREEURL` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
-| `HMD_DEFAULT_PERMISSION` | `freely`, `editable`, `limited`, `locked` or `private` | set notes default permission (only applied on signed users) |
-| `HMD_DB_URL` | `mysql://localhost:3306/database` | set the database URL |
-| `HMD_SESSION_SECRET` | no example | Secret used to sign the session cookie. If non is set, one will randomly generated on startup |
-| `HMD_SESSION_LIFE` | `1209600000` | Session life time. (milliseconds) |
-| `HMD_FACEBOOK_CLIENTID` | no example | Facebook API client id |
-| `HMD_FACEBOOK_CLIENTSECRET` | no example | Facebook API client secret |
-| `HMD_TWITTER_CONSUMERKEY` | no example | Twitter API consumer key |
-| `HMD_TWITTER_CONSUMERSECRET` | no example | Twitter API consumer secret |
-| `HMD_GITHUB_CLIENTID` | no example | GitHub API client id |
-| `HMD_GITHUB_CLIENTSECRET` | no example | GitHub API client secret |
-| `HMD_GITLAB_SCOPE` | `read_user` or `api` | GitLab API requested scope (default is `api`) (GitLab snippet import/export need `api` scope) |
-| `HMD_GITLAB_BASEURL` | no example | GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional) |
-| `HMD_GITLAB_CLIENTID` | no example | GitLab API client id |
-| `HMD_GITLAB_CLIENTSECRET` | no example | GitLab API client secret |
-| `HMD_MATTERMOST_BASEURL` | no example | Mattermost authentication endpoint |
-| `HMD_MATTERMOST_CLIENTID` | no example | Mattermost API client id |
-| `HMD_MATTERMOST_CLIENTSECRET` | no example | Mattermost API client secret |
-| `HMD_DROPBOX_CLIENTID` | no example | Dropbox API client id |
-| `HMD_DROPBOX_CLIENTSECRET` | no example | Dropbox API client secret |
-| `HMD_GOOGLE_CLIENTID` | no example | Google API client id |
-| `HMD_GOOGLE_CLIENTSECRET` | no example | Google API client secret |
-| `HMD_LDAP_URL` | `ldap://example.com` | URL of LDAP server |
-| `HMD_LDAP_BINDDN` | no example | bindDn for LDAP access |
-| `HMD_LDAP_BINDCREDENTIALS` | no example | bindCredentials for LDAP access |
-| `HMD_LDAP_SEARCHBASE` | `o=users,dc=example,dc=com` | LDAP directory to begin search from |
-| `HMD_LDAP_SEARCHFILTER` | `(uid={{username}})` | LDAP filter to search with |
-| `HMD_LDAP_SEARCHATTRIBUTES` | `displayName, mail` | LDAP attributes to search with (use comma to separate) |
-| `HMD_LDAP_USERIDFIELD` | `uidNumber` or `uid` or `sAMAccountName` | The LDAP field which is used uniquely identify a user on HackMD |
-| `HMD_LDAP_USERNAMEFIELD` | Fallback to userid | The LDAP field which is used as the username on HackMD |
-| `HMD_LDAP_TLS_CA` | `server-cert.pem, root.pem` | Root CA for LDAP TLS in PEM format (use comma to separate) |
-| `HMD_LDAP_PROVIDERNAME` | `My institution` | Optional name to be displayed at login form indicating the LDAP provider |
-| `HMD_SAML_IDPSSOURL` | `https://idp.example.com/sso` | authentication endpoint of IdP. for details, see [guide](docs/guides/auth.md#saml-onelogin). |
-| `HMD_SAML_IDPCERT` | `/path/to/cert.pem` | certificate file path of IdP in PEM format |
-| `HMD_SAML_ISSUER` | no example | identity of the service provider (optional, default: serverurl)" |
-| `HMD_SAML_IDENTIFIERFORMAT` | no example | name identifier format (optional, default: `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`) |
-| `HMD_SAML_GROUPATTRIBUTE` | `memberOf` | attribute name for group list (optional) |
-| `HMD_SAML_REQUIREDGROUPS` | `Hackmd-users` | group names that allowed (use vertical bar to separate) (optional) |
-| `HMD_SAML_EXTERNALGROUPS` | `Temporary-staff` | group names that not allowed (use vertical bar to separate) (optional) |
-| `HMD_SAML_ATTRIBUTE_ID` | `sAMAccountName` | attribute map for `id` (optional, default: NameID of SAML response) |
-| `HMD_SAML_ATTRIBUTE_USERNAME` | `mailNickname` | attribute map for `username` (optional, default: NameID of SAML response) |
-| `HMD_SAML_ATTRIBUTE_EMAIL` | `mail` | attribute map for `email` (optional, default: NameID of SAML response if `HMD_SAML_IDENTIFIERFORMAT` is default) |
-| `HMD_IMGUR_CLIENTID` | no example | Imgur API client id |
-| `HMD_EMAIL` | `true` or `false` | set to allow email signin |
-| `HMD_ALLOW_PDF_EXPORT` | `true` or `false` | Enable or disable PDF exports |
-| `HMD_ALLOW_EMAIL_REGISTER` | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
-| `HMD_ALLOW_GRAVATAR` | `true` or `false` | set to `false` to disable gravatar as profile picture source on your instance |
-| `HMD_IMAGE_UPLOAD_TYPE` | `imgur`, `s3`, `minio` or `filesystem` | Where to upload images. For S3, see our Image Upload Guides for [S3](docs/guides/s3-image-upload.md) or [Minio](docs/guides/minio-image-upload.md) |
-| `HMD_S3_ACCESS_KEY_ID` | no example | AWS access key id |
-| `HMD_S3_SECRET_ACCESS_KEY` | no example | AWS secret key |
-| `HMD_S3_REGION` | `ap-northeast-1` | AWS S3 region |
-| `HMD_S3_BUCKET` | no example | AWS S3 bucket name |
-| `HMD_MINIO_ACCESS_KEY` | no example | Minio access key |
-| `HMD_MINIO_SECRET_KEY` | no example | Minio secret key |
-| `HMD_MINIO_ENDPOINT` | `minio.example.org` | Address of your Minio endpoint/instance |
-| `HMD_MINIO_PORT` | `9000` | Port that is used for your Minio instance |
-| `HMD_MINIO_SECURE` | `true` | If set to `true` HTTPS is used for Minio |
-| `HMD_AZURE_CONNECTION_STRING` | no example | Azure Blob Storage connection string |
-| `HMD_AZURE_CONTAINER` | no example | Azure Blob Storage container name (automatically created if non existent) |
-| `HMD_HSTS_ENABLE` | ` true`  | set to enable [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) if HTTPS is also enabled (default is ` true`) |
-| `HMD_HSTS_INCLUDE_SUBDOMAINS` | `true` | set to include subdomains in HSTS (default is `true`) |
-| `HMD_HSTS_MAX_AGE` | `31536000` | max duration in seconds to tell clients to keep HSTS status (default is a year) |
-| `HMD_HSTS_PRELOAD` | `true` | whether to allow preloading of the site's HSTS status (e.g. into browsers) |
-| `HMD_CSP_ENABLE` | `true` | whether to enable Content Security Policy (directives cannot be configured with environment variables) |
-| `HMD_CSP_REPORTURI` | `https://<someid>.report-uri.com/r/d/csp/enforce` | Allows to add a URL for CSP reports in case of violations |
+| `CMD_DOMAIN` | `codimd.org` | domain name |
+| `CMD_URL_PATH` | `codimd` | sub URL path, like `www.example.com/<URL_PATH>` |
+| `CMD_PORT` | `80` | web app port |
+| `CMD_ALLOW_ORIGIN` | `localhost, codimd.org` | domain name whitelist (use comma to separate) |
+| `CMD_PROTOCOL_USESSL` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
+| `CMD_URL_ADDPORT` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
+| `CMD_USECDN` | `true` or `false` | set to use CDN resources or not (default is `true`) |
+| `CMD_ALLOW_ANONYMOUS` | `true` or `false` | set to allow anonymous usage (default is `true`) |
+| `CMD_ALLOW_ANONYMOUS_EDITS` | `true` or `false` | if `allowAnonymous` is `true`, allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
+| `CMD_ALLOW_FREEURL` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
+| `CMD_DEFAULT_PERMISSION` | `freely`, `editable`, `limited`, `locked` or `private` | set notes default permission (only applied on signed users) |
+| `CMD_DB_URL` | `mysql://localhost:3306/database` | set the database URL |
+| `CMD_SESSION_SECRET` | no example | Secret used to sign the session cookie. If non is set, one will randomly generated on startup |
+| `CMD_SESSION_LIFE` | `1209600000` | Session life time. (milliseconds) |
+| `CMD_FACEBOOK_CLIENTID` | no example | Facebook API client id |
+| `CMD_FACEBOOK_CLIENTSECRET` | no example | Facebook API client secret |
+| `CMD_TWITTER_CONSUMERKEY` | no example | Twitter API consumer key |
+| `CMD_TWITTER_CONSUMERSECRET` | no example | Twitter API consumer secret |
+| `CMD_GITHUB_CLIENTID` | no example | GitHub API client id |
+| `CMD_GITHUB_CLIENTSECRET` | no example | GitHub API client secret |
+| `CMD_GITLAB_SCOPE` | `read_user` or `api` | GitLab API requested scope (default is `api`) (GitLab snippet import/export need `api` scope) |
+| `CMD_GITLAB_BASEURL` | no example | GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional) |
+| `CMD_GITLAB_CLIENTID` | no example | GitLab API client id |
+| `CMD_GITLAB_CLIENTSECRET` | no example | GitLab API client secret |
+| `CMD_MATTERMOST_BASEURL` | no example | Mattermost authentication endpoint |
+| `CMD_MATTERMOST_CLIENTID` | no example | Mattermost API client id |
+| `CMD_MATTERMOST_CLIENTSECRET` | no example | Mattermost API client secret |
+| `CMD_DROPBOX_CLIENTID` | no example | Dropbox API client id |
+| `CMD_DROPBOX_CLIENTSECRET` | no example | Dropbox API client secret |
+| `CMD_GOOGLE_CLIENTID` | no example | Google API client id |
+| `CMD_GOOGLE_CLIENTSECRET` | no example | Google API client secret |
+| `CMD_LDAP_URL` | `ldap://example.com` | URL of LDAP server |
+| `CMD_LDAP_BINDDN` | no example | bindDn for LDAP access |
+| `CMD_LDAP_BINDCREDENTIALS` | no example | bindCredentials for LDAP access |
+| `CMD_LDAP_SEARCHBASE` | `o=users,dc=example,dc=com` | LDAP directory to begin search from |
+| `CMD_LDAP_SEARCHFILTER` | `(uid={{username}})` | LDAP filter to search with |
+| `CMD_LDAP_SEARCHATTRIBUTES` | `displayName, mail` | LDAP attributes to search with (use comma to separate) |
+| `CMD_LDAP_USERIDFIELD` | `uidNumber` or `uid` or `sAMAccountName` | The LDAP field which is used uniquely identify a user on CodiMD |
+| `CMD_LDAP_USERNAMEFIELD` | Fallback to userid | The LDAP field which is used as the username on CodiMD |
+| `CMD_LDAP_TLS_CA` | `server-cert.pem, root.pem` | Root CA for LDAP TLS in PEM format (use comma to separate) |
+| `CMD_LDAP_PROVIDERNAME` | `My institution` | Optional name to be displayed at login form indicating the LDAP provider |
+| `CMD_SAML_IDPSSOURL` | `https://idp.example.com/sso` | authentication endpoint of IdP. for details, see [guide](docs/guides/auth.md#saml-onelogin). |
+| `CMD_SAML_IDPCERT` | `/path/to/cert.pem` | certificate file path of IdP in PEM format |
+| `CMD_SAML_ISSUER` | no example | identity of the service provider (optional, default: serverurl)" |
+| `CMD_SAML_IDENTIFIERFORMAT` | no example | name identifier format (optional, default: `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`) |
+| `CMD_SAML_GROUPATTRIBUTE` | `memberOf` | attribute name for group list (optional) |
+| `CMD_SAML_REQUIREDGROUPS` | `Hackmd-users` | group names that allowed (use vertical bar to separate) (optional) |
+| `CMD_SAML_EXTERNALGROUPS` | `Temporary-staff` | group names that not allowed (use vertical bar to separate) (optional) |
+| `CMD_SAML_ATTRIBUTE_ID` | `sAMAccountName` | attribute map for `id` (optional, default: NameID of SAML response) |
+| `CMD_SAML_ATTRIBUTE_USERNAME` | `mailNickname` | attribute map for `username` (optional, default: NameID of SAML response) |
+| `CMD_SAML_ATTRIBUTE_EMAIL` | `mail` | attribute map for `email` (optional, default: NameID of SAML response if `CMD_SAML_IDENTIFIERFORMAT` is default) |
+| `CMD_IMGUR_CLIENTID` | no example | Imgur API client id |
+| `CMD_EMAIL` | `true` or `false` | set to allow email signin |
+| `CMD_ALLOW_PDF_EXPORT` | `true` or `false` | Enable or disable PDF exports |
+| `CMD_ALLOW_EMAIL_REGISTER` | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
+| `CMD_ALLOW_GRAVATAR` | `true` or `false` | set to `false` to disable gravatar as profile picture source on your instance |
+| `CMD_IMAGE_UPLOAD_TYPE` | `imgur`, `s3`, `minio` or `filesystem` | Where to upload images. For S3, see our Image Upload Guides for [S3](docs/guides/s3-image-upload.md) or [Minio](docs/guides/minio-image-upload.md) |
+| `CMD_S3_ACCESS_KEY_ID` | no example | AWS access key id |
+| `CMD_S3_SECRET_ACCESS_KEY` | no example | AWS secret key |
+| `CMD_S3_REGION` | `ap-northeast-1` | AWS S3 region |
+| `CMD_S3_BUCKET` | no example | AWS S3 bucket name |
+| `CMD_MINIO_ACCESS_KEY` | no example | Minio access key |
+| `CMD_MINIO_SECRET_KEY` | no example | Minio secret key |
+| `CMD_MINIO_ENDPOINT` | `minio.example.org` | Address of your Minio endpoint/instance |
+| `CMD_MINIO_PORT` | `9000` | Port that is used for your Minio instance |
+| `CMD_MINIO_SECURE` | `true` | If set to `true` HTTPS is used for Minio |
+| `CMD_AZURE_CONNECTION_STRING` | no example | Azure Blob Storage connection string |
+| `CMD_AZURE_CONTAINER` | no example | Azure Blob Storage container name (automatically created if non existent) |
+| `CMD_HSTS_ENABLE` | ` true`  | set to enable [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) if HTTPS is also enabled (default is ` true`) |
+| `CMD_HSTS_INCLUDE_SUBDOMAINS` | `true` | set to include subdomains in HSTS (default is `true`) |
+| `CMD_HSTS_MAX_AGE` | `31536000` | max duration in seconds to tell clients to keep HSTS status (default is a year) |
+| `CMD_HSTS_PRELOAD` | `true` | whether to allow preloading of the site's HSTS status (e.g. into browsers) |
+| `CMD_CSP_ENABLE` | `true` | whether to enable Content Security Policy (directives cannot be configured with environment variables) |
+| `CMD_CSP_REPORTURI` | `https://<someid>.report-uri.com/r/d/csp/enforce` | Allows to add a URL for CSP reports in case of violations |
+
+***Note:** Due to the rename process we renamed all `HMD_`-prefix variables to be `CMD_`-prefixed. The old ones continue to work.*
 
 ## Application settings `config.json`
 
@@ -235,7 +248,7 @@ There are some config settings you need to change in the files below.
 | --------- | ------ | ----------- |
 | `debug` | `true` or `false` | set debug mode, show more logs |
 | `domain` | `localhost` | domain name |
-| `urlPath` | `hackmd` | sub URL path, like `www.example.com/<urlpath>` |
+| `urlPath` | `codimd` | sub URL path, like `www.example.com/<urlpath>` |
 | `port` | `80` | web app port |
 | `allowOrigin` | `['localhost']` | domain name whitelist |
 | `useSSL` | `true` or `false` | set to use SSL server (if `true`, will auto turn on `protocolUseSSL`) |
@@ -249,9 +262,9 @@ There are some config settings you need to change in the files below.
 | `allowFreeURL` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
 | `defaultPermission` | `freely`, `editable`, `limited`, `locked`, `protected` or `private` | set notes default permission (only applied on signed users) |
 | `dbURL` | `mysql://localhost:3306/database` | set the db URL; if set, then db config (below) won't be applied |
-| `db` | `{ "dialect": "sqlite", "storage": "./db.hackmd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
+| `db` | `{ "dialect": "sqlite", "storage": "./db.codimd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
 | `sslKeyPath` | `./cert/client.key` | SSL key path (only need when you set `useSSL`) |
-| `sslCertPath` | `./cert/hackmd_io.crt` | SSL cert path (only need when you set `useSSL`) |
+| `sslCertPath` | `./cert/codimd_io.crt` | SSL cert path (only need when you set `useSSL`) |
 | `sslCAPath` | `['./cert/COMODORSAAddTrustCA.crt']` | SSL ca chain (only need when you set `useSSL`) |
 | `dhParamPath` | `./cert/dhparam.pem` | SSL dhparam path (only need when you set `useSSL`) |
 | `tmpPath` | `./tmp/` | temp directory path |
@@ -304,7 +317,7 @@ There are some config settings you need to change in the files below.
 ## Structure
 
 ```text
-hackmd/
+codimd/
 ├── tmp/            --- temporary files
 ├── docs/           --- document files
 ├── lib/            --- server libraries
@@ -330,15 +343,15 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-[matrix.org-image]: https://img.shields.io/badge/Matrix.org-%23HackMD@matrix.org-green.svg
-[matrix.org-url]: https://riot.im/app/#/room/#hackmd:matrix.org
-[travis-image]: https://travis-ci.org/hackmdio/hackmd.svg?branch=master
-[travis-url]: https://travis-ci.org/hackmdio/hackmd
-[github-version-badge]: https://img.shields.io/github/release/hackmdio/hackmd.svg
-[github-release-page]: https://github.com/hackmdio/hackmd/releases
+[matrix.org-image]: https://img.shields.io/badge/Matrix.org-%23CodiMD@matrix.org-green.svg
+[matrix.org-url]: https://riot.im/app/#/room/#codimd:matrix.org
+[travis-image]: https://travis-ci.org/hackmdio/codimd.svg?branch=master
+[travis-url]: https://travis-ci.org/hackmdio/codimd
+[github-version-badge]: https://img.shields.io/github/release/hackmdio/codimd.svg
+[github-release-page]: https://github.com/hackmdio/codimd/releases
 [standardjs-image]: https://cdn.rawgit.com/feross/standard/master/badge.svg
 [standardjs-url]: https://github.com/feross/standard
-[codetriage-image]: https://www.codetriage.com/hackmdio/hackmd/badges/users.svg
-[codetriage-url]: https://www.codetriage.com/hackmdio/hackmd
+[codetriage-image]: https://www.codetriage.com/hackmdio/codimd/badges/users.svg
+[codetriage-url]: https://www.codetriage.com/hackmdio/codimd
 [poeditor-image]: https://img.shields.io/badge/POEditor-translate-blue.svg
 [poeditor-url]: https://poeditor.com/join/project/1OpGjF2Jir
