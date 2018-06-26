@@ -80,7 +80,10 @@ Just to more confusion: We are still friends with HackMD :heart:
 3. Setup the configs, see more below
 4. Setup environment variables which will overwrite the configs
 5. Build front-end bundle by `npm run build` (use `npm run dev` if you are in development)
-6. Run the server as you like (node, forever, pm2)
+6. Modify the file named `.sequelizerc`, change the value of the variable `url` with your db connection string
+   For example: `postgres://username:password@localhost:5432/codimd`
+7. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
+8. Run the server as you like (node, forever, pm2)
 
 ## Heroku Deployment
 
