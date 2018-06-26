@@ -14,6 +14,7 @@ window.lastchangetime = window.lastchangeui.time.attr('data-updatetime')
 updateLastChange()
 const url = window.location.pathname
 $('.ui-edit').attr('href', `${url}/edit`)
+$('.ui-print').attr('href', `${url}?print-pdf`)
 
 $(document).ready(() => {
     // tooltip
