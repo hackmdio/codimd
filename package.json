@@ -102,7 +102,7 @@
     "passport-saml": "^0.31.0",
     "passport.socketio": "^3.7.0",
     "pdfobject": "^2.0.201604172",
-    "pg": "^6.1.2",
+    "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
     "prismjs": "^1.6.0",
     "randomcolor": "^0.4.4",
