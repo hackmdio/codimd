@@ -93,7 +93,7 @@
     "passport-dropbox-oauth2": "^1.1.0",
     "passport-facebook": "^2.1.1",
     "passport-github": "^1.1.0",
-    "passport-gitlab2": "^2.2.0",
+    "passport-gitlab2": "^4.0.0",
     "passport-google-oauth20": "^1.0.0",
     "passport-ldapauth": "^0.6.0",
     "passport-local": "^1.0.0",
