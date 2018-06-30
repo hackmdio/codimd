@@ -131,7 +131,7 @@
     "visibilityjs": "^1.2.4",
     "viz.js": "^1.7.0",
     "winston": "^2.3.0",
-    "xss": "^0.3.3"
+    "xss": "^1.0.3"
   },
   "engines": {
     "node": ">=6.x <10.x"
