@@ -119,7 +119,7 @@
     "socket.io-client": "~2.0.4",
     "spin.js": "^2.3.2",
     "sqlite3": "^4.0.1",
-    "store": "^1.3.20",
+    "store": "^2.0.12",
     "string": "^3.3.3",
     "tedious": "^1.14.0",
     "to-markdown": "^3.0.3",
