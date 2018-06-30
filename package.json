@@ -89,7 +89,7 @@
     "mysql": "^2.12.0",
     "node-uuid": "^1.4.7",
     "octicons": "~4.4.0",
-    "passport": "^0.3.2",
+    "passport": "^0.4.0",
     "passport-dropbox-oauth2": "^1.1.0",
     "passport-facebook": "^2.1.1",
     "passport-github": "^1.1.0",
