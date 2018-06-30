@@ -76,7 +76,7 @@
     "markdown-it-regexp": "^0.4.0",
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
-    "markdown-pdf": "^7.0.0",
+    "markdown-pdf": "^8.0.0",
     "mathjax": "~2.7.0",
     "mermaid": "~7.1.0",
     "mattermost": "^3.4.0",
