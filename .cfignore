@@ -1,0 +1,30 @@
+node_modules
+package-lock.json
+yarn.lock
+composer.phar
+composer.lock
+.env.*.php
+.env.php
+.DS_Store
+.idea/
+Thumbs.db
+npm-debug.log
+hackmd_io
+newrelic_agent.log
+logs/
+tmp/
+backups/
+*.pid
+*.log
+*.sqlite
+
+# ignore config files
+config.json
+.sequelizerc
+
+# ignore webpack build
+public/build
+public/views/build
+
+public/uploads/*
+!public/uploads/.gitkeep
