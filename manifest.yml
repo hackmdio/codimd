@@ -1,0 +1,11 @@
+---
+applications:
+- name: hackmd
+  instances: 1
+  memory: 2G
+  buildpack: nodejs_buildpack
+  env:
+    PGSSLMODE: require
+    UV_THREADPOOL_SIZE: 100
+    CMD_PORT: 8080
+    CF_DB: hackmd-db
