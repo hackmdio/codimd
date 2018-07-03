@@ -1,8 +1,7 @@
 var baseConfig = require('./webpackBaseConfig')
 var webpack = require('webpack')
 var path = require('path')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -35,6 +34,9 @@ module.exports = [Object.assign({}, baseConfig, {
     // baseUrl: '<%- url %>'
   }
 }), {
+  // This Chunk is used in the 'save as html' feature.
+  // It is embedded in the html file and contains CSS for styling.
+
   entry: {
     htmlExport: path.join(__dirname, 'public/js/htmlExport.js')
   },
@@ -50,10 +52,17 @@ module.exports = [Object.assign({}, baseConfig, {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new ExtractTextPlugin('html.min.css'),
-    new OptimizeCssAssetsPlugin(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({
+      filename: 'html.min.css'
+    })
   ],
+
+  optimization: {
+    minimizer: [
+      new OptimizeCSSAssetsPlugin({})
+    ]
+  },
+
   module: {
     rules: [{
       test: /\.css$/,
