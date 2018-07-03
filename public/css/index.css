@@ -310,7 +310,16 @@ body.night{
     overflow: hidden;
 }
 
-.night .dropdown-menu{
+.night .dropdown-menu > li > a {
+    color: #eee;
+}
+
+.night .dropdown-menu > li > a:focus,
+.night .dropdown-menu > li > a:hover {
+  color: #262626
+}
+
+.night .dropdown-menu {
     background: #222;
 }
 
