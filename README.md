@@ -116,7 +116,7 @@ The easiest way to setup CodiMD using docker are using the following three comma
 
 ```console
 git clone https://github.com/hackmdio/docker-hackmd.git
-cd docker-codimd
+cd docker-hackmd
 docker-compose up
 ```
 Read more about it in the [docker repository…](https://github.com/hackmdio/docker-hackmd)
