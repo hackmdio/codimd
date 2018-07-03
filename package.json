@@ -50,6 +50,7 @@
     "bootstrap-validator": "~0.11.8",
     "chance": "~1.0.18",
     "cheerio": "~0.22.0",
+    "cfenv": "^1.1.0",
     "connect-flash": "~0.1.1",
     "connect-session-sequelize": "~6.0.0",
     "cookie": "~0.4.0",
