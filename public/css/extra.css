@@ -93,6 +93,10 @@
     color: #777;
 }
 
+.toc .invisable-node {
+  list-style-type: none;
+}
+
 .ui-toc {
     position: fixed;
     bottom: 20px;
