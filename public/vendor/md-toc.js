@@ -28,7 +28,7 @@
   Toc.prototype._collectTitleElements = function () {
     this._elTitlesNames = []
     this.elTitleElements = []
-    for (var i = 1; i < 7; i++) {
+    for (var i = 1; i < 6; i++) {
       if (this.el.getElementsByTagName('h' + i).length) {
         this._elTitlesNames.push('h' + i)
       }
