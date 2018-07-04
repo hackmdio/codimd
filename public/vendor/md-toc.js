@@ -52,18 +52,17 @@
       titleNames = this._elTitlesNames
       ulClass = this.ulClass
     }
-    var titleElementsLen = titleElements.length
     // No need to do anything for an empty ToC
-    if (!titleElementsLen) return
+    if (!titleElements.length) return
 
-    this.tocContent = ''
     var content = '<ul'
     if (ulClass) {
       content += ' class="' + ulClass + '"'
     }
-    content += '>'
+    content += '>\n'
     var iterTag = titleNames[level]
     var recurse = false
+    var openTag = false
 
     for (var element; element = titleElements.shift();) {
       var elementTag = element.tagName.toLowerCase()
@@ -80,13 +79,21 @@
         } else {
           id = '#' + id
         }
+        if (openTag) {
+          content += '</li>\n'
+          openTag = false
+        }
         content += '<li><a href="' + id + '" title="'+ elementTitle +'">' + elementText + '</a>'
         // Reset recursion. We need it for the next subsections
         recurse = false
-
+        openTag = true
       // Check if the current element has a lower level than ours, if so, we have to go down the rabbithole!
       } else if (!recurse && titleNames.indexOf(elementTag.toLowerCase()) > level) {
         recurse = true
+        if (!openTag) {
+          content += '<li class="invisable-node">'
+          openTag = true
+        }
         // This element is for the lower lever, we have to re-add it before we send the list down there.
         titleElements.unshift(element)
         // Let's call ourself and get to the next level
@@ -99,7 +106,10 @@
       }
     }
 
-    content += '</ul>'
+    if (openTag) {
+      content += '</li>\n'
+    }
+    content += '</ul>\n'
 
     // Set ToC content of the level 0 everything else pass things to the upper level!
     if (level === 0) {
