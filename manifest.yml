@@ -2,7 +2,7 @@
 applications:
 - name: hackmd
   instances: 1
-  memory: 2G
+  memory: 6G
   buildpack: nodejs_buildpack
   env:
     PGSSLMODE: require

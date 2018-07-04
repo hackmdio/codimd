@@ -15,19 +15,14 @@
   "license": "AGPL-3.0",
   "main": "app.js",
   "scripts": {
-    "build": "webpack --config webpack.prod.js --display errors-only -p",
-    "dev": "webpack --config webpack.dev.js --progress --colors --watch",
-    "doctoc": "doctoc --title='# Table of Contents' README.md",
-    "lint": "standard",
-    "jsonlint": "find . -type f -not -ipath \"./node_modules/*\" \\( -name \"*.json\" -o -name \"*.json.*\" \\) | xargs -n 1 -I{} -- bash -c 'echo {}; jq . {} > /dev/null;'",
-    "start": "sequelize db:migrate && node app.js",
-    "mocha": "mocha --require intelli-espower-loader --exit ./test --recursive",
-    "mocha:ci": "mocha --no-color -R dot --require intelli-espower-loader --exit ./test --recursive",
-    "coverage": "nyc mocha --require intelli-espower-loader --exit --recursive ./test",
-    "coverage:ci": "nyc mocha --no-color -R dot --require intelli-espower-loader --exit --recursive ./test",
-    "test": "npm run-script lint && npm run-script jsonlint && npm run-script coverage",
-    "test:ci": "npm run-script lint && npm run-script jsonlint && npm run-script coverage:ci",
-    "postinstall": "npm run build"
+    "test": "npm run-script standard && npm run-script jsonlint",
+    "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' -o -type f -name '*.json.example' | while read json; do echo $json ; jq . $json; done",
+    "standard": "node ./node_modules/standard/bin/cmd.js",
+    "dev": "webpack --config webpack.config.js --progress --colors --watch",
+    "build": "node --max-old-space-size=6144 node_modules/webpack/bin/webpack.js --config webpack.prod.js --progress --colors --bail",
+    "postinstall": "npm run build",
+    "start": "node app.js",
+    "doctoc": "doctoc --title='# Table of Contents' README.md"
   },
   "dependencies": {
     "@hackmd/codemirror": "~5.46.2",
