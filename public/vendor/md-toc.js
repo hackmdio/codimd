@@ -44,59 +44,69 @@
     }
   }
 
-  Toc.prototype._createTocContent = function () {
-    this._elTitleElementsLen = this.elTitleElements.length
-    if (!this._elTitleElementsLen) return
+  Toc.prototype._createTocContent = function recursiveToc(level = 0, titleElements = [], titleNames = [], ulClass = undefined) {
+    // Inititalize our elements from the toc object
+    // which is only available on level 0
+    if (level === 0) {
+      titleElements = this.elTitleElements
+      titleNames = this._elTitlesNames
+      ulClass = this.ulClass
+    }
+    var titleElementsLen = titleElements.length
+    // No need to do anything for an empty ToC
+    if (!titleElementsLen) return
+
     this.tocContent = ''
-    this._tempLists = []
+    var content = '<ul'
+    if (ulClass) {
+      content += ' class="' + ulClass + '"'
+    }
+    content += '>'
+    var iterTag = titleNames[level]
+    var recurse = false
 
-    for (var i = 0; i < this._elTitleElementsLen; i++) {
-      var j = i + 1
-      this._elTitleElement = this.elTitleElements[i]
-      this._elTitleElementName = this._elTitleElement.tagName
-      this._elTitleElementTitle = this._elTitleElement.textContent.replace(/"/g, '&quot;')
-      this._elTitleElementText = (typeof this.process === 'function' ? this.process(this._elTitleElement) : this._elTitleElement.innerHTML).replace(/<(?:.|\n)*?>/gm, '')
-      var id = this._elTitleElement.getAttribute('id')
-      if (!id) {
-        this._elTitleElement.setAttribute('id', 'tip' + i)
-        id = '#tip' + i
-      } else {
-        id = '#' + id
-      }
+    for (var element; element = titleElements.shift();) {
+      var elementTag = element.tagName.toLowerCase()
 
-      this.tocContent += '<li><a href="' + id + '" title="'+ this._elTitleElementTitle +'">' + this._elTitleElementText + '</a>'
-
-      if (j !== this._elTitleElementsLen) {
-        this._elNextTitleElementName = this.elTitleElements[j].tagName
-        if (this._elTitleElementName !== this._elNextTitleElementName) {
-          var checkColse = false
-          var y = 1
-          for (var t = this._tempLists.length - 1; t >= 0; t--) {
-            if (this._tempLists[t].tagName === this._elNextTitleElementName) {
-              checkColse = true
-              break
-            }
-            y++
-          }
-          if (checkColse) {
-            this.tocContent += new Array(y + 1).join('</li></ul>')
-            this._tempLists.length = this._tempLists.length - y
-          } else {
-            this._tempLists.push(this._elTitleElement)
-            if (this.ulClass) { this.tocContent += '<ul class="' + this.ulClass + '">' } else { this.tocContent += '<ul>' }
-          }
+      // We only care about tags on our level to add them as list item
+      if (elementTag == iterTag) {
+        // Let's do some cleaning
+        var elementTitle = element.textContent.replace(/"/g, '&quot;')
+        var elementText = (typeof this.process === 'function' ? this.process(element) : element.innerHTML).replace(/<(?:.|\n)*?>/gm, '')
+        var id = element.getAttribute('id')
+        if (!id) {
+          element.setAttribute('id', 'tip' + i)
+          id = '#tip' + i
         } else {
-          this.tocContent += '</li>'
+          id = '#' + id
         }
+        content += '<li><a href="' + id + '" title="'+ elementTitle +'">' + elementText + '</a>'
+        // Reset recursion. We need it for the next subsections
+        recurse = false
+
+      // Check if the current element has a lower level than ours, if so, we have to go down the rabbithole!
+      } else if (!recurse && titleNames.indexOf(elementTag.toLowerCase()) > level) {
+        recurse = true
+        // This element is for the lower lever, we have to re-add it before we send the list down there.
+        titleElements.unshift(element)
+        // Let's call ourself and get to the next level
+        content += recursiveToc(level + 1, titleElements, titleNames, ulClass)
       } else {
-        if (this._tempLists.length) {
-          this.tocContent += new Array(this._tempLists.length + 1).join('</li></ul>')
-        } else {
-          this.tocContent += '</li>'
-        }
+        // When we end up here, met a higher level element
+        // This is not our business so back into the list with the element and let's end this loop
+        titleElements.unshift(element)
+        break
       }
     }
-    if (this.ulClass) { this.tocContent = '<ul class="' + this.ulClass + '">' + this.tocContent + '</ul>' } else { this.tocContent = '<ul>' + this.tocContent + '</ul>' }
+
+    content += '</ul>'
+
+    // Set ToC content of the level 0 everything else pass things to the upper level!
+    if (level === 0) {
+      this.tocContent = content
+    } else {
+      return content
+    }
   }
 
   Toc.prototype._showToc = function () {
