@@ -1,7 +1,5 @@
 FROM node:boron
 
-ENV DOCKERIZE_VERSION v0.3.0
-
  RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
 	wget -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add - && \
 	apt-get update && \
