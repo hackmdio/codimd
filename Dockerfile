@@ -17,9 +17,6 @@ ADD . .
 RUN mv .sequelizerc.example .sequelizerc
 RUN mv config.json.example config.json
 
-ADD docker-entrypoint.sh /hackadoc/docker-entrypoint.sh
-RUN chmod +x /hackadoc/docker-entrypoint.sh
-
 # npm install
 RUN npm install
 # npm build
