@@ -5,7 +5,7 @@ FROM node:boron
 	apt-get update && \
 	apt-get install -y git postgresql-client-9.6
     
-#make directory
+# make directory
 RUN mkdir /hackadoc
 WORKDIR /hackadoc
 
