@@ -205,11 +205,21 @@ io.sockets.on('connection', realtime.connection)
 
 // listen
 function startListen () {
-  server.listen(config.port, function () {
+  var address
+  var listenCallback = function () {
     var schema = config.useSSL ? 'HTTPS' : 'HTTP'
-    logger.info('%s Server listening at port %d', schema, config.port)
+    logger.info('%s Server listening at %s', schema, address)
     realtime.maintenance = false
-  })
+  }
+
+  // use unix domain socket if 'path' is specified
+  if (config.path) {
+    address = config.path
+    server.listen(config.path, listenCallback)
+  } else {
+    address = config.host + ':' + config.port
+    server.listen(config.port, config.host, listenCallback)
+  }
 }
 
 // sync db then start listen

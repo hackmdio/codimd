@@ -170,7 +170,9 @@ There are some config settings you need to change in the files below.
 | `DEBUG` | `true` or `false` | set debug mode; show more logs |
 | `CMD_DOMAIN` | `codimd.org` | domain name |
 | `CMD_URL_PATH` | `codimd` | sub URL path, like `www.example.com/<URL_PATH>` |
+| `CMD_HOST` | `localhost` | host to listen on |
 | `CMD_PORT` | `80` | web app port |
+| `CMD_PATH` | `/var/run/codimd.sock` | path to UNIX domain socket to listen on (if specified, `CMD_HOST` and `CMD_PORT` are ignored) |
 | `CMD_ALLOW_ORIGIN` | `localhost, codimd.org` | domain name whitelist (use comma to separate) |
 | `CMD_PROTOCOL_USESSL` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
 | `CMD_URL_ADDPORT` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
@@ -252,7 +254,9 @@ There are some config settings you need to change in the files below.
 | `debug` | `true` or `false` | set debug mode, show more logs |
 | `domain` | `localhost` | domain name |
 | `urlPath` | `codimd` | sub URL path, like `www.example.com/<urlpath>` |
+| `host` | `localhost` | host to listen on |
 | `port` | `80` | web app port |
+| `path` | `/var/run/codimd.sock` | path to UNIX domain socket to listen on (if specified, `host` and `port` are ignored) |
 | `allowOrigin` | `['localhost']` | domain name whitelist |
 | `useSSL` | `true` or `false` | set to use SSL server (if `true`, will auto turn on `protocolUseSSL`) |
 | `hsts` | `{"enable": true, "maxAgeSeconds": 31536000, "includeSubdomains": true, "preload": true}` | [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) options to use with HTTPS (default is the example value, max age is a year) |
