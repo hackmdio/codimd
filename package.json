@@ -15,6 +15,7 @@
   "dependencies": {
     "Idle.Js": "git+https://github.com/shawnmclean/Idle.js",
     "asciidoctor.js": "^1.5.7-beta.1",
+    "asciidoctor-plantuml":"^0.8.4",
     "async": "^2.1.4",
     "aws-sdk": "^2.7.20",
     "blueimp-md5": "^2.6.0",

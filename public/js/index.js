@@ -2803,7 +2803,18 @@ function updateViewInner () {
   var lastMeta = md.meta
   md.meta = {}
   delete md.metaError
+
+  //asciidoctor-diagram
+  const plantuml = require('asciidoctor-plantuml');
+  plantuml.register(asciidoctor.Extensions);
+
+  const asciidoctor_plantulml = asciidoctor.Extensions.create();
+  //plantuml.register(asciidoctor_plantulml);
+
   var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@', 'showTitle=true']})
+
+  //adoc_options = adoc_options + "{'extension_registry' : asciidoctor_diagram}"
+  
   var rendered = adoc.convert(value, adoc_options)
   if (md.meta.type && md.meta.type === 'slide') {
     var slideOptions = {
