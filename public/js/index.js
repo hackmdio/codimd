@@ -2806,11 +2806,9 @@ function updateViewInner () {
 
   //extentions
   var registry = adoc.Extensions.create();
-  //asciidoctor-diagram
-  var plantuml = require('asciidoctor-plantuml');
+  //asciidoctor-plantuml
+  const plantuml = require('asciidoctor-plantuml');
   plantuml.register(registry);
-  //viz.js
-  Viz.register(registry);
 
   var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@', 'showTitle=true'] ,'extension_registry': registry });
   
