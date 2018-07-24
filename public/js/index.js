@@ -2804,16 +2804,13 @@ function updateViewInner () {
   md.meta = {}
   delete md.metaError
 
+  //extentions
+  var registry = adoc.Extensions.create();
   //asciidoctor-diagram
-  const plantuml = require('asciidoctor-plantuml');
-  plantuml.register(asciidoctor.Extensions);
+  var plantuml = require('asciidoctor-plantuml');
+  plantuml.register(registry);
 
-  const asciidoctor_plantulml = asciidoctor.Extensions.create();
-  //plantuml.register(asciidoctor_plantulml);
-
-  var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@', 'showTitle=true']})
-
-  //adoc_options = adoc_options + "{'extension_registry' : asciidoctor_diagram}"
+  var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@', 'showTitle=true'] ,'extension_registry': registry });
   
   var rendered = adoc.convert(value, adoc_options)
   if (md.meta.type && md.meta.type === 'slide') {
