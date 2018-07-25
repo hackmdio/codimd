@@ -2805,7 +2805,7 @@ function updateViewInner () {
   delete md.metaError
 
   //extentions
-  var registry = adoc.Extensions.create();
+  const registry = adoc.Extensions.create();
   //asciidoctor-plantuml
   const plantuml = require('asciidoctor-plantuml');
   plantuml.register(registry);
