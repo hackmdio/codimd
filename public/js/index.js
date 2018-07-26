@@ -2805,14 +2805,13 @@ function updateViewInner () {
   delete md.metaError
 
   //extentions
-  const registry = adoc.Extensions.create();
   //asciidoctor-plantuml
-  const plantuml = require('asciidoctor-plantuml');
-  plantuml.register(registry);
+  var plantuml = require('asciidoctor-plantuml');
+  plantuml.register(adoc.Extensions);
 
-  var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@', 'showTitle=true'] ,'extension_registry': registry });
+  var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@', 'showTitle=true']});
   
-  var rendered = adoc.convert(value, adoc_options)
+  var rendered = adoc.convert(value, adoc_options);
   if (md.meta.type && md.meta.type === 'slide') {
     var slideOptions = {
       separator: '^(\r\n?|\n)---(\r\n?|\n)$',
