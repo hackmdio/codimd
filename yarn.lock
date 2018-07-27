@@ -4698,9 +4698,9 @@ markdown-it@^8.2.2:
     mdurl "^1.0.1"
     uc.micro "^1.0.3"
 
-markdown-pdf@^8.0.0:
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/markdown-pdf/-/markdown-pdf-8.1.1.tgz#25c025d4f4f91869ac0f3f6fd7f7d32237669438"
+markdown-pdf@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-pdf/-/markdown-pdf-9.0.0.tgz#d699f29c3b6c41da4b9a2ec7d09ea8895daef146"
   dependencies:
     commander "^2.2.0"
     duplexer "^0.1.1"
