@@ -2810,7 +2810,11 @@ function updateViewInner () {
   plantuml.register(adoc.Extensions);
 
   var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@', 'showTitle=true']});
-  
+
+  //add plantuml url
+  value = `:plantuml-server-url: http://www.plantuml.com/plantuml\n` + value;
+
+
   var rendered = adoc.convert(value, adoc_options)
   if (md.meta.type && md.meta.type === 'slide') {
     var slideOptions = {
