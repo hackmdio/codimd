@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "Idle.Js": "git+https://github.com/shawnmclean/Idle.js",
-    "asciidoctor.js": "^1.5.7-beta.1",
+    "asciidoctor.js": "^1.5.6",
+    "asciidoctor-plantuml":"^0.8.4",
     "async": "^2.1.4",
     "aws-sdk": "^2.7.20",
     "blueimp-md5": "^2.6.0",
@@ -118,7 +119,7 @@
     "validator": "^6.2.0",
     "velocity-animate": "^1.4.0",
     "visibilityjs": "^1.2.4",
-    "viz.js": "^1.7.0",
+    "viz.js": "^2.0.0",
     "winston": "^2.3.0",
     "xss": "^0.3.3"
   },
