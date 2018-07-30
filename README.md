@@ -194,6 +194,7 @@ There are some config settings you need to change in the files below.
 | `CMD_GITLAB_BASEURL` | no example | GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional) |
 | `CMD_GITLAB_CLIENTID` | no example | GitLab API client id |
 | `CMD_GITLAB_CLIENTSECRET` | no example | GitLab API client secret |
+| `CMD_GITLAB_VERSION` | no example | GitLab API version (v3 or v4) |
 | `CMD_MATTERMOST_BASEURL` | no example | Mattermost authentication endpoint |
 | `CMD_MATTERMOST_CLIENTID` | no example | Mattermost API client id |
 | `CMD_MATTERMOST_CLIENTSECRET` | no example | Mattermost API client secret |
