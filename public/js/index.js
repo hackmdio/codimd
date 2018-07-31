@@ -970,6 +970,7 @@ ui.toolbar.export.snippet.click(function () {
         .done(function (data) {
           $('#snippetExportModalAccessToken').val(data.accesstoken)
           $('#snippetExportModalBaseURL').val(data.baseURL)
+          $('#snippetExportModalVersion').val(data.version)
           $('#snippetExportModalLoading').hide()
           $('#snippetExportModal').modal('toggle')
           $('#snippetExportModalProjects').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>')
@@ -1021,6 +1022,7 @@ ui.toolbar.import.snippet.click(function () {
         .done(function (data) {
           $('#snippetImportModalAccessToken').val(data.accesstoken)
           $('#snippetImportModalBaseURL').val(data.baseURL)
+          $('#snippetImportModalVersion').val(data.version)
           $('#snippetImportModalContent').prop('disabled', false)
           $('#snippetImportModalConfirm').prop('disabled', false)
           $('#snippetImportModalLoading').hide()
@@ -1243,10 +1245,10 @@ ui.modal.snippetImportProjects.change(function () {
   var accesstoken = $('#snippetImportModalAccessToken').val()
   var baseURL = $('#snippetImportModalBaseURL').val()
   var project = $('#snippetImportModalProjects').val()
-
+  var version = $('#snippetImportModalVersion').val()
   $('#snippetImportModalLoading').show()
   $('#snippetImportModalContent').val('/projects/' + project)
-  $.get(baseURL + '/api/v3/projects/' + project + '/snippets?access_token=' + accesstoken)
+  $.get(baseURL + '/api/' + version + '/projects/' + project + '/snippets?access_token=' + accesstoken)
         .done(function (data) {
           $('#snippetImportModalSnippets').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Snippets</option>')
           data.forEach(function (snippet) {
@@ -1433,7 +1435,7 @@ $('#snippetImportModalConfirm').click(function () {
   } else {
     ui.spinner.show()
     var accessToken = '?access_token=' + $('#snippetImportModalAccessToken').val()
-    var fullURL = $('#snippetImportModalBaseURL').val() + '/api/v3' + snippeturl
+    var fullURL = $('#snippetImportModalBaseURL').val() + '/api/' + $('#snippetImportModalVersion').val() + snippeturl
     $.get(fullURL + accessToken)
             .done(function (data) {
               var content = '# ' + (data.title || 'Snippet Import')
@@ -1470,15 +1472,19 @@ $('#snippetImportModalConfirm').click(function () {
 $('#snippetExportModalConfirm').click(function () {
   var accesstoken = $('#snippetExportModalAccessToken').val()
   var baseURL = $('#snippetExportModalBaseURL').val()
+  var version = $('#snippetExportModalVersion').val()
+
   var data = {
     title: $('#snippetExportModalTitle').val(),
     file_name: $('#snippetExportModalFileName').val(),
     code: editor.getValue(),
-    visibility_level: $('#snippetExportModalVisibility').val()
+    visibility_level: $('#snippetExportModalVisibility').val(),
+    visibility: $('#snippetExportModalVisibility').val() === 0 ? 'private' : ($('#snippetExportModalVisibility').val() === 10 ? 'internal' : '')
   }
+
   if (!data.title || !data.file_name || !data.code || !data.visibility_level || !$('#snippetExportModalProjects').val()) return
   $('#snippetExportModalLoading').show()
-  var fullURL = baseURL + '/api/v3/projects/' + $('#snippetExportModalProjects').val() + '/snippets?access_token=' + accesstoken
+  var fullURL = baseURL + '/api/' + version + '/projects/' + $('#snippetExportModalProjects').val() + '/snippets?access_token=' + accesstoken
   $.post(fullURL
         , data
         , function (ret) {
@@ -1487,7 +1493,6 @@ $('#snippetExportModalConfirm').click(function () {
           var redirect = baseURL + '/' + $("#snippetExportModalProjects option[value='" + $('#snippetExportModalProjects').val() + "']").text() + '/snippets/' + ret.id
           showMessageModal('<i class="fa fa-gitlab"></i> Export to Snippet', 'Export Successful!', redirect, 'View Snippet Here', true)
         }
-        , 'json'
     )
 })
 
