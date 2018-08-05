@@ -1,5 +1,5 @@
 /* eslint-env browser, jquery */
-/* global serverurl, Cookies, moment */
+/* global serverurl, moment */
 
 import store from 'store'
 import S from 'string'
@@ -64,13 +64,7 @@ export function saveHistory (notehistory) {
 }
 
 function saveHistoryToStorage (notehistory) {
-  if (store.enabled) { store.set('notehistory', JSON.stringify(notehistory)) } else { saveHistoryToCookie(notehistory) }
-}
-
-function saveHistoryToCookie (notehistory) {
-  Cookies.set('notehistory', notehistory, {
-    expires: 365
-  })
+  store.set('notehistory', JSON.stringify(notehistory))
 }
 
 function saveHistoryToServer (notehistory) {
@@ -150,35 +144,17 @@ export function writeHistory (title, tags) {
     )
 }
 
-function writeHistoryToCookie (title, tags) {
-  var notehistory
-  try {
-    notehistory = Cookies.getJSON('notehistory')
-  } catch (err) {
+function writeHistoryToStorage (title, tags) {
+  let data = store.get('notehistory')
+  let notehistory
+  if (data && typeof data === 'string') {
+    notehistory = JSON.parse(data)
+  } else {
     notehistory = []
   }
-  if (!notehistory) { notehistory = [] }
+
   const newnotehistory = generateHistory(title, tags, notehistory)
-  saveHistoryToCookie(newnotehistory)
-}
-
-function writeHistoryToStorage (title, tags) {
-  if (store.enabled) {
-    let data = store.get('notehistory')
-    var notehistory
-    if (data) {
-      if (typeof data === 'string') { data = JSON.parse(data) }
-      notehistory = data
-    } else {
-      notehistory = []
-    }
-    if (!notehistory) { notehistory = [] }
-
-    const newnotehistory = generateHistory(title, tags, notehistory)
-    saveHistoryToStorage(newnotehistory)
-  } else {
-    writeHistoryToCookie(title, tags)
-  }
+  saveHistoryToStorage(newnotehistory)
 }
 
 if (!Array.isArray) {
@@ -236,20 +212,13 @@ function getServerHistory (callback) {
         })
 }
 
-function getCookieHistory (callback) {
-  callback(Cookies.getJSON('notehistory'))
-}
-
 export function getStorageHistory (callback) {
-  if (store.enabled) {
-    let data = store.get('notehistory')
-    if (data) {
-      if (typeof data === 'string') { data = JSON.parse(data) }
-      callback(data)
-    } else { getCookieHistory(callback) }
-  } else {
-    getCookieHistory(callback)
+  let data = store.get('notehistory')
+  if (data) {
+    if (typeof data === 'string') { data = JSON.parse(data) }
+    callback(data)
   }
+  callback([])
 }
 
 export function parseHistory (list, callback) {
@@ -275,21 +244,13 @@ export function parseServerToHistory (list, callback) {
         })
 }
 
-function parseCookieToHistory (list, callback) {
-  const notehistory = Cookies.getJSON('notehistory')
-  parseToHistory(list, notehistory, callback)
-}
-
 export function parseStorageToHistory (list, callback) {
-  if (store.enabled) {
-    let data = store.get('notehistory')
-    if (data) {
-      if (typeof data === 'string') { data = JSON.parse(data) }
-      parseToHistory(list, data, callback)
-    } else { parseCookieToHistory(list, callback) }
-  } else {
-    parseCookieToHistory(list, callback)
+  let data = store.get('notehistory')
+  if (data) {
+    if (typeof data === 'string') { data = JSON.parse(data) }
+    parseToHistory(list, data, callback)
   }
+  parseToHistory(list, [], callback)
 }
 
 function parseToHistory (list, notehistory, callback) {

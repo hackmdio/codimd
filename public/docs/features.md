@@ -3,12 +3,12 @@ Features
 
 Introduction
 ===
-<i class="fa fa-file-text"></i> **HackMD** is a realtime, multi-platform collaborative markdown note editor.
+<i class="fa fa-file-text"></i> **CodiMD** is a real-time, multi-platform collaborative markdown note editor.
 This means that you can write notes with other people on your **desktop**, **tablet** or even on the **phone**.
 You can sign-in via multiple auth providers like **Facebook**, **Twitter**, **GitHub** and many more on the [_homepage_](/).
 
-If you experience any _issues_, feel free to report it on [**GitHub**](https://github.com/hackmdio/hackmd/issues).
-Or meet us on [**Matrix.org**](https://riot.im/app/#/room/#hackmd:matrix.org) or [**Gitter**](https://gitter.im/hackmdio/hackmd) for dev-talk and interactive help.
+If you experience any _issues_, feel free to report it on [**GitHub**](https://github.com/hackmdio/codimd/issues).
+Or meet us on [**Matrix.org**](https://riot.im/app/#/room/#codimd:matrix.org) or [**Gitter**](https://gitter.im/hackmdio/hackmd) for dev-talk and interactive help.
 **Thank you very much!**
 
 Workspace
@@ -26,7 +26,7 @@ Workspace
 <i class="fa fa-toggle-off fa-fw"></i> Edit: See only the editor.
 
 ## Night Mode:
-When you are tired of a white screen and like a night mode, click on the little moon <i class="fa fa-moon-o"></i> and turn on the night view of HackMD.
+When you are tired of a white screen and like a night mode, click on the little moon <i class="fa fa-moon-o"></i> and turn on the night view of CodiMD.
 
 The editor view, which is in night mode by default, can also be toggled between night and day view using the the little sun<i class="fa fa-sun-o fa-fw"></i>.
 

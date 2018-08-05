@@ -1,4 +1,4 @@
-<script src="<%= webpackConfig.output.baseUrl %>/build/constant.js"></script>
+<script src="<%= webpackConfig.output.baseUrl %>/config"></script>
 <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
 <script src="<%= webpackConfig.output.baseUrl %><%= htmlWebpackPlugin.files.chunks[chunk].entry %>" defer></script>
 <% } %>

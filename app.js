@@ -26,22 +26,6 @@ var response = require('./lib/response')
 var models = require('./lib/models')
 var csp = require('./lib/csp')
 
-// generate front-end constants by template
-var constpath = path.join(__dirname, './public/js/lib/common/constant.ejs')
-var data = {
-  domain: config.domain,
-  urlpath: config.urlPath,
-  debug: config.debug,
-  version: config.version,
-  DROPBOX_APP_KEY: config.dropbox.appKey,
-  allowedUploadMimeTypes: config.allowedUploadMimeTypes
-}
-
-ejs.renderFile(constpath, data, {}, function (err, str) {
-  if (err) throw new Error(err)
-  fs.writeFileSync(path.join(__dirname, './public/build/constant.js'), str)
-})
-
 // server setup
 var app = express()
 var server = null
@@ -129,7 +113,7 @@ if (config.csp.enable) {
 }
 
 i18n.configure({
-  locales: ['en', 'zh', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da', 'ko'],
+  locales: ['en', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da', 'ko'],
   cookie: 'locale',
   directory: path.join(__dirname, '/locales'),
   updateFiles: config.updateI18nFiles
@@ -179,6 +163,7 @@ app.use(passport.session())
 app.use(require('./lib/web/middleware/checkURIValid'))
 // redirect url without trailing slashes
 app.use(require('./lib/web/middleware/redirectWithoutTrailingSlashes'))
+app.use(require('./lib/web/middleware/codiMDVersion'))
 
 // routes need sessions
 // template files
@@ -220,11 +205,21 @@ io.sockets.on('connection', realtime.connection)
 
 // listen
 function startListen () {
-  server.listen(config.port, function () {
+  var address
+  var listenCallback = function () {
     var schema = config.useSSL ? 'HTTPS' : 'HTTP'
-    logger.info('%s Server listening at port %d', schema, config.port)
+    logger.info('%s Server listening at %s', schema, address)
     realtime.maintenance = false
-  })
+  }
+
+  // use unix domain socket if 'path' is specified
+  if (config.path) {
+    address = config.path
+    server.listen(config.path, listenCallback)
+  } else {
+    address = config.host + ':' + config.port
+    server.listen(config.port, config.host, listenCallback)
+  }
 }
 
 // sync db then start listen
@@ -250,7 +245,7 @@ process.on('uncaughtException', function (err) {
 
 // install exit handler
 function handleTermSignals () {
-  logger.info('hackmd has been killed by signal, try to exit gracefully...')
+  logger.info('CodiMD has been killed by signal, try to exit gracefully...')
   realtime.maintenance = true
   // disconnect all socket.io clients
   Object.keys(io.sockets.sockets).forEach(function (key) {

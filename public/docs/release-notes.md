@@ -1,6 +1,54 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 1.2.0 <i class="fa fa-clock-o"></i> 2018-06-28 00:00
+---
+
+### Announcement
+* HackMD CE is renamed to CodiMD to prevent confusion. [For details see here](https://github.com/hackmdio/codimd#hackmd-ce-became-codimd)
+
+### Enhancements
+* Show full title by hovering over to table of contents entries
+* Add generic OAUTH2 support for authentication
+* Redirect unauthenticated user to login page on "forbidden" pages
+* Add ability to add ToS and privacy documents without code changes
+* Add account deletion as part of user self-management
+* Add download of all own notes
+* Add privacy policy example (no legal advice)
+* Increase checkbox size on slides
+* Add support for Azure blob storage for image uploads
+* Add Korean translation
+* Add note about official K8s chart for deployment
+* Add toolbar for markdown shortcuts in editor
+* Add ability to disable Gravatar integration
+* Add print icon to slide menu which leads to the print view.
+* Add sequelize to setup instructions
+* Update various packages
+
+### Fixes
+* Fix local writes for non-existing translations in production
+* Fix wrong documentation about default image upload type
+* Fix possible error if CodiMD is started with wrong working directory
+* Fix issues caused by cached/cacheeable client config
+* Fix issues caused by notes created via curl/API with CRLF line endings
+* Fix broken images for downloaded PDFs while using `filesystem` as `imageUploadType`
+* Fix Unicode URLs when using `allowFreeURL=true`
+
+### Refactors
+* Split auth documentation into multiple documents
+
+### Removes
+* Remove polyfill for `useCDN=false` setups
+* Remove unused and no longer needed symlink from translations
+
+### Honorable mentions
+* [Adam Hoka (ahoka)](https://github.com/ahoka)
+* [Edgar Z. Alvarenga (aivuk)](https://github.com/aivuk)
+* [Jacob Burden (jekrb)](https://github.com/jekrb)
+* [Pedro Ferreira (pferreir)](https://github.com/pferreir)
+* [TC Liu (liuderchi)](https://github.com/liuderchi)
+
+
 <i class="fa fa-tag"></i> 1.1.1-ce <i class="fa fa-clock-o"></i> 2018-05-23 12:00
 ---
 

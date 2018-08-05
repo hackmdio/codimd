@@ -33,11 +33,10 @@ BUILD_ASSETS=false npm install
 cat << EOF
 
 
-Edit the following config file to setup hackmd server and client.
-Read more info at https://github.com/hackmdio/hackmd#configuration-files
+Edit the following config file to setup CodiMD server and client.
+Read more info at https://github.com/hackmdio/codimd#configuration-files
 
-* config.json           -- server config
-* public/js/config.js   -- client config
+* config.json           -- CodiMD config
 * .sequelizerc          -- db config
 
 EOF

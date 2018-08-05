@@ -11,7 +11,7 @@
         },
         "db": {
             "dialect": "sqlite",
-            "storage": "./db.hackmd.sqlite"
+            "storage": "./db.codimd.sqlite"
         }
     },
     "production": {
@@ -34,7 +34,7 @@
         "db": {
             "username": "",
             "password": "",
-            "database": "hackmd",
+            "database": "codimd",
             "host": "localhost",
             "port": "5432",
             "dialect": "postgres"
@@ -55,7 +55,8 @@
             "baseURL": "change this",
             "clientID": "change this",
             "clientSecret": "change this",
-            "scope": "use 'read_user' scope for auth user only or remove this property if you need gitlab snippet import/export support (will result to be default scope 'api')"
+            "scope": "use 'read_user' scope for auth user only or remove this property if you need gitlab snippet import/export support (will result to be default scope 'api')",
+            "version": "use 'v4' if gitlab version > 11, 'v3' otherwise. Default to 'v4'"
         },
         "mattermost": {
             "baseURL": "change this",

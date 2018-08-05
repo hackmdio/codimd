@@ -234,7 +234,7 @@ module.exports = {
       path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
       path.join(__dirname, 'public/css/bootstrap-social.css'),
       path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
-      path.join(__dirname, 'node_modules/octicons/octicons/octicons.css')
+      path.join(__dirname, 'node_modules/octicons/build/octicons.css')
     ],
     'index-pack': [
       'babel-polyfill',
@@ -284,7 +284,7 @@ module.exports = {
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
       path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
       path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
-      path.join(__dirname, 'node_modules/octicons/octicons/octicons.css')
+      path.join(__dirname, 'node_modules/octicons/build/octicons.css')
     ],
     'pretty-pack': [
       'babel-polyfill',
@@ -321,7 +321,7 @@ module.exports = {
     'slide-styles-pack': [
       path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
       path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
-      path.join(__dirname, 'node_modules/octicons/octicons/octicons.css')
+      path.join(__dirname, 'node_modules/octicons/build/octicons.css')
     ],
     'slide-pack': [
       'babel-polyfill',
