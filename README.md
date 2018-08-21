@@ -29,6 +29,7 @@ Thanks for using! :smile:
   - [Heroku Deployment](#heroku-deployment)
   - [Kubernetes](#kubernetes)
   - [CodiMD by docker container](#codimd-by-docker-container)
+  - [Cloudron](#cloudron)
 - [Upgrade](#upgrade)
   - [Native setup](#native-setup)
 - [Configuration](#configuration)
@@ -120,6 +121,12 @@ cd docker-codimd
 docker-compose up
 ```
 Read more about it in the [docker repository…](https://github.com/hackmdio/docker-hackmd)
+
+## Cloudron
+
+Install CodiMD on [Cloudron](https://cloudron.io):
+
+[![Install](https://cloudron.io/img/button.svg)](https://cloudron.io/button.html?app=io.hackmd.cloudronapp)
 
 # Upgrade
 
