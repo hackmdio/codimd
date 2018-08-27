@@ -25,13 +25,15 @@ module.exports = {
       template: 'public/views/includes/header.ejs',
       chunks: ['font', 'index-styles', 'index'],
       filename: path.join(__dirname, 'public/views/build/index-header.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
       chunks: ['font-pack', 'index-styles-pack', 'index-styles', 'index'],
       filename: path.join(__dirname, 'public/views/build/index-pack-header.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/scripts.ejs',
@@ -43,19 +45,22 @@ module.exports = {
       template: 'public/views/includes/scripts.ejs',
       chunks: ['common', 'index-pack'],
       filename: path.join(__dirname, 'public/views/build/index-pack-scripts.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
       chunks: ['font', 'cover'],
       filename: path.join(__dirname, 'public/views/build/cover-header.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
       chunks: ['font-pack', 'cover-styles-pack', 'cover'],
       filename: path.join(__dirname, 'public/views/build/cover-pack-header.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/scripts.ejs',
@@ -67,19 +72,22 @@ module.exports = {
       template: 'public/views/includes/scripts.ejs',
       chunks: ['common', 'cover-pack'],
       filename: path.join(__dirname, 'public/views/build/cover-pack-scripts.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
       chunks: ['font', 'pretty-styles', 'pretty'],
       filename: path.join(__dirname, 'public/views/build/pretty-header.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
       chunks: ['font-pack', 'pretty-styles-pack', 'pretty-styles', 'pretty'],
       filename: path.join(__dirname, 'public/views/build/pretty-pack-header.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/scripts.ejs',
@@ -91,19 +99,22 @@ module.exports = {
       template: 'public/views/includes/scripts.ejs',
       chunks: ['common', 'pretty-pack'],
       filename: path.join(__dirname, 'public/views/build/pretty-pack-scripts.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
       chunks: ['font', 'slide-styles', 'slide'],
       filename: path.join(__dirname, 'public/views/build/slide-header.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
       chunks: ['font-pack', 'slide-styles-pack', 'slide-styles', 'slide'],
       filename: path.join(__dirname, 'public/views/build/slide-pack-header.ejs'),
-      inject: false
+      inject: false,
+      chunksSortMode: 'manual'
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/scripts.ejs',
@@ -420,7 +431,8 @@ module.exports = {
       test: require.resolve('js-sequence-diagrams'),
       use: [{
         loader: 'imports-loader',
-        options: {_: 'lodash', Raphael: 'raphael', eve: 'eve'}}]
+        options: {_: 'lodash', Raphael: 'raphael', eve: 'eve'}
+      }]
     }, {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       use: [{loader: 'file-loader'}]
@@ -431,27 +443,32 @@ module.exports = {
       test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: {prefix: 'font/', limit: '5000'}}]
+        options: {prefix: 'font/', limit: '5000'}
+      }]
     }, {
       test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: {limit: '5000', mimetype: 'application/octet-stream'}}]
+        options: {limit: '5000', mimetype: 'application/octet-stream'}
+      }]
     }, {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: {limit: '10000', mimetype: 'svg+xml'}}]
+        options: {limit: '10000', mimetype: 'svg+xml'}
+      }]
     }, {
       test: /\.png(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: {limit: '10000', mimetype: 'image/png'}}]
+        options: {limit: '10000', mimetype: 'image/png'}
+      }]
     }, {
       test: /\.gif(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: {limit: '10000', mimetype: 'image/gif'}}]
+        options: {limit: '10000', mimetype: 'image/gif'}
+      }]
     }]
   },
   node: {
