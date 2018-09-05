@@ -111,5 +111,6 @@
 	"Do you really want to delete your user account?": "Do you really want to delete your user account?",
 	"This will delete your account, all notes that are owned by you and remove all references to your account from other notes.": "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.",
 	"Delete user": "Delete user",
-	"Export user data": "Export user data"
+	"Export user data": "Export user data",
+	"This page is loaded using an insecure connection! Please ask your administrator to setup HTTPS.": "This page is loaded using an insecure connection! Please ask your administrator to setup HTTPS."
 }

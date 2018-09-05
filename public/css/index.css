@@ -232,6 +232,11 @@ body.night{
     float: right !important;
     padding: 7px 8px;
 }
+
+#http-warning {
+  margin-bottom: 0px;
+}
+
 .ui-status {
     cursor: auto !important;
     min-width: 120px;

@@ -6,6 +6,8 @@ require('./locale')
 require('../css/cover.css')
 require('../css/site.css')
 
+import {checkIfHttp} from './lib/common/http'
+
 import {
     checkIfAuth,
     clearLoginState,
@@ -64,6 +66,7 @@ window.migrateHistoryFromTempCallback = pageInit
 setloginStateChangeEvent(pageInit)
 
 pageInit()
+checkIfHttp()
 
 function pageInit () {
   checkIfAuth(

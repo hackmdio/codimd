@@ -22,6 +22,8 @@ import _ from 'lodash'
 
 import List from 'list.js'
 
+import {checkIfHttp} from './lib/common/http'
+
 import {
     checkLoginStateChanged,
     setloginStateChangeEvent
@@ -475,6 +477,9 @@ $(document).ready(function () {
   $(document).on('click', '.toggle-dropdown .dropdown-menu', function (e) {
     e.stopPropagation()
   })
+
+  // Check secure connection
+  checkIfHttp()
 })
 // when page resize
 $(window).resize(function () {
