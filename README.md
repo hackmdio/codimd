@@ -101,7 +101,7 @@ To install use `helm install stable/hackmd`.
 For all further details, please check out the offical CodiMD  [K8s helm chart](https://github.com/kubernetes/charts/tree/master/stable/hackmd).
 
 ## CodiMD by docker container
-[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/docker-hackmd/raw/master/docker-compose.yml&stack_name=codimd)
+[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/codimd-container/raw/master/docker-compose.yml&stack_name=codimd)
 
 
 **Debian-based version:**
@@ -116,11 +116,11 @@ For all further details, please check out the offical CodiMD  [K8s helm chart](h
 The easiest way to setup CodiMD using docker are using the following three commands:
 
 ```console
-git clone https://github.com/hackmdio/docker-hackmd.git
-cd docker-codimd
+git clone https://github.com/hackmdio/codimd-container.git
+cd codimd-container
 docker-compose up
 ```
-Read more about it in the [docker repository…](https://github.com/hackmdio/docker-hackmd)
+Read more about it in the [container repository…](https://github.com/hackmdio/codimd-contianer)
 
 ## Cloudron
 
