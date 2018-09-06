@@ -202,7 +202,7 @@ There are some config settings you need to change in the files below.
 | `CMD_GITLAB_CLIENTID` | no example | GitLab API client id |
 | `CMD_GITLAB_CLIENTSECRET` | no example | GitLab API client secret |
 | `CMD_GITLAB_VERSION` | no example | GitLab API version (v3 or v4) |
-| `CMD_MATTERMOST_BASEURL` | no example | Mattermost authentication endpoint |
+| `CMD_MATTERMOST_BASEURL` | no example | Mattermost authentication endpoint for versions below 5.0. For Mattermost version 5.0 and above, see [guide](docs/guides/auth/mattermost-self-hosted.md). |
 | `CMD_MATTERMOST_CLIENTID` | no example | Mattermost API client id |
 | `CMD_MATTERMOST_CLIENTSECRET` | no example | Mattermost API client secret |
 | `CMD_DROPBOX_CLIENTID` | no example | Dropbox API client id |
