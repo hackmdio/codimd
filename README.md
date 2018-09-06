@@ -120,7 +120,7 @@ git clone https://github.com/hackmdio/codimd-container.git
 cd codimd-container
 docker-compose up
 ```
-Read more about it in the [container repository…](https://github.com/hackmdio/codimd-contianer)
+Read more about it in the [container repository…](https://github.com/hackmdio/codimd-container)
 
 ## Cloudron
 
