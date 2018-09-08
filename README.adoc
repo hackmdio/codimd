@@ -1,20 +1,18 @@
 = HackADoc
 
 This is a fork of the great http://hackmd.io[hackmd.io].
-We just thought it would be even greater with asciidoctor.js ;)
-
-So we integrated https://github.com/asciidoctor/asciidoctor.js[asciidoctor.js] and changed the name accordingly.
+We just thought it would be even greater with AsciiDoctor and so we included https://github.com/asciidoctor/asciidoctor.js[Asciidoctor.js] into the project and changed its name accordingly ;)
 
 == Status
 
-Using AsciiDoc.js, the base functionality, typing AsciiDoc and seeing a nice rendered document is working fine.
-Also, uploading and embedding images is working.
+Thanks to Asciidoc.js, the base functionality (typing AsciiDoc and seeing a nice rendered document) workis fine.
+You can also upload and embed images without a problem.
 
-But there are certaily many thing missing, so please feel free to report those you encounter as issues or provide a PR.
+But there are certaily many things missing, so please feel free to report those you encounter as issues or provide a pull request.
 
 Known drawbacks are:
 
-* syntax highlighting in editor (eg. marking bold formatted text also bold within the editor) still addresses the md syntax, see https://github.com/hackergarten/hackadoc/issues/1[Issue #1]
+* syntax highlighting in the editor (eg. marking bold formatted text as bold within the editor) still uses the md syntax, see https://github.com/hackergarten/hackadoc/issues/1[Issue #1]
 * the menue has not been adjusted
 * PDF Export, see https://github.com/hackergarten/hackadoc/issues/7[Issue #7] + https://github.com/hackergarten/hackadoc/issues/25[Issue #25]
 * Publish seems to be broken  
