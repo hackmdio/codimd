@@ -7,14 +7,16 @@ RUN apt-get update \
 RUN mkdir /hackadoc
 WORKDIR /hackadoc
 
+ADD package*.json ./
+# npm install
+RUN npm install
+
 # file moving
 ADD . .
 # rename examples
 RUN mv .sequelizerc.example .sequelizerc
 RUN mv config.json.example config.json
 
-# npm install
-RUN npm install
 # npm build
 RUN npm run build
 
