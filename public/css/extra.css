@@ -396,3 +396,15 @@ small .dropdown a:focus, small .dropdown a:hover {
     content:"\f06a";
     color:#bf0000
 }
+
+/* table alignment*/
+
+th.halign-left,td.halign-left{
+    text-align:left
+}
+th.halign-right,td.halign-right{
+    text-align:right
+}
+th.halign-center,td.halign-center{
+    text-align:center
+}
