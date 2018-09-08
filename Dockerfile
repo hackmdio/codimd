@@ -1,13 +1,15 @@
 FROM node:boron
 
- RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
-	wget -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add - && \
-	apt-get update && \
-	apt-get install -y git postgresql-client-9.6
-    
+RUN apt-get update \
+    && apt-get install -y git sqlite3
+
 # make directory
 RUN mkdir /hackadoc
 WORKDIR /hackadoc
+
+ADD package*.json ./
+# npm install
+RUN npm install
 
 # file moving
 ADD . .
@@ -15,8 +17,6 @@ ADD . .
 RUN mv .sequelizerc.example .sequelizerc
 RUN mv config.json.example config.json
 
-# npm install
-RUN npm install
 # npm build
 RUN npm run build
 
@@ -29,4 +29,4 @@ RUN apt-get remove -y --auto-remove build-essential && \
 
 EXPOSE 3000
 
-CMD ["node", "app.js"] 
+CMD ["node", "app.js"]
