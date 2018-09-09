@@ -59,7 +59,7 @@ export function checkIfAuth (yesCallback, noCallback) {
   const cookieLoginState = getLoginState()
   if (checkLoginStateChanged()) checkAuth = false
   if (!checkAuth || typeof cookieLoginState === 'undefined') {
-    $.get(`${serverurl}/me`)
+    $.getJSON(`${serverurl}/me`)
             .done(data => {
               if (data && data.status === 'ok') {
                 profile = data
