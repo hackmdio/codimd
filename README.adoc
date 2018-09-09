@@ -5,7 +5,7 @@ We just thought it would be even greater with AsciiDoctor and so we included htt
 
 == Status
 
-Thanks to Asciidoc.js, the base functionality (typing AsciiDoc and seeing a nice rendered document) workis fine.
+Thanks to Asciidoc.js, the base functionality (typing AsciiDoc and seeing a nice rendered document) works fine.
 You can also upload and embed images without a problem.
 
 But there are certaily many things missing, so please feel free to report those you encounter as issues or provide a pull request.
