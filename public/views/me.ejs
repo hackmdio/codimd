@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    <title><%= name %></title>
+    <title><%= user.profileid %></title>
 </head>
 <body>
-    <%= name %>
+    <p>ID: <%= user.id %></p>
+    <p>email: <%= user.email %></p>
+    <p>profileid: <%= user.profileid %></p>
+
+    <h2>My Documents</h2>
+    <ul>
+    <% notes.forEach(function (note) { %>
+        <li><a href="/<%= note.url %>"><%= note.title %></a></li>
+    <% }); %>
+    </ul>
+    <h2>Documents I contributed to</h2>
+    <ul>
+    <% contributions.forEach(function (note) { %>
+        <li><a href="/<%= note.url %>"><%= note.title %></a></li>
+    <% }); %>
+    </ul>
 </body>
 </html>
