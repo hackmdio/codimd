@@ -170,7 +170,7 @@ app.use(require('./lib/web/middleware/codiMDVersion'))
 
 // routes need sessions
 // template files
-app.set('views', path.join(__dirname, '/public/views'))
+app.set('views', config.viewPath)
 // set render engine
 app.engine('ejs', ejs.renderFile)
 // set view engine
