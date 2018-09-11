@@ -3,9 +3,22 @@
     <title><%= user.profileid %></title>
 </head>
 <body>
-    <p>ID: <%= user.id %></p>
-    <p>email: <%= user.email %></p>
-    <p>profileid: <%= user.profileid %></p>
+    <form method="post" enctype="application/x-www-form-urlencoded">
+        <fieldset>
+            <legend>About You</legend>
+            <p>ID: <%= user.id %></p>
+            <p>name: <input name="name" value="<%= user.name %>"></p>
+            <p>email: <input name="email" value="<%= user.email %>"></p>
+            <p>profileid: <%= user.profileid %></p>
+        </fieldset>
+        <fieldset>
+            <legend>Change Your Password</legend>
+            <p>old password: <input name="existing_password" value=""></p>
+            <p>new password: <input name="new_password" value=""></p>
+            <p>confirm password: <input name="confirm_password" value=""></p>
+        </fieldset>
+        <input type="submit" value="save">
+    </form>
 
     <h2>My Documents</h2>
     <ul>
