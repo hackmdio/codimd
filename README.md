@@ -7,7 +7,6 @@ CodiMD
 [![#CodiMD on matrix.org][matrix.org-image]][matrix.org-url]
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
-[![Help Contribute to Open Source][codetriage-image]][codetriage-url]
 [![POEditor][poeditor-image]][poeditor-url]
 
 CodiMD lets you create real-time collaborative markdown notes on all platforms.
@@ -366,7 +365,5 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 [github-release-page]: https://github.com/hackmdio/codimd/releases
 [standardjs-image]: https://cdn.rawgit.com/feross/standard/master/badge.svg
 [standardjs-url]: https://github.com/feross/standard
-[codetriage-image]: https://www.codetriage.com/hackmdio/codimd/badges/users.svg
-[codetriage-url]: https://www.codetriage.com/hackmdio/codimd
 [poeditor-image]: https://img.shields.io/badge/POEditor-translate-blue.svg
 [poeditor-url]: https://poeditor.com/join/project/1OpGjF2Jir
