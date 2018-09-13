@@ -8,56 +8,56 @@
                 <h4 class="modal-title" id="mySmallModalLabel"><%= __('Choose method') %></h4>
             </div>
             <div class="modal-body" style="text-align: center;">
-                <% if(facebook) { %>
-                <a href="<%- url %>/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
+                <% if (authProviders.facebook) { %>
+                <a href="<%- serverURL %>/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
                     <i class="fa fa-facebook"></i> <%= __('Sign in via %s', 'Facebook') %>
                 </a>
                 <% } %>
-                <% if(twitter) { %>
-                <a href="<%- url %>/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
+                <% if (authProviders.twitter) { %>
+                <a href="<%- serverURL %>/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
                     <i class="fa fa-twitter"></i> <%= __('Sign in via %s', 'Twitter') %>
                 </a>
                 <% } %>
-                <% if(github) { %>
-                <a href="<%- url %>/auth/github" class="btn btn-lg btn-block btn-social btn-github">
+                <% if (authProviders.github) { %>
+                <a href="<%- serverURL %>/auth/github" class="btn btn-lg btn-block btn-social btn-github">
                     <i class="fa fa-github"></i> <%= __('Sign in via %s', 'GitHub') %>
                 </a>
                 <% } %>
-                <% if(gitlab) { %>
-                <a href="<%- url %>/auth/gitlab" class="btn btn-lg btn-block btn-social btn-soundcloud">
+                <% if (authProviders.gitlab) { %>
+                <a href="<%- serverURL %>/auth/gitlab" class="btn btn-lg btn-block btn-social btn-soundcloud">
                     <i class="fa fa-gitlab"></i> <%= __('Sign in via %s', 'GitLab') %>
                 </a>
                 <% } %>
-                <% if(mattermost) { %>
-                <a href="<%- url %>/auth/mattermost" class="btn btn-lg btn-block btn-social btn-soundcloud">
+                <% if (authProviders.mattermost) { %>
+                <a href="<%- serverURL %>/auth/mattermost" class="btn btn-lg btn-block btn-social btn-soundcloud">
                     <i class="fa fa-mattermost"></i> <%= __('Sign in via %s', 'Mattermost') %>
                 </a>
                 <% } %>
-                <% if(dropbox) { %>
-                <a href="<%- url %>/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
+                <% if (authProviders.dropbox) { %>
+                <a href="<%- serverURL %>/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
                     <i class="fa fa-dropbox"></i> <%= __('Sign in via %s', 'Dropbox') %>
                 </a>
                 <% } %>
-                <% if(google) { %>
-                <a href="<%- url %>/auth/google" class="btn btn-lg btn-block btn-social btn-google">
+                <% if (authProviders.google) { %>
+                <a href="<%- serverURL %>/auth/google" class="btn btn-lg btn-block btn-social btn-google">
                     <i class="fa fa-google"></i> <%= __('Sign in via %s', 'Google') %>
                 </a>
                 <% } %>
-                <% if(saml) { %>
-                <a href="<%- url %>/auth/saml" class="btn btn-lg btn-block btn-social btn-success">
+                <% if (authProviders.saml) { %>
+                <a href="<%- serverURL %>/auth/saml" class="btn btn-lg btn-block btn-social btn-success">
                     <i class="fa fa-users"></i> <%= __('Sign in via %s', 'SAML') %>
                 </a>
                 <% } %>
-                <% if(oauth2) { %>
-                <a href="<%- url %>/auth/oauth2" class="btn btn-lg btn-block btn-social btn-soundcloud">
-                    <i class="fa fa-mail-forward"></i> <%= __('Sign in via %s', oauth2ProviderName || 'OAuth2') %>
+                <% if (authProviders.oauth2) { %>
+                <a href="<%- serverURL %>/auth/oauth2" class="btn btn-lg btn-block btn-social btn-soundcloud">
+                    <i class="fa fa-mail-forward"></i> <%= __('Sign in via %s', authProviders.oauth2ProviderName || 'OAuth2') %>
                 </a>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || saml || oauth2) && ldap) { %>
+                <% if ((authProviders.facebook || authProviders.twitter || authProviders.github || authProviders.gitlab || authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.saml || authProviders.oauth2) && authProviders.ldap) { %>
                 <hr>
                 <% }%>
-                <% if(ldap) { %>
-                <h4>Via <% if (ldapProviderName) { %> <%= ldapProviderName %> (LDAP) <% } else { %> LDAP <% } %></h4>
+                <% if (authProviders.ldap) { %>
+                <h4>Via <% if (authProviders.ldapProviderName) { %> <%= authProviders.ldapProviderName %> (LDAP) <% } else { %> LDAP <% } %></h4>
                 <form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="form-group">
                         <div class="col-sm-12">
@@ -73,15 +73,15 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary" formaction="<%- url %>/auth/ldap">Sign in</button>
+                            <button type="submit" class="btn btn-primary" formaction="<%- serverURL %>/auth/ldap">Sign in</button>
                         </div>
                     </div>
                 </form>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap || oauth2) && openID) { %>
+                <% if ((authProviders.facebook || authProviders.twitter || authProviders.github || authProviders.gitlab || authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.ldap || authProviders.oauth2) && authProviders.openID) { %>
                 <hr>
                 <% }%>
-                <% if(openID) { %>
+                <% if (authProviders.openID) { %>
                 <h4>OpenID</h4>
                 <form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="form-group">
@@ -92,15 +92,15 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary" formaction="<%- url %>/auth/openid">Sign in</button>
+                            <button type="submit" class="btn btn-primary" formaction="<%- serverURL %>/auth/openid">Sign in</button>
                         </div>
                     </div>
                 </form>
                 <% } %>
-                <% if((facebook || twitter || github || gitlab || mattermost || dropbox || google || ldap || oauth2 || openID) && email) { %>
+                <% if ((authProviders.facebook || authProviders.twitter || authProviders.github || authProviders.gitlab || authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.ldap || authProviders.oauth2 || authProviders.openID) && authProviders.email) { %>
                 <hr>
                 <% }%>
-                <% if(email) { %>
+                <% if (authProviders.email) { %>
                 <h4>Via Email</h4>
                 <form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="form-group">
@@ -117,8 +117,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary" formaction="<%- url %>/login">Sign in</button>
-                            <% if(allowEmailRegister) { %><button type="submit" class="btn btn-default" formaction="<%- url %>/register">Register</button><% }%>
+                            <button type="submit" class="btn btn-primary" formaction="<%- serverURL %>/login">Sign in</button>
+                            <% if (authProviders.allowEmailRegister) { %><button type="submit" class="btn btn-default" formaction="<%- serverURL %>/register">Register</button><% }%>
                         </div>
                     </div>
                 </form>

@@ -175,6 +175,29 @@ app.set('views', config.viewPath)
 app.engine('ejs', ejs.renderFile)
 // set view engine
 app.set('view engine', 'ejs')
+// set generally available variables for all views
+app.locals.useCDN = config.useCDN
+app.locals.serverURL = config.serverURL
+app.locals.allowAnonymous = config.allowAnonymous
+app.locals.allowAnonymousEdits = config.allowAnonymousEdits
+app.locals.allowPDFExport = config.allowPDFExport
+app.locals.authProviders = {
+  facebook: config.isFacebookEnable,
+  twitter: config.isTwitterEnable,
+  github: config.isGitHubEnable,
+  gitlab: config.isGitLabEnable,
+  mattermost: config.isMattermostEnable,
+  dropbox: config.isDropboxEnable,
+  google: config.isGoogleEnable,
+  ldap: config.isLDAPEnable,
+  ldapProviderName: config.ldap.providerName,
+  saml: config.isSAMLEnable,
+  oauth2: config.isOAuth2Enable,
+  oauth2ProviderName: config.oauth2.providerName,
+  openID: config.isOpenIDEnable,
+  email: config.isEmailEnable,
+  allowEmailRegister: config.allowEmailRegister
+}
 
 app.use(require('./lib/web/baseRouter'))
 app.use(require('./lib/web/statusRouter'))
