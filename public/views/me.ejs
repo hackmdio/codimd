@@ -1,36 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-    <title><%= user.profileid %></title>
-</head>
-<body>
-    <form method="post" enctype="application/x-www-form-urlencoded">
-        <fieldset>
-            <legend>About You</legend>
-            <p>ID: <%= user.id %></p>
-            <p>name: <input name="name" value="<%= user.name %>"></p>
-            <p>email: <input name="email" value="<%= user.email %>"></p>
-            <p>profileid: <%= user.profileid %></p>
-        </fieldset>
-        <fieldset>
-            <legend>Change Your Password</legend>
-            <p>old password: <input name="existing_password" value=""></p>
-            <p>new password: <input name="new_password" value=""></p>
-            <p>confirm password: <input name="confirm_password" value=""></p>
-        </fieldset>
-        <input type="submit" value="save">
-    </form>
 
-    <h2>My Documents</h2>
-    <ul>
-    <% notes.forEach(function (note) { %>
-        <li><a href="/<%= note.url %>"><%= note.title %></a></li>
-    <% }); %>
-    </ul>
-    <h2>Documents I contributed to</h2>
-    <ul>
-    <% contributions.forEach(function (note) { %>
-        <li><a href="/<%= note.url %>"><%= note.title %></a></li>
-    <% }); %>
-    </ul>
+<head>
+    <%- include codimd/head %>
+</head>
+
+<body>
+    <%- include codimd/header %>
+
+    <div class="row ui-content">
+        <form method="post" enctype="application/x-www-form-urlencoded">
+            <fieldset>
+                <legend>About You</legend>
+                <p>ID: <%= user.id %></p>
+                <p>name: <input name="name" value="<%= user.name %>"></p>
+                <p>email: <input name="email" value="<%= user.email %>"></p>
+                <p>profileid: <%= user.profileid %></p>
+            </fieldset>
+            <fieldset>
+                <legend>Change Your Password</legend>
+                <p>old password: <input name="existing_password" value=""></p>
+                <p>new password: <input name="new_password" value=""></p>
+                <p>confirm password: <input name="confirm_password" value=""></p>
+            </fieldset>
+            <input type="submit" value="save">
+        </form>
+
+        <h2>My Documents</h2>
+        <ul>
+        <% notes.forEach(function (note) { %>
+            <li><a href="/<%= note.url %>"><%= note.title %></a></li>
+        <% }); %>
+        </ul>
+        <h2>Documents I contributed to</h2>
+        <ul>
+        <% contributions.forEach(function (note) { %>
+            <li><a href="/<%= note.url %>"><%= note.title %></a></li>
+        <% }); %>
+        </ul>
+    </div>
+
+    <%- include codimd/footer %>
+    <%- include codimd/foot %>
 </body>
+
 </html>
