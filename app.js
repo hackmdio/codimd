@@ -58,7 +58,7 @@ app.use(morgan('combined', {
 
 // socket io
 var io = require('socket.io')(server)
-io.engine.ws = new (require('uws').Server)({
+io.engine.ws = new (require('ws').Server)({
   noServer: true,
   perMessageDeflate: false
 })
