@@ -11,7 +11,7 @@
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
     "build": "webpack --config webpack.production.js --progress --colors --bail",
     "postinstall": "bin/heroku",
-    "start": "node app.js",
+    "start": "sequelize db:migrate && node app.js",
     "doctoc": "doctoc --title='# Table of Contents' README.md"
   },
   "dependencies": {
