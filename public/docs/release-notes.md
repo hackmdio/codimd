@@ -1,6 +1,55 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 1.2.1 <i class="fa fa-clock-o"></i> 2018-09-26 00:00
+---
+
+### Enhancements
+* Update Italian translations
+* Update Japanese translations
+* Update markdown-pdf
+* Add support for unix sockets
+* Update "follow us" information to Community channel and translation
+* Add Cloudron installation method
+* Add guide for Mattermost authentication
+* Update various packages
+* Add Indonesian language as new translation
+
+### Fixes
+* Fix content types in status router
+* Fix some modal colors in night mode
+* Fix CSP to allow usage of speaker notes
+* Fix some wrong title attributes in the editor toolbar
+* Fix some confusion about the default location of images. It's always the local filesystem now
+* Fix object handling in avatar generation code
+* Finally fix error handling of LZ-String by using self-maintained version
+* Fix migration handling
+* Fix gitlab API version
+* Fix some server crashes caused by PDF creation
+* Fix document length limit on post to `/new`
+* Fix broken youtube embedding on `/features` page
+
+### Refactors
+* Refactor generation of table of contents
+* Refactor "copyright"-section to be a "Powered by"
+
+### Removes
+* Remove unneeded inline styling
+
+### Deprecations
+* NodeJS version 6
+* Mattermost login integration (is replaced by [generic oAuth2 module](https://github.com/hackmdio/codimd/blob/6ce7b20a7f92ccff2f7f870ff5d116d685310cfd/docs/guides/auth/mattermost-self-hosted.md))
+
+### Honorable mentions
+* [Alex Hesse (Pingu501)](https://github.com/Pingu501)
+* [Alexander Wellbrock (w4tsn)](https://github.com/w4tsn)
+* [Cédric Couralet (micedre)](https://github.com/micedre)
+* [Girish Ramakrishnan (gramakri)](https://github.com/gramakri)
+* [maahl](https://github.com/maahl)
+* [Max Wu (jackycute)](https://github.com/jackycute)
+* [Miranda (ahihi)](https://github.com/ahihi)
+* [Ondřej Slabý (maxer456)](https://github.com/maxer456)
+
 <i class="fa fa-tag"></i> 1.2.0 <i class="fa fa-clock-o"></i> 2018-06-28 00:00
 ---
 
