@@ -10,6 +10,7 @@ var cookieParser = require('cookie-parser')
 var compression = require('compression')
 var session = require('express-session')
 var RateLimit = require('express-rate-limit')
+var cloudflare = require('cloudflare-express')
 var SequelizeStore = require('connect-session-sequelize')(session.Store)
 var fs = require('fs')
 var path = require('path')
@@ -52,11 +53,26 @@ if (config.useSSL) {
   server = require('http').createServer(app)
 }
 
+if (config.useCloudflare) {
+  app.use(cloudflare.restore({ update_on_start: true }))
+}
+
 if (config.rateLimit && config.rateLimit.enable) {
-  var limiter = new RateLimit({
-    windowMs: config.rateLimit.perSeconds * 1000, // convert to seconds
-    max: config.rateLimit.maxRequests
-  })
+  var limiter
+  if (config.useCloudflare) {
+    limiter = new RateLimit({
+      windowMs: config.rateLimit.perSeconds * 1000, // convert to seconds
+      max: config.rateLimit.maxRequests,
+      keyGenerator: function (req) {
+        return req.cf_ip
+      }
+    })
+  } else {
+    limiter = new RateLimit({
+      windowMs: config.rateLimit.perSeconds * 1000, // convert to seconds
+      max: config.rateLimit.maxRequests
+    })
+  }
 
   app.use(limiter)
 }

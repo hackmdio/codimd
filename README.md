@@ -183,6 +183,7 @@ There are some config settings you need to change in the files below.
 | `CMD_PROTOCOL_USESSL` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
 | `CMD_URL_ADDPORT` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
 | `CMD_USECDN` | `true` or `false` | set to use CDN resources or not (default is `true`) |
+| `CMD_USECLOUDFLARE` | `true` or `false` | Set to true if you use Cloudflare as reverse proxy. See detailed description below. |
 | `CMD_ALLOW_ANONYMOUS` | `true` or `false` | set to allow anonymous usage (default is `true`) |
 | `CMD_ALLOW_ANONYMOUS_EDITS` | `true` or `false` | if `allowAnonymous` is `true`, allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
 | `CMD_ALLOW_FREEURL` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |
@@ -275,6 +276,7 @@ There are some config settings you need to change in the files below.
 | `protocolUseSSL` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
 | `urlAddPort` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
 | `useCDN` | `true` or `false` | set to use CDN resources or not (default is `true`) |
+| `useCloudflare` | `true` or `false` | Enable this when you use [Cloudflare](https://cloudflare.com) as reverse proxy. This maps the IP information you get from Cloudflare to ratelimits etc.|
 | `allowAnonymous` | `true` or `false` | set to allow anonymous usage (default is `true`) |
 | `allowAnonymousEdits` | `true` or `false` | if `allowAnonymous` is `true`: allow users to select `freely` permission, allowing guests to edit existing notes (default is `false`) |
 | `allowFreeURL` | `true` or `false` | set to allow new note creation by accessing a nonexistent note URL |

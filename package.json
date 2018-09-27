@@ -27,6 +27,7 @@
     "bootstrap-validator": "^0.11.8",
     "chance": "^1.0.4",
     "cheerio": "^0.22.0",
+    "cloudflare-express": "^1.0.1",
     "codemirror": "git+https://github.com/hackmdio/CodeMirror.git",
     "compression": "^1.6.2",
     "connect-flash": "^0.1.1",
