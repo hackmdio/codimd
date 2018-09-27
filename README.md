@@ -251,6 +251,9 @@ There are some config settings you need to change in the files below.
 | `CMD_HSTS_PRELOAD` | `true` | whether to allow preloading of the site's HSTS status (e.g. into browsers) |
 | `CMD_CSP_ENABLE` | `true` | whether to enable Content Security Policy (directives cannot be configured with environment variables) |
 | `CMD_CSP_REPORTURI` | `https://<someid>.report-uri.com/r/d/csp/enforce` | Allows to add a URL for CSP reports in case of violations |
+| `CMD_RATELIMIT_ENABLE` | `true` | Enable or disable ratelimiting for HTTP requests entirely. (Useful when you do ratelimiting on your reverse proxy) |
+| `CMD_RATELIMIT_PERSECONDS` | `60` | Time slot that is used to enforce rate-limting. |
+| `CMD_RATELIMIT_MAXREQUESTS` | `60` | Number of requests that are allowed in the time slot defined in `CMD_RATELIMIT_PERSECONDS`. |
 
 ***Note:** Due to the rename process we renamed all `HMD_`-prefix variables to be `CMD_`-prefixed. The old ones continue to work.*
 
@@ -268,6 +271,7 @@ There are some config settings you need to change in the files below.
 | `useSSL` | `true` or `false` | set to use SSL server (if `true`, will auto turn on `protocolUseSSL`) |
 | `hsts` | `{"enable": true, "maxAgeSeconds": 31536000, "includeSubdomains": true, "preload": true}` | [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) options to use with HTTPS (default is the example value, max age is a year) |
 | `csp` | `{"enable": true, "directives": {"scriptSrc": "trustworthy-scripts.example.com"}, "upgradeInsecureRequests": "auto", "addDefaults": true}` | Configures [Content Security Policy](https://helmetjs.github.io/docs/csp/). Directives are passed to Helmet - see [their documentation](https://helmetjs.github.io/docs/csp/) for more information on the format. Some defaults are added to the configured values so that the application doesn't break. To disable this behaviour, set `addDefaults` to `false`. Further, if `usecdn` is on, some CDN locations are allowed too. By default (`auto`), insecure (HTTP) requests are upgraded to HTTPS via CSP if `useSSL` is on. To change this behaviour, set `upgradeInsecureRequests` to either `true` or `false`. |
+| `rateLimit` | `  rateLimit: { enable: true, perSeconds: 60, maxRequests: 60 }` | Adds rate-limiting to all incoming requests. Defaults are 60 requests in 60 seconds. You can modify the time span by editing `perSeconds` and the number of allowed requests within this timespan by changing the option of `maxRequests`. |
 | `protocolUseSSL` | `true` or `false` | set to use SSL protocol for resources path (only applied when domain is set) |
 | `urlAddPort` | `true` or `false` | set to add port on callback URL (ports `80` or `443` won't be applied) (only applied when domain is set) |
 | `useCDN` | `true` or `false` | set to use CDN resources or not (default is `true`) |

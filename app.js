@@ -9,6 +9,7 @@ var methodOverride = require('method-override')
 var cookieParser = require('cookie-parser')
 var compression = require('compression')
 var session = require('express-session')
+var RateLimit = require('express-rate-limit')
 var SequelizeStore = require('connect-session-sequelize')(session.Store)
 var fs = require('fs')
 var path = require('path')
@@ -49,6 +50,15 @@ if (config.useSSL) {
   server = require('https').createServer(options, app)
 } else {
   server = require('http').createServer(app)
+}
+
+if (config.rateLimit && config.rateLimit.enable) {
+  var limiter = new RateLimit({
+    windowMs: config.rateLimit.perSeconds * 1000, // convert to seconds
+    max: config.rateLimit.maxRequests
+  })
+
+  app.use(limiter)
 }
 
 // logger
