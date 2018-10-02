@@ -497,6 +497,18 @@ export function finishView (view) {
                 height: '400px'
               })
             })
+    // asciinema
+  view.find('div.asciinema.raw').removeClass('raw')
+        .click(function () {
+          console.log(this)
+          if (!$(this).attr('data-recordingid')) return
+
+          const script = $('<script async></script>')
+          $(script).attr('src', `https://asciinema.org/a/${$(this).attr('data-recordingid')}.js?autoplay=1`)
+          $(script).attr('id', `asciicast-${$(this).attr('data-recordingid')}`)
+          $(this).find('img').addClass('hidden')
+          $(this).append(script)
+        })
     // syntax highlighting
   view.find('code.raw').removeClass('raw')
         .each((key, value) => {
@@ -1143,6 +1155,23 @@ const pdfPlugin = new Plugin(
     }
 )
 
+const asciinemaPlugin = new Plugin(
+    // regexp to match
+    /{%asciinema\s*([\d\D]*?)\s*%}/,
+
+    (match, utils) => {
+      const recordingid = match[1]
+      if (!recordingid) return
+
+      const div = $('<div class="asciinema raw"></div>')
+      div.attr('data-recordingid', recordingid)
+      const thumbnailSrc = `https://asciinema.org/a/${recordingid}.png`
+      const image = `<img src="${thumbnailSrc}" />`
+      div.append(image)
+      return div[0].outerHTML
+    }
+)
+
 // yaml meta, from https://github.com/eugeneware/remarkable-meta
 function get (state, line) {
   const pos = state.bMarks[line]
@@ -1194,6 +1223,7 @@ md.use(tocPlugin)
 md.use(slidesharePlugin)
 md.use(speakerdeckPlugin)
 md.use(pdfPlugin)
+md.use(asciinemaPlugin)
 
 export default {
   md
