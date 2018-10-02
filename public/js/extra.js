@@ -824,7 +824,7 @@ function imgPlayiframe (element, src) {
   if (!$(element).attr('data-videoid')) return
   const iframe = $("<iframe frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>")
   $(iframe).attr('src', `${src + $(element).attr('data-videoid')}?autoplay=1`)
-  $(element).find('img').css('visibility', 'hidden')
+  $(element).find('img').addClass('invisible')
   $(element).append(iframe)
 }
 
