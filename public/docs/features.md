@@ -209,6 +209,9 @@ When you’re a carpenter making a beautiful chest of drawers, you’re not goin
 ### Speakerdeck
 {%speakerdeck sugarenia/xxlcss-how-to-scale-css-and-keep-your-sanity %}
 
+### Asciinema
+{%asciinema 32324 %}
+
 ### PDF
 **Caution: this might be blocked by your browser if not using an `https` URL.**
 {%pdf https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf %}
