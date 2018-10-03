@@ -22,15 +22,15 @@
                 <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu list" role="menu" aria-labelledby="menu">
-                <li role="presentation"><a role="menuitem" class="ui-new" tabindex="-1" href="<%- url %>/new" target="_blank"><i class="fa fa-plus fa-fw"></i> <%= __('New') %></a>
+                <li role="presentation"><a role="menuitem" class="ui-new" tabindex="-1" href="<%- url %>/new" target="_blank" rel="noopener"><i class="fa fa-plus fa-fw"></i> <%= __('New') %></a>
                 </li>
-                <li role="presentation"><a role="menuitem" class="ui-publish" tabindex="-1" href="#" target="_blank"><i class="fa fa-share-square-o fa-fw"></i> <%= __('Publish') %></a>
+                <li role="presentation"><a role="menuitem" class="ui-publish" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-share-square-o fa-fw"></i> <%= __('Publish') %></a>
                 </li>
                 <li class="divider"></li>
                 <li class="dropdown-header"><%= __('Extra') %></li>
                 <li role="presentation"><a role="menuitem" class="ui-extra-revision" tabindex="-1" data-toggle="modal" data-target="#revisionModal"><i class="fa fa-history fa-fw"></i> <%= __('Revision') %></a>
                 </li>
-                <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
+                <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
                 </li>
                 <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || (typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api'))) { %>
                 <li class="divider"></li>
@@ -38,7 +38,7 @@
                 <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                 </li>
                 <% if(typeof github !== 'undefined' && github) { %>
-                <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank"><i class="fa fa-github fa-fw"></i> Gist</a>
+                <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
                 <% } %>
                 <% if(typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api')) { %>
@@ -115,12 +115,12 @@
         </ul>
         <ul class="nav navbar-nav navbar-right" style="padding:0;">
             <li>
-                <a href="<%- url %>/new" target="_blank" class="ui-new">
+                <a href="<%- url %>/new" target="_blank" rel="noopener" class="ui-new">
                     <i class="fa fa-plus"></i> <%= __('New') %>
                 </a>
             </li>
             <li>
-                <a href="#" target="_blank" class="ui-publish">
+                <a href="#" target="_blank" rel="noopener" class="ui-publish">
                     <i class="fa fa-share-square-o"></i> <%= __('Publish') %>
                 </a>
             </li>
@@ -132,7 +132,7 @@
                     <li class="dropdown-header"><%= __('Extra') %></li>
                     <li role="presentation"><a role="menuitem" class="ui-extra-revision" tabindex="-1" data-toggle="modal" data-target="#revisionModal"><i class="fa fa-history fa-fw"></i> <%= __('Revision') %></a>
                     </li>
-                    <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
+                    <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
                     </li>
                     <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || (typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api'))) { %>
                     <li class="divider"></li>
@@ -140,7 +140,7 @@
                     <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                     </li>
                     <% if(typeof github !== 'undefined' && github) { %>
-                    <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank"><i class="fa fa-github fa-fw"></i> Gist</a>
+                    <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
                     <% } %>
                     <% if(typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api')) { %>
