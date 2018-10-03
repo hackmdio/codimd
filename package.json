@@ -125,12 +125,12 @@
     "to-markdown": "^3.0.3",
     "toobusy-js": "^0.5.1",
     "uuid": "^3.1.0",
-    "uws": "~0.14.1",
     "validator": "^10.4.0",
     "velocity-animate": "^1.4.0",
     "visibilityjs": "^1.2.4",
     "viz.js": "^1.7.0",
     "winston": "^2.3.0",
+    "ws": "^6.0.0",
     "xss": "^1.0.3"
   },
   "engines": {
@@ -212,5 +212,9 @@
       "lib/ot",
       "public/vendor"
     ]
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.0",
+    "utf-8-validate": "^5.0.1"
   }
 }
