@@ -1,6 +1,11 @@
 {
   "presets": [
-    "es2015"
+    ["env", {
+      "targets": {
+        "node": "6",
+        "uglify": true
+      }
+    }]
   ],
   "plugins": [
     "transform-runtime"

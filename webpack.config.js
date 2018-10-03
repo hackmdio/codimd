@@ -1,10 +1,14 @@
 var baseConfig = require('./webpackBaseConfig')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 var path = require('path')
 
 module.exports = [Object.assign({}, baseConfig, {
   plugins: baseConfig.plugins.concat([
-    new ExtractTextPlugin('[name].css')
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    })
+
   ]),
   devtool: 'source-map'
 }), {
@@ -13,15 +17,15 @@ module.exports = [Object.assign({}, baseConfig, {
     htmlExport: path.join(__dirname, 'public/js/htmlExport.js')
   },
   module: {
-    loaders: [{
+    rules: [{
       test: /\.css$/,
-      loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+      use: ['style-loader', 'css-loader']
     }, {
       test: /\.scss$/,
-      loader: ExtractTextPlugin.extract('style-loader', 'sass-loader')
+      use: ['style-loader', 'sass-loader']
     }, {
       test: /\.less$/,
-      loader: ExtractTextPlugin.extract('style-loader', 'less-loader')
+      use: ['style-loader', 'less-loader']
     }]
   },
   output: {
@@ -30,6 +34,8 @@ module.exports = [Object.assign({}, baseConfig, {
     filename: '[name].js'
   },
   plugins: [
-    new ExtractTextPlugin('html.min.css')
+    new MiniCssExtractPlugin({
+      filename: 'html.min.css'
+    })
   ]
 }]
