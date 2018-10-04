@@ -11,7 +11,12 @@ module.exports = [Object.assign({}, baseConfig, {
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css',
+      chunkFilename: '[id].css'
     })
+
   ]),
 
   optimization: {
@@ -30,9 +35,10 @@ module.exports = [Object.assign({}, baseConfig, {
   output: {
     path: path.join(__dirname, 'public/build'),
     publicPath: '/build/',
-    filename: '[id].[name].[hash].js'
+    filename: '[name].[hash].js'
     // baseUrl: '<%- url %>'
-  }
+  },
+  mode: 'production'
 }), {
   // This Chunk is used in the 'save as html' feature.
   // It is embedded in the html file and contains CSS for styling.
