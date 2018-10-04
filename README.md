@@ -228,6 +228,14 @@ There are some config settings you need to change in the files below.
 | `CMD_SAML_ATTRIBUTE_ID` | `sAMAccountName` | attribute map for `id` (optional, default: NameID of SAML response) |
 | `CMD_SAML_ATTRIBUTE_USERNAME` | `mailNickname` | attribute map for `username` (optional, default: NameID of SAML response) |
 | `CMD_SAML_ATTRIBUTE_EMAIL` | `mail` | attribute map for `email` (optional, default: NameID of SAML response if `CMD_SAML_IDENTIFIERFORMAT` is default) |
+| `CMD_OAUTH2_USER_PROFILE_URL` | `https://example.com` | where retrieve information about a user after succesful login. Needs to output JSON. (no default value) Refer to the [Mattermost](docs/guides/auth/mattermost-self-hosted.md) or [Nextcloud](docs/guides/auth/nextcloud.md) examples for more details on all of the `CMD_OAUTH2...` options. |
+| `CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR` | `name` | where to find the username in the JSON from the user profile URL. (no default value)|
+| `CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR` | `display-name` | where to find the display-name in the JSON from the user profile URL. (no default value) |
+| `CMD_OAUTH2_USER_PROFILE_EMAIL_ATTR` | `email` | where to find the email address in the JSON from the user profile URL. (no default value) |
+| `CMD_OAUTH2_TOKEN_URL` | `https://example.com` | sometimes called token endpoint, please refer to the documentation of your OAuth2 provider (no default value) |
+| `CMD_OAUTH2_AUTHORIZATION_URL` | `https://example.com` | authorization URL of your provider, please refer to the documentation of your OAuth2 provider (no default value) |
+| `CMD_OAUTH2_CLIENT_ID` | `afae02fckafd...` | you will get this from your OAuth2 provider when you register CodiMD as OAuth2-client, (no default value) |
+| `CMD_OAUTH2_CLIENT_SECRET` | `afae02fckafd...` | you will get this from your OAuth2 provider when you register CodiMD as OAuth2-client, (no default value) |
 | `CMD_IMGUR_CLIENTID` | no example | Imgur API client id |
 | `CMD_EMAIL` | `true` or `false` | set to allow email signin |
 | `CMD_ALLOW_PDF_EXPORT` | `true` or `false` | Enable or disable PDF exports |
@@ -298,6 +306,7 @@ There are some config settings you need to change in the files below.
 | `heartbeatTimeout` | `10000` | socket.io heartbeat timeout |
 | `documentMaxLength` | `100000` | note max length |
 | `email` | `true` or `false` | set to allow email signin |
+| `oauth2` | `{baseURL: ..., userProfileURL: ..., userProfileUsernameAttr: ..., userProfileDisplayNameAttr: ..., userProfileEmailAttr: ..., tokenURL: ..., authorizationURL: ..., clientID: ..., clientSecret: ...}` | An object detailing your OAuth2 provider. Refer to the [Mattermost](docs/guides/auth/mattermost-self-hosted.md) or [Nextcloud](docs/guides/auth/nextcloud.md) examples for more details!|
 | `allowEmailRegister`  | `true` or `false` | set to allow email register (only applied when email is set, default is `true`. Note `bin/manage_users` might help you if registration is `false`.) |
 | `allowGravatar` | `true` or `false` | set to `false` to disable gravatar as profile picture source on your instance |
 | `imageUploadType` | `imgur`, `s3`, `minio`, `azure` or `filesystem`(default) | Where to upload images. For S3, see our Image Upload Guides for [S3](docs/guides/s3-image-upload.md) or [Minio](docs/guides/minio-image-upload.md)|
