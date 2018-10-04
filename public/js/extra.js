@@ -834,7 +834,7 @@ const anchorForId = id => {
   const anchor = document.createElement('a')
   anchor.className = 'anchor hidden-xs'
   anchor.href = `#${id}`
-  anchor.innerHTML = '<span class="octicon octicon-link"></span>'
+  anchor.innerHTML = '<i class="fa fa-link"></i>'
   anchor.title = id
   return anchor
 }
