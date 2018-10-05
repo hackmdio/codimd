@@ -174,6 +174,7 @@ There are some config settings you need to change in the files below.
 | --------- | ------ | ----------- |
 | `NODE_ENV`  | `production` or `development` | set current environment (will apply corresponding settings in the `config.json`) |
 | `DEBUG` | `true` or `false` | set debug mode; show more logs |
+| `CMD_CONFIG_FILE` | `/path/to/config.json` | optional override for the path to CodiMD's config file |
 | `CMD_DOMAIN` | `codimd.org` | domain name |
 | `CMD_URL_PATH` | `codimd` | sub URL path, like `www.example.com/<URL_PATH>` |
 | `CMD_HOST` | `localhost` | host to listen on |
@@ -285,19 +286,15 @@ There are some config settings you need to change in the files below.
 | `defaultPermission` | `freely`, `editable`, `limited`, `locked`, `protected` or `private` | set notes default permission (only applied on signed users) |
 | `dbURL` | `mysql://localhost:3306/database` | set the db URL; if set, then db config (below) won't be applied |
 | `db` | `{ "dialect": "sqlite", "storage": "./db.codimd.sqlite" }` | set the db configs, [see more here](http://sequelize.readthedocs.org/en/latest/api/sequelize/) |
-| `sslKeyPath` | `./cert/client.key` | SSL key path (only need when you set `useSSL`) |
-| `sslCertPath` | `./cert/codimd_io.crt` | SSL cert path (only need when you set `useSSL`) |
-| `sslCAPath` | `['./cert/COMODORSAAddTrustCA.crt']` | SSL ca chain (only need when you set `useSSL`) |
-| `dhParamPath` | `./cert/dhparam.pem` | SSL dhparam path (only need when you set `useSSL`) |
-| `tmpPath` | `./tmp/` | temp directory path |
-| `defaultNotePath` | `./public/default.md` | default note file path |
-| `docsPath` | `./public/docs` | docs directory path |
-| `indexPath` | `./public/views/index.ejs` | index template file path |
-| `hackmdPath` | `./public/views/hackmd.ejs` | hackmd template file path |
-| `errorPath` | `./public/views/error.ejs` | error template file path |
-| `prettyPath` | `./public/views/pretty.ejs` | pretty template file path |
-| `slidePath` | `./public/views/slide.hbs` | slide template file path |
-| `uploadsPath` | `./public/uploads` | uploads directory - needs to be persistent when you use imageUploadType `filesystem` |
+| `sslKeyPath` | `./cert/client.key` | SSL key path<sup>1</sup> (only need when you set `useSSL`) |
+| `sslCertPath` | `./cert/codimd_io.crt` | SSL cert path<sup>1</sup> (only need when you set `useSSL`) |
+| `sslCAPath` | `['./cert/COMODORSAAddTrustCA.crt']` | SSL ca chain<sup>1</sup> (only need when you set `useSSL`) |
+| `dhParamPath` | `./cert/dhparam.pem` | SSL dhparam path<sup>1</sup> (only need when you set `useSSL`) |
+| `tmpPath` | `./tmp/` | temp directory path<sup>1</sup> |
+| `defaultNotePath` | `./public/default.md` | default note file path<sup>1</sup> |
+| `docsPath` | `./public/docs` | docs directory path<sup>1</sup> |
+| `viewPath` | `./public/views` | template directory path<sup>1</sup> |
+| `uploadsPath` | `./public/uploads` | uploads directory<sup>1</sup> - needs to be persistent when you use imageUploadType `filesystem` |
 | `sessionName` | `connect.sid` | cookie session name |
 | `sessionSecret` | `secret` | cookie session secret |
 | `sessionLife` | `14 * 24 * 60 * 60 * 1000` | cookie session life |
@@ -313,6 +310,8 @@ There are some config settings you need to change in the files below.
 | `minio` | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageUploadType` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
 | `s3` | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageuploadtype` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
 | `s3bucket` | `YOUR_S3_BUCKET_NAME` | bucket name when `imageUploadType` is set to `s3` or `minio` |
+
+<sup>1</sup>: relative paths are based on CodiMD's base directory
 
 ## Third-party integration API key settings
 
