@@ -260,6 +260,7 @@ There are some config settings you need to change in the files below.
 | `CMD_HSTS_PRELOAD` | `true` | whether to allow preloading of the site's HSTS status (e.g. into browsers) |
 | `CMD_CSP_ENABLE` | `true` | whether to enable Content Security Policy (directives cannot be configured with environment variables) |
 | `CMD_CSP_REPORTURI` | `https://<someid>.report-uri.com/r/d/csp/enforce` | Allows to add a URL for CSP reports in case of violations |
+| `CMD_SOURCE_URL` | `https://github.com/hackmdio/codimd/tree/<current commit>` | Provides the link to the source code of CodiMD on the entry page (Please, make sure you change this when you run a modified version) |
 
 ***Note:** Due to the rename process we renamed all `HMD_`-prefix variables to be `CMD_`-prefixed. The old ones continue to work.*
 
@@ -310,6 +311,7 @@ There are some config settings you need to change in the files below.
 | `minio` | `{ "accessKey": "YOUR_MINIO_ACCESS_KEY", "secretKey": "YOUR_MINIO_SECRET_KEY", "endpoint": "YOUR_MINIO_HOST", port: 9000, secure: true }` | When `imageUploadType` is set to `minio`, you need to set this key. Also checkout our [Minio Image Upload Guide](docs/guides/minio-image-upload.md) |
 | `s3` | `{ "accessKeyId": "YOUR_S3_ACCESS_KEY_ID", "secretAccessKey": "YOUR_S3_ACCESS_KEY", "region": "YOUR_S3_REGION" }` | When `imageuploadtype` be set to `s3`, you would also need to setup this key, check our [S3 Image Upload Guide](docs/guides/s3-image-upload.md) |
 | `s3bucket` | `YOUR_S3_BUCKET_NAME` | bucket name when `imageUploadType` is set to `s3` or `minio` |
+| `sourceURL` | `https://github.com/hackmdio/codimd/tree/<current commit>` | Provides the link to the source code of CodiMD on the entry page (Please, make sure you change this when you run a modified version) |
 
 <sup>1</sup>: relative paths are based on CodiMD's base directory
 
