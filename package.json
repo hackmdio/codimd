@@ -143,11 +143,15 @@
     "Markdown",
     "Notes"
   ],
-  "homepage": "https://hackmd.io",
+  "homepage": "https://codimd.org",
   "maintainers": [
     {
       "name": "Max Wu",
       "email": "jackymaxj@gmail.com"
+    },
+    {
+      "name": "Christoph (Sheogorath) Kern",
+      "email": "codimd@sheogorath.shivering-isles.com"
     }
   ],
   "repository": {
