@@ -1,4 +1,4 @@
-var baseConfig = require('./webpackBaseConfig')
+var baseConfig = require('./webpack.common')
 var webpack = require('webpack')
 var path = require('path')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')

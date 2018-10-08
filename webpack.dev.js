@@ -1,4 +1,4 @@
-var baseConfig = require('./webpackBaseConfig')
+var baseConfig = require('./webpack.common')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 var path = require('path')
 
