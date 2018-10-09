@@ -127,6 +127,12 @@ Use the syntax `[TOC]` to embed table of content into your note.
 You can type any emoji like this :smile: :smiley: :cry: :wink:
 > See full emoji list [here](http://www.emoji-cheat-sheet.com/).
 
+## Icons
+You can use any symbol from [ForkAwesome](https://forkawesome.github.io/). To use them you can either use their icon classes. As alternative use our integration: `{%fa <icon name> <icon color>%}`.
+
+{%fa rss%} {%fa lightbulb-o orange%} {%fa nextcloud #0082C9%}
+<i class="fa fa-rss" aria-hidden="true"></i> <i class="fa fa-lightbulb-o" aria-hidden="true" style="color: orange;"></i> <i class="fa fa-nextcloud" aria-hidden="true" style="color: #0082C9;"></i>
+
 ## ToDo List:
 - [ ] ToDos
   - [x] Buy some salad
