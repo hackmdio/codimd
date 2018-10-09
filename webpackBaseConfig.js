@@ -184,7 +184,7 @@ module.exports = {
     ],
     'cover-styles-pack': [
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
-      path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
+      path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
       path.join(__dirname, 'public/css/bootstrap-social.css'),
       path.join(__dirname, 'node_modules/select2/select2.css'),
       path.join(__dirname, 'node_modules/select2/select2-bootstrap.css')
@@ -236,7 +236,7 @@ module.exports = {
     ],
     'index-styles-pack': [
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
-      path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
+      path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
       path.join(__dirname, 'public/css/bootstrap-social.css'),
       path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
       path.join(__dirname, 'node_modules/octicons/build/octicons.css')
@@ -287,7 +287,7 @@ module.exports = {
     ],
     'pretty-styles-pack': [
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
-      path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
+      path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
       path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
       path.join(__dirname, 'node_modules/octicons/build/octicons.css')
     ],
@@ -324,7 +324,7 @@ module.exports = {
       path.join(__dirname, 'public/css/markdown.css')
     ],
     'slide-styles-pack': [
-      path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
+      path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
       path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
       path.join(__dirname, 'node_modules/octicons/build/octicons.css')
     ],

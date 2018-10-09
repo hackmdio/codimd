@@ -42,7 +42,7 @@
     "express-session": "^1.14.2",
     "file-saver": "^1.3.3",
     "flowchart.js": "^1.6.4",
-    "font-awesome": "^4.7.0",
+    "fork-awesome": "^1.1.3",
     "formidable": "^1.0.17",
     "gist-embed": "~2.6.0",
     "graceful-fs": "^4.1.11",
