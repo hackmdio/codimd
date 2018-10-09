@@ -1479,7 +1479,7 @@ $('#snippetExportModalConfirm').click(function () {
     file_name: $('#snippetExportModalFileName').val(),
     code: editor.getValue(),
     visibility_level: $('#snippetExportModalVisibility').val(),
-    visibility: $('#snippetExportModalVisibility').val() === 0 ? 'private' : ($('#snippetExportModalVisibility').val() === 10 ? 'internal' : '')
+    visibility: $('#snippetExportModalVisibility').val() === '0' ? 'private' : ($('#snippetExportModalVisibility').val() === '10' ? 'internal' : 'private')
   }
 
   if (!data.title || !data.file_name || !data.code || !data.visibility_level || !$('#snippetExportModalProjects').val()) return
