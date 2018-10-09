@@ -1056,6 +1056,22 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
 /* Defined regex markdown it plugins */
 import Plugin from 'markdown-it-regexp'
 
+const forkawesomePlugin = new Plugin(
+    // regexp to match
+    /{%fa\s*([\d\D]*?)(\s([\d\D]*?))?\s*%}/,
+
+    (match, utils) => {
+      const iconid = match[1]
+      const color = match[3]
+      if (!iconid) return
+      const icon = $(`<i class="icon fa fa-${iconid}" aria-hidden="true"></i>`)
+      if (color) {
+        icon.attr('style', `color: ${color};`)
+      }
+      return icon[0].outerHTML
+    }
+)
+
 // youtube
 const youtubePlugin = new Plugin(
     // regexp to match
@@ -1189,6 +1205,7 @@ function metaPlugin (md) {
 }
 
 md.use(metaPlugin)
+md.use(forkawesomePlugin)
 md.use(youtubePlugin)
 md.use(vimeoPlugin)
 md.use(gistPlugin)
