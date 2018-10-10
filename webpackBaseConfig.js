@@ -165,8 +165,7 @@ module.exports = {
         from: 'plugin',
         to: 'reveal.js/plugin'
       }
-    ]),
-    new MiniCssExtractPlugin()
+    ])
   ],
 
   entry: {
