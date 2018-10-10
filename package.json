@@ -8,8 +8,8 @@
     "test": "npm run-script standard && npm run-script jsonlint",
     "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' -o -type f -name '*.json.example' | while read json; do echo $json ; jq . $json; done",
     "standard": "node ./node_modules/standard/bin/cmd.js",
-    "dev": "webpack --config webpack.config.js --mode=production --progress --colors --watch",
-    "build": "webpack --config webpack.production.js --progress --colors --bail",
+    "dev": "webpack --config webpack.dev.js --progress --colors --watch",
+    "build": "webpack --config webpack.prod.js --progress --colors --bail",
     "postinstall": "bin/heroku",
     "start": "node app.js",
     "doctoc": "doctoc --title='# Table of Contents' README.md"
@@ -188,6 +188,7 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.14.0",
     "webpack-cli": "^3.1.0",
+    "webpack-merge": "^4.1.4",
     "webpack-parallel-uglify-plugin": "^1.1.0"
   },
   "standard": {

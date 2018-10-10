@@ -10,6 +10,7 @@ var gracefulFs = require('graceful-fs')
 gracefulFs.gracefulify(fs)
 
 module.exports = {
+  name: 'app',
   plugins: [
     new webpack.ProvidePlugin({
       Visibility: 'visibilityjs',
