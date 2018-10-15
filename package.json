@@ -172,7 +172,7 @@
     "exports-loader": "^0.7.0",
     "expose-loader": "^0.7.5",
     "file-loader": "^2.0.0",
-    "html-webpack-plugin": "^4.0.0-alpha",
+    "html-webpack-plugin": "4.0.0-beta.2",
     "imports-loader": "^0.8.0",
     "jsonlint": "^1.6.2",
     "less": "^2.7.1",
