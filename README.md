@@ -3,7 +3,6 @@ CodiMD
 
 [![Standard - JavaScript Style Guide][standardjs-image]][standardjs-url]
 
-[![Join the chat at https://gitter.im/hackmdio/hackmd][gitter-image]][gitter-url]
 [![#CodiMD on matrix.org][matrix.org-image]][matrix.org-url]
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
@@ -364,8 +363,6 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 
 **License under AGPL.**
 
-[gitter-image]: https://badges.gitter.im/Join%20Chat.svg
-[gitter-url]: https://gitter.im/hackmdio/hackmd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [matrix.org-image]: https://img.shields.io/badge/Matrix.org-%23CodiMD@matrix.org-green.svg
 [matrix.org-url]: https://riot.im/app/#/room/#codimd:matrix.org
 [travis-image]: https://travis-ci.org/hackmdio/codimd.svg?branch=master
