@@ -1,12 +1,12 @@
-var webpack = require('webpack')
-var path = require('path')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require('webpack')
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 // Fix possible nofile-issues
-var fs = require('fs')
-var gracefulFs = require('graceful-fs')
+const fs = require('fs')
+const gracefulFs = require('graceful-fs')
 gracefulFs.gracefulify(fs)
 
 module.exports = {
