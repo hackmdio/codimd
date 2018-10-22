@@ -1145,6 +1145,20 @@ const pdfPlugin = new Plugin(
     }
 )
 
+const emojijsPlugin = new Plugin(
+    // regexp to match emoji shortcodes :something:
+    /:([\d\D]*):/,
+
+    (match, utils) => {
+      const emoji = match[1] ? match[1].toLowerCase() : undefined
+      if (window.emojify.emojiNames.includes(emoji)) {
+        const div = $(`<img class="emoji" src="${serverurl}/build/emojify.js/dist/images/basic/${emoji}.png"></img>`)
+        return div[0].outerHTML
+      }
+      return match[0]
+    }
+)
+
 // yaml meta, from https://github.com/eugeneware/remarkable-meta
 function get (state, line) {
   const pos = state.bMarks[line]
@@ -1189,6 +1203,7 @@ function metaPlugin (md) {
 }
 
 md.use(metaPlugin)
+md.use(emojijsPlugin)
 md.use(youtubePlugin)
 md.use(vimeoPlugin)
 md.use(gistPlugin)
