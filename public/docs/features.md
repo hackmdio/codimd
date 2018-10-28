@@ -88,9 +88,23 @@ You can hover and click <i class="fa fa-chain"></i> to anchor on it.
 
 Edit:
 ===
+## Editor Modes:
+You can look in the bottom right section of the editor area, there you'll find a button with `sublime` on it.
+When you click it, you can select 3 editor modes:
+
+- sublime (default)
+- emacs
+- vim
+
 ## Shortcut Keys:
-Just like Sublime text, which is pretty quick and convenient.
-> For more infomation, see [here](https://codemirror.net/demo/sublime.html).
+The shortcut keys depend on your selected editor mode. By default they are just like Sublime text, which is pretty quick and convenient.
+> For more information, see [here](https://codemirror.net/demo/sublime.html).
+
+For emacs:
+> For more information, see [here](https://codemirror.net/demo/emacs.html).
+
+For vim:
+> For more information, see [here](https://codemirror.net/demo/vim.html).
 
 ## Auto-Complete:
 This editor provides full auto-complete hints in markdown.
