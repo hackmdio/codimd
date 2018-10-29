@@ -108,6 +108,10 @@ if (opts.length === 0) {
 if (opts.length > 1) {
 	showUsage(`You cannot ${action.join(' and ')} at the same time!`);
 }
+// Check if not string
+if (typeof argv[action] !== 'string') {
+	showUsage(`You must follow an email after --${action}`);
+}
 
 // Call respective processing functions
 options[action](argv).then(function() {
