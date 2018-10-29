@@ -22,6 +22,15 @@ Usage: bin/manage_users [--pass password] (--add | --del) user-email
 	process.exit(1);
 }
 
+function getPass(argv, action) {
+	// Find whether we use cmdline or prompt password
+	if(typeof argv["pass"] !== 'string') {
+		return readline.question(`Password for ${argv[action]}:`, {hideEchoBack: true});
+	}
+	console.log("Using password from commandline...");
+	return argv["pass"];
+}
+
 // Using an async function to be able to use await inside
 async function createUser(argv) {
 	const existing_user = await models.User.findOne({where: {email: argv["add"]}});
@@ -31,14 +40,8 @@ async function createUser(argv) {
 		process.exit(1);
 	}
 
-	// Find whether we use cmdline or prompt password
-	let pass;
-	if(argv["pass"] == undefined) {
-		pass = readline.question(`Password for ${argv["add"]}:`, {hideEchoBack: true});
-	} else {
-		console.log("Using password from commandline...");
-		pass = "" + argv["pass"];
-	}
+	const pass = getPass(argv, "add");
+
 
 	// Lets try to create, and check success
 	const ref = await models.User.create({email: argv["add"], password: pass});
