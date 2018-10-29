@@ -8,7 +8,8 @@ const models = require("../lib/models/");
 const readline = require("readline-sync");
 const minimist = require("minimist");
 
-var usage = `
+function showUsage(tips) {
+	console.log(`${tips}
 
 Command-line utility to create users for email-signin.
 
@@ -17,7 +18,9 @@ Usage: bin/manage_users [--pass password] (--add | --del) user-email
 		--add 	Add user with the specified user-email
 		--del 	Delete user with specified user-email
 		--pass	Use password from cmdline rather than prompting
-`
+`);
+	process.exit(1);
+}
 
 // Using an async function to be able to use await inside
 async function createUser(argv) {
@@ -74,16 +77,12 @@ var action = opts[0];
 
 // Check for options missing
 if (opts.length === 0) {
-	console.log(`You did not specify either ${keys.map((key) => `--${key}`).join(' or ')}!`);
-	console.log(usage);
-	process.exit(1);
+	showUsage(`You did not specify either ${keys.map((key) => `--${key}`).join(' or ')}!`);
 }
 
 // Check if both are specified
 if (opts.length > 1) {
-	console.log(`You cannot ${action.join(' and ')} at the same time!`);
-	console.log(usage);
-	process.exit(1);
+	showUsage(`You cannot ${action.join(' and ')} at the same time!`);
 }
 
 // Call respective processing functions
