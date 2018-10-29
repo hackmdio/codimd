@@ -17,6 +17,7 @@ Usage: bin/manage_users [--pass password] (--add | --del) user-email
 	Options:
 		--add 	Add user with the specified user-email
 		--del 	Delete user with specified user-email
+		--reset Reset user password with specified user-email
 		--pass	Use password from cmdline rather than prompting
 `);
 	process.exit(1);
@@ -67,9 +68,28 @@ async function deleteUser(argv) {
 	console.log(`Deleted user ${argv["del"]} ...`);
 }
 
-var options = {
+
+// Using an async function to be able to use await inside
+async function resetUser(argv) {
+	const existing_user = await models.User.findOne({where: {email: argv["reset"]}});
+	// Cannot reset non-existing users
+	if(existing_user == undefined) {
+		console.log(`User with e-mail ${argv["reset"]} does not exist, cannot reset`);
+		process.exit(1);
+	}
+
+	const pass = getPass(argv, "reset");
+
+	// set password and save
+	existing_user.password = pass;
+	await existing_user.save();
+	console.log(`User with email ${argv["reset"]} password has been reset`);
+}
+
+const options = {
 	add: createUser,
 	del: deleteUser,
+	reset: resetUser,
 };
 
 // Perform commandline-parsing
