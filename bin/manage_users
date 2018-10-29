@@ -24,43 +24,44 @@ Usage: bin/manage_users [--pass password] (--add | --del) user-email
 
 // Using an async function to be able to use await inside
 async function createUser(argv) {
-	var existing_user = await models.User.findOne({where: {email: argv["add"]}});
+	const existing_user = await models.User.findOne({where: {email: argv["add"]}});
 	// Cannot create already-existing users
 	if(existing_user != undefined) {
-		console.log("User with e-mail "+existing_user.email+" already exists! Aborting ...");
+		console.log(`User with e-mail ${existing_user.email} already exists! Aborting ...`);
 		process.exit(1);
 	}
 
 	// Find whether we use cmdline or prompt password
+	let pass;
 	if(argv["pass"] == undefined) {
-		var pass = readline.question("Password for "+argv["add"]+":", {hideEchoBack: true});
+		pass = readline.question(`Password for ${argv["add"]}:`, {hideEchoBack: true});
 	} else {
 		console.log("Using password from commandline...");
-		var pass = "" + argv["pass"];
+		pass = "" + argv["pass"];
 	}
 
 	// Lets try to create, and check success
-	var ref = await models.User.create({email: argv["add"], password: pass});
+	const ref = await models.User.create({email: argv["add"], password: pass});
 	if(ref == undefined) {
-		console.log("Could not create user with email "+argv["add"]);
+		console.log(`Could not create user with email ${argv["add"]}`);
 		process.exit(1);
 	} else
-		console.log("Created user with email "+argv["add"]);
+		console.log(`Created user with email ${argv["add"]}`);
 }
 
 // Using an async function to be able to use await inside
 async function deleteUser(argv) {
 	// Cannot delete non-existing users
-	var existing_user = await models.User.findOne({where: {email: argv["del"]}});
-	if(existing_user == undefined) {
-		console.log("User with e-mail "+argv["del"]+" does not exist, cannot delete");
+	const existing_user = await models.User.findOne({where: {email: argv["del"]}});
+	if(existing_user === undefined) {
+		console.log(`User with e-mail ${argv["del"]} does not exist, cannot delete`);
 		process.exit(1);
 	}
 
 	// Sadly .destroy() does not return any success value with all
 	// backends. See sequelize #4124
 	await existing_user.destroy();
-	console.log("Deleted user "+argv["del"]+" ...");
+	console.log(`Deleted user ${argv["del"]} ...`);
 }
 
 var options = {
@@ -69,11 +70,11 @@ var options = {
 };
 
 // Perform commandline-parsing
-var argv = minimist(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2));
 
-var keys = Object.keys(options);
-var opts = keys.filter((key) => argv[key] !== undefined);
-var action = opts[0];
+const keys = Object.keys(options);
+const opts = keys.filter((key) => argv[key] !== undefined);
+const action = opts[0];
 
 // Check for options missing
 if (opts.length === 0) {
