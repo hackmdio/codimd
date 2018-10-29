@@ -60,30 +60,33 @@ async function deleteUser(argv) {
 	console.log("Deleted user "+argv["del"]+" ...");
 }
 
+var options = {
+	add: createUser,
+	del: deleteUser,
+};
+
 // Perform commandline-parsing
 var argv = minimist(process.argv.slice(2));
 
-// Check for add/delete missing
-if (argv["add"] == undefined && argv["del"] == undefined) {
-	console.log("You did not specify either --add or --del!");
+var keys = Object.keys(options);
+var opts = keys.filter((key) => argv[key] !== undefined);
+var action = opts[0];
+
+// Check for options missing
+if (opts.length === 0) {
+	console.log(`You did not specify either ${keys.map((key) => `--${key}`).join(' or ')}!`);
 	console.log(usage);
 	process.exit(1);
 }
 
 // Check if both are specified
-if (argv["add"] != undefined && argv["del"] != undefined) {
-	console.log("You cannot add and delete at the same time!");
+if (opts.length > 1) {
+	console.log(`You cannot ${action.join(' and ')} at the same time!`);
 	console.log(usage);
 	process.exit(1);
 }
 
 // Call respective processing functions
-if (argv["add"] != undefined) {
-	createUser(argv).then(function() {
-		process.exit(0);
-	});
-} else if (argv["del"] != undefined) {
-	deleteUser(argv).then(function() {
-		process.exit(0);
-	})
-}
+options[action](argv).then(function() {
+  process.exit(0);
+});
