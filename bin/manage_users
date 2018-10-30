@@ -8,7 +8,8 @@ const models = require("../lib/models/");
 const readline = require("readline-sync");
 const minimist = require("minimist");
 
-var usage = `
+function showUsage(tips) {
+	console.log(`${tips}
 
 Command-line utility to create users for email-signin.
 
@@ -16,74 +17,103 @@ Usage: bin/manage_users [--pass password] (--add | --del) user-email
 	Options:
 		--add 	Add user with the specified user-email
 		--del 	Delete user with specified user-email
+		--reset Reset user password with specified user-email
 		--pass	Use password from cmdline rather than prompting
-`
+`);
+	process.exit(1);
+}
+
+function getPass(argv, action) {
+	// Find whether we use cmdline or prompt password
+	if(typeof argv["pass"] !== 'string') {
+		return readline.question(`Password for ${argv[action]}:`, {hideEchoBack: true});
+	}
+	console.log("Using password from commandline...");
+	return argv["pass"];
+}
 
 // Using an async function to be able to use await inside
 async function createUser(argv) {
-	var existing_user = await models.User.findOne({where: {email: argv["add"]}});
+	const existing_user = await models.User.findOne({where: {email: argv["add"]}});
 	// Cannot create already-existing users
 	if(existing_user != undefined) {
-		console.log("User with e-mail "+existing_user.email+" already exists! Aborting ...");
+		console.log(`User with e-mail ${existing_user.email} already exists! Aborting ...`);
 		process.exit(1);
 	}
 
-	// Find whether we use cmdline or prompt password
-	if(argv["pass"] == undefined) {
-		var pass = readline.question("Password for "+argv["add"]+":", {hideEchoBack: true});
-	} else {
-		console.log("Using password from commandline...");
-		var pass = "" + argv["pass"];
-	}
+	const pass = getPass(argv, "add");
+
 
 	// Lets try to create, and check success
-	var ref = await models.User.create({email: argv["add"], password: pass});
+	const ref = await models.User.create({email: argv["add"], password: pass});
 	if(ref == undefined) {
-		console.log("Could not create user with email "+argv["add"]);
+		console.log(`Could not create user with email ${argv["add"]}`);
 		process.exit(1);
 	} else
-		console.log("Created user with email "+argv["add"]);
+		console.log(`Created user with email ${argv["add"]}`);
 }
 
 // Using an async function to be able to use await inside
 async function deleteUser(argv) {
 	// Cannot delete non-existing users
-	var existing_user = await models.User.findOne({where: {email: argv["del"]}});
-	if(existing_user == undefined) {
-		console.log("User with e-mail "+argv["del"]+" does not exist, cannot delete");
+	const existing_user = await models.User.findOne({where: {email: argv["del"]}});
+	if(existing_user === undefined) {
+		console.log(`User with e-mail ${argv["del"]} does not exist, cannot delete`);
 		process.exit(1);
 	}
 
 	// Sadly .destroy() does not return any success value with all
 	// backends. See sequelize #4124
 	await existing_user.destroy();
-	console.log("Deleted user "+argv["del"]+" ...");
+	console.log(`Deleted user ${argv["del"]} ...`);
 }
 
-// Perform commandline-parsing
-var argv = minimist(process.argv.slice(2));
 
-// Check for add/delete missing
-if (argv["add"] == undefined && argv["del"] == undefined) {
-	console.log("You did not specify either --add or --del!");
-	console.log(usage);
-	process.exit(1);
+// Using an async function to be able to use await inside
+async function resetUser(argv) {
+	const existing_user = await models.User.findOne({where: {email: argv["reset"]}});
+	// Cannot reset non-existing users
+	if(existing_user == undefined) {
+		console.log(`User with e-mail ${argv["reset"]} does not exist, cannot reset`);
+		process.exit(1);
+	}
+
+	const pass = getPass(argv, "reset");
+
+	// set password and save
+	existing_user.password = pass;
+	await existing_user.save();
+	console.log(`User with email ${argv["reset"]} password has been reset`);
+}
+
+const options = {
+	add: createUser,
+	del: deleteUser,
+	reset: resetUser,
+};
+
+// Perform commandline-parsing
+const argv = minimist(process.argv.slice(2));
+
+const keys = Object.keys(options);
+const opts = keys.filter((key) => argv[key] !== undefined);
+const action = opts[0];
+
+// Check for options missing
+if (opts.length === 0) {
+	showUsage(`You did not specify either ${keys.map((key) => `--${key}`).join(' or ')}!`);
 }
 
 // Check if both are specified
-if (argv["add"] != undefined && argv["del"] != undefined) {
-	console.log("You cannot add and delete at the same time!");
-	console.log(usage);
-	process.exit(1);
+if (opts.length > 1) {
+	showUsage(`You cannot ${action.join(' and ')} at the same time!`);
+}
+// Check if not string
+if (typeof argv[action] !== 'string') {
+	showUsage(`You must follow an email after --${action}`);
 }
 
 // Call respective processing functions
-if (argv["add"] != undefined) {
-	createUser(argv).then(function() {
-		process.exit(0);
-	});
-} else if (argv["del"] != undefined) {
-	deleteUser(argv).then(function() {
-		process.exit(0);
-	})
-}
+options[action](argv).then(function() {
+  process.exit(0);
+});
