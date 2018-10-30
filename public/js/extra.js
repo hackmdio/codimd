@@ -1147,7 +1147,7 @@ const pdfPlugin = new Plugin(
 
 const emojijsPlugin = new Plugin(
     // regexp to match emoji shortcodes :something:
-    /:([\d\D]*):/,
+    /:([^\s:]+):/,
 
     (match, utils) => {
       const emoji = match[1] ? match[1].toLowerCase() : undefined
