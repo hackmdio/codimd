@@ -1147,15 +1147,14 @@ const pdfPlugin = new Plugin(
 
 const emojijsPlugin = new Plugin(
     // regexp to match emoji shortcodes :something:
-    /:([^\s:]+):/,
+    // We generate an universal regex that guaranteed only contains the
+    // emojies we have available. This should prevent all false-positives
+    new RegExp(':(' + window.emojify.emojiNames.map((item) => { return RegExp.escape(item) }).join('|') + '):', 'i'),
 
     (match, utils) => {
-      const emoji = match[1] ? match[1].toLowerCase() : undefined
-      if (window.emojify.emojiNames.includes(emoji)) {
-        const div = $(`<img class="emoji" src="${serverurl}/build/emojify.js/dist/images/basic/${emoji}.png"></img>`)
-        return div[0].outerHTML
-      }
-      return match[0]
+      const emoji = match[1].toLowerCase()
+      const div = $(`<img class="emoji" src="${serverurl}/build/emojify.js/dist/images/basic/${emoji}.png"></img>`)
+      return div[0].outerHTML
     }
 )
 
