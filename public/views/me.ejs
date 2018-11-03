@@ -29,9 +29,12 @@
                 </fieldset>
                 <fieldset>
                     <legend>Change Your Password</legend>
-                    <p>old password: <input name="existing_password" value=""></p>
+                    <%- validationErrorFor(validationErrors, 'invalid_password_given') %>
+                    <p>old password: <input name="old_password" value=""></p>
                     <p>new password: <input name="new_password" value=""></p>
-                    <p>confirm password: <input name="confirm_password" value=""></p>
+                    <%- validationErrorFor(validationErrors, 'confirm_password') %>
+                    <%- validationErrorFor(validationErrors, 'confirmation_matches') %>
+                    <p>confirm password: <input name="password_confirmation" value=""></p>
                 </fieldset>
                 <input type="submit" value="save">
             </form>
