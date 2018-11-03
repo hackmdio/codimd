@@ -176,6 +176,7 @@ app.engine('ejs', ejs.renderFile)
 // set view engine
 app.set('view engine', 'ejs')
 // set generally available variables for all views
+app.locals.validationErrorFor = require('./lib/web/helpers/validationErrorFor.js')
 app.locals.useCDN = config.useCDN
 app.locals.serverURL = config.serverURL
 app.locals.sourceURL = config.sourceURL
