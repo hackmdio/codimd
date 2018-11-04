@@ -59,23 +59,23 @@ export function checkIfAuth (yesCallback, noCallback) {
   const cookieLoginState = getLoginState()
   if (checkLoginStateChanged()) checkAuth = false
   if (!checkAuth || typeof cookieLoginState === 'undefined') {
-    $.getJSON(`${serverurl}/me`)
-            .done(data => {
-              if (data && data.status === 'ok') {
-                profile = data
-                yesCallback(profile)
-                setLoginState(true, data.id)
-              } else {
-                noCallback()
-                setLoginState(false)
-              }
-            })
-            .fail(() => {
-              noCallback()
-            })
-            .always(() => {
-              checkAuth = true
-            })
+    $.getJSON(`${serverurl}/settings/account`)
+      .done(data => {
+        if (data && data.status === 'ok') {
+          profile = data
+          yesCallback(profile)
+          setLoginState(true, data.id)
+        } else {
+          noCallback()
+          setLoginState(false)
+        }
+      })
+      .fail(() => {
+        noCallback()
+      })
+      .always(() => {
+        checkAuth = true
+      })
   } else if (cookieLoginState) {
     yesCallback(profile)
   } else {

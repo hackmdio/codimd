@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <%- include codimd/head %>
+    <%- include ../codimd/head %>
 </head>
 
 <body>
-    <%- include codimd/minimalHeader %>
+    <%- include ../codimd/minimalHeader %>
 
     <% if (validationErrors !== null) { %>
         <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;">User could not be saved.</div>
@@ -18,14 +18,24 @@
                 <fieldset>
                     <legend>About You</legend>
 
-                    <p>ID: <%= user.id %></p>
+                    <p>id: <%= user.id %></p>
+                    <p>profileid: <%= user.profileid %></p>
 
                     <%- validationErrorFor(validationErrors, 'name') %>
                     <p>name: <input name="name" value="<%= user.name %>"></p>
 
                     <%- validationErrorFor(validationErrors, 'email') %>
                     <p>email: <input name="email" value="<%= user.email %>"></p>
-                    <p>profileid: <%= user.profileid %></p>
+
+                    <%- validationErrorFor(validationErrors, 'profile') %>
+                    <p>profile:<br><textarea name="profile" readonly><%= user.profile %></textarea></p>
+
+                    <%- validationErrorFor(validationErrors, 'history') %>
+                    <p>history:<br><textarea name="history" readonly><%= user.history %></textarea></p>
+
+                    <p>accessToken: <%= user.accessToken %></p>
+                    <p>refreshToken: <%= user.refreshToken %></p>
+                    <p>deleteToken: <%= user.deleteToken %></p>
                 </fieldset>
                 <fieldset>
                     <legend>Change Your Password</legend>
@@ -54,8 +64,8 @@
       </div>
     </div>
 
-    <%- include codimd/footer %>
-    <%- include codimd/foot %>
+    <%- include ../codimd/footer %>
+    <%- include ../codimd/foot %>
 </body>
 
 </html>
