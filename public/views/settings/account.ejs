@@ -21,24 +21,11 @@
                 <fieldset>
                     <legend><%= __('About You') %></legend>
 
-                    <p>id: <%= user.id %></p>
-                    <p>profileid: <%= user.profileid %></p>
-
                     <%- validationErrorFor(validationErrors, 'name') %>
                     <p><%= __('user.name') %>: <input name="name" value="<%= user.name %>"></p>
 
                     <%- validationErrorFor(validationErrors, 'email') %>
                     <p><%= __('user.email') %>: <input name="email" value="<%= user.email %>"></p>
-
-                    <%- validationErrorFor(validationErrors, 'profile') %>
-                    <p>profile:<br><textarea name="profile" readonly><%= user.profile %></textarea></p>
-
-                    <%- validationErrorFor(validationErrors, 'history') %>
-                    <p>history:<br><textarea name="history" readonly><%= user.history %></textarea></p>
-
-                    <p>accessToken: <%= user.accessToken %></p>
-                    <p>refreshToken: <%= user.refreshToken %></p>
-                    <p>deleteToken: <%= user.deleteToken %></p>
                 </fieldset>
                 <fieldset>
                     <legend>Change Your Password</legend>
