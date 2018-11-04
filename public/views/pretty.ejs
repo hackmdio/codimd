@@ -15,8 +15,8 @@
     <meta name="description" content="<%= description %>">
     <% } %>
     <title><%= title %></title>
-    <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
-  <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="<%- serverURL %>/favicon.png">
+    <link rel="apple-touch-icon" href="<%- serverURL %>/apple-touch-icon.png">
   <% if(useCDN) { %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fork-awesome/1.1.3/css/fork-awesome.min.css" integrity="sha256-ZhApazu+kejqTYhMF+1DzNKjIzP7KXu6AzyXcC1gMus=" crossorigin="anonymous" />
@@ -25,7 +25,7 @@
     <%- include build/pretty-header %>
     <%- include shared/polyfill %>
   <% } else { %>
-    <link rel="stylesheet" href='<%- url %>/build/emojify.js/dist/css/basic/emojify.min.css'>
+    <link rel="stylesheet" href='<%- serverURL %>/build/emojify.js/dist/css/basic/emojify.min.css'>
     <%- include build/pretty-pack-header %>
   <% } %>
 </head>
@@ -71,7 +71,7 @@
 </body>
 
 </html>
-<script src="<%= url %>/js/mathjax-config-extra.js"></script>
+<script src="<%= serverURL %>/js/mathjax-config-extra.js"></script>
 <% if(useCDN) { %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.0/velocity.min.js" integrity="sha256-bhm0lgEt6ITaZCDzZpkr/VXVrLa5RP4u9v2AYsbzSUk=" crossorigin="anonymous" defer></script>
@@ -90,8 +90,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/abcjs/3.1.1/abcjs_basic-min.js" integrity="sha256-Sq1r2XXWXQoShQKsS0Wrf5r7fRkErd9Fat9vHYeU68s=" crossorigin="anonymous"></script>
 <%- include build/pretty-scripts %>
 <% } else { %>
-<script src="<%- url %>/build/MathJax/MathJax.js" defer></script>
-<script src="<%- url %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
+<script src="<%- serverURL %>/build/MathJax/MathJax.js" defer></script>
+<script src="<%- serverURL %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
 <%- include build/pretty-pack-scripts %>
 <% } %>
 <%- include shared/ga %>
