@@ -8,12 +8,15 @@
 <body>
     <%- include ../codimd/minimalHeader %>
 
-    <% if (validationErrors !== null) { %>
-        <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;">User could not be saved.</div>
-    <% } %>
-
     <div class="row ui-content">
         <div class="container-fluid">
+            <h1>Account Settings</h1>
+            <% if (validationErrors !== null) { %>
+                <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;">User could not be saved.</div>
+            <% } %>
+
+            <a href="<%= serverURL %>/user/<%= user.id %>">Visit public profile</a>
+
             <form method="post" enctype="application/x-www-form-urlencoded">
                 <fieldset>
                     <legend>About You</legend>
@@ -48,19 +51,6 @@
                 </fieldset>
                 <input type="submit" value="save">
             </form>
-
-            <h2>My Documents</h2>
-            <ul>
-            <% notes.forEach(function (note) { %>
-                <li><a href="/<%= note.url %>"><%= note.title %></a></li>
-            <% }); %>
-            </ul>
-            <h2>Documents I contributed to</h2>
-            <ul>
-            <% contributions.forEach(function (note) { %>
-                <li><a href="/<%= note.url %>"><%= note.title %></a></li>
-            <% }); %>
-            </ul>
       </div>
     </div>
 

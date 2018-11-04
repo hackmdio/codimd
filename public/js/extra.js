@@ -59,6 +59,7 @@ export function updateLastChangeUser () {
       const icon = window.lastchangeui.user.children('i')
       icon.attr('title', window.lastchangeuserprofile.name).tooltip('fixTitle')
       if (window.lastchangeuserprofile.photo) { icon.attr('style', `background-image:url(${window.lastchangeuserprofile.photo})`) }
+      if (window.lastchangeuser) { window.lastchangeui.user.wrap('<a href="' + window.urlpath + '/user/' + window.lastchangeuser + '" style="text-decoration: none">') }
       window.lastchangeui.user.show()
       window.lastchangeui.nouser.hide()
     } else {

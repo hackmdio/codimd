@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include codimd/head %>
+</head>
+
+<body>
+    <%- include codimd/minimalHeader %>
+
+
+    <div class="row ui-content">
+        <div class="container-fluid">
+            <h1><%= user.name %></h1>
+
+            <p>name: <%= user.name %></p>
+            <p>email: <%= user.email %></p>
+
+            <h2>My Documents</h2>
+            <ul>
+            <% notes.forEach(function (note) { %>
+                <li><a href="/<%= note.url %>"><%= note.title %></a></li>
+            <% }); %>
+            </ul>
+            <h2>Documents I contributed to</h2>
+            <ul>
+            <% contributions.forEach(function (note) { %>
+                <li><a href="/<%= note.url %>"><%= note.title %></a></li>
+            <% }); %>
+            </ul>
+        </div>
+    </div>
+
+    <%- include codimd/footer %>
+    <%- include codimd/foot %>
+</body>
+
+</html>
