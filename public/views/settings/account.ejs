@@ -10,25 +10,25 @@
 
     <div class="row ui-content">
         <div class="container-fluid">
-            <h1>Account Settings</h1>
+            <h1><%= __('Account Settings') %></h1>
             <% if (validationErrors !== null) { %>
-                <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;">User could not be saved.</div>
+                <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;"><%= __('User could not be saved.') %></div>
             <% } %>
 
-            <a href="<%= serverURL %>/user/<%= user.id %>">Visit public profile</a>
+            <a href="<%= serverURL %>/user/<%= user.id %>"><%= __('Visit public profile') %></a>
 
             <form method="post" enctype="application/x-www-form-urlencoded">
                 <fieldset>
-                    <legend>About You</legend>
+                    <legend><%= __('About You') %></legend>
 
                     <p>id: <%= user.id %></p>
                     <p>profileid: <%= user.profileid %></p>
 
                     <%- validationErrorFor(validationErrors, 'name') %>
-                    <p>name: <input name="name" value="<%= user.name %>"></p>
+                    <p><%= __('user.name') %>: <input name="name" value="<%= user.name %>"></p>
 
                     <%- validationErrorFor(validationErrors, 'email') %>
-                    <p>email: <input name="email" value="<%= user.email %>"></p>
+                    <p><%= __('user.email') %>: <input name="email" value="<%= user.email %>"></p>
 
                     <%- validationErrorFor(validationErrors, 'profile') %>
                     <p>profile:<br><textarea name="profile" readonly><%= user.profile %></textarea></p>
@@ -43,11 +43,11 @@
                 <fieldset>
                     <legend>Change Your Password</legend>
                     <%- validationErrorFor(validationErrors, 'invalid_password_given') %>
-                    <p>old password: <input name="old_password" value=""></p>
-                    <p>new password: <input name="new_password" value=""></p>
+                    <p><%= __('user.old_password') %>: <input name="old_password" type="password" value=""></p>
+                    <p><%= __('user.new_password') %>: <input name="new_password" type="password" value=""></p>
                     <%- validationErrorFor(validationErrors, 'confirm_password') %>
                     <%- validationErrorFor(validationErrors, 'confirmation_matches') %>
-                    <p>confirm password: <input name="password_confirmation" value=""></p>
+                    <p><%= __('user.password_confirmation') %>: <input name="password_confirmation" type="password" value=""></p>
                 </fieldset>
                 <input type="submit" value="save">
             </form>

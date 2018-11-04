@@ -17,3 +17,7 @@ trim_trailing_whitespace = false
 [{.travis.yml,npm-shrinkwrap.json,package.json}]
 indent_style = space
 indent_size = 2
+
+[locales/*.json]
+# i18n does not write one, so this prevents churn.
+insert_final_newline = false
