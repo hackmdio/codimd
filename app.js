@@ -198,6 +198,7 @@ app.locals.authProviders = {
   email: config.isEmailEnable,
   allowEmailRegister: config.allowEmailRegister
 }
+app.locals.enableGitlabSnippets = (!config.gitlab.scope || config.gitlab.scope === 'api')
 
 app.use(require('./lib/web/baseRouter'))
 app.use(require('./lib/web/statusRouter'))
