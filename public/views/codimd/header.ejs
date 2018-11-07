@@ -32,12 +32,12 @@
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
                 </li>
-                <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || enableGitlabSnippets) { %>
+                <% if(enableGitHubGist || enableDropBoxSave || enableGitlabSnippets) { %>
                 <li class="divider"></li>
                 <li class="dropdown-header"><%= __('Export') %></li>
                 <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                 </li>
-                <% if(typeof github !== 'undefined' && github) { %>
+                <% if(enableGitHubGist) { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
                 <% } %>
@@ -134,12 +134,12 @@
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
                     </li>
-                    <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || enableGitlabSnippets ) { %>
+                    <% if(enableGitHubGist || enableDropBoxSave || enableGitlabSnippets) { %>
                     <li class="divider"></li>
                     <li class="dropdown-header"><%= __('Export') %></li>
                     <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                     </li>
-                    <% if(typeof github !== 'undefined' && github) { %>
+                    <% if(enableGitHubGist) { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
                     <% } %>

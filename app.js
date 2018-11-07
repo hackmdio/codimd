@@ -198,7 +198,11 @@ app.locals.authProviders = {
   email: config.isEmailEnable,
   allowEmailRegister: config.allowEmailRegister
 }
-app.locals.enableGitlabSnippets = (!config.gitlab.scope || config.gitlab.scope === 'api')
+
+// Export/Import menu items
+app.locals.enableDropBoxSave = config.isDropboxEnable
+app.locals.enableGitHubGist = config.isGitHubEnable
+app.locals.enableGitlabSnippets = config.isGitlabSnippetsEnable
 
 app.use(require('./lib/web/baseRouter'))
 app.use(require('./lib/web/statusRouter'))
