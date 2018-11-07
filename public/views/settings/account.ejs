@@ -15,14 +15,17 @@
                 <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;"><%= __('User could not be saved.') %></div>
             <% } %>
 
-            <a href="<%= serverURL %>/user/<%= user.id %>"><%= __('Visit public profile') %></a>
+            <a href="<%= serverURL %>/user/<%= user.username %>"><%= __('Visit public profile') %></a>
 
             <form method="post" enctype="application/x-www-form-urlencoded">
                 <fieldset>
                     <legend><%= __('About You') %></legend>
 
-                    <%- validationErrorFor(validationErrors, 'name') %>
-                    <p><%= __('user.name') %>: <input name="name" value="<%= user.name %>"></p>
+                    <%- validationErrorFor(validationErrors, 'displayname') %>
+                    <p><%= __('user.displayname') %>: <input name="displayname" value="<%= user.displayname %>"></p>
+
+                    <%- validationErrorFor(validationErrors, 'username') %>
+                    <p><%= __('user.username') %>: <input name="username" value="<%= user.username %>"></p>
 
                     <%- validationErrorFor(validationErrors, 'email') %>
                     <p><%= __('user.email') %>: <input name="email" value="<%= user.email %>"></p>

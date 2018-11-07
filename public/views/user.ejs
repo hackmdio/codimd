@@ -11,9 +11,10 @@
 
     <div class="row ui-content">
         <div class="container-fluid">
-            <h1><%= user.name %></h1>
+            <h1><%= user.displayname %></h1>
 
-            <p><%= __('user.name') %>: <%= user.name %></p>
+            <p><%= __('user.displayname') %>: <%= user.displayname %></p>
+            <p><%= __('user.username') %>: <code>@<%= user.username %></code></p>
             <p><%= __('user.email') %>: <%= user.email %></p>
 
             <!--
