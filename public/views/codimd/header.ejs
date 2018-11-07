@@ -32,16 +32,16 @@
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
                 </li>
-                <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || (typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api'))) { %>
+                <% if(enableGitHubGist || enableDropBoxSave || enableGitlabSnippets) { %>
                 <li class="divider"></li>
                 <li class="dropdown-header"><%= __('Export') %></li>
                 <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                 </li>
-                <% if(typeof github !== 'undefined' && github) { %>
+                <% if(enableGitHubGist) { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
                 <% } %>
-                <% if(typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api')) { %>
+                <% if(enableGitlabSnippets) { %>
                 <li role="presentation"><a role="menuitem" class="ui-save-snippet" href="#"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
                 </li>
                 <% } %>
@@ -52,7 +52,7 @@
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-import-gist" href="#" data-toggle="modal" data-target="#gistImportModal"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
-                <% if(typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api')) { %>
+                <% if(enableGitlabSnippets) { %>
                 <li role="presentation"><a role="menuitem" class="ui-import-snippet" href="#"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
                 </li>
                 <% } %>
@@ -134,16 +134,16 @@
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
                     </li>
-                    <% if((typeof github !== 'undefined' && github) || (typeof dropbox !== 'undefined' && dropbox) || (typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api'))) { %>
+                    <% if(enableGitHubGist || enableDropBoxSave || enableGitlabSnippets) { %>
                     <li class="divider"></li>
                     <li class="dropdown-header"><%= __('Export') %></li>
                     <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                     </li>
-                    <% if(typeof github !== 'undefined' && github) { %>
+                    <% if(enableGitHubGist) { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
                     <% } %>
-                    <% if(typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api')) { %>
+                    <% if(enableGitlabSnippets) { %>
                     <li role="presentation"><a role="menuitem" class="ui-save-snippet" href="#"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
                     </li>
                     <% } %>
@@ -154,7 +154,7 @@
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-import-gist" href="#" data-toggle="modal" data-target="#gistImportModal"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
-                    <% if(typeof gitlab !== 'undefined' && gitlab && (!gitlab.scope || gitlab.scope === 'api')) { %>
+                    <% if(enableGitlabSnippets) { %>
                     <li role="presentation"><a role="menuitem" class="ui-import-snippet" href="#"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
                     </li>
                     <% } %>
