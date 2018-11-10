@@ -128,6 +128,17 @@ This option allow you to enable Disqus with your shortname.
 disqus: codimd
 ```
 
+type
+---
+This option allows you to switch the document view to the slide preview, to simplify live editing of presentations.
+
+> default: not set
+
+**Example:**
+```xml
+type: slide
+```
+
 slideOptions
 ---
 This option allow you provide custom options to slide mode.
