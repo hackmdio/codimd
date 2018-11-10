@@ -1,6 +1,8 @@
 /* eslint-env browser, jquery */
-/* global filterXSS */
 // allow some attributes
+
+var filterXSS = require('xss')
+
 var whiteListAttr = ['id', 'class', 'style']
 window.whiteListAttr = whiteListAttr
 // allow link starts with '.', '/' and custom protocol with '://', exclude link starts with javascript://
@@ -71,5 +73,6 @@ function preventXSS (html) {
 window.preventXSS = preventXSS
 
 module.exports = {
-  preventXSS: preventXSS
+  preventXSS: preventXSS,
+  escapeAttrValue: filterXSS.escapeAttrValue
 }
