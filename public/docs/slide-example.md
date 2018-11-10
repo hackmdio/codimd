@@ -1,4 +1,5 @@
 ---
+type: slide
 slideOptions:
   transition: slide
 ---
