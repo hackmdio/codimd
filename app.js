@@ -178,6 +178,7 @@ app.set('view engine', 'ejs')
 // set generally available variables for all views
 app.locals.useCDN = config.useCDN
 app.locals.serverURL = config.serverURL
+app.locals.sourceURL = config.sourceURL
 app.locals.allowAnonymous = config.allowAnonymous
 app.locals.allowAnonymousEdits = config.allowAnonymousEdits
 app.locals.allowPDFExport = config.allowPDFExport
