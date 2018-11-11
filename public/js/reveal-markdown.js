@@ -1,6 +1,6 @@
 /* eslint-env browser, jquery */
 
-import { preventXSS } from './render'
+import { preventXSS, escapeAttrValue } from './render'
 import { md } from './extra'
 
 /**
@@ -259,7 +259,7 @@ import { md } from './extra'
       while ((matchesClass = mardownClassRegex.exec(classes))) {
         var name = matchesClass[1]
         var value = matchesClass[2]
-        if (name.substr(0, 5) === 'data-' || window.whiteListAttr.indexOf(name) !== -1) { elementTarget.setAttribute(name, window.filterXSS.escapeAttrValue(value)) }
+        if (name.substr(0, 5) === 'data-' || window.whiteListAttr.indexOf(name) !== -1) { elementTarget.setAttribute(name, escapeAttrValue(value)) }
       }
       return true
     }
