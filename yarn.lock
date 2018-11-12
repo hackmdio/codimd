@@ -716,10 +716,10 @@ autolinker@~0.15.0:
   resolved "https://registry.yarnpkg.com/autolinker/-/autolinker-0.15.3.tgz#342417d8f2f3461b14cf09088d5edf8791dc9832"
   integrity sha1-NCQX2PLzRhsUzwkIjV7fh5HcmDI=
 
-aws-sdk@^2.7.20:
-  version "2.266.1"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.266.1.tgz#1d0f14cbf82c95cec97752cd5b00df0315a67ff4"
-  integrity sha512-b8lisloCETh0Fx0il540i+Hbgf3hyegQ6ezoJFggfc1HIbqzvIjVJYJhOsYl1fL1o+iMUaVU4ZH8cSyoMFR2Tw==
+aws-sdk@^2.345.0:
+  version "2.353.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.353.0.tgz#3c809d2b02834d892a3f5c3f1171273b336e5692"
+  integrity sha512-c5MwJhfcHwA2lC1Wq9csQvP9gz8dVGpZ64s5j9f/sWY6eZiDCQ6OWjxj+VJfpnCmfxyC/pdZO7JDGwems7dqIQ==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -729,7 +729,7 @@ aws-sdk@^2.7.20:
     sax "1.2.1"
     url "0.10.3"
     uuid "3.1.0"
-    xml2js "0.4.17"
+    xml2js "0.4.19"
 
 aws-sign2@~0.6.0:
   version "0.6.0"
@@ -7883,11 +7883,12 @@ passport-oauth@^1.0.0:
     passport-oauth1 "1.x.x"
     passport-oauth2 "1.x.x"
 
-passport-saml@^0.31.0:
-  version "0.31.0"
-  resolved "https://registry.yarnpkg.com/passport-saml/-/passport-saml-0.31.0.tgz#e4d654cab30f018bfd39056efe7bcfa770aab463"
-  integrity sha1-5NZUyrMPAYv9OQVu/nvPp3CqtGM=
+passport-saml@^0.35.0:
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/passport-saml/-/passport-saml-0.35.0.tgz#06a4952bde9e003923e80efa5c6faffcf7d4f7e0"
+  integrity sha512-WvLhFeMhAy9GaJvuORR2M6NiW0L9KxSlQRbiTajHBJRMziJ/Yg7uZosrwpoDwhztYaB8PpG0tCuMRG43WWYoCQ==
   dependencies:
+    debug "^3.1.0"
     passport-strategy "*"
     q "^1.5.0"
     xml-crypto "^0.10.1"
@@ -9184,7 +9185,7 @@ request@2.x, request@^2.40.0, request@^2.79.0, request@^2.81.0, request@^2.86.0:
     tunnel-agent "^0.6.0"
     uuid "^3.1.0"
 
-request@^2.61.0:
+request@^2.61.0, request@^2.88.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==
@@ -11402,15 +11403,7 @@ xml2js@0.2.8:
   dependencies:
     sax "0.5.x"
 
-xml2js@0.4.17:
-  version "0.4.17"
-  resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.17.tgz#17be93eaae3f3b779359c795b419705a8817e868"
-  integrity sha1-F76T6q4/O3eTWceVtBlwWogX6Gg=
-  dependencies:
-    sax ">=0.6.0"
-    xmlbuilder "^4.1.0"
-
-xml2js@0.4.x, xml2js@^0.4.15:
+xml2js@0.4.19, xml2js@0.4.x, xml2js@^0.4.15:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.19.tgz#686c20f213209e94abf0d1bcf1efaa291c7827a7"
   integrity sha512-esZnJZJOiJR9wWKMyuvSE1y6Dq5LCuJanqhxslH2bxM6duahNZ+HMpCLhBQGZkbX6xRf8x1Y2eJlgt2q3qo49Q==
@@ -11427,13 +11420,6 @@ xmlbuilder@0.4.3:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-0.4.3.tgz#c4614ba74e0ad196e609c9272cd9e1ddb28a8a58"
   integrity sha1-xGFLp04K0ZbmCcknLNnh3bKKilg=
-
-xmlbuilder@^4.1.0:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-4.2.1.tgz#aa58a3041a066f90eaa16c2f5389ff19f3f461a5"
-  integrity sha1-qlijBBoGb5DqoWwvU4n/GfP0YaU=
-  dependencies:
-    lodash "^4.0.0"
 
 xmlbuilder@^9.0.4, xmlbuilder@~9.0.1:
   version "9.0.7"
