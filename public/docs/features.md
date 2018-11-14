@@ -72,8 +72,10 @@ Notes can be embedded as follows:
 
 ## [Slide Mode](./slide-example):
 You can use a special syntax to organize your note into slides.
-After that, you can use the **Slide Mode** <i class="fa fa-tv"></i> to make a presentation.
+After that, you can use the **[Slide Mode](./slide-example)** <i class="fa fa-tv"></i> to make a presentation.
 Visit the above link for details.
+
+To switch the editor into slide mode, set the [document type](./yaml-metadata#type) to `slide`.
 
 View
 ===
