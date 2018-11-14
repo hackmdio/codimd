@@ -6,6 +6,7 @@
         }
     },
     "development": {
+        "loglevel": "debug",
         "hsts": {
             "enable": false
         },
@@ -16,6 +17,7 @@
     },
     "production": {
         "domain": "localhost",
+        "loglevel": "info"
         "hsts": {
             "enable": true,
             "maxAgeSeconds": "31536000",
