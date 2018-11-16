@@ -2511,7 +2511,9 @@ function buildCursor (user) {
 // editor actions
 function removeNullByte (cm, change) {
   var str = change.text.join('\n')
+  // eslint-disable-next-line no-control-regex
   if (/\u0000/g.test(str) && change.update) {
+    // eslint-disable-next-line no-control-regex
     change.update(change.from, change.to, str.replace(/\u0000/g, '').split('\n'))
   }
 }
@@ -3046,7 +3048,7 @@ function checkInCode () {
 function checkAbove (method) {
   var cursor = editor.getCursor()
   var text = []
-  for (var i = 0; i < cursor.line; i++) {  // contain current line
+  for (var i = 0; i < cursor.line; i++) { // contain current line
     text.push(editor.getLine(i))
   }
   text = text.join('\n') + '\n' + editor.getLine(cursor.line).slice(0, cursor.ch)

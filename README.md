@@ -1,8 +1,6 @@
 CodiMD
 ===
 
-[![Standard - JavaScript Style Guide][standardjs-image]][standardjs-url]
-
 [![#CodiMD on matrix.org][matrix.org-image]][matrix.org-url]
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
@@ -373,7 +371,5 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 [travis-url]: https://travis-ci.org/hackmdio/codimd
 [github-version-badge]: https://img.shields.io/github/release/hackmdio/codimd.svg
 [github-release-page]: https://github.com/hackmdio/codimd/releases
-[standardjs-image]: https://cdn.rawgit.com/feross/standard/master/badge.svg
-[standardjs-url]: https://github.com/feross/standard
 [poeditor-image]: https://img.shields.io/badge/POEditor-translate-blue.svg
 [poeditor-url]: https://poeditor.com/join/project/1OpGjF2Jir
