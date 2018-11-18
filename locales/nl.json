@@ -16,7 +16,7 @@
         "History": "Geschiedenis"
     },
     "Button on the main page to create a new note as guest": {
-        "New guest note": "Nieuwe gast notitie"
+        "New guest note": "Nieuwe gastnotitie"
     },
     "Little text to illustrate some of our features on the index page. Also links to the share-notes section on the features page": {
         "Collaborate with URL": "Samenwerken met URL"
@@ -25,10 +25,10 @@
         "Support charts and MathJax": "Ondersteun grafieken en MathJax"
     },
     "Shows that CodiMD has a slide mode feature and links to the Slide-mode section of the features page": {
-        "Support slide mode": "Ondersteun slide mode"
+        "Support slide mode": "Ondersteun presentatiemodus"
     },
     "Login button on the index page": {
-        "Sign In": "Log in"
+        "Sign In": "Inloggen"
     },
     "Shows up on the history page for non-logged in users": {
         "Below is the history from browser": "Hier onder staat de browser geschiedenis"
@@ -40,7 +40,7 @@
         "or": "of"
     },
     "Log out string on the index page. In the drop-down menu for the user name.": {
-        "Sign Out": "Log uit"
+        "Sign Out": "Uitloggen"
     },
     "Text in the button that links to the features page": {
         "Explore all features": "Ontdek alle features"
@@ -67,8 +67,12 @@
     "Import from browser": "Importeer van browser",
     "Releases": "Releases",
     "Are you sure?": "Weet je het zeker?",
-    "Do you really want to delete this note?": "Will je deze notitie echt verwijderen?",
-    "All users will lose their connection.": "Alle gebruikers zullen hun verbinding verliezen.",
+    "Modal title for the note deletion. This will show up as soon as a user asks selects the note deletion option on the codimd view.": {
+        "Do you really want to delete this note?": "Will je deze notitie echt verwijderen?"
+    },
+    "Additional information when a user wants to deletes his notes. All users who are working on a note that is going to be deleted, will get disconnected from the collaborative session.": {
+        "All users will lose their connection.": "Alle gebruikers zullen hun verbinding verliezen."
+    },
     "Cancel": "Stoppen",
     "Yes, do it!": "Ja, doe het!",
     "Choose method": "Kies methode",
@@ -77,7 +81,7 @@
     "Publish": "Publiceren",
     "Extra": "Extra",
     "Revision": "Versie",
-    "Slide Mode": "Slide Mode",
+    "Slide Mode": "Presentatiemodus",
     "Export": "Exporteren",
     "Import": "Importeren",
     "Clipboard": "Kladbord",
@@ -100,13 +104,15 @@
     "Refresh": "Ververs",
     "Contacts": "Contacten",
     "Report an issue": "Probleem rapporteren",
-    "Meet us on %s": "Ontmoet ons op %s",
+    "Used in the help modal to let people find us on platforms like Matrix. Links to the messenger and hopefully empowers people to work with us.": {
+        "Meet us on %s": "Ontmoet ons op %s"
+    },
     "Send us email": "Stuur ons een mail",
     "Documents": "Documenten",
     "Features": "Features",
     "YAML Metadata": "YAML Metadata",
     "Slide Example": "Slide Voorbeeld",
-    "Cheatsheet": "Afkijkblad",
+    "Cheatsheet": "Spiekbrief",
     "Example": "Voorbeeld",
     "Syntax": "Syntax",
     "Header": "Koptekst",
@@ -174,6 +180,6 @@
         "Help us translating on %s": "Help ons vertalen op %s"
     },
     "Link besides the \"Release\" and possible \"Privacy policies\" at the bottom of the index page that points to the source code of the CodiMD version you are using.": {
-        "Source Code": ""
+        "Source Code": "Broncode"
     }
 }
