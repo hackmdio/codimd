@@ -1,109 +1,185 @@
 {
-	"Collaborative markdown notes": "Markdown 协作笔记",
-	"Realtime collaborative markdown notes on all platforms.": "使用 Markdown 的跨平台即时协作笔记",
-	"Best way to write and share your knowledge in markdown.": "您使用 Markdown 写作与分享知识的最佳方式",
-	"Intro": "简介",
-	"History": "历史",
-	"New guest note": "建立访客笔记",
-	"Collaborate with URL": "使用网址协作",
-	"Support charts and MathJax": "支持图表与 MathJax",
-	"Support slide mode": "支持简报模式",
-	"Sign In": "登录",
-	"Below is the history from browser": "以下为来自浏览器的历史",
-	"Welcome!": "欢迎！",
-	"New note": "建立笔记",
-	"or": "或",
-	"Sign Out": "登出",
-	"Explore all features": "探索所有功能",
-	"Select tags...": "选择标签...",
-	"Search keyword...": "搜索关键字...",
-	"Sort by title": "用标题排序",
-	"Title": "标题",
-	"Sort by time": "用时间排序",
-	"Time": "时间",
-	"Export history": "导出历史",
-	"Import history": "导入历史",
-	"Clear history": "清空历史",
-	"Refresh history": "刷新历史",
-	"No history": "没有历史",
-	"Import from browser": "从浏览器导入",
-	"Releases": "版本",
-	"Are you sure?": "你确定吗？",
-	"Cancel": "取消",
-	"Yes, do it!": "没错，就这样办！",
-	"Choose method": "选择方式",
-	"Sign in via %s": "通过 %s 登录",
-	"New": "新增",
-	"Publish": "发表",
-	"Extra": "增益",
-	"Revision": "修订版本",
-	"Slide Mode": "简报模式",
-	"Export": "导出",
-	"Import": "导入",
-	"Clipboard": "剪贴板",
-	"Download": "下载",
-	"Raw HTML": "纯 HTML",
-	"Edit": "编辑",
-	"View": "检视",
-	"Both": "双栏",
-	"Help": "帮助",
-	"Upload Image": "上传图片",
-	"Menu": "菜单",
-	"This page need refresh": "此页面需要重新整理",
-	"You have an incompatible client version.": "您使用的是不相容的客户端",
-	"Refresh to update.": "请重新整理来更新",
-	"New version available!": "新版本来了！",
-	"See releases notes here": "请由此查阅更新纪录",
-	"Refresh to enjoy new features.": "请重新整理来享受最新功能",
-	"Your user state has changed.": "您的使用者状态已变更",
-	"Refresh to load new user state.": "请重新整理来载入新的使用者状态",
-	"Refresh": "重新整理",
-	"Contacts": "联络方式",
-	"Report an issue": "报告问题",
-	"Meet us on %s": "在 %s 上联系我们",
-	"Send us email": "寄信给我们",
-	"Documents": "文件",
-	"Features": "功能简介",
-	"YAML Metadata": "YAML Metadata",
-	"Slide Example": "简报范例",
-	"Cheatsheet": "快速简表",
-	"Example": "范例",
-	"Syntax": "语法",
-	"Header": "标题",
-	"Unordered List": "无序清单",
-	"Ordered List": "有序清单",
-	"Todo List": "待办事项",
-	"Blockquote": "引用",
-	"Bold font": "粗体",
-	"Italics font": "斜体",
-	"Strikethrough": "删除线",
-	"Inserted text": "插入文字",
-	"Marked text": "标记文字",
-	"Link": "链接",
-	"Image": "图片",
-	"Code": "代码",
-	"Externals": "外部",
-	"This is a alert area.": "这是警告区块",
-	"Revert": "还原",
-	"Import from clipboard": "从剪贴板导入",
-	"Paste your markdown or webpage here...": "在这里贴上 Markdown 或是网页内容...",
-	"Clear": "清除",
-	"This note is locked": "此份笔记已被锁定",
-	"Sorry, only owner can edit this note.": "抱歉，只有拥有者可以编辑此笔记",
-	"OK": "好的",
-	"Reach the limit": "到达上限",
-	"Sorry, you've reached the max length this note can be.": "抱歉，您已使用到此份笔记可用的最大长度",
-	"Please reduce the content or divide it to more notes, thank you!": "请减少内容或是将内容切成更多笔记，谢谢！",
-	"Import from Gist": "从 Gist 导入",
-	"Paste your gist url here...": "在这里贴上 gist 网址...",
-	"Import from Snippet": "从 Snippet 导入",
-	"Select From Available Projects": "从可用的项目中选择",
-	"Select From Available Snippets": "从可用的 Snippets 中选择",
-	"OR": "或是",
-	"Export to Snippet": "导出到 Snippet",
-	"Select Visibility Level": "选择可见层级",
-	"Night Theme": "夜间主题",
-	"Do you really want to delete this note?": "确定要删除这个文件吗？",
-	"All users will lose their connection.": "所有用户将失去连接",
-	"Follow us on %s and %s.": "在%s和%s上关注我们"
+    "Used in the title of every note that has no title set.": {
+        "Collaborative markdown notes": "Markdown 协作笔记"
+    },
+    "Not used right now.": {
+        "Realtime collaborative markdown notes on all platforms.": "使用 Markdown 的跨平台即时协作笔记",
+        "Welcome!": "欢迎！"
+    },
+    "Subtitle on the entry page. Used to tell what CodiMD is.": {
+        "Best way to write and share your knowledge in markdown.": "您使用 Markdown 写作与分享知识的最佳方式"
+    },
+    "Name of the menu item on the index page. It's the default tab for unauthenticated users.": {
+        "Intro": "简介"
+    },
+    "Name of the tab that shows the user's note history. Default page for logged in users": {
+        "History": "历史"
+    },
+    "Button on the main page to create a new note as guest": {
+        "New guest note": "建立访客笔记"
+    },
+    "Little text to illustrate some of our features on the index page. Also links to the share-notes section on the features page": {
+        "Collaborate with URL": "使用网址协作"
+    },
+    "Little text to illustrate the mathjax feature of CodiMD. Also links to the MathJax section of the features page": {
+        "Support charts and MathJax": "支持图表与 MathJax"
+    },
+    "Shows that CodiMD has a slide mode feature and links to the Slide-mode section of the features page": {
+        "Support slide mode": "支持简报模式"
+    },
+    "Login button on the index page": {
+        "Sign In": "登录"
+    },
+    "Shows up on the history page for non-logged in users": {
+        "Below is the history from browser": "以下为来自浏览器的历史"
+    },
+    "New note\"-button on the index page for logged in users": {
+        "New note": "建立笔记"
+    },
+    "Used on the index page for not logged in users to split the \"sign in\" and \"Explore all features\" button.": {
+        "or": "或"
+    },
+    "Log out string on the index page. In the drop-down menu for the user name.": {
+        "Sign Out": "登出"
+    },
+    "Text in the button that links to the features page": {
+        "Explore all features": "探索所有功能"
+    },
+    "Placeholder text in the search field for tags on the history tab on the index page": {
+        "Select tags...": "选择标签..."
+    },
+    "placeholder text in the search field for keywords on the history tab on the index page": {
+        "Search keyword...": "搜索关键字..."
+    },
+    "Help text for the \"Title\"-button on the history tab on the index page.": {
+        "Sort by title": "用标题排序"
+    },
+    "Text to sort notes by title on the history tab on the index page.": {
+        "Title": "标题"
+    },
+    "Sort by time": "用时间排序",
+    "Time": "时间",
+    "Export history": "导出历史",
+    "Import history": "导入历史",
+    "Clear history": "清空历史",
+    "Refresh history": "刷新历史",
+    "No history": "没有历史",
+    "Import from browser": "从浏览器导入",
+    "Releases": "版本",
+    "Are you sure?": "你确定吗？",
+    "Modal title for the note deletion. This will show up as soon as a user asks selects the note deletion option on the codimd view.": {
+        "Do you really want to delete this note?": "确定要删除这个文件吗？"
+    },
+    "Additional information when a user wants to deletes his notes. All users who are working on a note that is going to be deleted, will get disconnected from the collaborative session.": {
+        "All users will lose their connection.": "所有用户将失去连接"
+    },
+    "Cancel": "取消",
+    "Yes, do it!": "没错，就这样办！",
+    "Choose method": "选择方式",
+    "Sign in via %s": "通过 %s 登录",
+    "New": "新增",
+    "Publish": "发表",
+    "Extra": "增益",
+    "Revision": "修订版本",
+    "Slide Mode": "简报模式",
+    "Export": "导出",
+    "Import": "导入",
+    "Clipboard": "剪贴板",
+    "Download": "下载",
+    "Raw HTML": "纯 HTML",
+    "Edit": "编辑",
+    "View": "检视",
+    "Both": "双栏",
+    "Help": "帮助",
+    "Upload Image": "上传图片",
+    "Menu": "菜单",
+    "This page need refresh": "此页面需要重新整理",
+    "You have an incompatible client version.": "您使用的是不相容的客户端",
+    "Refresh to update.": "请重新整理来更新",
+    "New version available!": "新版本来了！",
+    "See releases notes here": "请由此查阅更新纪录",
+    "Refresh to enjoy new features.": "请重新整理来享受最新功能",
+    "Your user state has changed.": "您的使用者状态已变更",
+    "Refresh to load new user state.": "请重新整理来载入新的使用者状态",
+    "Refresh": "重新整理",
+    "Contacts": "联络方式",
+    "Report an issue": "报告问题",
+    "Used in the help modal to let people find us on platforms like Matrix. Links to the messenger and hopefully empowers people to work with us.": {
+        "Meet us on %s": "在 %s 上联系我们"
+    },
+    "Send us email": "寄信给我们",
+    "Documents": "文件",
+    "Features": "功能简介",
+    "YAML Metadata": "YAML Metadata",
+    "Slide Example": "简报范例",
+    "Cheatsheet": "快速简表",
+    "Example": "范例",
+    "Syntax": "语法",
+    "Header": "标题",
+    "Unordered List": "无序清单",
+    "Ordered List": "有序清单",
+    "Todo List": "待办事项",
+    "Blockquote": "引用",
+    "Bold font": "粗体",
+    "Italics font": "斜体",
+    "Strikethrough": "删除线",
+    "Inserted text": "插入文字",
+    "Marked text": "标记文字",
+    "Link": "链接",
+    "Image": "图片",
+    "Code": "代码",
+    "Externals": "外部",
+    "This is a alert area.": "这是警告区块",
+    "Revert": "还原",
+    "Import from clipboard": "从剪贴板导入",
+    "Paste your markdown or webpage here...": "在这里贴上 Markdown 或是网页内容...",
+    "Clear": "清除",
+    "This note is locked": "此份笔记已被锁定",
+    "Sorry, only owner can edit this note.": "抱歉，只有拥有者可以编辑此笔记",
+    "OK": "好的",
+    "Reach the limit": "到达上限",
+    "Sorry, you've reached the max length this note can be.": "抱歉，您已使用到此份笔记可用的最大长度",
+    "Please reduce the content or divide it to more notes, thank you!": "请减少内容或是将内容切成更多笔记，谢谢！",
+    "Import from Gist": "从 Gist 导入",
+    "Paste your gist url here...": "在这里贴上 gist 网址...",
+    "Import from Snippet": "从 Snippet 导入",
+    "Select From Available Projects": "从可用的项目中选择",
+    "Select From Available Snippets": "从可用的 Snippets 中选择",
+    "OR": "或是",
+    "Used in the drop-down menu in the codimd view. Allows to export notes to GitLab Snippets.": {
+        "Export to Snippet": "导出到 Snippet"
+    },
+    "Used in the GitLab snippet export and import menu in the codimd view.": {
+        "Select Visibility Level": "选择可见层级"
+    },
+    "Addtional text that shows up by hovering over the night mode button in the codimd view. Should explain what the moon sign at the top does.": {
+        "Night Theme": "夜间主题"
+    },
+    "Text at the bottom of the index page. Contains 3 links to github, Matrix and POEditor.\n\nLike: \"Follow us on Github, Matrix and POEditor.": {
+        "Follow us on %s and %s.": "在%s和%s上关注我们"
+    },
+    "Optional text at the bottom of the index page linking to the privacy policy of an instance.": {
+        "Privacy": "隐私政策"
+    },
+    "Optional text at the bottom of the index page linking to the Terms of Use document provided by the instance.": {
+        "Terms of Use": "使用条款"
+    },
+    "Used as title of the modal that asks the user that he/she is really sure about deleting his/her account.": {
+        "Do you really want to delete your user account?": "你确定真的想要删除帐户？"
+    },
+    "Used in a modal that shows up as soon as the user clicks on the \"Delete user\"-button in the user drop-down menu. Should make clear that everything the user owns or references to the user will be deleted and can not be recovered.": {
+        "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.": "我们将会删除你的帐户、你所拥有的笔记、以及你在别人笔记里的作者纪录。"
+    },
+    "Used in the user drop-down menu on the index page. Opens a modal that informs the user that his account will be deleted completely and makes sure the user really want that. Then deletes the account including all notes a user owns.": {
+        "Delete user": "删除帐户"
+    },
+    "Used in the user drop-down menu on the index page. Generates an archive of all notes a user owns and downloads them.": {
+        "Export user data": "汇出使用者资料"
+    },
+    "Used in the sidebar of the help modal. Links to POEditor, our translation platform.": {
+        "Help us translating on %s": "来 %s 帮我们翻译"
+    },
+    "Link besides the \"Release\" and possible \"Privacy policies\" at the bottom of the index page that points to the source code of the CodiMD version you are using.": {
+        "Source Code": "源码"
+    }
 }
