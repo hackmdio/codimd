@@ -1,24 +1,62 @@
 {
-    "Collaborative markdown notes": "Notes collaboratives en markdown",
-    "Realtime collaborative markdown notes on all platforms.": "Notes en markdown collaboratives en temps réel sur toutes les plateformes.",
-    "Best way to write and share your knowledge in markdown.": "Le meilleur moyen d'écrire et partager votre savoir en markdown.",
-    "Intro": "Intro",
-    "History": "Historique",
-    "New guest note": "Nouvelle note invité",
-    "Collaborate with URL": "Collaborez avec l'URL",
-    "Support charts and MathJax": "Supporte les graphiques et MathJax",
-    "Support slide mode": "Supporte le mode présentation",
-    "Sign In": "Se connecter",
-    "Below is the history from browser": "Ci-dessous, l'historique du navigateur",
-    "Welcome!": "Bienvenue !",
-    "New note": "Nouvelle note",
-    "or": "ou",
-    "Sign Out": "Se déconnecter",
-    "Explore all features": "Explorer toutes les fonctionnalités",
-    "Select tags...": "Selectionner les tags...",
-    "Search keyword...": "Chercher un mot-clef...",
-    "Sort by title": "Trier par titre",
-    "Title": "Titre",
+    "Used in the title of every note that has no title set.": {
+        "Collaborative markdown notes": "Notes collaboratives en markdown"
+    },
+    "Not used right now.": {
+        "Realtime collaborative markdown notes on all platforms.": "Notes en markdown collaboratives en temps réel sur toutes les plateformes.",
+        "Welcome!": "Bienvenue !"
+    },
+    "Subtitle on the entry page. Used to tell what CodiMD is.": {
+        "Best way to write and share your knowledge in markdown.": "Le meilleur moyen d'écrire et partager votre savoir en markdown."
+    },
+    "Name of the menu item on the index page. It's the default tab for unauthenticated users.": {
+        "Intro": "Intro"
+    },
+    "Name of the tab that shows the user's note history. Default page for logged in users": {
+        "History": "Historique"
+    },
+    "Button on the main page to create a new note as guest": {
+        "New guest note": "Nouvelle note invité"
+    },
+    "Little text to illustrate some of our features on the index page. Also links to the share-notes section on the features page": {
+        "Collaborate with URL": "Collaborez avec l'URL"
+    },
+    "Little text to illustrate the mathjax feature of CodiMD. Also links to the MathJax section of the features page": {
+        "Support charts and MathJax": "Supporte les graphiques et MathJax"
+    },
+    "Shows that CodiMD has a slide mode feature and links to the Slide-mode section of the features page": {
+        "Support slide mode": "Supporte le mode présentation"
+    },
+    "Login button on the index page": {
+        "Sign In": "Se connecter"
+    },
+    "Shows up on the history page for non-logged in users": {
+        "Below is the history from browser": "Ci-dessous, l'historique du navigateur"
+    },
+    "New note\"-button on the index page for logged in users": {
+        "New note": "Nouvelle note"
+    },
+    "Used on the index page for not logged in users to split the \"sign in\" and \"Explore all features\" button.": {
+        "or": "ou"
+    },
+    "Log out string on the index page. In the drop-down menu for the user name.": {
+        "Sign Out": "Se déconnecter"
+    },
+    "Text in the button that links to the features page": {
+        "Explore all features": "Explorer toutes les fonctionnalités"
+    },
+    "Placeholder text in the search field for tags on the history tab on the index page": {
+        "Select tags...": "Selectionner les tags..."
+    },
+    "placeholder text in the search field for keywords on the history tab on the index page": {
+        "Search keyword...": "Chercher un mot-clef..."
+    },
+    "Help text for the \"Title\"-button on the history tab on the index page.": {
+        "Sort by title": "Trier par titre"
+    },
+    "Text to sort notes by title on the history tab on the index page.": {
+        "Title": "Titre"
+    },
     "Sort by time": "Trier par date",
     "Time": "Date",
     "Export history": "Exporter l'historique",
@@ -29,8 +67,12 @@
     "Import from browser": "Importer depuis le navigateur",
     "Releases": "Versions",
     "Are you sure?": "Ëtes-vous sûr ?",
-    "Do you really want to delete this note?": "Voulez-vous vraiment supprimer cette note?",
-    "All users will lose their connection.": "Tous les utilisateurs perdront leur connexion.",
+    "Modal title for the note deletion. This will show up as soon as a user asks selects the note deletion option on the codimd view.": {
+        "Do you really want to delete this note?": "Voulez-vous vraiment supprimer cette note?"
+    },
+    "Additional information when a user wants to deletes his notes. All users who are working on a note that is going to be deleted, will get disconnected from the collaborative session.": {
+        "All users will lose their connection.": "Tous les utilisateurs perdront leur connexion."
+    },
     "Cancel": "Annuler",
     "Yes, do it!": "Oui, je suis sûr !",
     "Choose method": "Choisir la méthode",
@@ -62,7 +104,9 @@
     "Refresh": "Recharger",
     "Contacts": "Contacts",
     "Report an issue": "Signaler un problème",
-    "Meet us on %s": "Rencontrez-nous sur  %s",
+    "Used in the help modal to let people find us on platforms like Matrix. Links to the messenger and hopefully empowers people to work with us.": {
+        "Meet us on %s": "Rencontrez-nous sur  %s"
+    },
     "Send us email": "Envoyez-nous un mail",
     "Documents": "Documents",
     "Features": "Fonctionnalités",
@@ -102,15 +146,40 @@
     "Select From Available Projects": "Sélectionner depuis les projets disponibles",
     "Select From Available Snippets": "Sélectionner depuis les Snippets disponibles",
     "OR": "OU",
-    "Export to Snippet": "Exporter vers Snippet",
-    "Select Visibility Level": "Sélectionner le niveau de visibilité",
-    "Night Theme": "Theme Nuit",
-    "Follow us on %s and %s.": "Suivez-nous sur %s, et %s.",
-    "Privacy": "Confidentialité",
-    "Terms of Use": "Conditions d'utilisation",
-    "Do you really want to delete your user account?": "Voulez-vous vraiment supprimer votre compte utilisateur",
-    "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.": "Cela supprimera votre compte, toutes les notes dont vous êtes propriétaire et supprimera toute référence à votre compte dans les autres notes.",
-    "Delete user": "Suprrimez l'utilisteur",
-    "Export user data": "Exportez les données utilisateur",
-    "Help us translating on %s": ""
+    "Used in the drop-down menu in the codimd view. Allows to export notes to GitLab Snippets.": {
+        "Export to Snippet": "Exporter vers Snippet"
+    },
+    "Used in the GitLab snippet export and import menu in the codimd view.": {
+        "Select Visibility Level": "Sélectionner le niveau de visibilité"
+    },
+    "Addtional text that shows up by hovering over the night mode button in the codimd view. Should explain what the moon sign at the top does.": {
+        "Night Theme": "Theme Nuit"
+    },
+    "Text at the bottom of the index page. Contains 3 links to github, Matrix and POEditor.\n\nLike: \"Follow us on Github, Matrix and POEditor.": {
+        "Follow us on %s and %s.": "Suivez-nous sur %s, et %s."
+    },
+    "Optional text at the bottom of the index page linking to the privacy policy of an instance.": {
+        "Privacy": "Confidentialité"
+    },
+    "Optional text at the bottom of the index page linking to the Terms of Use document provided by the instance.": {
+        "Terms of Use": "Conditions d'utilisation"
+    },
+    "Used as title of the modal that asks the user that he/she is really sure about deleting his/her account.": {
+        "Do you really want to delete your user account?": "Voulez-vous vraiment supprimer votre compte utilisateur"
+    },
+    "Used in a modal that shows up as soon as the user clicks on the \"Delete user\"-button in the user drop-down menu. Should make clear that everything the user owns or references to the user will be deleted and can not be recovered.": {
+        "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.": "Cela supprimera votre compte, toutes les notes dont vous êtes propriétaire et supprimera toute référence à votre compte dans les autres notes."
+    },
+    "Used in the user drop-down menu on the index page. Opens a modal that informs the user that his account will be deleted completely and makes sure the user really want that. Then deletes the account including all notes a user owns.": {
+        "Delete user": "Suprrimez l'utilisteur"
+    },
+    "Used in the user drop-down menu on the index page. Generates an archive of all notes a user owns and downloads them.": {
+        "Export user data": "Exportez les données utilisateur"
+    },
+    "Used in the sidebar of the help modal. Links to POEditor, our translation platform.": {
+        "Help us translating on %s": "Aidez nous à traduire sur %s"
+    },
+    "Link besides the \"Release\" and possible \"Privacy policies\" at the bottom of the index page that points to the source code of the CodiMD version you are using.": {
+        "Source Code": "Code source"
+    }
 }
