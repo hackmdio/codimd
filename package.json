@@ -135,7 +135,7 @@
     "xss": "^1.0.3"
   },
   "engines": {
-    "node": ">=6.x <10.x"
+    "node": ">=6.x"
   },
   "bugs": "https://github.com/hackmdio/codimd/issues",
   "keywords": [
