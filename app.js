@@ -83,7 +83,7 @@ app.use(compression())
 // use hsts to tell https users stick to this
 if (config.hsts.enable) {
   app.use(helmet.hsts({
-    maxAge: config.hsts.maxAgeSeconds * 1000,
+    maxAge: config.hsts.maxAgeSeconds,
     includeSubdomains: config.hsts.includeSubdomains,
     preload: config.hsts.preload
   }))
