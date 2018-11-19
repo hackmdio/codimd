@@ -846,11 +846,13 @@ const linkifyAnchors = (level, containingElement) => {
     let header = headers[i]
     if (header.getElementsByClassName('anchor').length === 0) {
       if (typeof header.id === 'undefined' || header.id === '') {
-                // to escape characters not allow in css and humanize
+        // to escape characters not allow in css and humanize
         const id = slugifyWithUTF8(getHeaderContent(header))
         header.id = id
       }
-      header.insertBefore(anchorForId(header.id), header.firstChild)
+      if (!(typeof header.id === 'undefined' || header.id === '')) {
+        header.insertBefore(anchorForId(header.id), header.firstChild)
+      }
     }
   }
 }

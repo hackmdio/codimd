@@ -2786,6 +2786,7 @@ function updateViewInner () {
   renderTOC(ui.area.markdown)
   generateToc('ui-toc')
   generateToc('ui-toc-affix')
+  autoLinkify(ui.area.markdown)
   generateScrollspy()
   updateScrollspy()
   smoothHashScroll()
