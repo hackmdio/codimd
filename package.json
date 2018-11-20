@@ -111,7 +111,7 @@
     "readline-sync": "^1.4.7",
     "request": "^2.88.0",
     "reveal.js": "~3.7.0",
-    "scrypt": "^6.0.3",
+    "@mlink/scrypt": "^6.1.2",
     "select2": "^3.5.2-browserify",
     "sequelize": "^3.28.0",
     "sequelize-cli": "^2.5.1",
