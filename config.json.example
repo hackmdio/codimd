@@ -17,7 +17,7 @@
     },
     "production": {
         "domain": "localhost",
-        "loglevel": "info"
+        "loglevel": "info",
         "hsts": {
             "enable": true,
             "maxAgeSeconds": "31536000",
