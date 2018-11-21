@@ -12,7 +12,7 @@ require('../css/site.css')
 
 require('highlight.js/styles/github-gist.css')
 
-import toMarkdown from 'to-markdown'
+import TurndownService from 'turndown'
 
 import { saveAs } from 'file-saver'
 import randomColor from 'randomcolor'
@@ -1498,7 +1498,12 @@ $('#snippetExportModalConfirm').click(function () {
 })
 
 function parseToEditor (data) {
-  var parsed = toMarkdown(data)
+  var turndownService = new TurndownService({
+    defaultReplacement: function (innerHTML, node) {
+      return node.isBlock ? '\n\n' + node.outerHTML + '\n\n' : node.outerHTML
+    }
+  })
+  var parsed = turndownService.turndown(data)
   if (parsed) { replaceAll(parsed) }
 }
 
