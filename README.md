@@ -106,6 +106,10 @@ For all further details, please check out the offical CodiMD  [K8s helm chart](h
 
 [![latest](https://images.microbadger.com/badges/version/hackmdio/hackmd:latest.svg)](https://microbadger.com/images/hackmdio/hackmd "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd:latest.svg)](https://microbadger.com/images/hackmdio/hackmd "Get your own image badge on microbadger.com")
 
+**YunoHost version:**
+
+[![latest](https://camo.githubusercontent.com/a657193184c779d657ef3f1e2834590d6615a950/68747470733a2f2f696e7374616c6c2d6170702e79756e6f686f73742e6f72672f696e7374616c6c2d776974682d79756e6f686f73742e706e67)](https://github.com/YunoHost-Apps/codimd_ynh "CodiMD app for YunoHost")
+
 
 **Alpine-based version:**
 
