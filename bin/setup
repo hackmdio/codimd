@@ -2,6 +2,8 @@
 
 set -e
 
+version_lt() { test "$(printf '%s\n' "$@" | { [ "$(uname)" = "Linux" ] && sort -V || sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n; } | tail -n 1)" != "$1"; }
+
 # run command at repo root
 CURRENT_PATH=$PWD
 if [ -d .git ]; then
@@ -16,7 +18,23 @@ Read more on Node.js official website: https://nodejs.org
 And for yarn package manager at: https://yarnpkg.com/en/
 Setup will not be run
 EOF
-  exit 0
+  exit 1
+fi
+
+if version_lt "$(yarn --version)" '1.3.2'; then
+  cat <<EOF
+Your yarn version is outdated. Please upgrade to a version
+newer than 1.3.2.
+EOF
+  exit 1
+fi
+
+if version_lt "$(node --version)" 'v6.0.0'; then
+  cat <<EOF
+Your node version is outdated. Please upgrade to version 6
+or higher. (Version 8 or higher is recommended)
+EOF
+  exit 1
 fi
 
 echo "copy config files"
