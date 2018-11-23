@@ -112,5 +112,6 @@
     "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.": "Questo cancellerà il tuo account, tutte le note di cui sei proprietario e rimuoverà i riferimenti al tuo account dalle altre note.",
     "Delete user": "Elimina utente",
     "Export user data": "Esporta dati utente",
-    "Help us translating on %s": "Aiutaci nella traduzione su %s"
+    "Help us translating on %s": "Aiutaci nella traduzione su %s",
+    "Source Code": "Codice Sorgente"
 }
