@@ -193,6 +193,7 @@ There are some config settings you need to change in the files below.
 | `CMD_DB_URL` | `mysql://localhost:3306/database` | set the database URL |
 | `CMD_SESSION_SECRET` | no example | Secret used to sign the session cookie. If non is set, one will randomly generated on startup |
 | `CMD_SESSION_LIFE` | `1209600000` | Session life time. (milliseconds) |
+| `CMD_TOOBUSY_LAG` | `70` | CPU time for one eventloop tick until node throttles connections. (milliseconds) |
 | `CMD_FACEBOOK_CLIENTID` | no example | Facebook API client id |
 | `CMD_FACEBOOK_CLIENTSECRET` | no example | Facebook API client secret |
 | `CMD_TWITTER_CONSUMERKEY` | no example | Twitter API consumer key |
@@ -304,6 +305,7 @@ There are some config settings you need to change in the files below.
 | `sessionName` | `connect.sid` | cookie session name |
 | `sessionSecret` | `secret` | cookie session secret |
 | `sessionLife` | `14 * 24 * 60 * 60 * 1000` | cookie session life |
+| `tooBusyLag` | `70` | CPU time for one eventloop tick until node throttles connections. (milliseconds) |
 | `staticCacheTime` | `1 * 24 * 60 * 60 * 1000` | static file cache time |
 | `heartbeatInterval` | `5000` | socket.io heartbeat interval |
 | `heartbeatTimeout` | `10000` | socket.io heartbeat timeout |
