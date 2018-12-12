@@ -225,6 +225,7 @@ There are some config settings you need to change in the files below.
 | `CMD_SAML_IDPCERT` | `/path/to/cert.pem` | certificate file path of IdP in PEM format |
 | `CMD_SAML_ISSUER` | no example | identity of the service provider (optional, default: serverurl)" |
 | `CMD_SAML_IDENTIFIERFORMAT` | no example | name identifier format (optional, default: `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress`) |
+| `CMD_SAML_DISABLEREQUESTEDAUTHNCONTEXT` | `true` or `false` | true to allow any authentication method, false restricts to password authentication (PasswordProtectedTransport) method (default: false) |
 | `CMD_SAML_GROUPATTRIBUTE` | `memberOf` | attribute name for group list (optional) |
 | `CMD_SAML_REQUIREDGROUPS` | `Hackmd-users` | group names that allowed (use vertical bar to separate) (optional) |
 | `CMD_SAML_EXTERNALGROUPS` | `Temporary-staff` | group names that not allowed (use vertical bar to separate) (optional) |
