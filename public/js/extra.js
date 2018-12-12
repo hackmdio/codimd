@@ -31,6 +31,8 @@ require('prismjs/components/prism-gherkin')
 require('./lib/common/login')
 require('../vendor/md-toc')
 var Viz = require('viz.js')
+const plantumlEncoder = require('plantuml-encoder')
+
 const ui = getUIElements()
 
 // auto update last change
@@ -970,10 +972,6 @@ md.use(require('markdown-it-emoji'), {
   shortcuts: {}
 })
 
-md.use(require('markdown-it-plantuml'), {
-  server: plantumlServer
-})
-
 window.emojify.setConfig({
   blacklist: {
     elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
@@ -1039,6 +1037,33 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
 
   return `<pre><code${self.renderAttrs(token)}>${highlighted}</code></pre>\n`
 }
+
+const makePlantumlURL = (umlCode) => {
+  let format = 'svg'
+  let code = plantumlEncoder.encode(umlCode)
+  return `${plantumlServer}/${format}/${code}`
+}
+
+// https://github.com/qjebbs/vscode-plantuml/tree/master/src/markdown-it-plantuml
+md.renderer.rules.plantuml = (tokens, idx) => {
+  let token = tokens[idx]
+  if (token.type !== 'plantuml') {
+    return tokens[idx].content
+  }
+
+  let url = makePlantumlURL(token.content)
+  return `<img src="${url}" />`
+}
+
+// https://github.com/qjebbs/vscode-plantuml/tree/master/src/markdown-it-plantuml
+md.core.ruler.push('plantuml', (state) => {
+  let blockTokens = state.tokens
+  for (let blockToken of blockTokens) {
+    if (blockToken.type === 'fence' && blockToken.info === 'plantuml') {
+      blockToken.type = 'plantuml'
+    }
+  }
+})
 
 // youtube
 const youtubePlugin = new Plugin(
