@@ -1,5 +1,5 @@
 /* eslint-env browser, jquery */
-/* global moment, serverurl */
+/* global moment, serverurl, plantumlServer */
 
 import Prism from 'prismjs'
 import hljs from 'highlight.js'
@@ -968,6 +968,10 @@ md.use(require('markdown-it-imsize'))
 
 md.use(require('markdown-it-emoji'), {
   shortcuts: {}
+})
+
+md.use(require('markdown-it-plantuml'), {
+  server: plantumlServer
 })
 
 window.emojify.setConfig({

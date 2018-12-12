@@ -7898,6 +7898,11 @@ markdown-it-mathjax@~2.0.0:
   resolved "https://registry.yarnpkg.com/markdown-it-mathjax/-/markdown-it-mathjax-2.0.0.tgz#ae2b4f4c5c719a03f9e475c664f7b2685231d9e9"
   integrity sha1-ritPTFxxmgP55HXGZPeyaFIx2ek=
 
+markdown-it-plantuml@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/markdown-it-plantuml/-/markdown-it-plantuml-1.4.1.tgz#3bd5e7d92eaa5c6c68eb29802f7b46a8e05ca998"
+  integrity sha512-13KgnZaGYTHBp4iUmGofzZSBz+Zj6cyqfR0SXUIc9wgWTto5Xhn7NjaXYxY0z7uBeTUMlc9LMQq5uP4OM5xCHg==
+
 markdown-it-regexp@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/markdown-it-regexp/-/markdown-it-regexp-0.4.0.tgz#d64d713eecec55ce4cfdeb321750ecc099e2c2dc"
