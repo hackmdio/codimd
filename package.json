@@ -5,7 +5,7 @@
   "main": "app.js",
   "license": "AGPL-3.0",
   "scripts": {
-    "test": "npm run-script eslint && npm run-script jsonlint",
+    "test": "npm run-script eslint && npm run-script jsonlint && mocha",
     "eslint": "node_modules/.bin/eslint lib public app.js",
     "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' -o -type f -name '*.json.example' | while read json; do echo $json ; jq . $json; done",
     "standard": "echo 'standard is no longer being used, use `npm run eslint` instead!' && exit 1",
@@ -184,6 +184,7 @@
     "less": "^2.7.1",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.4.1",
+    "mocha": "^5.2.0",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
     "script-loader": "^0.7.2",
     "string-loader": "^0.0.1",
