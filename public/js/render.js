@@ -45,7 +45,7 @@ var filterXSSOptions = {
     // allow comment tag
     if (tag === '!--') {
             // do not filter its attributes
-      return html
+      return html.replace(/<(?!!--)/g, '&lt;').replace(/-->/g, '__HTML_COMMENT_END__').replace(/>/g, '&gt;').replace(/__HTML_COMMENT_END__/g, '-->')
     }
   },
   onTagAttr: function (tag, name, value, isWhiteAttr) {
