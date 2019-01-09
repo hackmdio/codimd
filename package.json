@@ -97,7 +97,7 @@
     "passport-ldapauth": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-oauth2": "^1.4.0",
-    "passport-saml": "^0.35.0",
+    "passport-saml": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "passport.socketio": "^3.7.0",
     "pdfobject": "^2.0.201604172",
