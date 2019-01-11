@@ -24,7 +24,7 @@
     "azure-storage": "^2.7.0",
     "base64url": "^3.0.0",
     "body-parser": "^1.15.2",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.0",
     "bootstrap-validator": "^0.11.8",
     "chance": "^1.0.4",
     "cheerio": "^0.22.0",
