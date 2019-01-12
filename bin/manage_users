@@ -2,7 +2,7 @@
 
 // First configure the logger so it does not spam the console
 const logger = require("../lib/logger");
-logger.transports.console.level = "warning";
+logger.transports.forEach((transport) => transport.level = "warning")
 
 const models = require("../lib/models/");
 const readline = require("readline-sync");
