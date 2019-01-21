@@ -6,7 +6,7 @@
   "license": "AGPL-3.0",
   "scripts": {
     "test": "npm run-script eslint && npm run-script jsonlint && mocha",
-    "eslint": "node_modules/.bin/eslint lib public app.js",
+    "eslint": "node_modules/.bin/eslint lib public test app.js",
     "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' -o -type f -name '*.json.example' | while read json; do echo $json ; jq . $json; done",
     "standard": "echo 'standard is no longer being used, use `npm run eslint` instead!' && exit 1",
     "dev": "webpack --config webpack.dev.js --progress --colors --watch",
