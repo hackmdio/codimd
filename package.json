@@ -132,6 +132,9 @@
     "ws": "^6.0.0",
     "xss": "^1.0.3"
   },
+  "resolutions": {
+    "**/tough-cookie": "~2.4.0"
+  },
   "engines": {
     "node": ">=6.x"
   },
