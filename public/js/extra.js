@@ -459,34 +459,13 @@ export function finishView (view) {
     // speakerdeck
   view.find('div.speakerdeck.raw').removeClass('raw')
         .each((key, value) => {
-          const url = `https://speakerdeck.com/oembed.json?url=https%3A%2F%2Fspeakerdeck.com%2F${encodeURIComponent($(value).attr('data-speakerdeckid'))}`
-            // use yql because speakerdeck not support jsonp
-          $.ajax({
-            url: 'https://query.yahooapis.com/v1/public/yql',
-            data: {
-              q: `select * from json where url ='${url}'`,
-              format: 'json'
-            },
-            dataType: 'jsonp',
-            success (data) {
-              if (!data.query || !data.query.results) return
-              const json = data.query.results.json
-              const html = json.html
-              var ratio = json.height / json.width
-              $(value).html(html)
-              const iframe = $(value).children('iframe')
-              const src = iframe.attr('src')
-              if (src.indexOf('//') === 0) { iframe.attr('src', `https:${src}`) }
-              const inner = $('<div class="inner"></div>').append(iframe)
-              const height = iframe.attr('height')
-              const width = iframe.attr('width')
-              ratio = (height / width) * 100
-              inner.css('padding-bottom', `${ratio}%`)
-              $(value).html(inner)
-              if (window.viewAjaxCallback) window.viewAjaxCallback()
-            }
-          })
-        })
+          const url = `https://speakerdeck.com/${$(value).attr('data-speakerdeckid')}`
+          const inner = $('<a>Speakerdeck</a>')
+          inner.attr('href', url)
+          inner.attr('rel', 'noopener noreferrer')
+          inner.attr('target', '_blank')
+          $(value).append(inner)
+      })
     // pdf
   view.find('div.pdf.raw').removeClass('raw')
             .each(function (key, value) {

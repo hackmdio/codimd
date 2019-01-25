@@ -222,9 +222,6 @@ When you’re a carpenter making a beautiful chest of drawers, you’re not goin
 ### SlideShare
 {%slideshare briansolis/26-disruptive-technology-trends-2016-2018-56796196 %}
 
-### Speakerdeck
-{%speakerdeck sugarenia/xxlcss-how-to-scale-css-and-keep-your-sanity %}
-
 ### PDF
 **Caution: this might be blocked by your browser if not using an `https` URL.**
 {%pdf https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf %}
