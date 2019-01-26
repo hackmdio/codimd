@@ -195,6 +195,7 @@ app.locals.authProviders = {
   saml: config.isSAMLEnable,
   oauth2: config.isOAuth2Enable,
   oauth2ProviderName: config.oauth2.providerName,
+  oidc: config.isOidcnable,
   openID: config.isOpenIDEnable,
   email: config.isEmailEnable,
   allowEmailRegister: config.allowEmailRegister

@@ -58,7 +58,7 @@
                     <i class="fa fa-mail-forward"></i> <%= __('Sign in via %s', authProviders.oidcProviderName || 'OpenID Connect') %>
                 </a>
                 <% } %>
-                <% if ((authProviders.facebook || authProviders.twitter || authProviders.github || authProviders.gitlab || authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.saml || authProviders.oauth2) && authProviders.ldap) { %>
+                <% if ((authProviders.facebook || authProviders.twitter || authProviders.github || authProviders.gitlab || authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.saml || authProviders.oauth2 || authProviders.oidc) && authProviders.ldap) { %>
                 <hr>
                 <% }%>
                 <% if (authProviders.ldap) { %>
@@ -83,7 +83,7 @@
                     </div>
                 </form>
                 <% } %>
-                <% if ((authProviders.facebook || authProviders.twitter || authProviders.github || authProviders.gitlab || authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.ldap || authProviders.oauth2) && authProviders.openID) { %>
+                <% if ((authProviders.facebook || authProviders.twitter || authProviders.github || authProviders.gitlab || authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.ldap || authProviders.oauth2 || authProviders.oidc) && authProviders.openID) { %>
                 <hr>
                 <% }%>
                 <% if (authProviders.openID) { %>
@@ -102,7 +102,7 @@
                     </div>
                 </form>
                 <% } %>
-                <% if ((authProviders.facebook || authProviders.twitter || authProviders.github || authProviders.gitlab || authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.ldap || authProviders.oauth2 || authProviders.openID) && authProviders.email) { %>
+                <% if ((authProviders.facebook || authProviders.twitter || authProviders.github || authProviders.gitlab || authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.ldap || authProviders.oauth2 || authProviders.oidc || authProviders.openID) && authProviders.email) { %>
                 <hr>
                 <% }%>
                 <% if (authProviders.email) { %>
