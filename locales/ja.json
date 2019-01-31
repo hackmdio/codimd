@@ -111,5 +111,7 @@
     "Do you really want to delete your user account?": "本当にアカウントを削除しますか？",
     "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.": "この操作はあなたのアカウントとあなたの所有するすべてのノートを削除し、さらに他の人のノートからあなたのアカウントへの参照を除去します。",
     "Delete user": "ユーザーの削除",
-    "Export user data": "ユーザーデータをエクスポート"
+    "Export user data": "ユーザーデータをエクスポート",
+    "Help us translating on %s": "%s の翻訳にご協力ください",
+    "Source Code": "ソースコード"
 }
