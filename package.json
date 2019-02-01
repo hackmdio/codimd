@@ -16,6 +16,7 @@
     "doctoc": "doctoc --title='# Table of Contents' README.md"
   },
   "dependencies": {
+    "@mlink/scrypt": "^6.1.2",
     "@passport-next/passport-openid": "^1.0.0",
     "Idle.Js": "git+https://github.com/shawnmclean/Idle.js",
     "archiver": "^2.1.1",
@@ -63,6 +64,7 @@
     "keymaster": "^1.6.2",
     "list.js": "^1.5.0",
     "lodash": "^4.17.11",
+    "lutim": "^1.0.2",
     "lz-string": "git+https://github.com/hackmdio/lz-string.git",
     "markdown-it": "^8.2.2",
     "markdown-it-abbr": "^1.0.4",
@@ -109,7 +111,6 @@
     "readline-sync": "^1.4.7",
     "request": "^2.88.0",
     "reveal.js": "~3.7.0",
-    "@mlink/scrypt": "^6.1.2",
     "select2": "^3.5.2-browserify",
     "sequelize": "^3.28.0",
     "sequelize-cli": "^2.5.1",
