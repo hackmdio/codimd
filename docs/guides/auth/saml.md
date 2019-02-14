@@ -5,9 +5,9 @@ Authentication guide - SAML
 
 The basic procedure is the same as the case of OneLogin which is mentioned in [OneLogin-Guide](./saml-onelogin.md). If you want to match your IdP, you can use more configurations as below.
 
-* If your IdP accepts metadata XML of the service provider to ease configuraion, use this url to download metadata XML.
+* If your IdP accepts metadata XML of the service provider to ease configuration, use this url to download metadata XML.
     * {{your-serverurl}}/auth/saml/metadata
-    * _Note: If not accessable from IdP, download to local once and upload to IdP._
+    * _Note: If not accessible from IdP, download to local once and upload to IdP._
 * Change the value of `issuer`, `identifierFormat` to match your IdP.
   * `issuer`: A unique id to identify the application to the IdP, which is the base URL of your HackMD as default
   * `identifierFormat`: A format of unique id to identify the user of IdP, which is the format based on email address as default. It is recommend that you use as below.
@@ -59,7 +59,7 @@ The basic procedure is the same as the case of OneLogin which is mentioned in [O
     HMD_SAML_ATTRIBUTE_EMAIL=mail
     ````
 
-* If you want to controll permission by group membership, add group attribute name and required group (allowed) or external group (not allowed).
+* If you want to control permission by group membership, add group attribute name and required group (allowed) or external group (not allowed).
   * `groupAttribute`: An attribute name of group membership
   * `requiredGroups`: Group names array for allowed access to HackMD. Use vertical bar to separate for environment variables.
   * `externalGroups`: Group names array for not allowed access to HackMD. Use vertical bar to separate for environment variables.
