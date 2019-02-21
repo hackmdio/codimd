@@ -1,7 +1,6 @@
 /* eslint-env browser, jquery */
-/* global CodeMirror, Cookies, moment, editor, ui, Spinner,
-   modeType, Idle, serverurl, key, gapi, Dropbox, FilePicker
-   ot, MediaUploader, hex2rgb, num_loaded, Visibility */
+/* global CodeMirror, Cookies, moment, Spinner, Idle, serverurl,
+   key, Dropbox, ot, hex2rgb, Visibility */
 
 require('../vendor/showup/showup')
 
