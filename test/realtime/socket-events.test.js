@@ -56,7 +56,15 @@ describe('realtime#socket event', function () {
     })
     configMock = {
       fullversion: '1.5.0',
-      minimumCompatibleVersion: '1.0.0'
+      minimumCompatibleVersion: '1.0.0',
+      permission: {
+        freely: 'freely',
+        editable: 'editable',
+        limited: 'limited',
+        locked: 'locked',
+        protected: 'protected',
+        private: 'private'
+      }
     }
     mock('../../lib/logger', {
       error: () => {
@@ -522,9 +530,10 @@ describe('realtime#socket event', function () {
       }, 5)
     })
 
-    it('should change permission to freely when config allowAnonymous and allowAnonymousEdits are true', function (done) {
+    it('should change permission to freely when config allowAnonymous, allowAnonymousEdits and allowAnonymousViews are true', function (done) {
       configMock.allowAnonymous = true
       configMock.allowAnonymousEdits = true
+      configMock.allowAnonymousViews = true
       realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
 
       permissionFunc('freely')
@@ -539,9 +548,10 @@ describe('realtime#socket event', function () {
       }, 5)
     })
 
-    it('should not change permission to freely when config allowAnonymous and allowAnonymousEdits are false', function (done) {
+    it('should not change permission to freely when config allowAnonymous, allowAnonymousEdits and allowAnonymousViews are false', function (done) {
       configMock.allowAnonymous = false
       configMock.allowAnonymousEdits = false
+      configMock.allowAnonymousViews = false
       realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
 
       permissionFunc('freely')
@@ -556,6 +566,7 @@ describe('realtime#socket event', function () {
     it('should change permission to freely when config allowAnonymous is true', function (done) {
       configMock.allowAnonymous = true
       configMock.allowAnonymousEdits = false
+      configMock.allowAnonymousViews = false
       realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
 
       permissionFunc('freely')
@@ -570,12 +581,79 @@ describe('realtime#socket event', function () {
       }, 5)
     })
 
-    it('should change permission to freely when config allowAnonymousEdits is true', function (done) {
+    it('should not change permission to freely when config allowAnonymousEdits is true', function (done) {
       configMock.allowAnonymous = false
       configMock.allowAnonymousEdits = true
+      configMock.allowAnonymousViews = false
       realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
 
       permissionFunc('freely')
+
+      setTimeout(() => {
+        assert(modelsMock.Note.update.called === false)
+        assert(checkViewPermissionSpy.called === false)
+        done()
+      }, 5)
+    })
+
+    it('should not change permission to freely when config allowAnonymousViews is true', function (done) {
+      configMock.allowAnonymous = false
+      configMock.allowAnonymousEdits = false
+      configMock.allowAnonymousViews = true
+      realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
+
+      permissionFunc('freely')
+
+      setTimeout(() => {
+        assert(modelsMock.Note.update.called === false)
+        assert(checkViewPermissionSpy.called === false)
+        done()
+      }, 5)
+    })
+
+    it('should change permission to editable when config allowAnonymousViews is true', function (done) {
+      configMock.allowAnonymous = false
+      configMock.allowAnonymousEdits = false
+      configMock.allowAnonymousViews = true
+      realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
+
+      permissionFunc('editable')
+
+      setTimeout(() => {
+        assert(checkViewPermissionSpy.callCount === 2)
+        assert(otherClient.emit.called === false)
+        assert(otherClient.disconnect.called === false)
+        assert(clientSocket.emit.called === false)
+        assert(clientSocket.disconnect.called === false)
+        done()
+      }, 5)
+    })
+
+    it('should change permission to freely when config allowAnonymousEdits and allowAnonymousViews are false true', function (done) {
+      configMock.allowAnonymous = false
+      configMock.allowAnonymousEdits = true
+      configMock.allowAnonymousViews = true
+      realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
+
+      permissionFunc('freely')
+
+      setTimeout(() => {
+        assert(checkViewPermissionSpy.callCount === 2)
+        assert(otherClient.emit.called === false)
+        assert(otherClient.disconnect.called === false)
+        assert(clientSocket.emit.called === false)
+        assert(clientSocket.disconnect.called === false)
+        done()
+      }, 5)
+    })
+
+    it('should change permission to editable when config allowAnonymousEdits and allowAnonymousViews are false true', function (done) {
+      configMock.allowAnonymous = false
+      configMock.allowAnonymousEdits = true
+      configMock.allowAnonymousViews = true
+      realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
+
+      permissionFunc('editable')
 
       setTimeout(() => {
         assert(checkViewPermissionSpy.callCount === 2)
