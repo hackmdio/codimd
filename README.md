@@ -68,6 +68,7 @@ Just to more confusion: We are still friends with HackMD :heart:
 - Node.js 6.x or up (test up to 7.5.0) and <10.x
 - Database (PostgreSQL, MySQL, MariaDB, SQLite, MSSQL) use charset `utf8`
 - npm (and its dependencies, especially [uWebSockets](https://github.com/uWebSockets/uWebSockets#nodejs-developers), [node-gyp](https://github.com/nodejs/node-gyp#installation))
+- `libssl-dev` for building scrypt (see [here](https://github.com/ml1nk/node-scrypt/blob/master/README.md#installation-instructions) for further information)
 - For **building** CodiMD we recommend to use a machine with at least **2GB** RAM
 
 ### Instructions
