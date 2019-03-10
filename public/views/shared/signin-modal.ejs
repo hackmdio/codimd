@@ -57,7 +57,7 @@
                 <hr>
                 <% }%>
                 <% if (authProviders.ldap) { %>
-                <h4>Via <% if (authProviders.ldapProviderName) { %> <%= authProviders.ldapProviderName %> (LDAP) <% } else { %> LDAP <% } %></h4>
+                <h4><%= __('Sign in via %s', authProviders.ldapProviderName ? authProviders.ldapProviderName + ' (LDAP)' : 'LDAP') %></h4>
                 <form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="form-group">
                         <div class="col-sm-12">
@@ -73,7 +73,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary" formaction="<%- serverURL %>/auth/ldap">Sign in</button>
+                            <button type="submit" class="btn btn-primary" formaction="<%- serverURL %>/auth/ldap"><%= __('Sign In') %></button>
                         </div>
                     </div>
                 </form>
@@ -82,7 +82,7 @@
                 <hr>
                 <% }%>
                 <% if (authProviders.openID) { %>
-                <h4>OpenID</h4>
+                <h4><%= __('Sign in via %s', 'OpenID') %></h4>
                 <form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="form-group">
                         <div class="col-sm-12">
@@ -92,7 +92,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary" formaction="<%- serverURL %>/auth/openid">Sign in</button>
+                            <button type="submit" class="btn btn-primary" formaction="<%- serverURL %>/auth/openid"><%= __('Sign In') %></button>
                         </div>
                     </div>
                 </form>
@@ -101,11 +101,11 @@
                 <hr>
                 <% }%>
                 <% if (authProviders.email) { %>
-                <h4>Via Email</h4>
+                <h4><%= __('Sign in via %s', 'E-Mail') %></h4>
                 <form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input type="email" class="form-control" name="email" placeholder="Email" required>
+                            <input type="email" class="form-control" name="email" placeholder="E-Mail" required>
                             <span class="help-block control-label with-errors" style="display: inline;"></span>
                         </div>
                     </div>
@@ -117,8 +117,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary" formaction="<%- serverURL %>/login">Sign in</button>
-                            <% if (authProviders.allowEmailRegister) { %><button type="submit" class="btn btn-default" formaction="<%- serverURL %>/register">Register</button><% }%>
+                            <button type="submit" class="btn btn-primary" formaction="<%- serverURL %>/login"><%= __('Sign In') %></button>
+                            <% if (authProviders.allowEmailRegister) { %><button type="submit" class="btn btn-default" formaction="<%- serverURL %>/register"><%= __('Register') %></button><% }%>
                         </div>
                     </div>
                 </form>
