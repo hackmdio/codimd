@@ -1134,7 +1134,7 @@ const emojijsPlugin = new Plugin(
 
     (match, utils) => {
       const emoji = match[1].toLowerCase()
-      const div = $(`<img class="emoji" src="${serverurl}/build/emojify.js/dist/images/basic/${emoji}.png"></img>`)
+      const div = $(`<img class="emoji" alt=":${emoji}:" src="${serverurl}/build/emojify.js/dist/images/basic/${emoji}.png"></img>`)
       return div[0].outerHTML
     }
 )
