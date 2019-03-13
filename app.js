@@ -180,6 +180,7 @@ app.locals.useCDN = config.useCDN
 app.locals.serverURL = config.serverURL
 app.locals.sourceURL = config.sourceURL
 app.locals.allowAnonymous = config.allowAnonymous
+app.locals.allowGuest = config.allowGuest
 app.locals.allowAnonymousEdits = config.allowAnonymousEdits
 app.locals.allowPDFExport = config.allowPDFExport
 app.locals.authProviders = {
