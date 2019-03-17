@@ -19,8 +19,8 @@ describe('generateAvatarURL() gravatar enabled', function () {
   })
 
   it('should return correct urls', function () {
-    assert.strictEqual(avatars.generateAvatarURL('Daan Sprenkels', 'hello@dsprenkels.com', true), 'https://www.gravatar.com/avatar/d41b5f3508cc3f31865566a47dd0336b?s=400')
-    assert.strictEqual(avatars.generateAvatarURL('Daan Sprenkels', 'hello@dsprenkels.com', false), 'https://www.gravatar.com/avatar/d41b5f3508cc3f31865566a47dd0336b?s=96')
+    assert.strictEqual(avatars.generateAvatarURL('Daan Sprenkels', 'hello@dsprenkels.com', true), 'https://cdn.libravatar.org/avatar/d41b5f3508cc3f31865566a47dd0336b?s=400')
+    assert.strictEqual(avatars.generateAvatarURL('Daan Sprenkels', 'hello@dsprenkels.com', false), 'https://cdn.libravatar.org/avatar/d41b5f3508cc3f31865566a47dd0336b?s=96')
   })
 
   it('should return correct urls for names with spaces', function () {
