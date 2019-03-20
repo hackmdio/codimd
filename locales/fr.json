@@ -113,5 +113,7 @@
     "Delete user": "Supprimer l'utilisateur",
     "Export user data": "Exporter les données utilisateur",
     "Help us translating on %s": "Aidez nous à traduire sur %s",
-    "Source Code": "Code source"
+    "Source Code": "Code source",
+    "Powered by %s": "Propulsé par %s",
+    "Register": "S'enregistrer"
 }
