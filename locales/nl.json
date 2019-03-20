@@ -6,8 +6,8 @@
     "History": "Geschiedenis",
     "New guest note": "Nieuwe gastnotitie",
     "Collaborate with URL": "Samenwerken met URL",
-    "Support charts and MathJax": "Ondersteun grafieken en MathJax",
-    "Support slide mode": "Ondersteun presentatiemodus",
+    "Support charts and MathJax": "Ondersteunt grafieken en MathJax",
+    "Support slide mode": "Ondersteunt presentatiemodus",
     "Sign In": "Inloggen",
     "Below is the history from browser": "Hier onder staat de browser geschiedenis",
     "Welcome!": "Welkom!",
@@ -113,5 +113,7 @@
     "Delete user": "Gebruiker verwijderen",
     "Export user data": "Gebruikersdata exporteren",
     "Help us translating on %s": "Help ons vertalen op %s",
-    "Source Code": "Broncode"
+    "Source Code": "Broncode",
+    "Register": "Registreren",
+    "Powered by %s": "Powered by %s"
 }
