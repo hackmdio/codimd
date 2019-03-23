@@ -1,6 +1,31 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 1.3.1 <i class="fa fa-clock-o"></i> 2019-03-23 00:00
+---
+
+### Enhancements
+* Add some missing translations
+* Add Serbian language
+
+### Fixes
+* Fix broken redirect for empty `serverURL`
+* Fix wrong variable type for HSTS maxAge
+* Fix GitLab snippets showing up without being configured
+* Fix Google's API after disabling Google+
+* Fix broken PDF export
+
+### Contributors
+* atachibana (translator)
+* [Aurélien JANVIER](https://github.com/ajanvier) (translator)
+* [Daan Sprenkels](https://github.com/dsprenkels) (translator)
+* Farizrizaldy (translator)
+* [Luclu7](https://github.com/Luclu7)
+* Sylke Vicious (translator)
+* [toshi0123](https://github.com/toshi0123) & okochi-toshiki
+* [Turakar](https://github.com/Turakar)
+* [Vladan](https://github.com/cvladan) (translator)
+
 <i class="fa fa-tag"></i> 1.3.0 <i class="fa fa-clock-o"></i> 2019-03-03 00:00
 ---
 
