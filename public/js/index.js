@@ -304,7 +304,6 @@ var editor = editorInstance.init(textit)
 // FIXME: global referncing in jquery-textcomplete patch
 window.editor = editor
 
-var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor)
 defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
 
 //  initalize ui reference
@@ -801,7 +800,6 @@ function changeMode (type) {
     editor.getInputField().blur()
   }
   if (appState.currentMode === modeType.edit || appState.currentMode === modeType.both) {
-    ui.toolbar.uploadImage.fadeIn()
     // add and update status bar
     if (!editorInstance.statusBar) {
       editorInstance.addStatusBar()
@@ -814,8 +812,6 @@ function changeMode (type) {
     // work around foldGutter might not init properly
     editor.setOption('foldGutter', false)
     editor.setOption('foldGutter', true)
-  } else {
-    ui.toolbar.uploadImage.fadeOut()
   }
   if (appState.currentMode !== modeType.edit) {
     $(document.body).css('background-color', 'white')
@@ -1050,17 +1046,6 @@ ui.toolbar.import.snippet.click(function () {
         .always(function () {
           ui.spinner.hide()
         })
-})
-// import from clipboard
-ui.toolbar.import.clipboard.click(function () {
-    // na
-})
-// upload image
-ui.toolbar.uploadImage.bind('change', function (e) {
-  var files = e.target.files || e.dataTransfer.files
-  e.dataTransfer = {}
-  e.dataTransfer.files = files
-  inlineAttach.onDrop(e)
 })
 // toc
 ui.toc.dropdown.click(function (e) {

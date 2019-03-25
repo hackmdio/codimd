@@ -138,6 +138,7 @@ export default class Editor {
   }
 
   addToolBar () {
+    var inlineAttach = inlineAttachment.editors.codemirror4.attach(this.editor)
     this.toolBar = $(toolBarTemplate)
     this.toolbarPanel = this.editor.addPanel(this.toolBar[0], {
       position: 'top'
@@ -157,6 +158,7 @@ export default class Editor {
     var makeTable = $('#makeTable')
     var makeLine = $('#makeLine')
     var makeComment = $('#makeComment')
+    var uploadImage = $('#uploadImage')
 
     makeBold.click(() => {
       utils.wrapTextWith(this.editor, this.editor, '**')
@@ -216,6 +218,13 @@ export default class Editor {
 
     makeComment.click(() => {
       utils.insertText(this.editor, '> []')
+    })
+    uploadImage.bind('change', function (e) {
+      console.log("tiggered")
+      var files = e.target.files || e.dataTransfer.files
+      e.dataTransfer = {}
+      e.dataTransfer.files = files
+      inlineAttach.onDrop(e)
     })
   }
 
