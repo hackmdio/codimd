@@ -359,4 +359,4 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 [github-release-page]: https://github.com/hackmdio/codimd/releases
 [github-release-feed]: https://github.com/hackmdio/codimd/releases.atom
 [poeditor-image]: https://img.shields.io/badge/POEditor-translate-blue.svg
-[poeditor-url]: https://poeditor.com/join/project/1OpGjF2Jir
+[poeditor-url]: https://poeditor.com/join/project/q0nuPWyztp
