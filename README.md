@@ -1,7 +1,6 @@
 CodiMD
 ===
 
-[![#CodiMD on matrix.org][matrix.org-image]][matrix.org-url]
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
 [![POEditor][poeditor-image]][poeditor-url]
@@ -24,8 +23,6 @@ Thanks for using! :smile:
     - [Instructions](#instructions)
   - [Heroku Deployment](#heroku-deployment)
   - [Kubernetes](#kubernetes)
-  - [CodiMD by docker container](#codimd-by-docker-container)
-  - [Cloudron](#cloudron)
 - [Upgrade](#upgrade)
   - [Native setup](#native-setup)
 - [Configuration](#configuration)
@@ -83,7 +80,7 @@ Just to more confusion: We are still friends with HackMD :heart:
 7. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
 8. Run the server as you like (node, forever, pm2)
 
-To stay up to date with your installation it's recommended to join our [Matrix channel][matrix.org-url] or subscribe to the [release feed][github-release-feed].
+To stay up to date with your installation it's recommended to subscribe the [release feed][github-release-feed].
 
 ## Heroku Deployment
 
@@ -99,18 +96,9 @@ To install use `helm install stable/hackmd`.
 
 For all further details, please check out the offical CodiMD  [K8s helm chart](https://github.com/kubernetes/charts/tree/master/stable/hackmd).
 
-## CodiMD by docker container
-[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://github.com/hackmdio/codimd-container/raw/master/docker-compose.yml&stack_name=codimd)
-
-
 **Debian-based version:**
 
 [![latest](https://images.microbadger.com/badges/version/hackmdio/hackmd:latest.svg)](https://microbadger.com/images/hackmdio/hackmd "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd:latest.svg)](https://microbadger.com/images/hackmdio/hackmd "Get your own image badge on microbadger.com")
-
-
-**Alpine-based version:**
-
-[![alpine](https://images.microbadger.com/badges/version/hackmdio/hackmd:alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:alpine "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/hackmdio/hackmd:alpine.svg)](https://microbadger.com/images/hackmdio/hackmd:alpine "Get your own image badge on microbadger.com")
 
 The easiest way to setup CodiMD using docker are using the following three commands:
 
@@ -120,12 +108,6 @@ cd codimd-container
 docker-compose up
 ```
 Read more about it in the [container repository…](https://github.com/hackmdio/codimd-container)
-
-## Cloudron
-
-Install CodiMD on [Cloudron](https://cloudron.io):
-
-[![Install](https://cloudron.io/img/button.svg)](https://cloudron.io/button.html?app=io.hackmd.cloudronapp)
 
 # Upgrade
 
@@ -142,7 +124,7 @@ If you are upgrading CodiMD from an older version, follow these steps:
 6. Run `node_modules/.bin/sequelize db:migrate`, this step will migrate your db to the latest schema
 7. Start your whole new server!
 
-To stay up to date with your installation it's recommended to join our [Matrix channel][matrix.org-url] or subscribe to the [release feed][github-release-feed].
+To stay up to date with your installation it's recommended to subscribe the [release feed][github-release-feed].
 
 * **migrate-to-1.1.0**
 
@@ -371,8 +353,6 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 
 **License under AGPL.**
 
-[matrix.org-image]: https://img.shields.io/badge/Matrix.org-%23CodiMD@matrix.org-green.svg
-[matrix.org-url]: https://riot.im/app/#/room/#codimd:matrix.org
 [travis-image]: https://travis-ci.org/hackmdio/codimd.svg?branch=master
 [travis-url]: https://travis-ci.org/hackmdio/codimd
 [github-version-badge]: https://img.shields.io/github/release/hackmdio/codimd.svg
