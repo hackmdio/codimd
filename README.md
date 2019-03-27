@@ -103,11 +103,11 @@ For all further details, please check out the offical CodiMD  [K8s helm chart](h
 The easiest way to setup CodiMD using docker are using the following three commands:
 
 ```console
-git clone https://github.com/hackmdio/codimd-container.git
-cd codimd-container
+git clone https://github.com/hackmdio/docker-hackmd.git
+cd docker-hackmd
 docker-compose up
 ```
-Read more about it in the [container repository…](https://github.com/hackmdio/codimd-container)
+Read more about it in the [container repository…](https://github.com/hackmdio/docker-hackmd)
 
 # Upgrade
 
