@@ -113,5 +113,7 @@
     "Delete user": "刪除使用者",
     "Export user data": "匯出使用者資料",
     "Help us translating on %s": "來 %s 幫我們翻譯",
-    "Source Code": "原始碼"
+    "Source Code": "原始碼",
+    "Powered by %s": "Powered by %s",
+    "Register": "註冊"
 }
