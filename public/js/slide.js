@@ -74,6 +74,12 @@ const defaultOptions = {
 const meta = JSON.parse($('#meta').text())
 var options = meta.slideOptions || {}
 
+if (options.hasOwnProperty('spotlight')) {
+  defaultOptions.dependencies.push({
+    src: `${serverurl}/build/reveal.js/plugin/spotlight/spotlight.js`
+  });
+}
+
 const view = $('.reveal')
 
 // text language
