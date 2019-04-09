@@ -1,6 +1,7 @@
 CodiMD
 ===
 
+[![CodiMD on Gitter][gitter-image]][gitter-url]
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
 [![POEditor][poeditor-image]][poeditor-url]
@@ -351,6 +352,8 @@ See more at [http://operational-transformation.github.io/](http://operational-tr
 
 **License under AGPL.**
 
+[gitter-image]: https://img.shields.io/badge/gitter-hackmdio/codimd-blue.svg
+[gitter-url]: https://gitter.im/hackmdio/hackmd
 [travis-image]: https://travis-ci.org/hackmdio/codimd.svg?branch=master
 [travis-url]: https://travis-ci.org/hackmdio/codimd
 [github-version-badge]: https://img.shields.io/github/release/hackmdio/codimd.svg
