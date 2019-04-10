@@ -211,7 +211,7 @@ module.exports = {
       'script-loader!codemirrorInlineAttachment',
       'script-loader!ot',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/index.js')
     ],
@@ -262,7 +262,7 @@ module.exports = {
       'script-loader!codemirrorInlineAttachment',
       'script-loader!ot',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
       'expose-loader?io!socket.io-client',
@@ -272,7 +272,7 @@ module.exports = {
     pretty: [
       'babel-polyfill',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
     ],
@@ -297,7 +297,7 @@ module.exports = {
       'expose-loader?emojify!emojify.js',
       'script-loader!gist-embed',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
       'expose-loader?RevealMarkdown!reveal-markdown',
@@ -307,7 +307,7 @@ module.exports = {
       'babel-polyfill',
       'bootstrap-tooltip',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/slide.js')
     ],
@@ -335,7 +335,7 @@ module.exports = {
       'expose-loader?emojify!emojify.js',
       'script-loader!gist-embed',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
       'headjs',
@@ -369,7 +369,8 @@ module.exports = {
       'headjs': path.join(__dirname, 'node_modules/reveal.js/lib/js/head.min.js'),
       'reveal-markdown': path.join(__dirname, 'public/js/reveal-markdown.js'),
       abcjs: path.join(__dirname, 'public/vendor/abcjs_basic_3.1.1-min.js'),
-      raphael: path.join(__dirname, 'node_modules/raphael/raphael.no-deps.js')
+      raphael: path.join(__dirname, 'node_modules/raphael/raphael.min.js'),
+      'js-sequence-diagrams': path.join(__dirname, 'node_modules/@hackmd/js-sequence-diagrams/build/main.js')
     }
   },
 
@@ -418,12 +419,6 @@ module.exports = {
         },
         'less-loader'
       ]
-    }, {
-      test: require.resolve('js-sequence-diagrams'),
-      use: [{
-        loader: 'imports-loader',
-        options: { _: 'lodash', Raphael: 'raphael', eve: 'eve' }
-      }]
     }, {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       use: [{ loader: 'file-loader' }]
