@@ -18,10 +18,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@hackmd/js-sequence-diagrams@^0.0.1-alpha.1":
-  version "0.0.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@hackmd/js-sequence-diagrams/-/js-sequence-diagrams-0.0.1-alpha.1.tgz#36abc0c77a9fcaffbc11601b3b67d411ecb013a5"
-  integrity sha512-89DLk6V2Q4XotpmGTSqgm37lwuVFa8fbUQMFDyN7xhr4qbvRgS0m3N15iko0Vb4+GP2RxRDTpFCPquz7obMo6g==
+"@hackmd/js-sequence-diagrams@^0.0.1-alpha.2":
+  version "0.0.1-alpha.2"
+  resolved "https://registry.yarnpkg.com/@hackmd/js-sequence-diagrams/-/js-sequence-diagrams-0.0.1-alpha.2.tgz#dec87c02b0483a18be6725c4bb7a53df1c701e36"
+  integrity sha512-UCkaIuvpi5mDyxGXPaJIM8LJLR9X8yAZk0c58Byjx/bVPvMcFOT+Kyft7LjAbO5ct6MFAVNrhs/6jqY2RfRhLA==
 
 "@passport-next/passport-openid@^1.0.0":
   version "1.0.0"
