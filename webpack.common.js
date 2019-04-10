@@ -210,7 +210,7 @@ module.exports = {
       'script-loader!codemirrorSpellChecker',
       'script-loader!codemirrorInlineAttachment',
       'script-loader!ot',
-      // 'flowchart.js',
+      'flowchart.js',
       'script-loader!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/index.js')
@@ -261,7 +261,7 @@ module.exports = {
       'script-loader!codemirrorSpellChecker',
       'script-loader!codemirrorInlineAttachment',
       'script-loader!ot',
-      //'flowchart.js',
+      'flowchart.js',
       'script-loader!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
@@ -271,7 +271,7 @@ module.exports = {
     ],
     pretty: [
       'babel-polyfill',
-      //'flowchart.js',
+      'flowchart.js',
       'script-loader!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
@@ -296,7 +296,7 @@ module.exports = {
       'expose-loader?hljs!highlight.js',
       'expose-loader?emojify!emojify.js',
       'script-loader!gist-embed',
-      //'flowchart.js',
+      'flowchart.js',
       'script-loader!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
@@ -306,7 +306,7 @@ module.exports = {
     slide: [
       'babel-polyfill',
       'bootstrap-tooltip',
-      //'flowchart.js',
+      'flowchart.js',
       'script-loader!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/slide.js')
@@ -334,7 +334,7 @@ module.exports = {
       'expose-loader?hljs!highlight.js',
       'expose-loader?emojify!emojify.js',
       'script-loader!gist-embed',
-      //'flowchart.js',
+      'flowchart.js',
       'script-loader!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
@@ -369,7 +369,7 @@ module.exports = {
       'headjs': path.join(__dirname, 'node_modules/reveal.js/lib/js/head.min.js'),
       'reveal-markdown': path.join(__dirname, 'public/js/reveal-markdown.js'),
       abcjs: path.join(__dirname, 'public/vendor/abcjs_basic_3.1.1-min.js'),
-      raphael: path.join(__dirname, 'node_modules/raphael/raphael.no-deps.js'),
+      raphael: path.join(__dirname, 'node_modules/raphael/raphael.min.js'),
       'js-sequence-diagrams': path.join(__dirname, 'node_modules/@hackmd/js-sequence-diagrams/build/main.js')
     }
   },
