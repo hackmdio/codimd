@@ -22,6 +22,8 @@ import _ from 'lodash'
 
 import List from 'list.js'
 
+import Idle from '@hackmd/idle-js'
+
 import {
     checkLoginStateChanged,
     setloginStateChangeEvent
