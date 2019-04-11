@@ -20,6 +20,8 @@ import hljs from 'highlight.js'
 
 import _ from 'lodash'
 
+import wurl from 'wurl'
+
 import List from 'list.js'
 
 import Idle from '@hackmd/idle-js'
@@ -1390,12 +1392,12 @@ $('#gistImportModalConfirm').click(function () {
   if (!isValidURL(gisturl)) {
     showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid URL :(', '', '', false)
   } else {
-    var hostname = window.url('hostname', gisturl)
+    var hostname = wurl('hostname', gisturl)
     if (hostname !== 'gist.github.com') {
       showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', '', false)
     } else {
       ui.spinner.show()
-      $.get('https://api.github.com/gists/' + window.url('-1', gisturl))
+      $.get('https://api.github.com/gists/' + wurl('-1', gisturl))
                 .done(function (data) {
                   if (data.files) {
                     var contents = ''
