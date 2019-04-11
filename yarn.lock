@@ -23,6 +23,11 @@
   resolved "https://registry.yarnpkg.com/@hackmd/codemirror/-/codemirror-5.41.2.tgz#14ead072a736bf9f1cae3eb349d600f22fbaf69c"
   integrity sha512-uYvDnyIIqyC4lJ/Qn67Zkwj1olUvk5+r8smWkZiNjGEoYz5qjiULrYcPFvu8vPUv6axy5Qq1AXIJs6CUCx0zow==
 
+"@hackmd/diff-match-patch@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@hackmd/diff-match-patch/-/diff-match-patch-1.1.1.tgz#9740833d315468fead567c336132faabe3f195eb"
+  integrity sha512-eZc7w8fyRYCPIbzM56OA74HSuIgrlj62AgUSattDVCyGO5Kh6/ZLSgx1xvmypWjP16t4EUA1F5CoZvftbiZ5fg==
+
 "@hackmd/idle-js@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@hackmd/idle-js/-/idle-js-1.0.1.tgz#89079a76d9c7bda87029660a708e72fbb2be3605"
@@ -2914,10 +2919,6 @@ diagnostics@^1.1.1:
     colorspace "1.1.x"
     enabled "1.0.x"
     kuler "1.0.x"
-
-"diff-match-patch@git+https://github.com/hackmdio/diff-match-patch.git":
-  version "1.1.0"
-  resolved "git+https://github.com/hackmdio/diff-match-patch.git#73e56e779a2a8503b05458e607077d0fd1d80419"
 
 diff@3.5.0:
   version "3.5.0"
