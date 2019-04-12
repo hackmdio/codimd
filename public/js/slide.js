@@ -1,11 +1,11 @@
 /* eslint-env browser, jquery */
 /* global serverurl, Reveal, RevealMarkdown */
 
-require('../css/extra.css')
-require('../css/site.css')
-
 import { preventXSS } from './render'
 import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
+
+require('../css/extra.css')
+require('../css/site.css')
 
 const body = preventXSS($('.slides').text())
 
@@ -17,7 +17,7 @@ $('.ui-edit').attr('href', `${url}/edit`)
 $('.ui-print').attr('href', `${url}?print-pdf`)
 
 $(document).ready(() => {
-    // tooltip
+  // tooltip
   $('[data-toggle="tooltip"]').tooltip()
 })
 
@@ -127,7 +127,7 @@ function renderSlide (event) {
 Reveal.addEventListener('ready', event => {
   renderSlide(event)
   const markdown = $(event.currentSlide)
-    // force browser redraw
+  // force browser redraw
   setTimeout(() => {
     markdown.hide().show(0)
   }, 0)
