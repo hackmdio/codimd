@@ -104,7 +104,7 @@
     "pg-hstore": "^2.3.2",
     "prismjs": "^1.6.0",
     "randomcolor": "^0.5.3",
-    "raphael": "git+https://github.com/dmitrybaranovskiy/raphael",
+    "raphael": "^2.2.8",
     "readline-sync": "^1.4.7",
     "request": "^2.88.0",
     "reveal.js": "~3.7.0",

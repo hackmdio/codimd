@@ -5632,10 +5632,6 @@ lru-queue@0.1:
   dependencies:
     es5-ext "~0.10.2"
 
-"lz-string@git+https://github.com/hackmdio/lz-string.git":
-  version "1.4.4"
-  resolved "git+https://github.com/hackmdio/lz-string.git#6edfccb79cd8c210f03fd3bf18e41ca144fbeefb"
-
 make-dir@^1.0.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-1.3.0.tgz#79c1033b80515bd6d24ec9933e860ca75ee27f0c"
@@ -7750,9 +7746,10 @@ raphael@2.2.7:
   dependencies:
     eve-raphael "0.5.0"
 
-"raphael@git+https://github.com/dmitrybaranovskiy/raphael":
+raphael@^2.2.8:
   version "2.2.8"
-  resolved "git+https://github.com/dmitrybaranovskiy/raphael#bf3dcd35317f76f915bcd04ed9db36a1b3775c4d"
+  resolved "https://registry.yarnpkg.com/raphael/-/raphael-2.2.8.tgz#4b18443c2c6030c3b492d8d11fbbca14ebe4d3f3"
+  integrity sha512-0kWKcGn4lXTw4eUiOhjspYiG+v0m6zSmTmlO62E0hl2CYKUvCuHER9YKqXYvOn2nj24mYp8jzHOLeBuj/Gn28Q==
   dependencies:
     eve-raphael "0.5.0"
 
