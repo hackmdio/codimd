@@ -44,7 +44,7 @@ var filterXSSOptions = {
   onIgnoreTag: function (tag, html, options) {
     // allow comment tag
     if (tag === '!--') {
-            // do not filter its attributes
+      // do not filter its attributes
       return html.replace(/<(?!!--)/g, '&lt;').replace(/-->/g, '__HTML_COMMENT_END__').replace(/>/g, '&gt;').replace(/__HTML_COMMENT_END__/g, '-->')
     }
   },

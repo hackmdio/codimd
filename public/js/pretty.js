@@ -1,28 +1,28 @@
 /* eslint-env browser, jquery */
 /* global refreshView */
 
+import {
+  autoLinkify,
+  deduplicatedHeaderId,
+  removeDOMEvents,
+  finishView,
+  generateToc,
+  md,
+  parseMeta,
+  postProcess,
+  renderTOC,
+  scrollToHash,
+  smoothHashScroll,
+  updateLastChange
+} from './extra'
+
+import { preventXSS } from './render'
+
 require('../css/extra.css')
 require('../css/slide-preview.css')
 require('../css/site.css')
 
 require('highlight.js/styles/github-gist.css')
-
-import {
-    autoLinkify,
-    deduplicatedHeaderId,
-    removeDOMEvents,
-    finishView,
-    generateToc,
-    md,
-    parseMeta,
-    postProcess,
-    renderTOC,
-    scrollToHash,
-    smoothHashScroll,
-    updateLastChange
-} from './extra'
-
-import { preventXSS } from './render'
 
 const markdown = $('#doc.markdown-body')
 const text = markdown.text()
@@ -38,7 +38,7 @@ if (md.meta.type && md.meta.type === 'slide') {
   const slides = window.RevealMarkdown.slidify(text, slideOptions)
   markdown.html(slides)
   window.RevealMarkdown.initialize()
-    // prevent XSS
+  // prevent XSS
   markdown.html(preventXSS(markdown.html()))
   markdown.addClass('slides')
 } else {
@@ -46,12 +46,12 @@ if (md.meta.type && md.meta.type === 'slide') {
     refreshView()
     markdown.removeClass('slides')
   }
-    // only render again when meta changed
+  // only render again when meta changed
   if (JSON.stringify(md.meta) !== JSON.stringify(lastMeta)) {
     parseMeta(md, null, markdown, $('#ui-toc'), $('#ui-toc-affix'))
     rendered = md.render(text)
   }
-    // prevent XSS
+  // prevent XSS
   rendered = preventXSS(rendered)
   const result = postProcess(rendered)
   markdown.html(result.html())
@@ -98,14 +98,14 @@ function generateScrollspy () {
 }
 
 function windowResize () {
-    // toc right
+  // toc right
   const paddingRight = parseFloat(markdown.css('padding-right'))
   const right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight))
   toc.css('right', `${right}px`)
-    // affix toc left
+  // affix toc left
   let newbool
   const rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2
-    // for ipad or wider device
+  // for ipad or wider device
   if (rightMargin >= 133) {
     newbool = true
     const affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2
@@ -126,7 +126,7 @@ $(document).ready(() => {
   windowResize()
   generateScrollspy()
   setTimeout(scrollToHash, 0)
-    // tooltip
+  // tooltip
   $('[data-toggle="tooltip"]').tooltip()
 })
 
