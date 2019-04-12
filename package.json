@@ -137,7 +137,7 @@
     "**/request": "^2.88.0"
   },
   "engines": {
-    "node": ">=6.x"
+    "node": ">=8.0.0"
   },
   "bugs": "https://github.com/hackmdio/codimd/issues",
   "keywords": [
