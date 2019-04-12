@@ -30,7 +30,7 @@ import {
 
 import { saveAs } from 'file-saver'
 import List from 'list.js'
-import S from 'string'
+import unescapeHTML from 'lodash/unescape'
 
 const options = {
   valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
@@ -397,7 +397,7 @@ function buildTagsFilter (tags) {
   for (let i = 0; i < tags.length; i++) {
     tags[i] = {
       id: i,
-      text: S(tags[i]).unescapeHTML().s
+      text: unescapeHTML(tags[i])
     }
   }
   filtertags = tags

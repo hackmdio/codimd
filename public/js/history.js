@@ -2,8 +2,9 @@
 /* global serverurl, moment */
 
 import store from 'store'
-import S from 'string'
 import LZString from 'lz-string'
+
+import escapeHTML from 'lodash/escape'
 
 import wurl from 'wurl'
 
@@ -276,8 +277,8 @@ function parseToHistory (list, notehistory, callback) {
       notehistory[i].fromNow = timestamp.fromNow()
       notehistory[i].time = timestamp.format('llll')
             // prevent XSS
-      notehistory[i].text = S(notehistory[i].text).escapeHTML().s
-      notehistory[i].tags = (notehistory[i].tags && notehistory[i].tags.length > 0) ? S(notehistory[i].tags).escapeHTML().s.split(',') : []
+      notehistory[i].text = escapeHTML(notehistory[i].text)
+      notehistory[i].tags = (notehistory[i].tags && notehistory[i].tags.length > 0) ? escapeHTML(notehistory[i].tags).split(',') : []
             // add to list
       if (notehistory[i].id && list.get('id', notehistory[i].id).length === 0) { list.add(notehistory[i]) }
     }

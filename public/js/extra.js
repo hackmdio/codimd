@@ -13,8 +13,12 @@ require('prismjs/components/prism-gherkin')
 import Prism from 'prismjs'
 import hljs from 'highlight.js'
 import PDFObject from 'pdfobject'
-import S from 'string'
 import { saveAs } from 'file-saver'
+
+import escapeHTML from 'lodash/escape'
+import unescapeHTML from 'lodash/unescape'
+
+import {stripTags} from '../../utils/string'
 
 require('./lib/common/login')
 require('../vendor/md-toc')
@@ -157,7 +161,7 @@ export function renderTags (view) {
 
 function slugifyWithUTF8 (text) {
   // remove html tags and trim spaces
-  let newText = S(text).trim().stripTags().s
+  let newText = stripTags(text.toString().trim())
   // replace all spaces in between to dashes
   newText = newText.replace(/\s+/g, '-')
   // slugify string to make it valid for attribute
@@ -492,22 +496,22 @@ export function finishView (view) {
                 value: code
               }
             } else if (reallang === 'haskell' || reallang === 'go' || reallang === 'typescript' || reallang === 'jsx' || reallang === 'gherkin') {
-              code = S(code).unescapeHTML().s
+              code = unescapeHTML(code)
               result = {
                 value: Prism.highlight(code, Prism.languages[reallang])
               }
             } else if (reallang === 'tiddlywiki' || reallang === 'mediawiki') {
-              code = S(code).unescapeHTML().s
+              code = unescapeHTML(code)
               result = {
                 value: Prism.highlight(code, Prism.languages.wiki)
               }
             } else if (reallang === 'cmake') {
-              code = S(code).unescapeHTML().s
+              code = unescapeHTML(code)
               result = {
                 value: Prism.highlight(code, Prism.languages.makefile)
               }
             } else {
-              code = S(code).unescapeHTML().s
+              code = unescapeHTML(code)
               const languages = hljs.listLanguages()
               if (!languages.includes(reallang)) {
                 result = hljs.highlightAuto(code)
@@ -902,7 +906,7 @@ export function scrollToHash () {
 
 function highlightRender (code, lang) {
   if (!lang || /no(-?)highlight|plain|text/.test(lang)) { return }
-  code = S(code).escapeHTML().s
+  code = escapeHTML(code)
   if (lang === 'sequence') {
     return `<div class="sequence-diagram raw">${code}</div>`
   } else if (lang === 'flow') {
