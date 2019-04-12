@@ -200,7 +200,6 @@ module.exports = {
     index: [
       'babel-polyfill',
       'script-loader!jquery-ui-resizable',
-      'expose-loader?LZString!lz-string',
       'script-loader!codemirror',
       'script-loader!inlineAttachment',
       'script-loader!jqueryTextcomplete',
@@ -249,7 +248,6 @@ module.exports = {
       'expose-loader?hljs!highlight.js',
       'expose-loader?emojify!emojify.js',
       'script-loader!gist-embed',
-      'expose-loader?LZString!lz-string',
       'script-loader!codemirror',
       'script-loader!inlineAttachment',
       'script-loader!jqueryTextcomplete',

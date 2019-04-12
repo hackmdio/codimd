@@ -46,6 +46,11 @@
   resolved "https://registry.yarnpkg.com/@hackmd/js-sequence-diagrams/-/js-sequence-diagrams-0.0.1-alpha.2.tgz#dec87c02b0483a18be6725c4bb7a53df1c701e36"
   integrity sha512-UCkaIuvpi5mDyxGXPaJIM8LJLR9X8yAZk0c58Byjx/bVPvMcFOT+Kyft7LjAbO5ct6MFAVNrhs/6jqY2RfRhLA==
 
+"@hackmd/lz-string@1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@hackmd/lz-string/-/lz-string-1.4.4.tgz#3f2a9e93c209cb43dc4097e2a8eea3fd87ff45f9"
+  integrity sha512-KP8U3BGp/qOdoQBfQp1nHvdyT/xi3dBV2qq8YPv1P5rBCR7OF9NpGTdAoOR6n3fONEaMJBdy069cGGbycJolpQ==
+
 "@passport-next/passport-openid@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@passport-next/passport-openid/-/passport-openid-1.0.0.tgz#d3b5e067a9aa1388ed172ab7cc02c39b8634283d"

@@ -2,7 +2,7 @@
 /* global serverurl, moment */
 
 import store from 'store'
-import LZString from 'lz-string'
+import LZString from '@hackmd/lz-string'
 
 import escapeHTML from 'lodash/escape'
 
