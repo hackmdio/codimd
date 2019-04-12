@@ -188,7 +188,7 @@ function buildMapInner (callback) {
   }
 
   nonEmptyList.push(0)
-    // make the first line go top
+  // make the first line go top
   _scrollMap[0] = viewTop
 
   const parts = markdownArea.find('.part').toArray()
@@ -336,7 +336,7 @@ export function syncScrollToView (event, preventAnimate) {
   const scrollInfo = editor.getScrollInfo()
   const textHeight = editor.defaultTextHeight()
   lineNo = Math.floor(scrollInfo.top / textHeight)
-    // if reach the last line, will start lerp to the bottom
+  // if reach the last line, will start lerp to the bottom
   const diffToBottom = (scrollInfo.top + scrollInfo.clientHeight) - (scrollInfo.height - textHeight)
   if (scrollInfo.height > scrollInfo.clientHeight && diffToBottom > 0) {
     topDiffPercent = diffToBottom / textHeight
