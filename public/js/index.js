@@ -1,5 +1,5 @@
 /* eslint-env browser, jquery */
-/* global CodeMirror, Cookies, moment, Spinner, Idle, serverurl,
+/* global CodeMirror, Cookies, moment, Spinner, serverurl,
    key, Dropbox, ot, hex2rgb, Visibility */
 
 require('../vendor/showup/showup')
