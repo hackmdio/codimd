@@ -1,6 +1,6 @@
 'use strict'
 
-function stripTags(s) {
+function stripTags (s) {
   return s.replace(RegExp(`</?[^<>]*>`, 'gi'), '')
 }
 
