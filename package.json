@@ -20,7 +20,7 @@
     "@hackmd/diff-match-patch": "^1.1.1",
     "@hackmd/idle-js": "^1.0.1",
     "@hackmd/imgur": "^0.4.1",
-    "@hackmd/js-sequence-diagrams": "^0.0.1-alpha.2",
+    "@hackmd/js-sequence-diagrams": "^0.0.1-alpha.3",
     "@hackmd/lz-string": "1.4.4",
     "@passport-next/passport-openid": "^1.0.0",
     "archiver": "^2.1.1",
