@@ -232,6 +232,7 @@ There are some config settings you need to change in the files below.
 | `CMD_S3_SECRET_ACCESS_KEY` | no example | AWS secret key |
 | `CMD_S3_REGION` | `ap-northeast-1` | AWS S3 region |
 | `CMD_S3_BUCKET` | no example | AWS S3 bucket name |
+| `CMD_S3_ENDPOINT` | s3.example.com | custom AWS S3 endpoint |
 | `CMD_MINIO_ACCESS_KEY` | no example | Minio access key |
 | `CMD_MINIO_SECRET_KEY` | no example | Minio secret key |
 | `CMD_MINIO_ENDPOINT` | `minio.example.org` | Address of your Minio endpoint/instance |
