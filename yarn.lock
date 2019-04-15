@@ -41,7 +41,7 @@
     glob "^7.1.3"
     request "^2.88.0"
 
-"@hackmd/js-sequence-diagrams@~0.0.1-alpha.2":
+"@hackmd/js-sequence-diagrams@~0.0.1-alpha.3":
   version "0.0.1-alpha.3"
   resolved "https://registry.yarnpkg.com/@hackmd/js-sequence-diagrams/-/js-sequence-diagrams-0.0.1-alpha.3.tgz#7f8e3380fd6d0e834bacf83675eb4e88ea5cb335"
   integrity sha512-eHpAlFAKU4BmNvwvXryQh7nkdUaYP1FBeMf0zENRHyT9RtkVaY12F61AY2Pbx60xb5+mvg1qxnm3ODLApH9jjQ==
