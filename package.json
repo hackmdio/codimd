@@ -19,7 +19,6 @@
     "dev": "webpack --config webpack.dev.js --progress --colors --watch",
     "doctoc": "doctoc --title='# Table of Contents' README.md",
     "eslint": "eslint lib public test app.js",
-    "postinstall": "bin/heroku",
     "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' -o -type f -name '*.json.example' | while read json; do echo $json ; jq . $json; done",
     "standard": "echo 'standard is no longer being used, use `npm run eslint` instead!' && exit 1",
     "start": "sequelize db:migrate && node app.js",
