@@ -7,7 +7,6 @@ var ejs = require('ejs')
 var passport = require('passport')
 var methodOverride = require('method-override')
 var cookieParser = require('cookie-parser')
-var compression = require('compression')
 var session = require('express-session')
 var SequelizeStore = require('connect-session-sequelize')(session.Store)
 var fs = require('fs')
@@ -79,9 +78,6 @@ app.use(methodOverride('_method'))
 var sessionStore = new SequelizeStore({
   db: models.sequelize
 })
-
-// compression
-app.use(compression())
 
 // use hsts to tell https users stick to this
 if (config.hsts.enable) {
