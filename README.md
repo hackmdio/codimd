@@ -5,7 +5,7 @@ CodiMD
 [![version][github-version-badge]][github-release-page]
 [![POEditor][poeditor-image]][poeditor-url]
 
-CodiMD lets you collaborate in real-time with markdown. Try it out ==[here]()==.
+CodiMD lets you collaborate in real-time with markdown.
 Built on [HackMD](https://hackmd.io) source code, CodiMD lets you host and control your team's content with speed and ease.
 
 ## CodiMD - The Open Source HackMD
