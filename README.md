@@ -44,9 +44,10 @@ Start developing with [manual deployment](https://hackmd.io/c/codimd-documentati
 
 
 ## Contribution and Discussion
-All contributions are welcome! Even asking a question helps. 
-|Project|Contribution Types|Contribution Venue|
-|-|-|-|
+All contributions are welcome! Even asking a question helps.
+
+| Project | Contribution Types | Contribution Venue |
+| ------- | ------------------ | ------------------ |
 |**CodiMD**|:couple: Community chat|[Gitter](https://gitter.im/hackmdio/hackmd)|
 ||:bug: Issues, bugs, and feature requests|[Issue tracker](https://github.com/hackmdio/codimd/issues)|
 ||:books: Improve documentation|[Documentations](https://hackmd.io/c/codimd-documentation)|
