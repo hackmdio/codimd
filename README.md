@@ -22,26 +22,21 @@ CodiMD is perfect for open communities, while HackMD emphasizes on permission an
 HackMD team is committed to keep CodiMD open source. All contributions are welcome!
 
 ## Documentation
-You can find all documentation here: [CodiMD Documentation](https://hackmd.io/c/codimd-documentation)
+You would find all documentation here: [CodiMD Documentation](https://hackmd.io/c/codimd-documentation)
 
 ### Deployment
 If you want to spin up an instance and start using immediately, see [Docker deployment](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-documentation#Deployment).
 If you want to contribute to the project, start with [manual deployment](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment).
 
 ### Configuration
-You can configure CodiMD either with the [config file](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-config-json-file) `.config.json` or with
-[environment variables](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-config-environment-variable).
-
-Environment variables overwrites `config.json`, see the detailed config precedence here: [`.lib/config/index.js#37`](https://github.com/hackmdio/codimd/blob/develop/lib/config/index.js#L37).
+CodiMD is highly customizable, learn about all configuration options of networking, security, performance, resources, privilege, privacy, image storage, and authentication in [CodiMD Configuration](/s/codimd-configuration).
 
 ### Upgrading and Migration
 Upgrade CodiMD from previous version? See [this guide](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-upgrade)
-
 Migrating from Etherpad? Follow [this guide](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-migration-etherpad)
 
 ### Developer
-Start developing with [manual deployment](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment).
-
+Join our contributor community! Start from deploying CodiMD manually, connecting to your own database, learn about the project structure, and build your changes with the help of webpack.
 
 ## Contribution and Discussion
 All contributions are welcome! Even asking a question helps.
