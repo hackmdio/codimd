@@ -36,7 +36,7 @@ Upgrade CodiMD from previous version? See [this guide](https://hackmd.io/c/codim
 Migrating from Etherpad? Follow [this guide](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-migration-etherpad)
 
 ### Developer
-Join our contributor community! Start from deploying CodiMD manually, connecting to your own database, learn about the project structure, and build your changes with the help of webpack.
+Join our contributor community! Start from deploying [CodiMD manually](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment), [connecting to your own database](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-db-connection), [learn about the project structure](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-project-structure), to [build your changes](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-webpack) with the help of webpack.
 
 ## Contribution and Discussion
 All contributions are welcome! Even asking a question helps.
