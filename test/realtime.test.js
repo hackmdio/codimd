@@ -701,5 +701,9 @@ describe('realtime', function () {
       })
     })
 
+    describe('permission', function () {
+
+    })
+
   })
 })
