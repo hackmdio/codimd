@@ -537,6 +537,25 @@ describe('realtime', function () {
 
     })
 
+    describe('disconnect', function () {
+      it('should push socket to disconnect queue and call disconnect function', () => {
+        const disconnectFunc = eventFuncMap.get('disconnect')
+        const disconnectStub = sinon.stub(realtime, 'disconnect')
+        disconnectFunc()
+        assert(realtime.disconnectSocketQueue.length === 1)
+        assert(disconnectStub.calledOnce)
+      })
+
+      it('should quick return when socket is in disconnect queue', () => {
+        const disconnectFunc = eventFuncMap.get('disconnect')
+        const disconnectStub = sinon.stub(realtime, 'disconnect')
+        realtime.disconnectSocketQueue.push(clientSocket)
+        disconnectFunc()
+        assert(disconnectStub.called === false)
+      })
+
+    })
+
   })
 
 })
