@@ -446,7 +446,7 @@ describe('realtime', function () {
 
   describe('socket event', function () {
     let realtime
-    const noteId = "note123"
+    const noteId = 'note123'
     let clientSocket
     const eventFuncMap = new Map()
     beforeEach(() => {
@@ -572,7 +572,7 @@ describe('realtime', function () {
       })
     })
 
-    ;['cursor focus', 'cursor activity', 'cursor blur'].forEach( (event) => {
+    ;['cursor focus', 'cursor activity', 'cursor blur'].forEach((event) => {
       describe(event, function () {
         let cursorFocusFunc
 
@@ -623,6 +623,35 @@ describe('realtime', function () {
           version: '1.5.0',
           minimumCompatibleVersion: '1.0.0'
         })
+      })
+    })
+
+    describe('online users', function () {
+      it('should return online user list', () => {
+        const onlineUsersFunc = eventFuncMap.get('online users')
+        realtime.notes[noteId] = {
+          users: {
+            10: {
+              id: 10
+            },
+            20: {
+              id: 20
+            }
+          }
+        }
+        onlineUsersFunc()
+        assert(clientSocket.emit.called)
+        assert(clientSocket.emit.lastCall.args[0] === 'online users')
+        let returnUserList = clientSocket.emit.lastCall.args[1].users
+        assert(returnUserList.length === 2)
+        assert(returnUserList[0].id === 10)
+        assert(returnUserList[1].id === 20)
+      })
+
+      it('should not return user list when note not exists', () => {
+        const onlineUsersFunc = eventFuncMap.get('online users')
+        onlineUsersFunc()
+        assert(clientSocket.emit.called === false)
       })
     })
 
