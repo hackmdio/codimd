@@ -15,6 +15,7 @@ function makeMockSocket (headers, query) {
       query: Object.assign({}, query)
     },
     on: sinon.fake(),
+    emit: sinon.fake(),
     broadCastChannelCache: {},
     broadcast: {
       to: (channel) => {
@@ -459,7 +460,10 @@ describe('realtime', function () {
           parseNoteTitle: (data) => (data)
         }
       })
-      mock('../lib/config', {})
+      mock('../lib/config', {
+        fullversion: '1.5.0',
+        minimumCompatibleVersion: '1.0.0'
+      })
       realtime = require('../lib/realtime')
 
       // get all socket event handler
@@ -605,6 +609,19 @@ describe('realtime', function () {
           cursorFocusFunc(cursorData)
           const broadChannelEmitFake = clientSocket.broadcast.to(noteId).emit
           assert(broadChannelEmitFake.called === false)
+        })
+      })
+    })
+
+    describe('version', function () {
+      it('should emit server version ', () => {
+        const versionFunc = eventFuncMap.get('version')
+        versionFunc()
+        assert(clientSocket.emit.called)
+        assert(clientSocket.emit.lastCall.args[0], 'version')
+        assert.deepStrictEqual(clientSocket.emit.lastCall.args[1], {
+          version: '1.5.0',
+          minimumCompatibleVersion: '1.0.0'
         })
       })
     })
