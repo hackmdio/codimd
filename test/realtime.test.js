@@ -7,13 +7,26 @@ const assert = require('assert')
 const sinon = require('sinon')
 
 function makeMockSocket (headers, query) {
+  const broadCastChannelCache = {}
   return {
     id: Math.round(Math.random() * 10000),
     handshake: {
       headers: Object.assign({}, headers),
       query: Object.assign({}, query)
     },
-    on: sinon.fake()
+    on: sinon.fake(),
+    broadCastChannelCache: {},
+    broadcast: {
+      to: (channel) => {
+        if (!broadCastChannelCache[channel]) {
+          broadCastChannelCache[channel] = {
+            channel: channel,
+            emit: sinon.fake()
+          }
+        }
+        return broadCastChannelCache[channel]
+      }
+    }
   }
 }
 
@@ -553,9 +566,48 @@ describe('realtime', function () {
         disconnectFunc()
         assert(disconnectStub.called === false)
       })
+    })
 
+    ;['cursor focus', 'cursor activity', 'cursor blur'].forEach( (event) => {
+      describe(event, function () {
+        let cursorFocusFunc
+
+        const cursorData = {
+          cursor: 10
+        }
+
+        beforeEach(() => {
+          cursorFocusFunc = eventFuncMap.get(event)
+          realtime.notes[noteId] = {}
+        })
+
+        it('should broadcast to all client', () => {
+          cursorFocusFunc(cursorData)
+          const broadChannelEmitFake = clientSocket.broadcast.to(noteId).emit
+          assert(broadChannelEmitFake.calledOnce)
+          assert(broadChannelEmitFake.lastCall.args[0] === event)
+          if (event === 'cursor blur') {
+            assert(broadChannelEmitFake.lastCall.args[1].id === clientSocket.id)
+          } else {
+            assert.deepStrictEqual(broadChannelEmitFake.lastCall.args[1].cursor, cursorData)
+          }
+        })
+
+        it('should not broadcast when note not exists', () => {
+          delete realtime.notes[noteId]
+          cursorFocusFunc(cursorData)
+          const broadChannelEmitFake = clientSocket.broadcast.to(noteId).emit
+          assert(broadChannelEmitFake.called === false)
+        })
+
+        it('should not broadcast when user not exists', () => {
+          delete realtime.users[clientSocket.id]
+          cursorFocusFunc(cursorData)
+          const broadChannelEmitFake = clientSocket.broadcast.to(noteId).emit
+          assert(broadChannelEmitFake.called === false)
+        })
+      })
     })
 
   })
-
 })
