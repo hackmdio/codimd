@@ -37,67 +37,6 @@ function removeModuleFromRequireCache (modulePath) {
 }
 
 describe('realtime', function () {
-
-  describe('update note is dirty timer', function () {
-    let realtime
-    beforeEach(() => {
-      mock('../../lib/logger', {
-        error: () => {
-        }
-      })
-      mock('../../lib/history', {})
-      mock('../../lib/models', {
-        Revision: {
-          saveAllNotesRevision: () => {
-          }
-        }
-      })
-      mock('../../lib/config', {})
-    })
-
-    afterEach(() => {
-      removeModuleFromRequireCache('../../lib/realtime')
-      mock.stopAll()
-    })
-
-    it('should update note when note is dirty', (done) => {
-      const clock = sinon.useFakeTimers()
-      realtime = require('../../lib/realtime')
-      sinon.stub(realtime, 'updateNote').callsFake(function (note, callback) {
-        callback(null, null)
-      })
-      const socketIoEmitFake = sinon.fake()
-      realtime.io = {
-        to: sinon.stub().callsFake(function () {
-          return {
-            emit: socketIoEmitFake
-          }
-        })
-      }
-      realtime.notes['note1'] = {
-        server: {
-          isDirty: false
-        },
-        socks: []
-      }
-      let note2 = {
-        server: {
-          isDirty: true
-        },
-        socks: []
-      }
-      realtime.notes['note2'] = note2
-
-      clock.tick(1000)
-      clock.restore()
-
-      setTimeout(() => {
-        assert(note2.server.isDirty === false)
-        done()
-      }, 50)
-    })
-  })
-
   describe('updateNote', function () {
     let realtime, fakeNote
     beforeEach(() => {

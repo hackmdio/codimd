@@ -537,6 +537,5 @@ describe('realtime#socket event', function () {
         done()
       }, 5)
     })
-
   })
 })
