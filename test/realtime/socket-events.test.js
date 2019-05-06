@@ -14,8 +14,12 @@ describe('realtime#socket event', function () {
   let modelsMock
   let eventFuncMap
   let configMock
+  let clock
 
   beforeEach(function () {
+    clock = sinon.useFakeTimers({
+      toFake: ['setInterval']
+    })
     eventFuncMap = new Map()
     modelsMock = {
       Note: {
@@ -62,8 +66,10 @@ describe('realtime#socket event', function () {
 
   afterEach(function () {
     removeModuleFromRequireCache('../../lib/realtime')
+    removeModuleFromRequireCache('../../lib/realtimeClientConnection')
     mock.stopAll()
     sinon.restore()
+    clock.restore()
   })
 
   describe('refresh', function () {

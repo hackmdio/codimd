@@ -8,6 +8,7 @@ const ConnectionQueuing = require('../lib/connectionQueue').ConnectionQueue
 
 describe('ConnectionQueue', function () {
   let clock
+  const waitTimeForCheckResult = 50
 
   beforeEach(() => {
     clock = sinon.useFakeTimers({
@@ -50,12 +51,12 @@ describe('ConnectionQueue', function () {
     setTimeout(() => {
       clock.tick(5)
     }, 3)
-    queue.stop()
 
     setTimeout(() => {
+      queue.stop()
       assert(runningClock.length === 2)
       done()
-    }, 10)
+    }, waitTimeForCheckResult)
   })
 
   it('should not crash when repeat stop queue', () => {
@@ -78,7 +79,7 @@ describe('ConnectionQueue', function () {
     setTimeout(() => {
       assert(processSpy.called)
       done()
-    }, 10)
+    }, waitTimeForCheckResult)
   })
 
   it('should run process although error occurred', (done) => {
@@ -100,7 +101,7 @@ describe('ConnectionQueue', function () {
       assert(failedTask.called)
       assert(normalTask.called)
       done()
-    }, 10)
+    }, waitTimeForCheckResult)
   })
 
   it('should ignore trigger when event not complete', (done) => {
@@ -125,6 +126,6 @@ describe('ConnectionQueue', function () {
     setTimeout(() => {
       assert(processSpy.calledOnce)
       done()
-    }, 10)
+    }, waitTimeForCheckResult)
   })
 })
