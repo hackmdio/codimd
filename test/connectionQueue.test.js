@@ -78,7 +78,7 @@ describe('ConnectionQueue', function () {
     setTimeout(() => {
       assert(processSpy.called)
       done()
-    }, 1)
+    }, 10)
   })
 
   it('should run process although error occurred', (done) => {
@@ -100,7 +100,7 @@ describe('ConnectionQueue', function () {
       assert(failedTask.called)
       assert(normalTask.called)
       done()
-    }, 5)
+    }, 10)
   })
 
   it('should ignore trigger when event not complete', (done) => {
@@ -125,6 +125,6 @@ describe('ConnectionQueue', function () {
     setTimeout(() => {
       assert(processSpy.calledOnce)
       done()
-    }, 2)
+    }, 10)
   })
 })

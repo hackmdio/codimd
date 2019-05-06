@@ -13,14 +13,20 @@ describe('realtime#socket event', function () {
   let clientSocket
   let modelsMock
   let eventFuncMap
+  let configMock
 
   beforeEach(function () {
     eventFuncMap = new Map()
     modelsMock = {
       Note: {
         parseNoteTitle: (data) => (data),
-        destroy: sinon.stub().returns(Promise.resolve(1))
+        destroy: sinon.stub().returns(Promise.resolve(1)),
+        update: sinon.stub().returns(Promise.resolve(1))
       }
+    }
+    configMock = {
+      fullversion: '1.5.0',
+      minimumCompatibleVersion: '1.0.0'
     }
     mock('../../lib/logger', {
       error: () => {
@@ -30,10 +36,7 @@ describe('realtime#socket event', function () {
     })
     mock('../../lib/history', {})
     mock('../../lib/models', modelsMock)
-    mock('../../lib/config', {
-      fullversion: '1.5.0',
-      minimumCompatibleVersion: '1.0.0'
-    })
+    mock('../../lib/config', configMock)
     realtime = require('../../lib/realtime')
 
     // get all socket event handler
@@ -382,5 +385,152 @@ describe('realtime#socket event', function () {
         done()
       }, 10)
     })
+  })
+
+  describe('permission', function () {
+    let ownerId = 'user1_id'
+    let otherSignInUserId = 'user2_id'
+    let otherClient
+    let checkViewPermissionSpy
+    let permissionFunc
+
+    beforeEach(function () {
+      otherClient = makeMockSocket()
+      clientSocket.request = {
+        user: {
+          id: ownerId,
+          logged_in: true
+        }
+      }
+
+      otherClient.request = {
+        user: {
+          id: otherSignInUserId,
+          logged_in: true
+        }
+      }
+
+      realtime.notes[noteId] = {
+        owner: ownerId
+      }
+
+      realtime.io = {
+        to: function () {
+          return {
+            emit: sinon.stub()
+          }
+        }
+      }
+
+      checkViewPermissionSpy = sinon.spy(realtime, 'checkViewPermission')
+      permissionFunc = eventFuncMap.get('permission')
+    })
+
+    it('should disconnect when lose view permission', function (done) {
+      realtime.notes[noteId].permission = 'editable'
+      realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
+
+      permissionFunc('private')
+
+      setTimeout(() => {
+        assert(checkViewPermissionSpy.callCount === 2)
+        assert(otherClient.emit.calledOnce)
+        assert(otherClient.disconnect.calledOnce)
+        done()
+      }, 5)
+    })
+
+    it('should not do anything when user not logged in', function (done) {
+      clientSocket.request = {}
+      permissionFunc('private')
+      setTimeout(() => {
+        assert(modelsMock.Note.update.called === false)
+        done()
+      }, 5)
+    })
+
+    it('should not do anything when note not exists', function (done) {
+      delete realtime.notes[noteId]
+      permissionFunc('private')
+      setTimeout(() => {
+        assert(modelsMock.Note.update.called === false)
+        done()
+      }, 5)
+    })
+
+    it('should not do anything when not note owner', function (done) {
+      clientSocket.request.user.id = 'other_user_id'
+      permissionFunc('private')
+      setTimeout(() => {
+        assert(modelsMock.Note.update.called === false)
+        done()
+      }, 5)
+    })
+
+    it('should change permission to freely when config allowAnonymous and allowAnonymousEdits are true', function (done) {
+      configMock.allowAnonymous = true
+      configMock.allowAnonymousEdits = true
+      realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
+
+      permissionFunc('freely')
+
+      setTimeout(() => {
+        assert(checkViewPermissionSpy.callCount === 2)
+        assert(otherClient.emit.called === false)
+        assert(otherClient.disconnect.called === false)
+        assert(clientSocket.emit.called === false)
+        assert(clientSocket.disconnect.called === false)
+        done()
+      }, 5)
+    })
+
+    it('should not change permission to freely when config allowAnonymous and allowAnonymousEdits are false', function (done) {
+      configMock.allowAnonymous = false
+      configMock.allowAnonymousEdits = false
+      realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
+
+      permissionFunc('freely')
+
+      setTimeout(() => {
+        assert(modelsMock.Note.update.called === false)
+        assert(checkViewPermissionSpy.called === false)
+        done()
+      }, 5)
+    })
+
+    it('should change permission to freely when config allowAnonymous is true', function (done) {
+      configMock.allowAnonymous = true
+      configMock.allowAnonymousEdits = false
+      realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
+
+      permissionFunc('freely')
+
+      setTimeout(() => {
+        assert(checkViewPermissionSpy.callCount === 2)
+        assert(otherClient.emit.called === false)
+        assert(otherClient.disconnect.called === false)
+        assert(clientSocket.emit.called === false)
+        assert(clientSocket.disconnect.called === false)
+        done()
+      }, 5)
+    })
+
+    it('should change permission to freely when config allowAnonymousEdits is true', function (done) {
+      configMock.allowAnonymous = false
+      configMock.allowAnonymousEdits = true
+      realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
+
+      permissionFunc('freely')
+
+      setTimeout(() => {
+        assert(checkViewPermissionSpy.callCount === 2)
+        assert(otherClient.emit.called === false)
+        assert(otherClient.disconnect.called === false)
+        assert(clientSocket.emit.called === false)
+        assert(clientSocket.disconnect.called === false)
+        done()
+      }, 5)
+    })
+
   })
 })
