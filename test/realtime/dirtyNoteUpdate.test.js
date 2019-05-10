@@ -66,7 +66,6 @@ describe('realtime#update note is dirty timer', function () {
     realtime.notes['note2'] = note2
 
     clock.tick(1000)
-
     setTimeout(() => {
       assert(note2.server.isDirty === false)
       done()
@@ -126,5 +125,4 @@ describe('realtime#update note is dirty timer', function () {
       done()
     }, 50)
   })
-
 })

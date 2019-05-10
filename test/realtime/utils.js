@@ -24,7 +24,8 @@ function makeMockSocket (headers, query) {
         return broadCastChannelCache[channel]
       }
     },
-    disconnect: sinon.fake()
+    disconnect: sinon.fake(),
+    rooms: []
   }
 }
 
