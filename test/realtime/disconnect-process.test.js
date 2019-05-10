@@ -61,6 +61,7 @@ describe('realtime#disconnect', function () {
 
   afterEach(() => {
     removeModuleFromRequireCache('../../lib/realtime')
+    mock.stopAll()
     sinon.restore()
   })
 

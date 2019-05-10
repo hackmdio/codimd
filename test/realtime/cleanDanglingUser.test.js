@@ -4,7 +4,7 @@
 const assert = require('assert')
 const mock = require('mock-require')
 const sinon = require('sinon')
-const {removeModuleFromRequireCache, makeMockSocket} = require('./utils')
+const { removeModuleFromRequireCache, makeMockSocket } = require('./utils')
 
 describe('cleanDanglingUser', function () {
   let clock
@@ -25,7 +25,8 @@ describe('cleanDanglingUser', function () {
     mock('../../lib/config', {
       debug: true
     })
-    mock('../../lib/realtimeUpdateDirtyNoteJob', require('../testDoubles/realtimeUpdateDirtyNoteJobStub'))
+    mock('../../lib/realtimeUpdateDirtyNoteJob', require('../testDoubles/realtimeJobStub'))
+    mock('../../lib/realtimeSaveRevisionJob', require('../testDoubles/realtimeJobStub'))
   })
 
   afterEach(() => {
@@ -35,7 +36,7 @@ describe('cleanDanglingUser', function () {
     sinon.restore()
   })
 
-  it('should ', (done) => {
+  it('should call queueForDisconnectSpy when user is dangling', (done) => {
     const realtime = require('../../lib/realtime')
     const queueForDisconnectSpy = sinon.spy(realtime, 'queueForDisconnect')
     realtime.io = {

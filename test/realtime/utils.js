@@ -1,6 +1,7 @@
 'use strict'
 
 const sinon = require('sinon')
+const path = require('path')
 
 function makeMockSocket (headers, query) {
   const broadCastChannelCache = {}
@@ -32,6 +33,15 @@ function makeMockSocket (headers, query) {
 function removeModuleFromRequireCache (modulePath) {
   delete require.cache[require.resolve(modulePath)]
 }
+function removeLibModuleCache () {
+  const libPath = path.resolve(path.join(__dirname, '../../lib'))
+  Object.keys(require.cache).forEach(key => {
+    if (key.startsWith(libPath)) {
+      delete require.cache[require.resolve(key)]
+    }
+  })
+}
 
 exports.makeMockSocket = makeMockSocket
 exports.removeModuleFromRequireCache = removeModuleFromRequireCache
+exports.removeLibModuleCache = removeLibModuleCache
