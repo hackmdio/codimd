@@ -7,6 +7,9 @@ function makeMockSocket (headers, query) {
   const broadCastChannelCache = {}
   return {
     id: Math.round(Math.random() * 10000),
+    request: {
+      user: {}
+    },
     handshake: {
       headers: Object.assign({}, headers),
       query: Object.assign({}, query)
