@@ -4,13 +4,14 @@
 const assert = require('assert')
 const mock = require('mock-require')
 const sinon = require('sinon')
-const { removeModuleFromRequireCache, makeMockSocket } = require('./utils')
+const { removeModuleFromRequireCache, makeMockSocket, removeLibModuleCache } = require('./utils')
 
 describe('realtime#update note is dirty timer', function () {
   let realtime
   let clock
 
   beforeEach(() => {
+    removeLibModuleCache()
     clock = sinon.useFakeTimers({
       toFake: ['setInterval']
     })
@@ -69,7 +70,7 @@ describe('realtime#update note is dirty timer', function () {
     setTimeout(() => {
       assert(note2.server.isDirty === false)
       done()
-    }, 5)
+    }, 10)
   })
 
   it('should not do anything when note missing', function (done) {

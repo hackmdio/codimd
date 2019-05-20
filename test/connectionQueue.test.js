@@ -22,7 +22,7 @@ describe('ProcessQueue', function () {
   })
 
   it('should not accept more than maximum task', () => {
-    const queue = new ProcessQueue(2)
+    const queue = new ProcessQueue({ maximumLength: 2 })
     const task = {
       id: 1,
       processingFunc: async () => {
@@ -36,7 +36,7 @@ describe('ProcessQueue', function () {
 
   it('should run task every interval', (done) => {
     const runningClock = []
-    const queue = new ProcessQueue(2)
+    const queue = new ProcessQueue({ maximumLength: 2 })
     const task = async () => {
       runningClock.push(clock.now)
     }
@@ -62,7 +62,7 @@ describe('ProcessQueue', function () {
   })
 
   it('should not crash when repeat stop queue', () => {
-    const queue = new ProcessQueue(2, 10)
+    const queue = new ProcessQueue({ maximumLength: 2, triggerTimeInterval: 10 })
     try {
       queue.stop()
       queue.stop()
@@ -74,7 +74,7 @@ describe('ProcessQueue', function () {
   })
 
   it('should run process when queue is empty', (done) => {
-    const queue = new ProcessQueue(2, 100)
+    const queue = new ProcessQueue({ maximumLength: 2, triggerTimeInterval: 100 })
     const processSpy = sinon.spy(queue, 'process')
     queue.start()
     clock.tick(100)
@@ -85,7 +85,7 @@ describe('ProcessQueue', function () {
   })
 
   it('should run process although error occurred', (done) => {
-    const queue = new ProcessQueue(2, 100)
+    const queue = new ProcessQueue({ maximumLength: 2, triggerTimeInterval: 100 })
     const failedTask = sinon.spy(async () => {
       throw new Error('error')
     })
@@ -107,7 +107,7 @@ describe('ProcessQueue', function () {
   })
 
   it('should ignore trigger when event not complete', (done) => {
-    const queue = new ProcessQueue(2, 10)
+    const queue = new ProcessQueue({ maximumLength: 2, triggerTimeInterval: 10 })
     const processSpy = sinon.spy(queue, 'process')
     const longTask = async () => {
       return new Promise((resolve) => {

@@ -299,6 +299,9 @@ function handleTermSignals () {
       })
     }
   }, 100)
+  setTimeout(() => {
+    process.exit(1)
+  }, 5000)
 }
 process.on('SIGINT', handleTermSignals)
 process.on('SIGTERM', handleTermSignals)

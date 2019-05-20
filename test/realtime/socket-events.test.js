@@ -9,6 +9,27 @@ const { makeMockSocket, removeModuleFromRequireCache } = require('./utils')
 
 describe('realtime#socket event', function () {
   const noteId = 'note123'
+  const note = {
+    id: noteId,
+    authors: [
+      {
+        userId: 'user1',
+        color: 'red',
+        user: {
+          id: 'user1',
+          name: 'Alice'
+        }
+      },
+      {
+        userId: 'user2',
+        color: 'blue',
+        user: {
+          id: 'user2',
+          name: 'Bob'
+        }
+      }
+    ]
+  }
   let realtime
   let clientSocket
   let modelsMock
@@ -16,7 +37,7 @@ describe('realtime#socket event', function () {
   let configMock
   let clock
 
-  beforeEach(function () {
+  beforeEach(function (done) {
     clock = sinon.useFakeTimers({
       toFake: ['setInterval']
     })
@@ -25,9 +46,14 @@ describe('realtime#socket event', function () {
       Note: {
         parseNoteTitle: (data) => (data),
         destroy: sinon.stub().returns(Promise.resolve(1)),
-        update: sinon.stub().returns(Promise.resolve(1))
-      }
+        update: sinon.stub().returns(Promise.resolve(1)),
+        findOne: sinon.stub().returns(Promise.resolve(note))
+      },
+      User: {}
     }
+    modelsMock.User.getProfile = sinon.stub().callsFake((user) => {
+      return user
+    })
     configMock = {
       fullversion: '1.5.0',
       minimumCompatibleVersion: '1.0.0'
@@ -41,27 +67,50 @@ describe('realtime#socket event', function () {
     mock('../../lib/history', {})
     mock('../../lib/models', modelsMock)
     mock('../../lib/config', configMock)
+    mock('../../lib/ot', require('../testDoubles/otFake'))
     realtime = require('../../lib/realtime')
 
     // get all socket event handler
-    clientSocket = makeMockSocket()
+    clientSocket = makeMockSocket(null, {
+      noteId: noteId
+    })
+    clientSocket.request.user.logged_in = true
+    clientSocket.request.user.id = 'user1'
+    // clientSocket.noteId = noteId
     clientSocket.on = function (event, func) {
       eventFuncMap.set(event, func)
     }
     realtime.maintenance = false
-    sinon.stub(realtime, 'parseNoteIdFromSocket').callsFake((socket, callback) => {
-      /* eslint-disable-next-line */
-      callback(null, noteId)
-    })
+
+    realtime.io = (function () {
+      const roomMap = new Map()
+      return {
+        to: function (roomId) {
+          if (!roomMap.has(roomId)) {
+            roomMap.set(roomId, {
+              emit: sinon.stub()
+            })
+          }
+          return roomMap.get(roomId)
+        }
+      }
+    }())
+
     const wrappedFuncs = []
-    wrappedFuncs.push(sinon.stub(realtime, 'failConnection'))
     wrappedFuncs.push(sinon.stub(realtime, 'updateUserData'))
-    wrappedFuncs.push(sinon.stub(realtime, 'startConnection'))
+    wrappedFuncs.push(sinon.stub(realtime, 'emitOnlineUsers'))
+    wrappedFuncs.push(sinon.stub(realtime, 'parseNoteIdFromSocketAsync').returns(Promise.resolve(noteId)))
+    wrappedFuncs.push(sinon.stub(realtime, 'updateHistory'))
+    wrappedFuncs.push(sinon.stub(realtime, 'emitRefresh'))
+
     realtime.connection(clientSocket)
 
-    wrappedFuncs.forEach((wrappedFunc) => {
-      wrappedFunc.restore()
-    })
+    setTimeout(() => {
+      wrappedFuncs.forEach((wrappedFunc) => {
+        wrappedFunc.restore()
+      })
+      done()
+    }, 50)
   })
 
   afterEach(function () {
@@ -70,6 +119,7 @@ describe('realtime#socket event', function () {
     mock.stopAll()
     sinon.restore()
     clock.restore()
+    clientSocket = null
   })
 
   describe('refresh', function () {
@@ -126,7 +176,7 @@ describe('realtime#socket event', function () {
     it('should not call emitUserStatus when note not exists', () => {
       const userStatusFunc = eventFuncMap.get('user status')
       const emitUserStatusStub = sinon.stub(realtime, 'emitUserStatus')
-      realtime.notes = {}
+      realtime.deleteAllNoteFromPool()
       realtime.users[clientSocket.id] = {}
       const userData = {
         idle: true,
@@ -232,6 +282,7 @@ describe('realtime#socket event', function () {
 
     it('should not return user list when note not exists', function () {
       const onlineUsersFunc = eventFuncMap.get('online users')
+      realtime.deleteAllNoteFromPool()
       onlineUsersFunc()
       assert(clientSocket.emit.called === false)
     })
@@ -256,12 +307,13 @@ describe('realtime#socket event', function () {
       const userChangedFunc = eventFuncMap.get('user changed')
       const updateUserDataStub = sinon.stub(realtime, 'updateUserData')
       const emitOnlineUsersStub = sinon.stub(realtime, 'emitOnlineUsers')
+      realtime.deleteAllNoteFromPool()
       userChangedFunc()
       assert(updateUserDataStub.called === false)
       assert(emitOnlineUsersStub.called === false)
     })
 
-    it('should direct return when note not exists', function () {
+    it('should direct return when note\'s users not exists', function () {
       const userChangedFunc = eventFuncMap.get('user changed')
       realtime.notes[noteId] = {
         users: {}
@@ -414,29 +466,28 @@ describe('realtime#socket event', function () {
         }
       }
 
-      realtime.notes[noteId] = {
+      realtime.deleteAllNoteFromPool()
+      realtime.addNote({
+        id: noteId,
         owner: ownerId
-      }
-
-      realtime.io = {
-        to: function () {
-          return {
-            emit: sinon.stub()
-          }
-        }
-      }
+      })
 
       checkViewPermissionSpy = sinon.spy(realtime, 'checkViewPermission')
       permissionFunc = eventFuncMap.get('permission')
     })
 
     it('should disconnect when lose view permission', function (done) {
-      realtime.notes[noteId].permission = 'editable'
-      realtime.notes[noteId].socks = [clientSocket, undefined, otherClient]
+      realtime.getNoteFromNotePool(noteId).permission = 'editable'
+      realtime.getNoteFromNotePool(noteId).socks = [clientSocket, undefined, otherClient]
 
       permissionFunc('private')
 
       setTimeout(() => {
+        // should change note permission to private
+        assert(modelsMock.Note.update.calledOnce)
+        assert(modelsMock.Note.update.lastCall.args[0].permission === 'private')
+        assert(modelsMock.Note.update.lastCall.args[1].where.id === noteId)
+        // should check all connected client
         assert(checkViewPermissionSpy.callCount === 2)
         assert(otherClient.emit.calledOnce)
         assert(otherClient.disconnect.calledOnce)
