@@ -7,7 +7,7 @@ const sinon = require('sinon')
 
 const { makeMockSocket, removeModuleFromRequireCache } = require('./utils')
 
-describe('realtime#parseNoteIdFromSocket', function () {
+describe('realtime#parseNoteIdFromSocketAsync', function () {
   let realtime
 
   beforeEach(() => {
@@ -28,13 +28,15 @@ describe('realtime#parseNoteIdFromSocket', function () {
     mock.stopAll()
   })
 
-  it('should return null when socket not send noteId', function () {
+  it('should return null when socket not send noteId', async function () {
     realtime = require('../../lib/realtime')
     const mockSocket = makeMockSocket()
-    const fakeCallback = sinon.fake()
-    realtime.parseNoteIdFromSocket(mockSocket, fakeCallback)
-    assert(fakeCallback.called)
-    assert.deepStrictEqual(fakeCallback.getCall(0).args, [null, null])
+    try {
+      const notes = await realtime.parseNoteIdFromSocketAsync(mockSocket)
+      assert(notes === null)
+    } catch (err) {
+      assert.fail('should not occur any error')
+    }
   })
 
   describe('noteId exists', function () {
@@ -47,17 +49,20 @@ describe('realtime#parseNoteIdFromSocket', function () {
         }
       })
     })
-    it('should return noteId when noteId exists', function () {
+    it('should return noteId when noteId exists', async function () {
       realtime = require('../../lib/realtime')
       const noteId = '123456'
       const mockSocket = makeMockSocket(undefined, {
         noteId: noteId
       })
       realtime = require('../../lib/realtime')
-      const fakeCallback = sinon.fake()
-      realtime.parseNoteIdFromSocket(mockSocket, fakeCallback)
-      assert(fakeCallback.called)
-      assert.deepStrictEqual(fakeCallback.getCall(0).args, [null, noteId])
+      let parsedNoteId
+      try {
+        parsedNoteId = await realtime.parseNoteIdFromSocketAsync(mockSocket)
+      } catch (err) {
+        assert.fail(`should not occur any error ${err} `)
+      }
+      assert(parsedNoteId === noteId)
     })
   })
 
@@ -71,17 +76,15 @@ describe('realtime#parseNoteIdFromSocket', function () {
         }
       })
     })
-    it('should return null when noteId not exists', function () {
+    it('should return null when noteId not exists', async function () {
       realtime = require('../../lib/realtime')
       const noteId = '123456'
       const mockSocket = makeMockSocket(undefined, {
         noteId: noteId
       })
       realtime = require('../../lib/realtime')
-      const fakeCallback = sinon.fake()
-      realtime.parseNoteIdFromSocket(mockSocket, fakeCallback)
-      assert(fakeCallback.called)
-      assert.deepStrictEqual(fakeCallback.getCall(0).args, [null, null])
+      const parsedNoteId = await realtime.parseNoteIdFromSocketAsync(mockSocket)
+      assert(parsedNoteId === null)
     })
   })
 
@@ -96,17 +99,18 @@ describe('realtime#parseNoteIdFromSocket', function () {
         }
       })
     })
-    it('should return error when noteId parse error', function () {
+    it('should return error when noteId parse error', async function () {
       realtime = require('../../lib/realtime')
       const noteId = '123456'
       const mockSocket = makeMockSocket(undefined, {
         noteId: noteId
       })
       realtime = require('../../lib/realtime')
-      const fakeCallback = sinon.fake()
-      realtime.parseNoteIdFromSocket(mockSocket, fakeCallback)
-      assert(fakeCallback.called)
-      assert.deepStrictEqual(fakeCallback.getCall(0).args, ['error', null])
+      try {
+        await realtime.parseNoteIdFromSocketAsync(mockSocket)
+      } catch (err) {
+        assert(err === 'error')
+      }
     })
   })
 })

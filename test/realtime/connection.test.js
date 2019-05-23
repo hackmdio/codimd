@@ -43,7 +43,7 @@ describe('realtime#connection', function () {
       it('should fast return when server not start', () => {
         const mockSocket = makeMockSocket()
         realtime.maintenance = true
-        const spy = sinon.spy(realtime, 'parseNoteIdFromSocket')
+        const spy = sinon.spy(realtime, 'parseNoteIdFromSocketAsync')
         realtime.connection(mockSocket)
         assert(!spy.called)
       })
