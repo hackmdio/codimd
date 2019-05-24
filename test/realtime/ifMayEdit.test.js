@@ -54,7 +54,7 @@ describe('realtime#ifMayEdit', function () {
     { role: Role.Guest, permission: Permission.Locked, canEdit: false },
     { role: Role.LoggedIn, permission: Permission.Locked, canEdit: false },
     { role: Role.Owner, permission: Permission.Locked, canEdit: true },
-    { role: Role.Guest, permission: Permission.Protected, canEdit: false},
+    { role: Role.Guest, permission: Permission.Protected, canEdit: false },
     { role: Role.LoggedIn, permission: Permission.Protected, canEdit: false },
     { role: Role.Owner, permission: Permission.Protected, canEdit: true },
     { role: Role.Guest, permission: Permission.Private, canEdit: false },

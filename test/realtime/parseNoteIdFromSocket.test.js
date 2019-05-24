@@ -3,7 +3,6 @@
 
 const assert = require('assert')
 const mock = require('mock-require')
-const sinon = require('sinon')
 
 const { makeMockSocket, removeModuleFromRequireCache } = require('./utils')
 

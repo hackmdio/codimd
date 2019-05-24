@@ -1,10 +1,10 @@
 'use strict'
 
 class realtimeJobStub {
-  start() {
+  start () {
   }
 
-  stop() {
+  stop () {
   }
 }
 

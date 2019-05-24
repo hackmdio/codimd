@@ -5,8 +5,8 @@ const assert = require('assert')
 const mock = require('mock-require')
 const sinon = require('sinon')
 
-const {removeLibModuleCache} = require('./utils')
-const {createFakeLogger} = require('../testDoubles/loggerFake')
+const { removeLibModuleCache } = require('./utils')
+const { createFakeLogger } = require('../testDoubles/loggerFake')
 const realtimeJobStub = require('../testDoubles/realtimeJobStub')
 
 describe('realtime#updateNote', function () {

@@ -2,7 +2,7 @@
 
 const sinon = require('sinon')
 
-function createFakeLogger() {
+function createFakeLogger () {
   return {
     error: sinon.stub(),
     warn: sinon.stub(),

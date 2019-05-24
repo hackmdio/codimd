@@ -23,11 +23,6 @@ describe('ProcessQueue', function () {
 
   it('should not accept more than maximum task', () => {
     const queue = new ProcessQueue({ maximumLength: 2 })
-    const task = {
-      id: 1,
-      processingFunc: async () => {
-      }
-    }
 
     queue.start()
     assert(queue.push(1, () => (Promise.resolve())))
