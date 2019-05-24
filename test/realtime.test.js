@@ -452,7 +452,8 @@ describe('realtime', function () {
     beforeEach(() => {
       mock('../lib/logger', {
         error: () => {
-        }
+        },
+        info: () => {}
       })
       mock('../lib/history', {})
       mock('../lib/models', {
@@ -476,10 +477,16 @@ describe('realtime', function () {
         /* eslint-disable-next-line */
         callback(null, noteId)
       })
-      sinon.stub(realtime, 'failConnection')
-      sinon.stub(realtime, 'updateUserData')
-      sinon.stub(realtime, 'startConnection')
+      const wrappedFuncs = []
+      wrappedFuncs.push(sinon.stub(realtime, 'failConnection'))
+      wrappedFuncs.push(sinon.stub(realtime, 'updateUserData'))
+      wrappedFuncs.push(sinon.stub(realtime, 'startConnection'))
       realtime.connection(clientSocket)
+
+      wrappedFuncs.forEach((wrappedFunc) => {
+        wrappedFunc.restore()
+      })
+
     })
 
     afterEach(() => {
@@ -652,6 +659,45 @@ describe('realtime', function () {
         const onlineUsersFunc = eventFuncMap.get('online users')
         onlineUsersFunc()
         assert(clientSocket.emit.called === false)
+      })
+    })
+
+    describe('user changed', function () {
+      it('should call updateUserData', () => {
+        const userChangedFunc = eventFuncMap.get('user changed')
+        realtime.notes[noteId] = {
+          users: {
+            [clientSocket.id]: {}
+          }
+        }
+        const updateUserDataStub = sinon.stub(realtime, 'updateUserData')
+        const emitOnlineUsersStub = sinon.stub(realtime, 'emitOnlineUsers')
+        userChangedFunc()
+        assert(updateUserDataStub.calledOnce)
+        assert(emitOnlineUsersStub.calledOnce)
+      })
+
+      it('should direct return when note not exists', () => {
+        const userChangedFunc = eventFuncMap.get('user changed')
+        const updateUserDataStub = sinon.stub(realtime, 'updateUserData')
+        const emitOnlineUsersStub = sinon.stub(realtime, 'emitOnlineUsers')
+        userChangedFunc()
+        assert(updateUserDataStub.called === false)
+        assert(emitOnlineUsersStub.called === false)
+      })
+
+      it('should direct return when note not exists', () => {
+        const userChangedFunc = eventFuncMap.get('user changed')
+        realtime.notes[noteId] = {
+          users: {
+          }
+        }
+        delete realtime.users[clientSocket.id]
+        const updateUserDataStub = sinon.stub(realtime, 'updateUserData')
+        const emitOnlineUsersStub = sinon.stub(realtime, 'emitOnlineUsers')
+        userChangedFunc()
+        assert(updateUserDataStub.called === false)
+        assert(emitOnlineUsersStub.called === false)
       })
     })
 
