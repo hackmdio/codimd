@@ -22,7 +22,9 @@
     "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' -o -type f -name '*.json.example' | while read json; do echo $json ; jq . $json; done",
     "standard": "echo 'standard is no longer being used, use `npm run eslint` instead!' && exit 1",
     "start": "sequelize db:migrate && node app.js",
-    "test": "npm run-script eslint && npm run-script jsonlint && mocha"
+    "mocha": "mocha --require intelli-espower-loader --exit ./test --recursive",
+    "cov": "nyc mocha --require intelli-espower-loader --exit --recursive ./test",
+    "test": "npm run-script eslint && npm run-script jsonlint && npm run-script mocha"
   },
   "dependencies": {
     "@hackmd/codemirror": "~5.41.2",
@@ -162,15 +164,19 @@
     "file-loader": "~2.0.0",
     "html-webpack-plugin": "~4.0.0-beta.2",
     "imports-loader": "~0.8.0",
+    "intelli-espower-loader": "^1.0.1",
     "jsonlint": "~1.6.2",
     "less": "~3.9.0",
     "less-loader": "~4.1.0",
     "mini-css-extract-plugin": "~0.4.1",
     "mocha": "~5.2.0",
     "mock-require": "~3.0.3",
+    "nyc": "^14.0.0",
     "optimize-css-assets-webpack-plugin": "~5.0.0",
+    "power-assert": "^1.6.1",
     "script-loader": "~0.7.2",
     "sequelize-cli": "~5.4.0",
+    "sinon": "^7.3.2",
     "string-loader": "~0.0.1",
     "style-loader": "~0.21.0",
     "uglifyjs-webpack-plugin": "~1.2.7",
@@ -196,5 +202,13 @@
       "name": "Christoph (Sheogorath) Kern",
       "email": "codimd@sheogorath.shivering-isles.com"
     }
-  ]
+  ],
+  "nyc": {
+    "all": true,
+    "include": [
+      "app.js",
+      "lib/**/*.js"
+    ],
+    "reporter": "lcov"
+  }
 }
