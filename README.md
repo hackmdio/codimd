@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# Table of Contents
+
+- [CodiMD](#codimd)
+  - [CodiMD - The Open Source HackMD](#codimd---the-open-source-hackmd)
+  - [Documentation](#documentation)
+    - [Deployment](#deployment)
+    - [Configuration](#configuration)
+    - [Upgrading and Migration](#upgrading-and-migration)
+    - [Developer](#developer)
+  - [Contribution and Discussion](#contribution-and-discussion)
+  - [Browser Support](#browser-support)
+  - [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 CodiMD
 ===
 
