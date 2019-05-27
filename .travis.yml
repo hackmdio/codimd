@@ -18,12 +18,12 @@ matrix:
     - node_js: "11"
     - node_js: "12"
 
+script:
+  - yarn test:ci
+  - yarn build
+
 jobs:
   include:
-    - stage: test
-      script: yarn test:ci
-    - stage: build-frontend
-      script: yarn build
     - stage: doctoc-check
       install: npm install -g doctoc
       if: type = pull_request OR branch = master
