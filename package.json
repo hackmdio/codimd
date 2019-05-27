@@ -22,8 +22,11 @@
     "jsonlint": "find . -type f -not -ipath \"./node_modules/*\" \\( -name \"*.json\" -o -name \"*.json.*\" \\) | xargs -n 1 -I{} -- bash -c 'echo {}; jq . {} > /dev/null;'",
     "start": "sequelize db:migrate && node app.js",
     "mocha": "mocha --require intelli-espower-loader --exit ./test --recursive",
+    "mocha:ci": "mocha --no-color -R dot --require intelli-espower-loader --exit ./test --recursive",
     "coverage": "nyc mocha --require intelli-espower-loader --exit --recursive ./test",
-    "test": "npm run-script lint && npm run-script jsonlint && npm run-script coverage"
+    "coverage:ci": "nyc mocha --no-color -R dot --require intelli-espower-loader --exit --recursive ./test",
+    "test": "npm run-script lint && npm run-script jsonlint && npm run-script coverage",
+    "test:ci": "npm run-script lint && npm run-script jsonlint && npm run-script coverage:ci"
   },
   "dependencies": {
     "@hackmd/codemirror": "~5.41.2",
