@@ -19,7 +19,7 @@
     "dev": "webpack --config webpack.dev.js --progress --colors --watch",
     "doctoc": "doctoc --title='# Table of Contents' README.md",
     "lint": "standard",
-    "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' -o -type f -name '*.json.example' | while read json; do echo $json ; jq . $json; done",
+    "jsonlint": "find . -type f -not -ipath \"./node_modules/*\" \\( -name \"*.json\" -o -name \"*.json.*\" \\) | xargs -n 1 -I{} -- bash -c 'echo {}; jq . {} > /dev/null;'",
     "start": "sequelize db:migrate && node app.js",
     "mocha": "mocha --require intelli-espower-loader --exit ./test --recursive",
     "coverage": "nyc mocha --require intelli-espower-loader --exit --recursive ./test",
