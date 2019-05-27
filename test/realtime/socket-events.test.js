@@ -267,4 +267,120 @@ describe('realtime#socket event', function () {
       assert(emitOnlineUsersStub.called === false)
     })
   })
+
+  describe('delete', function () {
+    it('should delete note when owner request', function (done) {
+      const currentUserId = 'user1_id'
+      const noteOwnerId = 'user1_id'
+      const otherClient = makeMockSocket()
+      clientSocket.request = {
+        user: {
+          logged_in: true,
+          id: currentUserId
+        }
+      }
+      realtime.notes[noteId] = {
+        owner: noteOwnerId,
+        socks: [clientSocket, undefined, otherClient]
+      }
+      const deleteFunc = eventFuncMap.get('delete')
+      deleteFunc()
+      setTimeout(() => {
+        assert(otherClient.disconnect.calledOnce)
+        assert(otherClient.emit.calledOnce)
+        assert(otherClient.emit.lastCall.args[0] === 'delete')
+        assert(clientSocket.disconnect.calledOnce)
+        assert(clientSocket.emit.calledOnce)
+        assert(clientSocket.emit.lastCall.args[0] === 'delete')
+        assert(modelsMock.Note.destroy.calledOnce)
+        done()
+      }, 10)
+    })
+
+    it('should not do anything when user not login', function (done) {
+      const noteOwnerId = 'user1_id'
+      clientSocket.request = {}
+      realtime.notes[noteId] = {
+        owner: noteOwnerId,
+        socks: [clientSocket]
+      }
+      const deleteFunc = eventFuncMap.get('delete')
+      deleteFunc()
+      setTimeout(() => {
+        assert(modelsMock.Note.destroy.called === false)
+        assert(clientSocket.disconnect.called === false)
+        done()
+      }, 10)
+    })
+
+    it('should not do anything when note not exists', function (done) {
+      const currentUserId = 'user1_id'
+      clientSocket.request = {
+        user: {
+          logged_in: true,
+          id: currentUserId
+        }
+      }
+      const deleteFunc = eventFuncMap.get('delete')
+      deleteFunc()
+      setTimeout(() => {
+        assert(modelsMock.Note.destroy.called === false)
+        assert(clientSocket.disconnect.called === false)
+        done()
+      }, 10)
+    })
+
+    it('should not do anything when note owner is not me', function (done) {
+      const currentUserId = 'user1_id'
+      const noteOwnerId = 'user2_id'
+      const otherClient = makeMockSocket()
+      clientSocket.request = {
+        user: {
+          logged_in: true,
+          id: currentUserId
+        }
+      }
+      realtime.notes[noteId] = {
+        owner: noteOwnerId,
+        socks: [clientSocket, otherClient]
+      }
+      const deleteFunc = eventFuncMap.get('delete')
+      deleteFunc()
+      setTimeout(() => {
+        assert(clientSocket.disconnect.called === false)
+        assert(modelsMock.Note.destroy.called === false)
+        done()
+      }, 10)
+    })
+
+    it('should not do anything when note destroy fail', function (done) {
+      const currentUserId = 'user1_id'
+      const noteOwnerId = 'user1_id'
+      modelsMock.Note.destroy.withArgs({
+        where: {
+          id: noteId
+        }
+      }).returns(Promise.resolve(0))
+
+      const otherClient = makeMockSocket()
+      clientSocket.request = {
+        user: {
+          logged_in: true,
+          id: currentUserId
+        }
+      }
+      realtime.notes[noteId] = {
+        id: noteId,
+        owner: noteOwnerId,
+        socks: [clientSocket, otherClient]
+      }
+      const deleteFunc = eventFuncMap.get('delete')
+      deleteFunc()
+      setTimeout(() => {
+        assert(modelsMock.Note.destroy.calledOnce)
+        assert(clientSocket.disconnect.called === false)
+        done()
+      }, 10)
+    })
+  })
 })
