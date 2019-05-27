@@ -4,14 +4,26 @@ node_js:
   - "lts/carbon"
   - "lts/dubnium"
   - "11"
+  - "12"
 
 dist: xenial
 cache: yarn
 
-script: yarn test:ci
+matrix:
+  fast_finish: true
+  include:
+    - node_js: lts/carbon
+    - node_js: lts/dubnium
+  allow_failures:
+    - node_js: "11"
+    - node_js: "12"
 
 jobs:
   include:
+    - stage: test
+      script: yarn test:ci
+    - stage: build-frontend
+      script: yarn build
     - stage: doctoc-check
       install: npm install -g doctoc
       if: type = pull_request OR branch = master
@@ -19,3 +31,4 @@ jobs:
         - cp README.md README.md.orig
         - npm run doctoc
         - diff -q README.md README.md.orig
+      node_js: lts/carbon
