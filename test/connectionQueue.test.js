@@ -4,9 +4,9 @@
 const assert = require('assert')
 const sinon = require('sinon')
 
-const ConnectionQueuing = require('../lib/connectionQueue').ConnectionQueue
+const { ProcessQueue } = require('../lib/processQueue')
 
-describe('ConnectionQueue', function () {
+describe('ProcessQueue', function () {
   let clock
   const waitTimeForCheckResult = 50
 
@@ -22,25 +22,27 @@ describe('ConnectionQueue', function () {
   })
 
   it('should not accept more than maximum task', () => {
-    const queue = new ConnectionQueuing(2)
-    const task = async () => {
+    const queue = new ProcessQueue(2)
+    const task = {
+      id: 1,
+      processingFunc: async () => {
+      }
     }
 
     queue.start()
-    assert(queue.push(task))
-    assert(queue.push(task))
-    assert(queue.push(task) === false)
+    assert(queue.push(1, () => (Promise.resolve())))
+    assert(queue.push(1, () => (Promise.resolve())) === false)
   })
 
   it('should run task every interval', (done) => {
     const runningClock = []
-    const queue = new ConnectionQueuing(2)
+    const queue = new ProcessQueue(2)
     const task = async () => {
       runningClock.push(clock.now)
     }
     queue.start()
-    assert(queue.push(task))
-    assert(queue.push(task))
+    assert(queue.push(1, task))
+    assert(queue.push(2, task))
     clock.tick(5)
     setTimeout(() => {
       clock.tick(5)
@@ -60,7 +62,7 @@ describe('ConnectionQueue', function () {
   })
 
   it('should not crash when repeat stop queue', () => {
-    const queue = new ConnectionQueuing(2, 10)
+    const queue = new ProcessQueue(2, 10)
     try {
       queue.stop()
       queue.stop()
@@ -72,7 +74,7 @@ describe('ConnectionQueue', function () {
   })
 
   it('should run process when queue is empty', (done) => {
-    const queue = new ConnectionQueuing(2, 100)
+    const queue = new ProcessQueue(2, 100)
     const processSpy = sinon.spy(queue, 'process')
     queue.start()
     clock.tick(100)
@@ -83,15 +85,15 @@ describe('ConnectionQueue', function () {
   })
 
   it('should run process although error occurred', (done) => {
-    const queue = new ConnectionQueuing(2, 100)
+    const queue = new ProcessQueue(2, 100)
     const failedTask = sinon.spy(async () => {
       throw new Error('error')
     })
     const normalTask = sinon.spy(async () => {
     })
     queue.start()
-    assert(queue.push(failedTask))
-    assert(queue.push(normalTask))
+    assert(queue.push(1, failedTask))
+    assert(queue.push(2, normalTask))
     clock.tick(100)
     setTimeout(() => {
       clock.tick(100)
@@ -105,7 +107,7 @@ describe('ConnectionQueue', function () {
   })
 
   it('should ignore trigger when event not complete', (done) => {
-    const queue = new ConnectionQueuing(2, 10)
+    const queue = new ProcessQueue(2, 10)
     const processSpy = sinon.spy(queue, 'process')
     const longTask = async () => {
       return new Promise((resolve) => {
@@ -115,7 +117,7 @@ describe('ConnectionQueue', function () {
       })
     }
     queue.start()
-    queue.push(longTask)
+    queue.push(1, longTask)
     clock.tick(10)
     setTimeout(() => {
       clock.tick(10)
@@ -124,6 +126,7 @@ describe('ConnectionQueue', function () {
       clock.tick(10)
     }, 1)
     setTimeout(() => {
+      assert(processSpy.callCount === 1)
       assert(processSpy.calledOnce)
       done()
     }, waitTimeForCheckResult)
