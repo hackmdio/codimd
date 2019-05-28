@@ -96,7 +96,7 @@ To stay up to date with your installation it's recommended to subscribe the [rel
 
 [gitter-image]: https://img.shields.io/badge/gitter-hackmdio/codimd-blue.svg	
 [gitter-url]: https://gitter.im/hackmdio/hackmd
-[travis-image]: https://travis-ci.org/hackmdio/codimd.svg?branch=master
+[travis-image]: https://travis-ci.com/hackmdio/codimd.svg?branch=develop
 [travis-url]: https://travis-ci.org/hackmdio/codimd
 [github-version-badge]: https://img.shields.io/github/release/hackmdio/codimd.svg
 [github-release-page]: https://github.com/hackmdio/codimd/releases
