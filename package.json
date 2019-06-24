@@ -55,7 +55,7 @@
     "express": "~4.16.4",
     "express-session": "~1.16.1",
     "file-saver": "~1.3.3",
-    "flowchart.js": "~1.6.4",
+    "flowchart.js": "~1.12.0",
     "fork-awesome": "~1.1.3",
     "formidable": "~1.2.1",
     "gist-embed": "~2.6.0",
