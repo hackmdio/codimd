@@ -24,13 +24,13 @@
                 </a>
                 <% } %>
                 <% if (authProviders.gitlab) { %>
-                <a href="<%- serverURL %>/auth/gitlab" class="btn btn-lg btn-block btn-social btn-soundcloud">
+                <a href="<%- serverURL %>/auth/gitlab" class="btn btn-lg btn-block btn-social btn-gitlab">
                     <i class="fa fa-gitlab"></i> <%= __('Sign in via %s', 'GitLab') %>
                 </a>
                 <% } %>
                 <% if (authProviders.mattermost) { %>
-                <a href="<%- serverURL %>/auth/mattermost" class="btn btn-lg btn-block btn-social btn-soundcloud">
-                    <i class="fa fa-mattermost"></i> <%= __('Sign in via %s', 'Mattermost') %>
+                <a href="<%- serverURL %>/auth/mattermost" class="btn btn-lg btn-block btn-social btn-mattermost">
+                    <i class="oauth-icon"><img alt="mattermost-logo" src="<%- serverURL %>/images/mattermost-logo.svg" /></i> <%= __('Sign in via %s', 'Mattermost') %>
                 </a>
                 <% } %>
                 <% if (authProviders.dropbox) { %>
