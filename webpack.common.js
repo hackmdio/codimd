@@ -195,15 +195,11 @@ module.exports = {
       'bootstrap-validator',
       'expose-loader?select2!select2',
       'expose-loader?moment!moment',
-      'script-loader!js-url',
       path.join(__dirname, 'public/js/cover.js')
     ],
     index: [
       'babel-polyfill',
       'script-loader!jquery-ui-resizable',
-      'script-loader!js-url',
-      'script-loader!Idle.Js',
-      'expose-loader?LZString!lz-string',
       'script-loader!codemirror',
       'script-loader!inlineAttachment',
       'script-loader!jqueryTextcomplete',
@@ -211,23 +207,23 @@ module.exports = {
       'script-loader!codemirrorInlineAttachment',
       'script-loader!ot',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/index.js')
     ],
     'index-styles': [
       path.join(__dirname, 'public/vendor/jquery-ui/jquery-ui.min.css'),
       path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.css'),
-      path.join(__dirname, 'node_modules/codemirror/lib/codemirror.css'),
-      path.join(__dirname, 'node_modules/codemirror/addon/fold/foldgutter.css'),
-      path.join(__dirname, 'node_modules/codemirror/addon/display/fullscreen.css'),
-      path.join(__dirname, 'node_modules/codemirror/addon/dialog/dialog.css'),
-      path.join(__dirname, 'node_modules/codemirror/addon/scroll/simplescrollbars.css'),
-      path.join(__dirname, 'node_modules/codemirror/addon/search/matchesonscrollbar.css'),
-      path.join(__dirname, 'node_modules/codemirror/theme/monokai.css'),
-      path.join(__dirname, 'node_modules/codemirror/theme/one-dark.css'),
-      path.join(__dirname, 'node_modules/codemirror/mode/tiddlywiki/tiddlywiki.css'),
-      path.join(__dirname, 'node_modules/codemirror/mode/mediawiki/mediawiki.css'),
+      path.join(__dirname, 'node_modules/@hackmd/codemirror/lib/codemirror.css'),
+      path.join(__dirname, 'node_modules/@hackmd/codemirror/addon/fold/foldgutter.css'),
+      path.join(__dirname, 'node_modules/@hackmd/codemirror/addon/display/fullscreen.css'),
+      path.join(__dirname, 'node_modules/@hackmd/codemirror/addon/dialog/dialog.css'),
+      path.join(__dirname, 'node_modules/@hackmd/codemirror/addon/scroll/simplescrollbars.css'),
+      path.join(__dirname, 'node_modules/@hackmd/codemirror/addon/search/matchesonscrollbar.css'),
+      path.join(__dirname, 'node_modules/@hackmd/codemirror/theme/monokai.css'),
+      path.join(__dirname, 'node_modules/@hackmd/codemirror/theme/one-dark.css'),
+      path.join(__dirname, 'node_modules/@hackmd/codemirror/mode/tiddlywiki/tiddlywiki.css'),
+      path.join(__dirname, 'node_modules/@hackmd/codemirror/mode/mediawiki/mediawiki.css'),
       path.join(__dirname, 'public/css/github-extract.css'),
       path.join(__dirname, 'public/vendor/showup/showup.css'),
       path.join(__dirname, 'public/css/mermaid.css'),
@@ -248,13 +244,10 @@ module.exports = {
       'expose-loader?jsyaml!js-yaml',
       'script-loader!mermaid',
       'expose-loader?moment!moment',
-      'script-loader!js-url',
       'script-loader!handlebars',
       'expose-loader?hljs!highlight.js',
       'expose-loader?emojify!emojify.js',
-      'script-loader!Idle.Js',
       'script-loader!gist-embed',
-      'expose-loader?LZString!lz-string',
       'script-loader!codemirror',
       'script-loader!inlineAttachment',
       'script-loader!jqueryTextcomplete',
@@ -262,7 +255,7 @@ module.exports = {
       'script-loader!codemirrorInlineAttachment',
       'script-loader!ot',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
       'expose-loader?io!socket.io-client',
@@ -272,7 +265,7 @@ module.exports = {
     pretty: [
       'babel-polyfill',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
     ],
@@ -297,7 +290,7 @@ module.exports = {
       'expose-loader?emojify!emojify.js',
       'script-loader!gist-embed',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
       'expose-loader?RevealMarkdown!reveal-markdown',
@@ -307,7 +300,7 @@ module.exports = {
       'babel-polyfill',
       'bootstrap-tooltip',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/slide.js')
     ],
@@ -335,7 +328,7 @@ module.exports = {
       'expose-loader?emojify!emojify.js',
       'script-loader!gist-embed',
       'flowchart.js',
-      'js-sequence-diagrams',
+      'script-loader!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
       'headjs',
@@ -355,7 +348,7 @@ module.exports = {
     modules: ['node_modules'],
     extensions: ['.js'],
     alias: {
-      codemirror: path.join(__dirname, 'node_modules/codemirror/codemirror.min.js'),
+      codemirror: path.join(__dirname, 'node_modules/@hackmd/codemirror/codemirror.min.js'),
       inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
       jqueryTextcomplete: path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
       codemirrorSpellChecker: path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
@@ -369,7 +362,8 @@ module.exports = {
       'headjs': path.join(__dirname, 'node_modules/reveal.js/lib/js/head.min.js'),
       'reveal-markdown': path.join(__dirname, 'public/js/reveal-markdown.js'),
       abcjs: path.join(__dirname, 'public/vendor/abcjs_basic_3.1.1-min.js'),
-      raphael: path.join(__dirname, 'node_modules/raphael/raphael.no-deps.js')
+      raphael: path.join(__dirname, 'node_modules/raphael/raphael.min.js'),
+      'js-sequence-diagrams': path.join(__dirname, 'node_modules/@hackmd/js-sequence-diagrams/build/main.js')
     }
   },
 
@@ -418,12 +412,6 @@ module.exports = {
         },
         'less-loader'
       ]
-    }, {
-      test: require.resolve('js-sequence-diagrams'),
-      use: [{
-        loader: 'imports-loader',
-        options: { _: 'lodash', Raphael: 'raphael', eve: 'eve' }
-      }]
     }, {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       use: [{ loader: 'file-loader' }]
