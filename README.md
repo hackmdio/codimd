@@ -29,7 +29,7 @@ If you want to spin up an instance and start using immediately, see [Docker depl
 If you want to contribute to the project, start with [manual deployment](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment).
 
 ### Configuration
-CodiMD is highly customizable, learn about all configuration options of networking, security, performance, resources, privilege, privacy, image storage, and authentication in [CodiMD Configuration](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-configuration).
+CodiMD is highly customizable. Learn about all configuration options of networking, security, performance, resources, privilege, privacy, image storage, and authentication in [CodiMD Configuration](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-configuration).
 
 ### Upgrading and Migration
 Upgrade CodiMD from previous version? See [this guide](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-upgrade)
@@ -76,6 +76,8 @@ To stay up to date with your installation it's recommended to subscribe the [rel
 
 **License under AGPL.**
 
+[gitter-image]: https://img.shields.io/badge/gitter-hackmdio/codimd-blue.svg	
+[gitter-url]: https://gitter.im/hackmdio/hackmd
 [travis-image]: https://travis-ci.org/hackmdio/codimd.svg?branch=master
 [travis-url]: https://travis-ci.org/hackmdio/codimd
 [github-version-badge]: https://img.shields.io/github/release/hackmdio/codimd.svg
