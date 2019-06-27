@@ -77,7 +77,16 @@ var options = meta.slideOptions || {}
 if (options.hasOwnProperty('spotlight')) {
   defaultOptions.dependencies.push({
     src: `${serverurl}/build/reveal.js/plugin/spotlight/spotlight.js`
-  });
+  })
+}
+
+if (options.hasOwnProperty('allottedTime') || options.hasOwnProperty('allottedMinutes')) {
+  defaultOptions.dependencies.push({
+    src: `${serverurl}/build/reveal.js/plugin/elapsed-time-bar/elapsed-time-bar.js`
+  })
+  if (options.hasOwnProperty('allottedMinutes')) {
+    options.allottedTime = options.allottedMinutes * 60 * 1000
+  }
 }
 
 const view = $('.reveal')
