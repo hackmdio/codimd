@@ -26,7 +26,7 @@
     "test": "npm run-script eslint && npm run-script jsonlint && mocha"
   },
   "dependencies": {
-    "@hackmd/codemirror": "~5.41.2",
+    "@hackmd/codemirror": "^5.46.2",
     "@hackmd/diff-match-patch": "~1.1.1",
     "@hackmd/idle-js": "~1.0.1",
     "@hackmd/imgur": "~0.4.1",
@@ -55,7 +55,7 @@
     "express": "~4.16.4",
     "express-session": "~1.16.1",
     "file-saver": "~1.3.3",
-    "flowchart.js": "~1.6.4",
+    "flowchart.js": "~1.12.0",
     "fork-awesome": "~1.1.3",
     "formidable": "~1.2.1",
     "gist-embed": "~2.6.0",

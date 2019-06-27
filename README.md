@@ -76,6 +76,8 @@ To stay up to date with your installation it's recommended to subscribe the [rel
 
 **License under AGPL.**
 
+[gitter-image]: https://img.shields.io/badge/gitter-hackmdio/codimd-blue.svg	
+[gitter-url]: https://gitter.im/hackmdio/hackmd
 [travis-image]: https://travis-ci.org/hackmdio/codimd.svg?branch=master
 [travis-url]: https://travis-ci.org/hackmdio/codimd
 [github-version-badge]: https://img.shields.io/github/release/hackmdio/codimd.svg
