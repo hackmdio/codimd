@@ -84,7 +84,7 @@
     "Link": "링크",
     "Image": "이미지",
     "Code": "코드",
-    "Externals": "Externals",
+    "Externals": "외부 서비스 연동",
     "This is a alert area.": "여기는 알림 공간입니다.",
     "Revert": "되돌리기",
     "Import from clipboard": "클립보드에서 불러오기",
@@ -105,5 +105,13 @@
     "Export to Snippet": "Export to Snippet",
     "Select Visibility Level": "Select Visibility Level",
     "Night Theme": "다크 테마",
-    "Follow us on %s and %s.": "%s과 %s에서 저희를 팔로우해보세요"
+    "Follow us on %s and %s.": "%s과 %s에서 저희를 팔로우해보세요",
+    "Privacy": "Privacy",
+    "Terms of Use": "Terms of Use",
+    "Do you really want to delete your user account?": "Do you really want to delete your user account?",
+    "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.": "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.",
+    "Delete user": "Delete user",
+    "Export user data": "Export user data",
+    "Help us translating on %s": "%s에서 번역으로 저희를 도와주세요",
+    "Source Code": "Source Code"
 }

@@ -8,7 +8,7 @@ This means that you can write notes with other people on your **desktop**, **tab
 You can sign-in via multiple auth providers like **Facebook**, **Twitter**, **GitHub** and many more on the [_homepage_](/).
 
 If you experience any _issues_, feel free to report it on [**GitHub**](https://github.com/hackmdio/codimd/issues).
-Or meet us on [**Matrix.org**](https://riot.im/app/#/room/#codimd:matrix.org) or [**Gitter**](https://gitter.im/hackmdio/hackmd) for dev-talk and interactive help.
+Or meet us on [**Matrix.org**](https://riot.im/app/#/room/#codimd:matrix.org) for dev-talk and interactive help.
 **Thank you very much!**
 
 Workspace
@@ -72,8 +72,10 @@ Notes can be embedded as follows:
 
 ## [Slide Mode](./slide-example):
 You can use a special syntax to organize your note into slides.
-After that, you can use the **Slide Mode** <i class="fa fa-tv"></i> to make a presentation.
+After that, you can use the **[Slide Mode](./slide-example)** <i class="fa fa-tv"></i> to make a presentation.
 Visit the above link for details.
+
+To switch the editor into slide mode, set the [document type](./yaml-metadata#type) to `slide`.
 
 View
 ===
@@ -88,9 +90,23 @@ You can hover and click <i class="fa fa-chain"></i> to anchor on it.
 
 Edit:
 ===
+## Editor Modes:
+You can look in the bottom right section of the editor area, there you'll find a button with `sublime` on it.
+When you click it, you can select 3 editor modes:
+
+- sublime (default)
+- emacs
+- vim
+
 ## Shortcut Keys:
-Just like Sublime text, which is pretty quick and convenient.
-> For more infomation, see [here](https://codemirror.net/demo/sublime.html).
+The shortcut keys depend on your selected editor mode. By default they are just like Sublime text, which is pretty quick and convenient.
+> For more information, see [here](https://codemirror.net/demo/sublime.html).
+
+For emacs:
+> For more information, see [here](https://codemirror.net/demo/emacs.html).
+
+For vim:
+> For more information, see [here](https://codemirror.net/demo/vim.html).
 
 ## Auto-Complete:
 This editor provides full auto-complete hints in markdown.
@@ -195,7 +211,7 @@ When you’re a carpenter making a beautiful chest of drawers, you’re not goin
 ## Externals
 
 ### YouTube
-{%youtube 1G4isv_Fylg %}
+{%youtube aqz-KE-bpKQ %}
 
 ### Vimeo
 {%vimeo 124148255 %}
@@ -205,9 +221,6 @@ When you’re a carpenter making a beautiful chest of drawers, you’re not goin
 
 ### SlideShare
 {%slideshare briansolis/26-disruptive-technology-trends-2016-2018-56796196 %}
-
-### Speakerdeck
-{%speakerdeck sugarenia/xxlcss-how-to-scale-css-and-keep-your-sanity %}
 
 ### PDF
 **Caution: this might be blocked by your browser if not using an `https` URL.**

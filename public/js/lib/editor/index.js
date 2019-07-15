@@ -492,7 +492,7 @@ export default class Editor {
             clearInterval(spellcheckTimer)
           }
         },
-        100,
+        100
       )
     }
   }
@@ -514,7 +514,7 @@ export default class Editor {
   }
   setOverrideBrowserKeymap () {
     var overrideBrowserKeymap = $(
-      '.ui-preferences-override-browser-keymap label > input[type="checkbox"]',
+      '.ui-preferences-override-browser-keymap label > input[type="checkbox"]'
     )
     if (overrideBrowserKeymap.is(':checked')) {
       Cookies.set('preferences-override-browser-keymap', true, {
@@ -529,10 +529,10 @@ export default class Editor {
 
   setPreferences () {
     var overrideBrowserKeymap = $(
-      '.ui-preferences-override-browser-keymap label > input[type="checkbox"]',
+      '.ui-preferences-override-browser-keymap label > input[type="checkbox"]'
     )
     var cookieOverrideBrowserKeymap = Cookies.get(
-      'preferences-override-browser-keymap',
+      'preferences-override-browser-keymap'
     )
     if (cookieOverrideBrowserKeymap && cookieOverrideBrowserKeymap === 'true') {
       overrideBrowserKeymap.prop('checked', true)

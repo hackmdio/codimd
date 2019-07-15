@@ -119,23 +119,24 @@
     color: #ddd;
 }
 
-.markdown-body h1 .octicon-link,
-.markdown-body h2 .octicon-link,
-.markdown-body h3 .octicon-link,
-.markdown-body h4 .octicon-link,
-.markdown-body h5 .octicon-link,
-.markdown-body h6 .octicon-link {
+.markdown-body h1 .fa-link,
+.markdown-body h2 .fa-link,
+.markdown-body h3 .fa-link,
+.markdown-body h4 .fa-link,
+.markdown-body h5 .fa-link,
+.markdown-body h6 .fa-link {
     color: #000;
     vertical-align: middle;
     visibility: hidden;
+    font-size: 16px;
 }
 
-.night .markdown-body h1 .octicon-link,
-.night .markdown-body h2 .octicon-link,
-.night .markdown-body h3 .octicon-link,
-.night .markdown-body h4 .octicon-link,
-.night .markdown-body h5 .octicon-link,
-.night .markdown-body h6 .octicon-link {
+.night .markdown-body h1 .fa-link,
+.night .markdown-body h2 .fa-link,
+.night .markdown-body h3 .fa-link,
+.night .markdown-body h4 .fa-link,
+.night .markdown-body h5 .fa-link,
+.night .markdown-body h6 .fa-link {
     color: #fff;
 }
 
@@ -148,12 +149,12 @@
     text-decoration: none;
 }
 
-.markdown-body h1:hover .anchor .octicon-link,
-.markdown-body h2:hover .anchor .octicon-link,
-.markdown-body h3:hover .anchor .octicon-link,
-.markdown-body h4:hover .anchor .octicon-link,
-.markdown-body h5:hover .anchor .octicon-link,
-.markdown-body h6:hover .anchor .octicon-link {
+.markdown-body h1:hover .anchor .fa-link,
+.markdown-body h2:hover .anchor .fa-link,
+.markdown-body h3:hover .anchor .fa-link,
+.markdown-body h4:hover .anchor .fa-link,
+.markdown-body h5:hover .anchor .fa-link,
+.markdown-body h6:hover .anchor .fa-link {
     visibility: visible;
 }
 

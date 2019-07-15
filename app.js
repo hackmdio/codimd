@@ -53,12 +53,12 @@ if (config.useSSL) {
 
 // logger
 app.use(morgan('combined', {
-  'stream': logger
+  'stream': logger.stream
 }))
 
 // socket io
 var io = require('socket.io')(server)
-io.engine.ws = new (require('uws').Server)({
+io.engine.ws = new (require('ws').Server)({
   noServer: true,
   perMessageDeflate: false
 })
@@ -83,7 +83,7 @@ app.use(compression())
 // use hsts to tell https users stick to this
 if (config.hsts.enable) {
   app.use(helmet.hsts({
-    maxAge: config.hsts.maxAgeSeconds * 1000,
+    maxAge: config.hsts.maxAgeSeconds,
     includeSubdomains: config.hsts.includeSubdomains,
     preload: config.hsts.preload
   }))
@@ -113,7 +113,7 @@ if (config.csp.enable) {
 }
 
 i18n.configure({
-  locales: ['en', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da', 'ko'],
+  locales: ['en', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da', 'ko', 'id', 'sr'],
   cookie: 'locale',
   directory: path.join(__dirname, '/locales'),
   updateFiles: config.updateI18nFiles
@@ -125,7 +125,10 @@ app.use(i18n.init)
 
 // routes without sessions
 // static files
-app.use('/', express.static(path.join(__dirname, '/public'), { maxAge: config.staticCacheTime }))
+app.use('/', express.static(path.join(__dirname, '/public'), { maxAge: config.staticCacheTime, index: false }))
+app.use('/docs', express.static(path.resolve(__dirname, config.docsPath), { maxAge: config.staticCacheTime }))
+app.use('/uploads', express.static(path.resolve(__dirname, config.uploadsPath), { maxAge: config.staticCacheTime }))
+app.use('/default.md', express.static(path.resolve(__dirname, config.defaultNotePath), { maxAge: config.staticCacheTime }))
 
 // session
 app.use(session({
@@ -167,11 +170,40 @@ app.use(require('./lib/web/middleware/codiMDVersion'))
 
 // routes need sessions
 // template files
-app.set('views', path.join(__dirname, '/public/views'))
+app.set('views', config.viewPath)
 // set render engine
 app.engine('ejs', ejs.renderFile)
 // set view engine
 app.set('view engine', 'ejs')
+// set generally available variables for all views
+app.locals.useCDN = config.useCDN
+app.locals.serverURL = config.serverURL
+app.locals.sourceURL = config.sourceURL
+app.locals.allowAnonymous = config.allowAnonymous
+app.locals.allowAnonymousEdits = config.allowAnonymousEdits
+app.locals.allowPDFExport = config.allowPDFExport
+app.locals.authProviders = {
+  facebook: config.isFacebookEnable,
+  twitter: config.isTwitterEnable,
+  github: config.isGitHubEnable,
+  gitlab: config.isGitLabEnable,
+  mattermost: config.isMattermostEnable,
+  dropbox: config.isDropboxEnable,
+  google: config.isGoogleEnable,
+  ldap: config.isLDAPEnable,
+  ldapProviderName: config.ldap.providerName,
+  saml: config.isSAMLEnable,
+  oauth2: config.isOAuth2Enable,
+  oauth2ProviderName: config.oauth2.providerName,
+  openID: config.isOpenIDEnable,
+  email: config.isEmailEnable,
+  allowEmailRegister: config.allowEmailRegister
+}
+
+// Export/Import menu items
+app.locals.enableDropBoxSave = config.isDropboxEnable
+app.locals.enableGitHubGist = config.isGitHubEnable
+app.locals.enableGitlabSnippets = config.isGitlabSnippetsEnable
 
 app.use(require('./lib/web/baseRouter'))
 app.use(require('./lib/web/statusRouter'))

@@ -44,7 +44,7 @@
     }
   }
 
-  Toc.prototype._createTocContent = function recursiveToc(level = 0, titleElements = [], titleNames = [], ulClass = undefined) {
+  Toc.prototype._createTocContent = function recursiveToc(level = 0, titleElements = [], titleNames = [], ulClass = undefined, index = 0) {
     // Inititalize our elements from the toc object
     // which is only available on level 0
     if (level === 0) {
@@ -74,8 +74,8 @@
         var elementText = (typeof this.process === 'function' ? this.process(element) : element.innerHTML).replace(/<(?:.|\n)*?>/gm, '')
         var id = element.getAttribute('id')
         if (!id) {
-          element.setAttribute('id', 'tip' + i)
-          id = '#tip' + i
+          element.setAttribute('id', 'tip' + ++index)
+          id = '#tip' + index
         } else {
           id = '#' + id
         }
@@ -97,7 +97,7 @@
         // This element is for the lower lever, we have to re-add it before we send the list down there.
         titleElements.unshift(element)
         // Let's call ourself and get to the next level
-        content += recursiveToc(level + 1, titleElements, titleNames, ulClass)
+        content += recursiveToc(level + 1, titleElements, titleNames, ulClass, index)
       } else {
         // When we end up here, met a higher level element
         // This is not our business so back into the list with the element and let's end this loop
