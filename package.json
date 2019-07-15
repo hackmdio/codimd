@@ -139,7 +139,9 @@
     "winston": "~3.1.0",
     "ws": "~6.0.0",
     "wurl": "~2.5.3",
-    "xss": "~1.0.3"
+    "xss": "~1.0.3",
+    "yarn": "^1.17.3",
+    "node-gyp": "^5.0.0"
   },
   "devDependencies": {
     "acorn": "~6.1.1",
@@ -187,7 +189,7 @@
     "utf-8-validate": "~5.0.1"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": "10.16.0"
   },
   "maintainers": [
     {

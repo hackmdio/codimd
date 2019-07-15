@@ -1,6 +1,7 @@
 ---
 applications:
 - name: hackmd
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
   host: datagov-hackmd
   memory: 512M
   instances: 1
