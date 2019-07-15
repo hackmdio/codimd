@@ -10,13 +10,13 @@ jobs:
   include:
     - env: task=npm-test
       node_js:
-        - 6
+        - 8
       before_install:
         - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version "$YARN_VERSION"
         - export PATH="$HOME/.yarn/bin:$PATH"
     - env: task=npm-test
       node_js:
-        - 7
+        - 10
       before_install:
         - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version "$YARN_VERSION"
         - export PATH="$HOME/.yarn/bin:$PATH"

@@ -1,36 +1,36 @@
 /* eslint-env browser, jquery */
 /* global moment, serverurl */
 
-require('./locale')
-
-require('../css/cover.css')
-require('../css/site.css')
-
 import {
-    checkIfAuth,
-    clearLoginState,
-    getLoginState,
-    resetCheckAuth,
-    setloginStateChangeEvent
+  checkIfAuth,
+  clearLoginState,
+  getLoginState,
+  resetCheckAuth,
+  setloginStateChangeEvent
 } from './lib/common/login'
 
 import {
-    clearDuplicatedHistory,
-    deleteServerHistory,
-    getHistory,
-    getStorageHistory,
-    parseHistory,
-    parseServerToHistory,
-    parseStorageToHistory,
-    postHistoryToServer,
-    removeHistory,
-    saveHistory,
-    saveStorageHistoryToServer
+  clearDuplicatedHistory,
+  deleteServerHistory,
+  getHistory,
+  getStorageHistory,
+  parseHistory,
+  parseServerToHistory,
+  parseStorageToHistory,
+  postHistoryToServer,
+  removeHistory,
+  saveHistory,
+  saveStorageHistoryToServer
 } from './history'
 
 import { saveAs } from 'file-saver'
 import List from 'list.js'
-import S from 'string'
+import unescapeHTML from 'lodash/unescape'
+
+require('./locale')
+
+require('../css/cover.css')
+require('../css/site.css')
 
 const options = {
   valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
@@ -67,27 +67,27 @@ pageInit()
 
 function pageInit () {
   checkIfAuth(
-        data => {
-          $('.ui-signin').hide()
-          $('.ui-or').hide()
-          $('.ui-welcome').show()
-          if (data.photo) $('.ui-avatar').prop('src', data.photo).show()
-          else $('.ui-avatar').prop('src', '').hide()
-          $('.ui-name').html(data.name)
-          $('.ui-signout').show()
-          $('.ui-history').click()
-          parseServerToHistory(historyList, parseHistoryCallback)
-        },
-        () => {
-          $('.ui-signin').show()
-          $('.ui-or').show()
-          $('.ui-welcome').hide()
-          $('.ui-avatar').prop('src', '').hide()
-          $('.ui-name').html('')
-          $('.ui-signout').hide()
-          parseStorageToHistory(historyList, parseHistoryCallback)
-        }
-    )
+    data => {
+      $('.ui-signin').hide()
+      $('.ui-or').hide()
+      $('.ui-welcome').show()
+      if (data.photo) $('.ui-avatar').prop('src', data.photo).show()
+      else $('.ui-avatar').prop('src', '').hide()
+      $('.ui-name').html(data.name)
+      $('.ui-signout').show()
+      $('.ui-history').click()
+      parseServerToHistory(historyList, parseHistoryCallback)
+    },
+    () => {
+      $('.ui-signin').show()
+      $('.ui-or').show()
+      $('.ui-welcome').hide()
+      $('.ui-avatar').prop('src', '').hide()
+      $('.ui-name').html('')
+      $('.ui-signout').hide()
+      parseStorageToHistory(historyList, parseHistoryCallback)
+    }
+  )
 }
 
 $('.masthead-nav li').click(function () {
@@ -132,7 +132,7 @@ function checkHistoryList () {
 
 function parseHistoryCallback (list, notehistory) {
   checkHistoryList()
-    // sort by pinned then timestamp
+  // sort by pinned then timestamp
   list.sort('', {
     sortFunction (a, b) {
       const notea = a.values()
@@ -152,13 +152,13 @@ function parseHistoryCallback (list, notehistory) {
       }
     }
   })
-    // parse filter tags
+  // parse filter tags
   const filtertags = []
   for (let i = 0, l = list.items.length; i < l; i++) {
     const tags = list.items[i]._values.tags
     if (tags && tags.length > 0) {
       for (let j = 0; j < tags.length; j++) {
-                // push info filtertags if not found
+        // push info filtertags if not found
         let found = false
         if (filtertags.includes(tags[j])) { found = true }
         if (!found) { filtertags.push(tags[j]) }
@@ -178,20 +178,20 @@ historyList.on('updated', e => {
       const a = itemEl.find('a')
       const pin = itemEl.find('.ui-history-pin')
       const tagsEl = itemEl.find('.tags')
-            // parse link to element a
+      // parse link to element a
       a.attr('href', `${serverurl}/${values.id}`)
-            // parse pinned
+      // parse pinned
       if (values.pinned) {
         pin.addClass('active')
       } else {
         pin.removeClass('active')
       }
-            // parse tags
+      // parse tags
       const tags = values.tags
       if (tags && tags.length > 0 && tagsEl.children().length <= 0) {
         const labels = []
         for (let j = 0; j < tags.length; j++) {
-                    // push into the item label
+          // push into the item label
           labels.push(`<span class='label label-default'>${tags[j]}</span>`)
         }
         tagsEl.html(labels.join(' '))
@@ -328,7 +328,7 @@ $('.ui-open-history').bind('change', e => {
   const reader = new FileReader()
   reader.onload = () => {
     const notehistory = JSON.parse(reader.result)
-        // console.log(notehistory);
+    // console.log(notehistory);
     if (!reader.result) return
     getHistory(data => {
       let mergedata = data.concat(notehistory)
@@ -397,7 +397,7 @@ function buildTagsFilter (tags) {
   for (let i = 0; i < tags.length; i++) {
     tags[i] = {
       id: i,
-      text: S(tags[i]).unescapeHTML().s
+      text: unescapeHTML(tags[i])
     }
   }
   filtertags = tags

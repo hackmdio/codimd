@@ -1,6 +1,8 @@
 /* eslint-env browser, jquery */
-/* global filterXSS */
 // allow some attributes
+
+var filterXSS = require('xss')
+
 var whiteListAttr = ['id', 'class', 'style']
 window.whiteListAttr = whiteListAttr
 // allow link starts with '.', '/' and custom protocol with '://', exclude link starts with javascript://
@@ -42,8 +44,8 @@ var filterXSSOptions = {
   onIgnoreTag: function (tag, html, options) {
     // allow comment tag
     if (tag === '!--') {
-            // do not filter its attributes
-      return html
+      // do not filter its attributes
+      return html.replace(/<(?!!--)/g, '&lt;').replace(/-->/g, '__HTML_COMMENT_END__').replace(/>/g, '&gt;').replace(/__HTML_COMMENT_END__/g, '-->')
     }
   },
   onTagAttr: function (tag, name, value, isWhiteAttr) {
@@ -71,5 +73,6 @@ function preventXSS (html) {
 window.preventXSS = preventXSS
 
 module.exports = {
-  preventXSS: preventXSS
+  preventXSS: preventXSS,
+  escapeAttrValue: filterXSS.escapeAttrValue
 }

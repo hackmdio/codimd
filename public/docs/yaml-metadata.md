@@ -25,7 +25,7 @@ This option will set the note title which prior than content title.
 > default: not set
 
 **Example**
-```xml
+```yml
 title: meta title
 ```
 
@@ -36,7 +36,7 @@ This option will set the note description.
 > default: not set
 
 **Example**
-```xml
+```yml
 description: meta description
 ```
 
@@ -47,7 +47,7 @@ This option will set the tags which prior than content tags.
 > default: not set
 
 **Example**
-```xml
+```yml
 tags: features, cool, updated
 ```
 
@@ -62,7 +62,7 @@ So you can prevent any search engine index your note by set `noindex, nofollow`.
 > default: not set
 
 **Example**
-```xml
+```yml
 robots: noindex, nofollow
 ```
 
@@ -75,13 +75,13 @@ https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 > default: not set (which will be en)
 
 **Example**
-```xml
+```yml
 langs: ja-jp
 ```
 
 dir
 ---
-This option provide to describe the direction of the text in this note.
+This option specifies the direction of the text in this note.
 You can only use whether `rtl` or `ltr`.
 Look more at here:
 http://www.w3.org/International/questions/qa-html-dir
@@ -89,7 +89,7 @@ http://www.w3.org/International/questions/qa-html-dir
 > default: not set (which will be ltr)
 
 **Example**
-```xml
+```yml
 dir: rtl
 ```
 
@@ -102,35 +102,46 @@ You can only use whether `true` or `false`.
 > default: not set (which will be true)
 
 **Example**
-```xml
+```yml
 breaks: false
 ```
 
 GA
 ---
-This option allow you to enable Google Analytics with your ID.
+This option allows you to enable Google Analytics with your ID.
 
 > default: not set (which won't enable)
 
 **Example**
-```xml
+```yml
 GA: UA-12345667-8
 ```
 
 disqus
 ---
-This option allow you to enable Disqus with your shortname.
+This option allows you to enable Disqus with your shortname.
 
 > default: not set (which won't enable)
 
 **Example**
-```xml
+```yml
 disqus: codimd
+```
+
+type
+---
+This option allows you to switch the document view to the slide preview, to simplify live editing of presentations.
+
+> default: not set
+
+**Example:**
+```yml
+type: slide
 ```
 
 slideOptions
 ---
-This option allow you provide custom options to slide mode.
+This option allows you to provide custom options to slide mode.
 Please below document for more details:
 https://github.com/hakimel/reveal.js/#configuration
 
@@ -142,7 +153,7 @@ https://github.com/hakimel/reveal.js/tree/master/css/theme
 > default: not set (which use default slide options)
 
 **Example**
-```xml
+```yml
 slideOptions:
   transition: fade
   theme: white

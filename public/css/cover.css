@@ -372,3 +372,41 @@ select {
         max-width: 100%;
     }
 }
+
+.btn-mattermost {
+    background-color: #2179ec;
+    border-color: rgba(0,0,0,0.2);
+    color: #fff;
+}
+
+.btn-gitlab {
+    background-color: #e35431;
+    border-color: rgba(0,0,0,0.2);
+    color: #fff;
+}
+
+.btn-mattermost:hover, .btn-mattermost:active {
+    background-color: #105fc6;
+    border-color: rgba(0,0,0,0.2);
+    color: #fff;
+}
+
+.btn-gitlab:hover, .btn-gitlab:active {
+    background-color: #c23b1a;
+    border-color: rgba(0,0,0,0.2);
+    color: #fff;
+}
+
+a.btn.btn-social > i.oauth-icon {
+    display: inline-flex;
+    height: 45px;
+    width: 45px;
+    line-height: inherit;
+    padding: 6px;
+}
+
+a.btn.btn-social > i.oauth-icon > img {
+    width: 100%;
+    height: 100%;
+    line-height: inherit;
+}

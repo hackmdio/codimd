@@ -1,77 +1,72 @@
 /* eslint-env browser, jquery */
-/* global CodeMirror, Cookies, moment, editor, ui, Spinner,
-   modeType, Idle, serverurl, key, gapi, Dropbox, FilePicker
-   ot, MediaUploader, hex2rgb, num_loaded, Visibility */
+/* global CodeMirror, Cookies, moment, Spinner, serverurl,
+   key, Dropbox, ot, hex2rgb, Visibility */
 
-require('../vendor/showup/showup')
-
-require('../css/index.css')
-require('../css/extra.css')
-require('../css/slide-preview.css')
-require('../css/site.css')
-
-require('highlight.js/styles/github-gist.css')
-
-import toMarkdown from 'to-markdown'
+import TurndownService from 'turndown'
 
 import { saveAs } from 'file-saver'
 import randomColor from 'randomcolor'
 import store from 'store'
+import hljs from 'highlight.js'
 
 import _ from 'lodash'
 
+import wurl from 'wurl'
+
 import List from 'list.js'
 
+import Idle from '@hackmd/idle-js'
+
 import {
-    checkLoginStateChanged,
-    setloginStateChangeEvent
+  checkLoginStateChanged,
+  setloginStateChangeEvent
 } from './lib/common/login'
 
 import {
-    debug,
-    DROPBOX_APP_KEY,
-    noteid,
-    noteurl,
-    urlpath,
-    version
+  debug,
+  DROPBOX_APP_KEY,
+  noteid,
+  noteurl,
+  urlpath,
+  version
 } from './lib/config'
 
 import {
-    autoLinkify,
-    deduplicatedHeaderId,
-    exportToHTML,
-    exportToRawHTML,
-    removeDOMEvents,
-    finishView,
-    generateToc,
-    isValidURL,
-    md,
-    parseMeta,
-    postProcess,
-    renderFilename,
-    renderTOC,
-    renderTags,
-    renderTitle,
-    scrollToHash,
-    smoothHashScroll,
-    updateLastChange,
-    updateLastChangeUser,
-    updateOwner
+  autoLinkify,
+  deduplicatedHeaderId,
+  exportToHTML,
+  exportToRawHTML,
+  removeDOMEvents,
+  finishView,
+  generateToc,
+  isValidURL,
+  md,
+  parseMeta,
+  postProcess,
+  renderFilename,
+  renderTOC,
+  renderTags,
+  renderTitle,
+  scrollToHash,
+  smoothHashScroll,
+  updateLastChange,
+  updateLastChangeUser,
+  updateOwner
 } from './extra'
 
 import {
-    clearMap,
-    setupSyncAreas,
-    syncScrollToEdit,
-    syncScrollToView
+  clearMap,
+  setupSyncAreas,
+  syncScrollToEdit,
+  syncScrollToView
 } from './lib/syncscroll'
 
 import {
-    writeHistory,
-    deleteServerHistory,
-    getHistory,
-    saveHistory,
-    removeHistory
+  writeHistory,
+  deleteServerHistory,
+  getHistory,
+  saveHistory,
+  removeHistory
 } from './history'
 
 import { preventXSS } from './render'
@@ -81,6 +76,15 @@ import Editor from './lib/editor'
 import getUIElements from './lib/editor/ui-elements'
 import modeType from './lib/modeType'
 import appState from './lib/appState'
+
+require('../vendor/showup/showup')
+
+require('../css/index.css')
+require('../css/extra.css')
+require('../css/slide-preview.css')
+require('../css/site.css')
+
+require('highlight.js/styles/github-gist.css')
 
 var defaultTextHeight = 20
 var viewportMargin = 20
@@ -92,7 +96,7 @@ var cursorMenuThrottle = 50
 var cursorActivityDebounce = 50
 var cursorAnimatePeriod = 100
 var supportContainers = ['success', 'info', 'warning', 'danger']
-var supportCodeModes = ['javascript', 'typescript', 'jsx', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'haskell', 'coffeescript', 'yaml', 'pug', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile', 'tiddlywiki', 'mediawiki', 'go', 'gherkin']
+var supportCodeModes = ['javascript', 'typescript', 'jsx', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'haskell', 'coffeescript', 'yaml', 'pug', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile', 'tiddlywiki', 'mediawiki', 'go', 'gherkin'].concat(hljs.listLanguages())
 var supportCharts = ['sequence', 'flow', 'graphviz', 'mermaid', 'abc']
 var supportHeaders = [
   {
@@ -418,7 +422,7 @@ Visibility.change(function (e, state) {
 $(document).ready(function () {
   idle.checkAway()
   checkResponsive()
-    // if in smaller screen, we don't need advanced scrollbar
+  // if in smaller screen, we don't need advanced scrollbar
   var scrollbarStyle
   if (visibleXS) {
     scrollbarStyle = 'native'
@@ -438,12 +442,12 @@ $(document).ready(function () {
   if (isTouchDevice) {
     /* bind events */
     $(document)
-    .on('focus', 'textarea, input', function () {
-      $body.addClass('fixfixed')
-    })
-    .on('blur', 'textarea, input', function () {
-      $body.removeClass('fixfixed')
-    })
+      .on('focus', 'textarea, input', function () {
+        $body.addClass('fixfixed')
+      })
+      .on('blur', 'textarea, input', function () {
+        $body.removeClass('fixfixed')
+      })
   }
 
   // Re-enable nightmode
@@ -668,14 +672,14 @@ function checkEditorScrollbarInner () {
 }
 
 function checkTocStyle () {
-    // toc right
+  // toc right
   var paddingRight = parseFloat(ui.area.markdown.css('padding-right'))
   var right = ($(window).width() - (ui.area.markdown.offset().left + ui.area.markdown.outerWidth() - paddingRight))
   ui.toc.toc.css('right', right + 'px')
-    // affix toc left
+  // affix toc left
   var newbool
   var rightMargin = (ui.area.markdown.parent().outerWidth() - ui.area.markdown.outerWidth()) / 2
-    // for ipad or wider device
+  // for ipad or wider device
   if (rightMargin >= 133) {
     newbool = true
     var affixLeftMargin = (ui.toc.affix.outerWidth() - ui.toc.affix.width()) / 2
@@ -762,7 +766,7 @@ function toggleMode () {
 var lastMode = null
 
 function changeMode (type) {
-    // lock navbar to prevent it hide after changeMode
+  // lock navbar to prevent it hide after changeMode
   lockNavbar()
   saveInfo()
   if (type) {
@@ -823,7 +827,7 @@ function changeMode (type) {
   } else {
     $(document.body).css('background-color', ui.area.codemirror.css('background-color'))
   }
-    // check resizable editor style
+  // check resizable editor style
   if (appState.currentMode === modeType.both) {
     if (lastEditorWidth > 0) {
       ui.area.edit.css('width', lastEditorWidth + 'px')
@@ -901,13 +905,13 @@ function showMessageModal (title, header, href, text, success) {
 // check if dropbox app key is set and load scripts
 if (DROPBOX_APP_KEY) {
   $('<script>')
-        .attr('type', 'text/javascript')
-        .attr('src', 'https://www.dropbox.com/static/api/2/dropins.js')
-        .attr('id', 'dropboxjs')
-        .attr('data-app-key', DROPBOX_APP_KEY)
-        .prop('async', true)
-        .prop('defer', true)
-        .appendTo('body')
+    .attr('type', 'text/javascript')
+    .attr('src', 'https://www.dropbox.com/static/api/2/dropins.js')
+    .attr('id', 'dropboxjs')
+    .attr('data-app-key', DROPBOX_APP_KEY)
+    .prop('async', true)
+    .prop('defer', true)
+    .appendTo('body')
 } else {
   ui.toolbar.import.dropbox.hide()
   ui.toolbar.export.dropbox.hide()
@@ -967,35 +971,35 @@ ui.toolbar.export.gist.attr('href', noteurl + '/gist')
 ui.toolbar.export.snippet.click(function () {
   ui.spinner.show()
   $.get(serverurl + '/auth/gitlab/callback/' + noteid + '/projects')
-        .done(function (data) {
-          $('#snippetExportModalAccessToken').val(data.accesstoken)
-          $('#snippetExportModalBaseURL').val(data.baseURL)
-          $('#snippetExportModalVersion').val(data.version)
-          $('#snippetExportModalLoading').hide()
-          $('#snippetExportModal').modal('toggle')
-          $('#snippetExportModalProjects').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>')
-          if (data.projects) {
-            data.projects.sort(function (a, b) {
-              return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0)
-            })
-            data.projects.forEach(function (project) {
-              if (!project.snippets_enabled ||
+    .done(function (data) {
+      $('#snippetExportModalAccessToken').val(data.accesstoken)
+      $('#snippetExportModalBaseURL').val(data.baseURL)
+      $('#snippetExportModalVersion').val(data.version)
+      $('#snippetExportModalLoading').hide()
+      $('#snippetExportModal').modal('toggle')
+      $('#snippetExportModalProjects').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>')
+      if (data.projects) {
+        data.projects.sort(function (a, b) {
+          return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0)
+        })
+        data.projects.forEach(function (project) {
+          if (!project.snippets_enabled ||
                         (project.permissions.project_access === null && project.permissions.group_access === null) ||
                         (project.permissions.project_access !== null && project.permissions.project_access.access_level < 20)) {
-                return
-              }
-              $('<option>').val(project.id).text(project.path_with_namespace).appendTo('#snippetExportModalProjects')
-            })
-            $('#snippetExportModalProjects').prop('disabled', false)
+            return
           }
-          $('#snippetExportModalLoading').hide()
+          $('<option>').val(project.id).text(project.path_with_namespace).appendTo('#snippetExportModalProjects')
         })
-        .fail(function (data) {
-          showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false)
-        })
-        .always(function () {
-          ui.spinner.hide()
-        })
+        $('#snippetExportModalProjects').prop('disabled', false)
+      }
+      $('#snippetExportModalLoading').hide()
+    })
+    .fail(function (data) {
+      showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false)
+    })
+    .always(function () {
+      ui.spinner.hide()
+    })
 })
 // import from dropbox
 ui.toolbar.import.dropbox.click(function () {
@@ -1013,47 +1017,47 @@ ui.toolbar.import.dropbox.click(function () {
 })
 // import from gist
 ui.toolbar.import.gist.click(function () {
-    // na
+  // na
 })
 // import from snippet
 ui.toolbar.import.snippet.click(function () {
   ui.spinner.show()
   $.get(serverurl + '/auth/gitlab/callback/' + noteid + '/projects')
-        .done(function (data) {
-          $('#snippetImportModalAccessToken').val(data.accesstoken)
-          $('#snippetImportModalBaseURL').val(data.baseURL)
-          $('#snippetImportModalVersion').val(data.version)
-          $('#snippetImportModalContent').prop('disabled', false)
-          $('#snippetImportModalConfirm').prop('disabled', false)
-          $('#snippetImportModalLoading').hide()
-          $('#snippetImportModal').modal('toggle')
-          $('#snippetImportModalProjects').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>')
-          if (data.projects) {
-            data.projects.sort(function (a, b) {
-              return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0)
-            })
-            data.projects.forEach(function (project) {
-              if (!project.snippets_enabled ||
+    .done(function (data) {
+      $('#snippetImportModalAccessToken').val(data.accesstoken)
+      $('#snippetImportModalBaseURL').val(data.baseURL)
+      $('#snippetImportModalVersion').val(data.version)
+      $('#snippetImportModalContent').prop('disabled', false)
+      $('#snippetImportModalConfirm').prop('disabled', false)
+      $('#snippetImportModalLoading').hide()
+      $('#snippetImportModal').modal('toggle')
+      $('#snippetImportModalProjects').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>')
+      if (data.projects) {
+        data.projects.sort(function (a, b) {
+          return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0)
+        })
+        data.projects.forEach(function (project) {
+          if (!project.snippets_enabled ||
                         (project.permissions.project_access === null && project.permissions.group_access === null) ||
                         (project.permissions.project_access !== null && project.permissions.project_access.access_level < 20)) {
-                return
-              }
-              $('<option>').val(project.id).text(project.path_with_namespace).appendTo('#snippetImportModalProjects')
-            })
-            $('#snippetImportModalProjects').prop('disabled', false)
+            return
           }
-          $('#snippetImportModalLoading').hide()
+          $('<option>').val(project.id).text(project.path_with_namespace).appendTo('#snippetImportModalProjects')
         })
-        .fail(function (data) {
-          showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false)
-        })
-        .always(function () {
-          ui.spinner.hide()
-        })
+        $('#snippetImportModalProjects').prop('disabled', false)
+      }
+      $('#snippetImportModalLoading').hide()
+    })
+    .fail(function (data) {
+      showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false)
+    })
+    .always(function () {
+      ui.spinner.hide()
+    })
 })
 // import from clipboard
 ui.toolbar.import.clipboard.click(function () {
-    // na
+  // na
 })
 // upload image
 ui.toolbar.uploadImage.bind('change', function (e) {
@@ -1083,18 +1087,18 @@ var revision = null
 var revisionTime = null
 ui.modal.revision.on('show.bs.modal', function (e) {
   $.get(noteurl + '/revision')
-        .done(function (data) {
-          parseRevisions(data.revision)
-          initRevisionViewer()
-        })
-        .fail(function (err) {
-          if (debug) {
-            console.log(err)
-          }
-        })
-        .always(function () {
-            // na
-        })
+    .done(function (data) {
+      parseRevisions(data.revision)
+      initRevisionViewer()
+    })
+    .fail(function (err) {
+      if (debug) {
+        console.log(err)
+      }
+    })
+    .always(function () {
+      // na
+    })
 })
 function checkRevisionViewer () {
   if (revisionViewer) {
@@ -1137,74 +1141,74 @@ function parseRevisions (_revisions) {
 function selectRevision (time) {
   if (time === revisionTime) return
   $.get(noteurl + '/revision/' + time)
-        .done(function (data) {
-          revision = data
-          revisionTime = time
-          var lastScrollInfo = revisionViewer.getScrollInfo()
-          revisionList.children().removeClass('active')
-          revisionList.find('[data-revision-time="' + time + '"]').addClass('active')
-          var content = revision.content
-          revisionViewer.setValue(content)
-          revisionViewer.scrollTo(null, lastScrollInfo.top)
-          revisionInsert = []
-          revisionDelete = []
-            // mark the text which have been insert or delete
-          if (revision.patch.length > 0) {
-            var bias = 0
-            for (var j = 0; j < revision.patch.length; j++) {
-              var patch = revision.patch[j]
-              var currIndex = patch.start1 + bias
-              for (var i = 0; i < patch.diffs.length; i++) {
-                var diff = patch.diffs[i]
-                // ignore if diff only contains line breaks
-                if ((diff[1].match(/\n/g) || []).length === diff[1].length) continue
-                var prePos
-                var postPos
-                switch (diff[0]) {
-                  case 0: // retain
-                    currIndex += diff[1].length
-                    break
-                  case 1: // insert
-                    prePos = revisionViewer.posFromIndex(currIndex)
-                    postPos = revisionViewer.posFromIndex(currIndex + diff[1].length)
-                    revisionInsert.push({
-                      from: prePos,
-                      to: postPos
-                    })
-                    revisionViewer.markText(prePos, postPos, {
-                      css: 'background-color: rgba(230,255,230,0.7); text-decoration: underline;'
-                    })
-                    currIndex += diff[1].length
-                    break
-                  case -1: // delete
-                    prePos = revisionViewer.posFromIndex(currIndex)
-                    revisionViewer.replaceRange(diff[1], prePos)
-                    postPos = revisionViewer.posFromIndex(currIndex + diff[1].length)
-                    revisionDelete.push({
-                      from: prePos,
-                      to: postPos
-                    })
-                    revisionViewer.markText(prePos, postPos, {
-                      css: 'background-color: rgba(255,230,230,0.7); text-decoration: line-through;'
-                    })
-                    bias += diff[1].length
-                    currIndex += diff[1].length
-                    break
-                }
-              }
+    .done(function (data) {
+      revision = data
+      revisionTime = time
+      var lastScrollInfo = revisionViewer.getScrollInfo()
+      revisionList.children().removeClass('active')
+      revisionList.find('[data-revision-time="' + time + '"]').addClass('active')
+      var content = revision.content
+      revisionViewer.setValue(content)
+      revisionViewer.scrollTo(null, lastScrollInfo.top)
+      revisionInsert = []
+      revisionDelete = []
+      // mark the text which have been insert or delete
+      if (revision.patch.length > 0) {
+        var bias = 0
+        for (var j = 0; j < revision.patch.length; j++) {
+          var patch = revision.patch[j]
+          var currIndex = patch.start1 + bias
+          for (var i = 0; i < patch.diffs.length; i++) {
+            var diff = patch.diffs[i]
+            // ignore if diff only contains line breaks
+            if ((diff[1].match(/\n/g) || []).length === diff[1].length) continue
+            var prePos
+            var postPos
+            switch (diff[0]) {
+              case 0: // retain
+                currIndex += diff[1].length
+                break
+              case 1: // insert
+                prePos = revisionViewer.posFromIndex(currIndex)
+                postPos = revisionViewer.posFromIndex(currIndex + diff[1].length)
+                revisionInsert.push({
+                  from: prePos,
+                  to: postPos
+                })
+                revisionViewer.markText(prePos, postPos, {
+                  css: 'background-color: rgba(230,255,230,0.7); text-decoration: underline;'
+                })
+                currIndex += diff[1].length
+                break
+              case -1: // delete
+                prePos = revisionViewer.posFromIndex(currIndex)
+                revisionViewer.replaceRange(diff[1], prePos)
+                postPos = revisionViewer.posFromIndex(currIndex + diff[1].length)
+                revisionDelete.push({
+                  from: prePos,
+                  to: postPos
+                })
+                revisionViewer.markText(prePos, postPos, {
+                  css: 'background-color: rgba(255,230,230,0.7); text-decoration: line-through;'
+                })
+                bias += diff[1].length
+                currIndex += diff[1].length
+                break
             }
           }
-          revisionInsertAnnotation.update(revisionInsert)
-          revisionDeleteAnnotation.update(revisionDelete)
-        })
-        .fail(function (err) {
-          if (debug) {
-            console.log(err)
-          }
-        })
-        .always(function () {
-            // na
-        })
+        }
+      }
+      revisionInsertAnnotation.update(revisionInsert)
+      revisionDeleteAnnotation.update(revisionDelete)
+    })
+    .fail(function (err) {
+      if (debug) {
+        console.log(err)
+      }
+    })
+    .always(function () {
+      // na
+    })
 }
 function initRevisionViewer () {
   if (revisionViewer) return
@@ -1249,22 +1253,22 @@ ui.modal.snippetImportProjects.change(function () {
   $('#snippetImportModalLoading').show()
   $('#snippetImportModalContent').val('/projects/' + project)
   $.get(baseURL + '/api/' + version + '/projects/' + project + '/snippets?access_token=' + accesstoken)
-        .done(function (data) {
-          $('#snippetImportModalSnippets').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Snippets</option>')
-          data.forEach(function (snippet) {
-            $('<option>').val(snippet.id).text(snippet.title).appendTo($('#snippetImportModalSnippets'))
-          })
-          $('#snippetImportModalLoading').hide()
-          $('#snippetImportModalSnippets').prop('disabled', false)
-        })
-        .fail(function (err) {
-          if (debug) {
-            console.log(err)
-          }
-        })
-        .always(function () {
-            // na
-        })
+    .done(function (data) {
+      $('#snippetImportModalSnippets').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Snippets</option>')
+      data.forEach(function (snippet) {
+        $('<option>').val(snippet.id).text(snippet.title).appendTo($('#snippetImportModalSnippets'))
+      })
+      $('#snippetImportModalLoading').hide()
+      $('#snippetImportModalSnippets').prop('disabled', false)
+    })
+    .fail(function (err) {
+      if (debug) {
+        console.log(err)
+      }
+    })
+    .always(function () {
+      // na
+    })
 })
 // snippet snippets
 ui.modal.snippetImportSnippets.change(function () {
@@ -1324,8 +1328,8 @@ function generateScrollspy () {
     ui.toc.affix.hide()
     ui.toc.toc.show()
   }
-    // $(document.body).scroll();
-    // ui.area.view.scroll();
+  // $(document.body).scroll();
+  // ui.area.view.scroll();
 }
 
 function updateScrollspy () {
@@ -1335,10 +1339,10 @@ function updateScrollspy () {
     headerMap.push($(headers[i]).offset().top - parseInt($(headers[i]).css('margin-top')))
   }
   applyScrollspyActive($(window).scrollTop(), headerMap, headers,
-        $('.scrollspy-body'), 0)
+    $('.scrollspy-body'), 0)
   var offset = ui.area.view.scrollTop() - ui.area.view.offset().top
   applyScrollspyActive(ui.area.view.scrollTop(), headerMap, headers,
-        $('.scrollspy-view'), offset - 10)
+    $('.scrollspy-view'), offset - 10)
 }
 
 function applyScrollspyActive (top, headerMap, headers, target, offset) {
@@ -1388,32 +1392,32 @@ $('#gistImportModalConfirm').click(function () {
   if (!isValidURL(gisturl)) {
     showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid URL :(', '', '', false)
   } else {
-    var hostname = window.url('hostname', gisturl)
+    var hostname = wurl('hostname', gisturl)
     if (hostname !== 'gist.github.com') {
       showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', '', false)
     } else {
       ui.spinner.show()
-      $.get('https://api.github.com/gists/' + window.url('-1', gisturl))
-                .done(function (data) {
-                  if (data.files) {
-                    var contents = ''
-                    Object.keys(data.files).forEach(function (key) {
-                      contents += key
-                      contents += '\n---\n'
-                      contents += data.files[key].content
-                      contents += '\n\n'
-                    })
-                    replaceAll(contents)
-                  } else {
-                    showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Unable to fetch gist files :(', '', '', false)
-                  }
-                })
-                .fail(function (data) {
-                  showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', JSON.stringify(data), false)
-                })
-                .always(function () {
-                  ui.spinner.hide()
-                })
+      $.get('https://api.github.com/gists/' + wurl('-1', gisturl))
+        .done(function (data) {
+          if (data.files) {
+            var contents = ''
+            Object.keys(data.files).forEach(function (key) {
+              contents += key
+              contents += '\n---\n'
+              contents += data.files[key].content
+              contents += '\n\n'
+            })
+            replaceAll(contents)
+          } else {
+            showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Unable to fetch gist files :(', '', '', false)
+          }
+        })
+        .fail(function (data) {
+          showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', JSON.stringify(data), false)
+        })
+        .always(function () {
+          ui.spinner.hide()
+        })
     }
   }
 })
@@ -1437,34 +1441,34 @@ $('#snippetImportModalConfirm').click(function () {
     var accessToken = '?access_token=' + $('#snippetImportModalAccessToken').val()
     var fullURL = $('#snippetImportModalBaseURL').val() + '/api/' + $('#snippetImportModalVersion').val() + snippeturl
     $.get(fullURL + accessToken)
-            .done(function (data) {
-              var content = '# ' + (data.title || 'Snippet Import')
-              var fileInfo = data.file_name.split('.')
-              fileInfo[1] = (fileInfo[1]) ? fileInfo[1] : 'md'
-              $.get(fullURL + '/raw' + accessToken)
-                    .done(function (raw) {
-                      if (raw) {
-                        content += '\n\n'
-                        if (fileInfo[1] !== 'md') {
-                          content += '```' + fileTypes[fileInfo[1]] + '\n'
-                        }
-                        content += raw
-                        if (fileInfo[1] !== 'md') {
-                          content += '\n```'
-                        }
-                        replaceAll(content)
-                      }
-                    })
-                    .fail(function (data) {
-                      showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false)
-                    })
-                    .always(function () {
-                      ui.spinner.hide()
-                    })
-            })
-            .fail(function (data) {
-              showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false)
-            })
+      .done(function (data) {
+        var content = '# ' + (data.title || 'Snippet Import')
+        var fileInfo = data.file_name.split('.')
+        fileInfo[1] = (fileInfo[1]) ? fileInfo[1] : 'md'
+        $.get(fullURL + '/raw' + accessToken)
+          .done(function (raw) {
+            if (raw) {
+              content += '\n\n'
+              if (fileInfo[1] !== 'md') {
+                content += '```' + fileTypes[fileInfo[1]] + '\n'
+              }
+              content += raw
+              if (fileInfo[1] !== 'md') {
+                content += '\n```'
+              }
+              replaceAll(content)
+            }
+          })
+          .fail(function (data) {
+            showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false)
+          })
+          .always(function () {
+            ui.spinner.hide()
+          })
+      })
+      .fail(function (data) {
+        showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false)
+      })
   }
 })
 
@@ -1479,25 +1483,30 @@ $('#snippetExportModalConfirm').click(function () {
     file_name: $('#snippetExportModalFileName').val(),
     code: editor.getValue(),
     visibility_level: $('#snippetExportModalVisibility').val(),
-    visibility: $('#snippetExportModalVisibility').val() === 0 ? 'private' : ($('#snippetExportModalVisibility').val() === 10 ? 'internal' : '')
+    visibility: $('#snippetExportModalVisibility').val() === '0' ? 'private' : ($('#snippetExportModalVisibility').val() === '10' ? 'internal' : 'private')
   }
 
   if (!data.title || !data.file_name || !data.code || !data.visibility_level || !$('#snippetExportModalProjects').val()) return
   $('#snippetExportModalLoading').show()
   var fullURL = baseURL + '/api/' + version + '/projects/' + $('#snippetExportModalProjects').val() + '/snippets?access_token=' + accesstoken
   $.post(fullURL
-        , data
-        , function (ret) {
-          $('#snippetExportModalLoading').hide()
-          $('#snippetExportModal').modal('hide')
-          var redirect = baseURL + '/' + $("#snippetExportModalProjects option[value='" + $('#snippetExportModalProjects').val() + "']").text() + '/snippets/' + ret.id
-          showMessageModal('<i class="fa fa-gitlab"></i> Export to Snippet', 'Export Successful!', redirect, 'View Snippet Here', true)
-        }
-    )
+    , data
+    , function (ret) {
+      $('#snippetExportModalLoading').hide()
+      $('#snippetExportModal').modal('hide')
+      var redirect = baseURL + '/' + $("#snippetExportModalProjects option[value='" + $('#snippetExportModalProjects').val() + "']").text() + '/snippets/' + ret.id
+      showMessageModal('<i class="fa fa-gitlab"></i> Export to Snippet', 'Export Successful!', redirect, 'View Snippet Here', true)
+    }
+  )
 })
 
 function parseToEditor (data) {
-  var parsed = toMarkdown(data)
+  var turndownService = new TurndownService({
+    defaultReplacement: function (innerHTML, node) {
+      return node.isBlock ? '\n\n' + node.outerHTML + '\n\n' : node.outerHTML
+    }
+  })
+  var parsed = turndownService.turndown(data)
   if (parsed) { replaceAll(parsed) }
 }
 
@@ -1512,7 +1521,7 @@ function replaceAll (data) {
 }
 
 function importFromUrl (url) {
-    // console.log(url);
+  // console.log(url);
   if (!url) return
   if (!isValidURL(url)) {
     showMessageModal('<i class="fa fa-cloud-download"></i> Import from URL', 'Not a valid URL :(', '', '', false)
@@ -1750,7 +1759,7 @@ socket.on('disconnect', function (data) {
   }
 })
 socket.on('reconnect', function (data) {
-    // sync back any change in offline
+  // sync back any change in offline
   emitUserStatus(true)
   cursorActivity(editor)
   socket.emit('online users')
@@ -1777,7 +1786,7 @@ var authorship = []
 var authorMarks = {} // temp variable
 var addTextMarkers = [] // temp variable
 function updateInfo (data) {
-    // console.log(data);
+  // console.log(data);
   if (data.hasOwnProperty('createtime') && window.createtime !== data.createtime) {
     window.createtime = data.createtime
     updateLastChange()
@@ -1840,7 +1849,7 @@ var addStyleRule = (function () {
   }
 }())
 function updateAuthorshipInner () {
-    // ignore when ot not synced yet
+  // ignore when ot not synced yet
   if (havePendingOperation()) return
   authorMarks = {}
   for (let i = 0; i < authorship.length; i++) {
@@ -2011,13 +2020,13 @@ socket.on('permission', function (data) {
 
 var permission = null
 socket.on('refresh', function (data) {
-    // console.log(data);
+  // console.log(data);
   editorInstance.config.docmaxlength = data.docmaxlength
   editor.setOption('maxLength', editorInstance.config.docmaxlength)
   updateInfo(data)
   updatePermission(data.permission)
   if (!window.loaded) {
-        // auto change mode if no content detected
+    // auto change mode if no content detected
     var nocontent = editor.getValue().length <= 0
     if (nocontent) {
       if (visibleXS) { appState.currentMode = modeType.edit } else { appState.currentMode = modeType.both }
@@ -2156,7 +2165,7 @@ socket.on('cursor focus', function (data) {
     }
   }
   if (data.id !== socket.id) { buildCursor(data) }
-    // force show
+  // force show
   var cursor = $('div[data-clientid="' + data.id + '"]')
   if (cursor.length > 0) {
     cursor.stop(true).fadeIn()
@@ -2179,7 +2188,7 @@ socket.on('cursor blur', function (data) {
     }
   }
   if (data.id !== socket.id) { buildCursor(data) }
-    // force hide
+  // force hide
   var cursor = $('div[data-clientid="' + data.id + '"]')
   if (cursor.length > 0) {
     cursor.stop(true).fadeOut()
@@ -2203,7 +2212,7 @@ function updateOnlineStatus () {
   var _onlineUsers = deduplicateOnlineUsers(onlineUsers)
   showStatus(statusType.online, _onlineUsers.length)
   var items = onlineUserList.items
-    // update or remove current list items
+  // update or remove current list items
   for (let i = 0; i < items.length; i++) {
     let found = false
     let foundindex = null
@@ -2223,7 +2232,7 @@ function updateOnlineStatus () {
       shortOnlineUserList.remove('id', id)
     }
   }
-    // add not in list items
+  // add not in list items
   for (let i = 0; i < _onlineUsers.length; i++) {
     let found = false
     for (let j = 0; j < items.length; j++) {
@@ -2237,16 +2246,16 @@ function updateOnlineStatus () {
       shortOnlineUserList.add(_onlineUsers[i])
     }
   }
-    // sorting
+  // sorting
   sortOnlineUserList(onlineUserList)
   sortOnlineUserList(shortOnlineUserList)
-    // render list items
+  // render list items
   renderUserStatusList(onlineUserList)
   renderUserStatusList(shortOnlineUserList)
 }
 
 function sortOnlineUserList (list) {
-    // sort order by isSelf, login state, idle state, alphabet name, color brightness
+  // sort order by isSelf, login state, idle state, alphabet name, color brightness
   list.sort('', {
     sortFunction: function (a, b) {
       var usera = a.values()
@@ -2282,7 +2291,7 @@ function renderUserStatusList (list) {
     var usericon = $(item.elm).find('.ui-user-icon')
     if (item.values().login && item.values().photo) {
       usericon.css('background-image', 'url(' + item.values().photo + ')')
-            // add 1px more to right, make it feel aligned
+      // add 1px more to right, make it feel aligned
       usericon.css('margin-right', '6px')
       $(item.elm).css('border-left', '4px solid ' + item.values().color)
       usericon.css('margin-left', '-4px')
@@ -2510,7 +2519,9 @@ function buildCursor (user) {
 // editor actions
 function removeNullByte (cm, change) {
   var str = change.text.join('\n')
+  // eslint-disable-next-line no-control-regex
   if (/\u0000/g.test(str) && change.update) {
+    // eslint-disable-next-line no-control-regex
     change.update(change.from, change.to, str.replace(/\u0000/g, '').split('\n'))
   }
 }
@@ -2561,15 +2572,15 @@ editorInstance.on('beforeChange', function (cm, change) {
   if (cmClient && !socket.connected) { cmClient.editorAdapter.ignoreNextChange = true }
 })
 editorInstance.on('cut', function () {
-    // na
+  // na
 })
 editorInstance.on('paste', function () {
-    // na
+  // na
 })
 editorInstance.on('changes', function (editor, changes) {
   updateHistory()
   var docLength = editor.getValue().length
-    // workaround for big documents
+  // workaround for big documents
   var newViewportMargin = 20
   if (docLength > 20000) {
     newViewportMargin = 1
@@ -2754,7 +2765,7 @@ function updateViewInner () {
     var slides = window.RevealMarkdown.slidify(editor.getValue(), slideOptions)
     ui.area.markdown.html(slides)
     window.RevealMarkdown.initialize()
-        // prevent XSS
+    // prevent XSS
     ui.area.markdown.html(preventXSS(ui.area.markdown.html()))
     ui.area.markdown.addClass('slides')
     appState.syncscroll = false
@@ -2766,12 +2777,12 @@ function updateViewInner () {
       appState.syncscroll = true
       checkSyncToggle()
     }
-        // only render again when meta changed
+    // only render again when meta changed
     if (JSON.stringify(md.meta) !== JSON.stringify(lastMeta)) {
       parseMeta(md, ui.area.codemirror, ui.area.markdown, $('#ui-toc'), $('#ui-toc-affix'))
       rendered = md.render(value)
     }
-        // prevent XSS
+    // prevent XSS
     rendered = preventXSS(rendered)
     var result = postProcess(rendered).children().toArray()
     partialUpdate(result, lastResult, ui.area.markdown.children().toArray())
@@ -2785,12 +2796,13 @@ function updateViewInner () {
   renderTOC(ui.area.markdown)
   generateToc('ui-toc')
   generateToc('ui-toc-affix')
+  autoLinkify(ui.area.markdown)
   generateScrollspy()
   updateScrollspy()
   smoothHashScroll()
   isDirty = false
   clearMap()
-    // buildMap();
+  // buildMap();
   updateTitleReminder()
   if (postUpdateEvent && typeof postUpdateEvent === 'function') { postUpdateEvent() }
 }
@@ -2804,7 +2816,7 @@ function updateHistoryInner () {
 }
 
 function updateDataAttrs (src, des) {
-    // sync data attr startline and endline
+  // sync data attr startline and endline
   for (var i = 0; i < src.length; i++) {
     copyAttribute(src[i], des[i], 'data-startline')
     copyAttribute(src[i], des[i], 'data-endline')
@@ -2823,8 +2835,8 @@ function partialUpdate (src, tar, des) {
       var rawSrc = cloneAndRemoveDataAttr(src[i])
       var rawTar = cloneAndRemoveDataAttr(tar[i])
       if (rawSrc.outerHTML !== rawTar.outerHTML) {
-                // console.log(rawSrc);
-                // console.log(rawTar);
+        // console.log(rawSrc);
+        // console.log(rawTar);
         $(des[i]).replaceWith(src[i])
       }
     }
@@ -2832,8 +2844,8 @@ function partialUpdate (src, tar, des) {
     var start = 0
     // find diff start position
     for (let i = 0; i < tar.length; i++) {
-            // copyAttribute(src[i], des[i], 'data-startline');
-            // copyAttribute(src[i], des[i], 'data-endline');
+      // copyAttribute(src[i], des[i], 'data-startline');
+      // copyAttribute(src[i], des[i], 'data-endline');
       let rawSrc = cloneAndRemoveDataAttr(src[i])
       let rawTar = cloneAndRemoveDataAttr(tar[i])
       if (!rawSrc || !rawTar || rawSrc.outerHTML !== rawTar.outerHTML) {
@@ -2841,12 +2853,12 @@ function partialUpdate (src, tar, des) {
         break
       }
     }
-        // find diff end position
+    // find diff end position
     var srcEnd = 0
     var tarEnd = 0
     for (let i = 0; i < src.length; i++) {
-            // copyAttribute(src[i], des[i], 'data-startline');
-            // copyAttribute(src[i], des[i], 'data-endline');
+      // copyAttribute(src[i], des[i], 'data-startline');
+      // copyAttribute(src[i], des[i], 'data-endline');
       let rawSrc = cloneAndRemoveDataAttr(src[i])
       let rawTar = cloneAndRemoveDataAttr(tar[i])
       if (!rawSrc || !rawTar || rawSrc.outerHTML !== rawTar.outerHTML) {
@@ -2854,12 +2866,12 @@ function partialUpdate (src, tar, des) {
         break
       }
     }
-        // tar end
+    // tar end
     for (let i = 1; i <= tar.length + 1; i++) {
       let srcLength = src.length
       let tarLength = tar.length
-            // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-startline');
-            // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-endline');
+      // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-startline');
+      // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-endline');
       let rawSrc = cloneAndRemoveDataAttr(src[srcLength - i])
       let rawTar = cloneAndRemoveDataAttr(tar[tarLength - i])
       if (!rawSrc || !rawTar || rawSrc.outerHTML !== rawTar.outerHTML) {
@@ -2867,12 +2879,12 @@ function partialUpdate (src, tar, des) {
         break
       }
     }
-        // src end
+    // src end
     for (let i = 1; i <= src.length + 1; i++) {
       let srcLength = src.length
       let tarLength = tar.length
-            // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-startline');
-            // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-endline');
+      // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-startline');
+      // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-endline');
       let rawSrc = cloneAndRemoveDataAttr(src[srcLength - i])
       let rawTar = cloneAndRemoveDataAttr(tar[tarLength - i])
       if (!rawSrc || !rawTar || rawSrc.outerHTML !== rawTar.outerHTML) {
@@ -2880,7 +2892,7 @@ function partialUpdate (src, tar, des) {
         break
       }
     }
-        // check if tar end overlap tar start
+    // check if tar end overlap tar start
     var overlap = 0
     for (var i = start; i >= 0; i--) {
       var rawTarStart = cloneAndRemoveDataAttr(tar[i - 1])
@@ -2888,7 +2900,7 @@ function partialUpdate (src, tar, des) {
       if (rawTarStart && rawTarEnd && rawTarStart.outerHTML === rawTarEnd.outerHTML) { overlap++ } else { break }
     }
     if (debug) { console.log('overlap:' + overlap) }
-        // show diff content
+    // show diff content
     if (debug) {
       console.log('start:' + start)
       console.log('tarEnd:' + tarEnd)
@@ -2898,7 +2910,7 @@ function partialUpdate (src, tar, des) {
     srcEnd += overlap
     var repeatAdd = (start - srcEnd) < (start - tarEnd)
     var repeatDiff = Math.abs(srcEnd - tarEnd) - 1
-        // push new elements
+    // push new elements
     var newElements = []
     if (srcEnd >= start) {
       for (let j = start; j <= srcEnd; j++) {
@@ -2911,7 +2923,7 @@ function partialUpdate (src, tar, des) {
         newElements.push(des[j].outerHTML)
       }
     }
-        // push remove elements
+    // push remove elements
     var removeElements = []
     if (tarEnd >= start) {
       for (let j = start; j <= tarEnd; j++) {
@@ -2924,13 +2936,13 @@ function partialUpdate (src, tar, des) {
         removeElements.push(des[j])
       }
     }
-        // add elements
+    // add elements
     if (debug) {
       console.log('ADD ELEMENTS')
       console.log(newElements.join('\n'))
     }
     if (des[start]) { $(newElements.join('')).insertBefore(des[start]) } else { $(newElements.join('')).insertAfter(des[start - 1]) }
-        // remove elements
+    // remove elements
     if (debug) { console.log('REMOVE ELEMENTS') }
     for (let j = 0; j < removeElements.length; j++) {
       if (debug) {
@@ -2968,50 +2980,50 @@ function reverseSortCursorMenu (dropdown) {
 var checkCursorMenu = _.throttle(checkCursorMenuInner, cursorMenuThrottle)
 
 function checkCursorMenuInner () {
-    // get element
+  // get element
   var dropdown = $('.cursor-menu > .dropdown-menu')
-    // return if not exists
+  // return if not exists
   if (dropdown.length <= 0) return
-    // set margin
+  // set margin
   var menuRightMargin = 10
   var menuBottomMargin = 4
-    // use sizer to get the real doc size (won't count status bar and gutters)
+  // use sizer to get the real doc size (won't count status bar and gutters)
   var docWidth = ui.area.codemirrorSizer.width()
-    // get editor size (status bar not count in)
+  // get editor size (status bar not count in)
   var editorHeight = ui.area.codemirror.height()
-    // get element size
+  // get element size
   var width = dropdown.outerWidth()
   var height = dropdown.outerHeight()
-    // get cursor
+  // get cursor
   var cursor = editor.getCursor()
-    // set element cursor data
+  // set element cursor data
   if (!dropdown.hasClass('CodeMirror-other-cursor')) { dropdown.addClass('CodeMirror-other-cursor') }
   dropdown.attr('data-line', cursor.line)
   dropdown.attr('data-ch', cursor.ch)
-    // get coord position
+  // get coord position
   var coord = editor.charCoords({
     line: cursor.line,
     ch: cursor.ch
   }, 'windows')
   var left = coord.left
   var top = coord.top
-    // get doc top offset (to workaround with viewport)
+  // get doc top offset (to workaround with viewport)
   var docTopOffset = ui.area.codemirrorSizerInner.position().top
-    // set offset
+  // set offset
   var offsetLeft = 0
   var offsetTop = defaultTextHeight
-    // set up side down
+  // set up side down
   window.upSideDown = false
   var lastUpSideDown = window.upSideDown = false
-    // only do when have width and height
+  // only do when have width and height
   if (width > 0 && height > 0) {
-        // make element right bound not larger than doc width
+    // make element right bound not larger than doc width
     if (left + width + offsetLeft + menuRightMargin > docWidth) { offsetLeft = -(left + width - docWidth + menuRightMargin) }
-        // flip y when element bottom bound larger than doc height
-        // and element top position is larger than element height
+    // flip y when element bottom bound larger than doc height
+    // and element top position is larger than element height
     if (top + docTopOffset + height + offsetTop + menuBottomMargin > Math.max(editor.doc.height, editorHeight) && top + docTopOffset > height + menuBottomMargin) {
       offsetTop = -(height + menuBottomMargin)
-            // reverse sort menu because upSideDown
+      // reverse sort menu because upSideDown
       dropdown.html(reverseSortCursorMenu(dropdown))
       window.upSideDown = true
     }
@@ -3019,18 +3031,18 @@ function checkCursorMenuInner () {
     lastUpSideDown = textCompleteDropdown.upSideDown
     textCompleteDropdown.upSideDown = window.upSideDown
   }
-    // make menu scroll top only if upSideDown changed
+  // make menu scroll top only if upSideDown changed
   if (window.upSideDown !== lastUpSideDown) { dropdown.scrollTop(dropdown[0].scrollHeight) }
-    // set element offset data
+  // set element offset data
   dropdown.attr('data-offset-left', offsetLeft)
   dropdown.attr('data-offset-top', offsetTop)
-    // set position
+  // set position
   dropdown[0].style.left = left + offsetLeft + 'px'
   dropdown[0].style.top = top + offsetTop + 'px'
 }
 
 function checkInIndentCode () {
-    // if line starts with tab or four spaces is a code block
+  // if line starts with tab or four spaces is a code block
   var line = editor.getLine(editor.getCursor().line)
   var isIndentCode = ((line.substr(0, 4) === '    ') || (line.substr(0, 1) === '\t'))
   return isIndentCode
@@ -3045,11 +3057,11 @@ function checkInCode () {
 function checkAbove (method) {
   var cursor = editor.getCursor()
   var text = []
-  for (var i = 0; i < cursor.line; i++) {  // contain current line
+  for (var i = 0; i < cursor.line; i++) { // contain current line
     text.push(editor.getLine(i))
   }
   text = text.join('\n') + '\n' + editor.getLine(cursor.line).slice(0, cursor.ch)
-    // console.log(text);
+  // console.log(text);
   return method(text)
 }
 
@@ -3061,7 +3073,7 @@ function checkBelow (method) {
     text.push(editor.getLine(i))
   }
   text = editor.getLine(cursor.line).slice(cursor.ch) + '\n' + text.join('\n')
-    // console.log(text);
+  // console.log(text);
   return method(text)
 }
 
@@ -3088,7 +3100,7 @@ function checkInContainer () {
 }
 
 function checkInContainerSyntax () {
-    // if line starts with :::, it's in container syntax
+  // if line starts with :::, it's in container syntax
   var line = editor.getLine(editor.getCursor().line)
   isInContainerSyntax = (line.substr(0, 3) === ':::')
 }
@@ -3104,229 +3116,229 @@ function matchInContainer (text) {
 }
 
 $(editor.getInputField())
-    .textcomplete([
-      { // emoji strategy
-        match: /(^|\n|\s)\B:([-+\w]*)$/,
-        search: function (term, callback) {
-          var line = editor.getLine(editor.getCursor().line)
-          term = line.match(this.match)[2]
-          var list = []
-          $.map(window.emojify.emojiNames, function (emoji) {
-            if (emoji.indexOf(term) === 0) { // match at first character
-              list.push(emoji)
-            }
-          })
-          $.map(window.emojify.emojiNames, function (emoji) {
-            if (emoji.indexOf(term) !== -1) { // match inside the word
-              list.push(emoji)
-            }
-          })
-          callback(list)
-        },
-        template: function (value) {
-          return '<img class="emoji" src="' + serverurl + '/build/emojify.js/dist/images/basic/' + value + '.png"></img> ' + value
-        },
-        replace: function (value) {
-          return '$1:' + value + ': '
-        },
-        index: 1,
-        context: function (text) {
-          checkInCode()
-          checkInContainer()
-          checkInContainerSyntax()
-          return !isInCode && !isInContainerSyntax
-        }
-      },
-      { // Code block language strategy
-        langs: supportCodeModes,
-        charts: supportCharts,
-        match: /(^|\n)```(\w+)$/,
-        search: function (term, callback) {
-          var line = editor.getLine(editor.getCursor().line)
-          term = line.match(this.match)[2]
-          var list = []
-          $.map(this.langs, function (lang) {
-            if (lang.indexOf(term) === 0 && lang !== term) { list.push(lang) }
-          })
-          $.map(this.charts, function (chart) {
-            if (chart.indexOf(term) === 0 && chart !== term) { list.push(chart) }
-          })
-          callback(list)
-        },
-        replace: function (lang) {
-          var ending = ''
-          if (!checkBelow(matchInCode)) {
-            ending = '\n\n```'
+  .textcomplete([
+    { // emoji strategy
+      match: /(^|\n|\s)\B:([-+\w]*)$/,
+      search: function (term, callback) {
+        var line = editor.getLine(editor.getCursor().line)
+        term = line.match(this.match)[2]
+        var list = []
+        $.map(window.emojify.emojiNames, function (emoji) {
+          if (emoji.indexOf(term) === 0) { // match at first character
+            list.push(emoji)
           }
-          if (this.langs.indexOf(lang) !== -1) { return '$1```' + lang + '=' + ending } else if (this.charts.indexOf(lang) !== -1) { return '$1```' + lang + ending }
-        },
-        done: function () {
-          var cursor = editor.getCursor()
-          var text = []
-          text.push(editor.getLine(cursor.line - 1))
-          text.push(editor.getLine(cursor.line))
-          text = text.join('\n')
-                // console.log(text);
-          if (text === '\n```') { editor.doc.cm.execCommand('goLineUp') }
-        },
-        context: function (text) {
-          return isInCode
-        }
-      },
-      { // Container strategy
-        containers: supportContainers,
-        match: /(^|\n):::(\s*)(\w*)$/,
-        search: function (term, callback) {
-          var line = editor.getLine(editor.getCursor().line)
-          term = line.match(this.match)[3].trim()
-          var list = []
-          $.map(this.containers, function (container) {
-            if (container.indexOf(term) === 0 && container !== term) { list.push(container) }
-          })
-          callback(list)
-        },
-        replace: function (lang) {
-          var ending = ''
-          if (!checkBelow(matchInContainer)) {
-            ending = '\n\n:::'
+        })
+        $.map(window.emojify.emojiNames, function (emoji) {
+          if (emoji.indexOf(term) !== -1) { // match inside the word
+            list.push(emoji)
           }
-          if (this.containers.indexOf(lang) !== -1) { return '$1:::$2' + lang + ending }
-        },
-        done: function () {
-          var cursor = editor.getCursor()
-          var text = []
-          text.push(editor.getLine(cursor.line - 1))
-          text.push(editor.getLine(cursor.line))
-          text = text.join('\n')
-                // console.log(text);
-          if (text === '\n:::') { editor.doc.cm.execCommand('goLineUp') }
-        },
-        context: function (text) {
-          return !isInCode && isInContainer
-        }
+        })
+        callback(list)
       },
-      { // header
-        match: /(?:^|\n)(\s{0,3})(#{1,6}\w*)$/,
-        search: function (term, callback) {
-          callback($.map(supportHeaders, function (header) {
-            return header.search.indexOf(term) === 0 ? header.text : null
-          }))
-        },
-        replace: function (value) {
-          return '$1' + value
-        },
-        context: function (text) {
-          return !isInCode
-        }
+      template: function (value) {
+        return '<img class="emoji" src="' + serverurl + '/build/emojify.js/dist/images/basic/' + value + '.png"></img> ' + value
       },
-      { // extra tags for list
-        match: /(^[>\s]*[-+*]\s(?:\[[x ]\]|.*))(\[\])(\w*)$/,
-        search: function (term, callback) {
-          var list = []
+      replace: function (value) {
+        return '$1:' + value + ': '
+      },
+      index: 1,
+      context: function (text) {
+        checkInCode()
+        checkInContainer()
+        checkInContainerSyntax()
+        return !isInCode && !isInContainerSyntax
+      }
+    },
+    { // Code block language strategy
+      langs: supportCodeModes,
+      charts: supportCharts,
+      match: /(^|\n)```(\w+)$/,
+      search: function (term, callback) {
+        var line = editor.getLine(editor.getCursor().line)
+        term = line.match(this.match)[2]
+        var list = []
+        $.map(this.langs, function (lang) {
+          if (lang.indexOf(term) === 0 && lang !== term) { list.push(lang) }
+        })
+        $.map(this.charts, function (chart) {
+          if (chart.indexOf(term) === 0 && chart !== term) { list.push(chart) }
+        })
+        callback(list)
+      },
+      replace: function (lang) {
+        var ending = ''
+        if (!checkBelow(matchInCode)) {
+          ending = '\n\n```'
+        }
+        if (this.langs.indexOf(lang) !== -1) { return '$1```' + lang + '=' + ending } else if (this.charts.indexOf(lang) !== -1) { return '$1```' + lang + ending }
+      },
+      done: function () {
+        var cursor = editor.getCursor()
+        var text = []
+        text.push(editor.getLine(cursor.line - 1))
+        text.push(editor.getLine(cursor.line))
+        text = text.join('\n')
+        // console.log(text);
+        if (text === '\n```') { editor.doc.cm.execCommand('goLineUp') }
+      },
+      context: function (text) {
+        return isInCode
+      }
+    },
+    { // Container strategy
+      containers: supportContainers,
+      match: /(^|\n):::(\s*)(\w*)$/,
+      search: function (term, callback) {
+        var line = editor.getLine(editor.getCursor().line)
+        term = line.match(this.match)[3].trim()
+        var list = []
+        $.map(this.containers, function (container) {
+          if (container.indexOf(term) === 0 && container !== term) { list.push(container) }
+        })
+        callback(list)
+      },
+      replace: function (lang) {
+        var ending = ''
+        if (!checkBelow(matchInContainer)) {
+          ending = '\n\n:::'
+        }
+        if (this.containers.indexOf(lang) !== -1) { return '$1:::$2' + lang + ending }
+      },
+      done: function () {
+        var cursor = editor.getCursor()
+        var text = []
+        text.push(editor.getLine(cursor.line - 1))
+        text.push(editor.getLine(cursor.line))
+        text = text.join('\n')
+        // console.log(text);
+        if (text === '\n:::') { editor.doc.cm.execCommand('goLineUp') }
+      },
+      context: function (text) {
+        return !isInCode && isInContainer
+      }
+    },
+    { // header
+      match: /(?:^|\n)(\s{0,3})(#{1,6}\w*)$/,
+      search: function (term, callback) {
+        callback($.map(supportHeaders, function (header) {
+          return header.search.indexOf(term) === 0 ? header.text : null
+        }))
+      },
+      replace: function (value) {
+        return '$1' + value
+      },
+      context: function (text) {
+        return !isInCode
+      }
+    },
+    { // extra tags for list
+      match: /(^[>\s]*[-+*]\s(?:\[[x ]\]|.*))(\[\])(\w*)$/,
+      search: function (term, callback) {
+        var list = []
+        $.map(supportExtraTags, function (extratag) {
+          if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
+        })
+        $.map(supportReferrals, function (referral) {
+          if (referral.search.indexOf(term) === 0) { list.push(referral.text) }
+        })
+        callback(list)
+      },
+      replace: function (value) {
+        return '$1' + value
+      },
+      context: function (text) {
+        return !isInCode
+      }
+    },
+    { // extra tags for blockquote
+      match: /(?:^|\n|\s)(>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|:|)\s*\w*)$/,
+      search: function (term, callback) {
+        var line = editor.getLine(editor.getCursor().line)
+        var quote = line.match(this.match)[1].trim()
+        var list = []
+        if (quote.indexOf('>') === 0) {
           $.map(supportExtraTags, function (extratag) {
             if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
           })
-          $.map(supportReferrals, function (referral) {
-            if (referral.search.indexOf(term) === 0) { list.push(referral.text) }
-          })
-          callback(list)
-        },
-        replace: function (value) {
-          return '$1' + value
-        },
-        context: function (text) {
-          return !isInCode
         }
-      },
-      { // extra tags for blockquote
-        match: /(?:^|\n|\s)(>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|:|)\s*\w*)$/,
-        search: function (term, callback) {
-          var line = editor.getLine(editor.getCursor().line)
-          var quote = line.match(this.match)[1].trim()
-          var list = []
-          if (quote.indexOf('>') === 0) {
-            $.map(supportExtraTags, function (extratag) {
-              if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
-            })
-          }
-          $.map(supportReferrals, function (referral) {
-            if (referral.search.indexOf(term) === 0) { list.push(referral.text) }
-          })
-          callback(list)
-        },
-        replace: function (value) {
-          return '$1' + value
-        },
-        context: function (text) {
-          return !isInCode
-        }
-      },
-      { // referral
-        match: /(^\s*|\n|\s{2})((\[\]|\[\]\[\]|\[\]\(\)|!|!\[\]|!\[\]\[\]|!\[\]\(\))\s*\w*)$/,
-        search: function (term, callback) {
-          callback($.map(supportReferrals, function (referral) {
-            return referral.search.indexOf(term) === 0 ? referral.text : null
-          }))
-        },
-        replace: function (value) {
-          return '$1' + value
-        },
-        context: function (text) {
-          return !isInCode
-        }
-      },
-      { // externals
-        match: /(^|\n|\s)\{\}(\w*)$/,
-        search: function (term, callback) {
-          callback($.map(supportExternals, function (external) {
-            return external.search.indexOf(term) === 0 ? external.text : null
-          }))
-        },
-        replace: function (value) {
-          return '$1' + value
-        },
-        context: function (text) {
-          return !isInCode
-        }
-      }
-    ], {
-      appendTo: $('.cursor-menu')
-    })
-    .on({
-      'textComplete:beforeSearch': function (e) {
-            // NA
-      },
-      'textComplete:afterSearch': function (e) {
-        checkCursorMenu()
-      },
-      'textComplete:select': function (e, value, strategy) {
-            // NA
-      },
-      'textComplete:show': function (e) {
-        $(this).data('autocompleting', true)
-        editor.setOption('extraKeys', {
-          'Up': function () {
-            return false
-          },
-          'Right': function () {
-            editor.doc.cm.execCommand('goCharRight')
-          },
-          'Down': function () {
-            return false
-          },
-          'Left': function () {
-            editor.doc.cm.execCommand('goCharLeft')
-          },
-          'Enter': function () {
-            return false
-          },
-          'Backspace': function () {
-            editor.doc.cm.execCommand('delCharBefore')
-          }
+        $.map(supportReferrals, function (referral) {
+          if (referral.search.indexOf(term) === 0) { list.push(referral.text) }
         })
+        callback(list)
       },
-      'textComplete:hide': function (e) {
-        $(this).data('autocompleting', false)
-        editor.setOption('extraKeys', editorInstance.defaultExtraKeys)
+      replace: function (value) {
+        return '$1' + value
+      },
+      context: function (text) {
+        return !isInCode
       }
-    })
+    },
+    { // referral
+      match: /(^\s*|\n|\s{2})((\[\]|\[\]\[\]|\[\]\(\)|!|!\[\]|!\[\]\[\]|!\[\]\(\))\s*\w*)$/,
+      search: function (term, callback) {
+        callback($.map(supportReferrals, function (referral) {
+          return referral.search.indexOf(term) === 0 ? referral.text : null
+        }))
+      },
+      replace: function (value) {
+        return '$1' + value
+      },
+      context: function (text) {
+        return !isInCode
+      }
+    },
+    { // externals
+      match: /(^|\n|\s)\{\}(\w*)$/,
+      search: function (term, callback) {
+        callback($.map(supportExternals, function (external) {
+          return external.search.indexOf(term) === 0 ? external.text : null
+        }))
+      },
+      replace: function (value) {
+        return '$1' + value
+      },
+      context: function (text) {
+        return !isInCode
+      }
+    }
+  ], {
+    appendTo: $('.cursor-menu')
+  })
+  .on({
+    'textComplete:beforeSearch': function (e) {
+      // NA
+    },
+    'textComplete:afterSearch': function (e) {
+      checkCursorMenu()
+    },
+    'textComplete:select': function (e, value, strategy) {
+      // NA
+    },
+    'textComplete:show': function (e) {
+      $(this).data('autocompleting', true)
+      editor.setOption('extraKeys', {
+        'Up': function () {
+          return false
+        },
+        'Right': function () {
+          editor.doc.cm.execCommand('goCharRight')
+        },
+        'Down': function () {
+          return false
+        },
+        'Left': function () {
+          editor.doc.cm.execCommand('goCharLeft')
+        },
+        'Enter': function () {
+          return false
+        },
+        'Backspace': function () {
+          editor.doc.cm.execCommand('delCharBefore')
+        }
+      })
+    },
+    'textComplete:hide': function (e) {
+      $(this).data('autocompleting', false)
+      editor.setOption('extraKeys', editorInstance.defaultExtraKeys)
+    }
+  })

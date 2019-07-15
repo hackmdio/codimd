@@ -12,40 +12,39 @@
         <meta name="description" content="<%= description %>">
         <% } %>
         <title><%= title %></title>
-        <link rel="icon" type="image/png" href="<%- url %>/favicon.png">
-        <link rel="apple-touch-icon" href="<%- url %>/apple-touch-icon.png">
+        <link rel="icon" type="image/png" href="<%- serverURL %>/favicon.png">
+        <link rel="apple-touch-icon" href="<%- serverURL %>/apple-touch-icon.png">
 
         <% if(useCDN) { %>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fork-awesome/1.1.3/css/fork-awesome.min.css" integrity="sha256-ZhApazu+kejqTYhMF+1DzNKjIzP7KXu6AzyXcC1gMus=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/octicons.min.css" integrity="sha256-4eCms8tUm+iL29tUvmRhNRnz/7lNI4oTtQzqa/uM2dI=" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css" integrity="sha256-ol2N5Xr80jdDqxK0lte3orKGb9Ja3sOnpAUV7TTADmg=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/reveal.min.css" integrity="sha256-9+Wg2bcNeiOMGXOUNqBdceY2lAH/eCiTDcdzHhHIl48=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
         <%- include build/slide-header %>
         <%- include shared/polyfill %>
         <% } else { %>
-        <link rel="stylesheet" href="<%- url %>/build/reveal.js/css/reveal.css">
-        <link rel="stylesheet" href='<%- url %>/build/emojify.js/dist/css/basic/emojify.min.css'>
+        <link rel="stylesheet" href="<%- serverURL %>/build/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href='<%- serverURL %>/build/emojify.js/dist/css/basic/emojify.min.css'>
         <%- include build/slide-pack-header %>
         <% } %>
 
         <!-- For reveal.js theme -->
         <% if(typeof theme !== 'undefined' && theme) { %>
-        <link rel="stylesheet" href="<%- url %>/build/reveal.js/css/theme/<%= theme %>.css" id="theme">
+        <link rel="stylesheet" href="<%- serverURL %>/build/reveal.js/css/theme/<%= theme %>.css" id="theme">
         <% } else { %>
-        <link rel="stylesheet" href="<%- url %>/build/reveal.js/css/theme/black.css" id="theme">
+        <link rel="stylesheet" href="<%- serverURL %>/build/reveal.js/css/theme/black.css" id="theme">
         <% } %>
         <!-- For syntax highlighting -->
-        <link rel="stylesheet" href="<%- url %>/build/reveal.js/lib/css/zenburn.css">
+        <link rel="stylesheet" href="<%- serverURL %>/build/reveal.js/lib/css/zenburn.css">
         <!-- For overwrite reveal.js -->
-        <link rel="stylesheet" href="<%- url %>/css/slide.css">
+        <link rel="stylesheet" href="<%- serverURL %>/css/slide.css">
 
         <!-- Printing and PDF exports -->
         <script nonce="<%= cspNonce %>">
             var link = document.createElement( 'link' );
             link.rel = 'stylesheet';
             link.type = 'text/css';
-            link.href = '<%- url %>/build/reveal.js/' + (window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
+            link.href = '<%- serverURL %>/build/reveal.js/' + (window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
             document.getElementsByTagName( 'head' )[0].appendChild( link );
         </script>
     </head>
@@ -87,16 +86,17 @@
             </div>
         </div>
 
-        <script src="<%= url %>/js/mathjax-config-extra.js"></script>
+        <script src="<%= serverURL %>/js/mathjax-config-extra.js"></script>
         <% if(useCDN) { %>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/lib/js/head.min.js" integrity="sha256-+09kLhwACKXFPDvqo4xMMvi4+uXFsRZ2uYGbeN1U8sI=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/js/reveal.min.js" integrity="sha256-ixSKHrWAL2k0mqVSRju9+to2/uZSEK9+kJRfdNBolG8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/js/head.min.js" integrity="sha256-CTcwyen1cxIrm4hlqdxe0y7Hq6B0rpxAKLiXMD3dJv0=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/js/reveal.min.js" integrity="sha256-Xr6ZH+/kc7hDVReZLO5khBknteLqu5oen/xnSraXrVk=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.0/velocity.min.js" integrity="sha256-bhm0lgEt6ITaZCDzZpkr/VXVrLa5RP4u9v2AYsbzSUk=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js" integrity="sha256-jnOjDTXIPqall8M0MyTSt98JetJuZ7Yu+1Jm7hLTF7U=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.7.0/js-yaml.min.js" integrity="sha256-8PanqYAVOGlOct+i65R+HqibK3KPsXINnrSfxN+Y/J0=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js" integrity="sha256-yYfngbEKv4RENfGDvNUqJTqGFcKf31NJEe9OTnnMH3Y=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-immzXfCGLhnx3Zfi9F/dUcqxEM8K3o3oTFy9Bh6HCwg=" crossorigin="anonymous" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/config/Safe.js" integrity="sha256-0ygBUDksNDXZS4vm5HMNH1a33KUu6QT1cdNTN+ZLF+4=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.min.js" integrity="sha256-vvT7Ok9u6GbfnBPXnbM6FVDEO8E1kTdgHOFZOAXrktA=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.1.0/mermaid.min.js" integrity="sha256-M3OC0Q6g4/+Q4j73OvnsnA+lMkdAE5KgupRHqTiPbnI=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/js/emojify.min.js" integrity="sha256-VAB5tAlKBvgaxw8oJ1crWMVbdmBVl4mP/2M8MNRl+4E=" crossorigin="anonymous" defer></script>
@@ -107,8 +107,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/abcjs/3.1.1/abcjs_basic-min.js" integrity="sha256-Sq1r2XXWXQoShQKsS0Wrf5r7fRkErd9Fat9vHYeU68s=" crossorigin="anonymous"></script>
         <%- include build/slide-scripts %>
         <% } else { %>
-        <script src="<%- url %>/build/MathJax/MathJax.js" defer></script>
-        <script src="<%- url %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
+        <script src="<%- serverURL %>/build/MathJax/MathJax.js" defer></script>
+        <script src="<%- serverURL %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
+        <script src="<%- serverURL %>/build/MathJax/config/Safe.js" defer></script>
         <%- include build/slide-pack-scripts %>
         <% } %>
     </body>

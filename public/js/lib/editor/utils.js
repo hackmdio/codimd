@@ -51,7 +51,7 @@ export function insertText (cm, text, cursorEnd = 0) {
   let cursor = cm.getCursor()
   cm.replaceSelection(text, cursor, cursor)
   cm.focus()
-  cm.setCursor({line: cursor.line, ch: cursor.ch + cursorEnd})
+  cm.setCursor({ line: cursor.line, ch: cursor.ch + cursorEnd })
 }
 
 export function insertLink (cm, isImage) {
@@ -80,7 +80,7 @@ export function insertLink (cm, isImage) {
       cm.setSelections(ranges)
     } else {
       cm.replaceRange(symbol + linkEnd, cursor, cursor)
-      cm.setCursor({line: cursor.line, ch: cursor.ch + symbol.length + linkEnd.length})
+      cm.setCursor({ line: cursor.line, ch: cursor.ch + symbol.length + linkEnd.length })
     }
   }
   cm.focus()
@@ -88,8 +88,8 @@ export function insertLink (cm, isImage) {
 
 export function insertHeader (cm) {
   let cursor = cm.getCursor()
-  let startOfLine = {line: cursor.line, ch: 0}
-  let startOfLineText = cm.getRange(startOfLine, {line: cursor.line, ch: 1})
+  let startOfLine = { line: cursor.line, ch: 0 }
+  let startOfLineText = cm.getRange(startOfLine, { line: cursor.line, ch: 1 })
   // See if it is already a header
   if (startOfLineText === '#') {
     cm.replaceRange('#', startOfLine, startOfLine)
@@ -108,14 +108,14 @@ export function insertOnStartOfLines (cm, symbol) {
     if (!range.empty()) {
       const from = range.from()
       const to = range.to()
-      let selection = cm.getRange({line: from.line, ch: 0}, to)
+      let selection = cm.getRange({ line: from.line, ch: 0 }, to)
       selection = selection.replace(/\n/g, '\n' + symbol)
       selection = symbol + selection
       cm.replaceRange(selection, from, to)
     } else {
-      cm.replaceRange(symbol, {line: cursor.line, ch: 0}, {line: cursor.line, ch: 0})
+      cm.replaceRange(symbol, { line: cursor.line, ch: 0 }, { line: cursor.line, ch: 0 })
     }
   }
-  cm.setCursor({line: cursor.line, ch: cursor.ch + symbol.length})
+  cm.setCursor({ line: cursor.line, ch: cursor.ch + symbol.length })
   cm.focus()
 }

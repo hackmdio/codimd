@@ -111,5 +111,7 @@
     "Do you really want to delete your user account?": "Möchten Sie wirklich Ihr Nutzeraccount löschen?",
     "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.": "Hiermit löschen Sie Ihren Account, alle Ihre Dokumente und alle Verweise auf Ihren Account aus anderen Dokumenten.",
     "Delete user": "Benutzer löschen",
-    "Export user data": "Exportiere Nutzerdaten"
+    "Export user data": "Exportiere Nutzerdaten",
+    "Help us translating on %s": "Hilf uns übersetzen auf %s",
+    "Source Code": "Quelltext"
 }

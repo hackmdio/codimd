@@ -5,7 +5,7 @@ var disqus_config = function () {
 };
 (function() {
     var d = document, s = d.createElement('script');
-    s.src = 'https://<%= disqus %>.disqus.com/embed.js';
+    s.src = 'https://<%= disqus.replace(/[^A-Za-z0-9]+/g, '') %>.disqus.com/embed.js';
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
 })();
