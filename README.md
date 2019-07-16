@@ -6,7 +6,7 @@ Steps to Deploy to [Cloud.gov](https://cloud.gov):
 1. Create a postgres service in your account named `hackmd-psql`
 1. From project directory - run $`cp config.json.sample config.json` update `config.json` as needed.
 1. Install yarn for dependency management - run $`npm install yarn -g`
-1. Install package dependences - run $`yarn`
+1. Install package dependences - run $`yarn install`
 1. Build app - run $`npm run build`
 1. Deploy app - run $`cf push`
 

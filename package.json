@@ -98,6 +98,8 @@
     "moment": "~2.24.0",
     "morgan": "~1.9.1",
     "mysql": "~2.16.0",
+    "node-gyp": "^5.0.0",
+    "node-pre-gyp": "~0.13.0",
     "passport": "~0.4.0",
     "passport-dropbox-oauth2": "~1.1.0",
     "passport-facebook": "~2.1.1",
@@ -126,7 +128,7 @@
     "socket.io": "~2.1.1",
     "socket.io-client": "~2.1.1",
     "spin.js": "~2.3.2",
-    "sqlite3": "~4.0.1",
+    "sqlite3": "~4.0.9",
     "store": "~2.0.12",
     "tedious": "~6.1.0",
     "toobusy-js": "~0.5.1",
@@ -140,8 +142,7 @@
     "ws": "~6.0.0",
     "wurl": "~2.5.3",
     "xss": "~1.0.3",
-    "yarn": "^1.17.3",
-    "node-gyp": "^5.0.0"
+    "yarn": "1.16.x"
   },
   "devDependencies": {
     "acorn": "~6.1.1",
