@@ -393,7 +393,7 @@ export function finishView (view) {
       window.mermaid.init(undefined, $ele)
     } catch (err) {
       $value.unwrap()
-      $value.parent().append(`<div class="alert alert-warning">${S(err.str).escapeHTML().s}</div>`)
+      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err.str)}</div>`)
       console.warn(err)
     }
   })
