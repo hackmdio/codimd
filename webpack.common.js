@@ -207,7 +207,7 @@ module.exports = {
       'script-loader!codemirrorInlineAttachment',
       'script-loader!ot',
       'flowchart.js',
-      'script-loader!js-sequence-diagrams',
+      'imports-loader?Raphael=raphael!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/index.js')
     ],
@@ -255,7 +255,7 @@ module.exports = {
       'script-loader!codemirrorInlineAttachment',
       'script-loader!ot',
       'flowchart.js',
-      'script-loader!js-sequence-diagrams',
+      'imports-loader?Raphael=raphael!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
       'expose-loader?io!socket.io-client',
@@ -265,7 +265,7 @@ module.exports = {
     pretty: [
       'babel-polyfill',
       'flowchart.js',
-      'script-loader!js-sequence-diagrams',
+      'imports-loader?Raphael=raphael!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
     ],
@@ -290,7 +290,7 @@ module.exports = {
       'expose-loader?emojify!emojify.js',
       'script-loader!gist-embed',
       'flowchart.js',
-      'script-loader!js-sequence-diagrams',
+      'imports-loader?Raphael=raphael!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
       'expose-loader?RevealMarkdown!reveal-markdown',
@@ -300,7 +300,7 @@ module.exports = {
       'babel-polyfill',
       'bootstrap-tooltip',
       'flowchart.js',
-      'script-loader!js-sequence-diagrams',
+      'imports-loader?Raphael=raphael!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/slide.js')
     ],
@@ -328,7 +328,7 @@ module.exports = {
       'expose-loader?emojify!emojify.js',
       'script-loader!gist-embed',
       'flowchart.js',
-      'script-loader!js-sequence-diagrams',
+      'imports-loader?Raphael=raphael!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
       'headjs',
