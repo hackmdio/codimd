@@ -3,6 +3,7 @@ CodiMD
 
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
+[![Gitter][gitter-image]][gitter-url]
 [![POEditor][poeditor-image]][poeditor-url]
 
 CodiMD lets you collaborate in real-time with markdown.
@@ -43,10 +44,10 @@ All contributions are welcome! Even asking a question helps.
 
 | Project | Contribution Types | Contribution Venue |
 | ------- | ------------------ | ------------------ |
-|**CodiMD**|:couple: Community chat|[Gitter](https://gitter.im/hackmdio/hackmd)|
+|**CodiMD**|:couple: Community chat|[Gitter][gitter-url]|
 ||:bug: Issues, bugs, and feature requests|[Issue tracker](https://github.com/hackmdio/codimd/issues)|
 ||:books: Improve documentation|[Documentations](https://hackmd.io/c/codimd-documentation)|
-||:pencil: Translation|[POEditor](https://poeditor.com/join/project/q0nuPWyztp)|
+||:pencil: Translation|[POEditor][poeditor-url]|
 ||:coffee: Donation|[Buy us coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=KDGS4PREHX6QQ&lc=US&item_name=HackMD&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)|
 |**HackMD**|:question: Issues related to [HackMD](https://hackmd.io/)|[Issue tracker](https://github.com/hackmdio/hackmd-io-issues/issues)|
 ||:pencil2: Translation|[hackmd-locales](https://github.com/hackmdio/hackmd-locales/tree/master/locales)|
@@ -76,8 +77,10 @@ To stay up to date with your installation it's recommended to subscribe the [rel
 
 **License under AGPL.**
 
-[travis-image]: https://travis-ci.org/hackmdio/codimd.svg?branch=master
-[travis-url]: https://travis-ci.org/hackmdio/codimd
+[gitter-image]: https://img.shields.io/badge/gitter-hackmdio/codimd-blue.svg	
+[gitter-url]: https://gitter.im/hackmdio/hackmd
+[travis-image]: https://travis-ci.com/hackmdio/codimd.svg?branch=master
+[travis-url]: https://travis-ci.com/hackmdio/codimd
 [github-version-badge]: https://img.shields.io/github/release/hackmdio/codimd.svg
 [github-release-page]: https://github.com/hackmdio/codimd/releases
 [github-release-feed]: https://github.com/hackmdio/codimd/releases.atom
