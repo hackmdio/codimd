@@ -6,7 +6,7 @@
         "Markdown",
         "Notes"
     ],
-    "website": "https://codimd.org",
+    "website": "https://github.com/hackmdio/codimd",
     "repository": "https://github.com/hackmdio/codimd",
     "logo": "https://github.com/hackmdio/codimd/raw/master/public/codimd-icon-1024.png",
     "success_url": "/",
