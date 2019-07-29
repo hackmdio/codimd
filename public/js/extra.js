@@ -387,19 +387,14 @@ export function finishView (view) {
       var $value = $(value)
       const $ele = $(value).closest('pre')
 
-      window.mermaid.mermaidAPI.parse($value.text())
+      window.mermaid.parse($value.text())
       $ele.addClass('mermaid')
       $ele.html($value.text())
       window.mermaid.init(undefined, $ele)
     } catch (err) {
-      var errormessage = err
-      if (err.str) {
-        errormessage = err.str
-      }
-
       $value.unwrap()
-      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(errormessage)}</div>`)
-      console.warn(errormessage)
+      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err.str)}</div>`)
+      console.warn(err)
     }
   })
   // abc.js
