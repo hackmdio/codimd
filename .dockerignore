@@ -1,0 +1,8 @@
+.git/
+node_modules/
+docs/
+test/
+.sequelizerc.example
+config.json.example
+public/build
+
