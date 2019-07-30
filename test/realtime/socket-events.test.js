@@ -46,7 +46,7 @@ describe('realtime#socket event', function () {
       Note: {
         parseNoteTitle: (data) => (data),
         destroy: sinon.stub().returns(Promise.resolve(1)),
-        update: sinon.stub().returns(Promise.resolve(1)),
+        update: sinon.stub().returns(Promise.resolve([1])),
         findOne: sinon.stub().returns(Promise.resolve(note))
       },
       User: {}
