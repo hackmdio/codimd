@@ -79,6 +79,7 @@
     "keymaster": "~1.6.2",
     "list.js": "~1.5.0",
     "lodash": "~4.17.11",
+    "lutim": "~1.0.2",
     "markdown-it": "~8.2.2",
     "markdown-it-abbr": "~1.0.4",
     "markdown-it-container": "~2.0.0",
