@@ -1,0 +1,25 @@
+version: '3'
+services:
+  dev-database:
+    image: postgres:11.2
+    environment:
+      POSTGRES_USER: codimd
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: codimd
+  dev-codimd:
+    build:
+      dockerfile: ./deployments/dev-Dockerfile
+      context: ../
+    environment:
+      CMD_DB_URL: postgres://codimd:password@dev-database/codimd
+    volumes:
+      - ../:/codimd
+      - node_modules:/codimd/node_modules
+      - public_build:/codimd/public/build
+      - public_view_build:/codimd/public/views/build
+    ports:
+      - 3000:3000
+volumes:
+  node_modules:
+  public_build:
+  public_view_build:

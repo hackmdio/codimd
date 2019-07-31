@@ -1,6 +1,7 @@
 /*
  *  Global UI elements references
  */
+/* global $ */
 
 export const getUIElements = () => ({
   spinner: $('.ui-spinner'),

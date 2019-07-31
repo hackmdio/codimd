@@ -1,11 +1,11 @@
 /* eslint-env browser, jquery */
 /* global serverurl, Reveal, RevealMarkdown */
 
-require('../css/extra.css')
-require('../css/site.css')
-
 import { preventXSS } from './render'
 import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
+
+require('../css/extra.css')
+require('../css/site.css')
 
 const body = preventXSS($('.slides').text())
 
@@ -17,7 +17,7 @@ $('.ui-edit').attr('href', `${url}/edit`)
 $('.ui-print').attr('href', `${url}?print-pdf`)
 
 $(document).ready(() => {
-    // tooltip
+  // tooltip
   $('[data-toggle="tooltip"]').tooltip()
 })
 
@@ -74,6 +74,21 @@ const defaultOptions = {
 const meta = JSON.parse($('#meta').text())
 var options = meta.slideOptions || {}
 
+if (options.hasOwnProperty('spotlight')) {
+  defaultOptions.dependencies.push({
+    src: `${serverurl}/build/reveal.js/plugin/spotlight/spotlight.js`
+  })
+}
+
+if (options.hasOwnProperty('allottedTime') || options.hasOwnProperty('allottedMinutes')) {
+  defaultOptions.dependencies.push({
+    src: `${serverurl}/build/reveal.js/plugin/elapsed-time-bar/elapsed-time-bar.js`
+  })
+  if (options.hasOwnProperty('allottedMinutes')) {
+    options.allottedTime = options.allottedMinutes * 60 * 1000
+  }
+}
+
 const view = $('.reveal')
 
 // text language
@@ -127,7 +142,7 @@ function renderSlide (event) {
 Reveal.addEventListener('ready', event => {
   renderSlide(event)
   const markdown = $(event.currentSlide)
-    // force browser redraw
+  // force browser redraw
   setTimeout(() => {
     markdown.hide().show(0)
   }, 0)

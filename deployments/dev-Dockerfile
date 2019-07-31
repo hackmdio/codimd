@@ -1,0 +1,7 @@
+FROM node:8.15.1-jessie
+
+WORKDIR /codimd
+
+EXPOSE 3000
+
+VOLUME ['/codimd/node_modules']
