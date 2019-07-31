@@ -1,6 +1,24 @@
 /* eslint-env browser, jquery */
 /* global moment, serverurl */
 
+import Prism from 'prismjs'
+import hljs from 'highlight.js'
+import PDFObject from 'pdfobject'
+import { saveAs } from 'file-saver'
+
+import escapeHTML from 'lodash/escape'
+import unescapeHTML from 'lodash/unescape'
+
+import { stripTags } from '../../utils/string'
+
+import getUIElements from './lib/editor/ui-elements'
+
+import markdownit from 'markdown-it'
+import markdownitContainer from 'markdown-it-container'
+
+/* Defined regex markdown it plugins */
+import Plugin from 'markdown-it-regexp'
+
 require('prismjs/themes/prism.css')
 require('prismjs/components/prism-wiki')
 require('prismjs/components/prism-haskell')
@@ -10,17 +28,9 @@ require('prismjs/components/prism-jsx')
 require('prismjs/components/prism-makefile')
 require('prismjs/components/prism-gherkin')
 
-import Prism from 'prismjs'
-import hljs from 'highlight.js'
-import PDFObject from 'pdfobject'
-import S from 'string'
-import { saveAs } from 'file-saver'
-
 require('./lib/common/login')
 require('../vendor/md-toc')
 var Viz = require('viz.js')
-
-import getUIElements from './lib/editor/ui-elements'
 const ui = getUIElements()
 
 // auto update last change
@@ -157,7 +167,7 @@ export function renderTags (view) {
 
 function slugifyWithUTF8 (text) {
   // remove html tags and trim spaces
-  let newText = S(text).trim().stripTags().s
+  let newText = stripTags(text.toString().trim())
   // replace all spaces in between to dashes
   newText = newText.replace(/\s+/g, '-')
   // slugify string to make it valid for attribute
@@ -190,7 +200,7 @@ export function parseMeta (md, edit, view, toc, tocAffix) {
     dir = meta.dir
     breaks = meta.breaks
   }
-    // text language
+  // text language
   if (lang && typeof lang === 'string') {
     view.attr('lang', lang)
     toc.attr('lang', lang)
@@ -202,7 +212,7 @@ export function parseMeta (md, edit, view, toc, tocAffix) {
     tocAffix.removeAttr('lang')
     if (edit) { edit.removeAttr('lang', lang) }
   }
-    // text direction
+  // text direction
   if (dir && typeof dir === 'string') {
     view.attr('dir', dir)
     toc.attr('dir', dir)
@@ -212,7 +222,7 @@ export function parseMeta (md, edit, view, toc, tocAffix) {
     toc.removeAttr('dir')
     tocAffix.removeAttr('dir')
   }
-    // breaks
+  // breaks
   if (typeof breaks === 'boolean' && !breaks) {
     md.options.breaks = false
   } else {
@@ -245,7 +255,7 @@ if (typeof window.mermaid !== 'undefined' && window.mermaid) window.mermaid.star
 
 // dynamic event or object binding here
 export function finishView (view) {
-    // todo list
+  // todo list
   const lis = view.find('li.raw').removeClass('raw').sortByDepth().toArray()
 
   for (let li of lis) {
@@ -259,9 +269,9 @@ export function finishView (view) {
     li.innerHTML = html
     let disabled = 'disabled'
     if (typeof editor !== 'undefined' && window.havePermission()) { disabled = '' }
-    if (/^\s*\[[x ]\]\s*/.test(html)) {
-      li.innerHTML = html.replace(/^\s*\[ \]\s*/, `<input type="checkbox" class="task-list-item-checkbox "${disabled}><label></label>`)
-                .replace(/^\s*\[x\]\s*/, `<input type="checkbox" class="task-list-item-checkbox" checked ${disabled}><label></label>`)
+    if (/^\s*\[[x ]]\s*/.test(html)) {
+      li.innerHTML = html.replace(/^\s*\[ ]\s*/, `<input type="checkbox" class="task-list-item-checkbox "${disabled}><label></label>`)
+        .replace(/^\s*\[x]\s*/, `<input type="checkbox" class="task-list-item-checkbox" checked ${disabled}><label></label>`)
       if (li.tagName.toLowerCase() !== 'li') {
         li.parentElement.setAttribute('class', 'task-list-item')
       } else {
@@ -269,42 +279,42 @@ export function finishView (view) {
       }
     }
     if (typeof editor !== 'undefined' && window.havePermission()) { $(li).find('input').change(toggleTodoEvent) }
-        // color tag in list will convert it to tag icon with color
+    // color tag in list will convert it to tag icon with color
     const tagColor = $(li).closest('ul').find('.color')
     tagColor.each((key, value) => {
       $(value).addClass('fa fa-tag').css('color', $(value).attr('data-color'))
     })
   }
 
-    // youtube
+  // youtube
   view.find('div.youtube.raw').removeClass('raw')
-        .click(function () {
-          imgPlayiframe(this, '//www.youtube.com/embed/')
-        })
+    .click(function () {
+      imgPlayiframe(this, '//www.youtube.com/embed/')
+    })
     // vimeo
   view.find('div.vimeo.raw').removeClass('raw')
-        .click(function () {
-          imgPlayiframe(this, '//player.vimeo.com/video/')
-        })
-        .each((key, value) => {
-          $.ajax({
-            type: 'GET',
-            url: `//vimeo.com/api/v2/video/${$(value).attr('data-videoid')}.json`,
-            jsonp: 'callback',
-            dataType: 'jsonp',
-            success (data) {
-              const thumbnailSrc = data[0].thumbnail_large
-              const image = `<img src="${thumbnailSrc}" />`
-              $(value).prepend(image)
-              if (window.viewAjaxCallback) window.viewAjaxCallback()
-            }
-          })
-        })
+    .click(function () {
+      imgPlayiframe(this, '//player.vimeo.com/video/')
+    })
+    .each((key, value) => {
+      $.ajax({
+        type: 'GET',
+        url: `//vimeo.com/api/v2/video/${$(value).attr('data-videoid')}.json`,
+        jsonp: 'callback',
+        dataType: 'jsonp',
+        success (data) {
+          const thumbnailSrc = data[0].thumbnail_large
+          const image = `<img src="${thumbnailSrc}" />`
+          $(value).prepend(image)
+          if (window.viewAjaxCallback) window.viewAjaxCallback()
+        }
+      })
+    })
     // gist
   view.find('code[data-gist-id]').each((key, value) => {
     if ($(value).children().length === 0) { $(value).gist(window.viewAjaxCallback) }
   })
-    // sequence diagram
+  // sequence diagram
   const sequences = view.find('div.sequence-diagram.raw').removeClass('raw')
   sequences.each((key, value) => {
     try {
@@ -323,11 +333,11 @@ export function finishView (view) {
       svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet')
     } catch (err) {
       $value.unwrap()
-      $value.parent().append('<div class="alert alert-warning">' + err + '</div>')
+      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
   })
-    // flowchart
+  // flowchart
   const flow = view.find('div.flow-chart.raw').removeClass('raw')
   flow.each((key, value) => {
     try {
@@ -347,11 +357,11 @@ export function finishView (view) {
       $value.children().unwrap().unwrap()
     } catch (err) {
       $value.unwrap()
-      $value.parent().append('<div class="alert alert-warning">' + err + '</div>')
+      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
   })
-    // graphviz
+  // graphviz
   var graphvizs = view.find('div.graphviz.raw').removeClass('raw')
   graphvizs.each(function (key, value) {
     try {
@@ -366,11 +376,11 @@ export function finishView (view) {
       $value.children().unwrap().unwrap()
     } catch (err) {
       $value.unwrap()
-      $value.parent().append('<div class="alert alert-warning">' + err + '</div>')
+      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
   })
-    // mermaid
+  // mermaid
   const mermaids = view.find('div.mermaid.raw').removeClass('raw')
   mermaids.each((key, value) => {
     try {
@@ -388,7 +398,7 @@ export function finishView (view) {
       }
 
       $value.unwrap()
-      $value.parent().append('<div class="alert alert-warning">' + errormessage + '</div>')
+      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(errormessage)}</div>`)
       console.warn(errormessage)
     }
   })
@@ -408,20 +418,20 @@ export function finishView (view) {
       svg[0].setAttribute('preserveAspectRatio', 'xMidYMid meet')
     } catch (err) {
       $value.unwrap()
-      $value.parent().append('<div class="alert alert-warning">' + err + '</div>')
+      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
   })
-    // image href new window(emoji not included)
+  // image href new window(emoji not included)
   const images = view.find('img.raw[src]').removeClass('raw')
   images.each((key, value) => {
-        // if it's already wrapped by link, then ignore
+    // if it's already wrapped by link, then ignore
     const $value = $(value)
     $value[0].onload = e => {
       if (window.viewAjaxCallback) window.viewAjaxCallback()
     }
   })
-    // blockquote
+  // blockquote
   const blockquote = view.find('blockquote.raw').removeClass('raw')
   const blockquoteP = blockquote.find('p')
   blockquoteP.each((key, value) => {
@@ -429,117 +439,96 @@ export function finishView (view) {
     html = replaceExtraTags(html)
     $(value).html(html)
   })
-    // color tag in blockquote will change its left border color
+  // color tag in blockquote will change its left border color
   const blockquoteColor = blockquote.find('.color')
   blockquoteColor.each((key, value) => {
     $(value).closest('blockquote').css('border-left-color', $(value).attr('data-color'))
   })
-    // slideshare
+  // slideshare
   view.find('div.slideshare.raw').removeClass('raw')
-        .each((key, value) => {
-          $.ajax({
-            type: 'GET',
-            url: `//www.slideshare.net/api/oembed/2?url=http://www.slideshare.net/${$(value).attr('data-slideshareid')}&format=json`,
-            jsonp: 'callback',
-            dataType: 'jsonp',
-            success (data) {
-              const $html = $(data.html)
-              const iframe = $html.closest('iframe')
-              const caption = $html.closest('div')
-              const inner = $('<div class="inner"></div>').append(iframe)
-              const height = iframe.attr('height')
-              const width = iframe.attr('width')
-              const ratio = (height / width) * 100
-              inner.css('padding-bottom', `${ratio}%`)
-              $(value).html(inner).append(caption)
-              if (window.viewAjaxCallback) window.viewAjaxCallback()
-            }
-          })
-        })
+    .each((key, value) => {
+      $.ajax({
+        type: 'GET',
+        url: `//www.slideshare.net/api/oembed/2?url=http://www.slideshare.net/${$(value).attr('data-slideshareid')}&format=json`,
+        jsonp: 'callback',
+        dataType: 'jsonp',
+        success (data) {
+          const $html = $(data.html)
+          const iframe = $html.closest('iframe')
+          const caption = $html.closest('div')
+          const inner = $('<div class="inner"></div>').append(iframe)
+          const height = iframe.attr('height')
+          const width = iframe.attr('width')
+          const ratio = (height / width) * 100
+          inner.css('padding-bottom', `${ratio}%`)
+          $(value).html(inner).append(caption)
+          if (window.viewAjaxCallback) window.viewAjaxCallback()
+        }
+      })
+    })
     // speakerdeck
   view.find('div.speakerdeck.raw').removeClass('raw')
-        .each((key, value) => {
-          const url = `https://speakerdeck.com/oembed.json?url=https%3A%2F%2Fspeakerdeck.com%2F${encodeURIComponent($(value).attr('data-speakerdeckid'))}`
-            // use yql because speakerdeck not support jsonp
-          $.ajax({
-            url: 'https://query.yahooapis.com/v1/public/yql',
-            data: {
-              q: `select * from json where url ='${url}'`,
-              format: 'json'
-            },
-            dataType: 'jsonp',
-            success (data) {
-              if (!data.query || !data.query.results) return
-              const json = data.query.results.json
-              const html = json.html
-              var ratio = json.height / json.width
-              $(value).html(html)
-              const iframe = $(value).children('iframe')
-              const src = iframe.attr('src')
-              if (src.indexOf('//') === 0) { iframe.attr('src', `https:${src}`) }
-              const inner = $('<div class="inner"></div>').append(iframe)
-              const height = iframe.attr('height')
-              const width = iframe.attr('width')
-              ratio = (height / width) * 100
-              inner.css('padding-bottom', `${ratio}%`)
-              $(value).html(inner)
-              if (window.viewAjaxCallback) window.viewAjaxCallback()
-            }
-          })
-        })
+    .each((key, value) => {
+      const url = `https://speakerdeck.com/${$(value).attr('data-speakerdeckid')}`
+      const inner = $('<a>Speakerdeck</a>')
+      inner.attr('href', url)
+      inner.attr('rel', 'noopener noreferrer')
+      inner.attr('target', '_blank')
+      $(value).append(inner)
+    })
     // pdf
   view.find('div.pdf.raw').removeClass('raw')
-            .each(function (key, value) {
-              const url = $(value).attr('data-pdfurl')
-              const inner = $('<div></div>')
-              $(this).append(inner)
-              PDFObject.embed(url, inner, {
-                height: '400px'
-              })
-            })
+    .each(function (key, value) {
+      const url = $(value).attr('data-pdfurl')
+      const inner = $('<div></div>')
+      $(this).append(inner)
+      PDFObject.embed(url, inner, {
+        height: '400px'
+      })
+    })
     // syntax highlighting
   view.find('code.raw').removeClass('raw')
-        .each((key, value) => {
-          const langDiv = $(value)
-          if (langDiv.length > 0) {
-            const reallang = langDiv[0].className.replace(/hljs|wrap/g, '').trim()
-            const codeDiv = langDiv.find('.code')
-            let code = ''
-            if (codeDiv.length > 0) code = codeDiv.html()
-            else code = langDiv.html()
-            var result
-            if (!reallang) {
-              result = {
-                value: code
-              }
-            } else if (reallang === 'haskell' || reallang === 'go' || reallang === 'typescript' || reallang === 'jsx' || reallang === 'gherkin') {
-              code = S(code).unescapeHTML().s
-              result = {
-                value: Prism.highlight(code, Prism.languages[reallang])
-              }
-            } else if (reallang === 'tiddlywiki' || reallang === 'mediawiki') {
-              code = S(code).unescapeHTML().s
-              result = {
-                value: Prism.highlight(code, Prism.languages.wiki)
-              }
-            } else if (reallang === 'cmake') {
-              code = S(code).unescapeHTML().s
-              result = {
-                value: Prism.highlight(code, Prism.languages.makefile)
-              }
-            } else {
-              code = S(code).unescapeHTML().s
-              const languages = hljs.listLanguages()
-              if (!languages.includes(reallang)) {
-                result = hljs.highlightAuto(code)
-              } else {
-                result = hljs.highlight(reallang, code)
-              }
-            }
-            if (codeDiv.length > 0) codeDiv.html(result.value)
-            else langDiv.html(result.value)
+    .each((key, value) => {
+      const langDiv = $(value)
+      if (langDiv.length > 0) {
+        const reallang = langDiv[0].className.replace(/hljs|wrap/g, '').trim()
+        const codeDiv = langDiv.find('.code')
+        let code = ''
+        if (codeDiv.length > 0) code = codeDiv.html()
+        else code = langDiv.html()
+        var result
+        if (!reallang) {
+          result = {
+            value: code
           }
-        })
+        } else if (reallang === 'haskell' || reallang === 'go' || reallang === 'typescript' || reallang === 'jsx' || reallang === 'gherkin') {
+          code = unescapeHTML(code)
+          result = {
+            value: Prism.highlight(code, Prism.languages[reallang])
+          }
+        } else if (reallang === 'tiddlywiki' || reallang === 'mediawiki') {
+          code = unescapeHTML(code)
+          result = {
+            value: Prism.highlight(code, Prism.languages.wiki)
+          }
+        } else if (reallang === 'cmake') {
+          code = unescapeHTML(code)
+          result = {
+            value: Prism.highlight(code, Prism.languages.makefile)
+          }
+        } else {
+          code = unescapeHTML(code)
+          const languages = hljs.listLanguages()
+          if (!languages.includes(reallang)) {
+            result = hljs.highlightAuto(code)
+          } else {
+            result = hljs.highlight(reallang, code)
+          }
+        }
+        if (codeDiv.length > 0) codeDiv.html(result.value)
+        else langDiv.html(result.value)
+      }
+    })
     // mathjax
   const mathjaxdivs = view.find('span.mathjax.raw').removeClass('raw').toArray()
   try {
@@ -553,7 +542,7 @@ export function finishView (view) {
   } catch (err) {
     console.warn(err)
   }
-    // render title
+  // render title
   document.title = renderTitle(view)
 }
 
@@ -589,7 +578,7 @@ export function postProcess (code) {
     if (warning && warning.length > 0) {
       warning.text(md.metaError)
     } else {
-      warning = $('<div id="meta-error" class="alert alert-warning">' + md.metaError + '</div>')
+      warning = $(`<div id="meta-error" class="alert alert-warning">${escapeHTML(md.metaError)}</div>`)
       result.prepend(warning)
     }
   }
@@ -613,23 +602,23 @@ window.removeDOMEvents = removeDOMEvents
 function generateCleanHTML (view) {
   const src = view.clone()
   const eles = src.find('*')
-    // remove syncscroll parts
+  // remove syncscroll parts
   eles.removeClass('part')
   src.find('*[class=""]').removeAttr('class')
   eles.removeAttr('data-startline data-endline')
   src.find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll')
-    // remove gist content
+  // remove gist content
   src.find('code[data-gist-id]').children().remove()
-    // disable todo list
+  // disable todo list
   src.find('input.task-list-item-checkbox').attr('disabled', '')
-    // replace emoji image path
+  // replace emoji image path
   src.find('img.emoji').each((key, value) => {
     let name = $(value).attr('alt')
     name = name.substr(1)
     name = name.slice(0, name.length - 1)
     $(value).attr('src', `https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/${name}.png`)
   })
-    // replace video to iframe
+  // replace video to iframe
   src.find('div[data-videoid]').each((key, value) => {
     const id = $(value).attr('data-videoid')
     const style = $(value).attr('style')
@@ -665,12 +654,12 @@ export function exportToHTML (view) {
   const title = renderTitle(ui.area.markdown)
   const filename = `${renderFilename(ui.area.markdown)}.html`
   const src = generateCleanHTML(view)
-    // generate toc
+  // generate toc
   const toc = $('#ui-toc').clone()
   toc.find('*').removeClass('active').find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll')
   const tocAffix = $('#ui-toc-affix').clone()
   tocAffix.find('*').removeClass('active').find("a[href^='#'][smoothhashscroll]").removeAttr('smoothhashscroll')
-    // generate html via template
+  // generate html via template
   $.get(`${serverurl}/build/html.min.css`, css => {
     $.get(`${serverurl}/views/html.hbs`, data => {
       const template = window.Handlebars.compile(data)
@@ -685,7 +674,7 @@ export function exportToHTML (view) {
         dir: (md && md.meta && md.meta.dir) ? `dir="${md.meta.dir}"` : null
       }
       const html = template(context)
-            //        console.log(html);
+      //        console.log(html);
       const blob = new Blob([html], {
         type: 'text/html;charset=utf-8'
       })
@@ -800,20 +789,20 @@ export function smoothHashScroll () {
     const hash = element.hash
     if (hash) {
       $element.on('click', function (e) {
-                // store hash
+        // store hash
         const hash = decodeURIComponent(this.hash)
-                // escape special characters in jquery selector
+        // escape special characters in jquery selector
         const $hash = $(hash.replace(/(:|\.|\[|\]|,)/g, '\\$1'))
-                // return if no element been selected
+        // return if no element been selected
         if ($hash.length <= 0) return
-                // prevent default anchor click behavior
+        // prevent default anchor click behavior
         e.preventDefault()
-                // animate
+        // animate
         $('body, html').stop(true, true).animate({
           scrollTop: $hash.offset().top
         }, 100, 'linear', () => {
-                    // when done, add hash to url
-                    // (default click behaviour)
+          // when done, add hash to url
+          // (default click behaviour)
           window.location.hash = hash
         })
       })
@@ -923,7 +912,7 @@ export function scrollToHash () {
 
 function highlightRender (code, lang) {
   if (!lang || /no(-?)highlight|plain|text/.test(lang)) { return }
-  code = S(code).escapeHTML().s
+  code = escapeHTML(code)
   if (lang === 'sequence') {
     return `<div class="sequence-diagram raw">${code}</div>`
   } else if (lang === 'flow') {
@@ -954,9 +943,6 @@ function highlightRender (code, lang) {
   }
   return result.value
 }
-
-import markdownit from 'markdown-it'
-import markdownitContainer from 'markdown-it-container'
 
 export let md = markdownit('default', {
   html: true,
@@ -1055,109 +1041,106 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
   return `<pre><code${self.renderAttrs(token)}>${highlighted}</code></pre>\n`
 }
 
-/* Defined regex markdown it plugins */
-import Plugin from 'markdown-it-regexp'
-
 // youtube
 const youtubePlugin = new Plugin(
-    // regexp to match
-    /{%youtube\s*([\d\D]*?)\s*%}/,
+  // regexp to match
+  /{%youtube\s*([\d\D]*?)\s*%}/,
 
-    (match, utils) => {
-      const videoid = match[1]
-      if (!videoid) return
-      const div = $('<div class="youtube raw"></div>')
-      div.attr('data-videoid', videoid)
-      const thumbnailSrc = `//img.youtube.com/vi/${videoid}/hqdefault.jpg`
-      const image = `<img src="${thumbnailSrc}" />`
-      div.append(image)
-      const icon = '<i class="icon fa fa-youtube-play fa-5x"></i>'
-      div.append(icon)
-      return div[0].outerHTML
-    }
+  (match, utils) => {
+    const videoid = match[1]
+    if (!videoid) return
+    const div = $('<div class="youtube raw"></div>')
+    div.attr('data-videoid', videoid)
+    const thumbnailSrc = `//img.youtube.com/vi/${videoid}/hqdefault.jpg`
+    const image = `<img src="${thumbnailSrc}" />`
+    div.append(image)
+    const icon = '<i class="icon fa fa-youtube-play fa-5x"></i>'
+    div.append(icon)
+    return div[0].outerHTML
+  }
 )
 // vimeo
 const vimeoPlugin = new Plugin(
-    // regexp to match
-    /{%vimeo\s*([\d\D]*?)\s*%}/,
+  // regexp to match
+  /{%vimeo\s*([\d\D]*?)\s*%}/,
 
-    (match, utils) => {
-      const videoid = match[1]
-      if (!videoid) return
-      const div = $('<div class="vimeo raw"></div>')
-      div.attr('data-videoid', videoid)
-      const icon = '<i class="icon fa fa-vimeo-square fa-5x"></i>'
-      div.append(icon)
-      return div[0].outerHTML
-    }
+  (match, utils) => {
+    const videoid = match[1]
+    if (!videoid) return
+    const div = $('<div class="vimeo raw"></div>')
+    div.attr('data-videoid', videoid)
+    const icon = '<i class="icon fa fa-vimeo-square fa-5x"></i>'
+    div.append(icon)
+    return div[0].outerHTML
+  }
 )
 // gist
 const gistPlugin = new Plugin(
-    // regexp to match
-    /{%gist\s*([\d\D]*?)\s*%}/,
+  // regexp to match
+  /{%gist\s*([\d\D]*?)\s*%}/,
 
-    (match, utils) => {
-      const gistid = match[1]
-      const code = `<code data-gist-id="${gistid}"></code>`
-      return code
-    }
+  (match, utils) => {
+    const gistid = match[1]
+    const code = `<code data-gist-id="${gistid}"></code>`
+    return code
+  }
 )
 // TOC
 const tocPlugin = new Plugin(
-    // regexp to match
-    /^\[TOC\]$/i,
+  // regexp to match
+  /^\[TOC\]$/i,
 
-    (match, utils) => '<div class="toc"></div>'
+  (match, utils) => '<div class="toc"></div>'
 )
 // slideshare
 const slidesharePlugin = new Plugin(
-    // regexp to match
-    /{%slideshare\s*([\d\D]*?)\s*%}/,
+  // regexp to match
+  /{%slideshare\s*([\d\D]*?)\s*%}/,
 
-    (match, utils) => {
-      const slideshareid = match[1]
-      const div = $('<div class="slideshare raw"></div>')
-      div.attr('data-slideshareid', slideshareid)
-      return div[0].outerHTML
-    }
+  (match, utils) => {
+    const slideshareid = match[1]
+    const div = $('<div class="slideshare raw"></div>')
+    div.attr('data-slideshareid', slideshareid)
+    return div[0].outerHTML
+  }
 )
 // speakerdeck
 const speakerdeckPlugin = new Plugin(
-    // regexp to match
-    /{%speakerdeck\s*([\d\D]*?)\s*%}/,
+  // regexp to match
+  /{%speakerdeck\s*([\d\D]*?)\s*%}/,
 
-    (match, utils) => {
-      const speakerdeckid = match[1]
-      const div = $('<div class="speakerdeck raw"></div>')
-      div.attr('data-speakerdeckid', speakerdeckid)
-      return div[0].outerHTML
-    }
+  (match, utils) => {
+    const speakerdeckid = match[1]
+    const div = $('<div class="speakerdeck raw"></div>')
+    div.attr('data-speakerdeckid', speakerdeckid)
+    return div[0].outerHTML
+  }
 )
 // pdf
 const pdfPlugin = new Plugin(
-    // regexp to match
-    /{%pdf\s*([\d\D]*?)\s*%}/,
+  // regexp to match
+  /{%pdf\s*([\d\D]*?)\s*%}/,
 
-    (match, utils) => {
-      const pdfurl = match[1]
-      if (!isValidURL(pdfurl)) return match[0]
-      const div = $('<div class="pdf raw"></div>')
-      div.attr('data-pdfurl', pdfurl)
-      return div[0].outerHTML
-    }
+  (match, utils) => {
+    const pdfurl = match[1]
+    if (!isValidURL(pdfurl)) return match[0]
+    const div = $('<div class="pdf raw"></div>')
+    div.attr('data-pdfurl', pdfurl)
+    return div[0].outerHTML
+  }
 )
 
 const emojijsPlugin = new Plugin(
-    // regexp to match emoji shortcodes :something:
-    // We generate an universal regex that guaranteed only contains the
-    // emojies we have available. This should prevent all false-positives
-    new RegExp(':(' + window.emojify.emojiNames.map((item) => { return RegExp.escape(item) }).join('|') + '):', 'i'),
+  // regexp to match emoji shortcodes :something:
+  // We generate an universal regex that guaranteed only contains the
+  // emojies we have available. This should prevent all false-positives
+  new RegExp(':(' + window.emojify.emojiNames.map((item) => { return RegExp.escape(item) }).join('|') + '):', 'i'),
 
-    (match, utils) => {
-      const emoji = match[1].toLowerCase()
-      const div = $(`<img class="emoji" src="${serverurl}/build/emojify.js/dist/images/basic/${emoji}.png"></img>`)
-      return div[0].outerHTML
-    }
+  (match, utils) => {
+    const emoji = match[1].toLowerCase()
+    const div = $(`<img class="emoji" alt=":${emoji}:" src="${serverurl}/build/emojify.js/dist/images/basic/${emoji}.png"></img>`)
+    return div[0].outerHTML
+  }
 )
 
 // yaml meta, from https://github.com/eugeneware/remarkable-meta

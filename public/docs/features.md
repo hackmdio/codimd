@@ -8,7 +8,7 @@ This means that you can write notes with other people on your **desktop**, **tab
 You can sign-in via multiple auth providers like **Facebook**, **Twitter**, **GitHub** and many more on the [_homepage_](/).
 
 If you experience any _issues_, feel free to report it on [**GitHub**](https://github.com/hackmdio/codimd/issues).
-Or meet us on [**Matrix.org**](https://riot.im/app/#/room/#codimd:matrix.org) for dev-talk and interactive help.
+Or meet us on [**Gitter**](https://gitter.im/hackmdio/hackmd) for dev-talk and interactive help.
 **Thank you very much!**
 
 Workspace
@@ -221,9 +221,6 @@ When you’re a carpenter making a beautiful chest of drawers, you’re not goin
 
 ### SlideShare
 {%slideshare briansolis/26-disruptive-technology-trends-2016-2018-56796196 %}
-
-### Speakerdeck
-{%speakerdeck sugarenia/xxlcss-how-to-scale-css-and-keep-your-sanity %}
 
 ### PDF
 **Caution: this might be blocked by your browser if not using an `https` URL.**

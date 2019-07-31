@@ -1,6 +1,126 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 1.3.1 <i class="fa fa-clock-o"></i> 2019-03-23 00:00
+---
+
+### Enhancements
+* Add some missing translations
+* Add Serbian language
+
+### Fixes
+* Fix broken redirect for empty `serverURL`
+* Fix wrong variable type for HSTS maxAge
+* Fix GitLab snippets showing up without being configured
+* Fix Google's API after disabling Google+
+* Fix broken PDF export
+
+### Contributors
+* atachibana (translator)
+* [Aurélien JANVIER](https://github.com/ajanvier) (translator)
+* [Daan Sprenkels](https://github.com/dsprenkels) (translator)
+* Farizrizaldy (translator)
+* [Luclu7](https://github.com/Luclu7)
+* Sylke Vicious (translator)
+* [toshi0123](https://github.com/toshi0123) & okochi-toshiki
+* [Turakar](https://github.com/Turakar)
+* [Vladan](https://github.com/cvladan) (translator)
+
+<i class="fa fa-tag"></i> 1.3.0 <i class="fa fa-clock-o"></i> 2019-03-03 00:00
+---
+
+### Enhancements
+* Run db migrations on `npm start`
+* Add documentation about integration with AD LDAP
+* Add `rel="noopener"` to all links
+* Add documentation about integration with Nextcloud for authentication
+* Update URL on frontpage to point to codimd.org
+* Replace Fontawesome with Forkawesome
+* Add OpenID support
+* Add print icon to slide view
+* Add auto-complete for language names that are highlighted in codeblocks
+* Improve translations for Chinese, Dutch, French, German, Italien, Korean, Polish, and Russian language
+* Add Download action to published document API
+* Add reset password feature to `manage_users` script
+* Move from own `./tmp` directory to system temp directory
+* Add Etherpad migration guide
+* Move XSS library to a more native position
+* Use full version string to determine changes from the backend
+* Update winston (logging library)
+* Use slide preview in slide example
+* Improve migration handling
+* Update reveal.js to version 3.7.0
+* Replace scrypt library with its successor
+* Replace `to-markdown` with `turndown` (successor library)
+* Update socket.io
+* Add warning on missing base URL
+* Update bootstrap to version 3.4.0
+* Update handlebar
+
+### Fixes
+* Fix paths in GitLab documentation
+* Fix missing `data:` URL in CSP
+* Fix oAuth2 name/label field
+* Fix GitLab API integration
+* Fix auto-completed but not rendered emojis
+* Fix menu organization depending on enabled services
+* Fix some logging in the OT module
+* Fix some unhandled internalOAuthError exception
+* Fix unwanted creation of robots.txt document in "freeurl-mode"
+* Fix some links on index page to lead to the right sections on feature page
+* Fix document breaking, empty headlines
+* Fix wrong multiplication for HSTS header seconds
+* Fix wrong subdirectories in exported user data
+* Fix CSP for speaker notes
+* Fix CSP for disqus
+* Fix URL API usage
+* Fix Gist embedding
+* Fix upload provider error message
+* Fix unescaped disqus user names
+* Fix SAML vulnerability
+* Fix link to SAML guide
+* Fix deep dependency problem with node 6.x
+* Fix broken PDF export by wrong unlink call
+* Fix possible XSS attack in MathJax
+
+### Refactors
+* Refactor to use `ws` instead of the the no longer supported `uws`
+* Refactor frontend build system to use webpack version 4
+* Refactor file path configuration (views, uploads, …)
+* Refactor `manage_users` script
+* Refactor handling of template variables
+* Refactor linting to use eslint
+
+### Removes
+* Remove no longer working Octicons
+* Remove links to our old Gitter channel
+* Remove unused library node-uuid
+* Remove unneeded blueimp-md5 dependency
+* Remove speakerdeck due to broken implementation
+
+### Contributors
+* Adam.emts (translator)
+* [Alex Garcia](https://github.com/asg017)
+* [Cédric Couralet (micedre)](https://github.com/micedre)
+* [Claudius Coenen](https://github.com/ccoenen)
+* [Daan Sprenkels](https://github.com/dsprenkels)
+* [David Mehren](https://github.com/davidmehren)
+* [Erona](https://github.com/Eronana)
+* [Felix Yan](https://github.com/felixonmars)
+* [Jonathan](https://github.com/phrix32)
+* Jong-kai Yang (translator)
+* [MartB](https://github.com/MartB)
+* [Max Wu (jackycute)](https://github.com/jackycute)
+* [mcnesium](https://github.com/mcnesium)
+* Nullnine (translator)
+* RanoIP (translator)
+* [SuNbiT](https://github.com/sunbit)
+* Sylke Vicious (translator)
+* Timothee (translator)
+* [WilliButz](https://github.com/WilliButz)
+* [Xaver Maierhofer](https://github.com/xf-)
+* [云屿](https://github.com/cloudyu)
+
 <i class="fa fa-tag"></i> 1.2.1 <i class="fa fa-clock-o"></i> 2018-09-26 00:00
 ---
 

@@ -111,5 +111,9 @@
     "Do you really want to delete your user account?": "Apakah anda yakin ingin menghapus akun anda?",
     "This will delete your account, all notes that are owned by you and remove all references to your account from other notes.": "Ini akan menghapus akun anda, semua catatan yang dimiliki oleh anda akan dihapus dan menghapus semua referensi ke akun anda dari catatan lain.",
     "Delete user": "Hapus pengguna",
-    "Export user data": "Ekspor data pengguna"
+    "Export user data": "Ekspor data pengguna",
+    "Help us translating on %s": "Bantu kami menerjemahkan di %s",
+    "Source Code": "Sumber Kode",
+    "Register": "Daftar",
+    "Powered by %s": "Ditenagai oleh %s"
 }

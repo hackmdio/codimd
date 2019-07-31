@@ -12,7 +12,6 @@ module.exports = {
     "ui": false,
     "Spinner": false,
     "modeType": false,
-    "Idle": false,
     "serverurl": false,
     "key": false,
     "gapi": false,
