@@ -1,0 +1,16 @@
+version: '3'
+services:
+  database:
+    image: postgres:11.2
+    environment:
+      POSTGRES_USER: codimd
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: codimd
+  codimd:
+    build:
+      dockerfile: ./deployments/Dockerfile
+      context: ../
+    environment:
+      CMD_DB_URL: postgres://codimd:password@database/codimd
+    ports:
+      - 3000:3000

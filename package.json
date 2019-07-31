@@ -18,15 +18,18 @@
     "build": "webpack --config webpack.prod.js --progress --colors --bail",
     "dev": "webpack --config webpack.dev.js --progress --colors --watch",
     "doctoc": "doctoc --title='# Table of Contents' README.md",
-    "eslint": "eslint lib public test app.js",
-    "postinstall": "bin/heroku",
-    "jsonlint": "find . -not -path './node_modules/*' -type f -name '*.json' -o -type f -name '*.json.example' | while read json; do echo $json ; jq . $json; done",
-    "standard": "echo 'standard is no longer being used, use `npm run eslint` instead!' && exit 1",
+    "lint": "standard",
+    "jsonlint": "find . -type f -not -ipath \"./node_modules/*\" \\( -name \"*.json\" -o -name \"*.json.*\" \\) | xargs -n 1 -I{} -- bash -c 'echo {}; jq . {} > /dev/null;'",
     "start": "sequelize db:migrate && node app.js",
-    "test": "npm run-script eslint && npm run-script jsonlint && mocha"
+    "mocha": "mocha --require intelli-espower-loader --exit ./test --recursive",
+    "mocha:ci": "mocha --no-color -R dot --require intelli-espower-loader --exit ./test --recursive",
+    "coverage": "nyc mocha --require intelli-espower-loader --exit --recursive ./test",
+    "coverage:ci": "nyc mocha --no-color -R dot --require intelli-espower-loader --exit --recursive ./test",
+    "test": "npm run-script lint && npm run-script jsonlint && npm run-script coverage",
+    "test:ci": "npm run-script lint && npm run-script jsonlint && npm run-script coverage:ci"
   },
   "dependencies": {
-    "@hackmd/codemirror": "^5.46.2",
+    "@hackmd/codemirror": "~5.46.2",
     "@hackmd/diff-match-patch": "~1.1.1",
     "@hackmd/idle-js": "~1.0.1",
     "@hackmd/imgur": "~0.4.1",
@@ -38,6 +41,7 @@
     "async": "~2.1.4",
     "aws-sdk": "~2.345.0",
     "azure-storage": "~2.10.2",
+    "babel-polyfill": "~6.26.0",
     "base64url": "~3.0.0",
     "body-parser": "~1.18.3",
     "bootstrap": "~3.4.0",
@@ -65,7 +69,7 @@
     "highlight.js": "~9.12.0",
     "i18n": "~0.8.3",
     "ionicons": "~2.0.1",
-    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-fetch": "~2.2.1",
     "jquery": "~3.1.1",
     "jquery-mousewheel": "~3.1.13",
     "jquery-ui": "~1.12.1",
@@ -90,8 +94,8 @@
     "markdown-it-sup": "~1.0.0",
     "markdown-pdf": "~9.0.0",
     "mathjax": "~2.7.0",
-    "mattermost-redux": "^5.9.0",
-    "mermaid": "^8.2.3",
+    "mattermost-redux": "~5.9.0",
+    "mermaid": "~8.2.3",
     "method-override": "~2.3.7",
     "minimist": "~1.2.0",
     "minio": "~6.0.0",
@@ -146,33 +150,31 @@
     "babel-core": "~6.26.3",
     "babel-loader": "~7.1.4",
     "babel-plugin-transform-runtime": "~6.23.0",
-    "babel-polyfill": "~6.26.0",
     "babel-preset-env": "~1.7.0",
     "babel-runtime": "~6.26.0",
     "copy-webpack-plugin": "~4.5.2",
     "css-loader": "~1.0.0",
     "doctoc": "~1.4.0",
     "ejs-loader": "~0.3.1",
-    "eslint": "~5.16.0",
-    "eslint-config-standard": "~12.0.0",
-    "eslint-plugin-import": "~2.17.1",
-    "eslint-plugin-node": "~8.0.1",
-    "eslint-plugin-promise": "~4.1.1",
-    "eslint-plugin-standard": "~4.0.0",
     "exports-loader": "~0.7.0",
     "expose-loader": "~0.7.5",
     "file-loader": "~2.0.0",
     "html-webpack-plugin": "~4.0.0-beta.2",
     "imports-loader": "~0.8.0",
+    "intelli-espower-loader": "~1.0.1",
     "jsonlint": "~1.6.2",
     "less": "~3.9.0",
     "less-loader": "~4.1.0",
     "mini-css-extract-plugin": "~0.4.1",
     "mocha": "~5.2.0",
     "mock-require": "~3.0.3",
+    "nyc": "~14.0.0",
     "optimize-css-assets-webpack-plugin": "~5.0.0",
+    "power-assert": "~1.6.1",
     "script-loader": "~0.7.2",
     "sequelize-cli": "~5.4.0",
+    "sinon": "~7.3.2",
+    "standard": "~12.0.1",
     "string-loader": "~0.0.1",
     "style-loader": "~0.21.0",
     "uglifyjs-webpack-plugin": "~1.2.7",
@@ -198,5 +200,20 @@
       "name": "Christoph (Sheogorath) Kern",
       "email": "codimd@sheogorath.shivering-isles.com"
     }
-  ]
+  ],
+  "standard": {
+    "ignore": [
+      "/public/build",
+      "/public/vendor",
+      "/lib/ot"
+    ]
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "app.js",
+      "lib/**/*.js"
+    ],
+    "reporter": "lcov"
+  }
 }

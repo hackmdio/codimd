@@ -1,3 +1,4 @@
+/* global CodeMirror, $, editor, Cookies */
 import * as utils from './utils'
 import config from './config'
 import statusBarTemplate from './statusbar.html'

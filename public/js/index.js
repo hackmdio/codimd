@@ -1,6 +1,6 @@
 /* eslint-env browser, jquery */
 /* global CodeMirror, Cookies, moment, Spinner, serverurl,
-   key, Dropbox, ot, hex2rgb, Visibility */
+   key, Dropbox, ot, hex2rgb, Visibility, inlineAttachment */
 
 import TurndownService from 'turndown'
 

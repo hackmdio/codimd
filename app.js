@@ -7,7 +7,6 @@ var ejs = require('ejs')
 var passport = require('passport')
 var methodOverride = require('method-override')
 var cookieParser = require('cookie-parser')
-var compression = require('compression')
 var session = require('express-session')
 var SequelizeStore = require('connect-session-sequelize')(session.Store)
 var fs = require('fs')
@@ -26,30 +25,33 @@ var response = require('./lib/response')
 var models = require('./lib/models')
 var csp = require('./lib/csp')
 
+function createHttpServer () {
+  if (config.useSSL) {
+    const ca = (function () {
+      let i, len, results
+      results = []
+      for (i = 0, len = config.sslCAPath.length; i < len; i++) {
+        results.push(fs.readFileSync(config.sslCAPath[i], 'utf8'))
+      }
+      return results
+    })()
+    const options = {
+      key: fs.readFileSync(config.sslKeyPath, 'utf8'),
+      cert: fs.readFileSync(config.sslCertPath, 'utf8'),
+      ca: ca,
+      dhparam: fs.readFileSync(config.dhParamPath, 'utf8'),
+      requestCert: false,
+      rejectUnauthorized: false
+    }
+    return require('https').createServer(options, app)
+  } else {
+    return require('http').createServer(app)
+  }
+}
+
 // server setup
 var app = express()
-var server = null
-if (config.useSSL) {
-  var ca = (function () {
-    var i, len, results
-    results = []
-    for (i = 0, len = config.sslCAPath.length; i < len; i++) {
-      results.push(fs.readFileSync(config.sslCAPath[i], 'utf8'))
-    }
-    return results
-  })()
-  var options = {
-    key: fs.readFileSync(config.sslKeyPath, 'utf8'),
-    cert: fs.readFileSync(config.sslCertPath, 'utf8'),
-    ca: ca,
-    dhparam: fs.readFileSync(config.dhParamPath, 'utf8'),
-    requestCert: false,
-    rejectUnauthorized: false
-  }
-  server = require('https').createServer(options, app)
-} else {
-  server = require('http').createServer(app)
-}
+var server = createHttpServer()
 
 // logger
 app.use(morgan('combined', {
@@ -76,9 +78,6 @@ app.use(methodOverride('_method'))
 var sessionStore = new SequelizeStore({
   db: models.sequelize
 })
-
-// compression
-app.use(compression())
 
 // use hsts to tell https users stick to this
 if (config.hsts.enable) {
@@ -279,6 +278,7 @@ process.on('uncaughtException', function (err) {
 function handleTermSignals () {
   logger.info('CodiMD has been killed by signal, try to exit gracefully...')
   realtime.maintenance = true
+  realtime.terminate()
   // disconnect all socket.io clients
   Object.keys(io.sockets.sockets).forEach(function (key) {
     var socket = io.sockets.sockets[key]
@@ -299,6 +299,9 @@ function handleTermSignals () {
       })
     }
   }, 100)
+  setTimeout(() => {
+    process.exit(1)
+  }, 5000)
 }
 process.on('SIGINT', handleTermSignals)
 process.on('SIGTERM', handleTermSignals)
