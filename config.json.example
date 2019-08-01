@@ -122,6 +122,10 @@
         {
           "connectionString": "change this",
           "container": "change this"
+        },
+        "plantuml":
+        {
+          "server": "http://www.plantuml.com/plantuml"
         }
     }
 }
