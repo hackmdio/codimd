@@ -1,4 +1,4 @@
-let config = {
+const config = {
   docmaxlength: null
 }
 
