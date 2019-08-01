@@ -9,7 +9,7 @@ describe('generateAvatarURL() gravatar enabled', function () {
   let avatars
   beforeEach(function () {
     // Reset config to make sure we don't influence other tests
-    let testconfig = {
+    const testconfig = {
       allowGravatar: true,
       serverURL: 'http://localhost:3000',
       port: 3000
@@ -32,7 +32,7 @@ describe('generateAvatarURL() gravatar disabled', function () {
   let avatars
   beforeEach(function () {
     // Reset config to make sure we don't influence other tests
-    let testconfig = {
+    const testconfig = {
       allowGravatar: false,
       serverURL: 'http://localhost:3000',
       port: 3000
