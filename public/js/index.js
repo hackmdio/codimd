@@ -1,5 +1,5 @@
 /* eslint-env browser, jquery */
-/* global CodeMirror, Cookies, moment, Spinner, serverurl,
+/* global CodeMirror, Cookies, moment, serverurl,
    key, Dropbox, ot, hex2rgb, Visibility, inlineAttachment */
 
 import TurndownService from 'turndown'
@@ -16,6 +16,8 @@ import wurl from 'wurl'
 import List from 'list.js'
 
 import Idle from '@hackmd/idle-js'
+
+import { Spinner } from 'spin.js';
 
 import {
   checkLoginStateChanged,
@@ -83,6 +85,7 @@ require('../css/index.css')
 require('../css/extra.css')
 require('../css/slide-preview.css')
 require('../css/site.css')
+require('spin.js/spin.css')
 
 require('highlight.js/styles/github-gist.css')
 
@@ -334,9 +337,7 @@ var opts = {
   left: '50%' // Left position relative to parent
 }
 
-/* eslint-disable no-unused-vars */
-var spinner = new Spinner(opts).spin(ui.spinner[0])
-/* eslint-enable no-unused-vars */
+new Spinner(opts).spin(ui.spinner[0])
 
 // idle
 var idle = new Idle({

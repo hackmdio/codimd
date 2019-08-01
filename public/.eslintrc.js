@@ -10,7 +10,6 @@ module.exports = {
     "moment": false,
     "editor": false,
     "ui": false,
-    "Spinner": false,
     "modeType": false,
     "serverurl": false,
     "key": false,
