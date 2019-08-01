@@ -175,7 +175,7 @@
     "script-loader": "~0.7.2",
     "sequelize-cli": "~5.4.0",
     "sinon": "~7.3.2",
-    "standard": "~12.0.1",
+    "standard": "~13.1.0",
     "string-loader": "~0.0.1",
     "style-loader": "~0.23.1",
     "uglifyjs-webpack-plugin": "~1.2.7",
@@ -206,7 +206,8 @@
     "ignore": [
       "/public/build",
       "/public/vendor",
-      "/lib/ot"
+      "/lib/ot",
+      "webpack.*"
     ]
   },
   "nyc": {
