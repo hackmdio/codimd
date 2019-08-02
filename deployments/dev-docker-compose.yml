@@ -11,7 +11,7 @@ services:
       dockerfile: ./deployments/dev-Dockerfile
       context: ../
     environment:
-      CMD_DB_URL: postgres://hackmd:password@dev-database/hackmd
+      HMD_DB_URL: postgres://hackmd:password@dev-database/hackmd
     volumes:
       - ../:/hackmd
       - node_modules:/hackmd/node_modules

@@ -19,7 +19,7 @@ This guide uses the generic OAuth2 module for compatibility with Nextcloud 13 an
 4. You'll now see a line containing a *client identifier* and a *Secret*.
    ![Successfully added OAuth2-client](../images/auth/nextcloud-oauth2-3-clientid-secret.png)
 
-5. That's it for Nextcloud, the rest is configured in your HackMD `config.json` or via the `CMD_` environment variables!
+5. That's it for Nextcloud, the rest is configured in your HackMD `config.json` or via the `HMD_` environment variables!
 
 6. Add the Client ID and Client Secret to your `config.json` file or pass them as environment variables. Make sure you also replace `<your-nextcloud-domain>` with the right domain name.
     * `config.json`:
@@ -41,12 +41,12 @@ This guide uses the generic OAuth2 module for compatibility with Nextcloud 13 an
       ```
     * environment variables:
       ```sh
-      CMD_OAUTH2_CLIENT_ID=ii4p1u3jz7dXXXXXXXXXXXXXXX
-      CMD_OAUTH2_CLIENT_SECRET=mqzzx6fydbXXXXXXXXXXXXXXXX
-      CMD_OAUTH2_AUTHORIZATION_URL=https://<your-nextcloud-domain>/apps/oauth2/authorize
-      CMD_OAUTH2_TOKEN_URL=https://<your-nextcloud-domain>/apps/oauth2/api/v1/token
-      CMD_OAUTH2_USER_PROFILE_URL=https://<your-nextcloud-domain>/ocs/v2.php/cloud/user?format=json
-      CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR=ocs.data.id
-      CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR=ocs.data.display-name
-      CMD_OAUTH2_USER_PROFILE_EMAIL_ATTR=ocs.data.email
+      HMD_OAUTH2_CLIENT_ID=ii4p1u3jz7dXXXXXXXXXXXXXXX
+      HMD_OAUTH2_CLIENT_SECRET=mqzzx6fydbXXXXXXXXXXXXXXXX
+      HMD_OAUTH2_AUTHORIZATION_URL=https://<your-nextcloud-domain>/apps/oauth2/authorize
+      HMD_OAUTH2_TOKEN_URL=https://<your-nextcloud-domain>/apps/oauth2/api/v1/token
+      HMD_OAUTH2_USER_PROFILE_URL=https://<your-nextcloud-domain>/ocs/v2.php/cloud/user?format=json
+      HMD_OAUTH2_USER_PROFILE_USERNAME_ATTR=ocs.data.id
+      HMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR=ocs.data.display-name
+      HMD_OAUTH2_USER_PROFILE_EMAIL_ATTR=ocs.data.email
       ```

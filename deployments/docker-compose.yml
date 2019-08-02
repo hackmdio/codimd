@@ -11,6 +11,6 @@ services:
       dockerfile: ./deployments/Dockerfile
       context: ../
     environment:
-      CMD_DB_URL: postgres://hackmd:password@database/hackmd
+      HMD_DB_URL: postgres://hackmd:password@database/hackmd
     ports:
       - 3000:3000

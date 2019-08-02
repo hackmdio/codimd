@@ -46,13 +46,13 @@ This guide uses the generic OAuth2 module for compatibility with Mattermost vers
       ````
     * environment variables:
       ````
-      CMD_OAUTH2_BASEURL=https://your.mattermost.domain
-      CMD_OAUTH2_USER_PROFILE_URL=https://your.mattermost.domain/api/v4/users/me
-      CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR=id
-      CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR=username
-      CMD_OAUTH2_USER_PROFILE_EMAIL_ATTR=email
-      CMD_OAUTH2_TOKEN_URL=https://your.mattermost.domain/oauth/access_token
-      CMD_OAUTH2_AUTHORIZATION_URL=https://your.mattermost.domain/oauth/authorize
-      CMD_OAUTH2_CLIENT_ID=ii4p1u3jz7dXXXXXXXXXXXXXXX
-      CMD_OAUTH2_CLIENT_SECRET=mqzzx6fydbXXXXXXXXXXXXXXXX
+      HMD_OAUTH2_BASEURL=https://your.mattermost.domain
+      HMD_OAUTH2_USER_PROFILE_URL=https://your.mattermost.domain/api/v4/users/me
+      HMD_OAUTH2_USER_PROFILE_USERNAME_ATTR=id
+      HMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR=username
+      HMD_OAUTH2_USER_PROFILE_EMAIL_ATTR=email
+      HMD_OAUTH2_TOKEN_URL=https://your.mattermost.domain/oauth/access_token
+      HMD_OAUTH2_AUTHORIZATION_URL=https://your.mattermost.domain/oauth/authorize
+      HMD_OAUTH2_CLIENT_ID=ii4p1u3jz7dXXXXXXXXXXXXXXX
+      HMD_OAUTH2_CLIENT_SECRET=mqzzx6fydbXXXXXXXXXXXXXXXX
       ````

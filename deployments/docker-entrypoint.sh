@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-pcheck -constr "$CMD_DB_URL"
+pcheck -constr "$HMD_DB_URL"
 
 sequelize db:migrate
 
