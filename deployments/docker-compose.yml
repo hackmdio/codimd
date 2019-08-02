@@ -3,14 +3,14 @@ services:
   database:
     image: postgres:11.2
     environment:
-      POSTGRES_USER: codimd
+      POSTGRES_USER: hackmd
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: codimd
-  codimd:
+      POSTGRES_DB: hackmd
+  hackmd:
     build:
       dockerfile: ./deployments/Dockerfile
       context: ../
     environment:
-      CMD_DB_URL: postgres://codimd:password@database/codimd
+      CMD_DB_URL: postgres://hackmd:password@database/hackmd
     ports:
       - 3000:3000

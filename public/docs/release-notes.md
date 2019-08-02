@@ -34,7 +34,6 @@ Release Notes
 * Add documentation about integration with AD LDAP
 * Add `rel="noopener"` to all links
 * Add documentation about integration with Nextcloud for authentication
-* Update URL on frontpage to point to codimd.org
 * Replace Fontawesome with Forkawesome
 * Add OpenID support
 * Add print icon to slide view
@@ -158,7 +157,7 @@ Release Notes
 
 ### Deprecations
 * NodeJS version 6
-* Mattermost login integration (is replaced by [generic oAuth2 module](https://github.com/hackmdio/codimd/blob/6ce7b20a7f92ccff2f7f870ff5d116d685310cfd/docs/guides/auth/mattermost-self-hosted.md))
+* Mattermost login integration (is replaced by [generic oAuth2 module](https://github.com/hackmdio/hackmd/blob/6ce7b20a7f92ccff2f7f870ff5d116d685310cfd/docs/guides/auth/mattermost-self-hosted.md))
 
 ### Honorable mentions
 * [Alex Hesse (Pingu501)](https://github.com/Pingu501)
@@ -172,9 +171,6 @@ Release Notes
 
 <i class="fa fa-tag"></i> 1.2.0 <i class="fa fa-clock-o"></i> 2018-06-28 00:00
 ---
-
-### Announcement
-* HackMD CE is renamed to CodiMD to prevent confusion. [For details see here](https://github.com/hackmdio/codimd#hackmd-ce-became-codimd)
 
 ### Enhancements
 * Show full title by hovering over to table of contents entries
@@ -197,7 +193,7 @@ Release Notes
 ### Fixes
 * Fix local writes for non-existing translations in production
 * Fix wrong documentation about default image upload type
-* Fix possible error if CodiMD is started with wrong working directory
+* Fix possible error if HackMD is started with wrong working directory
 * Fix issues caused by cached/cacheeable client config
 * Fix issues caused by notes created via curl/API with CRLF line endings
 * Fix broken images for downloaded PDFs while using `filesystem` as `imageUploadType`

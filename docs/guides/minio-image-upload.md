@@ -1,7 +1,5 @@
-Minio Guide for CodiMD
+Minio Guide for HackMD
 ===
-
-***Note:** This guide was written before the renaming. Just replace `HackMD` with `CodiMD` in your mind :smile: thanks!*
 
 1. First of all you need to setup Minio itself.
 

@@ -1,8 +1,6 @@
 Authentication guide - Twitter
 ===
 
-***Note:** This guide was written before the renaming. Just replace `HackMD` with `CodiMD` in your mind :smile: thanks!*
-
 1. Sign-in or sign-up for a Twitter account
 2. Go to the Twitter Application management page [here](https://apps.twitter.com/)
 3. Click on the **Create New App** button to create a new Twitter app:

@@ -1,7 +1,7 @@
 FROM node:8.15.1-jessie
 
-WORKDIR /codimd
+WORKDIR /hackmd
 
 EXPOSE 3000
 
-VOLUME ['/codimd/node_modules']
+VOLUME ['/hackmd/node_modules']

@@ -56,7 +56,7 @@ version 1.2.0, available at
 ### Sign your work
 
 We use the Developer Certificate of Origin (DCO) as a additional safeguard
-for the CodiMD project. This is a well established and widely used
+for the HackMD project. This is a well established and widely used
 mechanism to assure contributors have confirmed their right to license
 their contribution under the project's license.
 Please read [contribute/developer-certificate-of-origin][dcofile].

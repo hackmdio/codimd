@@ -12,14 +12,14 @@ This guide uses the generic OAuth2 module for compatibility with Nextcloud 13 an
    At the top there's OAuth 2.0-Clients.
    ![Where to find OAuth2 in Nextcloud](../images/auth/nextcloud-oauth2-1-settings.png)
 
-3. Add your CodiMD instance by giving it a *name* (perhaps CodiMD, but could be anything) and a *Redirection-URI*. The Redirection-URI will be `\<your-codimd-url\>/auth/oauth2/callback`. Click <kbd>Add</kbd>.
+3. Add your HackMD instance by giving it a *name* (perhaps HackMD, but could be anything) and a *Redirection-URI*. The Redirection-URI will be `\<your-hackmd-url\>/auth/oauth2/callback`. Click <kbd>Add</kbd>.
    ![Adding a client to Nextcloud](../images/auth/nextcloud-oauth2-2-client-add.png)
 
 
 4. You'll now see a line containing a *client identifier* and a *Secret*.
    ![Successfully added OAuth2-client](../images/auth/nextcloud-oauth2-3-clientid-secret.png)
 
-5. That's it for Nextcloud, the rest is configured in your CodiMD `config.json` or via the `CMD_` environment variables!
+5. That's it for Nextcloud, the rest is configured in your HackMD `config.json` or via the `CMD_` environment variables!
 
 6. Add the Client ID and Client Secret to your `config.json` file or pass them as environment variables. Make sure you also replace `<your-nextcloud-domain>` with the right domain name.
     * `config.json`:

@@ -2,26 +2,26 @@ Pad migration guide from etherpad-lite
 ===
 
 The goal of this migration is to do a "dumb" import from all the pads in Etherpad, to notes in
-CodiMD. In particular, the url locations of the pads in Etherpad will be lost. Furthermore, any
+HackMD. In particular, the url locations of the pads in Etherpad will be lost. Furthermore, any
 metadata in Etherpad, such as revisions, author data and also formatted text will not be migrated
-to CodiMD (only the plain text contents).
+to HackMD (only the plain text contents).
 
-Note that this guide is not really meant as a support guide. I migrated my own Etherpad to CodiMD,
+Note that this guide is not really meant as a support guide. I migrated my own Etherpad to HackMD,
 and it turned out to be quite easy in my opinion. In this guide I share my experience. Stuff may
 require some creativity to work properly in your case. When I wrote this guide, I was using
-[Etherpad 1.7.0] and [CodiMD 1.2.1]. Good luck!
+[Etherpad 1.7.0] and [HackMD 1.2.1]. Good luck!
 
 [Etherpad 1.7.0]: https://github.com/ether/etherpad-lite/tree/1.7.0
-[CodiMD 1.2.1]: https://github.com/hackmdio/codimd/tree/1.2.1
+[HackMD 1.2.1]: https://github.com/hackmdio/hackmd/tree/1.2.1
 
 ## 0. Requirements
 
 - `curl`
 - running Etherpad server
-- running CodiMD server
-- [codimd-cli]
+- running HackMD server
+- [hackmd-cli]
 
-[codimd-cli]: https://github.com/hackmdio/codimd-cli/blob/master/bin/codimd
+[hackmd-cli]: https://github.com/hackmdio/hackmd-cli/blob/master/bin/hackmd
 
 ## 1. Retrieve the list of pads
 
@@ -44,26 +44,26 @@ weddingchecklist
 
 ## 2. Run the migration
 
-Download [codimd-cli] and put the script in the same directory as the file containing the pad names.
+Download [hackmd-cli] and put the script in the same directory as the file containing the pad names.
 Add to this directory the file listed below, I called it `migrate-etherpad.sh`. Modify at least the
-configuration settings `ETHERPAD_SERVER` and `CODIMD_SERVER`.
+configuration settings `ETHERPAD_SERVER` and `HACKMD_SERVER`.
 
 ```shell
 #!/bin/sh
 
 # migrate-etherpad.sh
 #
-# Description: Migrate pads from etherpad to codimd
+# Description: Migrate pads from etherpad to hackmd
 # Author: Daan Sprenkels <hello@dsprenkels.com>
 
-# This script uses the codimd command line script[1] to import a list of pads from 
-# [1]: https://github.com/hackmdio/codimd-cli/blob/master/bin/codimd
+# This script uses the hackmd command line script[1] to import a list of pads from 
+# [1]: https://github.com/hackmdio/hackmd-cli/blob/master/bin/hackmd
 
 # The base url to where etherpad is hosted
 ETHERPAD_SERVER="https://etherpad.example.com"
 
-# The base url where codimd is hosted
-CODIMD_SERVER="https://codimd.example.com"
+# The base url where hackmd is hosted
+HACKMD_SERVER="https://hackmd.example.com"
 
 # Write a list of pads and the urls which they were migrated to
 REDIRECTS_FILE="redirects.txt"
@@ -81,8 +81,8 @@ for PAD_NAME in $1; do
     PAD_FILE="$(mktemp)"
     curl "$ETHERPAD_SERVER/p/$PAD_NAME/export/txt" >"$PAD_FILE"
     
-    # Import the pad into codimd
-    OUTPUT="$(./codimd import "$PAD_FILE")"
+    # Import the pad into hackmd
+    OUTPUT="$(./hackmd import "$PAD_FILE")"
     echo "$PAD_NAME -> $OUTPUT" >>"$REDIRECTS_FILE"
 done
 ```
@@ -93,7 +93,7 @@ Call this file like this:
 ./migrate-etherpad.sh pad_names.txt
 ```
 
-This will download all the pads in `pad_names.txt` and put them on CodiMD. They will get assigned
+This will download all the pads in `pad_names.txt` and put them on HackMD. They will get assigned
 random ids, so you won't be able to find them. The script will save the mappings to a file though
 (in my case `redirects.txt`). You can use this file to redirect your users when they visit your
 etherpad using a `301 Permanent Redirect` status code (see the next section).
@@ -103,10 +103,10 @@ etherpad using a `301 Permanent Redirect` status code (see the next section).
 I got a `redirects.txt` file that looked a bit like this:
 
 ```
-date-ideas -> Found. Redirecting to https://codimd.example.com/mPt0KfiKSBOTQ3mNcdfn
-groceries -> Found. Redirecting to https://codimd.example.com/UukqgwLfhYyUUtARlcJ2_y
-london -> Found. Redirecting to https://codimd.example.com/_d3wa-BE8t4Swv5w7O2_9R
-weddingchecklist -> Found. Redirecting to https://codimd.example.com/XcQGqlBjl0u40wfT0N8TzQ
+date-ideas -> Found. Redirecting to https://hackmd.example.com/mPt0KfiKSBOTQ3mNcdfn
+groceries -> Found. Redirecting to https://hackmd.example.com/UukqgwLfhYyUUtARlcJ2_y
+london -> Found. Redirecting to https://hackmd.example.com/_d3wa-BE8t4Swv5w7O2_9R
+weddingchecklist -> Found. Redirecting to https://hackmd.example.com/XcQGqlBjl0u40wfT0N8TzQ
 (...)
 ```
 
@@ -114,16 +114,16 @@ Using some `sed` magic, I changed it to an nginx config snippet:
 
 ```
 location = /p/date-ideas {
-    return 301 https://codimd.example.com/mPt0M1KfiKSBOTQ3mNcdfn;
+    return 301 https://hackmd.example.com/mPt0M1KfiKSBOTQ3mNcdfn;
 }
 location = /p/groceries {
-    return 301 https://codimd.example.com/UukqgwLfhYyUUtARlcJ2_y;
+    return 301 https://hackmd.example.com/UukqgwLfhYyUUtARlcJ2_y;
 }
 location = /p/london {
-    return 301 https://codimd.example.com/_d3wa-BE8t4Swv5w7O2_9R;
+    return 301 https://hackmd.example.com/_d3wa-BE8t4Swv5w7O2_9R;
 }
 location = /p/weddingchecklist {
-    return 301 https://codimd.example.com/XcQGqlBjl0u40wfT0N8TzQ;
+    return 301 https://hackmd.example.com/XcQGqlBjl0u40wfT0N8TzQ;
 }
 ```
 

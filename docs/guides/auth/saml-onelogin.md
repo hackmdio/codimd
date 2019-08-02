@@ -1,8 +1,6 @@
 Authentication guide - SAML (OneLogin)
 ===
 
-***Note:** This guide was written before the renaming. Just replace `HackMD` with `CodiMD` in your mind :smile: thanks!*
-
 1. Sign-in or sign-up for an OneLogin account. (available free trial for 2 weeks)
 2. Go to the administration page.
 3. Select the **APPS** menu and click on the **Add Apps**.

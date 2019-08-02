@@ -3,20 +3,20 @@ services:
   dev-database:
     image: postgres:11.2
     environment:
-      POSTGRES_USER: codimd
+      POSTGRES_USER: hackmd
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: codimd
-  dev-codimd:
+      POSTGRES_DB: hackmd
+  dev-hackmd:
     build:
       dockerfile: ./deployments/dev-Dockerfile
       context: ../
     environment:
-      CMD_DB_URL: postgres://codimd:password@dev-database/codimd
+      CMD_DB_URL: postgres://hackmd:password@dev-database/hackmd
     volumes:
-      - ../:/codimd
-      - node_modules:/codimd/node_modules
-      - public_build:/codimd/public/build
-      - public_view_build:/codimd/public/views/build
+      - ../:/hackmd
+      - node_modules:/hackmd/node_modules
+      - public_build:/hackmd/public/build
+      - public_view_build:/hackmd/public/views/build
     ports:
       - 3000:3000
 volumes:

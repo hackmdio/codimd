@@ -1,8 +1,6 @@
 Authentication guide - GitHub
 ===
 
-***Note:** This guide was written before the renaming. Just replace `HackMD` with `CodiMD` in your mind :smile: thanks!*
-
 1. Sign-in or sign-up for a GitHub account
 2. Navigate to developer settings in your GitHub account [here](https://github.com/settings/developers) and select the "OAuth Apps" tab
 3. Click on the **New OAuth App** button, to create a new OAuth App:

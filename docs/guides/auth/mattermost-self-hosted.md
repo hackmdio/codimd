@@ -19,7 +19,7 @@ This guide uses the generic OAuth2 module for compatibility with Mattermost vers
 
 ![mattermost-oauth-app-form](../images/auth/mattermost-oauth-app-form.png)
 
-*Note: The callback URL is \<your-codimd-url\>/auth/oauth2/callback*
+*Note: The callback URL is \<your-hackmd-url\>/auth/oauth2/callback*
 
 6. After saving the application, you'll receive the Client ID and Client Secret
 

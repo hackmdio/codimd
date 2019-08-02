@@ -2,7 +2,7 @@ AD LDAP auth
 ===
 
 
-To setup your CodiMD instance with Active Directory you need the following configs:
+To setup your HackMD instance with Active Directory you need the following configs:
 
 ```
 CMD_LDAP_URL=ldap://internal.example.com

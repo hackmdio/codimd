@@ -1,6 +1,6 @@
 FROM node:8.15.1-jessie AS BUILD
 # use multi-stage build to build frontend javascript
-WORKDIR /codimd
+WORKDIR /hackmd
 
 COPY . ./
 
@@ -13,10 +13,10 @@ FROM node:8.15.1 AS RUNTIME
 
 # build for production
 ENV NODE_ENV production
-ENV PATH="/home/codimd/.npm-global/bin:${PATH}"
+ENV PATH="/home/hackmd/.npm-global/bin:${PATH}"
 
 # setup isolated user for more security
-ARG USER_NAME=codimd
+ARG USER_NAME=hackmd
 ARG UID=1500
 ARG GID=1500
 
@@ -28,21 +28,21 @@ RUN set +x -ue && \
     groupadd --gid $GID $USER_NAME && \
     useradd --uid $UID --gid $USER_NAME --no-log-init --create-home $USER_NAME && \
     # setup local npm global directory
-    mkdir /home/codimd/.npm-global && \
-    echo "prefix=/home/codimd/.npm-global/" > /home/codimd/.npmrc && \
+    mkdir /home/hackmd/.npm-global && \
+    echo "prefix=/home/hackmd/.npm-global/" > /home/hackmd/.npmrc && \
     # setup app dir
-    mkdir /codimd && \
+    mkdir /hackmd && \
     # adjust permission
-    chown -R $USER_NAME:$USER_NAME /home/codimd
+    chown -R $USER_NAME:$USER_NAME /home/hackmd
 
 # Copy build stage file to runtime
-COPY --from=BUILD /codimd /codimd
-RUN chown -R $USER_NAME:$USER_NAME /codimd
+COPY --from=BUILD /hackmd /hackmd
+RUN chown -R $USER_NAME:$USER_NAME /hackmd
 
 # change running user name
 USER $USER_NAME
 # build project
-WORKDIR /codimd
+WORKDIR /hackmd
 
 RUN set +x -ue && \
     cliVer=$(cat package.json | grep sequelize-cli | awk '{print substr($1, 2, length($1) - 3)"@"substr($2, 2, length($2) - 3)}') && \
@@ -50,7 +50,7 @@ RUN set +x -ue && \
     yarn install --production --non-interactive --pure-lockfile && \
     yarn cache clean
 
-VOLUME /codimd/public/uploads
+VOLUME /hackmd/public/uploads
 EXPOSE 3000
 
-ENTRYPOINT ["/codimd/docker-entrypoint.sh"]
+ENTRYPOINT ["/hackmd/docker-entrypoint.sh"]

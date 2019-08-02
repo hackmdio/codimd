@@ -3,7 +3,7 @@ Setup your terms of use
 
 To setup your terms of use, you need to provide a document called `terms-of-use.md` which contains them. Of course written in Markdown.
 
-It has to be provided under `./public/docs/` and will be automatically turned into a CodiMD document. It will also automatically updated as soon as you change the document on disk.
+It has to be provided under `./public/docs/` and will be automatically turned into a HackMD document. It will also automatically updated as soon as you change the document on disk.
 
 As soon as the file exists a link will show up in the bottom part along with the release notes and link to them.
 

@@ -1,6 +1,4 @@
-# Guide - Setup CodiMD S3 image upload
-
-***Note:** This guide was written before the renaming. Just replace `HackMD` with `CodiMD` in your mind :smile: thanks!*
+# Guide - Setup HackMD S3 image upload
 
 1. Go to [AWS S3 console](https://console.aws.amazon.com/s3/home) and create a new bucket.
 
