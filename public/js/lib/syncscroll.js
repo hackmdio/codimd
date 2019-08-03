@@ -118,8 +118,11 @@ md.use(markdownitContainer, 'spoiler', {
     var m = tokens[idx].info.trim().match(/^spoiler\s+(.*)$/)
 
     if (tokens[idx].nesting === 1) {
+      const startline = tokens[idx].map[0] + 1
+      const endline = tokens[idx].map[1]
+
       // opening tag
-      return '<details><summary>' + md.utils.escapeHtml(m[1]) + '</summary>\n'
+      return `<details class="part raw" data-startline="${startline}" data-endline="${endline}"><summary>` + md.utils.escapeHtml(m[1]) + '</summary>\n'
     } else {
       // closing tag
       return '</details>\n'

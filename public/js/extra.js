@@ -539,6 +539,12 @@ export function finishView (view) {
   } catch (err) {
     console.warn(err)
   }
+
+  // register details toggle for scrollmap recalulation
+  view.find('details.raw').removeClass('raw').each(function (key, val) {
+    $(val).on('toggle', window.viewAjaxCallback)
+  })
+
   // render title
   document.title = renderTitle(view)
 }
