@@ -539,6 +539,12 @@ export function finishView (view) {
   } catch (err) {
     console.warn(err)
   }
+
+  // register details toggle for scrollmap recalulation
+  view.find('details.raw').removeClass('raw').each(function (key, val) {
+    $(val).on('toggle', window.viewAjaxCallback)
+  })
+
   // render title
   document.title = renderTitle(view)
 }
@@ -993,6 +999,22 @@ md.use(markdownitContainer, 'success', { render: renderContainer })
 md.use(markdownitContainer, 'info', { render: renderContainer })
 md.use(markdownitContainer, 'warning', { render: renderContainer })
 md.use(markdownitContainer, 'danger', { render: renderContainer })
+md.use(markdownitContainer, 'spoiler', {
+  validate: function (params) {
+    return params.trim().match(/^spoiler\s+(.*)$/)
+  },
+  render: function (tokens, idx) {
+    var m = tokens[idx].info.trim().match(/^spoiler\s+(.*)$/)
+
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      return '<details><summary>' + md.utils.escapeHtml(m[1]) + '</summary>\n'
+    } else {
+      // closing tag
+      return '</details>\n'
+    }
+  }
+})
 
 let defaultImageRender = md.renderer.rules.image
 md.renderer.rules.image = function (tokens, idx, options, env, self) {
