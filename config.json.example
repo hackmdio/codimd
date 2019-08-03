@@ -125,7 +125,7 @@
         },
         "plantuml":
         {
-          "server": "http://www.plantuml.com/plantuml"
+          "server": "https://www.plantuml.com/plantuml"
         }
     }
 }
