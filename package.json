@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@hackmd/codemirror": "~5.46.2",
-    "@hackmd/diff-match-patch": "~1.1.1",
+    "@hackmd/diff-match-patch": "~1.1.3",
     "@hackmd/idle-js": "~1.0.1",
     "@hackmd/imgur": "~0.4.1",
     "@hackmd/js-sequence-diagrams": "~0.0.1-alpha.3",
