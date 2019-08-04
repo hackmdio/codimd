@@ -5079,10 +5079,10 @@ eslint-plugin-es@^1.4.0:
     eslint-utils "^1.3.0"
     regexpp "^2.0.1"
 
-eslint-plugin-header@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-header/-/eslint-plugin-header-2.0.0.tgz#c0f729f4e6669d8f63881977bb9dcafafdac2420"
-  integrity sha512-vISfrajZaWRmToJ3GLULhnrwuaBmDap3arHf2+q0uMW2W+YSjFuCKzh/BcP3Ea5UPT8wN0S8uGz/I+QJkKBIoA==
+eslint-plugin-header@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-header/-/eslint-plugin-header-3.0.0.tgz#0e048b5f0adfdd9754142d59d551ae6bfdaf90ad"
+  integrity sha512-OIu2ciVW8jK4Ove4JHm1I7X0C98PZuLCyCsoUhAm2HpyGS+zr34qLM6iV06unnDvssvvEh5BkOfaLRF+N7cGoQ==
 
 eslint-plugin-import@~2.18.0:
   version "2.18.2"
@@ -8066,23 +8066,24 @@ math-interval-parser@^1.1.0:
   dependencies:
     xregexp "^2.0.0"
 
-mathjax@~2.7.0:
+mathjax@~2.7.5:
   version "2.7.5"
   resolved "https://registry.yarnpkg.com/mathjax/-/mathjax-2.7.5.tgz#c9c5947f86f9be31651f5f3667d3c9a8bb01efe4"
   integrity sha512-OzsJNitEHAJB3y4IIlPCAvS0yoXwYjlo2Y4kmm9KQzyIBZt2d8yKRalby3uTRNN4fZQiGL2iMXjpdP1u2Rq2DQ==
 
-mattermost-redux@~5.9.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/mattermost-redux/-/mattermost-redux-5.9.0.tgz#20a0f46856f4ddf72d83370d9ee55a4c248e3d2b"
-  integrity sha512-pBPLJxAKLkzLVpBcCNQC1Xxm8ImDY//GR/gqSkz+Q0VJFSwGRc3Q018i1WWDtyyUb9QeoPR3WEfHjXIt4QSeFQ==
+mattermost-redux@~5.13.0:
+  version "5.13.0"
+  resolved "https://registry.yarnpkg.com/mattermost-redux/-/mattermost-redux-5.13.0.tgz#7b366682cf3027a297643f19d4c0832cd1033132"
+  integrity sha512-2S7i6Y2PzdkOy0rf0p5Qhsm6FLyTkUiXEHn/Pm89adZNIXgSefd93aByT2Pp0eOfGrPdx/81Yw442OP/U8rBGw==
   dependencies:
     deep-equal "1.0.1"
-    eslint-plugin-header "2.0.0"
+    eslint-plugin-header "3.0.0"
     form-data "2.3.3"
     gfycat-sdk "1.4.18"
     harmony-reflect "1.6.1"
     isomorphic-fetch "2.2.1"
-    mime-db "1.37.0"
+    mime-db "1.40.0"
+    moment-timezone "0.5.25"
     redux "4.0.1"
     redux-action-buffer "1.2.0"
     redux-batched-actions "0.4.1"
@@ -8298,11 +8299,6 @@ miller-rabin@^4.0.0:
   dependencies:
     bn.js "^4.0.0"
     brorand "^1.0.1"
-
-mime-db@1.37.0:
-  version "1.37.0"
-  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.37.0.tgz#0b6a0ce6fdbe9576e25f1f2d2fde8830dc0ad0d8"
-  integrity sha512-R3C4db6bgQhlIhPU48fUtdVmKnflq+hRdad7IyKhtFj06VPNVdk2RhiYL3UjQIlso8L+YxAtFkobT0VK+S/ybg==
 
 mime-db@1.40.0:
   version "1.40.0"
@@ -8538,6 +8534,13 @@ moment-mini@^2.22.1:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/moment-mini/-/moment-mini-2.22.1.tgz#bc32d73e43a4505070be6b53494b17623183420d"
   integrity sha512-OUCkHOz7ehtNMYuZjNciXUfwTuz8vmF1MTbAy59ebf+ZBYZO5/tZKuChVWCX+uDo+4idJBpGltNfV8st+HwsGw==
+
+moment-timezone@0.5.25:
+  version "0.5.25"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.25.tgz#a11bfa2f74e088327f2cd4c08b3e7bdf55957810"
+  integrity sha512-DgEaTyN/z0HFaVcVbSyVCUU6HeFdnNC3vE4c9cgu2dgMTvjBUBdBzWfasTBmAW45u5OIMeCJtU8yNjM22DHucw==
+  dependencies:
+    moment ">= 2.9.0"
 
 moment-timezone@^0.5.21:
   version "0.5.23"

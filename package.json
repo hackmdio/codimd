@@ -94,7 +94,7 @@
     "markdown-it-sup": "~1.0.0",
     "markdown-pdf": "~9.0.0",
     "mathjax": "~2.7.5",
-    "mattermost-redux": "~5.9.0",
+    "mattermost-redux": "~5.13.0",
     "mermaid": "~8.2.3",
     "method-override": "~2.3.7",
     "minimist": "~1.2.0",
