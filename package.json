@@ -43,7 +43,7 @@
     "azure-storage": "~2.10.3",
     "babel-polyfill": "~6.26.0",
     "base64url": "~3.0.1",
-    "body-parser": "~1.18.3",
+    "body-parser": "~1.19.0",
     "bootstrap": "~3.4.0",
     "bootstrap-validator": "~0.11.8",
     "chance": "~1.0.18",
