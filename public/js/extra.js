@@ -1061,26 +1061,26 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
 }
 
 const makePlantumlURL = (umlCode) => {
-  let format = 'svg'
-  let code = plantumlEncoder.encode(umlCode)
+  const format = 'svg'
+  const code = plantumlEncoder.encode(umlCode)
   return `${plantumlServer}/${format}/${code}`
 }
 
 // https://github.com/qjebbs/vscode-plantuml/tree/master/src/markdown-it-plantuml
 md.renderer.rules.plantuml = (tokens, idx) => {
-  let token = tokens[idx]
+  const token = tokens[idx]
   if (token.type !== 'plantuml') {
     return tokens[idx].content
   }
 
-  let url = makePlantumlURL(token.content)
+  const url = makePlantumlURL(token.content)
   return `<img src="${url}" />`
 }
 
 // https://github.com/qjebbs/vscode-plantuml/tree/master/src/markdown-it-plantuml
 md.core.ruler.push('plantuml', (state) => {
-  let blockTokens = state.tokens
-  for (let blockToken of blockTokens) {
+  const blockTokens = state.tokens
+  for (const blockToken of blockTokens) {
     if (blockToken.type === 'fence' && blockToken.info === 'plantuml') {
       blockToken.type = 'plantuml'
     }
