@@ -101,7 +101,7 @@
     "minio": "~7.0.10",
     "moment": "~2.24.0",
     "morgan": "~1.9.1",
-    "mysql": "~2.16.0",
+    "mysql": "~2.17.1",
     "passport": "~0.4.0",
     "passport-dropbox-oauth2": "~1.1.0",
     "passport-facebook": "~2.1.1",
