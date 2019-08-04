@@ -131,7 +131,7 @@
     "socket.io": "~2.2.0",
     "socket.io-client": "~2.2.0",
     "spin.js": "~4.0.0",
-    "sqlite3": "~4.0.1",
+    "sqlite3": "~4.0.9",
     "store": "~2.0.12",
     "tedious": "~6.1.0",
     "toobusy-js": "~0.5.1",
