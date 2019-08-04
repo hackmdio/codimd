@@ -139,7 +139,7 @@
     "uuid": "~3.3.2",
     "validator": "~11.1.0",
     "velocity-animate": "~1.5.2",
-    "visibilityjs": "~1.2.4",
+    "visibilityjs": "~2.0.2",
     "viz.js": "~1.7.0",
     "winston": "~3.2.1",
     "ws": "~6.0.0",
