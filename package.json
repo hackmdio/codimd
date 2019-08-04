@@ -39,7 +39,7 @@
     "@passport-next/passport-openid": "~1.0.0",
     "archiver": "~3.1.1",
     "async": "~3.1.0",
-    "aws-sdk": "~2.345.0",
+    "aws-sdk": "~2.503.0",
     "azure-storage": "~2.10.2",
     "babel-polyfill": "~6.26.0",
     "base64url": "~3.0.0",
