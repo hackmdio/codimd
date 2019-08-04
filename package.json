@@ -135,7 +135,7 @@
     "store": "~2.0.12",
     "tedious": "~6.2.0",
     "toobusy-js": "~0.5.1",
-    "turndown": "~5.0.1",
+    "turndown": "~5.0.3",
     "uuid": "~3.3.2",
     "validator": "~10.4.0",
     "velocity-animate": "~1.4.0",
