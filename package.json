@@ -137,7 +137,7 @@
     "toobusy-js": "~0.5.1",
     "turndown": "~5.0.3",
     "uuid": "~3.3.2",
-    "validator": "~10.4.0",
+    "validator": "~11.1.0",
     "velocity-animate": "~1.4.0",
     "visibilityjs": "~1.2.4",
     "viz.js": "~1.7.0",
