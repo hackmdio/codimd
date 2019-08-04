@@ -96,7 +96,7 @@
     "mathjax": "~2.7.5",
     "mattermost-redux": "~5.13.0",
     "mermaid": "~8.2.3",
-    "method-override": "~2.3.7",
+    "method-override": "~3.0.0",
     "minimist": "~1.2.0",
     "minio": "~6.0.0",
     "moment": "~2.24.0",
