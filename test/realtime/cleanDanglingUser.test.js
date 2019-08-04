@@ -49,8 +49,8 @@ describe('cleanDanglingUser', function () {
         connected: {}
       }
     }
-    let user1Socket = makeMockSocket()
-    let user2Socket = makeMockSocket()
+    const user1Socket = makeMockSocket()
+    const user2Socket = makeMockSocket()
 
     user1Socket.rooms.push('room1')
 
