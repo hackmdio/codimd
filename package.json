@@ -37,7 +37,7 @@
     "@hackmd/lz-string": "~1.4.4",
     "@hackmd/meta-marked": "~0.4.4",
     "@passport-next/passport-openid": "~1.0.0",
-    "archiver": "~3.0.3",
+    "archiver": "~3.1.1",
     "async": "~3.1.0",
     "aws-sdk": "~2.345.0",
     "azure-storage": "~2.10.2",
