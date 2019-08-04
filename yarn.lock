@@ -13006,10 +13006,10 @@ vasync@^1.6.4:
   dependencies:
     verror "1.6.0"
 
-velocity-animate@~1.4.0:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/velocity-animate/-/velocity-animate-1.4.3.tgz#1d27a66afcc0cef73f8807b8c6253b94d214ad5a"
-  integrity sha1-HSemavzAzvc/iAe4xiU7lNIUrVo=
+velocity-animate@~1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/velocity-animate/-/velocity-animate-1.5.2.tgz#5a351d75fca2a92756f5c3867548b873f6c32105"
+  integrity sha512-m6EXlCAMetKztO1ppBhGU1/1MR3IiEevO6ESq6rcrSQ3Q77xYSW13jkfXW88o4xMrkXJhy/U7j4wFR/twMB0Eg==
 
 vendors@^1.0.0:
   version "1.0.2"
