@@ -53,7 +53,7 @@
     "cookie": "~0.4.0",
     "cookie-parser": "~1.4.4",
     "deep-freeze": "~0.0.1",
-    "ejs": "~2.5.5",
+    "ejs": "~2.6.2",
     "emojify.js": "~1.1.0",
     "express": "~4.17.1",
     "express-session": "~1.16.2",
