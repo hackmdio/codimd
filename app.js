@@ -28,8 +28,8 @@ var csp = require('./lib/csp')
 function createHttpServer () {
   if (config.useSSL) {
     const ca = (function () {
-      let i, len, results
-      results = []
+      let i, len
+      const results = []
       for (i = 0, len = config.sslCAPath.length; i < len; i++) {
         results.push(fs.readFileSync(config.sslCAPath[i], 'utf8'))
       }
@@ -55,7 +55,7 @@ var server = createHttpServer()
 
 // logger
 app.use(morgan('combined', {
-  'stream': logger.stream
+  stream: logger.stream
 }))
 
 // socket io

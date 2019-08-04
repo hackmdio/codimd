@@ -274,7 +274,7 @@ describe('realtime#socket event', function () {
       onlineUsersFunc()
       assert(clientSocket.emit.called)
       assert(clientSocket.emit.lastCall.args[0] === 'online users')
-      let returnUserList = clientSocket.emit.lastCall.args[1].users
+      const returnUserList = clientSocket.emit.lastCall.args[1].users
       assert(returnUserList.length === 2)
       assert(returnUserList[0].id === 10)
       assert(returnUserList[1].id === 20)
@@ -444,8 +444,8 @@ describe('realtime#socket event', function () {
   })
 
   describe('permission', function () {
-    let ownerId = 'user1_id'
-    let otherSignInUserId = 'user2_id'
+    const ownerId = 'user1_id'
+    const otherSignInUserId = 'user2_id'
     let otherClient
     let checkViewPermissionSpy
     let permissionFunc

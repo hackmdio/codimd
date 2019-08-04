@@ -53,7 +53,7 @@ describe('realtime#updateNote', function () {
     const callback = sinon.stub()
     const note = {
       tempUsers: {
-        'user1': Date.now()
+        user1: Date.now()
       }
     }
     realtime.updateNote(note, callback)

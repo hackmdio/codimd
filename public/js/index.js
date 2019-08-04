@@ -1,5 +1,5 @@
 /* eslint-env browser, jquery */
-/* global CodeMirror, Cookies, moment, Spinner, serverurl,
+/* global CodeMirror, Cookies, moment, serverurl,
    key, Dropbox, ot, hex2rgb, Visibility, inlineAttachment */
 
 import TurndownService from 'turndown'
@@ -16,6 +16,8 @@ import wurl from 'wurl'
 import List from 'list.js'
 
 import Idle from '@hackmd/idle-js'
+
+import { Spinner } from 'spin.js'
 
 import {
   checkLoginStateChanged,
@@ -83,6 +85,7 @@ require('../css/index.css')
 require('../css/extra.css')
 require('../css/slide-preview.css')
 require('../css/site.css')
+require('spin.js/spin.css')
 
 require('highlight.js/styles/github-gist.css')
 
@@ -260,7 +263,7 @@ let visibleMD = false
 let visibleLG = false
 const isTouchDevice = 'ontouchstart' in document.documentElement
 let currentStatus = statusType.offline
-let lastInfo = {
+const lastInfo = {
   needRestore: false,
   cursor: null,
   scroll: null,
@@ -286,14 +289,14 @@ let lastInfo = {
 let personalInfo = {}
 let onlineUsers = []
 const fileTypes = {
-  'pl': 'perl',
-  'cgi': 'perl',
-  'js': 'javascript',
-  'php': 'php',
-  'sh': 'bash',
-  'rb': 'ruby',
-  'html': 'html',
-  'py': 'python'
+  pl: 'perl',
+  cgi: 'perl',
+  js: 'javascript',
+  php: 'php',
+  sh: 'bash',
+  rb: 'ruby',
+  html: 'html',
+  py: 'python'
 }
 
 // editor settings
@@ -334,9 +337,7 @@ var opts = {
   left: '50%' // Left position relative to parent
 }
 
-/* eslint-disable no-unused-vars */
-var spinner = new Spinner(opts).spin(ui.spinner[0])
-/* eslint-enable no-unused-vars */
+new Spinner(opts).spin(ui.spinner[0])
 
 // idle
 var idle = new Idle({
@@ -955,8 +956,8 @@ ui.toolbar.export.dropbox.click(function () {
   var options = {
     files: [
       {
-        'url': noteurl + '/download',
-        'filename': filename
+        url: noteurl + '/download',
+        filename: filename
       }
     ],
     error: function (errorMessage) {
@@ -1787,29 +1788,29 @@ var authorMarks = {} // temp variable
 var addTextMarkers = [] // temp variable
 function updateInfo (data) {
   // console.log(data);
-  if (data.hasOwnProperty('createtime') && window.createtime !== data.createtime) {
+  if (Object.hasOwnProperty.call(data, 'createtime') && window.createtime !== data.createtime) {
     window.createtime = data.createtime
     updateLastChange()
   }
-  if (data.hasOwnProperty('updatetime') && window.lastchangetime !== data.updatetime) {
+  if (Object.hasOwnProperty.call(data, 'updatetime') && window.lastchangetime !== data.updatetime) {
     window.lastchangetime = data.updatetime
     updateLastChange()
   }
-  if (data.hasOwnProperty('owner') && window.owner !== data.owner) {
+  if (Object.hasOwnProperty.call(data, 'owner') && window.owner !== data.owner) {
     window.owner = data.owner
     window.ownerprofile = data.ownerprofile
     updateOwner()
   }
-  if (data.hasOwnProperty('lastchangeuser') && window.lastchangeuser !== data.lastchangeuser) {
+  if (Object.hasOwnProperty.call(data, 'lastchangeuser') && window.lastchangeuser !== data.lastchangeuser) {
     window.lastchangeuser = data.lastchangeuser
     window.lastchangeuserprofile = data.lastchangeuserprofile
     updateLastChangeUser()
     updateOwner()
   }
-  if (data.hasOwnProperty('authors') && authors !== data.authors) {
+  if (Object.hasOwnProperty.call(data, 'authors') && authors !== data.authors) {
     authors = data.authors
   }
-  if (data.hasOwnProperty('authorship') && authorship !== data.authorship) {
+  if (Object.hasOwnProperty.call(data, 'authorship') && authorship !== data.authorship) {
     authorship = data.authorship
     updateAuthorship()
   }
@@ -1854,7 +1855,7 @@ function updateAuthorshipInner () {
   authorMarks = {}
   for (let i = 0; i < authorship.length; i++) {
     var atom = authorship[i]
-    let author = authors[atom[0]]
+    const author = authors[atom[0]]
     if (author) {
       var prePos = editor.posFromIndex(atom[1])
       var preLine = editor.getLine(prePos.line)
@@ -1872,7 +1873,7 @@ function updateAuthorshipInner () {
         if (prePos.ch === preLine.length) {
           startLine++
         } else if (prePos.ch !== 0) {
-          let mark = initMarkAndCheckGutter(authorMarks[prePos.line], author, atom[3])
+          const mark = initMarkAndCheckGutter(authorMarks[prePos.line], author, atom[3])
           var _postPos = {
             line: prePos.line,
             ch: preLine.length
@@ -1889,7 +1890,7 @@ function updateAuthorshipInner () {
         if (postPos.ch === 0) {
           endLine--
         } else if (postPos.ch !== postLine.length) {
-          let mark = initMarkAndCheckGutter(authorMarks[postPos.line], author, atom[3])
+          const mark = initMarkAndCheckGutter(authorMarks[postPos.line], author, atom[3])
           var _prePos = {
             line: postPos.line,
             ch: 0
@@ -1909,7 +1910,7 @@ function updateAuthorshipInner () {
           }
         }
       } else {
-        let mark = initMarkAndCheckGutter(authorMarks[prePos.line], author, atom[3])
+        const mark = initMarkAndCheckGutter(authorMarks[prePos.line], author, atom[3])
         if (JSON.stringify(prePos) !== JSON.stringify(postPos)) {
           mark.textmarkers.push({
             userid: author.userid,
@@ -1922,15 +1923,15 @@ function updateAuthorshipInner () {
   }
   addTextMarkers = []
   editor.eachLine(iterateLine)
-  var allTextMarks = editor.getAllMarks()
+  const allTextMarks = editor.getAllMarks()
   for (let i = 0; i < allTextMarks.length; i++) {
-    let _textMarker = allTextMarks[i]
-    var pos = _textMarker.find()
-    var found = false
+    const _textMarker = allTextMarks[i]
+    const pos = _textMarker.find()
+    let found = false
     for (let j = 0; j < addTextMarkers.length; j++) {
-      let textMarker = addTextMarkers[j]
-      let author = authors[textMarker.userid]
-      let className = 'authorship-inline-' + author.color.substr(1)
+      const textMarker = addTextMarkers[j]
+      const author = authors[textMarker.userid]
+      const className = 'authorship-inline-' + author.color.substr(1)
       var obj = {
         from: textMarker.pos[0],
         to: textMarker.pos[1]
@@ -1948,12 +1949,12 @@ function updateAuthorshipInner () {
     }
   }
   for (let i = 0; i < addTextMarkers.length; i++) {
-    let textMarker = addTextMarkers[i]
-    let author = authors[textMarker.userid]
+    const textMarker = addTextMarkers[i]
+    const author = authors[textMarker.userid]
     const rgbcolor = hex2rgb(author.color)
     const colorString = `rgba(${rgbcolor.red},${rgbcolor.green},${rgbcolor.blue},0.7)`
     const styleString = `background-image: linear-gradient(to top, ${colorString} 1px, transparent 1px);`
-    let className = `authorship-inline-${author.color.substr(1)}`
+    const className = `authorship-inline-${author.color.substr(1)}`
     const rule = `.${className} { ${styleString} }`
     addStyleRule(rule)
     editor.markText(textMarker.pos[0], textMarker.pos[1], {
@@ -1963,11 +1964,11 @@ function updateAuthorshipInner () {
   }
 }
 function iterateLine (line) {
-  var lineNumber = line.lineNo()
-  var currMark = authorMarks[lineNumber]
-  var author = currMark ? authors[currMark.gutter.userid] : null
+  const lineNumber = line.lineNo()
+  const currMark = authorMarks[lineNumber]
+  const author = currMark ? authors[currMark.gutter.userid] : null
   if (currMark && author) {
-    let className = 'authorship-gutter-' + author.color.substr(1)
+    const className = 'authorship-gutter-' + author.color.substr(1)
     const gutters = line.gutterMarkers
     if (!gutters || !gutters['authorship-gutters'] ||
         !gutters['authorship-gutters'].className ||
@@ -1975,7 +1976,7 @@ function iterateLine (line) {
       const styleString = `border-left: 3px solid ${author.color}; height: ${defaultTextHeight}px; margin-left: 3px;`
       const rule = `.${className} { ${styleString} }`
       addStyleRule(rule)
-      var gutter = $('<div>', {
+      const gutter = $('<div>', {
         class: 'authorship-gutter ' + className,
         title: author.name
       })
@@ -1985,8 +1986,8 @@ function iterateLine (line) {
     editor.setGutterMarker(line, 'authorship-gutters', null)
   }
   if (currMark && currMark.textmarkers.length > 0) {
-    for (var i = 0; i < currMark.textmarkers.length; i++) {
-      let textMarker = currMark.textmarkers[i]
+    for (let i = 0; i < currMark.textmarkers.length; i++) {
+      const textMarker = currMark.textmarkers[i]
       if (textMarker.userid !== currMark.gutter.userid) {
         addTextMarkers.push(textMarker)
       }
@@ -1997,12 +1998,12 @@ editorInstance.on('update', function () {
   $('.authorship-gutter:not([data-original-title])').tooltip({
     container: '.CodeMirror-lines',
     placement: 'right',
-    delay: { 'show': 500, 'hide': 100 }
+    delay: { show: 500, hide: 100 }
   })
   $('.authorship-inline:not([data-original-title])').tooltip({
     container: '.CodeMirror-lines',
     placement: 'bottom',
-    delay: { 'show': 500, 'hide': 100 }
+    delay: { show: 500, hide: 100 }
   })
   // clear tooltip which described element has been removed
   $('[id^="tooltip"]').each(function (index, element) {
@@ -2063,7 +2064,7 @@ var cmClient = null
 var synchronized_ = null
 
 function havePendingOperation () {
-  return !!((cmClient && cmClient.state && cmClient.state.hasOwnProperty('outstanding')))
+  return !!((cmClient && cmClient.state && Object.hasOwnProperty.call(cmClient.state, 'outstanding')))
 }
 
 socket.on('doc', function (obj) {
@@ -2223,7 +2224,7 @@ function updateOnlineStatus () {
         break
       }
     }
-    let id = items[i].values().id
+    const id = items[i].values().id
     if (found) {
       onlineUserList.get('id', id)[0].values(_onlineUsers[foundindex])
       shortOnlineUserList.get('id', id)[0].values(_onlineUsers[foundindex])
@@ -2417,19 +2418,19 @@ function buildCursor (user) {
       break
   }
   if ($('div[data-clientid="' + user.id + '"]').length <= 0) {
-    let cursor = $('<div data-clientid="' + user.id + '" class="CodeMirror-other-cursor" style="display:none;"></div>')
+    const cursor = $('<div data-clientid="' + user.id + '" class="CodeMirror-other-cursor" style="display:none;"></div>')
     cursor.attr('data-line', user.cursor.line)
     cursor.attr('data-ch', user.cursor.ch)
     cursor.attr('data-offset-left', 0)
     cursor.attr('data-offset-top', 0)
 
-    let cursorbar = $('<div class="cursorbar">&nbsp;</div>')
+    const cursorbar = $('<div class="cursorbar">&nbsp;</div>')
     cursorbar[0].style.height = defaultTextHeight + 'px'
     cursorbar[0].style.borderLeft = '2px solid ' + user.color
 
     var icon = '<i class="fa ' + iconClass + '"></i>'
 
-    let cursortag = $('<div class="cursortag">' + icon + '&nbsp;<span class="name">' + user.name + '</span></div>')
+    const cursortag = $('<div class="cursortag">' + icon + '&nbsp;<span class="name">' + user.name + '</span></div>')
     // cursortag[0].style.background = color;
     cursortag[0].style.color = user.color
 
@@ -2485,15 +2486,15 @@ function buildCursor (user) {
 
     checkCursorTag(coord, cursortag)
   } else {
-    let cursor = $('div[data-clientid="' + user.id + '"]')
+    const cursor = $('div[data-clientid="' + user.id + '"]')
     cursor.attr('data-line', user.cursor.line)
     cursor.attr('data-ch', user.cursor.ch)
 
-    let cursorbar = cursor.find('.cursorbar')
+    const cursorbar = cursor.find('.cursorbar')
     cursorbar[0].style.height = defaultTextHeight + 'px'
     cursorbar[0].style.borderLeft = '2px solid ' + user.color
 
-    let cursortag = cursor.find('.cursortag')
+    const cursortag = cursor.find('.cursortag')
     cursortag.find('i').removeClass().addClass('fa').addClass(iconClass)
     cursortag.find('.name').text(user.name)
 
@@ -2502,8 +2503,8 @@ function buildCursor (user) {
       cursor[0].style.top = coord.top + 'px'
     } else {
       cursor.animate({
-        'left': coord.left,
-        'top': coord.top
+        left: coord.left,
+        top: coord.top
       }, {
         duration: cursorAnimatePeriod,
         queue: false
@@ -2712,8 +2713,8 @@ function restoreInfo () {
           $(window).scrollLeft(lastInfo.edit.scroll.left)
           $(window).scrollTop(lastInfo.edit.scroll.top)
         } else {
-          let left = lastInfo.edit.scroll.left
-          let top = lastInfo.edit.scroll.top
+          const left = lastInfo.edit.scroll.left
+          const top = lastInfo.edit.scroll.top
           editor.scrollIntoView()
           editor.scrollTo(left, top)
         }
@@ -2723,8 +2724,8 @@ function restoreInfo () {
         $(window).scrollTop(lastInfo.view.scroll.top)
         break
       case modeType.both:
-        let left = lastInfo.edit.scroll.left
-        let top = lastInfo.edit.scroll.top
+        const left = lastInfo.edit.scroll.left
+        const top = lastInfo.edit.scroll.top
         editor.scrollIntoView()
         editor.scrollTo(left, top)
         ui.area.view.scrollLeft(lastInfo.view.scroll.left)
@@ -2846,8 +2847,8 @@ function partialUpdate (src, tar, des) {
     for (let i = 0; i < tar.length; i++) {
       // copyAttribute(src[i], des[i], 'data-startline');
       // copyAttribute(src[i], des[i], 'data-endline');
-      let rawSrc = cloneAndRemoveDataAttr(src[i])
-      let rawTar = cloneAndRemoveDataAttr(tar[i])
+      const rawSrc = cloneAndRemoveDataAttr(src[i])
+      const rawTar = cloneAndRemoveDataAttr(tar[i])
       if (!rawSrc || !rawTar || rawSrc.outerHTML !== rawTar.outerHTML) {
         start = i
         break
@@ -2859,8 +2860,8 @@ function partialUpdate (src, tar, des) {
     for (let i = 0; i < src.length; i++) {
       // copyAttribute(src[i], des[i], 'data-startline');
       // copyAttribute(src[i], des[i], 'data-endline');
-      let rawSrc = cloneAndRemoveDataAttr(src[i])
-      let rawTar = cloneAndRemoveDataAttr(tar[i])
+      const rawSrc = cloneAndRemoveDataAttr(src[i])
+      const rawTar = cloneAndRemoveDataAttr(tar[i])
       if (!rawSrc || !rawTar || rawSrc.outerHTML !== rawTar.outerHTML) {
         start = i
         break
@@ -2868,12 +2869,12 @@ function partialUpdate (src, tar, des) {
     }
     // tar end
     for (let i = 1; i <= tar.length + 1; i++) {
-      let srcLength = src.length
-      let tarLength = tar.length
+      const srcLength = src.length
+      const tarLength = tar.length
       // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-startline');
       // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-endline');
-      let rawSrc = cloneAndRemoveDataAttr(src[srcLength - i])
-      let rawTar = cloneAndRemoveDataAttr(tar[tarLength - i])
+      const rawSrc = cloneAndRemoveDataAttr(src[srcLength - i])
+      const rawTar = cloneAndRemoveDataAttr(tar[tarLength - i])
       if (!rawSrc || !rawTar || rawSrc.outerHTML !== rawTar.outerHTML) {
         tarEnd = tar.length - i
         break
@@ -2881,12 +2882,12 @@ function partialUpdate (src, tar, des) {
     }
     // src end
     for (let i = 1; i <= src.length + 1; i++) {
-      let srcLength = src.length
-      let tarLength = tar.length
+      const srcLength = src.length
+      const tarLength = tar.length
       // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-startline');
       // copyAttribute(src[srcLength - i], des[srcLength - i], 'data-endline');
-      let rawSrc = cloneAndRemoveDataAttr(src[srcLength - i])
-      let rawTar = cloneAndRemoveDataAttr(tar[tarLength - i])
+      const rawSrc = cloneAndRemoveDataAttr(src[srcLength - i])
+      const rawTar = cloneAndRemoveDataAttr(tar[tarLength - i])
       if (!rawSrc || !rawTar || rawSrc.outerHTML !== rawTar.outerHTML) {
         srcEnd = src.length - i
         break
@@ -3317,22 +3318,22 @@ $(editor.getInputField())
     'textComplete:show': function (e) {
       $(this).data('autocompleting', true)
       editor.setOption('extraKeys', {
-        'Up': function () {
+        Up: function () {
           return false
         },
-        'Right': function () {
+        Right: function () {
           editor.doc.cm.execCommand('goCharRight')
         },
-        'Down': function () {
+        Down: function () {
           return false
         },
-        'Left': function () {
+        Left: function () {
           editor.doc.cm.execCommand('goCharLeft')
         },
-        'Enter': function () {
+        Enter: function () {
           return false
         },
-        'Backspace': function () {
+        Backspace: function () {
           editor.doc.cm.execCommand('delCharBefore')
         }
       })

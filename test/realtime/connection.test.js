@@ -124,7 +124,7 @@ describe('realtime#connection', function () {
         const emitRefreshStub = sinon.stub(realtime, 'emitRefresh')
         const failConnectionSpy = sinon.spy(realtime, 'failConnection')
 
-        let note = {
+        const note = {
           id: noteId,
           authors: [
             {

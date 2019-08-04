@@ -35,7 +35,7 @@ describe('realtime#extractNoteIdFromSocket', function () {
     })
 
     it('return false if query not set and referer not set', function () {
-      let noteId = realtime.extractNoteIdFromSocket(makeMockSocket({
+      const noteId = realtime.extractNoteIdFromSocket(makeMockSocket({
         otherHeader: 1
       }, {
         otherQuery: 1
