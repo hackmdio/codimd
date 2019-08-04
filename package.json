@@ -114,7 +114,7 @@
     "passport-saml": "~1.0.0",
     "passport-twitter": "~1.0.4",
     "passport.socketio": "~3.7.0",
-    "pdfobject": "~2.0.201604172",
+    "pdfobject": "~2.1.1",
     "pg": "~6.1.2",
     "pg-hstore": "~2.3.2",
     "plantuml-encoder": "^1.2.5",
