@@ -13148,10 +13148,10 @@ visibilityjs@~2.0.2:
   resolved "https://registry.yarnpkg.com/visibilityjs/-/visibilityjs-2.0.2.tgz#d7c466e922024bb6c413d2136d5567e71f5fdc2f"
   integrity sha512-y5sN5oGvuXXcK6s8WupOymRcqEss7kusojpScRqkT+cTCIFjul+06uSMDPMByN9DIBv/sUUnvV8BplKjqelAfw==
 
-viz.js@~1.7.0:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/viz.js/-/viz.js-1.7.1.tgz#55bb93650b0504e746ccbcd32f43ac94522008b1"
-  integrity sha1-VbuTZQsFBOdGzLzTL0OslFIgCLE=
+viz.js@~2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/viz.js/-/viz.js-2.1.2.tgz#6f09cd4e10af28754a6d50b055bd2e4a7693983a"
+  integrity sha512-UO6CPAuEMJ8oNR0gLLNl+wUiIzQUsyUOp8SyyDKTqVRBtq7kk1VnFmIZW8QufjxGrGEuI+LVR7p/C7uEKy0LQw==
 
 vm-browserify@^1.0.1:
   version "1.1.0"
