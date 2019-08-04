@@ -62,7 +62,7 @@
     "fork-awesome": "~1.1.7",
     "formidable": "~1.2.1",
     "gist-embed": "~2.6.0",
-    "graceful-fs": "~4.1.11",
+    "graceful-fs": "~4.2.1",
     "handlebars": "~4.0.13",
     "helmet": "~3.13.0",
     "highlight.js": "~9.12.0",
