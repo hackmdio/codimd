@@ -12200,10 +12200,10 @@ taskgroup@^4.0.5, taskgroup@^4.2.0:
     ambi "^2.2.0"
     csextends "^1.0.3"
 
-tedious@~6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/tedious/-/tedious-6.1.0.tgz#fb68e3d9d2c06a4abe3950f6585a0e2c09f93166"
-  integrity sha512-ejIgokiYwyKwGzwqkcx5hdQ6faJOhwOZzStLMSC7E+mbetI5/Rl+JD1K7B/SlNH1Hz7WlGcZxMeRR7ioGpqWAw==
+tedious@~6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/tedious/-/tedious-6.2.0.tgz#11815b45851967f4d41a2e4668bbd0b4ef00cd81"
+  integrity sha512-HNZa/fWv36hqd9leX4rfj/baZLdCoky0B096gWWwUtDFlUTDZMsNh1qkvgusIj9MhEoDc+Weq/KtVmpNcVTqAA==
   dependencies:
     adal-node "^0.1.22"
     big-number "1.0.0"
