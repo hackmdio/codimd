@@ -51,7 +51,7 @@
     "connect-flash": "~0.1.1",
     "connect-session-sequelize": "~6.0.0",
     "cookie": "~0.4.0",
-    "cookie-parser": "~1.4.3",
+    "cookie-parser": "~1.4.4",
     "deep-freeze": "~0.0.1",
     "ejs": "~2.5.5",
     "emojify.js": "~1.1.0",
