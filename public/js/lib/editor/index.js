@@ -76,8 +76,8 @@ export default class Editor {
       },
       'Cmd-Left': 'goLineLeftSmart',
       'Cmd-Right': 'goLineRight',
-      'Home': 'goLineLeftSmart',
-      'End': 'goLineRight',
+      Home: 'goLineLeftSmart',
+      End: 'goLineRight',
       'Ctrl-C': function (cm) {
         if (!isMac && cm.getOption('keyMap').substr(0, 3) === 'vim') {
           document.execCommand('copy')
@@ -513,6 +513,7 @@ export default class Editor {
       this.jumpToAddressBarKeymapValue = null
     }
   }
+
   setOverrideBrowserKeymap () {
     var overrideBrowserKeymap = $(
       '.ui-preferences-override-browser-keymap label > input[type="checkbox"]'
