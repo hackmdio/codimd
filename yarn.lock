@@ -5716,7 +5716,7 @@ flatted@^2.0.0:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.1.tgz#69e57caa8f0eacbc281d2e2cb458d46fdb449e08"
   integrity sha512-a1hQMktqW9Nmqr5aktAux3JMNqaucxGcjtjWnZLHX7yyPCmlSV3M54nGYbqT8K+0GhF3NBgmJCc3ma+WOgX8Jg==
 
-flowchart.js@~1.12.0:
+flowchart.js@~1.12.2:
   version "1.12.2"
   resolved "https://registry.yarnpkg.com/flowchart.js/-/flowchart.js-1.12.2.tgz#896c4c22e7ea9ee00d43b6f8f3a7a7f6ee649514"
   integrity sha512-dS+cKoN0QL0hjgxW99XlN4VJsn5QDGGsE0JxYwoTp0ro/lLsRoKWhXwgZJPqTKclGwcCQiCAJzAn/KIeha5Whg==
