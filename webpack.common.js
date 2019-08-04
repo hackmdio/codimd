@@ -258,6 +258,9 @@ module.exports = {
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
+      'script-loader!vega',
+      'script-loader!vega-lite',
+      'script-loader!vega-embed',
       'expose-loader?io!socket.io-client',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/index.js')
@@ -293,6 +296,9 @@ module.exports = {
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
+      'script-loader!vega',
+      'script-loader!vega-lite',
+      'script-loader!vega-embed',
       'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
     ],
@@ -331,6 +337,9 @@ module.exports = {
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
       'expose-loader?Viz!viz.js',
       'script-loader!abcjs',
+      'script-loader!vega',
+      'script-loader!vega-lite',
+      'script-loader!vega-embed',
       'headjs',
       'expose-loader?Reveal!reveal.js',
       'expose-loader?RevealMarkdown!reveal-markdown',
@@ -363,7 +372,10 @@ module.exports = {
       'reveal-markdown': path.join(__dirname, 'public/js/reveal-markdown.js'),
       abcjs: path.join(__dirname, 'public/vendor/abcjs_basic_3.1.1-min.js'),
       raphael: path.join(__dirname, 'node_modules/raphael/raphael.min.js'),
-      'js-sequence-diagrams': path.join(__dirname, 'node_modules/@hackmd/js-sequence-diagrams/build/main.js')
+      'js-sequence-diagrams': path.join(__dirname, 'node_modules/@hackmd/js-sequence-diagrams/build/main.js'),
+      vega: path.join(__dirname, 'node_modules/vega/build/vega.min.js'),
+      'vega-lite': path.join(__dirname, 'node_modules/vega-lite/build/vega-lite.min.js'),
+      'vega-embed': path.join(__dirname, 'node_modules/vega-embed/build/vega-embed.min.js')
     }
   },
 
