@@ -42,7 +42,7 @@
     "aws-sdk": "~2.503.0",
     "azure-storage": "~2.10.3",
     "babel-polyfill": "~6.26.0",
-    "base64url": "~3.0.0",
+    "base64url": "~3.0.1",
     "body-parser": "~1.18.3",
     "bootstrap": "~3.4.0",
     "bootstrap-validator": "~0.11.8",
