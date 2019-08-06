@@ -1111,7 +1111,7 @@ const vimeoPlugin = new Plugin(
   /{%vimeo\s*([\d\D]*?)\s*%}/,
 
   (match, utils) => {
-    const videoid = match[1]
+    const videoid = match[1].split(/[?&=]+/)[0]
     if (!videoid) return
     const div = $('<div class="vimeo raw"></div>')
     div.attr('data-videoid', videoid)
@@ -1126,7 +1126,7 @@ const gistPlugin = new Plugin(
   /{%gist\s*([\d\D]*?)\s*%}/,
 
   (match, utils) => {
-    const gistid = match[1]
+    const gistid = match[1].split(/[?&=]+/)[0]
     const code = `<code data-gist-id="${gistid}"></code>`
     return code
   }
@@ -1144,7 +1144,7 @@ const slidesharePlugin = new Plugin(
   /{%slideshare\s*([\d\D]*?)\s*%}/,
 
   (match, utils) => {
-    const slideshareid = match[1]
+    const slideshareid = match[1].split(/[?&=]+/)[0]
     const div = $('<div class="slideshare raw"></div>')
     div.attr('data-slideshareid', slideshareid)
     return div[0].outerHTML
