@@ -419,6 +419,32 @@ export function finishView (view) {
       console.warn(err)
     }
   })
+  // vega-lite
+  const vegas = view.find('div.vega.raw').removeClass('raw')
+  vegas.each((key, value) => {
+    try {
+      var $value = $(value)
+      var $ele = $(value).parent().parent()
+
+      const specText = $value.text()
+
+      $value.unwrap()
+      window.vegaEmbed($ele[0], JSON.parse(specText))
+        .then(result => {
+          $ele.addClass('vega')
+        })
+        .catch(err => {
+          $ele.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+          console.warn(err)
+        })
+        .finally(() => {
+          if (window.viewAjaxCallback) window.viewAjaxCallback()
+        })
+    } catch (err) {
+      $ele.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+      console.warn(err)
+    }
+  })
   // image href new window(emoji not included)
   const images = view.find('img.raw[src]').removeClass('raw')
   images.each((key, value) => {
@@ -926,6 +952,8 @@ function highlightRender (code, lang) {
     return `<div class="mermaid raw">${code}</div>`
   } else if (lang === 'abc') {
     return `<div class="abc raw">${code}</div>`
+  } else if (lang === 'vega') {
+    return `<div class="vega raw">${code}</div>`
   }
   const result = {
     value: code
