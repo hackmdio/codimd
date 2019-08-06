@@ -57,7 +57,7 @@ describe('realtime#update note is dirty timer', function () {
       socks: []
     }
 
-    let note2 = {
+    const note2 = {
       server: {
         isDirty: true
       },
@@ -79,7 +79,7 @@ describe('realtime#update note is dirty timer', function () {
       callback(null, note)
     })
 
-    let note = {
+    const note = {
       server: {
         isDirty: true
       },
@@ -109,7 +109,7 @@ describe('realtime#update note is dirty timer', function () {
       })
     }
 
-    let note = {
+    const note = {
       server: {
         isDirty: true
       },

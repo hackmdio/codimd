@@ -26,7 +26,7 @@ function extend () {
 
   for (const source of arguments) {
     for (const key in source) {
-      if (source.hasOwnProperty(key)) {
+      if (Object.hasOwnProperty.call(source, key)) {
         target[key] = source[key]
       }
     }
@@ -74,17 +74,17 @@ const defaultOptions = {
 const meta = JSON.parse($('#meta').text())
 var options = meta.slideOptions || {}
 
-if (options.hasOwnProperty('spotlight')) {
+if (Object.hasOwnProperty.call(options, 'spotlight')) {
   defaultOptions.dependencies.push({
     src: `${serverurl}/build/reveal.js/plugin/spotlight/spotlight.js`
   })
 }
 
-if (options.hasOwnProperty('allottedTime') || options.hasOwnProperty('allottedMinutes')) {
+if (Object.hasOwnProperty.call(options, 'allottedTime') || Object.hasOwnProperty.call(options, 'allottedMinutes')) {
   defaultOptions.dependencies.push({
     src: `${serverurl}/build/reveal.js/plugin/elapsed-time-bar/elapsed-time-bar.js`
   })
-  if (options.hasOwnProperty('allottedMinutes')) {
+  if (Object.hasOwnProperty.call(options, 'allottedMinutes')) {
     options.allottedTime = options.allottedMinutes * 60 * 1000
   }
 }
@@ -123,14 +123,14 @@ window.viewAjaxCallback = () => {
 function renderSlide (event) {
   if (window.location.search.match(/print-pdf/gi)) {
     const slides = $('.slides')
-    let title = document.title
+    const title = document.title
     finishView(slides)
     document.title = title
     Reveal.layout()
   } else {
     const markdown = $(event.currentSlide)
     if (!markdown.attr('data-rendered')) {
-      let title = document.title
+      const title = document.title
       finishView(markdown)
       markdown.attr('data-rendered', 'true')
       document.title = title

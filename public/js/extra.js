@@ -350,7 +350,7 @@ export function finishView (view) {
       $value.html('')
       chart.drawSVG(value, {
         'line-width': 2,
-        'fill': 'none',
+        fill: 'none',
         'font-size': '16px',
         'font-family': "'Andale Mono', monospace"
       })
@@ -773,12 +773,12 @@ export function generateToc (id) {
   target.html('')
   /* eslint-disable no-unused-vars */
   var toc = new window.Toc('doc', {
-    'level': 3,
-    'top': -1,
-    'class': 'toc',
-    'ulClass': 'nav',
-    'targetId': id,
-    'process': getHeaderContent
+    level: 3,
+    top: -1,
+    class: 'toc',
+    ulClass: 'nav',
+    targetId: id,
+    process: getHeaderContent
   })
   /* eslint-enable no-unused-vars */
   if (target.text() === 'undefined') { target.html('') }
@@ -861,7 +861,7 @@ const linkifyAnchors = (level, containingElement) => {
   const headers = containingElement.getElementsByTagName(`h${level}`)
 
   for (let i = 0, l = headers.length; i < l; i++) {
-    let header = headers[i]
+    const header = headers[i]
     if (header.getElementsByClassName('anchor').length === 0) {
       if (typeof header.id === 'undefined' || header.id === '') {
         // to escape characters not allow in css and humanize
@@ -920,12 +920,12 @@ export function renderTOC (view) {
     const target = $(`#${id}`)
     target.html('')
     /* eslint-disable no-unused-vars */
-    let TOC = new window.Toc('doc', {
-      'level': 3,
-      'top': -1,
-      'class': 'toc',
-      'targetId': id,
-      'process': getHeaderContent
+    const TOC = new window.Toc('doc', {
+      level: 3,
+      top: -1,
+      class: 'toc',
+      targetId: id,
+      process: getHeaderContent
     })
     /* eslint-enable no-unused-vars */
     if (target.text() === 'undefined') { target.html('') }
@@ -975,7 +975,7 @@ function highlightRender (code, lang) {
   return result.value
 }
 
-export let md = markdownit('default', {
+export const md = markdownit('default', {
   html: true,
   breaks: true,
   langPrefix: '',
@@ -1044,7 +1044,7 @@ md.use(markdownitContainer, 'spoiler', {
   }
 })
 
-let defaultImageRender = md.renderer.rules.image
+const defaultImageRender = md.renderer.rules.image
 md.renderer.rules.image = function (tokens, idx, options, env, self) {
   tokens[idx].attrJoin('class', 'raw')
   return defaultImageRender(...arguments)
@@ -1089,26 +1089,26 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
 }
 
 const makePlantumlURL = (umlCode) => {
-  let format = 'svg'
-  let code = plantumlEncoder.encode(umlCode)
+  const format = 'svg'
+  const code = plantumlEncoder.encode(umlCode)
   return `${plantumlServer}/${format}/${code}`
 }
 
 // https://github.com/qjebbs/vscode-plantuml/tree/master/src/markdown-it-plantuml
 md.renderer.rules.plantuml = (tokens, idx) => {
-  let token = tokens[idx]
+  const token = tokens[idx]
   if (token.type !== 'plantuml') {
     return tokens[idx].content
   }
 
-  let url = makePlantumlURL(token.content)
+  const url = makePlantumlURL(token.content)
   return `<img src="${url}" />`
 }
 
 // https://github.com/qjebbs/vscode-plantuml/tree/master/src/markdown-it-plantuml
 md.core.ruler.push('plantuml', (state) => {
-  let blockTokens = state.tokens
-  for (let blockToken of blockTokens) {
+  const blockTokens = state.tokens
+  for (const blockToken of blockTokens) {
     if (blockToken.type === 'fence' && blockToken.info === 'plantuml') {
       blockToken.type = 'plantuml'
     }

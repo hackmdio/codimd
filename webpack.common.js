@@ -238,7 +238,6 @@ module.exports = {
     ],
     'index-pack': [
       'babel-polyfill',
-      'expose-loader?Spinner!spin.js',
       'script-loader!jquery-ui-resizable',
       'bootstrap-validator',
       'expose-loader?jsyaml!js-yaml',
