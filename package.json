@@ -26,7 +26,8 @@
     "coverage": "nyc mocha --require intelli-espower-loader --exit --recursive ./test",
     "coverage:ci": "nyc mocha --no-color -R dot --require intelli-espower-loader --exit --recursive ./test",
     "test": "npm run-script lint && npm run-script jsonlint && npm run-script coverage",
-    "test:ci": "npm run-script lint && npm run-script jsonlint && npm run-script coverage:ci"
+    "test:ci": "npm run-script lint && npm run-script jsonlint && npm run-script coverage:ci",
+    "postinstall": "bin/heroku"
   },
   "dependencies": {
     "@hackmd/codemirror": "~5.46.2",
