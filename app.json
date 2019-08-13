@@ -19,10 +19,6 @@
             "description": "Let npm also install development build tool",
             "value": "false"
         },
-        "DB_TYPE": {
-            "description": "Specify database type. See sequelize available databases. Default using postgres",
-            "value": "postgres"
-        },
         "HMD_SESSION_SECRET": {
             "description": "Secret used to secure session cookies.",
             "required": false

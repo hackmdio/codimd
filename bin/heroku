@@ -25,6 +25,4 @@ EOF
 
 EOF
 
-  # build app
-  npm run build
 fi
