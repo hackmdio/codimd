@@ -1,6 +1,6 @@
 import markdownlint from 'markdownlint'
 
-// load lint plugin explicitly
+// load CM lint plugin explicitly
 import 'script-loader!@hackmd/codemirror/addon/lint/lint'
 import './lint.css'
 
@@ -21,7 +21,7 @@ import './lint.css'
       }
 
       return {
-        message: error.ruleDescription,
+        messageHTML: `${error.ruleNames.join('/')}: ${error.ruleDescription}`,
         severity: 'error',
         from: CodeMirror.Pos(lineNumber, start),
         to: CodeMirror.Pos(lineNumber, end)
