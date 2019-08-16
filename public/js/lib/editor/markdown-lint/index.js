@@ -7,21 +7,23 @@ import './lint.css'
 (function(mod) {
   mod(CodeMirror);
 })(function(CodeMirror) {
-  function validator(text, options) {
+  function validator(text) {
     return lint(text).map(error => {
-      const lineNumber = error.lineNumber - 1
+      const {
+        ruleNames,
+        ruleDescription,
+        lineNumber: ln,
+        errorRange
+      } = error
+      const lineNumber = ln - 1
 
-      let start, end
-      if (error.errorRange) {
-        start = error.errorRange[0] - 1
-        end = error.errorRange[1] - 1
-      } else {
-        start = 0
-        end = -1
+      let start = 0, end = -1
+      if (errorRange) {
+        [start, end] = errorRange.map(r => r - 1)
       }
 
       return {
-        messageHTML: `${error.ruleNames.join('/')}: ${error.ruleDescription}`,
+        messageHTML: `${ruleNames.join('/')}: ${ruleDescription}`,
         severity: 'error',
         from: CodeMirror.Pos(lineNumber, start),
         to: CodeMirror.Pos(lineNumber, end)
@@ -29,8 +31,8 @@ import './lint.css'
     })
   }
 
-  CodeMirror.registerHelper('lint', 'markdown', validator);
-});
+  CodeMirror.registerHelper('lint', 'markdown', validator)
+})
 
 function lint (content) {
   const { content: errors } = markdownlint.sync({
