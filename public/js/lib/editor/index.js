@@ -3,6 +3,7 @@ import * as utils from './utils'
 import config from './config'
 import statusBarTemplate from './statusbar.html'
 import toolBarTemplate from './toolbar.html'
+import './markdown-lint'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -552,6 +553,7 @@ export default class Editor {
     this.editor = CodeMirror.fromTextArea(textit, {
       mode: defaultEditorMode,
       backdrop: defaultEditorMode,
+      lint: true,
       keyMap: 'sublime',
       viewportMargin: viewportMargin,
       styleActiveLine: true,
@@ -573,7 +575,8 @@ export default class Editor {
       gutters: [
         'CodeMirror-linenumbers',
         'authorship-gutters',
-        'CodeMirror-foldgutter'
+        'CodeMirror-foldgutter',
+        'CodeMirror-lint-markers'
       ],
       extraKeys: this.defaultExtraKeys,
       flattenSpans: true,

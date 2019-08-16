@@ -167,7 +167,11 @@ module.exports = {
         to: 'reveal.js/plugin'
       }
     ]),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new webpack.NormalModuleReplacementPlugin(
+      /^url$/,
+      path.resolve(__dirname, './public/js/url.js')
+    )
   ],
 
   entry: {
@@ -374,7 +378,8 @@ module.exports = {
       'js-sequence-diagrams': path.join(__dirname, 'node_modules/@hackmd/js-sequence-diagrams/build/main.js'),
       vega: path.join(__dirname, 'node_modules/vega/build/vega.min.js'),
       'vega-lite': path.join(__dirname, 'node_modules/vega-lite/build/vega-lite.min.js'),
-      'vega-embed': path.join(__dirname, 'node_modules/vega-embed/build/vega-embed.min.js')
+      'vega-embed': path.join(__dirname, 'node_modules/vega-embed/build/vega-embed.min.js'),
+      'markdown-it': path.join(__dirname, 'node_modules/markdown-it/dist/markdown-it.js')
     }
   },
 
