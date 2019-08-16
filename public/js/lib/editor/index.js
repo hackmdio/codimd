@@ -232,6 +232,7 @@ export default class Editor {
     this.statusLength = this.statusBar.find('.status-length')
     this.statusTheme = this.statusBar.find('.status-theme')
     this.statusSpellcheck = this.statusBar.find('.status-spellcheck')
+    this.statusLinter = this.statusBar.find('.status-linter')
     this.statusPreferences = this.statusBar.find('.status-preferences')
     this.statusPanel = this.editor.addPanel(this.statusBar[0], {
       position: 'bottom'
@@ -241,6 +242,7 @@ export default class Editor {
     this.setKeymap()
     this.setTheme()
     this.setSpellcheck()
+    this.setLinter()
     this.setPreferences()
   }
 
@@ -499,6 +501,42 @@ export default class Editor {
     }
   }
 
+  toggleLinter (enable) {
+    const gutters = this.editor.getOption('gutters')
+    const lintGutter = 'CodeMirror-lint-markers'
+
+    if (enable) {
+      if (!gutters.includes(lintGutter)) {
+        this.editor.setOption('gutters', [lintGutter, ...gutters])
+      }
+      Cookies.set('linter', true, {
+        expires: 365
+      })
+    } else {
+      this.editor.setOption('gutters', gutters.filter(g => g !== lintGutter))
+      Cookies.remove('linter')
+    }
+    this.editor.setOption('lint', enable)
+  }
+
+  setLinter () {
+    const linterToggle = this.statusLinter.find('.ui-linter-toggle')
+
+    const updateLinterStatus = (enable) => {
+      linterToggle.toggleClass('active', enable)
+    }
+
+    linterToggle.click(() => {
+      const lintEnable = this.editor.getOption('lint')
+      this.toggleLinter.bind(this)(!lintEnable)
+      updateLinterStatus(!lintEnable)
+    })
+
+    const enable = !!Cookies.get('linter')
+    this.toggleLinter.bind(this)(enable)
+    updateLinterStatus(enable)
+  }
+
   resetEditorKeymapToBrowserKeymap () {
     var keymap = this.editor.getOption('keyMap')
     if (!this.jumpToAddressBarKeymapValue) {
@@ -553,7 +591,6 @@ export default class Editor {
     this.editor = CodeMirror.fromTextArea(textit, {
       mode: defaultEditorMode,
       backdrop: defaultEditorMode,
-      lint: true,
       keyMap: 'sublime',
       viewportMargin: viewportMargin,
       styleActiveLine: true,
@@ -573,7 +610,6 @@ export default class Editor {
       autoCloseTags: true,
       foldGutter: true,
       gutters: [
-        'CodeMirror-lint-markers',
         'CodeMirror-linenumbers',
         'authorship-gutters',
         'CodeMirror-foldgutter'
