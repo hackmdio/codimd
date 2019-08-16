@@ -48,6 +48,7 @@
   width: 16px;
   vertical-align: middle;
   position: relative;
+  margin-left: 5px;
 }
 
 .CodeMirror-lint-message-error, .CodeMirror-lint-message-warning {

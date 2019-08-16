@@ -573,10 +573,10 @@ export default class Editor {
       autoCloseTags: true,
       foldGutter: true,
       gutters: [
+        'CodeMirror-lint-markers',
         'CodeMirror-linenumbers',
         'authorship-gutters',
-        'CodeMirror-foldgutter',
-        'CodeMirror-lint-markers'
+        'CodeMirror-foldgutter'
       ],
       extraKeys: this.defaultExtraKeys,
       flattenSpans: true,
