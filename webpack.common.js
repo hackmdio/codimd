@@ -464,6 +464,11 @@ module.exports = {
         loader: 'url-loader',
         options: { limit: '10000', mimetype: 'image/gif' }
       }]
+    }, {
+      test: /@hackmd\/codemirror\/addon\/lint\/lint/,
+      use: [{
+        loader: 'script-loader'
+      }]
     }]
   },
   node: {

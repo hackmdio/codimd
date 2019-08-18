@@ -1,13 +1,14 @@
+/* global CodeMirror */
 import markdownlint from 'markdownlint'
 
 // load CM lint plugin explicitly
-import 'script-loader!@hackmd/codemirror/addon/lint/lint'
+import '@hackmd/codemirror/addon/lint/lint'
 import './lint.css'
 
-(function(mod) {
-  mod(CodeMirror);
-})(function(CodeMirror) {
-  function validator(text) {
+(function (mod) {
+  mod(CodeMirror)
+})(function (CodeMirror) {
+  function validator (text) {
     return lint(text).map(error => {
       const {
         ruleNames,
@@ -17,7 +18,7 @@ import './lint.css'
       } = error
       const lineNumber = ln - 1
 
-      let start = 0, end = -1
+      let start = 0; let end = -1
       if (errorRange) {
         [start, end] = errorRange.map(r => r - 1)
       }
