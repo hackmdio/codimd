@@ -11,10 +11,6 @@
     "logo": "https://github.com/hackmdio/codimd/raw/master/public/codimd-icon-1024.png",
     "success_url": "/",
     "env": {
-        "BUILD_ASSETS": {
-            "description": "Our build script variable",
-            "value": "true"
-        },
         "NPM_CONFIG_PRODUCTION": {
             "description": "Let npm also install development build tool",
             "value": "false"
