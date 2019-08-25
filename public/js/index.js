@@ -950,6 +950,15 @@ ui.toolbar.download.rawhtml.click(function (e) {
 })
 // pdf
 ui.toolbar.download.pdf.attr('download', '').attr('href', noteurl + '/pdf')
+
+ui.modal.pandocExport.find('#pandoc-export-download').click(function (e) {
+  e.preventDefault()
+
+  const exportType = ui.modal.pandocExport.find('select[name="output"]').val()
+
+  window.open(`${noteurl}/pandoc?exportType=${exportType}`, '_blank')
+})
+
 // export to dropbox
 ui.toolbar.export.dropbox.click(function () {
   var filename = renderFilename(ui.area.markdown) + '.md'
