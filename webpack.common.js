@@ -139,7 +139,7 @@ module.exports = {
         to: 'MathJax/'
       },
       {
-        context: path.join(__dirname, 'node_modules/emojify.js'),
+        context: path.join(__dirname, 'node_modules/@hackmd/emojify.js'),
         from: {
           glob: 'dist/**/*',
           dot: false
@@ -249,7 +249,7 @@ module.exports = {
       'expose-loader?moment!moment',
       'script-loader!handlebars',
       'expose-loader?hljs!highlight.js',
-      'expose-loader?emojify!emojify.js',
+      'emojify.js',
       'script-loader!gist-embed',
       'script-loader!codemirror',
       'script-loader!inlineAttachment',
@@ -293,7 +293,7 @@ module.exports = {
       'expose-loader?moment!moment',
       'script-loader!handlebars',
       'expose-loader?hljs!highlight.js',
-      'expose-loader?emojify!emojify.js',
+      'emojify.js',
       'script-loader!gist-embed',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
@@ -334,7 +334,7 @@ module.exports = {
       'expose-loader?moment!moment',
       'script-loader!handlebars',
       'expose-loader?hljs!highlight.js',
-      'expose-loader?emojify!emojify.js',
+      'emojify.js',
       'script-loader!gist-embed',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
@@ -379,6 +379,7 @@ module.exports = {
       vega: path.join(__dirname, 'node_modules/vega/build/vega.min.js'),
       'vega-lite': path.join(__dirname, 'node_modules/vega-lite/build/vega-lite.min.js'),
       'vega-embed': path.join(__dirname, 'node_modules/vega-embed/build/vega-embed.min.js'),
+      'emojify.js': path.join(__dirname, 'node_modules/@hackmd/emojify.js/dist/js/emojify-browser.min.js'),
       'markdown-it': path.join(__dirname, 'node_modules/markdown-it/dist/markdown-it.js')
     }
   },

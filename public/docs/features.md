@@ -435,6 +435,7 @@ Subscript: H~2~O
 
 ==Marked text==
 
+{ruby base|rubytext}
 
 ### Blockquotes
 
