@@ -1029,14 +1029,19 @@ md.use(markdownitContainer, 'warning', { render: renderContainer })
 md.use(markdownitContainer, 'danger', { render: renderContainer })
 md.use(markdownitContainer, 'spoiler', {
   validate: function (params) {
-    return params.trim().match(/^spoiler\s+(.*)$/)
+    return params.trim().match(/^spoiler(\s+.*)?$/)
   },
   render: function (tokens, idx) {
-    var m = tokens[idx].info.trim().match(/^spoiler\s+(.*)$/)
+    const m = tokens[idx].info.trim().match(/^spoiler(\s+.*)?$/)
 
     if (tokens[idx].nesting === 1) {
       // opening tag
-      return '<details><summary>' + md.utils.escapeHtml(m[1]) + '</summary>\n'
+      const summary = m[1] && m[1].trim()
+      if (summary) {
+        return `<details><summary>${md.utils.escapeHtml(summary)}</summary>\n`
+      } else {
+        return `<details>\n`
+      }
     } else {
       // closing tag
       return '</details>\n'

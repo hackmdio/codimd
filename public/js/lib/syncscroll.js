@@ -112,17 +112,23 @@ md.use(markdownitContainer, 'warning', { render: renderContainer })
 md.use(markdownitContainer, 'danger', { render: renderContainer })
 md.use(markdownitContainer, 'spoiler', {
   validate: function (params) {
-    return params.trim().match(/^spoiler\s+(.*)$/)
+    return params.trim().match(/^spoiler(\s+.*)?$/)
   },
   render: function (tokens, idx) {
-    var m = tokens[idx].info.trim().match(/^spoiler\s+(.*)$/)
+    const m = tokens[idx].info.trim().match(/^spoiler(\s+.*)?$/)
 
     if (tokens[idx].nesting === 1) {
+      // opening tag
       const startline = tokens[idx].map[0] + 1
       const endline = tokens[idx].map[1]
 
-      // opening tag
-      return `<details class="part raw" data-startline="${startline}" data-endline="${endline}"><summary>` + md.utils.escapeHtml(m[1]) + '</summary>\n'
+      const partClass = `class="part raw" data-startline="${startline}" data-endline="${endline}"`
+      const summary = m[1] && m[1].trim()
+      if (summary) {
+        return `<details ${partClass}><summary>${md.utils.escapeHtml(summary)}</summary>\n`
+      } else {
+        return `<details ${partClass}>\n`
+      }
     } else {
       // closing tag
       return '</details>\n'
