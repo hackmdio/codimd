@@ -167,7 +167,11 @@ module.exports = {
         to: 'reveal.js/plugin'
       }
     ]),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new webpack.NormalModuleReplacementPlugin(
+      /^url$/,
+      path.resolve(__dirname, './public/js/url.js')
+    )
   ],
 
   entry: {
@@ -376,6 +380,7 @@ module.exports = {
       'vega-lite': path.join(__dirname, 'node_modules/vega-lite/build/vega-lite.min.js'),
       'vega-embed': path.join(__dirname, 'node_modules/vega-embed/build/vega-embed.min.js'),
       'emojify.js': path.join(__dirname, 'node_modules/@hackmd/emojify.js/dist/js/emojify-browser.min.js'),
+      'markdown-it': path.join(__dirname, 'node_modules/markdown-it/dist/markdown-it.js')
     }
   },
 
@@ -459,6 +464,11 @@ module.exports = {
       use: [{
         loader: 'url-loader',
         options: { limit: '10000', mimetype: 'image/gif' }
+      }]
+    }, {
+      test: /@hackmd\/codemirror\/addon\/lint\/lint/,
+      use: [{
+        loader: 'script-loader'
       }]
     }]
   },
