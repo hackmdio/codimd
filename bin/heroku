@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$BUILD_ASSETS" = true ]; then
+if [ ! -z "$DYNO" ]; then
   # setup config files
   cat << EOF > .sequelizerc
 var path = require('path');
