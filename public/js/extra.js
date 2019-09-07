@@ -1001,6 +1001,7 @@ md.use(require('markdown-it-mathjax')({
   afterDisplayMath: '\\]</span>'
 }))
 md.use(require('markdown-it-imsize'))
+md.use(require('markdown-it-ruby'))
 
 md.use(require('markdown-it-emoji'), {
   shortcuts: {}
