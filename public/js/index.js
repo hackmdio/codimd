@@ -82,6 +82,7 @@ import appState from './lib/appState'
 require('../vendor/showup/showup')
 
 require('../css/index.css')
+require('../css/zen.scss')
 require('../css/extra.css')
 require('../css/slide-preview.css')
 require('../css/site.css')

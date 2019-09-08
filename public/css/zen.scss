@@ -1,0 +1,116 @@
+$whiteColor: #FBFBFB;
+$darkColor: #333;
+
+.ui-edit-area.zen {
+  background-color: $whiteColor;
+
+  .toolbar {
+    display: none;
+    // TODO
+
+    // background: white;
+    // color: black;
+    // border-bottom: 1px solid #d2d2d2;
+    // a {
+    //   color: black !important;
+    // }
+    // a.active, a:hover {
+    //   background: #eee;
+    // }
+  }
+
+  .CodeMirror {
+    max-width: 625px;
+    margin: 0 auto;
+  }
+
+  .CodeMirror,
+  .CodeMirror-scroll {
+    background-color: $whiteColor !important;
+    color: $darkColor;
+  }
+  .CodeMirror-gutters {
+    background-color: $whiteColor !important;
+  }
+  .CodeMirror-overlayscroll-horizontal div,
+  .CodeMirror-overlayscroll-vertical div {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid $whiteColor;
+  }
+
+  .CodeMirror-sizer {
+    padding-top: .5em;
+  }
+
+  .CodeMirror {
+    font-size: 16px;
+
+    .cm-m-markdown {
+      // TODO: make font family selectable
+      font-family: "Avenir Next", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+      letter-spacing: 0.04em;
+      filter: saturate(1.5) contrast(90%);
+      line-height: 1.67;
+      color: rgba(0, 0, 0, 0.8);
+
+      &.cm-header-1 {
+        font-size: 1.33em;
+      }
+
+      &.cm-header {
+        line-height: 1.27;
+      }
+      &.cm-header-2 {
+        font-size: 1.15em;
+      }
+      &.cm-quote {
+        color: rgba(0, 0, 0, 0.48);
+      }
+      &.cm-builtin {
+        color: rgba(0, 0, 0, 0.32);
+      }
+      &.cm-url {
+        color: rgba(0, 0, 0, 0.32);
+      }
+      &.cm-link {
+        color: #337ab7;
+      }
+    }
+    .cm-m-xml {
+      color: $darkColor;
+    }
+    .cm-comment {
+      background-color: rgba(0,0,0,.05);
+      border-radius: 3px;
+      padding: .15em 0;
+    }
+  }
+
+  .status-bar {
+    background: $whiteColor;
+    color: $darkColor;
+    border-top: 1px solid #d2d2d2;
+    .status-info {
+      color: $darkColor;
+    }
+    .status-length {
+      color: $darkColor !important;
+    }
+    .status-indicators {
+      background: $whiteColor;
+      color: $darkColor;
+      > div {
+        border-left: 1px solid #d2d2d2;
+      }
+    }
+
+    .dropdown-menu {
+      background-color: $whiteColor;
+    }
+
+    .dropdown-menu > li > a {
+      color: $darkColor;
+    }
+  }
+}
