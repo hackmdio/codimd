@@ -15,12 +15,12 @@
                     <a id="permissionLabel" class="ui-permission-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="permissionLabel">
-                        <li class="ui-permission-freely"<% if(!allowAnonymous && !allowAnonymousEdits) { %> style="display: none;"<% } %>><a><i class="fa fa-leaf fa-fw"></i> Freely - Anyone can edit</a></li>
-                        <li class="ui-permission-editable"><a><i class="fa fa-shield fa-fw"></i> Editable - Signed-in people can edit</a></li>
-                        <li class="ui-permission-limited"><a><i class="fa fa-id-card fa-fw"></i> Limited - Signed-in people can edit (forbid guests)</a></li>
-                        <li class="ui-permission-locked"><a><i class="fa fa-lock fa-fw"></i> Locked - Only owner can edit</a></li>
-                        <li class="ui-permission-protected"><a><i class="fa fa-umbrella fa-fw"></i> Protected - Only owner can edit (forbid guests)</a></li>
-                        <li class="ui-permission-private"><a><i class="fa fa-hand-stop-o fa-fw"></i> Private - Only owner can view &amp; edit</a></li>
+                        <li class="ui-permission-freely"<% if(!('freely' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-leaf fa-fw"></i> Freely - Anyone can edit</a></li>
+                        <li class="ui-permission-editable"<% if(!('editable' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-shield fa-fw"></i> Editable - Signed-in people can edit</a></li>
+                        <li class="ui-permission-limited"<% if(!('limited' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-id-card fa-fw"></i> Limited - Signed-in people can edit (forbid guests)</a></li>
+                        <li class="ui-permission-locked"<% if(!('locked' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-lock fa-fw"></i> Locked - Only owner can edit</a></li>
+                        <li class="ui-permission-protected"<% if(!('protected' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-umbrella fa-fw"></i> Protected - Only owner can edit (forbid guests)</a></li>
+                        <li class="ui-permission-private"<% if(!('private' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-hand-stop-o fa-fw"></i> Private - Only owner can view &amp; edit</a></li>
                         <li class="divider"></li>
                         <li class="ui-delete-note"><a><i class="fa fa-trash-o fa-fw"></i> Delete this note</a></li>
                     </ul>
