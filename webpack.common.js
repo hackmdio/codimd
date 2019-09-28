@@ -257,7 +257,8 @@ module.exports = {
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
       path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
       path.join(__dirname, 'public/css/bootstrap-social.css'),
-      path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css')
+      path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
+      path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
     'index-pack': [
       'babel-polyfill',
@@ -285,6 +286,7 @@ module.exports = {
       'script-loader!vega-embed',
       'expose-loader?io!socket.io-client',
       'expose-loader?RevealMarkdown!reveal-markdown',
+      'expose-loader?L!leaflet',
       path.join(__dirname, 'public/js/index.js')
     ],
     pretty: [
@@ -303,7 +305,8 @@ module.exports = {
     'pretty-styles-pack': [
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
       path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
-      path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css')
+      path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
+      path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
     'pretty-pack': [
       'babel-polyfill',
@@ -323,6 +326,7 @@ module.exports = {
       'script-loader!vega-lite',
       'script-loader!vega-embed',
       'expose-loader?RevealMarkdown!reveal-markdown',
+      'expose-loader?L!leaflet',
       path.join(__dirname, 'public/js/pretty.js')
     ],
     slide: [
@@ -341,7 +345,8 @@ module.exports = {
     ],
     'slide-styles-pack': [
       path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
-      path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css')
+      path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
+      path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
     'slide-pack': [
       'babel-polyfill',
@@ -366,6 +371,7 @@ module.exports = {
       'script-loader!vega-embed',
       'expose-loader?Reveal!reveal.js',
       'expose-loader?RevealMarkdown!reveal-markdown',
+      'expose-loader?L!leaflet',
       path.join(__dirname, 'public/js/slide.js')
     ]
   },
