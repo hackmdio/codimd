@@ -181,6 +181,11 @@ module.exports = {
         from: '*',
         to: 'dictionary-de-ch/'
       },
+      {
+        context: path.join(__dirname, 'node_modules/leaflet'),
+        from: 'dist',
+        to: 'leaflet'
+      }
     ]),
     new MiniCssExtractPlugin()
   ],

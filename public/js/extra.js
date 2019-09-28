@@ -476,7 +476,12 @@ export function finishView (view) {
         attribution: '<a href="https://www.openstreetmap.org/">OSM</a>',
         maxZoom: 18,
       }).addTo(map)
-      L.marker(position).addTo(map)
+      L.marker(position, {
+        icon: L.icon({
+          iconUrl: `${serverurl}/build/leaflet/images/marker-icon.png`,
+          shadowUrl: `${serverurl}/build/leaflet/images/marker-shadow.png`
+        })
+      }).addTo(map)
       $elem.addClass('geo')
     } catch (err) {
       $elem.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
