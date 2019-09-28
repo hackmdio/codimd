@@ -453,24 +453,31 @@ export function finishView (view) {
       console.warn(err)
     }
   })
-  view.find('div.geo.raw').removeClass('raw').each(function (key, value) {
+  view.find('div.geo.raw').removeClass('raw').each(async function (key, value) {
     const $elem = $(value).parent().parent()
     const $value = $(value)
     const content = $value.text()
     try {
-      if (content.match(/[\d\.\,]+/)) {
-        const [lng, lat, zoom] = content.split(',').map(parseFloat)
-        const position = [lat, lng]
-        $elem.html(`<div class="geo-map"></div>`)
-        const map = L.map($elem.find('.geo-map')[0]).setView(position, zoom || 16)
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '<a href="https://www.openstreetmap.org/">OSM</a>',
-          maxZoom: 18,
-        }).addTo(map)
-        L.marker(position).addTo(map)
-        $elem.addClass('geo')
+      let position, zoom
+      if (content.match(/^[\d\.\,\s]+$/)) {
+        const [lng, lat, zoo] = content.split(',').map(parseFloat)
+        zoom = zoo
+        position = [lat, lng]
+      } else {
+        // parse value as address
+        const data = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(content)}&format=json`).then(r => r.json())
+        const { lat, lon } = data[0]
+        position = [lat, lon]
       }
+      $elem.html(`<div class="geo-map"></div>`)
+      const map = L.map($elem.find('.geo-map')[0]).setView(position, zoom || 16)
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '<a href="https://www.openstreetmap.org/">OSM</a>',
+        maxZoom: 18,
+      }).addTo(map)
+      L.marker(position).addTo(map)
+      $elem.addClass('geo')
     } catch (err) {
       $elem.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
