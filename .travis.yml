@@ -25,7 +25,7 @@ script:
 jobs:
   include:
     - stage: doctoc-check
-      install: npm install -g doctoc
+      install: npm install -g doctoc --save sequelize-cli
       if: type = pull_request OR branch = master
       script:
         - cp README.md README.md.orig
