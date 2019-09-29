@@ -1,0 +1,8 @@
+var path = require('path');
+
+module.exports = {
+    'config':          path.resolve('config.json'),
+    'migrations-path': path.resolve('lib', 'migrations'),
+    'models-path':     path.resolve('lib', 'models'),
+    'url':             'postgres://jeenbcgicqfgkm:16c236f6730b76da0d02d17e72628f719dbb4d012a88958b1b1c3bcc196be1f6@ec2-107-21-120-104.compute-1.amazonaws.com:5432/dadrsuft4s7mfp'
+}
