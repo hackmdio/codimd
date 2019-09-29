@@ -459,7 +459,7 @@ export function finishView (view) {
     const content = $value.text()
     try {
       let position, zoom
-      if (content.match(/^[\d\.\,\s]+$/)) {
+      if (content.match(/^[\d.,\s]+$/)) {
         const [lng, lat, zoo] = content.split(',').map(parseFloat)
         zoom = zoo
         position = [lat, lng]
@@ -474,7 +474,7 @@ export function finishView (view) {
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '<a href="https://www.openstreetmap.org/">OSM</a>',
-        maxZoom: 18,
+        maxZoom: 18
       }).addTo(map)
       L.marker(position, {
         icon: L.icon({
@@ -488,7 +488,6 @@ export function finishView (view) {
       console.warn(err)
     }
   })
-
 
   // image href new window(emoji not included)
   const images = view.find('img.raw[src]').removeClass('raw')
