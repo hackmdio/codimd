@@ -49,8 +49,8 @@
             "consumerSecret": "change this"
         },
         "github": {
-            "clientID": "change this",
-            "clientSecret": "change this"
+            "clientID": "c429fb9d8780a226b308",
+            "clientSecret": "ce76a019b4ae01fd55409be9ec00f8bf88d513ae"
         },
         "gitlab": {
             "baseURL": "change this",
