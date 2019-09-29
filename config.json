@@ -16,7 +16,7 @@
         }
     },
     "production": {
-        "domain": "https://gcg-hackmd.herokuapp.com/",
+        "domain": "gcg-hackmd.herokuapp.com",
         "loglevel": "info",
         "hsts": {
             "enable": true,
