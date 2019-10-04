@@ -259,7 +259,8 @@ module.exports = {
       'script-loader!ot',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?Viz!viz.js',
+      'script-loader!viz.js',
+      'script-loader!viz.render.js',
       'script-loader!abcjs',
       'script-loader!vega',
       'script-loader!vega-lite',
@@ -297,7 +298,8 @@ module.exports = {
       'script-loader!gist-embed',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?Viz!viz.js',
+      'script-loader!viz.js',
+      'script-loader!viz.render.js',
       'script-loader!abcjs',
       'script-loader!vega',
       'script-loader!vega-lite',
@@ -338,7 +340,8 @@ module.exports = {
       'script-loader!gist-embed',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?Viz!viz.js',
+      'script-loader!viz.js',
+      'script-loader!viz.render.js',
       'script-loader!abcjs',
       'script-loader!vega',
       'script-loader!vega-lite',
@@ -380,7 +383,9 @@ module.exports = {
       'vega-lite': path.join(__dirname, 'node_modules/vega-lite/build/vega-lite.min.js'),
       'vega-embed': path.join(__dirname, 'node_modules/vega-embed/build/vega-embed.min.js'),
       'emojify.js': path.join(__dirname, 'node_modules/@hackmd/emojify.js/dist/js/emojify-browser.min.js'),
-      'markdown-it': path.join(__dirname, 'node_modules/markdown-it/dist/markdown-it.js')
+      'markdown-it': path.join(__dirname, 'node_modules/markdown-it/dist/markdown-it.js'),
+      'viz.js': path.join(__dirname, 'node_modules/viz.js/viz.js'),
+      'viz.render.js': path.join(__dirname, 'node_modules/viz.js/full.render.js')
     }
   },
 
