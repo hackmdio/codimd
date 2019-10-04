@@ -1,5 +1,5 @@
 /* eslint-env browser, jquery */
-/* global moment, serverurl, plantumlServer, Viz */
+/* global moment, serverurl, plantumlServer */
 
 import Prism from 'prismjs'
 import hljs from 'highlight.js'
