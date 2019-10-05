@@ -39,6 +39,10 @@ CodiMD is perfect for open communities, while HackMD emphasizes on permission an
 
 HackMD team is committed to keep CodiMD open source. All contributions are welcome!
 
+
+![screenshot](https://demo.codimd.org/screenshot.png "Screenshot")
+
+
 ## Documentation
 You would find all documentation here: [CodiMD Documentation](https://hackmd.io/c/codimd-documentation)
 
