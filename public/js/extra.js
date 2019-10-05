@@ -30,7 +30,7 @@ require('prismjs/components/prism-gherkin')
 
 require('./lib/common/login')
 require('../vendor/md-toc')
-var Viz = require('viz.js')
+const viz = new window.Viz()
 const plantumlEncoder = require('plantuml-encoder')
 
 const ui = getUIElements()
@@ -369,13 +369,15 @@ export function finishView (view) {
     try {
       var $value = $(value)
       var $ele = $(value).parent().parent()
+      $value.unwrap()
+      viz.renderString($value.text())
+        .then(graphviz => {
+          if (!graphviz) throw Error('viz.js output empty graph')
+          $value.html(graphviz)
 
-      var graphviz = Viz($value.text())
-      if (!graphviz) throw Error('viz.js output empty graph')
-      $value.html(graphviz)
-
-      $ele.addClass('graphviz')
-      $value.children().unwrap().unwrap()
+          $ele.addClass('graphviz')
+          $value.children().unwrap()
+        })
     } catch (err) {
       $value.unwrap()
       $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
