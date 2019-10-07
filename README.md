@@ -72,18 +72,18 @@ All contributions are welcome! Even asking a question helps.
 ## Browser Support
 
 CodiMD is a service that runs on Node.js, while users use the service through browsers. We support your users using the following browsers: 
-- ![Chrome](http://browserbadge.com/chrome/47/18px)
+- <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" /> Chrome
     - Chrome >= 47
     - Chrome for Android >= 47
-- ![Safari](http://browserbadge.com/safari/9/18px)
+- <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" /> Safari
     - Safari >= 9
     - iOS Safari >= 8.4
-- ![Firefox](http://browserbadge.com/firefox/44/18px)
+- <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" /> Firefox
     - Firefox >= 44
-- ![IE](http://browserbadge.com/ie/9/18px)
+- <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" /> IE / Edge
     - IE >= 9
     - Edge >= 12
-- ![Opera](http://browserbadge.com/opera/34/18px)
+- <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" /> Opera
     - Opera >= 34
     - Opera Mini not supported
 - Android Browser >= 4.4
