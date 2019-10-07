@@ -1,7 +1,6 @@
 CodiMD
 ===
 
-[![CodiMD on Gitter][gitter-image]][gitter-url]
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
 [![Gitter][gitter-image]][gitter-url]
