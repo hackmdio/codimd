@@ -1041,6 +1041,13 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
+"@susisu/mte-kernel@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@susisu/mte-kernel/-/mte-kernel-2.1.0.tgz#ec4b3a9875ae927c7f06f519323f427c0787534f"
+  integrity sha512-4XgtDqZNoVGy2BKqHBhm972T4uGaOWRK1BNnh97ryL2cm2Z8g7Zq59OwcNUNaNLVoqsCp6Nv61qn4z+gq4DYyw==
+  dependencies:
+    meaw "^4.3.0"
+
 "@textlint/ast-node-types@^4.0.3":
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-4.2.4.tgz#ae569bd76364040939044d057d5a56284563a7af"
@@ -8072,6 +8079,11 @@ mdurl@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
   integrity sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=
+
+meaw@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/meaw/-/meaw-4.3.0.tgz#96d74682bb9492623bd3c5d701ad37ba7a561091"
+  integrity sha512-LqrSSga9IZHJzqAQD0KkGQqeXwqgNsM3X+eHAlf/5h1DqyFdP2Q30Tx8Nx2TCzjoibxmQL/JsUtSGwdpZHvuUg==
 
 media-typer@0.3.0:
   version "0.3.0"
