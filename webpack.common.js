@@ -401,6 +401,9 @@ module.exports = {
 
   module: {
     rules: [{
+      test: /\.mjs$/,
+      type: 'javascript/auto'
+    }, {
       test: /\.js$/,
       use: [{ loader: 'babel-loader' }],
       exclude: [/node_modules/, /public\/vendor/]

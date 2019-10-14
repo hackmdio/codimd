@@ -4,6 +4,7 @@ import config from './config'
 import statusBarTemplate from './statusbar.html'
 import toolBarTemplate from './toolbar.html'
 import './markdown-lint'
+import { initTableEditor } from './table-editor'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -622,6 +623,8 @@ export default class Editor {
       otherCursors: true,
       placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
     })
+
+    this.tableEditor = initTableEditor(this.editor)
 
     return this.editor
   }
