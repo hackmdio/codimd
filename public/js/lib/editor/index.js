@@ -4,6 +4,8 @@ import config from './config'
 import statusBarTemplate from './statusbar.html'
 import toolBarTemplate from './toolbar.html'
 import './markdown-lint'
+import { initTableEditor } from './table-editor'
+import { options, Alignment, FormatType } from '@susisu/mte-kernel'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -160,6 +162,19 @@ export default class Editor {
     var makeLine = $('#makeLine')
     var makeComment = $('#makeComment')
 
+    var insertRow = $('#insertRow')
+    var deleteRow = $('#deleteRow')
+    var moveRowUp = $('#moveRowUp')
+    var moveRowDown = $('#moveRowDown')
+    var insertColumn = $('#insertColumn')
+    var deleteColumn = $('#deleteColumn')
+    var moveColumnLeft = $('#moveColumnLeft')
+    var moveColumnRight = $('#moveColumnRight')
+    var alignLeft = $('#alignLeft')
+    var alignCenter = $('#alignCenter')
+    var alignRight = $('#alignRight')
+    var alignNone = $('#alignNone')
+
     makeBold.click(() => {
       utils.wrapTextWith(this.editor, this.editor, '**')
       this.editor.focus()
@@ -218,6 +233,72 @@ export default class Editor {
 
     makeComment.click(() => {
       utils.insertText(this.editor, '> []')
+    })
+
+    // table tools UI
+    const opts = options({
+      smartCursor: true,
+      formatType: FormatType.NORMAL
+    })
+
+    insertRow.click(() => {
+      this.tableEditor.insertRow(opts)
+      this.editor.focus()
+    })
+
+    deleteRow.click(() => {
+      this.tableEditor.deleteRow(opts)
+      this.editor.focus()
+    })
+
+    moveRowUp.click(() => {
+      this.tableEditor.moveRow(-1, opts)
+      this.editor.focus()
+    })
+
+    moveRowDown.click(() => {
+      this.tableEditor.moveRow(1, opts)
+      this.editor.focus()
+    })
+
+    insertColumn.click(() => {
+      this.tableEditor.insertColumn(opts)
+      this.editor.focus()
+    })
+
+    deleteColumn.click(() => {
+      this.tableEditor.deleteColumn(opts)
+      this.editor.focus()
+    })
+
+    moveColumnLeft.click(() => {
+      this.tableEditor.moveColumn(-1, opts)
+      this.editor.focus()
+    })
+
+    moveColumnRight.click(() => {
+      this.tableEditor.moveColumn(1, opts)
+      this.editor.focus()
+    })
+
+    alignLeft.click(() => {
+      this.tableEditor.alignColumn(Alignment.LEFT, opts)
+      this.editor.focus()
+    })
+
+    alignCenter.click(() => {
+      this.tableEditor.alignColumn(Alignment.CENTER, opts)
+      this.editor.focus()
+    })
+
+    alignRight.click(() => {
+      this.tableEditor.alignColumn(Alignment.RIGHT, opts)
+      this.editor.focus()
+    })
+
+    alignNone.click(() => {
+      this.tableEditor.alignColumn(Alignment.NONE, opts)
+      this.editor.focus()
     })
   }
 
@@ -622,6 +703,8 @@ export default class Editor {
       otherCursors: true,
       placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
     })
+
+    this.tableEditor = initTableEditor(this.editor)
 
     return this.editor
   }

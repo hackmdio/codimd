@@ -25,6 +25,32 @@ body.night{
   border: 1px solid #343434;
 }
 
+.toolbar > .btn-toolbar {
+  white-space: nowrap;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.toolbar > .btn-toolbar::-webkit-scrollbar {
+  display: none;
+}
+
+.toolbar > .btn-toolbar > .btn-group {
+  float: none;
+}
+
+.toolbar > .btn-toolbar > .btn-group > span {
+  display: inline-block;
+  float: left;
+  color: #fff;
+  padding: 5px;
+  line-height: 22px;
+}
+
+.toolbar > .btn-toolbar > .btn-group > span.separator {
+  color: #4d4d4d;
+}
+
 .toolbar > .btn-toolbar > .btn-group > .btn {
   background-color: #1c1c1e;
   padding: 5px;
