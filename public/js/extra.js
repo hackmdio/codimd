@@ -168,11 +168,11 @@ export function renderTags (view) {
 }
 
 function slugifyWithUTF8 (text) {
-  // remove html tags and trim spaces
+  // remove HTML tags and trim spaces
   let newText = stripTags(text.toString().trim())
-  // replace all spaces in between to dashes
+  // replace space between words with dashes
   newText = newText.replace(/\s+/g, '-')
-  // slugify string to make it valid for attribute
+  // slugify string to make it valid as an attribute
   newText = newText.replace(/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g, '')
   return newText
 }
