@@ -867,7 +867,7 @@ const linkifyAnchors = (level, containingElement) => {
     if (header.getElementsByClassName('anchor').length === 0) {
       if (typeof header.id === 'undefined' || header.id === '') {
         // to escape characters not allow in css and humanize
-        var id = slugifyWithUTF8(getHeaderContent(header))
+        let id = slugifyWithUTF8(getHeaderContent(header))
         // to make compatible with GitHub, GitLab, Pandoc and many more
         if (window.linkifyHeaderStyle !== 'keep-case') {
           id = id.toLowerCase()
