@@ -18,6 +18,6 @@ RUN set -xe && \
 FROM hackmdio/runtime:1.0.4
 USER hackmd
 WORKDIR /home/hackmd/app
-COPY --from=BUILD /home/hackmd/app .
+COPY --chown=1500:1500 --from=BUILD /home/hackmd/app .
 EXPOSE 3000
 ENTRYPOINT ["/home/hackmd/app/docker-entrypoint.sh"]
