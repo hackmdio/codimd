@@ -88,7 +88,7 @@
     "markdown-it-footnote": "~3.0.2",
     "markdown-it-imsize": "~2.0.1",
     "markdown-it-ins": "~2.0.0",
-    "markdown-it-mark": "~2.0.0",
+    "markdown-it-mark": "~3.0.0",
     "markdown-it-mathjax": "~2.0.0",
     "markdown-it-regexp": "~0.4.0",
     "markdown-it-sub": "~1.0.0",
