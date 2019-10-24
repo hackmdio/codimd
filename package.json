@@ -187,7 +187,7 @@
     "style-loader": "~0.23.1",
     "uglifyjs-webpack-plugin": "~1.2.7",
     "url-loader": "~1.0.1",
-    "webpack": "~4.39.0",
+    "webpack": "~4.41.2",
     "webpack-cli": "~3.3.6",
     "webpack-merge": "~4.2.1",
     "webpack-parallel-uglify-plugin": "~1.1.0"
