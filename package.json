@@ -67,7 +67,7 @@
     "handlebars": "~4.1.2",
     "helmet": "~3.20.0",
     "highlight.js": "~9.15.9",
-    "i18n": "~0.8.3",
+    "i18n": "~0.8.4",
     "ionicons": "~2.0.1",
     "isomorphic-fetch": "~2.2.1",
     "jquery": "~3.4.1",
