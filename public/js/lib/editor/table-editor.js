@@ -166,19 +166,25 @@ export function initTableEditor (editor) {
     'Alt-Shift-Ctrl-Down': () => { tableEditor.moveRow(1, opts) },
     'Alt-Shift-Cmd-Down': () => { tableEditor.moveRow(1, opts) }
   })
+  let lastActive
   // enable keymap if the cursor is in a table
   function updateActiveState () {
     const tableTools = $('.toolbar .table-tools')
     const active = tableEditor.cursorIsInTable(opts)
+    // avoid to update if state not changed
+    if (lastActive === active) {
+      return
+    }
     if (active) {
       tableTools.show()
       tableTools.parent().scrollLeft(tableTools.parent()[0].scrollWidth)
-      editor.setOption('extraKeys', keyMap)
+      editor.addKeyMap(keyMap)
     } else {
       tableTools.hide()
-      editor.setOption('extraKeys', null)
+      editor.removeKeyMap(keyMap)
       tableEditor.resetSmartCursor()
     }
+    lastActive = active
   }
   // event subscriptions
   editor.on('cursorActivity', () => {
