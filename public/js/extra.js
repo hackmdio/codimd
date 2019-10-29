@@ -859,6 +859,37 @@ const anchorForId = id => {
   return anchor
 }
 
+const createHeaderId = (headerContent, headerIds = null) => {
+
+  // to escape characters not allow in css and humanize
+  const slug = slugifyWithUTF8(headerContent)
+  let id
+  if (window.linkifyHeaderStyle === 'keep-case') {
+    id = slug
+  } else if (window.linkifyHeaderStyle === 'lower-case') {
+    // to make compatible with GitHub, GitLab, Pandoc and many more
+    id = slug.toLowerCase()
+  } else if (window.linkifyHeaderStyle === 'gfm') {
+    // see GitHub implementation reference:
+    // https://gist.github.com/asabaylus/3071099#gistcomment-1593627
+    // it works like 'lower-case', but ...
+    const id_base = slug.toLowerCase()
+    id = id_base
+    if (headerIds !== null) {
+      // ... making sure the id is unique
+      let i = 1
+      while (headerIds.has(id)) {
+        id = id_base + '-' + i
+        i++
+      }
+      headerIds.add(id)
+    }
+  } else {
+    throw new Error('Unknown linkifyHeaderStyle value "' + window.linkifyHeaderStyle + '"')
+  }
+  return id
+}
+
 const linkifyAnchors = (level, containingElement) => {
   const headers = containingElement.getElementsByTagName(`h${level}`)
 
@@ -866,13 +897,7 @@ const linkifyAnchors = (level, containingElement) => {
     const header = headers[i]
     if (header.getElementsByClassName('anchor').length === 0) {
       if (typeof header.id === 'undefined' || header.id === '') {
-        // to escape characters not allow in css and humanize
-        let id = slugifyWithUTF8(getHeaderContent(header))
-        // to make compatible with GitHub, GitLab, Pandoc and many more
-        if (window.linkifyHeaderStyle !== 'keep-case') {
-          id = id.toLowerCase()
-        }
-        header.id = id
+        header.id = createHeaderId(getHeaderContent(header))
       }
       if (!(typeof header.id === 'undefined' || header.id === '')) {
         header.insertBefore(anchorForId(header.id), header.firstChild)
@@ -898,20 +923,45 @@ function getHeaderContent (header) {
   return headerHTML[0].innerHTML
 }
 
+function changeHeaderId ($header, id, newId) {
+
+  $header.attr('id', newId)
+  const $headerLink = $header.find(`> a.anchor[href="#${id}"]`)
+  $headerLink.attr('href', `#${newId}`)
+  $headerLink.attr('title', newId)
+}
+
 export function deduplicatedHeaderId (view) {
+
+  // headers contained in the last change
   const headers = view.find(':header.raw').removeClass('raw').toArray()
-  for (let i = 0; i < headers.length; i++) {
-    const id = $(headers[i]).attr('id')
-    if (!id) continue
-    const duplicatedHeaders = view.find(`:header[id="${id}"]`).toArray()
-    for (let j = 0; j < duplicatedHeaders.length; j++) {
-      if (duplicatedHeaders[j] !== headers[i]) {
-        const newId = id + j
-        const $duplicatedHeader = $(duplicatedHeaders[j])
-        $duplicatedHeader.attr('id', newId)
-        const $headerLink = $duplicatedHeader.find(`> a.anchor[href="#${id}"]`)
-        $headerLink.attr('href', `#${newId}`)
-        $headerLink.attr('title', newId)
+  if (headers.length == 0) {
+    return;
+  }
+  if (window.linkifyHeaderStyle === 'gfm') {
+    // consistent with GitHub, GitLab, Pandoc & co.
+    // all headers contained in the document, in order of appearance
+    const allHeaders = view.find(`:header`).toArray()
+    // list of finaly assigned header IDs
+    let headerIds = new Set()
+    for (let j = 0; j < allHeaders.length; j++) {
+      const $header = $(allHeaders[j])
+      const id = $header.attr('id')
+      const newId = createHeaderId(getHeaderContent($header), headerIds)
+      changeHeaderId($header, id, newId)
+    }
+  } else {
+    // the legacy way
+    for (let i = 0; i < headers.length; i++) {
+      const id = $(headers[i]).attr('id')
+      if (!id) continue
+      const duplicatedHeaders = view.find(`:header[id="${id}"]`).toArray()
+      for (let j = 0; j < duplicatedHeaders.length; j++) {
+        if (duplicatedHeaders[j] !== headers[i]) {
+          const newId = id + j
+          const $header = $(duplicatedHeaders[j])
+          changeHeaderId($header, id, newId)
+        }
       }
     }
   }
