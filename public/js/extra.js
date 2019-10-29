@@ -943,7 +943,7 @@ export function deduplicatedHeaderId (view) {
     // all headers contained in the document, in order of appearance
     const allHeaders = view.find(`:header`).toArray()
     // list of finaly assigned header IDs
-    let headerIds = new Set()
+    const headerIds = new Set()
     for (let j = 0; j < allHeaders.length; j++) {
       const $header = $(allHeaders[j])
       const id = $header.attr('id')
