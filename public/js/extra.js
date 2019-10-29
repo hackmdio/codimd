@@ -860,7 +860,6 @@ const anchorForId = id => {
 }
 
 const createHeaderId = (headerContent, headerIds = null) => {
-
   // to escape characters not allow in css and humanize
   const slug = slugifyWithUTF8(headerContent)
   let id
@@ -873,13 +872,13 @@ const createHeaderId = (headerContent, headerIds = null) => {
     // see GitHub implementation reference:
     // https://gist.github.com/asabaylus/3071099#gistcomment-1593627
     // it works like 'lower-case', but ...
-    const id_base = slug.toLowerCase()
-    id = id_base
+    const idBase = slug.toLowerCase()
+    id = idBase
     if (headerIds !== null) {
       // ... making sure the id is unique
       let i = 1
       while (headerIds.has(id)) {
-        id = id_base + '-' + i
+        id = idBase + '-' + i
         i++
       }
       headerIds.add(id)
@@ -924,7 +923,6 @@ function getHeaderContent (header) {
 }
 
 function changeHeaderId ($header, id, newId) {
-
   $header.attr('id', newId)
   const $headerLink = $header.find(`> a.anchor[href="#${id}"]`)
   $headerLink.attr('href', `#${newId}`)
@@ -932,11 +930,10 @@ function changeHeaderId ($header, id, newId) {
 }
 
 export function deduplicatedHeaderId (view) {
-
   // headers contained in the last change
   const headers = view.find(':header.raw').removeClass('raw').toArray()
-  if (headers.length == 0) {
-    return;
+  if (headers.length === 0) {
+    return
   }
   if (window.linkifyHeaderStyle === 'gfm') {
     // consistent with GitHub, GitLab, Pandoc & co.
