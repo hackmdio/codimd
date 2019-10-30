@@ -50,7 +50,6 @@
             "consumerSecret": "change this"
         },
         "github": {
-            "enterpriseURL": "if you use github.com, not need to specify",
             "clientID": "change this",
             "clientSecret": "change this"
         },
