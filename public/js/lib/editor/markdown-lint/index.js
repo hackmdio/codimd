@@ -1,5 +1,6 @@
 /* global CodeMirror */
-import markdownlint from 'markdownlint'
+window.markdownit = require('markdown-it')
+require('script-loader!markdownlint')
 
 // load CM lint plugin explicitly
 import '@hackmd/codemirror/addon/lint/lint'
@@ -36,7 +37,7 @@ import './lint.css'
 })
 
 function lint (content) {
-  const { content: errors } = markdownlint.sync({
+  const { content: errors } = window.markdownlint.sync({
     strings: {
       content
     }

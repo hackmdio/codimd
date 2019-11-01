@@ -167,11 +167,7 @@ module.exports = {
         to: 'reveal.js/plugin'
       }
     ]),
-    new MiniCssExtractPlugin(),
-    new webpack.NormalModuleReplacementPlugin(
-      /^url$/,
-      path.resolve(__dirname, './public/js/url.js')
-    )
+    new MiniCssExtractPlugin()
   ],
 
   entry: {
@@ -385,7 +381,8 @@ module.exports = {
       'emojify.js': path.join(__dirname, 'node_modules/@hackmd/emojify.js/dist/js/emojify-browser.min.js'),
       'markdown-it': path.join(__dirname, 'node_modules/markdown-it/dist/markdown-it.js'),
       'viz.js': path.join(__dirname, 'node_modules/viz.js/viz.js'),
-      'viz.render.js': path.join(__dirname, 'node_modules/viz.js/full.render.js')
+      'viz.render.js': path.join(__dirname, 'node_modules/viz.js/full.render.js'),
+      markdownlint: path.join(__dirname, 'node_modules/markdownlint/demo/markdownlint-browser.js')
     }
   },
 
