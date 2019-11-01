@@ -1,10 +1,12 @@
 /* global CodeMirror */
-window.markdownit = require('markdown-it')
-require('script-loader!markdownlint')
 
 // load CM lint plugin explicitly
 import '@hackmd/codemirror/addon/lint/lint'
 import './lint.css'
+
+window.markdownit = require('markdown-it')
+// eslint-disable-next-line
+require('script-loader!markdownlint');
 
 (function (mod) {
   mod(CodeMirror)
