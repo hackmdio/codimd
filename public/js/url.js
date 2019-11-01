@@ -1,1 +1,0 @@
-exports.URL = window.URL
