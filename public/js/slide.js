@@ -49,6 +49,15 @@ const deps = [{
   }
 }]
 
+// options from yaml meta
+const meta = JSON.parse($('#meta').text())
+// breaks
+if (typeof meta.breaks === 'boolean') {
+  md.options.breaks = meta.breaks
+} else {
+  md.options.breaks = window.defaultUseHardbreak
+}
+
 const slideOptions = {
   separator: '^(\r\n?|\n)---(\r\n?|\n)$',
   verticalSeparator: '^(\r\n?|\n)----(\r\n?|\n)$'
@@ -70,8 +79,6 @@ const defaultOptions = {
   dependencies: deps
 }
 
-// options from yaml meta
-const meta = JSON.parse($('#meta').text())
 var options = meta.slideOptions || {}
 
 if (Object.hasOwnProperty.call(options, 'spotlight')) {
@@ -102,12 +109,6 @@ if (meta.dir && typeof meta.dir === 'string' && meta.dir === 'rtl') {
   options.rtl = true
 } else {
   options.rtl = false
-}
-// breaks
-if (typeof meta.breaks === 'boolean' && !meta.breaks) {
-  md.options.breaks = false
-} else {
-  md.options.breaks = true
 }
 
 // options from URL query string
