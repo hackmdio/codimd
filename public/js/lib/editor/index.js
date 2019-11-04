@@ -493,33 +493,16 @@ export default class Editor {
       this.editor.setOption('theme', cookieTheme)
     }
 
-    var themeToggle = this.statusTheme.find('.ui-theme-toggle')
-
-    const checkTheme = () => {
-      var theme = this.editor.getOption('theme')
-      if (theme === 'one-dark') {
-        themeToggle.removeClass('active')
-      } else {
-        themeToggle.addClass('active')
-      }
-    }
-
-    themeToggle.click(() => {
-      var theme = this.editor.getOption('theme')
-      if (theme === 'one-dark') {
-        theme = 'default'
-      } else {
-        theme = 'one-dark'
-      }
+    const setTheme = theme => {
       this.editor.setOption('theme', theme)
       Cookies.set('theme', theme, {
         expires: 365
       })
+    }
 
-      checkTheme()
+    this.statusIndicators.find('.status-theme li').click(function () {
+      setTheme($(this).attr('value'))
     })
-
-    checkTheme()
   }
 
   setSpellcheck () {
