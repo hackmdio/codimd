@@ -258,17 +258,8 @@ pre.vega > svg {
     margin-bottom: -.25em !important;
 }
 
-.reveal .slides, .reveal .backgrounds, .reveal.overview {
-    transform-style: preserve-3d;
-}
-
 .slides, #meta {
     display: none;
-}
-
-.reveal .slides > section,
-.reveal .slides > section > section {
-    transform-style: flat;
 }
 
 .reveal.rtl .slides,
