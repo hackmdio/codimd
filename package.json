@@ -129,7 +129,7 @@
     "reveal.js": "~3.7.0",
     "scrypt": "~6.0.3",
     "select2": "~3.5.2-browserify",
-    "sequelize": "5.3.5",
+    "sequelize": "5.15.1",
     "sequelize-cli": "~5.4.0",
     "shortid": "~2.2.14",
     "socket.io": "~2.2.0",
