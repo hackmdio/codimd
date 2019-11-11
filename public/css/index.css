@@ -25,6 +25,32 @@ body.night{
   border: 1px solid #343434;
 }
 
+.toolbar > .btn-toolbar {
+  white-space: nowrap;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.toolbar > .btn-toolbar::-webkit-scrollbar {
+  display: none;
+}
+
+.toolbar > .btn-toolbar > .btn-group {
+  float: none;
+}
+
+.toolbar > .btn-toolbar > .btn-group > span {
+  display: inline-block;
+  float: left;
+  color: #fff;
+  padding: 5px;
+  line-height: 22px;
+}
+
+.toolbar > .btn-toolbar > .btn-group > span.separator {
+  color: #4d4d4d;
+}
+
 .toolbar > .btn-toolbar > .btn-group > .btn {
   background-color: #1c1c1e;
   padding: 5px;
@@ -513,6 +539,7 @@ div[contenteditable]:empty:not(:focus):before{
 .status-bar .status-indicators .status-keymap > a,
 .status-bar .status-indicators .status-theme > a,
 .status-bar .status-indicators .status-spellcheck > a,
+.status-bar .status-indicators .status-linter > a,
 .status-bar .status-indicators .status-preferences > a {
     color: inherit;
     text-decoration: none;
@@ -520,6 +547,7 @@ div[contenteditable]:empty:not(:focus):before{
 
 .status-bar .status-indicators .status-theme,
 .status-bar .status-indicators .status-spellcheck,
+.status-bar .status-indicators .status-linter,
 .status-bar .status-indicators .status-preferences {
     padding: 0 4.3px;
 }
@@ -540,17 +568,20 @@ div[contenteditable]:empty:not(:focus):before{
 }
 
 .ui-theme-toggle,
+.ui-linter-toggle,
 .ui-spellcheck-toggle {
     opacity: 0.2;
     cursor: pointer;
 }
 
 .ui-theme-toggle.active,
+.ui-linter-toggle.active,
 .ui-spellcheck-toggle.active {
     opacity: 1;
 }
 
 .ui-theme-toggle:hover,
+.ui-linter-toggle:hover,
 .ui-spellcheck-toggle:hover {
     opacity: 0.8;
 }

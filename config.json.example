@@ -3,7 +3,8 @@
         "db": {
             "dialect": "sqlite",
             "storage": ":memory:"
-        }
+        },
+        "linkifyHeaderStyle": "gfm"
     },
     "development": {
         "loglevel": "debug",
@@ -13,7 +14,8 @@
         "db": {
             "dialect": "sqlite",
             "storage": "./db.codimd.sqlite"
-        }
+        },
+        "linkifyHeaderStyle": "gfm"
     },
     "production": {
         "domain": "localhost",
@@ -123,6 +125,11 @@
         {
           "connectionString": "change this",
           "container": "change this"
-        }
+        },
+        "plantuml":
+        {
+          "server": "https://www.plantuml.com/plantuml"
+        },
+        "linkifyHeaderStyle": "gfm"
     }
 }

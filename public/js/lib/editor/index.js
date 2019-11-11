@@ -1,7 +1,11 @@
+/* global CodeMirror, $, editor, Cookies */
 import * as utils from './utils'
 import config from './config'
 import statusBarTemplate from './statusbar.html'
 import toolBarTemplate from './toolbar.html'
+import './markdown-lint'
+import { initTableEditor } from './table-editor'
+import { options, Alignment, FormatType } from '@susisu/mte-kernel'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -75,8 +79,8 @@ export default class Editor {
       },
       'Cmd-Left': 'goLineLeftSmart',
       'Cmd-Right': 'goLineRight',
-      'Home': 'goLineLeftSmart',
-      'End': 'goLineRight',
+      Home: 'goLineLeftSmart',
+      End: 'goLineRight',
       'Ctrl-C': function (cm) {
         if (!isMac && cm.getOption('keyMap').substr(0, 3) === 'vim') {
           document.execCommand('copy')
@@ -158,6 +162,19 @@ export default class Editor {
     var makeLine = $('#makeLine')
     var makeComment = $('#makeComment')
 
+    var insertRow = $('#insertRow')
+    var deleteRow = $('#deleteRow')
+    var moveRowUp = $('#moveRowUp')
+    var moveRowDown = $('#moveRowDown')
+    var insertColumn = $('#insertColumn')
+    var deleteColumn = $('#deleteColumn')
+    var moveColumnLeft = $('#moveColumnLeft')
+    var moveColumnRight = $('#moveColumnRight')
+    var alignLeft = $('#alignLeft')
+    var alignCenter = $('#alignCenter')
+    var alignRight = $('#alignRight')
+    var alignNone = $('#alignNone')
+
     makeBold.click(() => {
       utils.wrapTextWith(this.editor, this.editor, '**')
       this.editor.focus()
@@ -217,6 +234,72 @@ export default class Editor {
     makeComment.click(() => {
       utils.insertText(this.editor, '> []')
     })
+
+    // table tools UI
+    const opts = options({
+      smartCursor: true,
+      formatType: FormatType.NORMAL
+    })
+
+    insertRow.click(() => {
+      this.tableEditor.insertRow(opts)
+      this.editor.focus()
+    })
+
+    deleteRow.click(() => {
+      this.tableEditor.deleteRow(opts)
+      this.editor.focus()
+    })
+
+    moveRowUp.click(() => {
+      this.tableEditor.moveRow(-1, opts)
+      this.editor.focus()
+    })
+
+    moveRowDown.click(() => {
+      this.tableEditor.moveRow(1, opts)
+      this.editor.focus()
+    })
+
+    insertColumn.click(() => {
+      this.tableEditor.insertColumn(opts)
+      this.editor.focus()
+    })
+
+    deleteColumn.click(() => {
+      this.tableEditor.deleteColumn(opts)
+      this.editor.focus()
+    })
+
+    moveColumnLeft.click(() => {
+      this.tableEditor.moveColumn(-1, opts)
+      this.editor.focus()
+    })
+
+    moveColumnRight.click(() => {
+      this.tableEditor.moveColumn(1, opts)
+      this.editor.focus()
+    })
+
+    alignLeft.click(() => {
+      this.tableEditor.alignColumn(Alignment.LEFT, opts)
+      this.editor.focus()
+    })
+
+    alignCenter.click(() => {
+      this.tableEditor.alignColumn(Alignment.CENTER, opts)
+      this.editor.focus()
+    })
+
+    alignRight.click(() => {
+      this.tableEditor.alignColumn(Alignment.RIGHT, opts)
+      this.editor.focus()
+    })
+
+    alignNone.click(() => {
+      this.tableEditor.alignColumn(Alignment.NONE, opts)
+      this.editor.focus()
+    })
   }
 
   addStatusBar () {
@@ -230,6 +313,7 @@ export default class Editor {
     this.statusLength = this.statusBar.find('.status-length')
     this.statusTheme = this.statusBar.find('.status-theme')
     this.statusSpellcheck = this.statusBar.find('.status-spellcheck')
+    this.statusLinter = this.statusBar.find('.status-linter')
     this.statusPreferences = this.statusBar.find('.status-preferences')
     this.statusPanel = this.editor.addPanel(this.statusBar[0], {
       position: 'bottom'
@@ -239,6 +323,7 @@ export default class Editor {
     this.setKeymap()
     this.setTheme()
     this.setSpellcheck()
+    this.setLinter()
     this.setPreferences()
   }
 
@@ -497,6 +582,42 @@ export default class Editor {
     }
   }
 
+  toggleLinter (enable) {
+    const gutters = this.editor.getOption('gutters')
+    const lintGutter = 'CodeMirror-lint-markers'
+
+    if (enable) {
+      if (!gutters.includes(lintGutter)) {
+        this.editor.setOption('gutters', [lintGutter, ...gutters])
+      }
+      Cookies.set('linter', true, {
+        expires: 365
+      })
+    } else {
+      this.editor.setOption('gutters', gutters.filter(g => g !== lintGutter))
+      Cookies.remove('linter')
+    }
+    this.editor.setOption('lint', enable)
+  }
+
+  setLinter () {
+    const linterToggle = this.statusLinter.find('.ui-linter-toggle')
+
+    const updateLinterStatus = (enable) => {
+      linterToggle.toggleClass('active', enable)
+    }
+
+    linterToggle.click(() => {
+      const lintEnable = this.editor.getOption('lint')
+      this.toggleLinter.bind(this)(!lintEnable)
+      updateLinterStatus(!lintEnable)
+    })
+
+    const enable = !!Cookies.get('linter')
+    this.toggleLinter.bind(this)(enable)
+    updateLinterStatus(enable)
+  }
+
   resetEditorKeymapToBrowserKeymap () {
     var keymap = this.editor.getOption('keyMap')
     if (!this.jumpToAddressBarKeymapValue) {
@@ -512,6 +633,7 @@ export default class Editor {
       this.jumpToAddressBarKeymapValue = null
     }
   }
+
   setOverrideBrowserKeymap () {
     var overrideBrowserKeymap = $(
       '.ui-preferences-override-browser-keymap label > input[type="checkbox"]'
@@ -581,6 +703,8 @@ export default class Editor {
       otherCursors: true,
       placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
     })
+
+    this.tableEditor = initTableEditor(this.editor)
 
     return this.editor
   }

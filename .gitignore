@@ -27,3 +27,5 @@ public/views/build
 
 public/uploads/*
 !public/uploads/.gitkeep
+/.nyc_output
+/coverage/

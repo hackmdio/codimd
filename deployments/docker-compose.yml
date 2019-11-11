@@ -1,0 +1,28 @@
+version: "3"
+services:
+  database:
+    image: postgres:11.5
+    environment:
+      - POSTGRES_USER=codimd
+      - POSTGRES_PASSWORD=change_password
+      - POSTGRES_DB=codimd
+    volumes:
+      - "database-data:/var/lib/postgresql/data"
+    restart: always
+  codimd:
+    build:
+      context: ..
+      dockerfile: ./deployments/Dockerfile
+    environment:
+      - CMD_DB_URL=postgres://codimd:change_password@database/codimd
+      - CMD_USECDN=false
+    depends_on:
+      - database
+    ports:
+      - "3000:3000"
+    volumes:
+      - upload-data:/home/hackmd/app/public/uploads
+    restart: always
+volumes:
+  database-data: {}
+  upload-data: {}

@@ -110,6 +110,31 @@ md.use(markdownitContainer, 'success', { render: renderContainer })
 md.use(markdownitContainer, 'info', { render: renderContainer })
 md.use(markdownitContainer, 'warning', { render: renderContainer })
 md.use(markdownitContainer, 'danger', { render: renderContainer })
+md.use(markdownitContainer, 'spoiler', {
+  validate: function (params) {
+    return params.trim().match(/^spoiler(\s+.*)?$/)
+  },
+  render: function (tokens, idx) {
+    const m = tokens[idx].info.trim().match(/^spoiler(\s+.*)?$/)
+
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      const startline = tokens[idx].map[0] + 1
+      const endline = tokens[idx].map[1]
+
+      const partClass = `class="part raw" data-startline="${startline}" data-endline="${endline}"`
+      const summary = m[1] && m[1].trim()
+      if (summary) {
+        return `<details ${partClass}><summary>${md.utils.escapeHtml(summary)}</summary>\n`
+      } else {
+        return `<details ${partClass}>\n`
+      }
+    } else {
+      // closing tag
+      return '</details>\n'
+    }
+  }
+})
 
 window.preventSyncScrollToEdit = false
 window.preventSyncScrollToView = false
@@ -155,12 +180,12 @@ const buildMap = _.throttle(buildMapInner, buildMapThrottle)
 // Optimizations are required only for big texts.
 function buildMapInner (callback) {
   if (!viewArea || !markdownArea) return
-  let i, offset, nonEmptyList, pos, a, b, _lineHeightMap, linesCount, acc, _scrollMap
+  let i, pos, a, b, acc
 
-  offset = viewArea.scrollTop() - viewArea.offset().top
-  _scrollMap = []
-  nonEmptyList = []
-  _lineHeightMap = []
+  const offset = viewArea.scrollTop() - viewArea.offset().top
+  const _scrollMap = []
+  const nonEmptyList = []
+  const _lineHeightMap = []
   viewTop = 0
   viewBottom = viewArea[0].scrollHeight - viewArea.height()
 
@@ -181,7 +206,7 @@ function buildMapInner (callback) {
     acc += Math.round(h / lineHeight)
   }
   _lineHeightMap.push(acc)
-  linesCount = acc
+  const linesCount = acc
 
   for (i = 0; i < linesCount; i++) {
     _scrollMap.push(-1)
@@ -331,11 +356,11 @@ export function syncScrollToView (event, preventAnimate) {
   }
   if (viewScrolling) return
 
-  let lineNo, posTo
+  let posTo
   let topDiffPercent, posToNextDiff
   const scrollInfo = editor.getScrollInfo()
   const textHeight = editor.defaultTextHeight()
-  lineNo = Math.floor(scrollInfo.top / textHeight)
+  const lineNo = Math.floor(scrollInfo.top / textHeight)
   // if reach the last line, will start lerp to the bottom
   const diffToBottom = (scrollInfo.top + scrollInfo.clientHeight) - (scrollInfo.height - textHeight)
   if (scrollInfo.height > scrollInfo.clientHeight && diffToBottom > 0) {

@@ -1,41 +1,34 @@
 language: node_js
-dist: trusty
+
+node_js:
+  - "lts/carbon"
+  - "lts/dubnium"
+  - "11"
+  - "12"
+
+dist: xenial
 cache: yarn
-env:
-  global:
-    - CXX=g++-4.8
-    - YARN_VERSION=1.3.2
+
+matrix:
+  fast_finish: true
+  include:
+    - node_js: lts/carbon
+    - node_js: lts/dubnium
+  allow_failures:
+    - node_js: "11"
+    - node_js: "12"
+
+script:
+  - yarn test:ci
+  - yarn build
 
 jobs:
   include:
-    - env: task=npm-test
-      node_js:
-        - 8
-      before_install:
-        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version "$YARN_VERSION"
-        - export PATH="$HOME/.yarn/bin:$PATH"
-    - env: task=npm-test
-      node_js:
-        - 10
-      before_install:
-        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version "$YARN_VERSION"
-        - export PATH="$HOME/.yarn/bin:$PATH"
-    - env: task=ShellCheck
-      script:
-        - shellcheck bin/heroku bin/setup
-      language: generic
-    - env: task=doctoc
-      install: npm install doctoc
+    - stage: doctoc-check
+      install: npm install -g doctoc
+      if: type = pull_request OR branch = master
       script:
         - cp README.md README.md.orig
         - npm run doctoc
         - diff -q README.md README.md.orig
-      language: generic
-    - env: task=json-lint
-      addons:
-        apt:
-          packages:
-          - jq
-      script:
-        - npm run jsonlint
-      language: generic
+      node_js: lts/carbon

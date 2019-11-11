@@ -1,6 +1,6 @@
 import modeType from './modeType'
 
-let state = {
+const state = {
   syncscroll: true,
   currentMode: modeType.view,
   nightMode: false

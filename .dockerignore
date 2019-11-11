@@ -1,0 +1,14 @@
+.idea
+coverage
+node_modules/
+
+# ignore config files
+config.json
+.sequelizerc
+
+# ignore webpack build
+public/build
+public/views/build
+
+.nyc_output
+coverage/
