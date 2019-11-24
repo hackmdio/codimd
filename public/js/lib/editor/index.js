@@ -7,6 +7,7 @@ import config from './config'
 import statusBarTemplate from './statusbar.html'
 import toolBarTemplate from './toolbar.html'
 import './markdown-lint'
+import CodeMirrorSpellChecker from './spellcheck'
 import { initTableEditor } from './table-editor'
 import { availableThemes } from './constants'
 
@@ -723,6 +724,8 @@ export default class Editor {
       placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
     })
 
+    // eslint-disable-next-line
+    new CodeMirrorSpellChecker(CodeMirror)
     this.tableEditor = initTableEditor(this.editor)
 
     return this.editor

@@ -188,6 +188,7 @@
     "standard": "~13.1.0",
     "string-loader": "~0.0.1",
     "style-loader": "~0.23.1",
+    "typo-js": "^1.0.3",
     "uglifyjs-webpack-plugin": "~1.2.7",
     "url-loader": "~1.0.1",
     "webpack": "~4.39.0",
