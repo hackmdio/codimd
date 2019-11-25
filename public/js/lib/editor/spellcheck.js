@@ -12,14 +12,6 @@ const dictionaryDownloadUrls = {
   }
 }
 
-const typoMap = new Map()
-
-function createTypo (lang, affData, dicData) {
-  const typo = new Typo(lang, affData, dicData, { platform: 'any' })
-  typoMap.set(lang, typo)
-  return typo
-}
-
 function request (url) {
   return new Promise(resolve => {
     const req = new XMLHttpRequest()
@@ -47,9 +39,15 @@ function mapSeriesP (iterables, fn) {
   })
 }
 
+function createTypo (lang, affData, dicData) {
+  return new Typo(lang, affData, dicData, { platform: 'any' })
+}
+
+const typoMap = new Map()
+
 async function findOrCreateTypoInstance (lang) {
   // find existing typo instance
-  const typo = typoMap.get(lang)
+  let typo = typoMap.get(lang)
   if (typo) {
     return typo
   }
@@ -59,7 +57,10 @@ async function findOrCreateTypoInstance (lang) {
     dictionaryDownloadUrls[lang].dic
   ], request)
 
-  return createTypo(lang, affData, dicData)
+  typo = createTypo(lang, affData, dicData)
+  typoMap.set(lang, typo)
+
+  return typo
 }
 
 class CodeMirrorSpellChecker {
