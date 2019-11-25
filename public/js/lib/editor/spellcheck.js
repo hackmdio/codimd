@@ -77,13 +77,17 @@ class CodeMirrorSpellChecker {
     }
 
     this.typo = undefined
-    this.setupCM(cm, lang)
+    this.defineSpellCheckerMode(cm, lang)
   }
 
-  setupCM (cm, lang) {
+  setDictLang (lang) {
+    findOrCreateTypoInstance(lang).then(typo => { this.typo = typo })
+  }
+
+  defineSpellCheckerMode (cm, lang) {
     cm.defineMode('spell-checker', config => {
       // Load AFF/DIC data async
-      findOrCreateTypoInstance(lang).then(typo => { this.typo = typo })
+      this.setDictLang(lang)
 
       // Define what separates a word
       const regexWord = '!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~ '
