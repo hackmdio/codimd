@@ -12,6 +12,56 @@ const dictionaryDownloadUrls = {
   }
 }
 
+const typoMap = new Map()
+
+function createTypo (lang, affData, dicData) {
+  const typo = new Typo(lang, affData, dicData, { platform: 'any' })
+  typoMap.set(lang, typo)
+  return typo
+}
+
+function request (url) {
+  return new Promise(resolve => {
+    const req = new XMLHttpRequest()
+    req.open('GET', url, true)
+    req.onload = () => {
+      if (req.readyState === 4 && req.status === 200) {
+        resolve(req.responseText)
+      }
+    }
+    req.send(null)
+  })
+}
+
+async function runSeriesP (iterables, fn) {
+  const results = []
+  for (const iterable of iterables) {
+    results.push(await fn(iterable))
+  }
+  return results
+}
+
+function mapSeriesP (iterables, fn) {
+  return new Promise(resolve => {
+    resolve(runSeriesP(iterables, fn))
+  })
+}
+
+async function findOrCreateTypoInstance (lang) {
+  // find existing typo instance
+  const typo = typoMap.get(lang)
+  if (typo) {
+    return typo
+  }
+
+  const [affData, dicData] = await mapSeriesP([
+    dictionaryDownloadUrls[lang].aff,
+    dictionaryDownloadUrls[lang].dic
+  ], request)
+
+  return createTypo(lang, affData, dicData)
+}
+
 class CodeMirrorSpellChecker {
   /**
    * @param {CodeMirror} cm
@@ -26,53 +76,14 @@ class CodeMirrorSpellChecker {
       return
     }
 
-    this.numLoaded = 0
-    this.affLoading = false
-    this.dicLoading = false
-    this.affData = ''
-    this.dicData = ''
     this.typo = undefined
-
-    this.setupCM.bind(this)(cm, lang)
+    this.setupCM(cm, lang)
   }
 
   setupCM (cm, lang) {
     cm.defineMode('spell-checker', config => {
-      // Load AFF/DIC data
-      if (!this.affLoading) {
-        this.affLoading = true
-
-        const xhrAff = new XMLHttpRequest()
-        xhrAff.open('GET', dictionaryDownloadUrls[lang].aff, true)
-        xhrAff.onload = () => {
-          if (xhrAff.readyState === 4 && xhrAff.status === 200) {
-            this.affData = xhrAff.responseText
-            this.numLoaded++
-
-            if (this.numLoaded === 2) {
-              this.typo = new Typo(lang, this.affData, this.dicData, { platform: 'any' })
-            }
-          }
-        }
-        xhrAff.send(null)
-      }
-
-      if (!this.dicLoading) {
-        this.dicLoading = true
-        const xhrDic = new XMLHttpRequest()
-        xhrDic.open('GET', dictionaryDownloadUrls[lang].dic, true)
-        xhrDic.onload = () => {
-          if (xhrDic.readyState === 4 && xhrDic.status === 200) {
-            this.dicData = xhrDic.responseText
-            this.numLoaded++
-
-            if (this.numLoaded === 2) {
-              this.typo = new Typo(lang, this.affData, this.dicData, { platform: 'any' })
-            }
-          }
-        }
-        xhrDic.send(null)
-      }
+      // Load AFF/DIC data async
+      findOrCreateTypoInstance(lang).then(typo => { this.typo = typo })
 
       // Define what separates a word
       const regexWord = '!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~ '
@@ -108,5 +119,4 @@ class CodeMirrorSpellChecker {
   }
 }
 
-// Export
 export default CodeMirrorSpellChecker
