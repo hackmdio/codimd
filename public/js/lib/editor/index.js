@@ -4,7 +4,7 @@ import config from './config'
 import statusBarTemplate from './statusbar.html'
 import toolBarTemplate from './toolbar.html'
 import './markdown-lint'
-import CodeMirrorSpellChecker from './spellcheck'
+import CodeMirrorSpellChecker, { supportLanguages } from './spellcheck'
 import { initTableEditor } from './table-editor'
 import { options, Alignment, FormatType } from '@susisu/mte-kernel'
 
@@ -523,21 +523,44 @@ export default class Editor {
     checkTheme()
   }
 
+  setSpellcheckLang (lang) {
+    if (lang === 'disabled') {
+      this.statusIndicators.find('.spellcheck-lang').text('')
+      return
+    }
+
+    if (!supportLanguages.includes(lang)) {
+      return
+    }
+
+    const langName = this.statusIndicators.find(`.status-spellcheck li[value="${lang}"]`).text()
+    this.statusIndicators.find('.spellcheck-lang').text(langName)
+
+    this.spellchecker.setDictLang(lang)
+  }
+
   setSpellcheck () {
-    var cookieSpellcheck = Cookies.get('spellcheck')
+    const cookieSpellcheck = Cookies.get('spellcheck')
     if (cookieSpellcheck) {
-      var mode = null
-      if (cookieSpellcheck === 'true' || cookieSpellcheck === true) {
-        mode = 'spell-checker'
-      } else {
+      let mode = null
+      let lang = 'en_US'
+      if (cookieSpellcheck === 'false' || !cookieSpellcheck) {
         mode = defaultEditorMode
+      } else {
+        mode = 'spell-checker'
+        if (supportLanguages.includes(cookieSpellcheck)) {
+          lang = cookieSpellcheck
+        }
       }
+
       if (mode && mode !== this.editor.getOption('mode')) {
         this.editor.setOption('mode', mode)
+
+        this.setSpellcheckLang(lang)
       }
     }
 
-    var spellcheckToggle = this.statusSpellcheck.find('.ui-spellcheck-toggle')
+    const spellcheckToggle = this.statusSpellcheck.find('.ui-spellcheck-toggle')
 
     const checkSpellcheck = () => {
       var mode = this.editor.getOption('mode')
@@ -548,39 +571,32 @@ export default class Editor {
       }
     }
 
-    spellcheckToggle.click(() => {
-      var mode = this.editor.getOption('mode')
-      if (mode === defaultEditorMode) {
-        mode = 'spell-checker'
-      } else {
-        mode = defaultEditorMode
-      }
-      if (mode && mode !== this.editor.getOption('mode')) {
-        this.editor.setOption('mode', mode)
-      }
-      Cookies.set('spellcheck', mode === 'spell-checker', {
-        expires: 365
-      })
+    const self = this
+    this.statusIndicators.find(`.status-spellcheck li`).click(function () {
+      const lang = $(this).attr('value')
 
-      checkSpellcheck()
+      if (lang === 'disabled') {
+        spellcheckToggle.removeClass('active')
+
+        Cookies.set('spellcheck', false, {
+          expires: 365
+        })
+
+        self.editor.setOption('mode', defaultEditorMode)
+      } else {
+        spellcheckToggle.addClass('active')
+
+        Cookies.set('spellcheck', lang, {
+          expires: 365
+        })
+
+        self.editor.setOption('mode', 'spell-checker')
+      }
+
+      self.setSpellcheckLang(lang)
     })
 
     checkSpellcheck()
-
-    // workaround spellcheck might not activate beacuse the ajax loading
-    if (window.num_loaded < 2) {
-      var spellcheckTimer = setInterval(
-        () => {
-          if (window.num_loaded >= 2) {
-            if (this.editor.getOption('mode') === 'spell-checker') {
-              this.editor.setOption('mode', 'spell-checker')
-            }
-            clearInterval(spellcheckTimer)
-          }
-        },
-        100
-      )
-    }
   }
 
   toggleLinter (enable) {
