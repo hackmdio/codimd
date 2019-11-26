@@ -38,8 +38,18 @@
             <ul class="dropdown-menu" aria-labelledby="themeLabel" style="overflow: auto;">
             </ul>
         </div>
-        <div class="status-spellcheck">
-            <a class="ui-spellcheck-toggle" title="Toggle spellcheck"><i class="fa fa-check fa-fw"></i></a>
+        <div class="status-spellcheck dropup pull-right">
+            <a class="ui-spellcheck-toggle" title="Toggle spellcheck" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-check fa-fw"></i>
+                <span class="spellcheck-lang"></span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="themeLabel">
+                <li value="disabled"><a>Disabled</a></li>
+                <li value="en_US"><a>English (United States)</a></li>
+                <li value="de"><a>German</a></li>
+                <li value="de_AT"><a>German (Austria)</a></li>
+                <li value="de_CH"><a>German (Switzerland)</a></li>
+            </ul>
         </div>
         <div class="status-linter">
             <a class="ui-linter-toggle" title="Toggle linter"><i class="fa fa-lightbulb-o fa-fw"></i></a>

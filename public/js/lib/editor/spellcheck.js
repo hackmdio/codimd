@@ -9,8 +9,22 @@ const dictionaryDownloadUrls = {
   en_US: {
     aff: `${serverurl}/vendor/codemirror-spell-checker/en_US.aff`,
     dic: `${serverurl}/vendor/codemirror-spell-checker/en_US.dic`
+  },
+  de: {
+    aff: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de/index.aff',
+    dic: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de/index.dic'
+  },
+  de_AT: {
+    aff: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de-AT/index.aff',
+    dic: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de-AT/index.dic'
+  },
+  de_CH: {
+    aff: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de-CH/index.aff',
+    dic: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de-CH/index.dic'
   }
 }
+
+export const supportLanguages = Object.keys(dictionaryDownloadUrls)
 
 function request (url) {
   return new Promise(resolve => {
