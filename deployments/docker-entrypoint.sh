@@ -8,7 +8,7 @@ if [[ "$#" -gt 0 ]]; then
 fi
 
 # check database and redis is ready
-pcheck -constr "$CMD_DB_URL"
+pcheck -env CMD_DB_URL
 
 # run DB migrate
 NEED_MIGRATE=${CMD_AUTO_MIGRATE:=true}
