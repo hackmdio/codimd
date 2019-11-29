@@ -10,6 +10,8 @@ services:
       - "database-data:/var/lib/postgresql/data"
     restart: always
   codimd:
+    # you can use image or custom build below
+    # image: nabo.codimd.dev/hackmdio/hackmd:1.4.0
     build:
       context: ..
       dockerfile: ./deployments/Dockerfile

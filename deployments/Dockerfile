@@ -15,7 +15,7 @@ RUN set -xe && \
         yarn.lock webpack.prod.js webpack.htmlexport.js webpack.dev.js webpack.common.js \
         config.json.example README.md CONTRIBUTING.md AUTHORS
 
-FROM hackmdio/runtime:1.0.4
+FROM hackmdio/runtime:1.0.6
 USER hackmd
 WORKDIR /home/hackmd/app
 COPY --chown=1500:1500 --from=BUILD /home/hackmd/app .
