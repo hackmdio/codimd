@@ -192,7 +192,8 @@
     "webpack": "~4.39.0",
     "webpack-cli": "~3.3.6",
     "webpack-merge": "~4.2.1",
-    "webpack-parallel-uglify-plugin": "~1.1.0"
+    "webpack-parallel-uglify-plugin": "~1.1.0",
+    "workerize-loader": "^1.1.0"
   },
   "optionalDependencies": {
     "bufferutil": "~4.0.0",

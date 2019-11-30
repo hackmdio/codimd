@@ -402,6 +402,9 @@ module.exports = {
       use: [{ loader: 'babel-loader' }],
       exclude: [/node_modules/, /public\/vendor/]
     }, {
+      test: /\.worker.js$/,
+      use: [{ loader: 'workerize-loader' }]
+    },{
       test: /\.css$/,
       use: [
         MiniCssExtractPlugin.loader,
