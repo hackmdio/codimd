@@ -331,7 +331,7 @@ export default class Editor {
     if (!this.statusBar) return
 
     var cursor = this.editor.getCursor()
-    var cursorText = 'Line ' + (cursor.line + 1) + ', Columns ' + (cursor.ch + 1)
+    var cursorText = 'Line ' + (cursor.line + 1) + ', Column ' + (cursor.ch + 1)
     this.statusCursor.text(cursorText)
     var fileText = ' — ' + editor.lineCount() + ' Lines'
     this.statusFile.text(fileText)
