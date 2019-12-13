@@ -101,7 +101,7 @@
     "mermaid": "~8.2.3",
     "method-override": "~3.0.0",
     "minimist": "~1.2.0",
-    "minio": "~6.0.0",
+    "minio": "^7.0.12",
     "moment": "~2.24.0",
     "morgan": "~1.9.1",
     "mysql": "~2.17.1",
