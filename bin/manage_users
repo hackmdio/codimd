@@ -37,9 +37,9 @@ function getPass (argv, action) {
 async function createUser (argv) {
   const existingUser = await models.User.findOne({ where: { email: argv['add'] } })
   // Cannot create already-existing users
-  if (existingUser !== undefined) {
+  if (existingUser) {
     console.log(`User with e-mail ${existingUser.email} already exists! Aborting ...`)
-    process.exit(1)
+    process.exit(2)
   }
 
   const pass = getPass(argv, 'add')
@@ -56,7 +56,7 @@ async function createUser (argv) {
 async function deleteUser (argv) {
   // Cannot delete non-existing users
   const existingUser = await models.User.findOne({ where: { email: argv['del'] } })
-  if (existingUser === undefined) {
+  if (!existingUser) {
     console.log(`User with e-mail ${argv['del']} does not exist, cannot delete`)
     process.exit(1)
   }
@@ -71,7 +71,7 @@ async function deleteUser (argv) {
 async function resetUser (argv) {
   const existingUser = await models.User.findOne({ where: { email: argv['reset'] } })
   // Cannot reset non-existing users
-  if (existingUser === undefined) {
+  if (!existingUser) {
     console.log(`User with e-mail ${argv['reset']} does not exist, cannot reset`)
     process.exit(1)
   }
