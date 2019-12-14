@@ -1,6 +1,27 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 1.4.1 <i class="fa fa-clock-o"></i> 2019-12-13
+---
+
+[CodiMD 1.4.1](https://github.com/hackmdio/codimd/releases/tag/1.4.1) is a minor release including bug fixes introduced in 1.4.0 and earlier versions. We encourage everyone to upgrade to 1.4.1 now. Also, we're preparing for the next major release, and you can see how things are going on [GitHub](https://github.com/hackmdio/codimd/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+milestone%3ANext). Stay tuned, and we hope you love it!
+
+### Fixes
+
+- Fix urlpath in webpack build
+- Fix mysql not bundled in package.json
+- Fix minio image uploading
+- Fix pcheck not parsed url correctly
+- Fix manage_users script
+
+### Enhancement
+
+- Added Scalingo compatible deployment
+
+[Check out the complete release note][v1_4_1]. Thank you CodiMD community and all our contributors. ❤️
+
+[v1_4_1]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv1_4_1
+
 <i class="fa fa-tag"></i> 1.4.0 Syrmaticus mikado <i class="fa fa-clock-o"></i> 2019-11-11
 ---
 
@@ -20,7 +41,7 @@ It has been over 200+ commits since our last release. These are the highlights f
 - [New Emoji sets][new-emoji]
 - [Slide mode plugins][slide-mode-plugins]: Elapsed time bar and Spotlight
 
-[Go read the complete release note here][v1_4_0]. Thank you CodiMD community and all our contributors. ❤️
+[Check out the complete release note][v1_4_0]. Thank you CodiMD community and all our contributors. ❤️
 
 [table-tools]: https://hackmd.io/@codimd/v1_4_0#New-Table-Tools
 [markdownlint]: https://hackmd.io/@codimd/v1_4_0#Markdownlint-integration
