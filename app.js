@@ -25,6 +25,8 @@ var response = require('./lib/response')
 var models = require('./lib/models')
 var csp = require('./lib/csp')
 
+const { versionCheckMiddleware } = require('./lib/web/middleware/checkVersion')
+
 function createHttpServer () {
   if (config.useSSL) {
     const ca = (function () {
@@ -166,6 +168,10 @@ app.use(require('./lib/middleware/checkURIValid'))
 // redirect url without trailing slashes
 app.use(require('./lib/middleware/redirectWithoutTrailingSlashes'))
 app.use(require('./lib/middleware/codiMDVersion'))
+
+if (config.autoVersionCheck) {
+  app.use(versionCheckMiddleware)
+}
 
 // routes need sessions
 // template files
