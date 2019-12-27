@@ -206,6 +206,10 @@ app.locals.authProviders = {
   email: config.isEmailEnable,
   allowEmailRegister: config.allowEmailRegister
 }
+app.locals.versionInfo = {
+  latest: true,
+  versionItem: null
+}
 
 // Export/Import menu items
 app.locals.enableDropBoxSave = config.isDropboxEnable
