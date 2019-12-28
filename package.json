@@ -110,6 +110,7 @@
     "passport-dropbox-oauth2": "~1.1.0",
     "passport-facebook": "~2.1.1",
     "passport-github": "~1.1.0",
+    "passport-bitbucket-oauth2": "~0.1.2",
     "passport-gitlab2": "~4.0.0",
     "passport-google-oauth20": "~1.0.0",
     "passport-ldapauth": "~2.1.3",
