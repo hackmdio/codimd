@@ -186,6 +186,7 @@ app.locals.authProviders = {
   facebook: config.isFacebookEnable,
   twitter: config.isTwitterEnable,
   github: config.isGitHubEnable,
+  bitbucket: config.isBitbucketEnable,
   gitlab: config.isGitLabEnable,
   mattermost: config.isMattermostEnable,
   dropbox: config.isDropboxEnable,

@@ -80,6 +80,14 @@
             "description": "GitHub API client secret",
             "required": false
         },
+        "HMD_BITBUCKET_CLIENTID": {
+            "description": "Bitbucket API client id",
+            "required": false
+        },
+        "HMD_BITBUCKET_CLIENTSECRET": {
+            "description": "Bitbucket API client secret",
+            "required": false
+        },
         "HMD_GITLAB_BASEURL": {
             "description": "GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional)",
             "required": false
