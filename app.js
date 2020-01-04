@@ -206,13 +206,7 @@ app.locals.enableDropBoxSave = config.isDropboxEnable
 app.locals.enableGitHubGist = config.isGitHubEnable
 app.locals.enableGitlabSnippets = config.isGitlabSnippetsEnable
 
-app.use(require('./lib/web/baseRouter'))
-app.use(require('./lib/web/statusRouter'))
-app.use(require('./lib/web/auth'))
-app.use(require('./lib/web/historyRouter'))
-app.use(require('./lib/web/userRouter'))
-app.use(require('./lib/web/imageRouter'))
-app.use(require('./lib/web/noteRouter'))
+app.use(require('./lib/web/routes').router)
 
 // response not found if no any route matxches
 app.get('*', function (req, res) {
