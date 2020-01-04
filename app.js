@@ -153,7 +153,7 @@ server.on('resumeSession', function (id, cb) {
 })
 
 // middleware which blocks requests when we're too busy
-app.use(require('./lib/web/middleware/tooBusy'))
+app.use(require('./lib/middleware/tooBusy'))
 
 app.use(flash())
 
@@ -162,10 +162,10 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // check uri is valid before going further
-app.use(require('./lib/web/middleware/checkURIValid'))
+app.use(require('./lib/middleware/checkURIValid'))
 // redirect url without trailing slashes
-app.use(require('./lib/web/middleware/redirectWithoutTrailingSlashes'))
-app.use(require('./lib/web/middleware/codiMDVersion'))
+app.use(require('./lib/middleware/redirectWithoutTrailingSlashes'))
+app.use(require('./lib/middleware/codiMDVersion'))
 
 // routes need sessions
 // template files
@@ -206,7 +206,7 @@ app.locals.enableDropBoxSave = config.isDropboxEnable
 app.locals.enableGitHubGist = config.isGitHubEnable
 app.locals.enableGitlabSnippets = config.isGitlabSnippetsEnable
 
-app.use(require('./lib/web/routes').router)
+app.use(require('./lib/routes').router)
 
 // response not found if no any route matxches
 app.get('*', function (req, res) {
