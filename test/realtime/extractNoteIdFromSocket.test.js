@@ -14,14 +14,14 @@ describe('realtime#extractNoteIdFromSocket', function () {
   })
 
   afterEach(() => {
-    delete require.cache[require.resolve('../../lib/realtime')]
+    delete require.cache[require.resolve('../../lib/realtime/realtime')]
     mock.stopAll()
   })
 
   describe('urlPath not set', function () {
     beforeEach(() => {
       mock('../../lib/config', {})
-      realtime = require('../../lib/realtime')
+      realtime = require('../../lib/realtime/realtime')
     })
 
     let realtime
@@ -76,7 +76,7 @@ describe('realtime#extractNoteIdFromSocket', function () {
       mock('../../lib/config', {
         urlPath: urlPath
       })
-      realtime = require('../../lib/realtime')
+      realtime = require('../../lib/realtime/realtime')
       const incomingNoteId = 'myNoteId'
       const incomingSocket = makeMockSocket({
         referer: `https://localhost:3000/${urlPath}/${incomingNoteId}`

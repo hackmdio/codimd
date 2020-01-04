@@ -31,7 +31,7 @@ describe('realtime#connection', function () {
       mock('../../lib/realtimeCleanDanglingUserJob', realtimeJobStub)
       mock('../../lib/realtimeSaveRevisionJob', realtimeJobStub)
       mock('../../lib/ot', require('../testDoubles/otFake'))
-      realtime = require('../../lib/realtime')
+      realtime = require('../../lib/realtime/realtime')
     })
 
     afterEach(() => {

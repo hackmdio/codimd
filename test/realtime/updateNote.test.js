@@ -47,7 +47,7 @@ describe('realtime#updateNote', function () {
 
   it('should save history to each edited user', function (done) {
     modelsStub.Note.findOne.returns(Promise.resolve({}))
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
     const updateHistoryStub = sinon.stub(realtime, 'updateHistory')
 
     const callback = sinon.stub()
@@ -86,7 +86,7 @@ describe('realtime#updateNote', function () {
       name: 'User 01'
     })
 
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
 
     realtime.updateNote(note, callback)
     clock.restore()
@@ -125,7 +125,7 @@ describe('realtime#updateNote', function () {
     })
     clock.tick(1000)
 
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
     realtime.updateNote(note, callback)
     setTimeout(() => {
       assert(note.lastchangeuserprofile.name === 'User 01')
@@ -159,7 +159,7 @@ describe('realtime#updateNote', function () {
     })
     clock.tick(1000)
 
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
     realtime.updateNote(note, callback)
     setTimeout(() => {
       assert(modelsStub.User.findOne.callCount === 0)
@@ -196,7 +196,7 @@ describe('realtime#updateNote', function () {
     })
     clock.tick(1000)
 
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
     realtime.updateNote(note, callback)
     setTimeout(() => {
       assert(modelsStub.User.findOne.callCount === 0)
@@ -233,7 +233,7 @@ describe('realtime#updateNote', function () {
     })
     clock.tick(1000)
 
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
     realtime.updateNote(note, callback)
     setTimeout(() => {
       assert(modelsStub.User.findOne.called)
@@ -272,7 +272,7 @@ describe('realtime#updateNote', function () {
     })
     clock.tick(1000)
 
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
     realtime.updateNote(note, callback)
     setTimeout(() => {
       assert(note.lastchangeuserprofile.name === 'User 01')

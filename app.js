@@ -66,7 +66,7 @@ io.engine.ws = new (require('ws').Server)({
 })
 
 // others
-var realtime = require('./lib/realtime.js')
+var realtime = require('./lib/realtime/realtime.js')
 
 // assign socket io to realtime
 realtime.io = io
