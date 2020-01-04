@@ -6,8 +6,6 @@ import LZString from '@hackmd/lz-string'
 
 import escapeHTML from 'lodash/escape'
 
-import wurl from 'wurl'
-
 import {
   checkNoteIdValid,
   encodeNoteId
@@ -18,38 +16,6 @@ import { checkIfAuth } from './lib/common/login'
 import { urlpath } from './lib/config'
 
 window.migrateHistoryFromTempCallback = null
-
-migrateHistoryFromTemp()
-
-function migrateHistoryFromTemp () {
-  if (wurl('#tempid')) {
-    $.get(`${serverurl}/temp`, {
-      tempid: wurl('#tempid')
-    })
-      .done(data => {
-        if (data && data.temp) {
-          getStorageHistory(olddata => {
-            if (!olddata || olddata.length === 0) {
-              saveHistoryToStorage(JSON.parse(data.temp))
-            }
-          })
-        }
-      })
-      .always(() => {
-        let hash = location.hash.split('#')[1]
-        hash = hash.split('&')
-        for (let i = 0; i < hash.length; i++) {
-          if (hash[i].indexOf('tempid') === 0) {
-            hash.splice(i, 1)
-            i--
-          }
-        }
-        hash = hash.join('&')
-        location.hash = hash
-        if (window.migrateHistoryFromTempCallback) { window.migrateHistoryFromTempCallback() }
-      })
-  }
-}
 
 export function saveHistory (notehistory) {
   checkIfAuth(
