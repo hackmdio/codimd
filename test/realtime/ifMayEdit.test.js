@@ -81,7 +81,7 @@ describe('realtime#ifMayEdit', function () {
         client.request.user.id = noteOwnerId
       }
       client.noteId = noteId
-      const realtime = require('../../lib/realtime')
+      const realtime = require('../../lib/realtime/realtime')
       realtime.getNotePool()[noteId] = note
       const callback = sinon.stub()
       realtime.ifMayEdit(client, callback)
@@ -98,7 +98,7 @@ describe('realtime#ifMayEdit', function () {
     client.noteId = noteId
     const callback = sinon.stub()
     client.origin = 'operation'
-    const realtime = require('../../lib/realtime')
+    const realtime = require('../../lib/realtime/realtime')
     realtime.getNotePool()[noteId] = note
     realtime.ifMayEdit(client, callback)
     assert(callback.calledOnce)
@@ -116,7 +116,7 @@ describe('realtime#ifMayEdit', function () {
     client.request.user.id = loggedInUserId
     const callback = sinon.stub()
     client.origin = 'operation'
-    const realtime = require('../../lib/realtime')
+    const realtime = require('../../lib/realtime/realtime')
     realtime.getNotePool()[noteId] = note
     realtime.ifMayEdit(client, callback)
     assert(callback.calledOnce)

@@ -50,7 +50,7 @@ describe('realtime', function () {
         }
       })
       mock('../../lib/config', {})
-      realtime = require('../../lib/realtime')
+      realtime = require('../../lib/realtime/realtime')
     })
 
     Object.keys(viewPermission).forEach(function (permission) {
