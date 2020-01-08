@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$BUILD_ASSETS" = true ]; then
+if [ ! -z "$DYNO" ]; then
   # setup config files
   cat << EOF > .sequelizerc
 var path = require('path');
@@ -11,8 +11,7 @@ module.exports = {
     'config':          path.resolve('config.json'),
     'migrations-path': path.resolve('lib', 'migrations'),
     'models-path':     path.resolve('lib', 'models'),
-    'url':             process.env.DATABASE_URL,
-    'dialect':         process.env.DB_TYPE
+    'url':             process.env.DATABASE_URL
 }
 
 EOF
@@ -26,6 +25,4 @@ EOF
 
 EOF
 
-  # build app
-  npm run build
 fi

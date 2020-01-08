@@ -1,11 +1,12 @@
 ---
 applications:
 - name: hackmd
-  host: datagov-hackmd
-  memory: 512M
   instances: 1
-  command: node app.js
-  services:
-    - hackmd-psql
+  memory: 6G
+  command: npm run start
+  buildpack: nodejs_buildpack
   env:
+    PGSSLMODE: require
+    UV_THREADPOOL_SIZE: 100
+    CMD_PORT: 3000
     NODE_ENV: production

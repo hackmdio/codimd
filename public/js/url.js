@@ -1,0 +1,1 @@
+exports.URL = window.URL

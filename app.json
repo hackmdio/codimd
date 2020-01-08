@@ -6,22 +6,14 @@
         "Markdown",
         "Notes"
     ],
-    "website": "https://codimd.org",
+    "website": "https://github.com/hackmdio/codimd",
     "repository": "https://github.com/hackmdio/codimd",
     "logo": "https://github.com/hackmdio/codimd/raw/master/public/codimd-icon-1024.png",
     "success_url": "/",
     "env": {
-        "BUILD_ASSETS": {
-            "description": "Our build script variable",
-            "value": "true"
-        },
         "NPM_CONFIG_PRODUCTION": {
             "description": "Let npm also install development build tool",
             "value": "false"
-        },
-        "DB_TYPE": {
-            "description": "Specify database type. See sequelize available databases. Default using postgres",
-            "value": "postgres"
         },
         "HMD_SESSION_SECRET": {
             "description": "Secret used to secure session cookies.",

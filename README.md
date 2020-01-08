@@ -3,10 +3,29 @@ CodiMD
 
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
+[![Gitter][gitter-image]][gitter-url]
 [![POEditor][poeditor-image]][poeditor-url]
 
 CodiMD lets you collaborate in real-time with markdown.
 Built on [HackMD](https://hackmd.io) source code, CodiMD lets you host and control your team's content with speed and ease.
+
+![screenshot](https://raw.githubusercontent.com/hackmdio/codimd/develop/public/screenshot.png)
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# Table of Contents
+
+- [CodiMD - The Open Source HackMD](#codimd---the-open-source-hackmd)
+- [Documentation](#documentation)
+  - [Deployment](#deployment)
+  - [Configuration](#configuration)
+  - [Upgrading and Migration](#upgrading-and-migration)
+  - [Developer](#developer)
+- [Contribution and Discussion](#contribution-and-discussion)
+- [Browser Support](#browser-support)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## CodiMD - The Open Source HackMD
 [HackMD](https://hackmd.io) helps developers write better documents and build active communities with open collaboration.
@@ -43,10 +62,10 @@ All contributions are welcome! Even asking a question helps.
 
 | Project | Contribution Types | Contribution Venue |
 | ------- | ------------------ | ------------------ |
-|**CodiMD**|:couple: Community chat|[Gitter](https://gitter.im/hackmdio/hackmd)|
+|**CodiMD**|:couple: Community chat|[Gitter][gitter-url]|
 ||:bug: Issues, bugs, and feature requests|[Issue tracker](https://github.com/hackmdio/codimd/issues)|
 ||:books: Improve documentation|[Documentations](https://hackmd.io/c/codimd-documentation)|
-||:pencil: Translation|[POEditor](https://poeditor.com/join/project/q0nuPWyztp)|
+||:pencil: Translation|[POEditor][poeditor-url]|
 ||:coffee: Donation|[Buy us coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=KDGS4PREHX6QQ&lc=US&item_name=HackMD&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)|
 |**HackMD**|:question: Issues related to [HackMD](https://hackmd.io/)|[Issue tracker](https://github.com/hackmdio/hackmd-io-issues/issues)|
 ||:pencil2: Translation|[hackmd-locales](https://github.com/hackmdio/hackmd-locales/tree/master/locales)|
@@ -54,20 +73,11 @@ All contributions are welcome! Even asking a question helps.
 ## Browser Support
 
 CodiMD is a service that runs on Node.js, while users use the service through browsers. We support your users using the following browsers: 
-- ![Chrome](http://browserbadge.com/chrome/47/18px)
-    - Chrome >= 47
-    - Chrome for Android >= 47
-- ![Safari](http://browserbadge.com/safari/9/18px)
-    - Safari >= 9
-    - iOS Safari >= 8.4
-- ![Firefox](http://browserbadge.com/firefox/44/18px)
-    - Firefox >= 44
-- ![IE](http://browserbadge.com/ie/9/18px)
-    - IE >= 9
-    - Edge >= 12
-- ![Opera](http://browserbadge.com/opera/34/18px)
-    - Opera >= 34
-    - Opera Mini not supported
+- <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" /> Chrome >= 47, Chrome for Android >= 47
+- <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" /> Safari >= 9, iOS Safari >= 8.4
+- <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" /> Firefox >= 44
+- <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" /> IE >= 9, Edge >= 12
+- <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" /> Opera >= 34, Opera Mini not supported
 - Android Browser >= 4.4
 
 To stay up to date with your installation it's recommended to subscribe the [release feed][github-release-feed].
@@ -78,8 +88,8 @@ To stay up to date with your installation it's recommended to subscribe the [rel
 
 [gitter-image]: https://img.shields.io/badge/gitter-hackmdio/codimd-blue.svg	
 [gitter-url]: https://gitter.im/hackmdio/hackmd
-[travis-image]: https://travis-ci.org/hackmdio/codimd.svg?branch=master
-[travis-url]: https://travis-ci.org/hackmdio/codimd
+[travis-image]: https://travis-ci.com/hackmdio/codimd.svg?branch=master
+[travis-url]: https://travis-ci.com/hackmdio/codimd
 [github-version-badge]: https://img.shields.io/github/release/hackmdio/codimd.svg
 [github-release-page]: https://github.com/hackmdio/codimd/releases
 [github-release-feed]: https://github.com/hackmdio/codimd/releases.atom
