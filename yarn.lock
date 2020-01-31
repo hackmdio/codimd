@@ -4333,6 +4333,21 @@ diagnostics@^1.1.1:
     enabled "1.0.x"
     kuler "1.0.x"
 
+dictionary-de-at@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/dictionary-de-at/-/dictionary-de-at-2.0.3.tgz#78f31d0cd8ca7c7d5ba48fdefb7a7bd3f05e11ca"
+  integrity sha512-unbay9PPM75yZ0RPnqSD/PADpZj7/vPDVeau2jTsVPFKwhoZGJTBVLD2wCaIkhS6tyVsNOboo1VYjzOCOit2ww==
+
+dictionary-de-ch@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/dictionary-de-ch/-/dictionary-de-ch-2.0.3.tgz#1727413a1eb35eb78e7fe15b5b7a742fd650f0c3"
+  integrity sha512-+eqpz5j8WONSzxmc4avCN4XX/6q5+J6JfWz2AaluZIOVNgXPxUjXBhKS73+nRhM3nE1pGeRMqkyZevTQWgYTTw==
+
+dictionary-de@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/dictionary-de/-/dictionary-de-2.0.3.tgz#df50c749fddbff601f5bd044aef4622a365a15b2"
+  integrity sha512-fbNcCIjDrdNvu7DzMzkOY77vIaGqiDQqf9vtwGud1fcSxVWwX6EdtHcosmgG7AA10u3QgDVkymMaX9mr3elwRw==
+
 diff-match-patch@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/diff-match-patch/-/diff-match-patch-1.0.4.tgz#6ac4b55237463761c4daf0dc603eb869124744b1"

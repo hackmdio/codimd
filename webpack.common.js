@@ -165,7 +165,22 @@ module.exports = {
         context: path.join(__dirname, 'node_modules/reveal.js'),
         from: 'plugin',
         to: 'reveal.js/plugin'
-      }
+      },
+      {
+        context: path.join(__dirname, 'node_modules/dictionary-de'),
+        from: '*',
+        to: 'dictionary-de/'
+      },
+      {
+        context: path.join(__dirname, 'node_modules/dictionary-de-at'),
+        from: '*',
+        to: 'dictionary-de-at/'
+      },
+      {
+        context: path.join(__dirname, 'node_modules/dictionary-de-ch'),
+        from: '*',
+        to: 'dictionary-de-ch/'
+      },
     ]),
     new MiniCssExtractPlugin()
   ],

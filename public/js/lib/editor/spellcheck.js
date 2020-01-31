@@ -5,26 +5,58 @@
 import Typo from 'typo-js'
 import { serverurl } from '../config'
 
-const dictionaryDownloadUrls = {
-  en_US: {
-    aff: `${serverurl}/vendor/codemirror-spell-checker/en_US.aff`,
-    dic: `${serverurl}/vendor/codemirror-spell-checker/en_US.dic`
+export const supportLanguages = [
+  {
+    name: 'English (United States)',
+    value: 'en_US',
+    aff: {
+      url: `${serverurl}/vendor/codemirror-spell-checker/en_US.aff`,
+      cdnUrl: `${serverurl}/vendor/codemirror-spell-checker/en_US.aff`
+    },
+    dic: {
+      url: `${serverurl}/vendor/codemirror-spell-checker/en_US.dic`,
+      cdnUrl: `${serverurl}/vendor/codemirror-spell-checker/en_US.dic`
+    }
   },
-  de: {
-    aff: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de/index.aff',
-    dic: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de/index.dic'
+  {
+    name: 'German',
+    value: 'de',
+    aff: {
+      url: `${serverurl}/build/dictionary-de/index.aff`,
+      cdnUrl: `https://cdn.jsdelivr.net/npm/dictionary-de@2.0.3/index.aff`
+    },
+    dic: {
+      url: `${serverurl}/build/dictionary-de/index.dic`,
+      cdnUrl: `https://cdn.jsdelivr.net/npm/dictionary-de@2.0.3/index.dic`
+    }
   },
-  de_AT: {
-    aff: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de-AT/index.aff',
-    dic: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de-AT/index.dic'
+  {
+    name: 'German (Austria)',
+    value: 'de_AT',
+    aff: {
+      url: `${serverurl}/build/dictionary-de-at/index.aff`,
+      cdnUrl: `https://cdn.jsdelivr.net/npm/dictionary-de-at@2.0.3/index.aff`
+    },
+    dic: {
+      url: `${serverurl}/build/dictionary-de-at/index.dic`,
+      cdnUrl: `https://cdn.jsdelivr.net/npm/dictionary-de-at@2.0.3/index.dic`
+    }
   },
-  de_CH: {
-    aff: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de-CH/index.aff',
-    dic: 'https://rawcdn.githack.com/wooorm/dictionaries/143091715eebbbdfa0e8936e117f9182514eebe6/dictionaries/de-CH/index.dic'
+  {
+    name: 'German (Switzerland)',
+    value: 'de_CH',
+    aff: {
+      url: `${serverurl}/build/dictionary-de-ch/index.aff`,
+      cdnUrl: `https://cdn.jsdelivr.net/npm/dictionary-de-ch@2.0.3/index.aff`
+    },
+    dic: {
+      url: `${serverurl}/build/dictionary-de-ch/index.dic`,
+      cdnUrl: `https://cdn.jsdelivr.net/npm/dictionary-de-ch@2.0.3/index.dic`
+    }
   }
-}
+]
 
-export const supportLanguages = Object.keys(dictionaryDownloadUrls)
+export const supportLanguageCodes = supportLanguages.map(lang => lang.value)
 
 function request (url) {
   return new Promise(resolve => {
@@ -59,20 +91,51 @@ function createTypo (lang, affData, dicData) {
 
 const typoMap = new Map()
 
+let fetching = false
 async function findOrCreateTypoInstance (lang) {
+  if (!lang) {
+    return
+  }
+
   // find existing typo instance
   let typo = typoMap.get(lang)
   if (typo) {
     return typo
   }
 
-  const [affData, dicData] = await mapSeriesP([
-    dictionaryDownloadUrls[lang].aff,
-    dictionaryDownloadUrls[lang].dic
-  ], request)
+  let dict = supportLanguages.find(l => l.value === lang)
 
-  typo = createTypo(lang, affData, dicData)
-  typoMap.set(lang, typo)
+  if (!dict) {
+    console.error(`Dictionary not found for "${lang}"\n Fallback to default English spellcheck`)
+    dict = supportLanguages[0]
+  }
+
+  let affUrl
+  let dicUrl
+  if (window.USE_CDN) {
+    affUrl = dict.aff.cdnUrl
+    dicUrl = dict.dic.cdnUrl
+  } else {
+    affUrl = dict.aff.url
+    dicUrl = dict.dic.url
+  }
+
+  if (fetching) {
+    return typo
+  }
+
+  try {
+    fetching = true
+
+    const [affData, dicData] = await mapSeriesP([affUrl, dicUrl], request)
+
+    typo = createTypo(lang, affData, dicData)
+    typoMap.set(lang, typo)
+  } catch (err) {
+    console.error(err)
+  } finally {
+    fetching = false
+  }
 
   return typo
 }
@@ -82,7 +145,7 @@ class CodeMirrorSpellChecker {
    * @param {CodeMirror} cm
    * @param {string} lang
    */
-  constructor (cm, lang = 'en_US') {
+  constructor (cm, lang) {
     // Verify
     if (typeof cm !== 'function' || typeof cm.defineMode !== 'function') {
       console.log(
