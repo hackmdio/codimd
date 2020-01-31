@@ -6,6 +6,7 @@ import toolBarTemplate from './toolbar.html'
 import './markdown-lint'
 import { initTableEditor } from './table-editor'
 import { options, Alignment, FormatType } from '@susisu/mte-kernel'
+import { availableThemes } from './constants'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -488,9 +489,13 @@ export default class Editor {
   }
 
   setTheme () {
-    var cookieTheme = Cookies.get('theme')
-    if (cookieTheme) {
-      this.editor.setOption('theme', cookieTheme)
+    this.statusIndicators.find('.status-theme ul.dropdown-menu').append(availableThemes.map(theme => {
+      return $(`<li value="${theme.value}"><a>${theme.name}</a></li>`)
+    }))
+
+    const activateThemeListItem = (theme) => {
+      this.statusIndicators.find('.status-theme li').removeClass('active')
+      this.statusIndicators.find(`.status-theme li[value="${theme}"]`).addClass('active')
     }
 
     const setTheme = theme => {
@@ -498,10 +503,22 @@ export default class Editor {
       Cookies.set('theme', theme, {
         expires: 365
       })
+      this.statusIndicators.find('.status-theme li').removeClass('active')
+      this.statusIndicators.find(`.status-theme li[value="${theme}"]`).addClass('active')
+    }
+
+    const cookieTheme = Cookies.get('theme')
+    if (cookieTheme && availableThemes.find(theme => cookieTheme === theme.value)) {
+      setTheme(cookieTheme)
+      activateThemeListItem(cookieTheme)
+    } else {
+      activateThemeListItem(this.editor.getOption('theme'))
     }
 
     this.statusIndicators.find('.status-theme li').click(function () {
-      setTheme($(this).attr('value'))
+      const theme = $(this).attr('value')
+      setTheme(theme)
+      activateThemeListItem(theme)
     })
   }
 
