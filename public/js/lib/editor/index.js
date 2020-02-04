@@ -1,12 +1,15 @@
 /* global CodeMirror, $, editor, Cookies */
+import { options, Alignment, FormatType } from '@susisu/mte-kernel'
+import debounce from 'lodash/debounce'
+
 import * as utils from './utils'
 import config from './config'
 import statusBarTemplate from './statusbar.html'
 import toolBarTemplate from './toolbar.html'
 import './markdown-lint'
 import { initTableEditor } from './table-editor'
-import { options, Alignment, FormatType } from '@susisu/mte-kernel'
 import { availableThemes } from './constants'
+import {  } from './ui-elements'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -326,6 +329,8 @@ export default class Editor {
     this.setSpellcheck()
     this.setLinter()
     this.setPreferences()
+
+    this.handleStatusBarResize()
   }
 
   updateStatusBar () {
@@ -348,6 +353,21 @@ export default class Editor {
       this.statusLength.css('color', 'white')
       this.statusLength.attr('title', 'You can write up to ' + config.docmaxlength + ' characters in this document.')
     }
+  }
+
+  handleStatusBarResize () {
+    const onResize = debounce(() => {
+      if (!this.statusBar) {
+        return
+      }
+
+      const maxHeight = window.innerHeight - this.statusBar.height() - 50 /* navbar height */ - 10 /* spacing */
+      this.statusBar.find('.status-theme ul.dropdown-menu').css('max-height', `${maxHeight}px`)
+    }, 300)
+
+    $(window).resize(onResize)
+
+    onResize()
   }
 
   setIndent () {
