@@ -1,6 +1,6 @@
 export const availableThemes = [
-  { name: 'Default', value: 'default' },
-  { name: 'One Dark', value: 'one-dark' },
+  { name: 'Light', value: 'default' },
+  { name: 'One Dark (Default)', value: 'one-dark' },
   { name: 'Monokai', value: 'monokai' },
   { name: 'Solarized Dark', value: 'solarized dark' },
   { name: 'Solarized Light', value: 'solarized light' },
