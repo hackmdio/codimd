@@ -1,11 +1,14 @@
 /* global CodeMirror, $, editor, Cookies */
+import { options, Alignment, FormatType } from '@susisu/mte-kernel'
+import debounce from 'lodash/debounce'
+
 import * as utils from './utils'
 import config from './config'
 import statusBarTemplate from './statusbar.html'
 import toolBarTemplate from './toolbar.html'
 import './markdown-lint'
 import { initTableEditor } from './table-editor'
-import { options, Alignment, FormatType } from '@susisu/mte-kernel'
+import { availableThemes } from './constants'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
@@ -325,6 +328,8 @@ export default class Editor {
     this.setSpellcheck()
     this.setLinter()
     this.setPreferences()
+
+    this.handleStatusBarResize()
   }
 
   updateStatusBar () {
@@ -347,6 +352,21 @@ export default class Editor {
       this.statusLength.css('color', 'white')
       this.statusLength.attr('title', 'You can write up to ' + config.docmaxlength + ' characters in this document.')
     }
+  }
+
+  handleStatusBarResize () {
+    const onResize = debounce(() => {
+      if (!this.statusBar) {
+        return
+      }
+
+      const maxHeight = window.innerHeight - this.statusBar.height() - 50 /* navbar height */ - 10 /* spacing */
+      this.statusBar.find('.status-theme ul.dropdown-menu').css('max-height', `${maxHeight}px`)
+    }, 300)
+
+    $(window).resize(onResize)
+
+    onResize()
   }
 
   setIndent () {
@@ -488,38 +508,37 @@ export default class Editor {
   }
 
   setTheme () {
-    var cookieTheme = Cookies.get('theme')
-    if (cookieTheme) {
-      this.editor.setOption('theme', cookieTheme)
+    this.statusIndicators.find('.status-theme ul.dropdown-menu').append(availableThemes.map(theme => {
+      return $(`<li value="${theme.value}"><a>${theme.name}</a></li>`)
+    }))
+
+    const activateThemeListItem = (theme) => {
+      this.statusIndicators.find('.status-theme li').removeClass('active')
+      this.statusIndicators.find(`.status-theme li[value="${theme}"]`).addClass('active')
     }
 
-    var themeToggle = this.statusTheme.find('.ui-theme-toggle')
-
-    const checkTheme = () => {
-      var theme = this.editor.getOption('theme')
-      if (theme === 'one-dark') {
-        themeToggle.removeClass('active')
-      } else {
-        themeToggle.addClass('active')
-      }
-    }
-
-    themeToggle.click(() => {
-      var theme = this.editor.getOption('theme')
-      if (theme === 'one-dark') {
-        theme = 'default'
-      } else {
-        theme = 'one-dark'
-      }
+    const setTheme = theme => {
       this.editor.setOption('theme', theme)
       Cookies.set('theme', theme, {
         expires: 365
       })
+      this.statusIndicators.find('.status-theme li').removeClass('active')
+      this.statusIndicators.find(`.status-theme li[value="${theme}"]`).addClass('active')
+    }
 
-      checkTheme()
+    const cookieTheme = Cookies.get('theme')
+    if (cookieTheme && availableThemes.find(theme => cookieTheme === theme.value)) {
+      setTheme(cookieTheme)
+      activateThemeListItem(cookieTheme)
+    } else {
+      activateThemeListItem(this.editor.getOption('theme'))
+    }
+
+    this.statusIndicators.find('.status-theme li').click(function () {
+      const theme = $(this).attr('value')
+      setTheme(theme)
+      activateThemeListItem(theme)
     })
-
-    checkTheme()
   }
 
   setSpellcheck () {
