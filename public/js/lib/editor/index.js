@@ -9,7 +9,6 @@ import toolBarTemplate from './toolbar.html'
 import './markdown-lint'
 import { initTableEditor } from './table-editor'
 import { availableThemes } from './constants'
-import {  } from './ui-elements'
 
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
