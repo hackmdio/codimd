@@ -145,7 +145,7 @@ class CodeMirrorSpellChecker {
    * @param {CodeMirror} cm
    * @param {string} lang
    */
-  constructor (cm, lang) {
+  constructor (cm, lang, editor) {
     // Verify
     if (typeof cm !== 'function' || typeof cm.defineMode !== 'function') {
       console.log(
@@ -156,17 +156,24 @@ class CodeMirrorSpellChecker {
 
     this.typo = undefined
     this.defineSpellCheckerMode(cm, lang)
+    this.editor = editor
   }
 
   setDictLang (lang) {
-    findOrCreateTypoInstance(lang).then(typo => { this.typo = typo })
+    findOrCreateTypoInstance(lang).then(typo => {
+      this.typo = typo
+
+      // re-enable overlay mode to refresh spellcheck
+      this.editor.setOption('mode', 'gfm')
+      this.editor.setOption('mode', 'spell-checker')
+    })
   }
 
   defineSpellCheckerMode (cm, lang) {
-    cm.defineMode('spell-checker', config => {
-      // Load AFF/DIC data async
-      this.setDictLang(lang)
+    // Load AFF/DIC data async ASAP
+    this.setDictLang(lang)
 
+    cm.defineMode('spell-checker', config => {
       // Define what separates a word
       const regexWord = '!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~ '
 

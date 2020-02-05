@@ -754,7 +754,7 @@ export default class Editor {
       placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
     })
 
-    this.spellchecker = new CodeMirrorSpellChecker(CodeMirror, this.getExistingSpellcheckLang())
+    this.spellchecker = new CodeMirrorSpellChecker(CodeMirror, this.getExistingSpellcheckLang(), this.editor)
     this.tableEditor = initTableEditor(this.editor)
 
     return this.editor
