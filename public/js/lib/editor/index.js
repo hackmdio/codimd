@@ -545,6 +545,7 @@ export default class Editor {
   setSpellcheckLang (lang) {
     if (lang === 'disabled') {
       this.statusIndicators.find('.spellcheck-lang').text('')
+      this.activateSpellcheckListItem(false)
       return
     }
 
@@ -556,6 +557,7 @@ export default class Editor {
     this.statusIndicators.find('.spellcheck-lang').text(langName)
 
     this.spellchecker.setDictLang(lang)
+    this.activateSpellcheckListItem(lang)
   }
 
   getExistingSpellcheckLang () {
@@ -568,6 +570,16 @@ export default class Editor {
     }
   }
 
+  activateSpellcheckListItem (lang) {
+    this.statusIndicators.find('.status-spellcheck li').removeClass('active')
+
+    if (lang) {
+      this.statusIndicators.find(`.status-spellcheck li[value="${lang}"]`).addClass('active')
+    } else {
+      this.statusIndicators.find(`.status-spellcheck li[value="disabled"]`).addClass('active')
+    }
+  }
+
   setSpellcheck () {
     this.statusSpellcheck.find('ul.dropdown-menu').append(supportLanguages.map(lang => {
       return $(`<li value="${lang.value}"><a>${lang.name}</a></li>`)
@@ -577,20 +589,19 @@ export default class Editor {
     if (cookieSpellcheck) {
       let mode = null
       let lang = 'en_US'
+
       if (cookieSpellcheck === 'false' || !cookieSpellcheck) {
         mode = defaultEditorMode
+        this.activateSpellcheckListItem(false)
       } else {
         mode = 'spell-checker'
         if (supportLanguageCodes.includes(cookieSpellcheck)) {
           lang = cookieSpellcheck
         }
-      }
-
-      if (mode && mode !== this.editor.getOption('mode')) {
-        this.editor.setOption('mode', mode)
-
         this.setSpellcheckLang(lang)
       }
+
+      this.editor.setOption('mode', mode)
     }
 
     const spellcheckToggle = this.statusSpellcheck.find('.ui-spellcheck-toggle')
