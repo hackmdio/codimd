@@ -165,7 +165,22 @@ module.exports = {
         context: path.join(__dirname, 'node_modules/reveal.js'),
         from: 'plugin',
         to: 'reveal.js/plugin'
-      }
+      },
+      {
+        context: path.join(__dirname, 'node_modules/dictionary-de'),
+        from: '*',
+        to: 'dictionary-de/'
+      },
+      {
+        context: path.join(__dirname, 'node_modules/dictionary-de-at'),
+        from: '*',
+        to: 'dictionary-de-at/'
+      },
+      {
+        context: path.join(__dirname, 'node_modules/dictionary-de-ch'),
+        from: '*',
+        to: 'dictionary-de-ch/'
+      },
     ]),
     new MiniCssExtractPlugin()
   ],
@@ -203,7 +218,6 @@ module.exports = {
       'script-loader!codemirror',
       'script-loader!inlineAttachment',
       'script-loader!jqueryTextcomplete',
-      'script-loader!codemirrorSpellChecker',
       'script-loader!codemirrorInlineAttachment',
       'script-loader!ot',
       'flowchart.js',
@@ -259,7 +273,6 @@ module.exports = {
       'script-loader!codemirror',
       'script-loader!inlineAttachment',
       'script-loader!jqueryTextcomplete',
-      'script-loader!codemirrorSpellChecker',
       'script-loader!codemirrorInlineAttachment',
       'script-loader!ot',
       'flowchart.js',
@@ -371,7 +384,6 @@ module.exports = {
       codemirror: path.join(__dirname, 'node_modules/@hackmd/codemirror/codemirror.min.js'),
       inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
       jqueryTextcomplete: path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
-      codemirrorSpellChecker: path.join(__dirname, 'public/vendor/codemirror-spell-checker/spell-checker.min.js'),
       codemirrorInlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
       ot: path.join(__dirname, 'public/vendor/ot/ot.min.js'),
       mermaid: path.join(__dirname, 'node_modules/mermaid/dist/mermaid.min.js'),
