@@ -12,6 +12,7 @@ import unescapeHTML from 'lodash/unescape'
 import { stripTags } from '../../utils/string'
 
 import getUIElements from './lib/editor/ui-elements'
+import { emojifyImageDir } from './lib/editor/constants'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
@@ -647,7 +648,7 @@ function generateCleanHTML (view) {
     let name = $(value).attr('alt')
     name = name.substr(1)
     name = name.slice(0, name.length - 1)
-    $(value).attr('src', `https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/${name}.png`)
+    $(value).attr('src', `https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/images/basic/${name}.png`)
   })
   // replace video to iframe
   src.find('div[data-videoid]').each((key, value) => {
@@ -1065,7 +1066,7 @@ window.emojify.setConfig({
     elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
     classes: ['no-emojify']
   },
-  img_dir: `${serverurl}/build/emojify.js/dist/images/basic`,
+  img_dir: emojifyImageDir,
   ignore_emoticons: true
 })
 
@@ -1271,7 +1272,7 @@ const emojijsPlugin = new Plugin(
 
   (match, utils) => {
     const emoji = match[1].toLowerCase()
-    const div = $(`<img class="emoji" alt=":${emoji}:" src="${serverurl}/build/emojify.js/dist/images/basic/${emoji}.png"></img>`)
+    const div = $(`<img class="emoji" alt=":${emoji}:" src="${emojifyImageDir}/${emoji}.png"></img>`)
     return div[0].outerHTML
   }
 )
