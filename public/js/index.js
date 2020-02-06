@@ -76,6 +76,7 @@ import { preventXSS } from './render'
 import Editor from './lib/editor'
 
 import getUIElements from './lib/editor/ui-elements'
+import { emojifyImageDir } from './lib/editor/constants'
 import modeType from './lib/modeType'
 import appState from './lib/appState'
 
@@ -3158,7 +3159,7 @@ $(editor.getInputField())
         callback(list)
       },
       template: function (value) {
-        return '<img class="emoji" src="' + serverurl + '/build/emojify.js/dist/images/basic/' + value + '.png"></img> ' + value
+        return `<img class="emoji" src="${emojifyImageDir}/${value}.png"></img> ${value}`
       },
       replace: function (value) {
         return '$1:' + value + ': '
