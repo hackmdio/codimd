@@ -1057,10 +1057,6 @@ md.use(require('markdown-it-mathjax')({
 md.use(require('markdown-it-imsize'))
 md.use(require('markdown-it-ruby'))
 
-md.use(require('markdown-it-emoji'), {
-  shortcuts: {}
-})
-
 window.emojify.setConfig({
   blacklist: {
     elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
@@ -1069,8 +1065,6 @@ window.emojify.setConfig({
   img_dir: emojifyImageDir,
   ignore_emoticons: true
 })
-
-md.renderer.rules.emoji = (token, idx) => window.emojify.replace(`:${token[idx].markup}:`)
 
 function renderContainer (tokens, idx, options, env, self) {
   tokens[idx].attrJoin('role', 'alert')
