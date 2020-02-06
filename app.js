@@ -25,7 +25,7 @@ var response = require('./lib/response')
 var models = require('./lib/models')
 var csp = require('./lib/csp')
 
-const { versionCheckMiddleware } = require('./lib/web/middleware/checkVersion')
+const { versionCheckMiddleware, checkVersion } = require('./lib/web/middleware/checkVersion')
 
 function createHttpServer () {
   if (config.useSSL) {
@@ -170,6 +170,7 @@ app.use(require('./lib/middleware/redirectWithoutTrailingSlashes'))
 app.use(require('./lib/middleware/codiMDVersion'))
 
 if (config.autoVersionCheck) {
+  checkVersion(app)
   app.use(versionCheckMiddleware)
 }
 
