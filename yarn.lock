@@ -999,6 +999,18 @@
     js-yaml "~3.13.1"
     marked "~0.6.2"
 
+"@hackmd/pandoc.js@^0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@hackmd/pandoc.js/-/pandoc.js-0.1.9.tgz#c668897e4054daa042145d594626a9b9591b56e0"
+  integrity sha512-Z8i8vpFOP34v9rRm0vURTmDSqTW8JcXlI1TIiW3AKuJ3+nygTYc/wkaPATRLvusv1JkPrD+m4cIv4aPO9GkULw==
+  dependencies:
+    extract-zip "^1.6.7"
+    fs-extra "^8.1.0"
+    glob "^7.1.4"
+    got "^9.6.0"
+    progress "^2.0.3"
+    tar "^5.0.5"
+
 "@passport-next/passport-openid@~1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@passport-next/passport-openid/-/passport-openid-1.0.0.tgz#d3b5e067a9aa1388ed172ab7cc02c39b8634283d"
@@ -1332,18 +1344,6 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
-
-"@yukaii/pandoc.js@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@yukaii/pandoc.js/-/pandoc.js-0.1.8.tgz#de50b3290af727e7e9aaa2b719ee078b14cc750d"
-  integrity sha512-aSUdzHKa/jD6eGLD4afeSoqtw06S9FKVpC9FZKA1qZtiBfcgwqmpDG6vHUrz4j9X+H50QwkG3cqnU+0d7+NgSQ==
-  dependencies:
-    extract-zip "^1.6.7"
-    fs-extra "^8.1.0"
-    glob "^7.1.4"
-    got "^9.6.0"
-    progress "^2.0.3"
-    tar "^5.0.5"
 
 JSONStream@^1.0.3:
   version "1.3.5"
@@ -4260,9 +4260,9 @@ default-require-extensions@^2.0.0:
     strip-bom "^3.0.0"
 
 defer-to-connect@^1.0.1:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/defer-to-connect/-/defer-to-connect-1.1.0.tgz#b41bd7efa8508cef13f8456975f7a278c72833fd"
-  integrity sha512-WE2sZoctWm/v4smfCAdjYbrfS55JiMRdlY9ZubFhsYbteCK9+BvAx4YV7nPjYM6ZnX5BcoVKwfmyx9sIFTgQMQ==
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/defer-to-connect/-/defer-to-connect-1.1.3.tgz#331ae050c08dcf789f8c83a7b81f0ed94f4ac591"
+  integrity sha512-0ISdNousHvZT2EiFlZeZAHBUvSxmKswVCEf8hW7KWgG4a8MVEu/3Vb6uWYozkjylyCxe0JBIiRB1jV45S70WVQ==
 
 define-properties@^1.1.2, define-properties@^1.1.3:
   version "1.1.3"
@@ -5871,9 +5871,9 @@ fs-minipass@^1.2.5:
     minipass "^2.2.1"
 
 fs-minipass@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/fs-minipass/-/fs-minipass-2.0.0.tgz#a6415edab02fae4b9e9230bc87ee2e4472003cd1"
-  integrity sha512-40Qz+LFXmd9tzYVnnBmZvFfvAADfUA14TXPK1s7IfElJTIZ97rA8w4Kin7Wt5JBrC3ShnnFJO/5vPjPEeJIq9A==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/fs-minipass/-/fs-minipass-2.1.0.tgz#7f5036fdbf12c63c169190cbe4199c852271f9fb"
+  integrity sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==
   dependencies:
     minipass "^3.0.0"
 
