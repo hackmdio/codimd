@@ -37,6 +37,7 @@
     "@hackmd/js-sequence-diagrams": "~0.0.1-alpha.3",
     "@hackmd/lz-string": "~1.4.4",
     "@hackmd/meta-marked": "~0.4.4",
+    "@hackmd/pandoc.js": "^0.1.9",
     "@passport-next/passport-openid": "~1.0.0",
     "@susisu/mte-kernel": "^2.1.0",
     "archiver": "~3.1.1",
