@@ -8,12 +8,11 @@ if [ -d .git ]; then
   cd "$(git rev-parse --show-toplevel)"
 fi
 
-if ! type yarn > /dev/null
+if ! type npm > /dev/null
 then
   cat << EOF
-yarn is not installed, please install Node.js, npm and yarn.
+npm is not installed, please install Node.js and npm.
 Read more on Node.js official website: https://nodejs.org
-And for yarn package manager at: https://yarnpkg.com/en/
 Setup will not be run
 EOF
   exit 0
@@ -29,14 +28,13 @@ if [ ! -f .sequelizerc ]; then
 fi
 
 echo "install packages"
-yarn install --pure-lockfile
-yarn install --production=false --pure-lockfile
+npm install
 
 cat << EOF
 
 
 Edit the following config file to setup CodiMD server and client.
-Read more info at https://github.com/hackmdio/codimd#configuration-files
+Read more info at https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-configuration
 
 * config.json           -- CodiMD config
 * .sequelizerc          -- db config

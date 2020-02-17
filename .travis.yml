@@ -7,7 +7,7 @@ node_js:
   - "12"
 
 dist: xenial
-cache: yarn
+cache: npm
 
 matrix:
   fast_finish: true
@@ -19,8 +19,8 @@ matrix:
     - node_js: "12"
 
 script:
-  - yarn test:ci
-  - yarn build
+  - npm run test:ci
+  - npm run build
 
 jobs:
   include:
