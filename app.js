@@ -25,6 +25,8 @@ var response = require('./lib/response')
 var models = require('./lib/models')
 var csp = require('./lib/csp')
 
+const { versionCheckMiddleware, checkVersion } = require('./lib/web/middleware/checkVersion')
+
 function createHttpServer () {
   if (config.useSSL) {
     const ca = (function () {
@@ -167,6 +169,11 @@ app.use(require('./lib/middleware/checkURIValid'))
 app.use(require('./lib/middleware/redirectWithoutTrailingSlashes'))
 app.use(require('./lib/middleware/codiMDVersion'))
 
+if (config.autoVersionCheck) {
+  checkVersion(app)
+  app.use(versionCheckMiddleware)
+}
+
 // routes need sessions
 // template files
 app.set('views', config.viewPath)
@@ -199,6 +206,10 @@ app.locals.authProviders = {
   openID: config.isOpenIDEnable,
   email: config.isEmailEnable,
   allowEmailRegister: config.allowEmailRegister
+}
+app.locals.versionInfo = {
+  latest: true,
+  versionItem: null
 }
 
 // Export/Import menu items
