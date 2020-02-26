@@ -222,7 +222,7 @@ app.use(require('./lib/routes').router)
 
 // response not found if no any route matxches
 app.get('*', function (req, res) {
-  response.errorNotFound(res)
+  response.errorNotFound(req, res)
 })
 
 // socket.io secure
