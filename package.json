@@ -98,7 +98,7 @@
     "markdownlint": "^0.17.0",
     "mathjax": "~2.7.5",
     "mattermost-redux": "~5.13.0",
-    "mermaid": "~8.2.3",
+    "mermaid": "~8.4.8",
     "method-override": "~3.0.0",
     "minimist": "~1.2.0",
     "minio": "^7.0.12",
