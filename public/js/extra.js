@@ -31,7 +31,7 @@ require('prismjs/components/prism-gherkin')
 
 require('./lib/common/login')
 require('../vendor/md-toc')
-const viz = new window.Viz()
+let viz = new window.Viz()
 const plantumlEncoder = require('plantuml-encoder')
 
 const ui = getUIElements()
@@ -379,8 +379,13 @@ export function finishView (view) {
           $ele.addClass('graphviz')
           $value.children().unwrap()
         })
+        .catch(err => {
+          viz = new window.Viz()
+          $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+          console.warn(err)
+        })
     } catch (err) {
-      $value.unwrap()
+      viz = new window.Viz()
       $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
