@@ -4,6 +4,18 @@
 .mermaid .label {
   color: #333;
 }
+/* workaround to solve conflict bootstrap styles */
+.mermaid .label {
+  display: unset;
+  padding: unset;
+  font-size: unset;
+  font-weight: unset;
+  line-height: unset;
+  text-align: unset;
+  white-space: unset;
+  vertical-align: unset;
+  border-radius: unset;
+}
 .mermaid .node rect,
 .mermaid .node circle,
 .mermaid .node ellipse,
