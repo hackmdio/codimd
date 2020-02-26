@@ -348,7 +348,7 @@ stop
 > More information about **sequence diagrams** syntax [here](http://bramp.github.io/js-sequence-diagrams/).
 > More information about **flow charts** syntax [here](http://adrai.github.io/flowchart.js/).
 > More information about **graphviz** syntax [here](http://www.tonyballantyne.com/graphs.html)
-> More information about **mermaid** syntax [here](http://knsv.github.io/mermaid)
+> More information about **mermaid** syntax [here](http://mermaid-js.github.io/mermaid)
 > More information about **abc** syntax [here](http://abcnotation.com/learn)
 > More information about **plantuml** syntax [here](http://plantuml.com/index)
 > More information about **vega** syntax [here](https://vega.github.io/vega-lite/docs)
