@@ -133,7 +133,7 @@ export default class Editor {
     this.config = config
 
     // define modes from mode mime
-    let ignoreOverlay = {
+    const ignoreOverlay = {
       token: function (stream, state) {
         stream.next()
         return null
