@@ -437,7 +437,7 @@ export function finishView (view) {
       const specText = $value.text()
 
       $value.unwrap()
-      window.vegaEmbed($ele[0], JSON.parse(specText))
+      window.vegaEmbed($ele[0], JSON.parse(specText), { renderer: 'svg' })
         .then(result => {
           $ele.addClass('vega')
         })
