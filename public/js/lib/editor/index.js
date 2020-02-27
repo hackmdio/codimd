@@ -131,6 +131,17 @@ export default class Editor {
     }
     this.eventListeners = {}
     this.config = config
+
+    // define modes from mode mime
+    let ignoreOverlay = {
+      token: function (stream, state) {
+        stream.next()
+        return null
+      }
+    }
+    CodeMirror.defineMode('vega', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'application/ld+json'), ignoreOverlay)
+    })
   }
 
   on (event, cb) {
