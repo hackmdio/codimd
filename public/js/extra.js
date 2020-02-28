@@ -453,10 +453,13 @@ export function finishView (view) {
       console.warn(err)
     }
   })
+  // geo map
   view.find('div.geo.raw').removeClass('raw').each(async function (key, value) {
     const $elem = $(value).parent().parent()
     const $value = $(value)
     const content = $value.text()
+    $value.unwrap()
+
     try {
       let position, zoom
       if (content.match(/^[\d.,\s]+$/)) {
@@ -466,6 +469,9 @@ export function finishView (view) {
       } else {
         // parse value as address
         const data = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(content)}&format=json`).then(r => r.json())
+        if (!data || !data.length) {
+          throw new Error('Location not found')
+        }
         const { lat, lon } = data[0]
         position = [lat, lon]
       }
