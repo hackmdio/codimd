@@ -1,5 +1,5 @@
 /* eslint-env browser, jquery */
-/* global moment, serverurl, plantumlServer */
+/* global moment, serverurl, plantumlServer, L */
 
 import Prism from 'prismjs'
 import hljs from 'highlight.js'
@@ -453,6 +453,48 @@ export function finishView (view) {
       console.warn(err)
     }
   })
+  // geo map
+  view.find('div.geo.raw').removeClass('raw').each(async function (key, value) {
+    const $elem = $(value).parent().parent()
+    const $value = $(value)
+    const content = $value.text()
+    $value.unwrap()
+
+    try {
+      let position, zoom
+      if (content.match(/^[\d.,\s]+$/)) {
+        const [lng, lat, zoo] = content.split(',').map(parseFloat)
+        zoom = zoo
+        position = [lat, lng]
+      } else {
+        // parse value as address
+        const data = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(content)}&format=json`).then(r => r.json())
+        if (!data || !data.length) {
+          throw new Error('Location not found')
+        }
+        const { lat, lon } = data[0]
+        position = [lat, lon]
+      }
+      $elem.html(`<div class="geo-map"></div>`)
+      const map = L.map($elem.find('.geo-map')[0]).setView(position, zoom || 16)
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '<a href="https://www.openstreetmap.org/">OSM</a>',
+        maxZoom: 18
+      }).addTo(map)
+      L.marker(position, {
+        icon: L.icon({
+          iconUrl: `${serverurl}/build/leaflet/images/marker-icon.png`,
+          shadowUrl: `${serverurl}/build/leaflet/images/marker-shadow.png`
+        })
+      }).addTo(map)
+      $elem.addClass('geo')
+    } catch (err) {
+      $elem.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+      console.warn(err)
+    }
+  })
+
   // image href new window(emoji not included)
   const images = view.find('img.raw[src]').removeClass('raw')
   images.each((key, value) => {
@@ -1013,6 +1055,8 @@ function highlightRender (code, lang) {
     return `<div class="abc raw">${code}</div>`
   } else if (lang === 'vega') {
     return `<div class="vega raw">${code}</div>`
+  } else if (lang === 'geo') {
+    return `<div class="geo raw">${code}</div>`
   }
   const result = {
     value: code
