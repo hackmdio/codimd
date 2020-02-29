@@ -9,6 +9,8 @@ import { saveAs } from 'file-saver'
 import escapeHTML from 'lodash/escape'
 import unescapeHTML from 'lodash/unescape'
 
+import isURL from 'validator/lib/isURL'
+
 import { stripTags } from '../../utils/string'
 
 import getUIElements from './lib/editor/ui-elements'
@@ -176,20 +178,6 @@ function slugifyWithUTF8 (text) {
   // slugify string to make it valid as an attribute
   newText = newText.replace(/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g, '')
   return newText
-}
-
-export function isValidURL (str) {
-  const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
-  if (!pattern.test(str)) {
-    return false
-  } else {
-    return true
-  }
 }
 
 // parse meta
@@ -1300,7 +1288,7 @@ const pdfPlugin = new Plugin(
 
   (match, utils) => {
     const pdfurl = match[1]
-    if (!isValidURL(pdfurl)) return match[0]
+    if (!isURL(pdfurl)) return match[0]
     const div = $('<div class="pdf raw"></div>')
     div.attr('data-pdfurl', pdfurl)
     return div[0].outerHTML
