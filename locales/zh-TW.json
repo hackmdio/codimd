@@ -115,5 +115,7 @@
     "Help us translating on %s": "來 %s 幫我們翻譯",
     "Source Code": "原始碼",
     "Powered by %s": "技術支援：%s",
-    "Register": "註冊"
+    "Register": "註冊",
+    "Export with pandoc": "使用 pandoc 匯出",
+    "Select output format": "選擇輸出格式"
 }
