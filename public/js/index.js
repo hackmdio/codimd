@@ -9,6 +9,8 @@ import randomColor from 'randomcolor'
 import store from 'store'
 import hljs from 'highlight.js'
 
+import isURL from 'validator/lib/isURL'
+
 import _ from 'lodash'
 
 import wurl from 'wurl'
@@ -41,7 +43,6 @@ import {
   removeDOMEvents,
   finishView,
   generateToc,
-  isValidURL,
   md,
   parseMeta,
   postProcess,
@@ -1400,7 +1401,7 @@ $('#gistImportModalConfirm').click(function () {
   if (!gisturl) return
   $('#gistImportModal').modal('hide')
   $('#gistImportModalContent').val('')
-  if (!isValidURL(gisturl)) {
+  if (!isURL(gisturl)) {
     showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid URL :(', '', '', false)
   } else {
     var hostname = wurl('hostname', gisturl)
@@ -1534,7 +1535,7 @@ function replaceAll (data) {
 function importFromUrl (url) {
   // console.log(url);
   if (!url) return
-  if (!isValidURL(url)) {
+  if (!isURL(url)) {
     showMessageModal('<i class="fa fa-cloud-download"></i> Import from URL', 'Not a valid URL :(', '', '', false)
     return
   }
