@@ -115,5 +115,7 @@
 	"Help us translating on %s": "Help us translating on %s",
 	"Source Code": "Source Code",
 	"Powered by %s": "Powered by %s",
-	"Register": "Register"
+	"Register": "Register",
+	"Export with pandoc": "Export with pandoc",
+	"Select output format": "Select output format"
 }
