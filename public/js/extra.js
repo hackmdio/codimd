@@ -450,7 +450,7 @@ export function finishView (view) {
 
     try {
       let position, zoom
-      if (content.match(/^[\d.,\s]+$/)) {
+      if (content.match(/^[-\d.,\s]+$/)) {
         const [lng, lat, zoo] = content.split(',').map(parseFloat)
         zoom = zoo
         position = [lat, lng]
