@@ -15,6 +15,10 @@
             "description": "Let npm also install development build tool",
             "value": "false"
         },
+        "CMD_DB_URL": {
+            "description": "Database URL",
+            "value": "$DATABASE_URL"
+        },
         "CMD_SESSION_SECRET": {
             "description": "Secret used to secure session cookies.",
             "required": false
