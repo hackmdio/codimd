@@ -148,6 +148,10 @@
             "description": "Database query url",
             "value": "$DATABASE_URL"
         },
+        "CMD_PORT": {
+            "description": "Listening Port",
+            "value": "$PORT"
+        },
         "DYNO": {
             "description": "Require this env var for deploy correctly the app",
             "value": "Scalingo"
