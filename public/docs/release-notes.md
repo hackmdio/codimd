@@ -25,6 +25,7 @@ Here are the highlights coming from version 2.0.0:
 - [Embed Geolocation data][embedding-geolocation-data]
 - [Version checking][auto-version-check-for-site-admin]
 - [Meet the new CodiMD CLI][meet-the-new-codimd-cli]
+- [Refreshed Documentation structure and new Markdown guides](refreshed-documentation-structure-and-new-markdown-guides)
 
 It's our pleasure to announce CodiMD `2.0.0`. Enjoy as always :heartpulse:.
 
@@ -36,6 +37,7 @@ It's our pleasure to announce CodiMD `2.0.0`. Enjoy as always :heartpulse:.
 [embedding-geolocation-data]: https://hackmd.io/@codimd/v2_0_0#Embedding-Geolocation-data
 [auto-version-check-for-site-admin]: https://hackmd.io/@codimd/v2_0_0#Auto-version-check-for-site-admin
 [meet-the-new-codimd-cli]: https://hackmd.io/@codimd/v2_0_0#Meet-the-new-CodiMD-CLI
+[refreshed-documentation-structure-and-new-markdown-guides]: https://hackmd.io/@codimd/v2_0_0#Refreshed-Documentation-structure-and-new-Markdown-guides
 
 [v2_0_0]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_0_0
 
