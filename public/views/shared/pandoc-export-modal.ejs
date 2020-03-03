@@ -1,0 +1,32 @@
+<!-- pandoc export modal -->
+<div class="modal fade pandoc-export-modal" id="pandoc-export-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><%= __('Export with pandoc') %></h4>
+            </div>
+            <form action="#" class="form-inline">
+                <div class="modal-body">
+                    <strong><%= __('Select output format') %></strong>
+                    <select name="output" id="output" class="form-control">
+                        <option value="asciidoc">AsciiDoc</option>
+                        <option value="context">ConTeXt</option>
+                        <option value="epub">EPUB (.epub)</option>
+                        <option value="epub3">EPUB v3 (.epub3)</option>
+                        <option value="latex">LaTeX</option>
+                        <option value="odt">OpenOffice (.odt)</option>
+                        <option value="rst">reStructuredText (.rst)</option>
+                        <option value="rtf">Rich Text Format (.rtf)</option>
+                        <option value="textile">Textile</option>
+                        <option value="docx">Word (.docx)</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="pandoc-export-download"><%= __('Export') %></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

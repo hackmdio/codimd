@@ -80,6 +80,14 @@
             "description": "GitHub API client secret",
             "required": false
         },
+        "CMD_BITBUCKET_CLIENTID": {
+            "description": "Bitbucket API client id",
+            "required": false
+        },
+        "CMD_BITBUCKET_CLIENTSECRET": {
+            "description": "Bitbucket API client secret",
+            "required": false
+        },
         "CMD_GITLAB_BASEURL": {
             "description": "GitLab authentication endpoint, set to use other endpoint than GitLab.com (optional)",
             "required": false
@@ -139,6 +147,10 @@
         "CMD_DB_URL": {
             "description": "Database query url",
             "value": "$DATABASE_URL"
+        },
+        "CMD_PORT": {
+            "description": "Listening Port",
+            "value": "$PORT"
         },
         "DYNO": {
             "description": "Require this env var for deploy correctly the app",

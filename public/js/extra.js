@@ -1,5 +1,5 @@
 /* eslint-env browser, jquery */
-/* global moment, serverurl, plantumlServer */
+/* global moment, serverurl, plantumlServer, L */
 
 import Prism from 'prismjs'
 import hljs from 'highlight.js'
@@ -9,9 +9,12 @@ import { saveAs } from 'file-saver'
 import escapeHTML from 'lodash/escape'
 import unescapeHTML from 'lodash/unescape'
 
+import isURL from 'validator/lib/isURL'
+
 import { stripTags } from '../../utils/string'
 
 import getUIElements from './lib/editor/ui-elements'
+import { emojifyImageDir } from './lib/editor/constants'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
@@ -30,7 +33,7 @@ require('prismjs/components/prism-gherkin')
 
 require('./lib/common/login')
 require('../vendor/md-toc')
-const viz = new window.Viz()
+let viz = new window.Viz()
 const plantumlEncoder = require('plantuml-encoder')
 
 const ui = getUIElements()
@@ -175,20 +178,6 @@ function slugifyWithUTF8 (text) {
   // slugify string to make it valid as an attribute
   newText = newText.replace(/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g, '')
   return newText
-}
-
-export function isValidURL (str) {
-  const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
-  if (!pattern.test(str)) {
-    return false
-  } else {
-    return true
-  }
 }
 
 // parse meta
@@ -378,8 +367,13 @@ export function finishView (view) {
           $ele.addClass('graphviz')
           $value.children().unwrap()
         })
+        .catch(err => {
+          viz = new window.Viz()
+          $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+          console.warn(err)
+        })
     } catch (err) {
-      $value.unwrap()
+      viz = new window.Viz()
       $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
@@ -431,7 +425,7 @@ export function finishView (view) {
       const specText = $value.text()
 
       $value.unwrap()
-      window.vegaEmbed($ele[0], JSON.parse(specText))
+      window.vegaEmbed($ele[0], JSON.parse(specText), { renderer: 'svg' })
         .then(result => {
           $ele.addClass('vega')
         })
@@ -447,6 +441,48 @@ export function finishView (view) {
       console.warn(err)
     }
   })
+  // geo map
+  view.find('div.geo.raw').removeClass('raw').each(async function (key, value) {
+    const $elem = $(value).parent().parent()
+    const $value = $(value)
+    const content = $value.text()
+    $value.unwrap()
+
+    try {
+      let position, zoom
+      if (content.match(/^[-\d.,\s]+$/)) {
+        const [lng, lat, zoo] = content.split(',').map(parseFloat)
+        zoom = zoo
+        position = [lat, lng]
+      } else {
+        // parse value as address
+        const data = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(content)}&format=json`).then(r => r.json())
+        if (!data || !data.length) {
+          throw new Error('Location not found')
+        }
+        const { lat, lon } = data[0]
+        position = [lat, lon]
+      }
+      $elem.html(`<div class="geo-map"></div>`)
+      const map = L.map($elem.find('.geo-map')[0]).setView(position, zoom || 16)
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '<a href="https://www.openstreetmap.org/">OSM</a>',
+        maxZoom: 18
+      }).addTo(map)
+      L.marker(position, {
+        icon: L.icon({
+          iconUrl: `${serverurl}/build/leaflet/images/marker-icon.png`,
+          shadowUrl: `${serverurl}/build/leaflet/images/marker-shadow.png`
+        })
+      }).addTo(map)
+      $elem.addClass('geo')
+    } catch (err) {
+      $elem.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+      console.warn(err)
+    }
+  })
+
   // image href new window(emoji not included)
   const images = view.find('img.raw[src]').removeClass('raw')
   images.each((key, value) => {
@@ -647,7 +683,7 @@ function generateCleanHTML (view) {
     let name = $(value).attr('alt')
     name = name.substr(1)
     name = name.slice(0, name.length - 1)
-    $(value).attr('src', `https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/${name}.png`)
+    $(value).attr('src', `https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/images/basic/${name}.png`)
   })
   // replace video to iframe
   src.find('div[data-videoid]').each((key, value) => {
@@ -1007,6 +1043,8 @@ function highlightRender (code, lang) {
     return `<div class="abc raw">${code}</div>`
   } else if (lang === 'vega') {
     return `<div class="vega raw">${code}</div>`
+  } else if (lang === 'geo') {
+    return `<div class="geo raw">${code}</div>`
   }
   const result = {
     value: code
@@ -1056,20 +1094,14 @@ md.use(require('markdown-it-mathjax')({
 md.use(require('markdown-it-imsize'))
 md.use(require('markdown-it-ruby'))
 
-md.use(require('markdown-it-emoji'), {
-  shortcuts: {}
-})
-
 window.emojify.setConfig({
   blacklist: {
     elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
     classes: ['no-emojify']
   },
-  img_dir: `${serverurl}/build/emojify.js/dist/images/basic`,
+  img_dir: emojifyImageDir,
   ignore_emoticons: true
 })
-
-md.renderer.rules.emoji = (token, idx) => window.emojify.replace(`:${token[idx].markup}:`)
 
 function renderContainer (tokens, idx, options, env, self) {
   tokens[idx].attrJoin('role', 'alert')
@@ -1256,7 +1288,7 @@ const pdfPlugin = new Plugin(
 
   (match, utils) => {
     const pdfurl = match[1]
-    if (!isValidURL(pdfurl)) return match[0]
+    if (!isURL(pdfurl)) return match[0]
     const div = $('<div class="pdf raw"></div>')
     div.attr('data-pdfurl', pdfurl)
     return div[0].outerHTML
@@ -1271,7 +1303,7 @@ const emojijsPlugin = new Plugin(
 
   (match, utils) => {
     const emoji = match[1].toLowerCase()
-    const div = $(`<img class="emoji" alt=":${emoji}:" src="${serverurl}/build/emojify.js/dist/images/basic/${emoji}.png"></img>`)
+    const div = $(`<img class="emoji" alt=":${emoji}:" src="${emojifyImageDir}/${emoji}.png"></img>`)
     return div[0].outerHTML
   }
 )

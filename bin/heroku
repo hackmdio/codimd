@@ -4,17 +4,7 @@ set -e
 
 if [ ! -z "$DYNO" ]; then
   # setup config files
-  cat << EOF > .sequelizerc
-var path = require('path');
-
-module.exports = {
-    'config':          path.resolve('config.json'),
-    'migrations-path': path.resolve('lib', 'migrations'),
-    'models-path':     path.resolve('lib', 'models'),
-    'url':             process.env.DATABASE_URL
-}
-
-EOF
+  cp .sequelizerc.example .sequelizerc
 
     cat << EOF > config.json
 

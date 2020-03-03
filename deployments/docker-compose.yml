@@ -1,7 +1,7 @@
 version: "3"
 services:
   database:
-    image: postgres:11.5
+    image: postgres:11.6-alpine
     environment:
       - POSTGRES_USER=codimd
       - POSTGRES_PASSWORD=change_password
@@ -11,10 +11,10 @@ services:
     restart: always
   codimd:
     # you can use image or custom build below
-    # image: nabo.codimd.dev/hackmdio/hackmd:1.4.0
-    build:
-      context: ..
-      dockerfile: ./deployments/Dockerfile
+    image: nabo.codimd.dev/hackmdio/hackmd:2.0.0
+    # build:
+    #   context: ..
+    #   dockerfile: ./deployments/Dockerfile
     environment:
       - CMD_DB_URL=postgres://codimd:change_password@database/codimd
       - CMD_USECDN=false

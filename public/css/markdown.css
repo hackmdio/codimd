@@ -127,6 +127,7 @@
 .markdown-body pre.graphviz,
 .markdown-body pre.mermaid,
 .markdown-body pre.abc,
+.markdown-body pre.geo,
 .markdown-body pre.vega {
     text-align: center;
     background-color: inherit;

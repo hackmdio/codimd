@@ -28,7 +28,7 @@ describe('realtime#disconnect', function () {
     })
     mock('../../lib/config', {})
 
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
     updateNoteStub = sinon.stub(realtime, 'updateNote').callsFake((note, callback) => {
       callback(null, note)
     })
@@ -60,7 +60,7 @@ describe('realtime#disconnect', function () {
   })
 
   afterEach(() => {
-    removeModuleFromRequireCache('../../lib/realtime')
+    removeModuleFromRequireCache('../../lib/realtime/realtime')
     mock.stopAll()
     sinon.restore()
   })

@@ -34,8 +34,8 @@ describe('save revision job', function () {
 
   afterEach(() => {
     clock.restore()
-    removeModuleFromRequireCache('../../lib/realtime')
-    removeModuleFromRequireCache('../../lib/realtimeSaveRevisionJob')
+    removeModuleFromRequireCache('../../lib/realtime/realtime')
+    removeModuleFromRequireCache('../../lib/realtime/realtimeSaveRevisionJob')
     mock.stopAll()
     sinon.restore()
   })
@@ -44,7 +44,7 @@ describe('save revision job', function () {
     mockModels.Revision.saveAllNotesRevision.callsFake((callback) => {
       callback(null, [])
     })
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
     clock.tick(5 * 60 * 1000)
     clock.restore()
     setTimeout(() => {
@@ -58,7 +58,7 @@ describe('save revision job', function () {
     mockModels.Revision.saveAllNotesRevision.callsFake((callback) => {
       callback(null, [1])
     })
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
     clock.tick(5 * 60 * 1000)
     clock.restore()
     setTimeout(() => {

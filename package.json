@@ -1,6 +1,6 @@
 {
   "name": "codimd",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "Realtime collaborative markdown notes on all platforms.",
   "keywords": [
     "Collaborative",
@@ -30,13 +30,14 @@
     "postinstall": "bin/heroku"
   },
   "dependencies": {
-    "@hackmd/codemirror": "~5.46.2",
+    "@hackmd/codemirror": "~5.49.5",
     "@hackmd/diff-match-patch": "~1.1.3",
     "@hackmd/idle-js": "~1.0.1",
     "@hackmd/imgur": "~0.4.1",
     "@hackmd/js-sequence-diagrams": "~0.0.1-alpha.3",
     "@hackmd/lz-string": "~1.4.4",
     "@hackmd/meta-marked": "~0.4.4",
+    "@hackmd/pandoc.js": "^0.1.9",
     "@passport-next/passport-openid": "~1.0.0",
     "@susisu/mte-kernel": "^2.1.0",
     "archiver": "~3.1.1",
@@ -81,11 +82,10 @@
     "list.js": "~1.5.0",
     "lodash": "~4.17.15",
     "lutim": "~1.0.2",
-    "markdown-it": "~9.0.1",
+    "markdown-it": "~10.0.0",
     "markdown-it-abbr": "~1.0.4",
     "markdown-it-container": "~2.0.0",
     "markdown-it-deflist": "~2.0.3",
-    "markdown-it-emoji": "~1.4.0",
     "markdown-it-footnote": "~3.0.2",
     "markdown-it-imsize": "~2.0.1",
     "markdown-it-ins": "~2.0.0",
@@ -98,7 +98,7 @@
     "markdownlint": "^0.17.0",
     "mathjax": "~2.7.5",
     "mattermost-redux": "~5.13.0",
-    "mermaid": "~8.2.3",
+    "mermaid": "~8.4.8",
     "method-override": "~3.0.0",
     "minimist": "~1.2.0",
     "minio": "^7.0.12",
@@ -107,6 +107,7 @@
     "mysql": "~2.17.1",
     "mysql2": "^2.0.1",
     "passport": "~0.4.0",
+    "passport-bitbucket-oauth2": "~0.1.2",
     "passport-dropbox-oauth2": "~1.1.0",
     "passport-facebook": "~2.1.1",
     "passport-github": "~1.1.0",
@@ -127,11 +128,11 @@
     "raphael": "~2.2.8",
     "readline-sync": "~1.4.7",
     "request": "~2.88.0",
-    "reveal.js": "~3.7.0",
+    "reveal.js": "~3.9.2",
     "scrypt": "~6.0.3",
     "select2": "~3.5.2-browserify",
-    "sequelize": "5.15.1",
-    "sequelize-cli": "~5.4.0",
+    "sequelize": "5.21.3",
+    "sequelize-cli": "~5.5.1",
     "shortid": "~2.2.14",
     "socket.io": "~2.2.0",
     "socket.io-client": "~2.2.0",
@@ -143,9 +144,9 @@
     "turndown": "~5.0.3",
     "uuid": "~3.3.2",
     "validator": "~11.1.0",
-    "vega": "~5.4.0",
-    "vega-embed": "~4.2.2",
-    "vega-lite": "~3.4.0",
+    "vega": "~5.9.1",
+    "vega-embed": "~6.2.2",
+    "vega-lite": "~4.4.0",
     "velocity-animate": "~1.5.2",
     "visibilityjs": "~2.0.2",
     "viz.js": "~2.1.2",
@@ -164,6 +165,9 @@
     "babel-runtime": "~6.26.0",
     "copy-webpack-plugin": "~4.5.2",
     "css-loader": "~1.0.0",
+    "dictionary-de": "^2.0.3",
+    "dictionary-de-at": "^2.0.3",
+    "dictionary-de-ch": "^2.0.3",
     "doctoc": "~1.4.0",
     "ejs-loader": "~0.3.1",
     "exports-loader": "~0.7.0",
@@ -173,6 +177,7 @@
     "imports-loader": "~0.8.0",
     "intelli-espower-loader": "~1.0.1",
     "jsonlint": "~1.6.2",
+    "leaflet": "~1.6.0",
     "less": "~3.9.0",
     "less-loader": "~4.1.0",
     "markdown-it-ruby": "^0.1.1",
@@ -187,6 +192,7 @@
     "standard": "~13.1.0",
     "string-loader": "~0.0.1",
     "style-loader": "~0.23.1",
+    "typo-js": "^1.0.3",
     "uglifyjs-webpack-plugin": "~1.2.7",
     "url-loader": "~1.0.1",
     "webpack": "~4.39.0",
@@ -204,11 +210,11 @@
   "maintainers": [
     {
       "name": "Max Wu",
-      "email": "jackymaxj@gmail.com"
+      "email": "max@hackmd.io"
     },
     {
-      "name": "Christoph (Sheogorath) Kern",
-      "email": "codimd@sheogorath.shivering-isles.com"
+      "name": "Yukai Huang",
+      "email": "yukai@hackmd.io"
     }
   ],
   "standard": {

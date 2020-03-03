@@ -23,12 +23,12 @@ describe('realtime#parseNoteIdFromSocketAsync', function () {
   })
 
   afterEach(() => {
-    removeModuleFromRequireCache('../../lib/realtime')
+    removeModuleFromRequireCache('../../lib/realtime/realtime')
     mock.stopAll()
   })
 
   it('should return null when socket not send noteId', async function () {
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
     const mockSocket = makeMockSocket()
     try {
       const notes = await realtime.parseNoteIdFromSocketAsync(mockSocket)
@@ -49,12 +49,12 @@ describe('realtime#parseNoteIdFromSocketAsync', function () {
       })
     })
     it('should return noteId when noteId exists', async function () {
-      realtime = require('../../lib/realtime')
+      realtime = require('../../lib/realtime/realtime')
       const noteId = '123456'
       const mockSocket = makeMockSocket(undefined, {
         noteId: noteId
       })
-      realtime = require('../../lib/realtime')
+      realtime = require('../../lib/realtime/realtime')
       let parsedNoteId
       try {
         parsedNoteId = await realtime.parseNoteIdFromSocketAsync(mockSocket)
@@ -76,12 +76,12 @@ describe('realtime#parseNoteIdFromSocketAsync', function () {
       })
     })
     it('should return null when noteId not exists', async function () {
-      realtime = require('../../lib/realtime')
+      realtime = require('../../lib/realtime/realtime')
       const noteId = '123456'
       const mockSocket = makeMockSocket(undefined, {
         noteId: noteId
       })
-      realtime = require('../../lib/realtime')
+      realtime = require('../../lib/realtime/realtime')
       const parsedNoteId = await realtime.parseNoteIdFromSocketAsync(mockSocket)
       assert(parsedNoteId === null)
     })
@@ -99,12 +99,12 @@ describe('realtime#parseNoteIdFromSocketAsync', function () {
       })
     })
     it('should return error when noteId parse error', async function () {
-      realtime = require('../../lib/realtime')
+      realtime = require('../../lib/realtime/realtime')
       const noteId = '123456'
       const mockSocket = makeMockSocket(undefined, {
         noteId: noteId
       })
-      realtime = require('../../lib/realtime')
+      realtime = require('../../lib/realtime/realtime')
       try {
         await realtime.parseNoteIdFromSocketAsync(mockSocket)
       } catch (err) {

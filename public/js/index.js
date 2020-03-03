@@ -9,6 +9,8 @@ import randomColor from 'randomcolor'
 import store from 'store'
 import hljs from 'highlight.js'
 
+import isURL from 'validator/lib/isURL'
+
 import _ from 'lodash'
 
 import wurl from 'wurl'
@@ -41,7 +43,6 @@ import {
   removeDOMEvents,
   finishView,
   generateToc,
-  isValidURL,
   md,
   parseMeta,
   postProcess,
@@ -76,6 +77,7 @@ import { preventXSS } from './render'
 import Editor from './lib/editor'
 
 import getUIElements from './lib/editor/ui-elements'
+import { emojifyImageDir } from './lib/editor/constants'
 import modeType from './lib/modeType'
 import appState from './lib/appState'
 
@@ -100,7 +102,7 @@ var cursorActivityDebounce = 50
 var cursorAnimatePeriod = 100
 var supportContainers = ['success', 'info', 'warning', 'danger', 'spoiler']
 var supportCodeModes = ['javascript', 'typescript', 'jsx', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'haskell', 'coffeescript', 'yaml', 'pug', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile', 'tiddlywiki', 'mediawiki', 'go', 'gherkin'].concat(hljs.listLanguages())
-var supportCharts = ['sequence', 'flow', 'graphviz', 'mermaid', 'abc', 'plantuml', 'vega']
+var supportCharts = ['sequence', 'flow', 'graphviz', 'mermaid', 'abc', 'plantuml', 'vega', 'geo']
 var supportHeaders = [
   {
     text: '# h1',
@@ -950,6 +952,15 @@ ui.toolbar.download.rawhtml.click(function (e) {
 })
 // pdf
 ui.toolbar.download.pdf.attr('download', '').attr('href', noteurl + '/pdf')
+
+ui.modal.pandocExport.find('#pandoc-export-download').click(function (e) {
+  e.preventDefault()
+
+  const exportType = ui.modal.pandocExport.find('select[name="output"]').val()
+
+  window.open(`${noteurl}/pandoc?exportType=${exportType}`, '_blank')
+})
+
 // export to dropbox
 ui.toolbar.export.dropbox.click(function () {
   var filename = renderFilename(ui.area.markdown) + '.md'
@@ -1390,7 +1401,7 @@ $('#gistImportModalConfirm').click(function () {
   if (!gisturl) return
   $('#gistImportModal').modal('hide')
   $('#gistImportModalContent').val('')
-  if (!isValidURL(gisturl)) {
+  if (!isURL(gisturl)) {
     showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid URL :(', '', '', false)
   } else {
     var hostname = wurl('hostname', gisturl)
@@ -1524,7 +1535,7 @@ function replaceAll (data) {
 function importFromUrl (url) {
   // console.log(url);
   if (!url) return
-  if (!isValidURL(url)) {
+  if (!isURL(url)) {
     showMessageModal('<i class="fa fa-cloud-download"></i> Import from URL', 'Not a valid URL :(', '', '', false)
     return
   }
@@ -3158,7 +3169,7 @@ $(editor.getInputField())
         callback(list)
       },
       template: function (value) {
-        return '<img class="emoji" src="' + serverurl + '/build/emojify.js/dist/images/basic/' + value + '.png"></img> ' + value
+        return `<img class="emoji" src="${emojifyImageDir}/${value}.png"></img> ${value}`
       },
       replace: function (value) {
         return '$1:' + value + ': '

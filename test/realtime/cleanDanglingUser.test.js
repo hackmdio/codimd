@@ -31,13 +31,13 @@ describe('cleanDanglingUser', function () {
 
   afterEach(() => {
     clock.restore()
-    removeModuleFromRequireCache('../../lib/realtime')
+    removeModuleFromRequireCache('../../lib/realtime/realtime')
     mock.stopAll()
     sinon.restore()
   })
 
   it('should call queueForDisconnectSpy when user is dangling', (done) => {
-    const realtime = require('../../lib/realtime')
+    const realtime = require('../../lib/realtime/realtime')
     const queueForDisconnectSpy = sinon.spy(realtime, 'queueForDisconnect')
     realtime.io = {
       to: sinon.stub().callsFake(function () {

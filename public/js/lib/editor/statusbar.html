@@ -31,11 +31,21 @@
             <div class="indent-width-label" title="Click to change indentation size">4</div>
             <input class="indent-width-input hidden" type="number" min="1" max="10" maxlength="2" size="2">
         </div>
-        <div class="status-theme">
-            <a class="ui-theme-toggle" title="Toggle editor theme"><i class="fa fa-sun-o fa-fw"></i></a>
+        <div class="status-theme dropup">
+            <a id="themeLabel" class="ui-theme-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Select theme">
+                <i class="fa fa-paint-brush fa-fw"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="themeLabel" style="overflow: auto;">
+            </ul>
         </div>
-        <div class="status-spellcheck">
-            <a class="ui-spellcheck-toggle" title="Toggle spellcheck"><i class="fa fa-check fa-fw"></i></a>
+        <div class="status-spellcheck dropup pull-right">
+            <a class="ui-spellcheck-toggle" title="Toggle spellcheck" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-check fa-fw"></i>
+                <span class="spellcheck-lang"></span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="themeLabel">
+                <li value="disabled"><a>Disabled</a></li>
+            </ul>
         </div>
         <div class="status-linter">
             <a class="ui-linter-toggle" title="Toggle linter"><i class="fa fa-lightbulb-o fa-fw"></i></a>

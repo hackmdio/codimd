@@ -76,7 +76,7 @@ describe('realtime#socket event', function () {
     mock('../../lib/models', modelsMock)
     mock('../../lib/config', configMock)
     mock('../../lib/ot', require('../testDoubles/otFake'))
-    realtime = require('../../lib/realtime')
+    realtime = require('../../lib/realtime/realtime')
 
     // get all socket event handler
     clientSocket = makeMockSocket(null, {
@@ -122,8 +122,8 @@ describe('realtime#socket event', function () {
   })
 
   afterEach(function () {
-    removeModuleFromRequireCache('../../lib/realtime')
-    removeModuleFromRequireCache('../../lib/realtimeClientConnection')
+    removeModuleFromRequireCache('../../lib/realtime/realtime')
+    removeModuleFromRequireCache('../../lib/realtime/realtimeClientConnection')
     mock.stopAll()
     sinon.restore()
     clock.restore()

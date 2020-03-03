@@ -79,6 +79,10 @@
     width: 100%;
     height: 100%;
 }
+.geo-map {
+  width: 100%;
+  height: 250px;
+}
 
 .MJX_Assistive_MathML {
     display: none;
