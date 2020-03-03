@@ -5,8 +5,8 @@ Release Notes
 ---
 
 <div style="text-align: center; margin-bottom: 1em;">
-    <img src="https://i.imgur.com/oRbNzRm.jpg" width="600">
-<small style="display: block;">Urocissa caerulea</small>
+  <img src="https://i.imgur.com/oRbNzRm.jpg" width="600">
+  <small style="display: block;">Urocissa caerulea</small>
 </div>
 
 > The Taiwan blue magpie (Urocissa caerulea), also called the Taiwan magpie, Formosan blue magpie , or the "long-tailed mountain lady", is a species of bird of the crow family. It is endemic to Taiwan.
@@ -64,8 +64,8 @@ It's our pleasure to announce CodiMD `2.0.0`. Enjoy as always :heartpulse:.
 ---
 
 <div style="text-align: center; margin-bottom: 1em;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Mikado_Pheasant_398.jpg" width="300">
-<small style="display: block;">Mikado Pheasant, photo credits to <a href="https://zh.wikipedia.org/wiki/File:Mikado_Pheasant_398.jpg">Snowyowls from wikipedia</a></small>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Mikado_Pheasant_398.jpg" width="300">
+  <small style="display: block;">Mikado Pheasant, photo credits to <a href="https://zh.wikipedia.org/wiki/File:Mikado_Pheasant_398.jpg">Snowyowls from wikipedia</a></small>
 </div>
 
 Starting from version 1.4.0, we'll pick one species from [_the endemic species of Taiwan_](https://en.wikipedia.org/wiki/List_of_endemic_species_of_Taiwan) as version name. Is there anyone still remember we've once used type of coffee as our version name? It's time to revive that good convention, but this time we don't need coffee to stay up all night. 💤
