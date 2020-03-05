@@ -11,7 +11,7 @@ Release Notes
 
 > The Taiwan blue magpie (Urocissa caerulea), also called the Taiwan magpie, Formosan blue magpie , or the "long-tailed mountain lady", is a species of bird of the crow family. It is endemic to Taiwan.
 > 
-> \- Wikipedia [Taiwan blue magpie](en.wikipedia.org/wiki/Taiwan_blue_magpie)
+> \- Wikipedia [Taiwan blue magpie](https://en.wikipedia.org/wiki/Taiwan_blue_magpie)
 
 In the past few months, we delivered not only a bunch of awesome features but also some critical bug fixes. Moreover, we refactored CodiMD's backend and started to write new tests.
 
