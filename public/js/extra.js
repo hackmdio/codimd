@@ -1124,7 +1124,7 @@ md.use(markdownitContainer, 'spoiler', {
       // opening tag
       const summary = m[1] && m[1].trim()
       if (summary) {
-        return `<details><summary>${md.utils.escapeHtml(summary)}</summary>\n`
+        return `<details><summary>${md.renderInline(summary)}</summary>\n`
       } else {
         return `<details>\n`
       }
