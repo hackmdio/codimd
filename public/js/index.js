@@ -951,7 +951,18 @@ ui.toolbar.download.rawhtml.click(function (e) {
   exportToRawHTML(ui.area.markdown)
 })
 // pdf
-ui.toolbar.download.pdf.attr('download', '').attr('href', noteurl + '/pdf')
+ui.toolbar.download.pdf.click(function (e) {
+  // TODO: using ajax
+
+  const form = document.createElement('form')
+  form.method = 'POST'
+  form.target = '_blank'
+  form.action = `${noteurl}/pdf`
+
+  document.body.appendChild(form)
+
+  form.submit()
+})
 
 ui.modal.pandocExport.find('#pandoc-export-download').click(function (e) {
   e.preventDefault()
