@@ -108,7 +108,7 @@
 }
 
 .ui-toc-label {
-    opacity: 0.3;
+    opacity: 0.9;
     background-color: #ccc;
     border: none;
     -webkit-transition: opacity 0.2s; /* Safari */
@@ -117,13 +117,13 @@
 
 .ui-toc .open .ui-toc-label {
     opacity: 1;
-    color: white;
+    color: #5f5f5f;
     -webkit-transition: opacity 0.2s; /* Safari */
     transition: opacity 0.2s;
 }
 
 .ui-toc-label:focus {
-    opacity: 0.3;
+    opacity: 1;
     background-color: #ccc;
     color: black;
 }
@@ -326,7 +326,7 @@
     margin-left: 10px;
     font-size: 12px;
     font-weight: 500;
-    color: #999;
+    color: rgba(0, 0, 0, 0.85);
 }
 
 .expand-toggle:hover, .expand-toggle:focus, .back-to-top:hover, .back-to-top:focus, .go-to-bottom:hover, .go-to-bottom:focus {
