@@ -21,6 +21,7 @@ import {
   deserializeParamAttributeFromElement
 } from './lib/markdown/utils'
 import { renderFretBoard } from './lib/renderer/fretboard/fretboard'
+import './lib/renderer/lightbox'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'

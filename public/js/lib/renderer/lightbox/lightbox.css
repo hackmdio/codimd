@@ -1,0 +1,64 @@
+.lightbox-container.show {
+  display: flex !important;
+}
+
+.lightbox-container {
+  display: none;
+
+  position: fixed;
+  z-index: 99999;
+  background-color: rgba(255, 255, 255, 0.8);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  justify-content: center;
+  align-items: center;
+  padding: 0px 40px;
+}
+
+.lightbox-container .lightbox-control-previous,
+.lightbox-container .lightbox-control-next,
+.lightbox-container .lightbox-control-close {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  color: rgba(65, 65, 65, 0.8);
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  font-size: 25px;
+}
+
+.lightbox-container .lightbox-control-previous:hover,
+.lightbox-container .lightbox-control-next:hover,
+.lightbox-container .lightbox-control-close:hover {
+  cursor: rgba(130, 130, 130, 0.78);
+}
+
+.lightbox-container .lightbox-control-next,
+.lightbox-container .lightbox-control-previous {
+  top: calc(50% - 10px);
+}
+
+.lightbox-container .lightbox-control-previous {
+  left: 0;
+}
+
+.lightbox-container .lightbox-control-next {
+  right: 0;
+}
+
+.lightbox-container .lightbox-control-close {
+  top: 10px;
+  right: 10px;
+}
+
+.lightbox-container .lightbox-inner img {
+  max-width: 100%;
+}
+
+.markdown-body img:not(.emoji) {
+  cursor: zoom-in;
+}
