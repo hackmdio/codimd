@@ -23,6 +23,8 @@ import markdownitContainer from 'markdown-it-container'
 /* Defined regex markdown it plugins */
 import Plugin from 'markdown-it-regexp'
 
+import { renderFretBoard } from '../vendor/fretboard/fretboard.js'
+
 require('prismjs/themes/prism.css')
 require('prismjs/components/prism-wiki')
 require('prismjs/components/prism-haskell')
@@ -480,6 +482,20 @@ export function finishView (view) {
       $elem.addClass('geo')
     } catch (err) {
       $elem.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+      console.warn(err)
+    }
+  })
+  // fretboard
+  const fretboard = view.find('div.fretboard_instance.raw').removeClass('raw')
+  fretboard.each((key, value) => {
+    const $value = $(value)
+
+    try {
+      const $ele = $(value).parent().parent()
+      $ele.html(renderFretBoard($value.text()))
+    } catch (err) {
+      $value.unwrap()
+      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
   })
