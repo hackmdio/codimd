@@ -15,6 +15,7 @@ Built on [HackMD](https://hackmd.io) source code, CodiMD lets you host and contr
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 # Table of Contents
 
+- [HackMD](#hackmd)
 - [CodiMD - The Open Source HackMD](#codimd---the-open-source-hackmd)
 - [Documentation](#documentation)
   - [Deployment](#deployment)
@@ -27,14 +28,17 @@ Built on [HackMD](https://hackmd.io) source code, CodiMD lets you host and contr
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## CodiMD - The Open Source HackMD
+## HackMD
+
 [HackMD](https://hackmd.io) helps developers write better documents and build active communities with open collaboration.
 HackMD is built with one promise - **You own and control all your content**:
 - You should be able to easily [download all your online content at once](https://hackmd.io/c/news/%2Fs%2Fr1cx3a3SE).
 - Your content formatting should be portable as well. (That's why we choose [markdown](https://hackmd.io/features#Typography).)
 - You should be able to control your content's presentation with HTML, [slide mode](https://hackmd.io/p/slide-example), or [book mode](https://hackmd.io/c/book-example/).
 
-With the same promise of you owning your content, CodiMD is the free software version of [HackMD](https://hackmd.io), developed and opened source by the HackMD team with reduced features, so you can use CodiMD for your community and own your data. *(See the [origin of the name CodiMD](https://github.com/hackmdio/hackmd/issues/720).)* 
+## CodiMD - The Open Source HackMD
+
+CodiMD is the free software version of [HackMD](https://hackmd.io), developed and opened source by the HackMD team with reduced features (without book mode), you can use CodiMD for your community and own all your data. *(See the [origin of the name CodiMD](https://github.com/hackmdio/hackmd/issues/720).)* 
 
 CodiMD is perfect for open communities, while HackMD emphasizes on permission and access controls for commercial use cases. 
 
