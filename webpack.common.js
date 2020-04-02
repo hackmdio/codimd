@@ -484,10 +484,14 @@ module.exports = {
       }]
     }, {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+      exclude: path.resolve(__dirname, 'public/vendor/fretboard'),
       use: [{
         loader: 'url-loader',
         options: { limit: '10000', mimetype: 'svg+xml' }
       }]
+    }, {
+      test: /.*\/fretb.*\.svg$/,
+      loader: 'svg-inline-loader'
     }, {
       test: /\.png(\?v=\d+\.\d+\.\d+)?$/,
       use: [{

@@ -1,23 +1,13 @@
-import {
-  dotEmpty,
-  dotEmpty_h,
-  dot,
-  dot_h,
-  dotWideLeft,
-  dotWideRight,
-  dotWideMiddle,
-  string_o,
-  string_x,
-  fretb_vert_4,
-  fretb_vert_5,
-  fretb_vert_7,
-  fretb_vert_9,
-  fretb_vert_12,
-  fretb_vert_15,
-  fretb_horiz_5,
-  fretb_horiz_6,
-  fretb_horiz_7,
-} from './fretboardSVG.js'
+import dotEmpty from './svg/dotEmpty.svg'
+import dotEmpty_h from './svg/dotEmpty_h.svg'
+import dot from './svg/dot.svg'
+import dot_h from './svg/dot_h.svg'
+import dotWideLeft from './svg/dotWideLeft.svg'
+import dotWideRight from './svg/dotWideRight.svg'
+import dotWideMiddle from './svg/dotWideMiddle.svg'
+import string_o from './svg/string_o.svg'
+import string_x from './svg/string_x.svg'
+import './css/i.css'
 
 const switchList_v = {
   'o': `<div class='cell dot'>${dot}</div>`,
@@ -38,68 +28,51 @@ const switchList_h = {
   ' ': `<div class='cell empty'>${dotEmpty_h}</div>`
 }
 
-export const renderFretBoard = (content) => {
+let getArgument = (argName, content) => {
+  let lineOfContent = content.data.split('\n')
 
+  let argv = ''
+  let indexOfArg = ''
+  let idx = ''
+  for (idx in lineOfContent) {
+    if (lineOfContent[idx].startsWith(argName)) {
+      argv = lineOfContent[idx].split(argName)[1].trim()
+      break
+    }
+  }
+
+  lineOfContent.splice(idx, 1)
+  content.data = lineOfContent.join('\n')
+
+  return argv
+}
+
+export const renderFretBoard = (data) => {
   let fretboardHTML = $('<div class="fretboard_instance"></div>')
-  if (content.includes('title:')) {
-    const getTitle = content.split('\n', 1)[0].split('title:')[1].trim()
-    $(fretboardHTML).append($(`<div class="title">${getTitle}</div>`))
-    content = content.split('\n').slice(1).join('\n') 
-  }
 
-  let fretType = ''
-  if (content.startsWith('type:')) {
-    fretType = content.split('\n', 1)[0].split('type:')[1].trim().split(' ')
-    content = content.split('\n').slice(1).join('\n') 
-  }
+  // parsing arguments
+  let content = { 'data': data }
+  let getTitle = getArgument('title:', content)
+  let fretType = getArgument('type:', content).split(' ')
+  content = content.data
 
-  let fretb_orientation = fretType[0].startsWith('v') ? 'vert' : 'horiz'
-  let fretb_len = fretType[0].substring(1)
-
-  // TODO: to get svg dynamically
-  let fretb_bg = ''
-  switch (fretb_len) {
-    case '4':
-      fretb_bg = fretb_vert_4
-      break
-    case '5':
-      if (fretb_orientation === 'vert')
-        fretb_bg = fretb_vert_5
-      else
-        fretb_bg = fretb_horiz_5
-      break
-    case '6':
-      fretb_bg = fretb_horiz_6
-      break
-    case '7':
-      if (fretb_orientation === 'vert')
-        fretb_bg = fretb_vert_7
-      else
-        fretb_bg = fretb_horiz_7
-      break
-    case '9':
-      fretb_bg = fretb_vert_9
-      break
-    case '12':
-      fretb_bg = fretb_vert_12
-      break
-    case '15':
-      fretb_bg = fretb_vert_15
-      break
-  }
+  $(fretboardHTML).append($(`<div class="title">${getTitle}</div>`))
 
   // create fretboard background HTML
-  let fretb_class = fretType[0][0] + ' ' + fretType[0]
+  let fretb_orientation = fretType && fretType[0].startsWith('v') ? 'vert' : 'horiz'
+  let fretb_len = fretType && fretType[0].substring(1)
+  let fretb_class = fretType && fretType[0][0] + ' ' + fretType[0]
   let nut = (fretType[1] && fretType[1] === 'noNut')?'noNut':''
   let svgHTML = $(`<div class="svg_wrapper ${fretb_class} ${nut}"></div>`)
+  let fretb_bg = require(`./svg/fretb_${fretb_orientation}_${fretb_len}.svg`)
   $(svgHTML).append($(fretb_bg))
 
   // create cells HTML
   let cellsHTML = $('<div class="cells"></div>')
-  let switchList = fretb_orientation === 'vert' ? switchList_v : switchList_h
-  let contentCell = content.split('')
+  let switchList = fretb_orientation && fretb_orientation === 'vert' ? switchList_v : switchList_h
+  let contentCell = content && content.split('')
   // Go through each ASCII character...
-  contentCell.forEach(char => {
+  contentCell && contentCell.forEach(char => {
     if (switchList[char] !== undefined) {
       cellsHTML.append($(switchList[char]));
     }
