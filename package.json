@@ -89,7 +89,7 @@
     "randomcolor": "~0.5.4",
     "readline-sync": "~1.4.7",
     "request": "~2.88.0",
-    "scrypt": "~6.0.3",
+    "scrypt-kdf": "^2.0.1",
     "sequelize": "5.21.3",
     "sequelize-cli": "~5.5.1",
     "shortid": "~2.2.14",
