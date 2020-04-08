@@ -1,3 +1,4 @@
+import './css/i.css'
 import dotEmpty from './svg/dotEmpty.svg'
 import dotEmpty_h from './svg/dotEmpty_h.svg'
 import dot from './svg/dot.svg'
@@ -7,7 +8,6 @@ import dotWideRight from './svg/dotWideRight.svg'
 import dotWideMiddle from './svg/dotWideMiddle.svg'
 import string_o from './svg/string_o.svg'
 import string_x from './svg/string_x.svg'
-import './css/i.css'
 
 const switchList_v = {
   'o': `<div class='cell dot'>${dot}</div>`,
@@ -56,7 +56,7 @@ export const renderFretBoard = (data) => {
   let fretType = getArgument('type:', content).split(' ')
   content = content.data
 
-  $(fretboardHTML).append($(`<div class="title">${getTitle}</div>`))
+  $(fretboardHTML).append($(`<div class="fretTitle">${getTitle}</div>`))
 
   // create fretboard background HTML
   let fretb_orientation = fretType && fretType[0].startsWith('v') ? 'vert' : 'horiz'
