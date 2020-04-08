@@ -43,9 +43,10 @@ async function createUser (argv) {
   }
 
   const pass = getPass(argv, 'add')
+  const hashedPass = await models.User.hashPassword(pass)
 
   // Lets try to create, and check success
-  const ref = await models.User.create({ email: argv['add'], password: pass })
+  const ref = await models.User.create({ email: argv['add'], password: hashedPass })
   if (ref === undefined) {
     console.log(`Could not create user with email ${argv['add']}`)
     process.exit(1)
@@ -79,7 +80,7 @@ async function resetUser (argv) {
   const pass = getPass(argv, 'reset')
 
   // set password and save
-  existingUser.password = pass
+  existingUser.password = await models.User.hashPassword(pass)
   await existingUser.save()
   console.log(`User with email ${argv['reset']} password has been reset`)
 }
