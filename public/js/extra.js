@@ -23,7 +23,7 @@ import markdownitContainer from 'markdown-it-container'
 /* Defined regex markdown it plugins */
 import Plugin from 'markdown-it-regexp'
 
-import { renderFretBoard } from '../vendor/fretboard/fretboard.js'
+import { renderFretBoard } from './lib/renderer/fretboard/fretboard.js'
 
 require('prismjs/themes/prism.css')
 require('prismjs/components/prism-wiki')
