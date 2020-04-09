@@ -7,13 +7,13 @@ Release Notes
 [CodiMD 2.0.1](https://github.com/hackmdio/codimd/releases/tag/2.0.1) is a minor release fixing bugs introduced in 2.0.0 and earlier versions along with some enhancements. We encourage everyone to upgrade to 2.0.1 now. See how things are going on [GitHub](https://github.com/hackmdio/codimd/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+milestone%3ANext). Stay tuned and healthy, and we hope you love it!
 
 
-## Enhancements
+### Enhancements
 
 - Allow inline markdown in spoiler summary syntax
 - Improve visibility of some UI elements
 - Support avatar for OAuth users
 
-## Fixes
+### Fixes
 
 - Fix to add missing configs in docker secret
 - Fix not able to upload image using imgur
