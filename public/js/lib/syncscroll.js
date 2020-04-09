@@ -125,7 +125,7 @@ md.use(markdownitContainer, 'spoiler', {
       const partClass = `class="part raw" data-startline="${startline}" data-endline="${endline}"`
       const summary = m[1] && m[1].trim()
       if (summary) {
-        return `<details ${partClass}><summary>${md.utils.escapeHtml(summary)}</summary>\n`
+        return `<details ${partClass}><summary>${md.renderInline(summary)}</summary>\n`
       } else {
         return `<details ${partClass}>\n`
       }
