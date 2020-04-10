@@ -191,18 +191,15 @@ export function parseMeta (md, edit, view, toc, tocAffix) {
     dir = meta.dir
     breaks = meta.breaks
   }
-  // text language
-  if (lang && typeof lang === 'string') {
-    view.attr('lang', lang)
-    toc.attr('lang', lang)
-    tocAffix.attr('lang', lang)
-    if (edit) { edit.attr('lang', lang) }
-  } else {
-    view.removeAttr('lang')
-    toc.removeAttr('lang')
-    tocAffix.removeAttr('lang')
-    if (edit) { edit.removeAttr('lang', lang) }
+  if (!lang || typeof lang !== 'string') {
+    lang = 'en'
   }
+  // text language
+  view.attr('lang', lang)
+  toc.attr('lang', lang)
+  tocAffix.attr('lang', lang)
+  if (edit) { edit.attr('lang', lang) }
+
   // text direction
   if (dir && typeof dir === 'string') {
     view.attr('dir', dir)
