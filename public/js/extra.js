@@ -16,6 +16,8 @@ import { stripTags } from '../../utils/string'
 import getUIElements from './lib/editor/ui-elements'
 import { emojifyImageDir } from './lib/editor/constants'
 
+import { escapeAttrValue } from './render'
+
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
 
@@ -734,8 +736,8 @@ export function exportToHTML (view) {
         html: src[0].outerHTML,
         'ui-toc': toc.html(),
         'ui-toc-affix': tocAffix.html(),
-        lang: (md && md.meta && md.meta.lang) ? `lang="${md.meta.lang}"` : null,
-        dir: (md && md.meta && md.meta.dir) ? `dir="${md.meta.dir}"` : null
+        lang: (md && md.meta && md.meta.lang) ? `lang="${escapeAttrValue(md.meta.lang)}"` : null,
+        dir: (md && md.meta && md.meta.dir) ? `dir="${escapeAttrValue(md.meta.dir)}"` : null
       }
       const html = template(context)
       //        console.log(html);
