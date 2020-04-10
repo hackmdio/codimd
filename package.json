@@ -181,6 +181,7 @@
     "less": "~3.9.0",
     "less-loader": "~4.1.0",
     "markdown-it-ruby": "^0.1.1",
+    "markmap-lib": "^0.4.2",
     "mini-css-extract-plugin": "~0.4.1",
     "mocha": "~5.2.0",
     "mock-require": "~3.0.3",

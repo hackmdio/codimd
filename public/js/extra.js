@@ -11,6 +11,9 @@ import unescapeHTML from 'lodash/unescape'
 
 import isURL from 'validator/lib/isURL'
 
+import { transform } from 'markmap-lib/dist/transform.common'
+import { markmap } from 'markmap-lib/dist/view.common'
+
 import { stripTags } from '../../utils/string'
 
 import getUIElements from './lib/editor/ui-elements'
@@ -479,6 +482,24 @@ export function finishView (view) {
       $elem.addClass('geo')
     } catch (err) {
       $elem.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+      console.warn(err)
+    }
+  })
+
+  // markmap
+  view.find('div.markmap.raw').removeClass('raw').each(async (key, value) => {
+    const $elem = $(value).parent().parent()
+    const $value = $(value)
+    const content = $value.text()
+    $value.unwrap()
+    try {
+      const data = transform(content)
+      $elem.html(`<div class="markmap"><svg style="width: 100%;" class="markmap rendered"></svg></div>`)
+      markmap($elem.find('svg.markmap.rendered')[0], data, {
+        duration: 0
+      })
+    } catch (err) {
+      $elem.html(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
   })
@@ -1031,20 +1052,23 @@ export function scrollToHash () {
 function highlightRender (code, lang) {
   if (!lang || /no(-?)highlight|plain|text/.test(lang)) { return }
   code = escapeHTML(code)
-  if (lang === 'sequence') {
-    return `<div class="sequence-diagram raw">${code}</div>`
-  } else if (lang === 'flow') {
-    return `<div class="flow-chart raw">${code}</div>`
-  } else if (lang === 'graphviz') {
-    return `<div class="graphviz raw">${code}</div>`
-  } else if (lang === 'mermaid') {
-    return `<div class="mermaid raw">${code}</div>`
-  } else if (lang === 'abc') {
-    return `<div class="abc raw">${code}</div>`
-  } else if (lang === 'vega') {
-    return `<div class="vega raw">${code}</div>`
-  } else if (lang === 'geo') {
-    return `<div class="geo raw">${code}</div>`
+  switch (lang) {
+    case 'sequence':
+      return `<div class="sequence-diagram raw">${code}</div>`
+    case 'flow':
+      return `<div class="flow-chart raw">${code}</div>`
+    case 'graphviz':
+      return `<div class="graphviz raw">${code}</div>`
+    case 'mermaid':
+      return `<div class="mermaid raw">${code}</div>`
+    case 'abc':
+      return `<div class="abc raw">${code}</div>`
+    case 'vega':
+      return `<div class="vega raw">${code}</div>`
+    case 'geo':
+      return `<div class="geo raw">${code}</div>`
+    case 'markmap':
+      return `<div class="markmap raw">${code}</div>`
   }
   const result = {
     value: code
