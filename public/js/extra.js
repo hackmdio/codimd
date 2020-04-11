@@ -494,8 +494,8 @@ export function finishView (view) {
     $value.unwrap()
     try {
       const data = transform(content)
-      $elem.html(`<div class="markmap"><svg style="width: 100%;" class="markmap rendered"></svg></div>`)
-      markmap($elem.find('svg.markmap.rendered')[0], data, {
+      $elem.html(`<div class="markmap-container"><svg></svg></div>`)
+      markmap($elem.find('svg')[0], data, {
         duration: 0
       })
     } catch (err) {
