@@ -273,7 +273,7 @@ models.sequelize.sync().then(function () {
     throw new Error('server still not ready after db synced')
   }
 }).catch(err => {
-  logger.error('Can\'t sync database');
+  logger.error('Can\'t sync database')
   logger.error(err.stack)
   logger.error('Process will exit now.')
   process.exit(1)
