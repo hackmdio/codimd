@@ -19,7 +19,7 @@ const viewportMargin = 20
 const jumpToAddressBarKeymapName = isMac ? 'Cmd-L' : 'Ctrl-L'
 
 export default class Editor {
-  constructor () {
+  constructor (textareaElement) {
     this.editor = null
     this.jumpToAddressBarKeymapValue = null
     this.defaultExtraKeys = {
@@ -142,6 +142,48 @@ export default class Editor {
     CodeMirror.defineMode('vega', function (config, modeConfig) {
       return CodeMirror.overlayMode(CodeMirror.getMode(config, 'application/ld+json'), ignoreOverlay)
     })
+
+    this.init(textareaElement)
+  }
+
+  init (textareaElement) {
+    this.editor = CodeMirror.fromTextArea(textareaElement, {
+      mode: defaultEditorMode,
+      backdrop: defaultEditorMode,
+      keyMap: 'sublime',
+      viewportMargin: viewportMargin,
+      styleActiveLine: true,
+      lineNumbers: true,
+      lineWrapping: true,
+      showCursorWhenSelecting: true,
+      highlightSelectionMatches: true,
+      indentUnit: 4,
+      continueComments: 'Enter',
+      theme: 'one-dark',
+      inputStyle: 'textarea',
+      matchBrackets: true,
+      autoCloseBrackets: true,
+      matchTags: {
+        bothTags: true
+      },
+      autoCloseTags: true,
+      foldGutter: true,
+      gutters: [
+        'CodeMirror-linenumbers',
+        'authorship-gutters',
+        'CodeMirror-foldgutter'
+      ],
+      extraKeys: this.defaultExtraKeys,
+      flattenSpans: true,
+      addModeClass: true,
+      readOnly: true,
+      autoRefresh: true,
+      otherCursors: true,
+      placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
+    })
+
+    this.spellchecker = new CodeMirrorSpellChecker(CodeMirror, this.getExistingSpellcheckLang(), this.editor)
+    this.tableEditor = initTableEditor(this.editor)
   }
 
   on (event, cb) {
@@ -738,48 +780,6 @@ export default class Editor {
     overrideBrowserKeymap.change(() => {
       this.setOverrideBrowserKeymap()
     })
-  }
-
-  init (textit) {
-    this.editor = CodeMirror.fromTextArea(textit, {
-      mode: defaultEditorMode,
-      backdrop: defaultEditorMode,
-      keyMap: 'sublime',
-      viewportMargin: viewportMargin,
-      styleActiveLine: true,
-      lineNumbers: true,
-      lineWrapping: true,
-      showCursorWhenSelecting: true,
-      highlightSelectionMatches: true,
-      indentUnit: 4,
-      continueComments: 'Enter',
-      theme: 'one-dark',
-      inputStyle: 'textarea',
-      matchBrackets: true,
-      autoCloseBrackets: true,
-      matchTags: {
-        bothTags: true
-      },
-      autoCloseTags: true,
-      foldGutter: true,
-      gutters: [
-        'CodeMirror-linenumbers',
-        'authorship-gutters',
-        'CodeMirror-foldgutter'
-      ],
-      extraKeys: this.defaultExtraKeys,
-      flattenSpans: true,
-      addModeClass: true,
-      readOnly: true,
-      autoRefresh: true,
-      otherCursors: true,
-      placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
-    })
-
-    this.spellchecker = new CodeMirrorSpellChecker(CodeMirror, this.getExistingSpellcheckLang(), this.editor)
-    this.tableEditor = initTableEditor(this.editor)
-
-    return this.editor
   }
 
   getEditor () {

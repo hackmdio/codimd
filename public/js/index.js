@@ -307,8 +307,8 @@ if (!textit) {
   throw new Error('There was no textit area!')
 }
 
-const editorInstance = new Editor()
-var editor = editorInstance.init(textit)
+const editorInstance = new Editor(textit)
+var editor = editorInstance.editor
 
 // FIXME: global referncing in jquery-textcomplete patch
 window.editor = editor
