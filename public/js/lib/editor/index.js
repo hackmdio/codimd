@@ -139,8 +139,13 @@ export default class Editor {
         return null
       }
     }
+
     CodeMirror.defineMode('vega', function (config, modeConfig) {
       return CodeMirror.overlayMode(CodeMirror.getMode(config, 'application/ld+json'), ignoreOverlay)
+    })
+
+    CodeMirror.defineMode('markmap', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'gfm'), ignoreOverlay)
     })
   }
 
