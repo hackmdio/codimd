@@ -21,6 +21,8 @@ import Idle from '@hackmd/idle-js'
 
 import { Spinner } from 'spin.js'
 
+import io from 'socket.io-client'
+
 import {
   checkLoginStateChanged,
   setloginStateChangeEvent
