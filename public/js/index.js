@@ -1704,24 +1704,91 @@ function havePermission () {
 window.havePermission = havePermission
 
 // socket.io actions
-var io = require('socket.io-client')
-var socket = io.connect({
-  path: urlpath ? '/' + urlpath + '/socket.io/' : '',
-  query: {
-    noteId: noteid
-  },
-  timeout: 5000, // 5 secs to timeout,
-  reconnectionAttempts: 20 // retry 20 times on connect failed
-})
-// overwrite original event for checking login state
-var on = socket.on
-socket.on = function () {
-  if (!checkLoginStateChanged() && !needRefresh) { return on.apply(socket, arguments) }
+
+class RealtimeClient {
+  constructor () {
+    this.socket = io.connect({
+      path: urlpath ? '/' + urlpath + '/socket.io/' : '',
+      query: {
+        noteId: noteid
+      },
+      timeout: 5000, // 5 secs to timeout,
+      reconnectionAttempts: 20 // retry 20 times on connect failed
+    })
+    this.patchSocket()
+    // this.registerEvent()
+  }
+
+  /**
+   * overwrite the original event for checking login state
+   */
+  patchSocket () {
+    const on = this.socket.on
+    const emit = this.socket.emit
+    const skipEvent = () => needRefresh || checkLoginStateChanged()
+
+    this.socket.on = function () {
+      if (skipEvent()) return
+      on.apply(socket, arguments)
+    }
+
+    this.socket.emit = function () {
+      if (skipEvent()) return
+      emit.apply(socket, arguments)
+    }
+  }
+
+  registerEvent () {
+    // socket.io connection event
+    this.socket.on('connect')
+    this.socket.on('reconnect')
+    this.socket.on('disconnect')
+
+    // socket io error event
+    // user not login / auth failed
+    this.socket.on('error')
+
+    // when server shuting down, emit this event to notify user that server is going to down
+    this.socket.on('maintenance')
+
+    // server status, 403 / 404 / 500
+    // according server response code, redirect page to error page
+    this.socket.on('info')
+
+    // require server response a server version
+    this.socket.on('version')
+
+    // when server save note to database, emit this event
+    this.socket.on('check')
+
+    this.socket.on('refresh')
+
+    // on user connect to server, receive user list
+    this.socket.on('online users')
+
+    // on note deleted
+    this.socket.on('delete')
+    // on permission changed
+    this.socket.on('permission')
+
+    // Idle.js user status event
+    this.socket.on('user status')
+
+    // editor (codemirror) cursor events
+    this.socket.on('cursor focus')
+    this.socket.on('cursor activity')
+    this.socket.on('cursor blur')
+
+    // OT.js events
+    this.socket.on('doc')
+    this.socket.on('operation')
+    this.socket.on('ack')
+  }
 }
-var emit = socket.emit
-socket.emit = function () {
-  if (!checkLoginStateChanged() && !needRefresh) { emit.apply(socket, arguments) }
-}
+
+const realtimeClient = new RealtimeClient()
+const socket = realtimeClient.socket
+
 socket.on('info', function (data) {
   console.error(data)
   switch (data.code) {
