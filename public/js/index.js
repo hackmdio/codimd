@@ -102,111 +102,8 @@ var updateViewDebounce = 100
 var cursorMenuThrottle = 50
 var cursorActivityDebounce = 50
 var cursorAnimatePeriod = 100
-var supportContainers = ['success', 'info', 'warning', 'danger', 'spoiler']
-var supportCodeModes = ['javascript', 'typescript', 'jsx', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'haskell', 'coffeescript', 'yaml', 'pug', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile', 'tiddlywiki', 'mediawiki', 'go', 'gherkin'].concat(hljs.listLanguages())
-var supportCharts = ['sequence', 'flow', 'graphviz', 'mermaid', 'abc', 'plantuml', 'vega', 'geo']
-var supportHeaders = [
-  {
-    text: '# h1',
-    search: '#'
-  },
-  {
-    text: '## h2',
-    search: '##'
-  },
-  {
-    text: '### h3',
-    search: '###'
-  },
-  {
-    text: '#### h4',
-    search: '####'
-  },
-  {
-    text: '##### h5',
-    search: '#####'
-  },
-  {
-    text: '###### h6',
-    search: '######'
-  },
-  {
-    text: '###### tags: `example`',
-    search: '###### tags:'
-  }
-]
-const supportReferrals = [
-  {
-    text: '[reference link]',
-    search: '[]'
-  },
-  {
-    text: '[reference]: https:// "title"',
-    search: '[]:'
-  },
-  {
-    text: '[^footnote link]',
-    search: '[^]'
-  },
-  {
-    text: '[^footnote reference]: https:// "title"',
-    search: '[^]:'
-  },
-  {
-    text: '^[inline footnote]',
-    search: '^[]'
-  },
-  {
-    text: '[link text][reference]',
-    search: '[][]'
-  },
-  {
-    text: '[link text](https:// "title")',
-    search: '[]()'
-  },
-  {
-    text: '![image alt][reference]',
-    search: '![][]'
-  },
-  {
-    text: '![image alt](https:// "title")',
-    search: '![]()'
-  },
-  {
-    text: '![image alt](https:// "title" =WidthxHeight)',
-    search: '![]()'
-  },
-  {
-    text: '[TOC]',
-    search: '[]'
-  }
-]
-const supportExternals = [
-  {
-    text: '{%youtube youtubeid %}',
-    search: 'youtube'
-  },
-  {
-    text: '{%vimeo vimeoid %}',
-    search: 'vimeo'
-  },
-  {
-    text: '{%gist gistid %}',
-    search: 'gist'
-  },
-  {
-    text: '{%slideshare slideshareid %}',
-    search: 'slideshare'
-  },
-  {
-    text: '{%speakerdeck speakerdeckid %}',
-    search: 'speakerdeck'
-  },
-  {
-    text: '{%pdf pdfurl %}',
-    search: 'pdf'
-  }
-]
+
+import {supportContainers, supportCodeModes, supportCharts, supportHeaders, supportReferrals, supportExternals} from './editorPlugins/constants'
 const supportExtraTags = [
   {
     text: '[name tag]',
@@ -310,12 +207,13 @@ if (!textit) {
 }
 
 const editorInstance = new Editor(textit)
+/** @type CodeMirror */
 var editor = editorInstance.editor
 
 // FIXME: global referncing in jquery-textcomplete patch
 window.editor = editor
 
-var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor)
+// var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor)
 defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
 
 //  initalize ui reference
@@ -341,7 +239,7 @@ var opts = {
   left: '50%' // Left position relative to parent
 }
 
-new Spinner(opts).spin(ui.spinner[0])
+// new Spinner(opts).spin(ui.spinner[0])
 
 // idle
 var idle = new Idle({
@@ -359,6 +257,7 @@ var idle = new Idle({
   },
   awayTimeout: idleTime
 })
+
 ui.area.codemirror.on('touchstart', function () {
   idle.onActive()
 })
@@ -396,35 +295,36 @@ function setNeedRefresh () {
   showStatus(statusType.offline)
 }
 
-setloginStateChangeEvent(function () {
-  setRefreshModal('user-state-changed')
-  setNeedRefresh()
-})
+// setloginStateChangeEvent(function () {
+//   setRefreshModal('user-state-changed')
+//   setNeedRefresh()
+// })
 
 // visibility
 var wasFocus = false
-Visibility.change(function (e, state) {
-  var hidden = Visibility.hidden()
-  if (hidden) {
-    if (editorHasFocus()) {
-      wasFocus = true
-      editor.getInputField().blur()
-    }
-  } else {
-    if (wasFocus) {
-      if (!visibleXS) {
-        editor.focus()
-        editor.refresh()
-      }
-      wasFocus = false
-    }
-    setHaveUnreadChanges(false)
-  }
-  updateTitleReminder()
-})
+// Visibility.change(function (e, state) {
+//   var hidden = Visibility.hidden()
+//   if (hidden) {
+//     if (editorHasFocus()) {
+//       wasFocus = true
+//       editor.getInputField().blur()
+//     }
+//   } else {
+//     if (wasFocus) {
+//       if (!visibleXS) {
+//         editor.focus()
+//         editor.refresh()
+//       }
+//       wasFocus = false
+//     }
+//     setHaveUnreadChanges(false)
+//   }
+//   updateTitleReminder()
+// })
 
 // when page ready
 $(document).ready(function () {
+  return
   idle.checkAway()
   checkResponsive()
   // if in smaller screen, we don't need advanced scrollbar
@@ -486,22 +386,22 @@ $(document).ready(function () {
   })
 })
 // when page resize
-$(window).resize(function () {
-  checkLayout()
-  checkEditorStyle()
-  checkTocStyle()
-  checkCursorMenu()
-  windowResize()
-})
+// $(window).resize(function () {
+//   checkLayout()
+//   checkEditorStyle()
+//   checkTocStyle()
+//   checkCursorMenu()
+//   windowResize()
+// })
 // when page unload
-$(window).on('unload', function () {
+// $(window).on('unload', function () {
 // updateHistoryInner();
-})
-$(window).on('error', function () {
+// })
+// $(window).on('error', function () {
   // setNeedRefresh();
-})
+// })
 
-setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown, editor)
+// setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown, editor)
 
 function autoSyncscroll () {
   if (editorHasFocus()) {
@@ -908,178 +808,178 @@ function showMessageModal (title, header, href, text, success) {
 }
 
 // check if dropbox app key is set and load scripts
-if (DROPBOX_APP_KEY) {
-  $('<script>')
-    .attr('type', 'text/javascript')
-    .attr('src', 'https://www.dropbox.com/static/api/2/dropins.js')
-    .attr('id', 'dropboxjs')
-    .attr('data-app-key', DROPBOX_APP_KEY)
-    .prop('async', true)
-    .prop('defer', true)
-    .appendTo('body')
-} else {
-  ui.toolbar.import.dropbox.hide()
-  ui.toolbar.export.dropbox.hide()
-}
+// if (DROPBOX_APP_KEY) {
+//   $('<script>')
+//     .attr('type', 'text/javascript')
+//     .attr('src', 'https://www.dropbox.com/static/api/2/dropins.js')
+//     .attr('id', 'dropboxjs')
+//     .attr('data-app-key', DROPBOX_APP_KEY)
+//     .prop('async', true)
+//     .prop('defer', true)
+//     .appendTo('body')
+// } else {
+//   ui.toolbar.import.dropbox.hide()
+//   ui.toolbar.export.dropbox.hide()
+// }
 
 // button actions
 // share
-ui.toolbar.publish.attr('href', noteurl + '/publish')
+// ui.toolbar.publish.attr('href', noteurl + '/publish')
 // extra
 // slide
-ui.toolbar.extra.slide.attr('href', noteurl + '/slide')
+// ui.toolbar.extra.slide.attr('href', noteurl + '/slide')
 // download
 // markdown
-ui.toolbar.download.markdown.click(function (e) {
-  e.preventDefault()
-  e.stopPropagation()
-  var filename = renderFilename(ui.area.markdown) + '.md'
-  var markdown = editor.getValue()
-  var blob = new Blob([markdown], {
-    type: 'text/markdown;charset=utf-8'
-  })
-  saveAs(blob, filename, true)
-})
+// ui.toolbar.download.markdown.click(function (e) {
+//   e.preventDefault()
+//   e.stopPropagation()
+//   var filename = renderFilename(ui.area.markdown) + '.md'
+//   var markdown = editor.getValue()
+//   var blob = new Blob([markdown], {
+//     type: 'text/markdown;charset=utf-8'
+//   })
+//   saveAs(blob, filename, true)
+// })
 // html
-ui.toolbar.download.html.click(function (e) {
-  e.preventDefault()
-  e.stopPropagation()
-  exportToHTML(ui.area.markdown)
-})
+// ui.toolbar.download.html.click(function (e) {
+//   e.preventDefault()
+//   e.stopPropagation()
+//   exportToHTML(ui.area.markdown)
+// })
 // raw html
-ui.toolbar.download.rawhtml.click(function (e) {
-  e.preventDefault()
-  e.stopPropagation()
-  exportToRawHTML(ui.area.markdown)
-})
+// ui.toolbar.download.rawhtml.click(function (e) {
+//   e.preventDefault()
+//   e.stopPropagation()
+//   exportToRawHTML(ui.area.markdown)
+// })
 // pdf
-ui.toolbar.download.pdf.attr('download', '').attr('href', noteurl + '/pdf')
+// ui.toolbar.download.pdf.attr('download', '').attr('href', noteurl + '/pdf')
 
-ui.modal.pandocExport.find('#pandoc-export-download').click(function (e) {
-  e.preventDefault()
-
-  const exportType = ui.modal.pandocExport.find('select[name="output"]').val()
-
-  window.open(`${noteurl}/pandoc?exportType=${exportType}`, '_blank')
-})
+// ui.modal.pandocExport.find('#pandoc-export-download').click(function (e) {
+//   e.preventDefault()
+//
+//   const exportType = ui.modal.pandocExport.find('select[name="output"]').val()
+//
+//   window.open(`${noteurl}/pandoc?exportType=${exportType}`, '_blank')
+// })
 
 // export to dropbox
-ui.toolbar.export.dropbox.click(function () {
-  var filename = renderFilename(ui.area.markdown) + '.md'
-  var options = {
-    files: [
-      {
-        url: noteurl + '/download',
-        filename: filename
-      }
-    ],
-    error: function (errorMessage) {
-      console.error(errorMessage)
-    }
-  }
-  Dropbox.save(options)
-})
+// ui.toolbar.export.dropbox.click(function () {
+//   var filename = renderFilename(ui.area.markdown) + '.md'
+//   var options = {
+//     files: [
+//       {
+//         url: noteurl + '/download',
+//         filename: filename
+//       }
+//     ],
+//     error: function (errorMessage) {
+//       console.error(errorMessage)
+//     }
+//   }
+//   Dropbox.save(options)
+// })
 // export to gist
-ui.toolbar.export.gist.attr('href', noteurl + '/gist')
+// ui.toolbar.export.gist.attr('href', noteurl + '/gist')
 // export to snippet
-ui.toolbar.export.snippet.click(function () {
-  ui.spinner.show()
-  $.get(serverurl + '/auth/gitlab/callback/' + noteid + '/projects')
-    .done(function (data) {
-      $('#snippetExportModalAccessToken').val(data.accesstoken)
-      $('#snippetExportModalBaseURL').val(data.baseURL)
-      $('#snippetExportModalVersion').val(data.version)
-      $('#snippetExportModalLoading').hide()
-      $('#snippetExportModal').modal('toggle')
-      $('#snippetExportModalProjects').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>')
-      if (data.projects) {
-        data.projects.sort(function (a, b) {
-          return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0)
-        })
-        data.projects.forEach(function (project) {
-          if (!project.snippets_enabled ||
-                        (project.permissions.project_access === null && project.permissions.group_access === null) ||
-                        (project.permissions.project_access !== null && project.permissions.project_access.access_level < 20)) {
-            return
-          }
-          $('<option>').val(project.id).text(project.path_with_namespace).appendTo('#snippetExportModalProjects')
-        })
-        $('#snippetExportModalProjects').prop('disabled', false)
-      }
-      $('#snippetExportModalLoading').hide()
-    })
-    .fail(function (data) {
-      showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false)
-    })
-    .always(function () {
-      ui.spinner.hide()
-    })
-})
+// ui.toolbar.export.snippet.click(function () {
+//   ui.spinner.show()
+//   $.get(serverurl + '/auth/gitlab/callback/' + noteid + '/projects')
+//     .done(function (data) {
+//       $('#snippetExportModalAccessToken').val(data.accesstoken)
+//       $('#snippetExportModalBaseURL').val(data.baseURL)
+//       $('#snippetExportModalVersion').val(data.version)
+//       $('#snippetExportModalLoading').hide()
+//       $('#snippetExportModal').modal('toggle')
+//       $('#snippetExportModalProjects').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>')
+//       if (data.projects) {
+//         data.projects.sort(function (a, b) {
+//           return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0)
+//         })
+//         data.projects.forEach(function (project) {
+//           if (!project.snippets_enabled ||
+//                         (project.permissions.project_access === null && project.permissions.group_access === null) ||
+//                         (project.permissions.project_access !== null && project.permissions.project_access.access_level < 20)) {
+//             return
+//           }
+//           $('<option>').val(project.id).text(project.path_with_namespace).appendTo('#snippetExportModalProjects')
+//         })
+//         $('#snippetExportModalProjects').prop('disabled', false)
+//       }
+//       $('#snippetExportModalLoading').hide()
+//     })
+//     .fail(function (data) {
+//       showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false)
+//     })
+//     .always(function () {
+//       ui.spinner.hide()
+//     })
+// })
 // import from dropbox
-ui.toolbar.import.dropbox.click(function () {
-  var options = {
-    success: function (files) {
-      ui.spinner.show()
-      var url = files[0].link
-      importFromUrl(url)
-    },
-    linkType: 'direct',
-    multiselect: false,
-    extensions: ['.md', '.html']
-  }
-  Dropbox.choose(options)
-})
+// ui.toolbar.import.dropbox.click(function () {
+//   var options = {
+//     success: function (files) {
+//       ui.spinner.show()
+//       var url = files[0].link
+//       importFromUrl(url)
+//     },
+//     linkType: 'direct',
+//     multiselect: false,
+//     extensions: ['.md', '.html']
+//   }
+//   Dropbox.choose(options)
+// })
 // import from gist
-ui.toolbar.import.gist.click(function () {
-  // na
-})
+// ui.toolbar.import.gist.click(function () {
+//   // na
+// })
 // import from snippet
-ui.toolbar.import.snippet.click(function () {
-  ui.spinner.show()
-  $.get(serverurl + '/auth/gitlab/callback/' + noteid + '/projects')
-    .done(function (data) {
-      $('#snippetImportModalAccessToken').val(data.accesstoken)
-      $('#snippetImportModalBaseURL').val(data.baseURL)
-      $('#snippetImportModalVersion').val(data.version)
-      $('#snippetImportModalContent').prop('disabled', false)
-      $('#snippetImportModalConfirm').prop('disabled', false)
-      $('#snippetImportModalLoading').hide()
-      $('#snippetImportModal').modal('toggle')
-      $('#snippetImportModalProjects').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>')
-      if (data.projects) {
-        data.projects.sort(function (a, b) {
-          return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0)
-        })
-        data.projects.forEach(function (project) {
-          if (!project.snippets_enabled ||
-                        (project.permissions.project_access === null && project.permissions.group_access === null) ||
-                        (project.permissions.project_access !== null && project.permissions.project_access.access_level < 20)) {
-            return
-          }
-          $('<option>').val(project.id).text(project.path_with_namespace).appendTo('#snippetImportModalProjects')
-        })
-        $('#snippetImportModalProjects').prop('disabled', false)
-      }
-      $('#snippetImportModalLoading').hide()
-    })
-    .fail(function (data) {
-      showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false)
-    })
-    .always(function () {
-      ui.spinner.hide()
-    })
-})
+// ui.toolbar.import.snippet.click(function () {
+//   ui.spinner.show()
+//   $.get(serverurl + '/auth/gitlab/callback/' + noteid + '/projects')
+//     .done(function (data) {
+//       $('#snippetImportModalAccessToken').val(data.accesstoken)
+//       $('#snippetImportModalBaseURL').val(data.baseURL)
+//       $('#snippetImportModalVersion').val(data.version)
+//       $('#snippetImportModalContent').prop('disabled', false)
+//       $('#snippetImportModalConfirm').prop('disabled', false)
+//       $('#snippetImportModalLoading').hide()
+//       $('#snippetImportModal').modal('toggle')
+//       $('#snippetImportModalProjects').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Projects</option>')
+//       if (data.projects) {
+//         data.projects.sort(function (a, b) {
+//           return (a.path_with_namespace < b.path_with_namespace) ? -1 : ((a.path_with_namespace > b.path_with_namespace) ? 1 : 0)
+//         })
+//         data.projects.forEach(function (project) {
+//           if (!project.snippets_enabled ||
+//                         (project.permissions.project_access === null && project.permissions.group_access === null) ||
+//                         (project.permissions.project_access !== null && project.permissions.project_access.access_level < 20)) {
+//             return
+//           }
+//           $('<option>').val(project.id).text(project.path_with_namespace).appendTo('#snippetImportModalProjects')
+//         })
+//         $('#snippetImportModalProjects').prop('disabled', false)
+//       }
+//       $('#snippetImportModalLoading').hide()
+//     })
+//     .fail(function (data) {
+//       showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Unable to fetch gitlab parameters :(', '', '', false)
+//     })
+//     .always(function () {
+//       ui.spinner.hide()
+//     })
+// })
 // import from clipboard
-ui.toolbar.import.clipboard.click(function () {
-  // na
-})
+// ui.toolbar.import.clipboard.click(function () {
+//   // na
+// })
 // upload image
-ui.toolbar.uploadImage.bind('change', function (e) {
-  var files = e.target.files || e.dataTransfer.files
-  e.dataTransfer = {}
-  e.dataTransfer.files = files
-  inlineAttach.onDrop(e)
-})
+// ui.toolbar.uploadImage.bind('change', function (e) {
+//   var files = e.target.files || e.dataTransfer.files
+//   e.dataTransfer = {}
+//   e.dataTransfer.files = files
+//   inlineAttach.onDrop(e)
+// })
 // toc
 ui.toc.dropdown.click(function (e) {
   e.stopPropagation()
@@ -1099,21 +999,21 @@ var revisionDeleteAnnotation = null
 var revisionList = ui.modal.revision.find('.ui-revision-list')
 var revision = null
 var revisionTime = null
-ui.modal.revision.on('show.bs.modal', function (e) {
-  $.get(noteurl + '/revision')
-    .done(function (data) {
-      parseRevisions(data.revision)
-      initRevisionViewer()
-    })
-    .fail(function (err) {
-      if (debug) {
-        console.log(err)
-      }
-    })
-    .always(function () {
-      // na
-    })
-})
+// ui.modal.revision.on('show.bs.modal', function (e) {
+//   $.get(noteurl + '/revision')
+//     .done(function (data) {
+//       parseRevisions(data.revision)
+//       initRevisionViewer()
+//     })
+//     .fail(function (err) {
+//       if (debug) {
+//         console.log(err)
+//       }
+//     })
+//     .always(function () {
+//       // na
+//     })
+// })
 function checkRevisionViewer () {
   if (revisionViewer) {
     var container = $(revisionViewer.display.wrapper).parent()
@@ -1121,7 +1021,7 @@ function checkRevisionViewer () {
     revisionViewer.refresh()
   }
 }
-ui.modal.revision.on('shown.bs.modal', checkRevisionViewer)
+// ui.modal.revision.on('shown.bs.modal', checkRevisionViewer)
 $(window).resize(checkRevisionViewer)
 function parseRevisions (_revisions) {
   if (_revisions.length !== revisions) {
@@ -1245,50 +1145,50 @@ function initRevisionViewer () {
   revisionDeleteAnnotation = revisionViewer.annotateScrollbar({ className: 'CodeMirror-delete-match' })
   checkRevisionViewer()
 }
-$('#revisionModalDownload').click(function () {
-  if (!revision) return
-  var filename = renderFilename(ui.area.markdown) + '_' + revisionTime + '.md'
-  var blob = new Blob([revision.content], {
-    type: 'text/markdown;charset=utf-8'
-  })
-  saveAs(blob, filename, true)
-})
-$('#revisionModalRevert').click(function () {
-  if (!revision) return
-  editor.setValue(revision.content)
-  ui.modal.revision.modal('hide')
-})
+// $('#revisionModalDownload').click(function () {
+//   if (!revision) return
+//   var filename = renderFilename(ui.area.markdown) + '_' + revisionTime + '.md'
+//   var blob = new Blob([revision.content], {
+//     type: 'text/markdown;charset=utf-8'
+//   })
+//   saveAs(blob, filename, true)
+// })
+// $('#revisionModalRevert').click(function () {
+//   if (!revision) return
+//   editor.setValue(revision.content)
+//   ui.modal.revision.modal('hide')
+// })
 // snippet projects
-ui.modal.snippetImportProjects.change(function () {
-  var accesstoken = $('#snippetImportModalAccessToken').val()
-  var baseURL = $('#snippetImportModalBaseURL').val()
-  var project = $('#snippetImportModalProjects').val()
-  var version = $('#snippetImportModalVersion').val()
-  $('#snippetImportModalLoading').show()
-  $('#snippetImportModalContent').val('/projects/' + project)
-  $.get(baseURL + '/api/' + version + '/projects/' + project + '/snippets?access_token=' + accesstoken)
-    .done(function (data) {
-      $('#snippetImportModalSnippets').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Snippets</option>')
-      data.forEach(function (snippet) {
-        $('<option>').val(snippet.id).text(snippet.title).appendTo($('#snippetImportModalSnippets'))
-      })
-      $('#snippetImportModalLoading').hide()
-      $('#snippetImportModalSnippets').prop('disabled', false)
-    })
-    .fail(function (err) {
-      if (debug) {
-        console.log(err)
-      }
-    })
-    .always(function () {
-      // na
-    })
-})
+// ui.modal.snippetImportProjects.change(function () {
+//   var accesstoken = $('#snippetImportModalAccessToken').val()
+//   var baseURL = $('#snippetImportModalBaseURL').val()
+//   var project = $('#snippetImportModalProjects').val()
+//   var version = $('#snippetImportModalVersion').val()
+//   $('#snippetImportModalLoading').show()
+//   $('#snippetImportModalContent').val('/projects/' + project)
+//   $.get(baseURL + '/api/' + version + '/projects/' + project + '/snippets?access_token=' + accesstoken)
+//     .done(function (data) {
+//       $('#snippetImportModalSnippets').find('option').remove().end().append('<option value="init" selected="selected" disabled="disabled">Select From Available Snippets</option>')
+//       data.forEach(function (snippet) {
+//         $('<option>').val(snippet.id).text(snippet.title).appendTo($('#snippetImportModalSnippets'))
+//       })
+//       $('#snippetImportModalLoading').hide()
+//       $('#snippetImportModalSnippets').prop('disabled', false)
+//     })
+//     .fail(function (err) {
+//       if (debug) {
+//         console.log(err)
+//       }
+//     })
+//     .always(function () {
+//       // na
+//     })
+// })
 // snippet snippets
-ui.modal.snippetImportSnippets.change(function () {
-  var snippet = $('#snippetImportModalSnippets').val()
-  $('#snippetImportModalContent').val($('#snippetImportModalContent').val() + '/snippets/' + snippet)
-})
+// ui.modal.snippetImportSnippets.change(function () {
+//   var snippet = $('#snippetImportModalSnippets').val()
+//   $('#snippetImportModalContent').val($('#snippetImportModalContent').val() + '/snippets/' + snippet)
+// })
 
 function scrollToTop () {
   if (appState.currentMode === modeType.both) {
@@ -1374,145 +1274,145 @@ function applyScrollspyActive (top, headerMap, headers, target, offset) {
 
 // clipboard modal
 // fix for wrong autofocus
-$('#clipboardModal').on('shown.bs.modal', function () {
-  $('#clipboardModal').blur()
-})
-$('#clipboardModalClear').click(function () {
-  $('#clipboardModalContent').html('')
-})
-$('#clipboardModalConfirm').click(function () {
-  var data = $('#clipboardModalContent').html()
-  if (data) {
-    parseToEditor(data)
-    $('#clipboardModal').modal('hide')
-    $('#clipboardModalContent').html('')
-  }
-})
+// $('#clipboardModal').on('shown.bs.modal', function () {
+//   $('#clipboardModal').blur()
+// })
+// $('#clipboardModalClear').click(function () {
+//   $('#clipboardModalContent').html('')
+// })
+// $('#clipboardModalConfirm').click(function () {
+//   var data = $('#clipboardModalContent').html()
+//   if (data) {
+//     parseToEditor(data)
+//     $('#clipboardModal').modal('hide')
+//     $('#clipboardModalContent').html('')
+//   }
+// })
 
 // refresh modal
-$('#refreshModalRefresh').click(function () {
-  location.reload(true)
-})
+// $('#refreshModalRefresh').click(function () {
+//   location.reload(true)
+// })
 
 // gist import modal
-$('#gistImportModalClear').click(function () {
-  $('#gistImportModalContent').val('')
-})
-$('#gistImportModalConfirm').click(function () {
-  var gisturl = $('#gistImportModalContent').val()
-  if (!gisturl) return
-  $('#gistImportModal').modal('hide')
-  $('#gistImportModalContent').val('')
-  if (!isURL(gisturl)) {
-    showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid URL :(', '', '', false)
-  } else {
-    var hostname = wurl('hostname', gisturl)
-    if (hostname !== 'gist.github.com') {
-      showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', '', false)
-    } else {
-      ui.spinner.show()
-      $.get('https://api.github.com/gists/' + wurl('-1', gisturl))
-        .done(function (data) {
-          if (data.files) {
-            var contents = ''
-            Object.keys(data.files).forEach(function (key) {
-              contents += key
-              contents += '\n---\n'
-              contents += data.files[key].content
-              contents += '\n\n'
-            })
-            replaceAll(contents)
-          } else {
-            showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Unable to fetch gist files :(', '', '', false)
-          }
-        })
-        .fail(function (data) {
-          showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', JSON.stringify(data), false)
-        })
-        .always(function () {
-          ui.spinner.hide()
-        })
-    }
-  }
-})
+// $('#gistImportModalClear').click(function () {
+//   $('#gistImportModalContent').val('')
+// })
+// $('#gistImportModalConfirm').click(function () {
+//   var gisturl = $('#gistImportModalContent').val()
+//   if (!gisturl) return
+//   $('#gistImportModal').modal('hide')
+//   $('#gistImportModalContent').val('')
+//   if (!isURL(gisturl)) {
+//     showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid URL :(', '', '', false)
+//   } else {
+//     var hostname = wurl('hostname', gisturl)
+//     if (hostname !== 'gist.github.com') {
+//       showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', '', false)
+//     } else {
+//       ui.spinner.show()
+//       $.get('https://api.github.com/gists/' + wurl('-1', gisturl))
+//         .done(function (data) {
+//           if (data.files) {
+//             var contents = ''
+//             Object.keys(data.files).forEach(function (key) {
+//               contents += key
+//               contents += '\n---\n'
+//               contents += data.files[key].content
+//               contents += '\n\n'
+//             })
+//             replaceAll(contents)
+//           } else {
+//             showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Unable to fetch gist files :(', '', '', false)
+//           }
+//         })
+//         .fail(function (data) {
+//           showMessageModal('<i class="fa fa-github"></i> Import from Gist', 'Not a valid Gist URL :(', '', JSON.stringify(data), false)
+//         })
+//         .always(function () {
+//           ui.spinner.hide()
+//         })
+//     }
+//   }
+// })
 
 // snippet import modal
-$('#snippetImportModalClear').click(function () {
-  $('#snippetImportModalContent').val('')
-  $('#snippetImportModalProjects').val('init')
-  $('#snippetImportModalSnippets').val('init')
-  $('#snippetImportModalSnippets').prop('disabled', true)
-})
-$('#snippetImportModalConfirm').click(function () {
-  var snippeturl = $('#snippetImportModalContent').val()
-  if (!snippeturl) return
-  $('#snippetImportModal').modal('hide')
-  $('#snippetImportModalContent').val('')
-  if (!/^.+\/snippets\/.+$/.test(snippeturl)) {
-    showMessageModal('<i class="fa fa-github"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', '', false)
-  } else {
-    ui.spinner.show()
-    var accessToken = '?access_token=' + $('#snippetImportModalAccessToken').val()
-    var fullURL = $('#snippetImportModalBaseURL').val() + '/api/' + $('#snippetImportModalVersion').val() + snippeturl
-    $.get(fullURL + accessToken)
-      .done(function (data) {
-        var content = '# ' + (data.title || 'Snippet Import')
-        var fileInfo = data.file_name.split('.')
-        fileInfo[1] = (fileInfo[1]) ? fileInfo[1] : 'md'
-        $.get(fullURL + '/raw' + accessToken)
-          .done(function (raw) {
-            if (raw) {
-              content += '\n\n'
-              if (fileInfo[1] !== 'md') {
-                content += '```' + fileTypes[fileInfo[1]] + '\n'
-              }
-              content += raw
-              if (fileInfo[1] !== 'md') {
-                content += '\n```'
-              }
-              replaceAll(content)
-            }
-          })
-          .fail(function (data) {
-            showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false)
-          })
-          .always(function () {
-            ui.spinner.hide()
-          })
-      })
-      .fail(function (data) {
-        showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false)
-      })
-  }
-})
+// $('#snippetImportModalClear').click(function () {
+//   $('#snippetImportModalContent').val('')
+//   $('#snippetImportModalProjects').val('init')
+//   $('#snippetImportModalSnippets').val('init')
+//   $('#snippetImportModalSnippets').prop('disabled', true)
+// })
+// $('#snippetImportModalConfirm').click(function () {
+//   var snippeturl = $('#snippetImportModalContent').val()
+//   if (!snippeturl) return
+//   $('#snippetImportModal').modal('hide')
+//   $('#snippetImportModalContent').val('')
+//   if (!/^.+\/snippets\/.+$/.test(snippeturl)) {
+//     showMessageModal('<i class="fa fa-github"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', '', false)
+//   } else {
+//     ui.spinner.show()
+//     var accessToken = '?access_token=' + $('#snippetImportModalAccessToken').val()
+//     var fullURL = $('#snippetImportModalBaseURL').val() + '/api/' + $('#snippetImportModalVersion').val() + snippeturl
+//     $.get(fullURL + accessToken)
+//       .done(function (data) {
+//         var content = '# ' + (data.title || 'Snippet Import')
+//         var fileInfo = data.file_name.split('.')
+//         fileInfo[1] = (fileInfo[1]) ? fileInfo[1] : 'md'
+//         $.get(fullURL + '/raw' + accessToken)
+//           .done(function (raw) {
+//             if (raw) {
+//               content += '\n\n'
+//               if (fileInfo[1] !== 'md') {
+//                 content += '```' + fileTypes[fileInfo[1]] + '\n'
+//               }
+//               content += raw
+//               if (fileInfo[1] !== 'md') {
+//                 content += '\n```'
+//               }
+//               replaceAll(content)
+//             }
+//           })
+//           .fail(function (data) {
+//             showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false)
+//           })
+//           .always(function () {
+//             ui.spinner.hide()
+//           })
+//       })
+//       .fail(function (data) {
+//         showMessageModal('<i class="fa fa-gitlab"></i> Import from Snippet', 'Not a valid Snippet URL :(', '', JSON.stringify(data), false)
+//       })
+//   }
+// })
 
 // snippet export modal
-$('#snippetExportModalConfirm').click(function () {
-  var accesstoken = $('#snippetExportModalAccessToken').val()
-  var baseURL = $('#snippetExportModalBaseURL').val()
-  var version = $('#snippetExportModalVersion').val()
-
-  var data = {
-    title: $('#snippetExportModalTitle').val(),
-    file_name: $('#snippetExportModalFileName').val(),
-    code: editor.getValue(),
-    visibility_level: $('#snippetExportModalVisibility').val(),
-    visibility: $('#snippetExportModalVisibility').val() === '0' ? 'private' : ($('#snippetExportModalVisibility').val() === '10' ? 'internal' : 'private')
-  }
-
-  if (!data.title || !data.file_name || !data.code || !data.visibility_level || !$('#snippetExportModalProjects').val()) return
-  $('#snippetExportModalLoading').show()
-  var fullURL = baseURL + '/api/' + version + '/projects/' + $('#snippetExportModalProjects').val() + '/snippets?access_token=' + accesstoken
-  $.post(fullURL
-    , data
-    , function (ret) {
-      $('#snippetExportModalLoading').hide()
-      $('#snippetExportModal').modal('hide')
-      var redirect = baseURL + '/' + $("#snippetExportModalProjects option[value='" + $('#snippetExportModalProjects').val() + "']").text() + '/snippets/' + ret.id
-      showMessageModal('<i class="fa fa-gitlab"></i> Export to Snippet', 'Export Successful!', redirect, 'View Snippet Here', true)
-    }
-  )
-})
+// $('#snippetExportModalConfirm').click(function () {
+//   var accesstoken = $('#snippetExportModalAccessToken').val()
+//   var baseURL = $('#snippetExportModalBaseURL').val()
+//   var version = $('#snippetExportModalVersion').val()
+//
+//   var data = {
+//     title: $('#snippetExportModalTitle').val(),
+//     file_name: $('#snippetExportModalFileName').val(),
+//     code: editor.getValue(),
+//     visibility_level: $('#snippetExportModalVisibility').val(),
+//     visibility: $('#snippetExportModalVisibility').val() === '0' ? 'private' : ($('#snippetExportModalVisibility').val() === '10' ? 'internal' : 'private')
+//   }
+//
+//   if (!data.title || !data.file_name || !data.code || !data.visibility_level || !$('#snippetExportModalProjects').val()) return
+//   $('#snippetExportModalLoading').show()
+//   var fullURL = baseURL + '/api/' + version + '/projects/' + $('#snippetExportModalProjects').val() + '/snippets?access_token=' + accesstoken
+//   $.post(fullURL
+//     , data
+//     , function (ret) {
+//       $('#snippetExportModalLoading').hide()
+//       $('#snippetExportModal').modal('hide')
+//       var redirect = baseURL + '/' + $("#snippetExportModalProjects option[value='" + $('#snippetExportModalProjects').val() + "']").text() + '/snippets/' + ret.id
+//       showMessageModal('<i class="fa fa-gitlab"></i> Export to Snippet', 'Export Successful!', redirect, 'View Snippet Here', true)
+//     }
+//   )
+// })
 
 function parseToEditor (data) {
   var turndownService = new TurndownService({
@@ -1558,57 +1458,57 @@ function importFromUrl (url) {
 }
 
 // mode
-ui.toolbar.mode.click(function () {
-  toggleMode()
-})
+// ui.toolbar.mode.click(function () {
+//   toggleMode()
+// })
 // edit
-ui.toolbar.edit.click(function () {
-  changeMode(modeType.edit)
-})
+// ui.toolbar.edit.click(function () {
+//   changeMode(modeType.edit)
+// })
 // view
-ui.toolbar.view.click(function () {
-  changeMode(modeType.view)
-})
+// ui.toolbar.view.click(function () {
+//   changeMode(modeType.view)
+// })
 // both
-ui.toolbar.both.click(function () {
-  changeMode(modeType.both)
-})
+// ui.toolbar.both.click(function () {
+//   changeMode(modeType.both)
+// })
 
-ui.toolbar.night.click(function () {
-  toggleNightMode()
-})
+// ui.toolbar.night.click(function () {
+//   toggleNightMode()
+// })
 // permission
 // freely
-ui.infobar.permission.freely.click(function () {
-  emitPermission('freely')
-})
+// ui.infobar.permission.freely.click(function () {
+//   emitPermission('freely')
+// })
 // editable
-ui.infobar.permission.editable.click(function () {
-  emitPermission('editable')
-})
+// ui.infobar.permission.editable.click(function () {
+//   emitPermission('editable')
+// })
 // locked
-ui.infobar.permission.locked.click(function () {
-  emitPermission('locked')
-})
+// ui.infobar.permission.locked.click(function () {
+//   emitPermission('locked')
+// })
 // private
-ui.infobar.permission.private.click(function () {
-  emitPermission('private')
-})
+// ui.infobar.permission.private.click(function () {
+//   emitPermission('private')
+// })
 // limited
-ui.infobar.permission.limited.click(function () {
-  emitPermission('limited')
-})
+// ui.infobar.permission.limited.click(function () {
+//   emitPermission('limited')
+// })
 // protected
-ui.infobar.permission.protected.click(function () {
-  emitPermission('protected')
-})
+// ui.infobar.permission.protected.click(function () {
+//   emitPermission('protected')
+// })
 // delete note
-ui.infobar.delete.click(function () {
-  $('.delete-modal').modal('show')
-})
-$('.ui-delete-modal-confirm').click(function () {
-  socket.emit('delete')
-})
+// ui.infobar.delete.click(function () {
+//   $('.delete-modal').modal('show')
+// })
+// $('.ui-delete-modal-confirm').click(function () {
+//   socket.emit('delete')
+// })
 
 function toggleNightMode () {
   var $body = $('body')
@@ -2140,6 +2040,10 @@ socket.on('refresh', function (data) {
 var EditorClient = ot.EditorClient
 var SocketIOAdapter = ot.SocketIOAdapter
 var CodeMirrorAdapter = ot.CodeMirrorAdapter
+/**
+ * ot.js 的 Client 啦
+ * @type {ot.EditorClient}
+ */
 var cmClient = null
 var synchronized_ = null
 
@@ -2148,6 +2052,7 @@ function havePendingOperation () {
 }
 
 socket.on('doc', function (obj) {
+  console.log(obj)
   var body = obj.str
   var bodyMismatch = editor.getValue() !== body
   var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && !havePendingOperation()))) || obj.force
@@ -3217,211 +3122,211 @@ const textCompleteKeyMap = {
   }
 }
 
-$(editor.getInputField())
-  .textcomplete([
-    { // emoji strategy
-      match: /(^|\n|\s)\B:([-+\w]*)$/,
-      search: function (term, callback) {
-        var line = editor.getLine(editor.getCursor().line)
-        term = line.match(this.match)[2]
-        var list = []
-        $.map(window.emojify.emojiNames, function (emoji) {
-          if (emoji.indexOf(term) === 0) { // match at first character
-            list.push(emoji)
-          }
-        })
-        $.map(window.emojify.emojiNames, function (emoji) {
-          if (emoji.indexOf(term) !== -1) { // match inside the word
-            list.push(emoji)
-          }
-        })
-        callback(list)
-      },
-      template: function (value) {
-        return `<img class="emoji" src="${emojifyImageDir}/${value}.png"></img> ${value}`
-      },
-      replace: function (value) {
-        return '$1:' + value + ': '
-      },
-      index: 1,
-      context: function (text) {
-        checkInCode()
-        checkInContainer()
-        checkInContainerSyntax()
-        return !isInCode && !isInContainerSyntax
-      }
-    },
-    { // Code block language strategy
-      langs: supportCodeModes,
-      charts: supportCharts,
-      match: /(^|\n)```(\w+)$/,
-      search: function (term, callback) {
-        var line = editor.getLine(editor.getCursor().line)
-        term = line.match(this.match)[2]
-        var list = []
-        $.map(this.langs, function (lang) {
-          if (lang.indexOf(term) === 0 && lang !== term) { list.push(lang) }
-        })
-        $.map(this.charts, function (chart) {
-          if (chart.indexOf(term) === 0 && chart !== term) { list.push(chart) }
-        })
-        callback(list)
-      },
-      replace: function (lang) {
-        var ending = ''
-        if (!checkBelow(matchInCode)) {
-          ending = '\n\n```'
-        }
-        if (this.langs.indexOf(lang) !== -1) { return '$1```' + lang + '=' + ending } else if (this.charts.indexOf(lang) !== -1) { return '$1```' + lang + ending }
-      },
-      done: function () {
-        var cursor = editor.getCursor()
-        var text = []
-        text.push(editor.getLine(cursor.line - 1))
-        text.push(editor.getLine(cursor.line))
-        text = text.join('\n')
-        // console.log(text);
-        if (text === '\n```') { editor.doc.cm.execCommand('goLineUp') }
-      },
-      context: function (text) {
-        return isInCode
-      }
-    },
-    { // Container strategy
-      containers: supportContainers,
-      match: /(^|\n):::(\s*)(\w*)$/,
-      search: function (term, callback) {
-        var line = editor.getLine(editor.getCursor().line)
-        term = line.match(this.match)[3].trim()
-        var list = []
-        $.map(this.containers, function (container) {
-          if (container.indexOf(term) === 0 && container !== term) { list.push(container) }
-        })
-        callback(list)
-      },
-      replace: function (lang) {
-        var ending = ''
-        if (!checkBelow(matchInContainer)) {
-          ending = '\n\n:::'
-        }
-        if (this.containers.indexOf(lang) !== -1) { return '$1:::$2' + lang + ending }
-      },
-      done: function () {
-        var cursor = editor.getCursor()
-        var text = []
-        text.push(editor.getLine(cursor.line - 1))
-        text.push(editor.getLine(cursor.line))
-        text = text.join('\n')
-        // console.log(text);
-        if (text === '\n:::') { editor.doc.cm.execCommand('goLineUp') }
-      },
-      context: function (text) {
-        return !isInCode && isInContainer
-      }
-    },
-    { // header
-      match: /(?:^|\n)(\s{0,3})(#{1,6}\w*)$/,
-      search: function (term, callback) {
-        callback($.map(supportHeaders, function (header) {
-          return header.search.indexOf(term) === 0 ? header.text : null
-        }))
-      },
-      replace: function (value) {
-        return '$1' + value
-      },
-      context: function (text) {
-        return !isInCode
-      }
-    },
-    { // extra tags for list
-      match: /(^[>\s]*[-+*]\s(?:\[[x ]\]|.*))(\[\])(\w*)$/,
-      search: function (term, callback) {
-        var list = []
-        $.map(supportExtraTags, function (extratag) {
-          if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
-        })
-        $.map(supportReferrals, function (referral) {
-          if (referral.search.indexOf(term) === 0) { list.push(referral.text) }
-        })
-        callback(list)
-      },
-      replace: function (value) {
-        return '$1' + value
-      },
-      context: function (text) {
-        return !isInCode
-      }
-    },
-    { // extra tags for blockquote
-      match: /(?:^|\n|\s)(>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|:|)\s*\w*)$/,
-      search: function (term, callback) {
-        var line = editor.getLine(editor.getCursor().line)
-        var quote = line.match(this.match)[1].trim()
-        var list = []
-        if (quote.indexOf('>') === 0) {
-          $.map(supportExtraTags, function (extratag) {
-            if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
-          })
-        }
-        $.map(supportReferrals, function (referral) {
-          if (referral.search.indexOf(term) === 0) { list.push(referral.text) }
-        })
-        callback(list)
-      },
-      replace: function (value) {
-        return '$1' + value
-      },
-      context: function (text) {
-        return !isInCode
-      }
-    },
-    { // referral
-      match: /(^\s*|\n|\s{2})((\[\]|\[\]\[\]|\[\]\(\)|!|!\[\]|!\[\]\[\]|!\[\]\(\))\s*\w*)$/,
-      search: function (term, callback) {
-        callback($.map(supportReferrals, function (referral) {
-          return referral.search.indexOf(term) === 0 ? referral.text : null
-        }))
-      },
-      replace: function (value) {
-        return '$1' + value
-      },
-      context: function (text) {
-        return !isInCode
-      }
-    },
-    { // externals
-      match: /(^|\n|\s)\{\}(\w*)$/,
-      search: function (term, callback) {
-        callback($.map(supportExternals, function (external) {
-          return external.search.indexOf(term) === 0 ? external.text : null
-        }))
-      },
-      replace: function (value) {
-        return '$1' + value
-      },
-      context: function (text) {
-        return !isInCode
-      }
-    }
-  ], {
-    appendTo: $('.cursor-menu')
-  })
-  .on({
-    'textComplete:beforeSearch': function (e) {
-      // NA
-    },
-    'textComplete:afterSearch': function (e) {
-      checkCursorMenu()
-    },
-    'textComplete:select': function (e, value, strategy) {
-      // NA
-    },
-    'textComplete:show': function (e) {
-      $(this).data('autocompleting', true)
-      editor.addKeyMap(textCompleteKeyMap)
-    },
-    'textComplete:hide': function (e) {
-      $(this).data('autocompleting', false)
-      editor.removeKeyMap(textCompleteKeyMap)
-    }
-  })
+// $(editor.getInputField())
+//   .textcomplete([
+//     { // emoji strategy
+//       match: /(^|\n|\s)\B:([-+\w]*)$/,
+//       search: function (term, callback) {
+//         var line = editor.getLine(editor.getCursor().line)
+//         term = line.match(this.match)[2]
+//         var list = []
+//         $.map(window.emojify.emojiNames, function (emoji) {
+//           if (emoji.indexOf(term) === 0) { // match at first character
+//             list.push(emoji)
+//           }
+//         })
+//         $.map(window.emojify.emojiNames, function (emoji) {
+//           if (emoji.indexOf(term) !== -1) { // match inside the word
+//             list.push(emoji)
+//           }
+//         })
+//         callback(list)
+//       },
+//       template: function (value) {
+//         return `<img class="emoji" src="${emojifyImageDir}/${value}.png"></img> ${value}`
+//       },
+//       replace: function (value) {
+//         return '$1:' + value + ': '
+//       },
+//       index: 1,
+//       context: function (text) {
+//         checkInCode()
+//         checkInContainer()
+//         checkInContainerSyntax()
+//         return !isInCode && !isInContainerSyntax
+//       }
+//     },
+//     { // Code block language strategy
+//       langs: supportCodeModes,
+//       charts: supportCharts,
+//       match: /(^|\n)```(\w+)$/,
+//       search: function (term, callback) {
+//         var line = editor.getLine(editor.getCursor().line)
+//         term = line.match(this.match)[2]
+//         var list = []
+//         $.map(this.langs, function (lang) {
+//           if (lang.indexOf(term) === 0 && lang !== term) { list.push(lang) }
+//         })
+//         $.map(this.charts, function (chart) {
+//           if (chart.indexOf(term) === 0 && chart !== term) { list.push(chart) }
+//         })
+//         callback(list)
+//       },
+//       replace: function (lang) {
+//         var ending = ''
+//         if (!checkBelow(matchInCode)) {
+//           ending = '\n\n```'
+//         }
+//         if (this.langs.indexOf(lang) !== -1) { return '$1```' + lang + '=' + ending } else if (this.charts.indexOf(lang) !== -1) { return '$1```' + lang + ending }
+//       },
+//       done: function () {
+//         var cursor = editor.getCursor()
+//         var text = []
+//         text.push(editor.getLine(cursor.line - 1))
+//         text.push(editor.getLine(cursor.line))
+//         text = text.join('\n')
+//         // console.log(text);
+//         if (text === '\n```') { editor.doc.cm.execCommand('goLineUp') }
+//       },
+//       context: function (text) {
+//         return isInCode
+//       }
+//     },
+//     { // Container strategy
+//       containers: supportContainers,
+//       match: /(^|\n):::(\s*)(\w*)$/,
+//       search: function (term, callback) {
+//         var line = editor.getLine(editor.getCursor().line)
+//         term = line.match(this.match)[3].trim()
+//         var list = []
+//         $.map(this.containers, function (container) {
+//           if (container.indexOf(term) === 0 && container !== term) { list.push(container) }
+//         })
+//         callback(list)
+//       },
+//       replace: function (lang) {
+//         var ending = ''
+//         if (!checkBelow(matchInContainer)) {
+//           ending = '\n\n:::'
+//         }
+//         if (this.containers.indexOf(lang) !== -1) { return '$1:::$2' + lang + ending }
+//       },
+//       done: function () {
+//         var cursor = editor.getCursor()
+//         var text = []
+//         text.push(editor.getLine(cursor.line - 1))
+//         text.push(editor.getLine(cursor.line))
+//         text = text.join('\n')
+//         // console.log(text);
+//         if (text === '\n:::') { editor.doc.cm.execCommand('goLineUp') }
+//       },
+//       context: function (text) {
+//         return !isInCode && isInContainer
+//       }
+//     },
+//     { // header
+//       match: /(?:^|\n)(\s{0,3})(#{1,6}\w*)$/,
+//       search: function (term, callback) {
+//         callback($.map(supportHeaders, function (header) {
+//           return header.search.indexOf(term) === 0 ? header.text : null
+//         }))
+//       },
+//       replace: function (value) {
+//         return '$1' + value
+//       },
+//       context: function (text) {
+//         return !isInCode
+//       }
+//     },
+//     { // extra tags for list
+//       match: /(^[>\s]*[-+*]\s(?:\[[x ]\]|.*))(\[\])(\w*)$/,
+//       search: function (term, callback) {
+//         var list = []
+//         $.map(supportExtraTags, function (extratag) {
+//           if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
+//         })
+//         $.map(supportReferrals, function (referral) {
+//           if (referral.search.indexOf(term) === 0) { list.push(referral.text) }
+//         })
+//         callback(list)
+//       },
+//       replace: function (value) {
+//         return '$1' + value
+//       },
+//       context: function (text) {
+//         return !isInCode
+//       }
+//     },
+//     { // extra tags for blockquote
+//       match: /(?:^|\n|\s)(>.*|\s|)((\^|)\[(\^|)\](\[\]|\(\)|:|)\s*\w*)$/,
+//       search: function (term, callback) {
+//         var line = editor.getLine(editor.getCursor().line)
+//         var quote = line.match(this.match)[1].trim()
+//         var list = []
+//         if (quote.indexOf('>') === 0) {
+//           $.map(supportExtraTags, function (extratag) {
+//             if (extratag.search.indexOf(term) === 0) { list.push(extratag.command()) }
+//           })
+//         }
+//         $.map(supportReferrals, function (referral) {
+//           if (referral.search.indexOf(term) === 0) { list.push(referral.text) }
+//         })
+//         callback(list)
+//       },
+//       replace: function (value) {
+//         return '$1' + value
+//       },
+//       context: function (text) {
+//         return !isInCode
+//       }
+//     },
+//     { // referral
+//       match: /(^\s*|\n|\s{2})((\[\]|\[\]\[\]|\[\]\(\)|!|!\[\]|!\[\]\[\]|!\[\]\(\))\s*\w*)$/,
+//       search: function (term, callback) {
+//         callback($.map(supportReferrals, function (referral) {
+//           return referral.search.indexOf(term) === 0 ? referral.text : null
+//         }))
+//       },
+//       replace: function (value) {
+//         return '$1' + value
+//       },
+//       context: function (text) {
+//         return !isInCode
+//       }
+//     },
+//     { // externals
+//       match: /(^|\n|\s)\{\}(\w*)$/,
+//       search: function (term, callback) {
+//         callback($.map(supportExternals, function (external) {
+//           return external.search.indexOf(term) === 0 ? external.text : null
+//         }))
+//       },
+//       replace: function (value) {
+//         return '$1' + value
+//       },
+//       context: function (text) {
+//         return !isInCode
+//       }
+//     }
+//   ], {
+//     appendTo: $('.cursor-menu')
+//   })
+//   .on({
+//     'textComplete:beforeSearch': function (e) {
+//       // NA
+//     },
+//     'textComplete:afterSearch': function (e) {
+//       checkCursorMenu()
+//     },
+//     'textComplete:select': function (e, value, strategy) {
+//       // NA
+//     },
+//     'textComplete:show': function (e) {
+//       $(this).data('autocompleting', true)
+//       editor.addKeyMap(textCompleteKeyMap)
+//     },
+//     'textComplete:hide': function (e) {
+//       $(this).data('autocompleting', false)
+//       editor.removeKeyMap(textCompleteKeyMap)
+//     }
+//   })
