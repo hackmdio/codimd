@@ -200,24 +200,500 @@ const fileTypes = {
   py: 'python'
 }
 
-// editor settings
-const textit = document.getElementById('textit')
-if (!textit) {
-  throw new Error('There was no textit area!')
+
+/**
+ * Global Variables Area
+ */
+// ---------------------------------------------------------------------------------------------------
+
+let editorInstance = null
+let editor = null
+
+function getEditorInstance () { return editorInstance}
+function setEditorInstance (e) {
+  editorInstance = e
+  editor = editorInstance.editor
+  // FIXME: global referencing in jquery-textcomplete patch
+  window.editor = editor
 }
 
-const editorInstance = new Editor(textit)
-/** @type CodeMirror */
-var editor = editorInstance.editor
+function getEditor () {
+  if (getEditorInstance()) {
+    return getEditorInstance().editor
+  }
+  return null
+}
 
-// FIXME: global referncing in jquery-textcomplete patch
-window.editor = editor
+// ---------------------------------------------------------------------------------------------------
 
-// var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor)
-defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
+/**
+ * First Page Load Phase --------
+ */
+// ---------------------------------------------------------------------------------------------------
+
+
+$(document).ready(function () {
+  console.log('-- first phase --')
+  initCodeMirrorEditor()
+  registerCodeMirrorEvent()
+  registerSocketIO()
+  // var inlineAttach = inlineAttachment.editors.codemirror4.attach(editor)
+  defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
+  ui = getUIElements()
+
+  ui.area.codemirror.on('touchstart', function () {
+    idle.onActive()
+  })
+
+  console.log('-- second phase --')
+  idle.checkAway()
+  checkResponsive()
+  // if in smaller screen, we don't need advanced scrollbar
+  var scrollbarStyle
+  if (visibleXS) {
+    scrollbarStyle = 'native'
+  } else {
+    scrollbarStyle = 'overlay'
+  }
+  if (scrollbarStyle !== editor.getOption('scrollbarStyle')) {
+    editor.setOption('scrollbarStyle', scrollbarStyle)
+    clearMap()
+  }
+  checkEditorStyle()
+
+  /* cache dom references */
+  var $body = $('body')
+
+  /* we need this only on touch devices */
+  if (isTouchDevice) {
+    /* bind events */
+    $(document)
+      .on('focus', 'textarea, input', function () {
+        $body.addClass('fixfixed')
+      })
+      .on('blur', 'textarea, input', function () {
+        $body.removeClass('fixfixed')
+      })
+  }
+
+  // Re-enable nightmode
+  if (store.get('nightMode') || Cookies.get('nightMode')) {
+    $body.addClass('night')
+    ui.toolbar.night.addClass('active')
+  }
+
+  // showup
+  $().showUp('.navbar', {
+    upClass: 'navbar-hide',
+    downClass: 'navbar-show'
+  })
+  // tooltip
+  $('[data-toggle="tooltip"]').tooltip()
+  // shortcuts
+  // allow on all tags
+  key.filter = function (e) { return true }
+  key('ctrl+alt+e', function (e) {
+    changeMode(modeType.edit)
+  })
+  key('ctrl+alt+v', function (e) {
+    changeMode(modeType.view)
+  })
+  key('ctrl+alt+b', function (e) {
+    console.log('ctrl+alt+b')
+    changeMode(modeType.both)
+  })
+  // toggle-dropdown
+  $(document).on('click', '.toggle-dropdown .dropdown-menu', function (e) {
+    e.stopPropagation()
+  })
+})
+
+function initCodeMirrorEditor() {
+  const textit = document.getElementById('textit')
+  if (!textit) {
+    throw new Error('There was no textit area!')
+  }
+  setEditorInstance(new Editor(textit))
+}
+
+function registerCodeMirrorEvent () {
+  editorInstance.on('update', function () {
+    $('.authorship-gutter:not([data-original-title])').tooltip({
+      container: '.CodeMirror-lines',
+      placement: 'right',
+      delay: { show: 500, hide: 100 }
+    })
+    $('.authorship-inline:not([data-original-title])').tooltip({
+      container: '.CodeMirror-lines',
+      placement: 'bottom',
+      delay: { show: 500, hide: 100 }
+    })
+    // clear tooltip which described element has been removed
+    $('[id^="tooltip"]').each(function (index, element) {
+      var $ele = $(element)
+      if ($('[aria-describedby="' + $ele.attr('id') + '"]').length <= 0) $ele.remove()
+    })
+  })
+  editorInstance.on('beforeChange', function (cm, change) {
+    if (debug) { console.debug(change) }
+    removeNullByte(cm, change)
+    if (enforceMaxLength(cm, change)) {
+      $('.limit-modal').modal('show')
+    }
+    var isIgnoreEmitEvent = (ignoreEmitEvents.indexOf(change.origin) !== -1)
+    if (!isIgnoreEmitEvent) {
+      if (!havePermission()) {
+        change.canceled = true
+        switch (permission) {
+          case 'editable':
+            $('.signin-modal').modal('show')
+            break
+          case 'locked':
+          case 'private':
+            $('.locked-modal').modal('show')
+            break
+        }
+      }
+    } else {
+      if (change.origin === 'ignoreHistory') {
+        setHaveUnreadChanges(true)
+        updateTitleReminder()
+      }
+    }
+    if (cmClient && !socket.connected) { cmClient.editorAdapter.ignoreNextChange = true }
+  })
+  editorInstance.on('cut', function () {
+    // na
+  })
+  editorInstance.on('paste', function () {
+    // na
+  })
+  editorInstance.on('changes', function (editor, changes) {
+    updateHistory()
+    var docLength = editor.getValue().length
+    // workaround for big documents
+    var newViewportMargin = 20
+    if (docLength > 20000) {
+      newViewportMargin = 1
+    } else if (docLength > 10000) {
+      newViewportMargin = 10
+    } else if (docLength > 5000) {
+      newViewportMargin = 15
+    }
+    if (newViewportMargin !== viewportMargin) {
+      viewportMargin = newViewportMargin
+      windowResize()
+    }
+    checkEditorScrollbar()
+    if (ui.area.codemirrorScroll[0].scrollHeight > ui.area.view[0].scrollHeight && editorHasFocus()) {
+      postUpdateEvent = function () {
+        syncScrollToView()
+        postUpdateEvent = null
+      }
+    }
+  })
+  editorInstance.on('focus', function (editor) {
+    for (var i = 0; i < onlineUsers.length; i++) {
+      if (onlineUsers[i].id === personalInfo.id) {
+        onlineUsers[i].cursor = editor.getCursor()
+      }
+    }
+    personalInfo['cursor'] = editor.getCursor()
+    socket.emit('cursor focus', editor.getCursor())
+  })
+  editorInstance.on('cursorActivity', editorInstance.updateStatusBar)
+  editorInstance.on('cursorActivity', cursorActivity)
+  editorInstance.on('beforeSelectionChange', editorInstance.updateStatusBar)
+  editorInstance.on('beforeSelectionChange', function (doc, selections) {
+    // check selection and whether the statusbar has added
+    if (selections && editorInstance.statusSelection) {
+      const selection = selections.ranges[0]
+
+      const anchor = selection.anchor
+      const head = selection.head
+      const start = head.line <= anchor.line ? head : anchor
+      const end = head.line >= anchor.line ? head : anchor
+      const selectionCharCount = Math.abs(head.ch - anchor.ch)
+
+      let selectionText = ' — Selected '
+
+      // borrow from brackets EditorStatusBar.js
+      if (start.line !== end.line) {
+        var lines = end.line - start.line + 1
+        if (end.ch === 0) {
+          lines--
+        }
+        selectionText += lines + ' lines'
+      } else if (selectionCharCount > 0) {
+        selectionText += selectionCharCount + ' columns'
+      }
+
+      if (start.line !== end.line || selectionCharCount > 0) {
+        editorInstance.statusSelection.text(selectionText)
+      } else {
+        editorInstance.statusSelection.text('')
+      }
+    }
+  })
+  editorInstance.on('blur', function (cm) {
+    for (var i = 0; i < onlineUsers.length; i++) {
+      if (onlineUsers[i].id === personalInfo.id) {
+        onlineUsers[i].cursor = null
+      }
+    }
+    personalInfo['cursor'] = null
+    socket.emit('cursor blur')
+  })
+}
+
+function registerSocketIO () {
+  const realtimeClient = new RealtimeClient()
+  socket = realtimeClient.socket
+  socket.on('info', function (data) {
+    console.error(data)
+    switch (data.code) {
+      case 403:
+        location.href = serverurl + '/403'
+        break
+      case 404:
+        location.href = serverurl + '/404'
+        break
+      case 500:
+        location.href = serverurl + '/500'
+        break
+    }
+  })
+  socket.on('error', function (data) {
+    console.error(data)
+    if (data.message && data.message.indexOf('AUTH failed') === 0) { location.href = serverurl + '/403' }
+  })
+  socket.on('delete', function () {
+    if (personalInfo.login) {
+      deleteServerHistory(noteid, function (err, data) {
+        if (!err) location.href = serverurl
+      })
+    } else {
+      getHistory(function (notehistory) {
+        var newnotehistory = removeHistory(noteid, notehistory)
+        saveHistory(newnotehistory)
+        location.href = serverurl
+      })
+    }
+  })
+  socket.on('maintenance', function () {
+    cmClient.revision = -1
+  })
+  socket.on('disconnect', function (data) {
+    showStatus(statusType.offline)
+    if (window.loaded) {
+      saveInfo()
+      lastInfo.history = editor.getHistory()
+    }
+    if (!editor.getOption('readOnly')) { editor.setOption('readOnly', true) }
+    if (!retryTimer) {
+      retryTimer = setInterval(function () {
+        if (!needRefresh) socket.connect()
+      }, 1000)
+    }
+  })
+  socket.on('reconnect', function (data) {
+    // sync back any change in offline
+    emitUserStatus(true)
+    cursorActivity(editor)
+    socket.emit('online users')
+  })
+  socket.on('connect', function (data) {
+    clearInterval(retryTimer)
+    retryTimer = null
+    personalInfo['id'] = socket.id
+    showStatus(statusType.connected)
+    socket.emit('version')
+  })
+  socket.on('version', function (data) {
+    if (version !== data.version) {
+      if (version < data.minimumCompatibleVersion) {
+        setRefreshModal('incompatible-version')
+        setNeedRefresh()
+      } else {
+        setRefreshModal('new-version')
+      }
+    }
+  })
+  socket.on('check', function (data) {
+    // console.log(data);
+    updateInfo(data)
+  })
+  socket.on('permission', function (data) {
+    updatePermission(data.permission)
+  })
+  socket.on('refresh', function (data) {
+    // console.log(data);
+    editorInstance.config.docmaxlength = data.docmaxlength
+    editor.setOption('maxLength', editorInstance.config.docmaxlength)
+    updateInfo(data)
+    updatePermission(data.permission)
+    if (!window.loaded) {
+      // auto change mode if no content detected
+      var nocontent = editor.getValue().length <= 0
+      if (nocontent) {
+        if (visibleXS) { appState.currentMode = modeType.edit } else { appState.currentMode = modeType.both }
+      }
+      // parse mode from url
+      if (window.location.search.length > 0) {
+        var urlMode = modeType[window.location.search.substr(1)]
+        if (urlMode) appState.currentMode = urlMode
+      }
+      changeMode(appState.currentMode)
+      if (nocontent && !visibleXS) {
+        editor.focus()
+        editor.refresh()
+      }
+      updateViewInner() // bring up view rendering earlier
+      updateHistory() // update history whether have content or not
+      window.loaded = true
+      emitUserStatus() // send first user status
+      updateOnlineStatus() // update first online status
+      setTimeout(function () {
+        // work around editor not refresh or doc not fully loaded
+        windowResizeInner()
+        // work around might not scroll to hash
+        scrollToHash()
+      }, 1)
+    }
+    if (editor.getOption('readOnly')) { editor.setOption('readOnly', false) }
+  })
+  socket.on('doc', function (obj) {
+    console.log(obj)
+    var body = obj.str
+    var bodyMismatch = editor.getValue() !== body
+    var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && !havePendingOperation()))) || obj.force
+
+    saveInfo()
+    if (setDoc && bodyMismatch) {
+      if (cmClient) cmClient.editorAdapter.ignoreNextChange = true
+      if (body) editor.setValue(body)
+      else editor.setValue('')
+    }
+
+    if (!window.loaded) {
+      editor.clearHistory()
+      ui.spinner.hide()
+      ui.content.fadeIn()
+    } else {
+      // if current doc is equal to the doc before disconnect
+      if (setDoc && bodyMismatch) editor.clearHistory()
+      else if (lastInfo.history) editor.setHistory(lastInfo.history)
+      lastInfo.history = null
+    }
+
+    if (!cmClient) {
+      cmClient = window.cmClient = new EditorClient(
+        obj.revision, obj.clients,
+        new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
+      )
+      synchronized_ = cmClient.state
+    } else if (setDoc) {
+      if (bodyMismatch) {
+        cmClient.undoManager.undoStack.length = 0
+        cmClient.undoManager.redoStack.length = 0
+      }
+      cmClient.revision = obj.revision
+      cmClient.setState(synchronized_)
+      cmClient.initializeClientList()
+      cmClient.initializeClients(obj.clients)
+    } else if (havePendingOperation()) {
+      cmClient.serverReconnect()
+    }
+
+    if (setDoc && bodyMismatch) {
+      isDirty = true
+      updateView()
+    }
+
+    restoreInfo()
+  })
+  socket.on('ack', function () {
+    isDirty = true
+    updateView()
+  })
+  socket.on('operation', function () {
+    isDirty = true
+    updateView()
+  })
+  socket.on('online users', function (data) {
+    if (debug) { console.debug(data) }
+    onlineUsers = data.users
+    updateOnlineStatus()
+    $('.CodeMirror-other-cursors').children().each(function (key, value) {
+      var found = false
+      for (var i = 0; i < data.users.length; i++) {
+        var user = data.users[i]
+        if ($(this).attr('id') === user.id) { found = true }
+      }
+      if (!found) {
+        $(this).stop(true).fadeOut('normal', function () {
+          $(this).remove()
+        })
+      }
+    })
+    for (var i = 0; i < data.users.length; i++) {
+      var user = data.users[i]
+      if (user.id !== socket.id) { buildCursor(user) } else { personalInfo = user }
+    }
+  })
+  socket.on('user status', function (data) {
+    if (debug) { console.debug(data) }
+    for (var i = 0; i < onlineUsers.length; i++) {
+      if (onlineUsers[i].id === data.id) {
+        onlineUsers[i] = data
+      }
+    }
+    updateOnlineStatus()
+    if (data.id !== socket.id) { buildCursor(data) }
+  })
+  socket.on('cursor focus', function (data) {
+    if (debug) { console.debug(data) }
+    for (var i = 0; i < onlineUsers.length; i++) {
+      if (onlineUsers[i].id === data.id) {
+        onlineUsers[i].cursor = data.cursor
+      }
+    }
+    if (data.id !== socket.id) { buildCursor(data) }
+    // force show
+    var cursor = $('div[data-clientid="' + data.id + '"]')
+    if (cursor.length > 0) {
+      cursor.stop(true).fadeIn()
+    }
+  })
+  socket.on('cursor activity', function (data) {
+    if (debug) { console.debug(data) }
+    for (var i = 0; i < onlineUsers.length; i++) {
+      if (onlineUsers[i].id === data.id) {
+        onlineUsers[i].cursor = data.cursor
+      }
+    }
+    if (data.id !== socket.id) { buildCursor(data) }
+  })
+  socket.on('cursor blur', function (data) {
+    if (debug) { console.debug(data) }
+    for (var i = 0; i < onlineUsers.length; i++) {
+      if (onlineUsers[i].id === data.id) {
+        onlineUsers[i].cursor = null
+      }
+    }
+    if (data.id !== socket.id) { buildCursor(data) }
+    // force hide
+    var cursor = $('div[data-clientid="' + data.id + '"]')
+    if (cursor.length > 0) {
+      cursor.stop(true).fadeOut()
+    }
+  })
+}
+
+// ---------------------------------------------------------------------------------------------------
 
 //  initalize ui reference
-const ui = getUIElements()
+let ui = getUIElements()
 
 // page actions
 var opts = {
@@ -256,10 +732,6 @@ var idle = new Idle({
     updateTitleReminder()
   },
   awayTimeout: idleTime
-})
-
-ui.area.codemirror.on('touchstart', function () {
-  idle.onActive()
 })
 
 var haveUnreadChanges = false
@@ -322,69 +794,6 @@ var wasFocus = false
 //   updateTitleReminder()
 // })
 
-// when page ready
-$(document).ready(function () {
-  return
-  idle.checkAway()
-  checkResponsive()
-  // if in smaller screen, we don't need advanced scrollbar
-  var scrollbarStyle
-  if (visibleXS) {
-    scrollbarStyle = 'native'
-  } else {
-    scrollbarStyle = 'overlay'
-  }
-  if (scrollbarStyle !== editor.getOption('scrollbarStyle')) {
-    editor.setOption('scrollbarStyle', scrollbarStyle)
-    clearMap()
-  }
-  checkEditorStyle()
-
-  /* cache dom references */
-  var $body = $('body')
-
-  /* we need this only on touch devices */
-  if (isTouchDevice) {
-    /* bind events */
-    $(document)
-      .on('focus', 'textarea, input', function () {
-        $body.addClass('fixfixed')
-      })
-      .on('blur', 'textarea, input', function () {
-        $body.removeClass('fixfixed')
-      })
-  }
-
-  // Re-enable nightmode
-  if (store.get('nightMode') || Cookies.get('nightMode')) {
-    $body.addClass('night')
-    ui.toolbar.night.addClass('active')
-  }
-
-  // showup
-  $().showUp('.navbar', {
-    upClass: 'navbar-hide',
-    downClass: 'navbar-show'
-  })
-  // tooltip
-  $('[data-toggle="tooltip"]').tooltip()
-  // shortcuts
-  // allow on all tags
-  key.filter = function (e) { return true }
-  key('ctrl+alt+e', function (e) {
-    changeMode(modeType.edit)
-  })
-  key('ctrl+alt+v', function (e) {
-    changeMode(modeType.view)
-  })
-  key('ctrl+alt+b', function (e) {
-    changeMode(modeType.both)
-  })
-  // toggle-dropdown
-  $(document).on('click', '.toggle-dropdown .dropdown-menu', function (e) {
-    e.stopPropagation()
-  })
-})
 // when page resize
 // $(window).resize(function () {
 //   checkLayout()
@@ -981,13 +1390,13 @@ function showMessageModal (title, header, href, text, success) {
 //   inlineAttach.onDrop(e)
 // })
 // toc
-ui.toc.dropdown.click(function (e) {
-  e.stopPropagation()
-})
+// ui.toc.dropdown.click(function (e) {
+//   e.stopPropagation()
+// })
 // prevent empty link change hash
-$('a[href="#"]').click(function (e) {
-  e.preventDefault()
-})
+// $('a[href="#"]').click(function (e) {
+//   e.preventDefault()
+// })
 
 // modal actions
 var revisions = []
@@ -1022,7 +1431,7 @@ function checkRevisionViewer () {
   }
 }
 // ui.modal.revision.on('shown.bs.modal', checkRevisionViewer)
-$(window).resize(checkRevisionViewer)
+// $(window).resize(checkRevisionViewer)
 function parseRevisions (_revisions) {
   if (_revisions.length !== revisions) {
     revisions = _revisions
@@ -1688,80 +2097,13 @@ class RealtimeClient {
   }
 }
 
-const realtimeClient = new RealtimeClient()
-const socket = realtimeClient.socket
+let socket = null
 
-socket.on('info', function (data) {
-  console.error(data)
-  switch (data.code) {
-    case 403:
-      location.href = serverurl + '/403'
-      break
-    case 404:
-      location.href = serverurl + '/404'
-      break
-    case 500:
-      location.href = serverurl + '/500'
-      break
-  }
-})
-socket.on('error', function (data) {
-  console.error(data)
-  if (data.message && data.message.indexOf('AUTH failed') === 0) { location.href = serverurl + '/403' }
-})
-socket.on('delete', function () {
-  if (personalInfo.login) {
-    deleteServerHistory(noteid, function (err, data) {
-      if (!err) location.href = serverurl
-    })
-  } else {
-    getHistory(function (notehistory) {
-      var newnotehistory = removeHistory(noteid, notehistory)
-      saveHistory(newnotehistory)
-      location.href = serverurl
-    })
-  }
-})
 var retryTimer = null
-socket.on('maintenance', function () {
-  cmClient.revision = -1
-})
-socket.on('disconnect', function (data) {
-  showStatus(statusType.offline)
-  if (window.loaded) {
-    saveInfo()
-    lastInfo.history = editor.getHistory()
-  }
-  if (!editor.getOption('readOnly')) { editor.setOption('readOnly', true) }
-  if (!retryTimer) {
-    retryTimer = setInterval(function () {
-      if (!needRefresh) socket.connect()
-    }, 1000)
-  }
-})
-socket.on('reconnect', function (data) {
-  // sync back any change in offline
-  emitUserStatus(true)
-  cursorActivity(editor)
-  socket.emit('online users')
-})
-socket.on('connect', function (data) {
-  clearInterval(retryTimer)
-  retryTimer = null
-  personalInfo['id'] = socket.id
-  showStatus(statusType.connected)
-  socket.emit('version')
-})
-socket.on('version', function (data) {
-  if (version !== data.version) {
-    if (version < data.minimumCompatibleVersion) {
-      setRefreshModal('incompatible-version')
-      setNeedRefresh()
-    } else {
-      setRefreshModal('new-version')
-    }
-  }
-})
+
+var permission = null
+
+
 var authors = []
 var authorship = []
 var authorMarks = {} // temp variable
@@ -1974,68 +2316,6 @@ function iterateLine (line) {
     }
   }
 }
-editorInstance.on('update', function () {
-  $('.authorship-gutter:not([data-original-title])').tooltip({
-    container: '.CodeMirror-lines',
-    placement: 'right',
-    delay: { show: 500, hide: 100 }
-  })
-  $('.authorship-inline:not([data-original-title])').tooltip({
-    container: '.CodeMirror-lines',
-    placement: 'bottom',
-    delay: { show: 500, hide: 100 }
-  })
-  // clear tooltip which described element has been removed
-  $('[id^="tooltip"]').each(function (index, element) {
-    var $ele = $(element)
-    if ($('[aria-describedby="' + $ele.attr('id') + '"]').length <= 0) $ele.remove()
-  })
-})
-socket.on('check', function (data) {
-  // console.log(data);
-  updateInfo(data)
-})
-socket.on('permission', function (data) {
-  updatePermission(data.permission)
-})
-
-var permission = null
-socket.on('refresh', function (data) {
-  // console.log(data);
-  editorInstance.config.docmaxlength = data.docmaxlength
-  editor.setOption('maxLength', editorInstance.config.docmaxlength)
-  updateInfo(data)
-  updatePermission(data.permission)
-  if (!window.loaded) {
-    // auto change mode if no content detected
-    var nocontent = editor.getValue().length <= 0
-    if (nocontent) {
-      if (visibleXS) { appState.currentMode = modeType.edit } else { appState.currentMode = modeType.both }
-    }
-    // parse mode from url
-    if (window.location.search.length > 0) {
-      var urlMode = modeType[window.location.search.substr(1)]
-      if (urlMode) appState.currentMode = urlMode
-    }
-    changeMode(appState.currentMode)
-    if (nocontent && !visibleXS) {
-      editor.focus()
-      editor.refresh()
-    }
-    updateViewInner() // bring up view rendering earlier
-    updateHistory() // update history whether have content or not
-    window.loaded = true
-    emitUserStatus() // send first user status
-    updateOnlineStatus() // update first online status
-    setTimeout(function () {
-      // work around editor not refresh or doc not fully loaded
-      windowResizeInner()
-      // work around might not scroll to hash
-      scrollToHash()
-    }, 1)
-  }
-  if (editor.getOption('readOnly')) { editor.setOption('readOnly', false) }
-})
 
 var EditorClient = ot.EditorClient
 var SocketIOAdapter = ot.SocketIOAdapter
@@ -2051,135 +2331,6 @@ function havePendingOperation () {
   return !!((cmClient && cmClient.state && Object.hasOwnProperty.call(cmClient.state, 'outstanding')))
 }
 
-socket.on('doc', function (obj) {
-  console.log(obj)
-  var body = obj.str
-  var bodyMismatch = editor.getValue() !== body
-  var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && !havePendingOperation()))) || obj.force
-
-  saveInfo()
-  if (setDoc && bodyMismatch) {
-    if (cmClient) cmClient.editorAdapter.ignoreNextChange = true
-    if (body) editor.setValue(body)
-    else editor.setValue('')
-  }
-
-  if (!window.loaded) {
-    editor.clearHistory()
-    ui.spinner.hide()
-    ui.content.fadeIn()
-  } else {
-    // if current doc is equal to the doc before disconnect
-    if (setDoc && bodyMismatch) editor.clearHistory()
-    else if (lastInfo.history) editor.setHistory(lastInfo.history)
-    lastInfo.history = null
-  }
-
-  if (!cmClient) {
-    cmClient = window.cmClient = new EditorClient(
-      obj.revision, obj.clients,
-      new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
-    )
-    synchronized_ = cmClient.state
-  } else if (setDoc) {
-    if (bodyMismatch) {
-      cmClient.undoManager.undoStack.length = 0
-      cmClient.undoManager.redoStack.length = 0
-    }
-    cmClient.revision = obj.revision
-    cmClient.setState(synchronized_)
-    cmClient.initializeClientList()
-    cmClient.initializeClients(obj.clients)
-  } else if (havePendingOperation()) {
-    cmClient.serverReconnect()
-  }
-
-  if (setDoc && bodyMismatch) {
-    isDirty = true
-    updateView()
-  }
-
-  restoreInfo()
-})
-
-socket.on('ack', function () {
-  isDirty = true
-  updateView()
-})
-
-socket.on('operation', function () {
-  isDirty = true
-  updateView()
-})
-
-socket.on('online users', function (data) {
-  if (debug) { console.debug(data) }
-  onlineUsers = data.users
-  updateOnlineStatus()
-  $('.CodeMirror-other-cursors').children().each(function (key, value) {
-    var found = false
-    for (var i = 0; i < data.users.length; i++) {
-      var user = data.users[i]
-      if ($(this).attr('id') === user.id) { found = true }
-    }
-    if (!found) {
-      $(this).stop(true).fadeOut('normal', function () {
-        $(this).remove()
-      })
-    }
-  })
-  for (var i = 0; i < data.users.length; i++) {
-    var user = data.users[i]
-    if (user.id !== socket.id) { buildCursor(user) } else { personalInfo = user }
-  }
-})
-socket.on('user status', function (data) {
-  if (debug) { console.debug(data) }
-  for (var i = 0; i < onlineUsers.length; i++) {
-    if (onlineUsers[i].id === data.id) {
-      onlineUsers[i] = data
-    }
-  }
-  updateOnlineStatus()
-  if (data.id !== socket.id) { buildCursor(data) }
-})
-socket.on('cursor focus', function (data) {
-  if (debug) { console.debug(data) }
-  for (var i = 0; i < onlineUsers.length; i++) {
-    if (onlineUsers[i].id === data.id) {
-      onlineUsers[i].cursor = data.cursor
-    }
-  }
-  if (data.id !== socket.id) { buildCursor(data) }
-  // force show
-  var cursor = $('div[data-clientid="' + data.id + '"]')
-  if (cursor.length > 0) {
-    cursor.stop(true).fadeIn()
-  }
-})
-socket.on('cursor activity', function (data) {
-  if (debug) { console.debug(data) }
-  for (var i = 0; i < onlineUsers.length; i++) {
-    if (onlineUsers[i].id === data.id) {
-      onlineUsers[i].cursor = data.cursor
-    }
-  }
-  if (data.id !== socket.id) { buildCursor(data) }
-})
-socket.on('cursor blur', function (data) {
-  if (debug) { console.debug(data) }
-  for (var i = 0; i < onlineUsers.length; i++) {
-    if (onlineUsers[i].id === data.id) {
-      onlineUsers[i].cursor = null
-    }
-  }
-  if (data.id !== socket.id) { buildCursor(data) }
-  // force hide
-  var cursor = $('div[data-clientid="' + data.id + '"]')
-  if (cursor.length > 0) {
-    cursor.stop(true).fadeOut()
-  }
-})
 
 var options = {
   valueNames: ['id', 'name'],
@@ -2529,73 +2680,7 @@ function enforceMaxLength (cm, change) {
   return false
 }
 var ignoreEmitEvents = ['setValue', 'ignoreHistory']
-editorInstance.on('beforeChange', function (cm, change) {
-  if (debug) { console.debug(change) }
-  removeNullByte(cm, change)
-  if (enforceMaxLength(cm, change)) {
-    $('.limit-modal').modal('show')
-  }
-  var isIgnoreEmitEvent = (ignoreEmitEvents.indexOf(change.origin) !== -1)
-  if (!isIgnoreEmitEvent) {
-    if (!havePermission()) {
-      change.canceled = true
-      switch (permission) {
-        case 'editable':
-          $('.signin-modal').modal('show')
-          break
-        case 'locked':
-        case 'private':
-          $('.locked-modal').modal('show')
-          break
-      }
-    }
-  } else {
-    if (change.origin === 'ignoreHistory') {
-      setHaveUnreadChanges(true)
-      updateTitleReminder()
-    }
-  }
-  if (cmClient && !socket.connected) { cmClient.editorAdapter.ignoreNextChange = true }
-})
-editorInstance.on('cut', function () {
-  // na
-})
-editorInstance.on('paste', function () {
-  // na
-})
-editorInstance.on('changes', function (editor, changes) {
-  updateHistory()
-  var docLength = editor.getValue().length
-  // workaround for big documents
-  var newViewportMargin = 20
-  if (docLength > 20000) {
-    newViewportMargin = 1
-  } else if (docLength > 10000) {
-    newViewportMargin = 10
-  } else if (docLength > 5000) {
-    newViewportMargin = 15
-  }
-  if (newViewportMargin !== viewportMargin) {
-    viewportMargin = newViewportMargin
-    windowResize()
-  }
-  checkEditorScrollbar()
-  if (ui.area.codemirrorScroll[0].scrollHeight > ui.area.view[0].scrollHeight && editorHasFocus()) {
-    postUpdateEvent = function () {
-      syncScrollToView()
-      postUpdateEvent = null
-    }
-  }
-})
-editorInstance.on('focus', function (editor) {
-  for (var i = 0; i < onlineUsers.length; i++) {
-    if (onlineUsers[i].id === personalInfo.id) {
-      onlineUsers[i].cursor = editor.getCursor()
-    }
-  }
-  personalInfo['cursor'] = editor.getCursor()
-  socket.emit('cursor focus', editor.getCursor())
-})
+
 
 const cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce)
 
@@ -2610,52 +2695,6 @@ function cursorActivityInner (editor) {
     socket.emit('cursor activity', editor.getCursor())
   }
 }
-
-editorInstance.on('cursorActivity', editorInstance.updateStatusBar)
-editorInstance.on('cursorActivity', cursorActivity)
-
-editorInstance.on('beforeSelectionChange', editorInstance.updateStatusBar)
-editorInstance.on('beforeSelectionChange', function (doc, selections) {
-  // check selection and whether the statusbar has added
-  if (selections && editorInstance.statusSelection) {
-    const selection = selections.ranges[0]
-
-    const anchor = selection.anchor
-    const head = selection.head
-    const start = head.line <= anchor.line ? head : anchor
-    const end = head.line >= anchor.line ? head : anchor
-    const selectionCharCount = Math.abs(head.ch - anchor.ch)
-
-    let selectionText = ' — Selected '
-
-    // borrow from brackets EditorStatusBar.js
-    if (start.line !== end.line) {
-      var lines = end.line - start.line + 1
-      if (end.ch === 0) {
-        lines--
-      }
-      selectionText += lines + ' lines'
-    } else if (selectionCharCount > 0) {
-      selectionText += selectionCharCount + ' columns'
-    }
-
-    if (start.line !== end.line || selectionCharCount > 0) {
-      editorInstance.statusSelection.text(selectionText)
-    } else {
-      editorInstance.statusSelection.text('')
-    }
-  }
-})
-
-editorInstance.on('blur', function (cm) {
-  for (var i = 0; i < onlineUsers.length; i++) {
-    if (onlineUsers[i].id === personalInfo.id) {
-      onlineUsers[i].cursor = null
-    }
-  }
-  personalInfo['cursor'] = null
-  socket.emit('cursor blur')
-})
 
 function saveInfo () {
   var scrollbarStyle = editor.getOption('scrollbarStyle')
@@ -2951,9 +2990,9 @@ function copyAttribute (src, des, attr) {
   if (src && src.getAttribute(attr) && des) { des.setAttribute(attr, src.getAttribute(attr)) }
 }
 
-if ($('.cursor-menu').length <= 0) {
-  $("<div class='cursor-menu'>").insertAfter('.CodeMirror-cursors')
-}
+// if ($('.cursor-menu').length <= 0) {
+//   $("<div class='cursor-menu'>").insertAfter('.CodeMirror-cursors')
+// }
 
 function reverseSortCursorMenu (dropdown) {
   var items = dropdown.find('.textcomplete-item')
