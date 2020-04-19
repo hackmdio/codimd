@@ -24,6 +24,7 @@ function findOrCreateLightboxContainer () {
     const hideContainer = (e) => {
       e.stopPropagation()
       lightBoxContainer.classList.remove('show')
+      document.body.classList.remove('no-scroll')
     }
 
     lightBoxContainer.querySelector('.lightbox-control-previous').addEventListener('click', (e) => {
@@ -71,6 +72,7 @@ function onClickImage (img) {
   setImageInner(img, lightBoxContainer)
 
   lightBoxContainer.classList.add('show')
+  document.body.classList.add('no-scroll')
 
   currentImage = img
   updateLightboxImages()

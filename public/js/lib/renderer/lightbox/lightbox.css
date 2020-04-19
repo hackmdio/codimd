@@ -62,3 +62,7 @@
 .markdown-body img.md-image {
   cursor: zoom-in;
 }
+
+body.no-scroll {
+  overflow: hidden;
+}
