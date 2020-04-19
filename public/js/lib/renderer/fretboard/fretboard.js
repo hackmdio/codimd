@@ -1,38 +1,39 @@
+/* global $ */
+
 import './css/i.css'
 import dotEmpty from './svg/dotEmpty.svg'
-import dotEmpty_h from './svg/dotEmpty_h.svg'
+import dotEmptyH from './svg/dotEmpty_h.svg'
 import dot from './svg/dot.svg'
-import dot_h from './svg/dot_h.svg'
+import dotH from './svg/dot_h.svg'
 import dotWideLeft from './svg/dotWideLeft.svg'
 import dotWideRight from './svg/dotWideRight.svg'
 import dotWideMiddle from './svg/dotWideMiddle.svg'
-import string_o from './svg/string_o.svg'
-import string_x from './svg/string_x.svg'
+import stringO from './svg/string_o.svg'
+import stringX from './svg/string_x.svg'
 
-const switchList_v = {
-  'o': `<div class='cell dot'>${dot}</div>`,
+const switchListV = {
+  o: `<div class='cell dot'>${dot}</div>`,
   '*': `<div class='cell dot faded'>${dot}</div>`,
   '(': `<div class='cell'>${dotWideLeft}</div>`,
   ')': `<div class='cell'>${dotWideRight}</div>`,
   '=': `<div class='cell'>${dotWideMiddle}</div>`,
-  '^': `<div class='cell'>${string_o}</div>`,
-  'x': `<div class='cell'>${string_x}</div>`,
+  '^': `<div class='cell'>${stringO}</div>`,
+  x: `<div class='cell'>${stringX}</div>`,
   '|': `<div class='cell empty'>${dotEmpty}</div>`,
   ' ': `<div class='cell empty'>${dotEmpty}</div>`
 }
-const switchList_h = {
-  'o': `<div class='cell dot'>${dot_h}</div>`,
-  '*': `<div class='cell dot faded'>${dot_h}</div>`,
-  'O': `<div class='cell dot root'>${dot_h}</div>`,
-  '-': `<div class='cell empty'>${dotEmpty_h}</div>`,
-  ' ': `<div class='cell empty'>${dotEmpty_h}</div>`
+const switchListH = {
+  o: `<div class='cell dot'>${dotH}</div>`,
+  '*': `<div class='cell dot faded'>${dotH}</div>`,
+  O: `<div class='cell dot root'>${dotH}</div>`,
+  '-': `<div class='cell empty'>${dotEmptyH}</div>`,
+  ' ': `<div class='cell empty'>${dotEmptyH}</div>`
 }
 
-let getArgument = (argName, content) => {
-  let lineOfContent = content.data.split('\n')
+const getArgument = (argName, content) => {
+  const lineOfContent = content.data.split('\n')
 
   let argv = ''
-  let indexOfArg = ''
   let idx = ''
   for (idx in lineOfContent) {
     if (lineOfContent[idx].startsWith(argName)) {
@@ -48,33 +49,33 @@ let getArgument = (argName, content) => {
 }
 
 export const renderFretBoard = (data) => {
-  let fretboardHTML = $('<div class="fretboard_instance"></div>')
+  const fretboardHTML = $('<div class="fretboard_instance"></div>')
 
   // parsing arguments
-  let content = { 'data': data }
-  let getTitle = getArgument('title:', content)
-  let fretType = getArgument('type:', content).split(' ')
+  let content = { data: data }
+  const getTitle = getArgument('title:', content)
+  const fretType = getArgument('type:', content).split(' ')
   content = content.data
 
   $(fretboardHTML).append($(`<div class="fretTitle">${getTitle}</div>`))
 
   // create fretboard background HTML
-  let fretb_orientation = fretType && fretType[0].startsWith('v') ? 'vert' : 'horiz'
-  let fretb_len = fretType && fretType[0].substring(1)
-  let fretb_class = fretType && fretType[0][0] + ' ' + fretType[0]
-  let nut = (fretType[1] && fretType[1] === 'noNut')?'noNut':''
-  let svgHTML = $(`<div class="svg_wrapper ${fretb_class} ${nut}"></div>`)
-  let fretb_bg = require(`./svg/fretb_${fretb_orientation}_${fretb_len}.svg`)
-  $(svgHTML).append($(fretb_bg))
+  const fretbOrientation = fretType && fretType[0].startsWith('v') ? 'vert' : 'horiz'
+  const fretbLen = fretType && fretType[0].substring(1)
+  const fretbClass = fretType && fretType[0][0] + ' ' + fretType[0]
+  const nut = (fretType[1] && fretType[1] === 'noNut') ? 'noNut' : ''
+  const svgHTML = $(`<div class="svg_wrapper ${fretbClass} ${nut}"></div>`)
+  const fretbBg = require(`./svg/fretb_${fretbOrientation}_${fretbLen}.svg`)
+  $(svgHTML).append($(fretbBg))
 
   // create cells HTML
-  let cellsHTML = $('<div class="cells"></div>')
-  let switchList = fretb_orientation && fretb_orientation === 'vert' ? switchList_v : switchList_h
-  let contentCell = content && content.split('')
+  const cellsHTML = $('<div class="cells"></div>')
+  const switchList = fretbOrientation && fretbOrientation === 'vert' ? switchListV : switchListH
+  const contentCell = content && content.split('')
   // Go through each ASCII character...
   contentCell && contentCell.forEach(char => {
     if (switchList[char] !== undefined) {
-      cellsHTML.append($(switchList[char]));
+      cellsHTML.append($(switchList[char]))
     }
   })
 
