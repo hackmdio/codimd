@@ -27,6 +27,11 @@ md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
   addPart(tokens, idx)
   return self.renderToken(...arguments)
 }
+const defaultImageRender = md.renderer.rules.image
+md.renderer.rules.image = function (tokens, idx, options, env, self) {
+  tokens[idx].attrJoin('class', 'md-image')
+  return defaultImageRender(...arguments)
+}
 md.renderer.rules.bullet_list_open = function (tokens, idx, options, env, self) {
   addPart(tokens, idx)
   return self.renderToken(...arguments)

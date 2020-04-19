@@ -59,6 +59,6 @@
   max-width: 100%;
 }
 
-.markdown-body img:not(.emoji) {
+.markdown-body img.md-image {
   cursor: zoom-in;
 }

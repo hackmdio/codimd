@@ -77,7 +77,7 @@ function onClickImage (img) {
 }
 
 function updateLightboxImages () {
-  images = [...document.querySelectorAll('.markdown-body img:not(.emoji)')]
+  images = [...document.querySelectorAll('.markdown-body img.md-image')]
 
   if (currentImage) {
     currentIndexIndex = images.findIndex(image => image === currentImage)
@@ -91,7 +91,7 @@ const init = () => {
   }
 
   markdownBody.addEventListener('click', function (e) {
-    if (e.target.nodeName === 'IMG' && !e.target.classList.contains('emoji')) {
+    if (e.target.nodeName === 'IMG' && e.target.classList.contains('md-image')) {
       onClickImage(e.target)
       e.stopPropagation()
     }

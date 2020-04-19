@@ -1167,6 +1167,7 @@ md.use(markdownitContainer, 'spoiler', {
 const defaultImageRender = md.renderer.rules.image
 md.renderer.rules.image = function (tokens, idx, options, env, self) {
   tokens[idx].attrJoin('class', 'raw')
+  tokens[idx].attrJoin('class', 'md-image')
   return defaultImageRender(...arguments)
 }
 md.renderer.rules.list_item_open = function (tokens, idx, options, env, self) {
