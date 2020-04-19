@@ -18,6 +18,10 @@
   padding: 0px 40px;
 }
 
+.night .lightbox-container {
+  background-color: rgba(47, 47, 47, 0.8);;
+}
+
 .lightbox-container .lightbox-control-previous,
 .lightbox-container .lightbox-control-next,
 .lightbox-container .lightbox-control-close {
@@ -32,10 +36,22 @@
   z-index: 1;
 }
 
+.night .lightbox-container .lightbox-control-previous,
+.night .lightbox-container .lightbox-control-next,
+.night .lightbox-container .lightbox-control-close {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .lightbox-container .lightbox-control-previous:hover,
 .lightbox-container .lightbox-control-next:hover,
 .lightbox-container .lightbox-control-close:hover {
   color: rgba(130, 130, 130, 0.78);
+}
+
+.night .lightbox-container .lightbox-control-previous:hover,
+.night .lightbox-container .lightbox-control-next:hover,
+.night .lightbox-container .lightbox-control-close:hover {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .lightbox-container .lightbox-control-next,

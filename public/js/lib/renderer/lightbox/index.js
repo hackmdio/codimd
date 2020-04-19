@@ -40,7 +40,7 @@ function findOrCreateLightboxContainer () {
       switchImage(1)
     })
     lightBoxContainer.querySelector('.lightbox-control-close').addEventListener('click', hideContainer)
-    // lightBoxContainer.addEventListener('click', hideContainer)
+    lightBoxContainer.addEventListener('click', hideContainer)
 
     document.body.appendChild(lightBoxContainer)
   }
@@ -152,6 +152,10 @@ function addImageDragListener (image) {
 
   image.addEventListener('mouseout', () => {
     moved = false
+  })
+
+  image.addEventListener('click', (e) => {
+    e.stopPropagation()
   })
 }
 
