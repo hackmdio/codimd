@@ -29,12 +29,13 @@
   cursor: pointer;
   user-select: none;
   font-size: 25px;
+  z-index: 1;
 }
 
 .lightbox-container .lightbox-control-previous:hover,
 .lightbox-container .lightbox-control-next:hover,
 .lightbox-container .lightbox-control-close:hover {
-  cursor: rgba(130, 130, 130, 0.78);
+  color: rgba(130, 130, 130, 0.78);
 }
 
 .lightbox-container .lightbox-control-next,
@@ -57,6 +58,13 @@
 
 .lightbox-container .lightbox-inner img {
   max-width: 100%;
+  cursor: move;
+
+  transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
 }
 
 .markdown-body img.md-image {

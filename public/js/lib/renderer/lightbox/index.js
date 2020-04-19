@@ -1,6 +1,7 @@
 import './lightbox.css'
 
 let images = []
+/** @type {HTMLImageElement} */
 let currentImage = null
 let currentIndexIndex = 0
 
@@ -21,10 +22,13 @@ function findOrCreateLightboxContainer () {
       </div>
     `
 
+    addImageZoomListener(lightBoxContainer)
+
     const hideContainer = (e) => {
       e.stopPropagation()
       lightBoxContainer.classList.remove('show')
       document.body.classList.remove('no-scroll')
+      currentImage = null
     }
 
     lightBoxContainer.querySelector('.lightbox-control-previous').addEventListener('click', (e) => {
@@ -36,7 +40,7 @@ function findOrCreateLightboxContainer () {
       switchImage(1)
     })
     lightBoxContainer.querySelector('.lightbox-control-close').addEventListener('click', hideContainer)
-    lightBoxContainer.addEventListener('click', hideContainer)
+    // lightBoxContainer.addEventListener('click', hideContainer)
 
     document.body.appendChild(lightBoxContainer)
   }
@@ -63,7 +67,8 @@ function setImageInner (img, lightBoxContainer) {
   const src = img.getAttribute('src')
   const alt = img.getAttribute('alt')
 
-  lightBoxContainer.querySelector('.lightbox-inner').innerHTML = `<img src="${src}" alt="${alt}">`
+  lightBoxContainer.querySelector('.lightbox-inner').innerHTML = `<img src="${src}" alt="${alt}" draggable="false">`
+  addImageDragListener(lightBoxContainer.querySelector('.lightbox-inner img'))
 }
 
 function onClickImage (img) {
@@ -86,6 +91,70 @@ function updateLightboxImages () {
   }
 }
 
+function addImageZoomListener (container) {
+  container.addEventListener('wheel', function (e) {
+    // normalize scroll position as percentage
+    e.preventDefault()
+
+    /** @type {HTMLImageElement} */
+    const image = container.querySelector('img')
+
+    if (!image) {
+      return
+    }
+
+    let scale = image.getBoundingClientRect().width / image.offsetWidth
+    scale += e.deltaY * -0.01
+
+    // Restrict scale
+    scale = Math.min(Math.max(0.125, scale), 4)
+
+    var transformValue = `scale(${scale})`
+
+    image.style.WebkitTransform = transformValue
+    image.style.MozTransform = transformValue
+    image.style.OTransform = transformValue
+    image.style.transform = transformValue
+  })
+}
+
+/**
+ * @param {HTMLImageElement} image
+ */
+function addImageDragListener (image) {
+  let moved = false
+  let pos = []
+  image.addEventListener('mousedown', (evt) => {
+    moved = true
+
+    const { left, top } = image.getBoundingClientRect()
+
+    pos = [
+      evt.pageX - left,
+      evt.pageY - top
+    ]
+  }, true)
+
+  image.addEventListener('mousemove', (evt) => {
+    if (!moved) {
+      return
+    }
+
+    image.style.left = `${evt.pageX - pos[0]}px`
+    image.style.top = `${evt.pageY - pos[1]}px`
+    image.style.position = 'absolute'
+  }, true)
+
+  image.addEventListener('mouseup', () => {
+    moved = false
+    pos = []
+  }, true)
+
+  image.addEventListener('mouseout', () => {
+    moved = false
+  })
+}
+
 const init = () => {
   const markdownBody = document.querySelector('.markdown-body')
   if (!markdownBody) {
@@ -93,8 +162,9 @@ const init = () => {
   }
 
   markdownBody.addEventListener('click', function (e) {
-    if (e.target.nodeName === 'IMG' && e.target.classList.contains('md-image')) {
-      onClickImage(e.target)
+    const img = e.target
+    if (img.nodeName === 'IMG' && img.classList.contains('md-image')) {
+      onClickImage(img)
       e.stopPropagation()
     }
   })
