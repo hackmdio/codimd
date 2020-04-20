@@ -131,7 +131,11 @@ function addImageZoomListener (container) {
 function addImageDragListener (image) {
   let moved = false
   let pos = []
-  image.addEventListener('mousedown', (evt) => {
+
+  const container = findOrCreateLightboxContainer()
+  const inner = container.querySelector('.lightbox-inner')
+
+  const onMouseDown = (evt) => {
     moved = true
 
     const { left, top } = image.getBoundingClientRect()
@@ -140,9 +144,11 @@ function addImageDragListener (image) {
       evt.pageX - left,
       evt.pageY - top
     ]
-  }, true)
+  }
+  image.addEventListener('mousedown', onMouseDown)
+  inner.addEventListener('mousedown', onMouseDown)
 
-  image.addEventListener('mousemove', (evt) => {
+  const onMouseMove = (evt) => {
     if (!moved) {
       return
     }
@@ -150,17 +156,20 @@ function addImageDragListener (image) {
     image.style.left = `${evt.pageX - pos[0]}px`
     image.style.top = `${evt.pageY - pos[1]}px`
     image.style.position = 'absolute'
-  }, true)
+  }
+  image.addEventListener('mousemove', onMouseMove)
+  inner.addEventListener('mousemove', onMouseMove)
 
-  image.addEventListener('mouseup', () => {
+  const onMouseUp = () => {
     moved = false
     pos = []
-  }, true)
+  }
+  image.addEventListener('mouseup', onMouseUp)
+  inner.addEventListener('mouseup', onMouseUp)
 
-  image.addEventListener('mouseout', () => {
-    moved = false
+  inner.addEventListener('click', (e) => {
+    e.stopPropagation()
   })
-
   image.addEventListener('click', (e) => {
     e.stopPropagation()
   })
