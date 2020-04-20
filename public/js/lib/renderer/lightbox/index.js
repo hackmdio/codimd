@@ -5,6 +5,8 @@ let images = []
 let currentImage = null
 let currentIndexIndex = 0
 
+let hideContainer
+
 function findOrCreateLightboxContainer () {
   const lightboxContainerSelector = '.lightbox-container'
 
@@ -24,8 +26,7 @@ function findOrCreateLightboxContainer () {
 
     addImageZoomListener(lightBoxContainer)
 
-    const hideContainer = (e) => {
-      e.stopPropagation()
+    hideContainer = () => {
       lightBoxContainer.classList.remove('show')
       document.body.classList.remove('no-scroll')
       currentImage = null
@@ -39,8 +40,14 @@ function findOrCreateLightboxContainer () {
       e.stopPropagation()
       switchImage(1)
     })
-    lightBoxContainer.querySelector('.lightbox-control-close').addEventListener('click', hideContainer)
-    lightBoxContainer.addEventListener('click', hideContainer)
+    lightBoxContainer.querySelector('.lightbox-control-close').addEventListener('click', (e) => {
+      e.stopPropagation()
+      hideContainer()
+    })
+    lightBoxContainer.addEventListener('click', (e) => {
+      e.stopPropagation()
+      hideContainer()
+    })
 
     document.body.appendChild(lightBoxContainer)
   }
@@ -170,6 +177,25 @@ const init = () => {
     if (img.nodeName === 'IMG' && img.classList.contains('md-image')) {
       onClickImage(img)
       e.stopPropagation()
+    }
+  })
+
+  window.addEventListener('keydown', function (e) {
+    if (!currentImage) {
+      return
+    }
+
+    if (e.key === 'ArrowRight') {
+      switchImage(1)
+      e.stopPropagation()
+    } else if (e.key === 'ArrowLeft') {
+      switchImage(-1)
+      e.stopPropagation()
+    } else if (e.key === 'Escape') {
+      if (hideContainer) {
+        hideContainer()
+        e.stopPropagation()
+      }
     }
   })
 }
