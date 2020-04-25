@@ -30,34 +30,11 @@ const switchListH = {
   ' ': `<div class='cell empty'>${dotEmptyH}</div>`
 }
 
-const getArgument = (argName, content) => {
-  const lineOfContent = content.data.split('\n')
-
-  let argv = ''
-  let idx = ''
-  for (idx in lineOfContent) {
-    if (lineOfContent[idx].startsWith(argName)) {
-      argv = lineOfContent[idx].split(argName)[1].trim()
-      break
-    }
-  }
-
-  lineOfContent.splice(idx, 1)
-  content.data = lineOfContent.join('\n')
-
-  return argv
-}
-
-export const renderFretBoard = (data) => {
+export const renderFretBoard = (content, { title: fretTitle, type }) => {
   const fretboardHTML = $('<div class="fretboard_instance"></div>')
+  const fretType = type.split(' ')
 
-  // parsing arguments
-  let content = { data: data }
-  const getTitle = getArgument('title:', content)
-  const fretType = getArgument('type:', content).split(' ')
-  content = content.data
-
-  $(fretboardHTML).append($(`<div class="fretTitle">${getTitle}</div>`))
+  $(fretboardHTML).append($(`<div class="fretTitle">${fretTitle}</div>`))
 
   // create fretboard background HTML
   const fretbOrientation = fretType && fretType[0].startsWith('v') ? 'vert' : 'horiz'
