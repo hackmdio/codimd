@@ -15,6 +15,7 @@ import { stripTags } from '../../utils/string'
 
 import getUIElements from './lib/editor/ui-elements'
 import { emojifyImageDir } from './lib/editor/constants'
+import { parseFenceCodeParams, serializeParamToAttribute } from './lib/markdown/utils'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
@@ -1028,24 +1029,30 @@ export function scrollToHash () {
   location.hash = hash
 }
 
+const fenceCodeAlias = {
+  sequence: 'sequence-diagram',
+  flow: 'flow-chart',
+  graphviz: 'graphviz',
+  mermaid: 'mermaid',
+  abc: 'abc',
+  vega: 'vega',
+  geo: 'geo'
+}
+
 function highlightRender (code, lang) {
   if (!lang || /no(-?)highlight|plain|text/.test(lang)) { return }
+
+  const params = parseFenceCodeParams(lang)
+  const attr = serializeParamToAttribute(params)
+  lang = lang.split(/\s+/g)[0]
+
   code = escapeHTML(code)
-  if (lang === 'sequence') {
-    return `<div class="sequence-diagram raw">${code}</div>`
-  } else if (lang === 'flow') {
-    return `<div class="flow-chart raw">${code}</div>`
-  } else if (lang === 'graphviz') {
-    return `<div class="graphviz raw">${code}</div>`
-  } else if (lang === 'mermaid') {
-    return `<div class="mermaid raw">${code}</div>`
-  } else if (lang === 'abc') {
-    return `<div class="abc raw">${code}</div>`
-  } else if (lang === 'vega') {
-    return `<div class="vega raw">${code}</div>`
-  } else if (lang === 'geo') {
-    return `<div class="geo raw">${code}</div>`
+
+  const langAlias = fenceCodeAlias[lang]
+  if (langAlias) {
+    return `<div class="${langAlias} raw"${attr}>${code}</div>`
   }
+
   const result = {
     value: code
   }
@@ -1167,7 +1174,7 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
   }
 
   if (options.highlight) {
-    highlighted = options.highlight(token.content, langName) || md.utils.escapeHtml(token.content)
+    highlighted = options.highlight(token.content, info) || md.utils.escapeHtml(token.content)
   } else {
     highlighted = md.utils.escapeHtml(token.content)
   }
