@@ -100,7 +100,7 @@
     "Paste your gist url here...": "在这里粘贴 Gist 网址...",
     "Import from Snippet": "从 Snippet 导入",
     "Select From Available Projects": "从可用的项目中选择",
-    "Select From Available Snippets": "从可用的 Snippet 中选择",
+    "Select From Available Snippets": "从可用的 Snippets 中选择",
     "OR": "或",
     "Export to Snippet": "导出到 Snippet",
     "Select Visibility Level": "选择可见层级",
@@ -116,6 +116,6 @@
     "Source Code": "源代码",
     "Powered by %s": "由 %s 驱动",
     "Register": "注册",
-    "Export with pandoc": "导出为 Pandoc",
+    "Export with pandoc": "使用 Pandoc 导出",
     "Select output format": "选择输出格式"
 }
