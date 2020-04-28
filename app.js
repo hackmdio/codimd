@@ -17,6 +17,7 @@ var passportSocketIo = require('passport.socketio')
 var helmet = require('helmet')
 var i18n = require('i18n')
 var flash = require('connect-flash')
+var apiMetrics = require('prometheus-api-metrics')
 
 // core
 var config = require('./lib/config')
@@ -55,6 +56,12 @@ function createHttpServer () {
 // server setup
 var app = express()
 var server = createHttpServer()
+
+// API and process monitoring with Prometheus for Node.js micro-service
+app.use(apiMetrics({
+  metricsPath: "/metrics/router",
+  excludeRoutes: ["/metrics/codimd"]
+}))
 
 // logger
 app.use(morgan('combined', {
