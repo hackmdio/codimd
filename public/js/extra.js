@@ -25,6 +25,7 @@ import {
 } from './lib/markdown/utils'
 import { renderFretBoard } from './lib/renderer/fretboard/fretboard'
 import './lib/renderer/lightbox'
+import { renderCSVPreview } from './lib/renderer/csvpreview'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
@@ -1211,6 +1212,12 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
 
   if (info) {
     langName = info.split(/\s+/g)[0]
+
+    if (langName === 'csvpreview') {
+      const params = parseFenceCodeParams(info)
+      return renderCSVPreview(token.content, params)
+    }
+
     if (/!$/.test(info)) token.attrJoin('class', 'wrap')
     token.attrJoin('class', options.langPrefix + langName.replace(/=$|=\d+$|=\+$|!$|=!$/, ''))
     token.attrJoin('class', 'hljs')

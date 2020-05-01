@@ -2786,7 +2786,9 @@ function updateViewInner () {
   var lastMeta = md.meta
   md.meta = {}
   delete md.metaError
-  var rendered = md.render(value)
+  const mdEnv = {}
+  window.mdTokens = md.parse(value, mdEnv)
+  let rendered = md.renderer.render(window.mdTokens, md.options, mdEnv)
   if (md.meta.type && md.meta.type === 'slide') {
     var slideOptions = {
       separator: '^(\r\n?|\n)---(\r\n?|\n)$',

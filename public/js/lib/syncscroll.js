@@ -7,6 +7,8 @@ import markdownitContainer from 'markdown-it-container'
 import { md } from '../extra'
 import modeType from './modeType'
 import appState from './appState'
+import { renderCSVPreview } from './renderer/csvpreview'
+import { parseFenceCodeParams } from './markdown/utils'
 
 function addPart (tokens, idx) {
   if (tokens[idx].map && tokens[idx].level === 0) {
@@ -71,6 +73,18 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
 
   if (info) {
     langName = info.split(/\s+/g)[0]
+
+    if (langName === 'csvpreview') {
+      const params = parseFenceCodeParams(info)
+      let attr = ''
+      if (tokens[idx].map && tokens[idx].level === 0) {
+        const startline = tokens[idx].map[0] + 1
+        const endline = tokens[idx].map[1]
+        attr = `class="part" data-startline="${startline}" data-endline="${endline}"`
+      }
+      return renderCSVPreview(token.content, params, attr)
+    }
+
     if (/!$/.test(info)) token.attrJoin('class', 'wrap')
     token.attrJoin('class', options.langPrefix + langName.replace(/=$|=\d+$|=\+$|!$|=!/, ''))
     token.attrJoin('class', 'hljs')
