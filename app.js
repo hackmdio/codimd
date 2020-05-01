@@ -59,8 +59,8 @@ var server = createHttpServer()
 
 // API and process monitoring with Prometheus for Node.js micro-service
 app.use(apiMetrics({
-  metricsPath: "/metrics/router",
-  excludeRoutes: ["/metrics/codimd"]
+  metricsPath: '/metrics/router',
+  excludeRoutes: ['/metrics/codimd']
 }))
 
 // logger
