@@ -86,6 +86,8 @@
     "passport.socketio": "~3.7.0",
     "pg": "~6.1.2",
     "pg-hstore": "~2.3.2",
+    "prom-client": "^12.0.0",
+    "prometheus-api-metrics": "^2.2.5",
     "randomcolor": "~0.5.4",
     "readline-sync": "~1.4.7",
     "request": "~2.88.0",
