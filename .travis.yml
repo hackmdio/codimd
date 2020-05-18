@@ -1,7 +1,6 @@
 language: node_js
 
 node_js:
-  - "lts/carbon"
   - "lts/dubnium"
   - "11"
   - "12"
@@ -12,7 +11,6 @@ cache: npm
 matrix:
   fast_finish: true
   include:
-    - node_js: lts/carbon
     - node_js: lts/dubnium
   allow_failures:
     - node_js: "11"
