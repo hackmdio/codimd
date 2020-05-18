@@ -11,6 +11,6 @@ GIT_TAG=$(git describe --exact-match --tags $(git log -n1 --pretty='%h') 2>/dev/
 
 DOCKER_TAG="${GIT_TAG:-$GIT_SHORT_ID}"
 
-docker build --build-arg RUNTIME=hackmdio/runtime:node-10-0baafb79 -t "hackmdio/hackmd:$DOCKER_TAG" -f "$CURRENT_DIR/Dockerfile" "$CURRENT_DIR/.."
+docker build --build-arg RUNTIME=hackmdio/runtime:node-10-d27854ef -t "hackmdio/hackmd:$DOCKER_TAG" -f "$CURRENT_DIR/Dockerfile" "$CURRENT_DIR/.."
 
-docker build --build-arg RUNTIME=hackmdio/runtime:node-10-cjk-0baafb79 -t "hackmdio/hackmd:$DOCKER_TAG-cjk" -f "$CURRENT_DIR/Dockerfile" "$CURRENT_DIR/.."
+docker build --build-arg RUNTIME=hackmdio/runtime:node-10-cjk-d27854ef -t "hackmdio/hackmd:$DOCKER_TAG-cjk" -f "$CURRENT_DIR/Dockerfile" "$CURRENT_DIR/.."
