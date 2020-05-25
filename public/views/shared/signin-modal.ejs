@@ -9,52 +9,52 @@
             </div>
             <div class="modal-body" style="text-align: center;">
                 <% if (authProviders.facebook) { %>
-                <a href="<%- serverURL %>/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
+                <a href="<%- serverURL %>/auth/facebook" class="btn btn-lg btn-block btn-login-method btn-facebook">
                     <i class="fa fa-facebook"></i> <%= __('Sign in via %s', 'Facebook') %>
                 </a>
                 <% } %>
                 <% if (authProviders.twitter) { %>
-                <a href="<%- serverURL %>/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
+                <a href="<%- serverURL %>/auth/twitter" class="btn btn-lg btn-block btn-login-method btn-twitter">
                     <i class="fa fa-twitter"></i> <%= __('Sign in via %s', 'Twitter') %>
                 </a>
                 <% } %>
                 <% if (authProviders.github) { %>
-                <a href="<%- serverURL %>/auth/github" class="btn btn-lg btn-block btn-social btn-github">
+                <a href="<%- serverURL %>/auth/github" class="btn btn-lg btn-block btn-login-method btn-github">
                     <i class="fa fa-github"></i> <%= __('Sign in via %s', 'GitHub') %>
                 </a>
                 <% } %>
                 <% if (authProviders.bitbucket) { %>
-                <a href="<%- serverURL %>/auth/bitbucket" class="btn btn-lg btn-block btn-social btn-bitbucket">
+                <a href="<%- serverURL %>/auth/bitbucket" class="btn btn-lg btn-block btn-login-method btn-bitbucket">
                     <i class="fa fa-bitbucket"></i> <%= __('Sign in via %s', 'Bitbucket') %>
                 </a>
                 <% } %>
                 <% if (authProviders.gitlab) { %>
-                <a href="<%- serverURL %>/auth/gitlab" class="btn btn-lg btn-block btn-social btn-gitlab">
+                <a href="<%- serverURL %>/auth/gitlab" class="btn btn-lg btn-block btn-login-method btn-gitlab">
                     <i class="fa fa-gitlab"></i> <%= __('Sign in via %s', 'GitLab') %>
                 </a>
                 <% } %>
                 <% if (authProviders.mattermost) { %>
-                <a href="<%- serverURL %>/auth/mattermost" class="btn btn-lg btn-block btn-social btn-mattermost">
+                <a href="<%- serverURL %>/auth/mattermost" class="btn btn-lg btn-block btn-login-method btn-mattermost">
                     <i class="oauth-icon"><img alt="mattermost-logo" src="<%- serverURL %>/images/mattermost-logo.svg" /></i> <%= __('Sign in via %s', 'Mattermost') %>
                 </a>
                 <% } %>
                 <% if (authProviders.dropbox) { %>
-                <a href="<%- serverURL %>/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
+                <a href="<%- serverURL %>/auth/dropbox" class="btn btn-lg btn-block btn-login-method btn-dropbox">
                     <i class="fa fa-dropbox"></i> <%= __('Sign in via %s', 'Dropbox') %>
                 </a>
                 <% } %>
                 <% if (authProviders.google) { %>
-                <a href="<%- serverURL %>/auth/google" class="btn btn-lg btn-block btn-social btn-google">
+                <a href="<%- serverURL %>/auth/google" class="btn btn-lg btn-block btn-login-method btn-google">
                     <i class="fa fa-google"></i> <%= __('Sign in via %s', 'Google') %>
                 </a>
                 <% } %>
                 <% if (authProviders.saml) { %>
-                <a href="<%- serverURL %>/auth/saml" class="btn btn-lg btn-block btn-social btn-success">
+                <a href="<%- serverURL %>/auth/saml" class="btn btn-lg btn-block btn-login-method btn-success">
                     <i class="fa fa-users"></i> <%= __('Sign in via %s', 'SAML') %>
                 </a>
                 <% } %>
                 <% if (authProviders.oauth2) { %>
-                <a href="<%- serverURL %>/auth/oauth2" class="btn btn-lg btn-block btn-social btn-soundcloud">
+                <a href="<%- serverURL %>/auth/oauth2" class="btn btn-lg btn-block btn-login-method btn-soundcloud">
                     <i class="fa fa-mail-forward"></i> <%= __('Sign in via %s', authProviders.oauth2ProviderName || 'OAuth2') %>
                 </a>
                 <% } %>

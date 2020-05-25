@@ -397,7 +397,23 @@ select {
     color: #fff;
 }
 
-a.btn.btn-social > i.oauth-icon {
+/* add btn-login-method replaced of btn-social, to avoid ad block delete the login button */
+.btn-login-method {
+  padding-left: 61px;
+  position: relative;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.btn-login-method.btn-lg :first-child {
+  line-height:45px;
+  width:45px;
+  font-size:1.8em;
+}
+.btn-login-method>:first-child {position:absolute;left:0;top:0;bottom:0;width:32px;line-height:34px;font-size:1.6em;text-align:center;border-right:1px solid rgba(0,0,0,0.2)}
+
+a.btn.btn-login-method > i.oauth-icon {
     display: inline-flex;
     height: 45px;
     width: 45px;
@@ -405,7 +421,7 @@ a.btn.btn-social > i.oauth-icon {
     padding: 6px;
 }
 
-a.btn.btn-social > i.oauth-icon > img {
+a.btn.btn-login-method > i.oauth-icon > img {
     width: 100%;
     height: 100%;
     line-height: inherit;
