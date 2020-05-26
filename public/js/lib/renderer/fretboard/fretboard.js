@@ -20,19 +20,22 @@ const switchListV = {
   '^': `<div class='cell'>${stringO}</div>`,
   x: `<div class='cell'>${stringX}</div>`,
   '|': `<div class='cell empty'>${dotEmpty}</div>`,
-  ' ': `<div class='cell empty'>${dotEmpty}</div>`
+  ' ': `<div class='cell empty'>${dotEmpty}</div>`,
+  '\n': `<div class='cell empty'>${dotEmpty}</div>`
 }
 const switchListH = {
   o: `<div class='cell dot'>${dotH}</div>`,
   '*': `<div class='cell dot faded'>${dotH}</div>`,
   O: `<div class='cell dot root'>${dotH}</div>`,
   '-': `<div class='cell empty'>${dotEmptyH}</div>`,
-  ' ': `<div class='cell empty'>${dotEmptyH}</div>`
+  ' ': `<div class='cell empty'>${dotEmptyH}</div>`,
+  '\n': `<div class='cell empty'>${dotEmptyH}</div><div class='cell empty'>${dotEmptyH}</div>`
 }
 
 export const renderFretBoard = (content, { title: fretTitle, type }) => {
-  const fretboardHTML = $('<div class="fretboard_instance"></div>')
   const fretType = type.split(' ')
+  const containerClass = fretType && fretType[0].startsWith('h') ? 'fretContainer_h' : 'fretContainer'
+  const fretboardHTML = $(`<div class="${containerClass}"></div>`)
 
   $(fretboardHTML).append($(`<div class="fretTitle">${fretTitle}</div>`))
 
@@ -47,11 +50,26 @@ export const renderFretBoard = (content, { title: fretTitle, type }) => {
 
   // create cells HTML
   const cellsHTML = $('<div class="cells"></div>')
-  const switchList = fretbOrientation && fretbOrientation === 'vert' ? switchListV : switchListH
+  let switchList = ''
+  if (fretbOrientation && fretbOrientation === 'vert') {
+    switchList = switchListV
+  } else {
+    // calculate position
+    const emptyFill = new Array(Number(fretbLen) + 3).fill(' ').join('')
+    content = `${emptyFill}${content}`
+
+    switchList = switchListH
+  }
+
   const contentCell = content && content.split('')
   // Go through each ASCII character...
+  const numArray = [...Array(10).keys()].slice(1)
   contentCell && contentCell.forEach(char => {
-    if (switchList[char] !== undefined) {
+    if (numArray.toString().indexOf(char) !== -1) {
+      const numType = fretType && fretType[0].startsWith('h') ? '_h' : ''
+      const numSvg = require(`./svg/number${char}${numType}.svg`)
+      cellsHTML.append($(`<div class='cell empty'>${numSvg}</div>`))
+    } else if (switchList[char] !== undefined) {
       cellsHTML.append($(switchList[char]))
     }
   })
