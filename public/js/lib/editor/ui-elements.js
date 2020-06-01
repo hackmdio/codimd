@@ -70,6 +70,9 @@ export const getUIElements = () => ({
     codemirrorSizerInner: $(
       '.ui-edit-area .CodeMirror .CodeMirror-sizer > div'
     ),
+    codemirrorLines: $(
+      '.ui-edit-area .CodeMirror .CodeMirror-lines'
+    ),
     markdown: $('.ui-view-area .markdown-body'),
     resize: {
       handle: $('.ui-resizable-handle'),
