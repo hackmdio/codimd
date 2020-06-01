@@ -811,8 +811,12 @@ export function generateToc (id) {
   const target = $(`#${id}`)
   target.html('')
   /* eslint-disable no-unused-vars */
+
+  var tocOptions = md.meta.toc || {}
+  var maxLevel = (typeof tocOptions.maxLevel === 'number' && tocOptions.maxLevel > 0) ? tocOptions.maxLevel : 3
+
   var toc = new window.Toc('doc', {
-    level: 3,
+    level: maxLevel,
     top: -1,
     class: 'toc',
     ulClass: 'nav',
@@ -1010,8 +1014,12 @@ export function renderTOC (view) {
     const target = $(`#${id}`)
     target.html('')
     /* eslint-disable no-unused-vars */
+
+    var tocOptions = md.meta.toc || {}
+    var maxLevel = (typeof tocOptions.maxLevel === 'number' && tocOptions.maxLevel > 0) ? tocOptions.maxLevel : 3
+
     const TOC = new window.Toc('doc', {
-      level: 3,
+      level: maxLevel,
       top: -1,
       class: 'toc',
       targetId: id,
