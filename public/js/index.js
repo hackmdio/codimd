@@ -588,6 +588,7 @@ function checkEditorStyle () {
   }
   // workaround editor will have wrong doc height when editor height changed
   editor.setSize(null, ui.area.edit.height())
+  checkEditorScrollOverLines()
   // make editor resizable
   if (!ui.area.resize.handle.length) {
     ui.area.edit.resizable({
@@ -672,6 +673,15 @@ function checkEditorScrollbarInner () {
   var scrollInfo = editor.getScrollInfo()
   editor.scrollTo(null, scrollInfo.top - 1)
   editor.scrollTo(null, scrollInfo.top)
+}
+
+function checkEditorScrollOverLines () {
+  const desireHeight = parseInt(ui.area.codemirrorScroll[0].style.height) || parseInt(ui.area.codemirrorScroll[0].style.minHeight)
+  // make editor have extra padding in the bottom (except small screen)
+  const paddingBottom = editor.doc && editor.doc.height > defaultTextHeight ? (desireHeight - defaultTextHeight) : 0
+  if (parseInt(ui.area.codemirrorLines.css('padding-bottom')) !== paddingBottom) {
+    ui.area.codemirrorLines.css('padding-bottom', paddingBottom + 'px')
+  }
 }
 
 function checkTocStyle () {
@@ -2554,9 +2564,11 @@ function enforceMaxLength (cm, change) {
   }
   return false
 }
+let lastDocHeight
 var ignoreEmitEvents = ['setValue', 'ignoreHistory']
 editorInstance.on('beforeChange', function (cm, change) {
   if (debug) { console.debug(change) }
+  lastDocHeight = editor.doc.height
   removeNullByte(cm, change)
   if (enforceMaxLength(cm, change)) {
     $('.limit-modal').modal('show')
@@ -2590,6 +2602,7 @@ editorInstance.on('paste', function () {
   // na
 })
 editorInstance.on('changes', function (editor, changes) {
+  const docHeightChanged = editor.doc.height !== lastDocHeight
   updateHistory()
   var docLength = editor.getValue().length
   // workaround for big documents
@@ -2605,13 +2618,18 @@ editorInstance.on('changes', function (editor, changes) {
     viewportMargin = newViewportMargin
     windowResize()
   }
-  checkEditorScrollbar()
-  if (ui.area.codemirrorScroll[0].scrollHeight > ui.area.view[0].scrollHeight && editorHasFocus()) {
-    postUpdateEvent = function () {
-      syncScrollToView()
-      postUpdateEvent = null
+  if (docHeightChanged) {
+    checkEditorScrollbar()
+    checkEditorScrollOverLines()
+    // always sync edit scrolling to view if user is editing
+    if (ui.area.codemirrorScroll[0].scrollHeight > ui.area.view[0].scrollHeight && editorHasFocus()) {
+      postUpdateEvent = function () {
+        syncScrollToView()
+        postUpdateEvent = null
+      }
     }
   }
+  lastDocHeight = editor.doc.height
 })
 editorInstance.on('focus', function (editor) {
   for (var i = 0; i < onlineUsers.length; i++) {
