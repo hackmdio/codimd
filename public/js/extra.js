@@ -1015,14 +1015,19 @@ export function renderTOC (view) {
     target.html('')
     /* eslint-disable no-unused-vars */
 
+    const specificDepth = parseInt(toc.data('toc-depth'))
+
     var tocOptions = md.meta.toc || {}
-    var maxLevel = (typeof tocOptions.maxLevel === 'number' && tocOptions.maxLevel > 0) ? tocOptions.maxLevel : window.defaultTocDepth
+    var yamlMaxDepth = (typeof tocOptions.maxLevel === 'number' && tocOptions.maxLevel > 0) ? tocOptions.maxLevel : window.defaultTocDepth
+
+    var maxLevel = specificDepth || yamlMaxDepth
 
     const TOC = new window.Toc('doc', {
       level: maxLevel,
       top: -1,
       class: 'toc',
       targetId: id,
+      data: { tocDepth: specificDepth },
       process: getHeaderContent
     })
     /* eslint-enable no-unused-vars */
@@ -1268,9 +1273,12 @@ const gistPlugin = new Plugin(
 // TOC
 const tocPlugin = new Plugin(
   // regexp to match
-  /^\[TOC\]$/i,
+  /^\[TOC(|\s*maxLevel=\d+?)\]$/i,
 
-  (match, utils) => '<div class="toc"></div>'
+  (match, utils) => {
+    const tocDepth = match[1].split(/[?&=]+/)[1]
+    return `<div class="toc" data-toc-depth="${tocDepth}"></div>`
+  }
 )
 // slideshare
 const slidesharePlugin = new Plugin(
