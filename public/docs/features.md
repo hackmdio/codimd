@@ -82,7 +82,8 @@ View
 ## Table of Contents:
 You can look at the bottom right section of the view area, there is a _ToC_ button <i class="fa fa-bars"></i>.
 Pressing that button will show you a current _Table of Contents_, and will highlight which section you're at.
-ToCs support up to **three header levels**.
+ToCs support up to **five header levels**, the **default** is **set to three**. The maxLevel can be set for each note by using 
+[YAML Metadata](./yaml-metadata)
 
 ## Permalink
 Every header will automatically add a permalink on the right side.
@@ -133,11 +134,18 @@ You can provide advanced note information to set the browser behavior (visit abo
 - GA: set to use Google Analytics
 - disqus: set to use Disqus
 - slideOptions: setup slide mode options
+- toc: set options of the Table of Contents.
 
 ## ToC:
-Use the syntax `[TOC]` to embed table of content into your note.
+Use the syntax `[TOC]` to embed table of content into your note. By default, three header levels are displayed. This can also be specified by using [YAML Metadata](./yaml-metadata). 
 
 [TOC]
+
+You can also specify the number of header levels by specifying the `maxLevel` like this: `[TOC maxLevel=1]`
+
+[TOC maxLevel=1]
+
+
 
 ## Emoji
 You can type any emoji like this :smile: :smiley: :cry: :wink:
