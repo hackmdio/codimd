@@ -813,7 +813,7 @@ export function generateToc (id) {
   /* eslint-disable no-unused-vars */
 
   var tocOptions = md.meta.toc || {}
-  var maxLevel = (typeof tocOptions.maxLevel === 'number' && tocOptions.maxLevel > 0) ? tocOptions.maxLevel : 3
+  var maxLevel = (typeof tocOptions.maxLevel === 'number' && tocOptions.maxLevel > 0) ? tocOptions.maxLevel : window.defaultTocDepth
 
   var toc = new window.Toc('doc', {
     level: maxLevel,
@@ -1016,7 +1016,7 @@ export function renderTOC (view) {
     /* eslint-disable no-unused-vars */
 
     var tocOptions = md.meta.toc || {}
-    var maxLevel = (typeof tocOptions.maxLevel === 'number' && tocOptions.maxLevel > 0) ? tocOptions.maxLevel : 3
+    var maxLevel = (typeof tocOptions.maxLevel === 'number' && tocOptions.maxLevel > 0) ? tocOptions.maxLevel : window.defaultTocDepth
 
     const TOC = new window.Toc('doc', {
       level: maxLevel,
