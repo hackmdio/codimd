@@ -138,7 +138,7 @@ This option allows you to set options regarding the table of contents (toc). Cur
 
 > **maxDepth:**
 > default: not set (whioch will show everything until level 3 (h1 -- h3))
-> max: 5 (as defined by doctoc)
+> max: 5 (as defined by md-toc.js)
 
 
 **Example**
