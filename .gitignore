@@ -28,3 +28,5 @@ public/uploads/*
 !public/uploads/.gitkeep
 /.nyc_output
 /coverage/
+
+.vscode/settings.json
