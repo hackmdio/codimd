@@ -464,7 +464,7 @@ export function finishView (view) {
         const { lat, lon } = data[0]
         position = [lat, lon]
       }
-      $elem.html(`<div class="geo-map"></div>`)
+      $elem.html('<div class="geo-map"></div>')
       const map = L.map($elem.find('.geo-map')[0]).setView(position, zoom || 16)
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -975,7 +975,7 @@ export function deduplicatedHeaderId (view) {
   if (window.linkifyHeaderStyle === 'gfm') {
     // consistent with GitHub, GitLab, Pandoc & co.
     // all headers contained in the document, in order of appearance
-    const allHeaders = view.find(`:header`).toArray()
+    const allHeaders = view.find(':header').toArray()
     // list of finaly assigned header IDs
     const headerIds = new Set()
     for (let j = 0; j < allHeaders.length; j++) {
@@ -1133,7 +1133,7 @@ md.use(markdownitContainer, 'spoiler', {
       if (summary) {
         return `<details><summary>${md.renderInline(summary)}</summary>\n`
       } else {
-        return `<details>\n`
+        return '<details>\n'
       }
     } else {
       // closing tag
