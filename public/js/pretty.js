@@ -25,10 +25,14 @@ require('../css/site.css')
 require('highlight.js/styles/github-gist.css')
 
 const markdown = $('#doc.markdown-body')
+(async function() {
+// Didn't work when we used it from extra.js, so we use it here instead
+md.use(md.diagramPlugin)
 const text = markdown.text()
 const lastMeta = md.meta
 md.meta = {}
 delete md.metaError
+await md.awaitRenderAvailable();
 let rendered = md.render(text)
 if (md.meta.type && md.meta.type === 'slide') {
   const slideOptions = {
@@ -69,6 +73,7 @@ smoothHashScroll()
 window.createtime = window.lastchangeui.time.attr('data-createtime')
 window.lastchangetime = window.lastchangeui.time.attr('data-updatetime')
 updateLastChange()
+})();
 
 const url = window.location.pathname
 $('.ui-edit').attr('href', `${url}/edit`)

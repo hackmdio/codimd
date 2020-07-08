@@ -23,6 +23,10 @@ import markdownitContainer from 'markdown-it-container'
 /* Defined regex markdown it plugins */
 import Plugin from 'markdown-it-regexp'
 
+/* Diagram suport for markdown */
+import {awaitRenderAvailable} from "markdown-it-diagrams"
+import {diagramPlugin} from "markdown-it-diagrams"
+
 require('prismjs/themes/prism.css')
 require('prismjs/components/prism-wiki')
 require('prismjs/components/prism-haskell')
@@ -243,8 +247,6 @@ function replaceExtraTags (html) {
   return html
 }
 
-if (typeof window.mermaid !== 'undefined' && window.mermaid) window.mermaid.startOnLoad = false
-
 // dynamic event or object binding here
 export function finishView (view) {
   // todo list
@@ -376,23 +378,6 @@ export function finishView (view) {
     } catch (err) {
       viz = new window.Viz()
       $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
-      console.warn(err)
-    }
-  })
-  // mermaid
-  const mermaids = view.find('div.mermaid.raw').removeClass('raw')
-  mermaids.each((key, value) => {
-    try {
-      var $value = $(value)
-      const $ele = $(value).closest('pre')
-
-      window.mermaid.parse($value.text())
-      $ele.addClass('mermaid')
-      $ele.html($value.text())
-      window.mermaid.init(undefined, $ele)
-    } catch (err) {
-      $value.unwrap()
-      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err.str)}</div>`)
       console.warn(err)
     }
   })
@@ -1033,7 +1018,6 @@ const fenceCodeAlias = {
   sequence: 'sequence-diagram',
   flow: 'flow-chart',
   graphviz: 'graphviz',
-  mermaid: 'mermaid',
   abc: 'abc',
   vega: 'vega',
   geo: 'geo'
@@ -1083,6 +1067,10 @@ export const md = markdownit('default', {
 })
 window.md = md
 
+md.awaitRenderAvailable = awaitRenderAvailable;
+// Doesn't work when we use the plugin from here, so store it for later use.
+// md.use(diagramPlugin)
+md.diagramPlugin = diagramPlugin
 md.use(require('markdown-it-abbr'))
 md.use(require('markdown-it-footnote'))
 md.use(require('markdown-it-deflist'))
