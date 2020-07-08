@@ -160,6 +160,7 @@
     "markdown-it-ruby": "^0.1.1",
     "markdown-it-sub": "~1.0.0",
     "markdown-it-sup": "~1.0.0",
+    "markdown-it-diagrams": "~0.1.2",
     "markdownlint": "^0.17.0",
     "mathjax": "~2.7.5",
     "mermaid": "~8.4.8",

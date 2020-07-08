@@ -102,7 +102,7 @@ var cursorActivityDebounce = 50
 var cursorAnimatePeriod = 100
 var supportContainers = ['success', 'info', 'warning', 'danger', 'spoiler']
 var supportCodeModes = ['javascript', 'typescript', 'jsx', 'htmlmixed', 'htmlembedded', 'css', 'xml', 'clike', 'clojure', 'ruby', 'python', 'shell', 'php', 'sql', 'haskell', 'coffeescript', 'yaml', 'pug', 'lua', 'cmake', 'nginx', 'perl', 'sass', 'r', 'dockerfile', 'tiddlywiki', 'mediawiki', 'go', 'gherkin'].concat(hljs.listLanguages())
-var supportCharts = ['sequence', 'flow', 'graphviz', 'mermaid', 'abc', 'plantuml', 'vega', 'geo']
+var supportCharts = ['sequence', 'flow', 'graphviz', 'mermaid', 'abc', 'plantuml', 'vega', 'geo', 'bob']
 var supportHeaders = [
   {
     text: '# h1',
@@ -2782,10 +2782,14 @@ var postUpdateEvent = null
 
 function updateViewInner () {
   if (appState.currentMode === modeType.edit || !isDirty) return
+  (async function() {
+  // Didn't work when we used it from extra.js, so we use it here instead
+  md.use(md.diagramPlugin)
   var value = editor.getValue()
   var lastMeta = md.meta
   md.meta = {}
   delete md.metaError
+  await md.awaitRenderAvailable();
   var rendered = md.render(value)
   if (md.meta.type && md.meta.type === 'slide') {
     var slideOptions = {
@@ -2819,6 +2823,7 @@ function updateViewInner () {
     if (result && lastResult && result.length !== lastResult.length) { updateDataAttrs(result, ui.area.markdown.children().toArray()) }
     lastResult = $(result).clone()
   }
+  })();
   removeDOMEvents(ui.area.markdown)
   finishView(ui.area.markdown)
   autoLinkify(ui.area.markdown)
