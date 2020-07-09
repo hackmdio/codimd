@@ -208,6 +208,30 @@ When you’re a carpenter making a beautiful chest of drawers, you’re not goin
 > > Even support the nest blockquotes!
 > > [name=ChengHan Wu] [time=Sun, Jun 28, 2015 10:00 PM] [color=red]
 
+### Render CSV as table
+
+You can use write csv in the codeblock:
+
+~~~md
+```csvpreview {header="true"}
+firstName,lastName,email,phoneNumber
+John,Doe,john@doe.com,0123456789
+Jane,Doe,jane@doe.com,9876543210
+James,Bond,james.bond@mi6.co.uk,0612345678
+```
+~~~
+
+which rendered to:
+
+```csvpreview {header="true"}
+firstName,lastName,email,phoneNumber
+John,Doe,john@doe.com,0123456789
+Jane,Doe,jane@doe.com,9876543210
+James,Bond,james.bond@mi6.co.uk,0612345678
+```
+
+We use [Papa Parse](https://www.papaparse.com/) for parsing csv. The parsing option is given in braces: `{}`, and multiple options are seperated by a space. e.g. `{header="true" delimiter="."}`. Please read [their documentation](https://www.papaparse.com/docs#config) as reference.
+
 ## Externals
 
 ### YouTube
