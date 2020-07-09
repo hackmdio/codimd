@@ -344,3 +344,7 @@ html, body {
 .print-pdf .footer {
     display: none;
 }
+
+.markmap-container {
+  background: #f7f7f7;
+}

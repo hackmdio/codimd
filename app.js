@@ -280,12 +280,18 @@ models.sequelize.sync().then(function () {
   } else {
     throw new Error('server still not ready after db synced')
   }
+}).catch(err => {
+  logger.error('Can\'t sync database')
+  logger.error(err.stack)
+  logger.error('Process will exit now.')
+  process.exit(1)
 })
 
 // log uncaught exception
 process.on('uncaughtException', function (err) {
   logger.error('An uncaught exception has occured.')
   logger.error(err)
+  console.error(err)
   logger.error('Process will exit now.')
   process.exit(1)
 })

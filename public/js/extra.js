@@ -11,6 +11,9 @@ import unescapeHTML from 'lodash/unescape'
 
 import isURL from 'validator/lib/isURL'
 
+import { transform } from 'markmap-lib/dist/transform.common'
+import { markmap } from 'markmap-lib/dist/view.common'
+
 import { stripTags } from '../../utils/string'
 
 import getUIElements from './lib/editor/ui-elements'
@@ -500,6 +503,23 @@ export function finishView (view) {
     } catch (err) {
       $value.unwrap()
       $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+      console.warn(err)
+    }
+  })
+  // markmap
+  view.find('div.markmap.raw').removeClass('raw').each(async (key, value) => {
+    const $elem = $(value).parent().parent()
+    const $value = $(value)
+    const content = $value.text()
+    $value.unwrap()
+    try {
+      const data = transform(content)
+      $elem.html(`<div class="markmap-container"><svg></svg></div>`)
+      markmap($elem.find('svg')[0], data, {
+        duration: 0
+      })
+    } catch (err) {
+      $elem.html(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
   })
@@ -1057,7 +1077,8 @@ const fenceCodeAlias = {
   abc: 'abc',
   vega: 'vega',
   geo: 'geo',
-  fretboard: 'fretboard_instance'
+  fretboard: 'fretboard_instance',
+  markmap: 'markmap'
 }
 
 function highlightRender (code, lang) {

@@ -84,6 +84,16 @@
   height: 250px;
 }
 
+/* markmap */
+.markmap-container {
+  height: 300px;
+}
+
+.markmap-container > svg {
+  width: 100%;
+  height: 100%;
+}
+
 .MJX_Assistive_MathML {
     display: none;
 }
