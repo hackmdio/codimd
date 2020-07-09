@@ -15,7 +15,12 @@ import { stripTags } from '../../utils/string'
 
 import getUIElements from './lib/editor/ui-elements'
 import { emojifyImageDir } from './lib/editor/constants'
-import { parseFenceCodeParams, serializeParamToAttribute } from './lib/markdown/utils'
+import {
+  parseFenceCodeParams,
+  serializeParamToAttribute,
+  deserializeParamAttributeFromElement
+} from './lib/markdown/utils'
+import { renderFretBoard } from './lib/renderer/fretboard/fretboard'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
@@ -480,6 +485,21 @@ export function finishView (view) {
       $elem.addClass('geo')
     } catch (err) {
       $elem.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+      console.warn(err)
+    }
+  })
+  // fretboard
+  const fretboard = view.find('div.fretboard_instance.raw').removeClass('raw')
+  fretboard.each((key, value) => {
+    const params = deserializeParamAttributeFromElement(value)
+    const $value = $(value)
+
+    try {
+      const $ele = $(value).parent().parent()
+      $ele.html(renderFretBoard($value.text(), params))
+    } catch (err) {
+      $value.unwrap()
+      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
   })
@@ -1036,7 +1056,8 @@ const fenceCodeAlias = {
   mermaid: 'mermaid',
   abc: 'abc',
   vega: 'vega',
-  geo: 'geo'
+  geo: 'geo',
+  fretboard: 'fretboard_instance'
 }
 
 function highlightRender (code, lang) {
