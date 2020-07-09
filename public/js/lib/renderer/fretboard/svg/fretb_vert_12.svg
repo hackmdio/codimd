@@ -1,0 +1,31 @@
+<svg class="fretboard_bg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 576 1232" enable-background="new 0 0 576 1232" xml:space="preserve">
+  <g class="fret_bg">
+    <rect x="102" y="72" fill="#FFFFFF" width="372" height="1088"/>
+  </g>
+  <g class="frets">
+    <rect x="108" y="84" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="172" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="260" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="348" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="436" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="524" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="612" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="700" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="788" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="876" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="964" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="1052" fill="#C7C8CA" width="360" height="8"/>
+    <rect x="108" y="1140" fill="#C7C8CA" width="360" height="8"/>
+  </g>
+  <g class="strings">
+    <rect x="102" y="72" width="12" height="1088"/>
+    <rect x="174" y="72" width="12" height="1088"/>
+    <rect x="246" y="72" width="12" height="1088"/>
+    <rect x="318" y="72" width="12" height="1088"/>
+    <rect x="390" y="72" width="12" height="1088"/>
+    <rect x="462" y="72" width="12" height="1088"/>
+  </g>
+  <g class="nut">
+    <rect x="104" y="72" width="368" height="20"/>
+  </g>
+</svg>

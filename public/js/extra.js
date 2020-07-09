@@ -18,6 +18,12 @@ import { stripTags } from '../../utils/string'
 
 import getUIElements from './lib/editor/ui-elements'
 import { emojifyImageDir } from './lib/editor/constants'
+import {
+  parseFenceCodeParams,
+  serializeParamToAttribute,
+  deserializeParamAttributeFromElement
+} from './lib/markdown/utils'
+import { renderFretBoard } from './lib/renderer/fretboard/fretboard'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
@@ -485,7 +491,21 @@ export function finishView (view) {
       console.warn(err)
     }
   })
+  // fretboard
+  const fretboard = view.find('div.fretboard_instance.raw').removeClass('raw')
+  fretboard.each((key, value) => {
+    const params = deserializeParamAttributeFromElement(value)
+    const $value = $(value)
 
+    try {
+      const $ele = $(value).parent().parent()
+      $ele.html(renderFretBoard($value.text(), params))
+    } catch (err) {
+      $value.unwrap()
+      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
+      console.warn(err)
+    }
+  })
   // markmap
   view.find('div.markmap.raw').removeClass('raw').each(async (key, value) => {
     const $elem = $(value).parent().parent()
@@ -1049,27 +1069,32 @@ export function scrollToHash () {
   location.hash = hash
 }
 
+const fenceCodeAlias = {
+  sequence: 'sequence-diagram',
+  flow: 'flow-chart',
+  graphviz: 'graphviz',
+  mermaid: 'mermaid',
+  abc: 'abc',
+  vega: 'vega',
+  geo: 'geo',
+  fretboard: 'fretboard_instance',
+  markmap: 'markmap'
+}
+
 function highlightRender (code, lang) {
   if (!lang || /no(-?)highlight|plain|text/.test(lang)) { return }
+
+  const params = parseFenceCodeParams(lang)
+  const attr = serializeParamToAttribute(params)
+  lang = lang.split(/\s+/g)[0]
+
   code = escapeHTML(code)
-  switch (lang) {
-    case 'sequence':
-      return `<div class="sequence-diagram raw">${code}</div>`
-    case 'flow':
-      return `<div class="flow-chart raw">${code}</div>`
-    case 'graphviz':
-      return `<div class="graphviz raw">${code}</div>`
-    case 'mermaid':
-      return `<div class="mermaid raw">${code}</div>`
-    case 'abc':
-      return `<div class="abc raw">${code}</div>`
-    case 'vega':
-      return `<div class="vega raw">${code}</div>`
-    case 'geo':
-      return `<div class="geo raw">${code}</div>`
-    case 'markmap':
-      return `<div class="markmap raw">${code}</div>`
+
+  const langAlias = fenceCodeAlias[lang]
+  if (langAlias) {
+    return `<div class="${langAlias} raw"${attr}>${code}</div>`
   }
+
   const result = {
     value: code
   }
@@ -1191,7 +1216,7 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
   }
 
   if (options.highlight) {
-    highlighted = options.highlight(token.content, langName) || md.utils.escapeHtml(token.content)
+    highlighted = options.highlight(token.content, info) || md.utils.escapeHtml(token.content)
   } else {
     highlighted = md.utils.escapeHtml(token.content)
   }

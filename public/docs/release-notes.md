@@ -1,6 +1,31 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.0.1 Urocissa caerulea <i class="fa fa-clock-o"></i> 2020-04-09
+---
+
+[CodiMD 2.0.1](https://github.com/hackmdio/codimd/releases/tag/2.0.1) is a minor release fixing bugs introduced in 2.0.0 and earlier versions along with some enhancements. We encourage everyone to upgrade to 2.0.1 now. See how things are going on [GitHub](https://github.com/hackmdio/codimd/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+milestone%3ANext). Stay tuned and healthy, and we hope you love it!
+
+
+### Enhancements
+
+- Allow inline markdown in spoiler summary syntax
+- Improve visibility of some UI elements
+- Support avatar for OAuth users
+
+### Fixes
+
+- Fix to add missing configs in docker secret
+- Fix not able to upload image using imgur
+- Fix to improve version checker behavior
+- Fix Wikipedia link in 2.0.0 release notes
+- Fix require path for minio
+- Fix check for creating free url notes
+
+[Check out the complete release note][v2_0_1]. Thank you CodiMD community and all our contributors. ❤️
+
+[v2_0_1]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_0_1
+
 <i class="fa fa-tag"></i> 2.0.0 Urocissa caerulea <i class="fa fa-clock-o"></i> 2020-03-02
 ---
 
