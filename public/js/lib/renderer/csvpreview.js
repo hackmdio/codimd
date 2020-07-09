@@ -1,4 +1,5 @@
 import Papa from 'papaparse'
+import escapeHTML from 'lodash/escape'
 
 const safeParse = d => {
   try {
@@ -22,12 +23,12 @@ export function renderCSVPreview (csv, options = {}, attr = '') {
     return `<table ${attr}>
       <thead>
         <tr>
-          ${fields.map(f => `<th>${f}</th>`).join('')}
+          ${fields.map(f => `<th>${escapeHTML(f)}</th>`).join('')}
         </tr>
       </thead>
       <tbody>
         ${results.data.map(d => `<tr>
-          ${fields.map(f => `<td>${d[f]}</td>`).join('')}
+          ${fields.map(f => `<td>${escapeHTML(d[f])}</td>`).join('')}
         </tr>`).join('')}
       </tbody>
     </table>`
@@ -35,7 +36,7 @@ export function renderCSVPreview (csv, options = {}, attr = '') {
     return `<table ${attr}>
       <tbody>
         ${results.data.map(d => `<tr>
-          ${d.map(f => `<td>${f}</td>`).join('')}
+          ${d.map(f => `<td>${escapeHTML(f)}</td>`).join('')}
         </tr>`).join('')}
       </tbody>
     </table>`
