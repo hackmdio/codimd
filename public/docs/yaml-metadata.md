@@ -40,6 +40,17 @@ This option will set the note description.
 description: meta description
 ```
 
+image
+---
+This option will set the html meta tag 'image'.
+
+> default: not set
+
+**Example**
+```yml
+image: https://raw.githubusercontent.com/hackmdio/codimd/develop/public/screenshot.png
+```
+
 tags
 ---
 This option will set the tags which prior than content tags.
