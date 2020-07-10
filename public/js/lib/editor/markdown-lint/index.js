@@ -2,7 +2,6 @@
 
 // load CM lint plugin explicitly
 import '@hackmd/codemirror/addon/lint/lint'
-import './lint.css'
 
 window.markdownit = require('markdown-it')
 // eslint-disable-next-line
