@@ -592,7 +592,7 @@ export default class Editor {
     if (lang) {
       this.statusIndicators.find(`.status-spellcheck li[value="${lang}"]`).addClass('active')
     } else {
-      this.statusIndicators.find(`.status-spellcheck li[value="disabled"]`).addClass('active')
+      this.statusIndicators.find('.status-spellcheck li[value="disabled"]').addClass('active')
     }
   }
 
@@ -632,7 +632,7 @@ export default class Editor {
     }
 
     const self = this
-    this.statusIndicators.find(`.status-spellcheck li`).click(function () {
+    this.statusIndicators.find('.status-spellcheck li').click(function () {
       const lang = $(this).attr('value')
 
       if (lang === 'disabled') {

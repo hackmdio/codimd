@@ -50,7 +50,7 @@ describe('realtime#update note is dirty timer', function () {
       callback(null, note)
     })
 
-    realtime.notes['note1'] = {
+    realtime.notes.note1 = {
       server: {
         isDirty: false
       },
@@ -64,7 +64,7 @@ describe('realtime#update note is dirty timer', function () {
       socks: []
     }
 
-    realtime.notes['note2'] = note2
+    realtime.notes.note2 = note2
 
     clock.tick(1000)
     setTimeout(() => {
@@ -75,7 +75,7 @@ describe('realtime#update note is dirty timer', function () {
 
   it('should not do anything when note missing', function (done) {
     sinon.stub(realtime, 'updateNote').callsFake(function (note, callback) {
-      delete realtime.notes['note']
+      delete realtime.notes.note
       callback(null, note)
     })
 
@@ -85,7 +85,7 @@ describe('realtime#update note is dirty timer', function () {
       },
       socks: [makeMockSocket()]
     }
-    realtime.notes['note'] = note
+    realtime.notes.note = note
 
     clock.tick(1000)
 
@@ -115,7 +115,7 @@ describe('realtime#update note is dirty timer', function () {
       },
       socks: [makeMockSocket(), undefined, makeMockSocket()]
     }
-    realtime.notes['note'] = note
+    realtime.notes.note = note
 
     clock.tick(1000)
 

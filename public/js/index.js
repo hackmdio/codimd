@@ -1789,7 +1789,7 @@ socket.on('reconnect', function (data) {
 socket.on('connect', function (data) {
   clearInterval(retryTimer)
   retryTimer = null
-  personalInfo['id'] = socket.id
+  personalInfo.id = socket.id
   showStatus(statusType.connected)
   socket.emit('version')
 })
@@ -2359,8 +2359,8 @@ function emitUserStatus (force) {
   var type = null
   if (visibleXS) { type = 'xs' } else if (visibleSM) { type = 'sm' } else if (visibleMD) { type = 'md' } else if (visibleLG) { type = 'lg' }
 
-  personalInfo['idle'] = idle.isAway
-  personalInfo['type'] = type
+  personalInfo.idle = idle.isAway
+  personalInfo.type = type
 
   for (var i = 0; i < onlineUsers.length; i++) {
     if (onlineUsers[i].id === personalInfo.id) {
@@ -2637,7 +2637,7 @@ editorInstance.on('focus', function (editor) {
       onlineUsers[i].cursor = editor.getCursor()
     }
   }
-  personalInfo['cursor'] = editor.getCursor()
+  personalInfo.cursor = editor.getCursor()
   socket.emit('cursor focus', editor.getCursor())
 })
 
@@ -2650,7 +2650,7 @@ function cursorActivityInner (editor) {
         onlineUsers[i].cursor = editor.getCursor()
       }
     }
-    personalInfo['cursor'] = editor.getCursor()
+    personalInfo.cursor = editor.getCursor()
     socket.emit('cursor activity', editor.getCursor())
   }
 }
@@ -2697,7 +2697,7 @@ editorInstance.on('blur', function (cm) {
       onlineUsers[i].cursor = null
     }
   }
-  personalInfo['cursor'] = null
+  personalInfo.cursor = null
   socket.emit('cursor blur')
 })
 

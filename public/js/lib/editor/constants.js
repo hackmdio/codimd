@@ -16,4 +16,4 @@ export const availableThemes = [
   { name: 'Tomorror Night Eighties', value: 'tomorrow-night-eighties' }
 ]
 
-export const emojifyImageDir = window.USE_CDN ? `https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/images/basic` : `${serverurl}/build/emojify.js/dist/images/basic`
+export const emojifyImageDir = window.USE_CDN ? 'https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/images/basic' : `${serverurl}/build/emojify.js/dist/images/basic`
