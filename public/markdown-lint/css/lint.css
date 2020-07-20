@@ -31,11 +31,11 @@
 }
 
 .CodeMirror-lint-mark-error {
-  background-image: url(/images/lint/mark-error.png);
+  background-image: url(../images/mark-error.png);
 }
 
 .CodeMirror-lint-mark-warning {
-  background-image: url(/images/lint/mark-warning.png);
+  background-image: url(../images/mark-warning.png);
 }
 
 .CodeMirror-lint-marker-error, .CodeMirror-lint-marker-warning {
@@ -58,15 +58,15 @@
 }
 
 .CodeMirror-lint-marker-error, .CodeMirror-lint-message-error {
-  background-image: url(/images/lint/message-error.png);
+  background-image: url(../images/message-error.png);
 }
 
 .CodeMirror-lint-marker-warning, .CodeMirror-lint-message-warning {
-  background-image: url(/images/lint/message-warning.png);
+  background-image: url(../images/message-warning.png);
 }
 
 .CodeMirror-lint-marker-multiple {
-  background-image: url(/images/lint/mark-multiple.png);
+  background-image: url(../images/mark-multiple.png);
   background-repeat: no-repeat;
   background-position: right bottom;
   width: 100%; height: 100%;

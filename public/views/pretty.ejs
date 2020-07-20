@@ -11,6 +11,9 @@
     <% if(typeof robots !== 'undefined' && robots) { %>
     <meta name="robots" content="<%= robots %>">
     <% } %>
+    <% if(typeof image !== 'undefined' && image) { %>
+    <meta name="image" content="<%= image %>">
+    <% } %>
     <% if(typeof description !== 'undefined' && description) { %>
     <meta name="description" content="<%= description %>">
     <% } %>
@@ -27,6 +30,8 @@
     <%- include shared/polyfill %>
   <% } else { %>
     <link rel="stylesheet" href='<%- serverURL %>/build/emojify.js/dist/css/basic/emojify.min.css'>
+    <link rel="stylesheet" href='<%- serverURL %>/css/font.css'>
+    <link rel="stylesheet" href='<%- serverURL %>/build/fork-awesome/css/fork-awesome.min.css'>
     <%- include build/pretty-pack-header %>
   <% } %>
 </head>

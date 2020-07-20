@@ -1,0 +1,115 @@
+.lightbox-container.show {
+  display: flex !important;
+}
+
+.lightbox-container {
+  display: none;
+
+  position: fixed;
+  z-index: 99999;
+  background-color: rgba(255, 255, 255, 0.8);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  justify-content: center;
+  align-items: center;
+  padding: 0px 40px;
+}
+
+.night .lightbox-container {
+  background-color: rgba(47, 47, 47, 0.8);;
+}
+
+.lightbox-container .lightbox-control-previous,
+.lightbox-container .lightbox-control-next,
+.lightbox-container .lightbox-control-close {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  color: rgba(65, 65, 65, 0.8);
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  font-size: 25px;
+  z-index: 1;
+}
+
+.night .lightbox-container .lightbox-control-previous,
+.night .lightbox-container .lightbox-control-next,
+.night .lightbox-container .lightbox-control-close {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.lightbox-container .lightbox-control-previous:hover,
+.lightbox-container .lightbox-control-next:hover,
+.lightbox-container .lightbox-control-close:hover {
+  color: rgba(130, 130, 130, 0.78);
+}
+
+.night .lightbox-container .lightbox-control-previous:hover,
+.night .lightbox-container .lightbox-control-next:hover,
+.night .lightbox-container .lightbox-control-close:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.lightbox-container .lightbox-control-next,
+.lightbox-container .lightbox-control-previous {
+  top: calc(50% - 10px);
+}
+
+.lightbox-container .lightbox-control-previous {
+  left: 0;
+}
+
+.lightbox-container .lightbox-control-next {
+  right: 0;
+}
+
+.lightbox-container .lightbox-control-close {
+  top: 10px;
+  right: 10px;
+}
+
+.lightbox-container .lightbox-inner {
+  width: 100%;
+  height: 100%;
+  cursor: move;
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+     -moz-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+     -moz-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.lightbox-container .lightbox-inner img {
+  max-width: 100%;
+  cursor: move;
+
+  transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+}
+
+.markdown-body img.md-image {
+  cursor: zoom-in;
+}
+
+body.no-scroll {
+  overflow: hidden;
+}

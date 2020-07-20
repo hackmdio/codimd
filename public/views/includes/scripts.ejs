@@ -1,4 +1,4 @@
-<script src="<%= webpackConfig.output.baseUrl %>/config"></script>
+<script src="<%= '\<\%= serverURL \%\>' %>/config"></script>
 <% for (var js in htmlWebpackPlugin.files.js) { %>
 <script src="<%= '\<\%= serverURL \%\>'%><%= htmlWebpackPlugin.files.js[js] %>" defer></script>
 <% } %>

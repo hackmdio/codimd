@@ -12,27 +12,27 @@ var dataUriRegex = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base
 // custom white list
 var whiteList = filterXSS.whiteList
 // allow ol specify start number
-whiteList['ol'] = ['start']
+whiteList.ol = ['start']
 // allow li specify value number
-whiteList['li'] = ['value']
+whiteList.li = ['value']
 // allow style tag
-whiteList['style'] = []
+whiteList.style = []
 // allow kbd tag
-whiteList['kbd'] = []
+whiteList.kbd = []
 // allow ifram tag with some safe attributes
-whiteList['iframe'] = ['allowfullscreen', 'name', 'referrerpolicy', 'src', 'width', 'height']
+whiteList.iframe = ['allowfullscreen', 'name', 'referrerpolicy', 'src', 'width', 'height']
 // allow summary tag
-whiteList['summary'] = []
+whiteList.summary = []
 // allow ruby tag
-whiteList['ruby'] = []
+whiteList.ruby = []
 // allow rp tag for ruby
-whiteList['rp'] = []
+whiteList.rp = []
 // allow rt tag for ruby
-whiteList['rt'] = []
+whiteList.rt = []
 // allow figure tag
-whiteList['figure'] = []
+whiteList.figure = []
 // allow figcaption tag
-whiteList['figcaption'] = []
+whiteList.figcaption = []
 
 var filterXSSOptions = {
   allowCommentTag: true,

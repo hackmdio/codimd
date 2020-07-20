@@ -7,10 +7,10 @@ export function parseFenceCodeParams (lang) {
     paraMatch && paraMatch.forEach(param => {
       param = param.trim()
       if (param[0] === '#') {
-        params['id'] = param.slice(1)
+        params.id = param.slice(1)
       } else if (param[0] === '.') {
-        if (params['class']) params['class'] = []
-        params['class'] = params['class'].concat(param.slice(1))
+        if (params.class) params.class = []
+        params.class = params.class.concat(param.slice(1))
       } else {
         const offset = param.indexOf('=')
         const id = param.substring(0, offset).trim().toLowerCase()
@@ -21,8 +21,8 @@ export function parseFenceCodeParams (lang) {
           val = val.substring(1, val.length - 1)
         }
         if (id === 'class') {
-          if (params['class']) params['class'] = []
-          params['class'] = params['class'].concat(val)
+          if (params.class) params.class = []
+          params.class = params.class.concat(val)
         } else {
           params[id] = val
         }

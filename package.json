@@ -1,6 +1,6 @@
 {
   "name": "codimd",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Realtime collaborative markdown notes on all platforms.",
   "keywords": [
     "Collaborative",
@@ -161,6 +161,7 @@
     "markdown-it-sub": "~1.0.0",
     "markdown-it-sup": "~1.0.0",
     "markdownlint": "^0.17.0",
+    "markmap-lib": "^0.4.2",
     "mathjax": "~2.7.5",
     "mermaid": "~8.4.8",
     "mini-css-extract-plugin": "~0.4.1",
@@ -168,6 +169,7 @@
     "mock-require": "~3.0.3",
     "nyc": "~14.0.0",
     "optimize-css-assets-webpack-plugin": "~5.0.0",
+    "papaparse": "^5.2.0",
     "pdfobject": "~2.1.1",
     "plantuml-encoder": "^1.2.5",
     "power-assert": "~1.6.1",

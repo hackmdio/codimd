@@ -139,8 +139,13 @@ export default class Editor {
         return null
       }
     }
+
     CodeMirror.defineMode('vega', function (config, modeConfig) {
       return CodeMirror.overlayMode(CodeMirror.getMode(config, 'application/ld+json'), ignoreOverlay)
+    })
+
+    CodeMirror.defineMode('markmap', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'gfm'), ignoreOverlay)
     })
   }
 
@@ -587,7 +592,7 @@ export default class Editor {
     if (lang) {
       this.statusIndicators.find(`.status-spellcheck li[value="${lang}"]`).addClass('active')
     } else {
-      this.statusIndicators.find(`.status-spellcheck li[value="disabled"]`).addClass('active')
+      this.statusIndicators.find('.status-spellcheck li[value="disabled"]').addClass('active')
     }
   }
 
@@ -627,7 +632,7 @@ export default class Editor {
     }
 
     const self = this
-    this.statusIndicators.find(`.status-spellcheck li`).click(function () {
+    this.statusIndicators.find('.status-spellcheck li').click(function () {
       const lang = $(this).attr('value')
 
       if (lang === 'disabled') {

@@ -31,7 +31,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
-      chunks: ['font-pack', 'index-styles-pack', 'index-styles', 'index'],
+      chunks: ['index-styles-pack', 'index-styles', 'index'],
       filename: path.join(__dirname, 'public/views/build/index-pack-header.ejs'),
       inject: false,
       chunksSortMode: 'manual'
@@ -58,7 +58,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
-      chunks: ['font-pack', 'cover-styles-pack', 'cover'],
+      chunks: ['cover-styles-pack', 'cover'],
       filename: path.join(__dirname, 'public/views/build/cover-pack-header.ejs'),
       inject: false,
       chunksSortMode: 'manual'
@@ -85,7 +85,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
-      chunks: ['font-pack', 'pretty-styles-pack', 'pretty-styles', 'pretty'],
+      chunks: ['pretty-styles-pack', 'pretty-styles', 'pretty'],
       filename: path.join(__dirname, 'public/views/build/pretty-pack-header.ejs'),
       inject: false,
       chunksSortMode: 'manual'
@@ -112,7 +112,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'public/views/includes/header.ejs',
-      chunks: ['font-pack', 'slide-styles-pack', 'slide-styles', 'slide'],
+      chunks: ['slide-styles-pack', 'slide-styles', 'slide'],
       filename: path.join(__dirname, 'public/views/build/slide-pack-header.ejs'),
       inject: false,
       chunksSortMode: 'manual'
@@ -185,6 +185,16 @@ module.exports = {
         context: path.join(__dirname, 'node_modules/leaflet'),
         from: 'dist',
         to: 'leaflet'
+      },
+      {
+        context: path.join(__dirname, 'node_modules/fork-awesome'),
+        from: 'fonts',
+        to: 'fork-awesome/fonts'
+      },
+      {
+        context: path.join(__dirname, 'node_modules/fork-awesome'),
+        from: 'css',
+        to: 'fork-awesome/css'
       }
     ]),
     new MiniCssExtractPlugin()
@@ -192,7 +202,6 @@ module.exports = {
 
   entry: {
     font: path.join(__dirname, 'public/css/google-font.css'),
-    'font-pack': path.join(__dirname, 'public/css/font.css'),
     common: [
       'expose-loader?jQuery!expose-loader?$!jquery',
       'velocity-animate',
@@ -205,7 +214,6 @@ module.exports = {
     ],
     'cover-styles-pack': [
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
-      path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
       path.join(__dirname, 'public/css/bootstrap-social.css'),
       path.join(__dirname, 'node_modules/select2/select2.css'),
       path.join(__dirname, 'node_modules/select2/select2-bootstrap.css')
@@ -260,7 +268,6 @@ module.exports = {
     ],
     'index-styles-pack': [
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
-      path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
       path.join(__dirname, 'public/css/bootstrap-social.css'),
       path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
       path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
@@ -309,7 +316,6 @@ module.exports = {
     ],
     'pretty-styles-pack': [
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
-      path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
       path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
       path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
@@ -349,7 +355,6 @@ module.exports = {
       path.join(__dirname, 'public/css/markdown.css')
     ],
     'slide-styles-pack': [
-      path.join(__dirname, 'node_modules/fork-awesome/css/fork-awesome.min.css'),
       path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css'),
       path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
@@ -484,10 +489,14 @@ module.exports = {
       }]
     }, {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+      exclude: path.resolve(__dirname, 'public/js/lib/renderer/fretboard'),
       use: [{
         loader: 'url-loader',
         options: { limit: '10000', mimetype: 'svg+xml' }
       }]
+    }, {
+      test: /.*\/fretboard\/svg\/.*\.svg$/,
+      loader: 'string-loader'
     }, {
       test: /\.png(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
