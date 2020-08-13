@@ -368,9 +368,10 @@ export function finishView (view) {
   graphvizs.each(function (key, value) {
     try {
       var $value = $(value)
+      const options = deserializeParamAttributeFromElement(value)
       var $ele = $(value).parent().parent()
       $value.unwrap()
-      viz.renderString($value.text())
+      viz.renderString($value.text(), options)
         .then(graphviz => {
           if (!graphviz) throw Error('viz.js output empty graph')
           $value.html(graphviz)
