@@ -19,6 +19,18 @@ export const supportLanguages = [
     }
   },
   {
+    name: 'English (United Kingdom)',
+    value: 'en_GB',
+    aff: {
+      url: `${serverurl}/build/dictionary-en-gb/index.aff`,
+      cdnUrl: 'https://cdn.jsdelivr.net/npm/dictionary-en-gb@2.2.2/index.aff'
+    },
+    dic: {
+      url: `${serverurl}/build/dictionary-en-gb/index.dic`,
+      cdnUrl: 'https://cdn.jsdelivr.net/npm/dictionary-en-gb@2.2.2/index.dic'
+    }
+  },
+  {
     name: 'German',
     value: 'de',
     aff: {
