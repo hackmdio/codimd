@@ -502,6 +502,7 @@ export function finishView (view) {
     try {
       const $ele = $(value).parent().parent()
       $ele.html(renderFretBoard($value.text(), params))
+      $ele.addClass('fretboard')
     } catch (err) {
       $value.unwrap()
       $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
