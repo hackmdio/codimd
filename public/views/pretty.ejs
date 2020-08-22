@@ -26,13 +26,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous" />
-    <%- include build/pretty-header %>
-    <%- include shared/polyfill %>
+    <%- include('build/pretty-header'); %>
+    <%- include('shared/polyfill'); %>
   <% } else { %>
     <link rel="stylesheet" href='<%- serverURL %>/build/emojify.js/dist/css/basic/emojify.min.css'>
     <link rel="stylesheet" href='<%- serverURL %>/css/font.css'>
     <link rel="stylesheet" href='<%- serverURL %>/build/fork-awesome/css/fork-awesome.min.css'>
-    <%- include build/pretty-pack-header %>
+    <%- include('build/pretty-pack-header'); %>
   <% } %>
 </head>
 
@@ -71,7 +71,7 @@
     <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="display:none;"></div>
     <% if(typeof disqus !== 'undefined' && disqus) { %>
     <div class="container-fluid" style="max-width: 758px; margin-bottom: 40px;">
-        <%- include shared/disqus %>
+        <%- include('shared/disqus'); %>
     </div>
     <% } %>
 </body>
@@ -100,11 +100,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/4.4.0/vega-lite.min.js" integrity="sha256-ollz/GSuG0/f7aV4v8LGDYxPs4G2DwEk9+hALicqp9I=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/6.2.2/vega-embed.min.js" integrity="sha256-AW13lGYqQzWT9PymwqUEJqQHaz9ntM5m5jQVkvtzja4=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" integrity="sha256-fNoRrwkP2GuYPbNSJmMJOCyfRB2DhPQe0rGTgzRsyso=" crossorigin="anonymous" defer></script>
-<%- include build/pretty-scripts %>
+<%- include('build/pretty-scripts'); %>
 <% } else { %>
 <script src="<%- serverURL %>/build/MathJax/MathJax.js" defer></script>
 <script src="<%- serverURL %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
 <script src="<%- serverURL %>/build/MathJax/config/Safe.js" defer></script>
-<%- include build/pretty-pack-scripts %>
+<%- include('build/pretty-pack-scripts'); %>
 <% } %>
-<%- include shared/ga %>
+<%- include('shared/ga'); %>
