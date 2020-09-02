@@ -85,7 +85,6 @@
         <ul class="nav navbar-nav navbar-form navbar-left" style="padding:0;">
             <div class="btn-group" data-toggle="buttons">
                 <% if ((permission === "limited" || "editable" || "freely") && !allowVisibleSource) { %>
-                    <div id="blockVisibleSourse" class="ui-block-visible-source" block-visible-sourse="true"></div>
                     <label class="btn btn-default ui-edit" data-block-source="true" title="<%= __('You have no rights to edit this note')%>" disabled>
                         <input type="radio" autocomplete="off"><i class="fa fa-pencil"></i>
                     </label>
