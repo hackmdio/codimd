@@ -36,7 +36,6 @@ export const getUIElements = () => ({
     edit: $('.ui-edit'),
     view: $('.ui-view'),
     both: $('.ui-both'),
-    blockVisibleSourse: $('.ui-block-visible-source'),
     night: $('.ui-night'),
     uploadImage: $('.ui-upload-image')
   },
