@@ -468,14 +468,18 @@ $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip()
   // shortcuts
   // allow on all tags
+  
   key.filter = function (e) { return true }
   key('ctrl+alt+e', function (e) {
+    if (ui.toolbar.edit.data('blockSource')) return
     changeMode(modeType.edit)
   })
+  // add here exeption when "exeption = true" run code below, false = return 
   key('ctrl+alt+v', function (e) {
     changeMode(modeType.view)
   })
   key('ctrl+alt+b', function (e) {
+    if (ui.toolbar.edit.data('blockSource')) return
     changeMode(modeType.both)
   })
   // toggle-dropdown
