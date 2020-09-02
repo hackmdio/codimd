@@ -474,7 +474,6 @@ $(document).ready(function () {
     if (ui.toolbar.edit.data('blockSource')) return
     changeMode(modeType.edit)
   })
-  // add here exeption when "exeption = true" run code below, false = return 
   key('ctrl+alt+v', function (e) {
     changeMode(modeType.view)
   })
