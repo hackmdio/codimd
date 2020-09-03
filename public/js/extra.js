@@ -840,13 +840,16 @@ let tocExpand = false
 
 function checkExpandToggle () {
   const toc = $('.ui-toc-dropdown .toc')
-  const toggle = $('.expand-toggle')
+  const expand = $('.expand-toggle.expand-all')
+  const collapse = $('.expand-toggle.collapse-all')
   if (!tocExpand) {
     toc.removeClass('expand')
-    toggle.text('Expand all')
+    expand.show()
+    collapse.hide()
   } else {
     toc.addClass('expand')
-    toggle.text('Collapse all')
+    expand.hide()
+    collapse.show()
   }
 }
 
@@ -865,11 +868,12 @@ export function generateToc (id) {
   })
   /* eslint-enable no-unused-vars */
   if (target.text() === 'undefined') { target.html('') }
-  const tocMenu = $('<div class="toc-menu"></div')
-  const toggle = $('<a class="expand-toggle" href="#">Expand all</a>')
-  const backtotop = $('<a class="back-to-top" href="#">Back to top</a>')
-  const gotobottom = $('<a class="go-to-bottom" href="#">Go to bottom</a>')
   checkExpandToggle()
+  const tocMenu = $('body').children('.toc-menu')
+  target.append(tocMenu.clone().show())
+  const toggle = $('.expand-toggle', target)
+  const backtotop = $('.back-to-top', target)
+  const gotobottom = $('.go-to-bottom', target)
   toggle.click(e => {
     e.preventDefault()
     e.stopPropagation()
@@ -888,8 +892,6 @@ export function generateToc (id) {
     if (window.scrollToBottom) { window.scrollToBottom() }
     removeHash()
   })
-  tocMenu.append(toggle).append(backtotop).append(gotobottom)
-  target.append(tocMenu)
 }
 
 // smooth all hash trigger scrolling
