@@ -423,6 +423,8 @@ Visibility.change(function (e, state) {
 
 // when page ready
 $(document).ready(function () {
+  if (ui.toolbar.edit.data('blockSource')) { replaceUrl(window.location.href) }
+
   idle.checkAway()
   checkResponsive()
   // if in smaller screen, we don't need advanced scrollbar
@@ -478,7 +480,7 @@ $(document).ready(function () {
     changeMode(modeType.view)
   })
   key('ctrl+alt+b', function (e) {
-    if (ui.toolbar.edit.data('blockSource')) return
+    if (ui.toolbar.both.data('blockSource')) return
     changeMode(modeType.both)
   })
   // toggle-dropdown
@@ -501,6 +503,19 @@ $(window).on('unload', function () {
 $(window).on('error', function () {
   // setNeedRefresh();
 })
+
+// replace url if user have not rights to veiw source code
+function replaceUrl(url) {
+  const urlHasEdit = /\?edit/;
+  const urlHasBoth = /\?both/;
+  if (urlHasEdit.test(url)) {
+    let newUrl = url.toString().replace(urlHasEdit, '?view');
+    window.location.replace(newUrl);
+  } else if (urlHasBoth.test(url)) {
+    let newUrl = url.toString().replace(urlHasBoth, '?view');
+    window.location.replace(newUrl);
+  }
+}
 
 setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown, editor)
 
@@ -1570,10 +1585,12 @@ function importFromUrl (url) {
 
 // mode
 ui.toolbar.mode.click(function () {
+  if (ui.toolbar.mode.data('blockSource')) return
   toggleMode()
 })
 // edit
 ui.toolbar.edit.click(function () {
+  if (ui.toolbar.edit.data('blockSource')) return
   changeMode(modeType.edit)
 })
 // view
@@ -1582,6 +1599,7 @@ ui.toolbar.view.click(function () {
 })
 // both
 ui.toolbar.both.click(function () {
+  if (ui.toolbar.both.data('blockSource')) return
   changeMode(modeType.both)
 })
 
