@@ -76,7 +76,7 @@
                 <li role="presentation"><a role="menuitem" class="ui-help" href="#" data-toggle="modal" data-target=".help-modal"><i class="fa fa-question-circle fa-fw"></i> Help</a>
                 </li>
             </ul>
-            <% if ((permission === "limited" || "editable" || "freely") && !allowVisibleSource) { %>
+            <% if(!allowVisibleSource && (permission === "limited" || "editable" || "freely")) { %>
             <a class="btn btn-link ui-mode" data-block-source="<%= !allowVisibleSource %>">
                 <i class="fa fa-pencil"></i>
             </a>
@@ -90,7 +90,7 @@
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-form navbar-left" style="padding:0;">
             <div class="btn-group" data-toggle="buttons">
-                <% if ((permission === "limited" || "editable" || "freely") && !allowVisibleSource) { %>
+                <% if(!allowVisibleSource && (permission === "limited" || "editable" || "freely")) { %>
                 <label class="btn btn-default ui-edit" data-block-source="<%= !allowVisibleSource %>" title="<%= __('You have no rights to edit this note') %>" disabled>
                     <input type="radio" autocomplete="off"><i class="fa fa-pencil"></i>
                 </label>
