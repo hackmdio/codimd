@@ -77,9 +77,11 @@ import { preventXSS } from './render'
 import Editor from './lib/editor'
 
 import getUIElements from './lib/editor/ui-elements'
+import uiElemsWithoutJquery from './lib/editor/ui-elems-without-jquery'
 import { emojifyImageDir } from './lib/editor/constants'
 import modeType from './lib/modeType'
 import appState from './lib/appState'
+//import { isLogicalNot } from 'vega-lite/build/src/logical'
 
 require('../vendor/showup/showup')
 
@@ -256,6 +258,7 @@ const statusType = {
 
 // global vars
 window.loaded = false
+let isLogin = false
 let needRefresh = false
 let isDirty = false
 let editShown = false
@@ -318,6 +321,8 @@ defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
 
 //  initalize ui reference
 const ui = getUIElements()
+
+const uiByNativeJS = uiElemsWithoutJquery()
 
 // page actions
 var opts = {
@@ -423,7 +428,9 @@ Visibility.change(function (e, state) {
 
 // when page ready
 $(document).ready(function () {
-  if (ui.toolbar.edit.data('blockSource')) { replaceUrl(window.location.href) }
+  if (ui.toolbar.edit.data('blockSource') && isLogin === false) { replaceUrl(window.location.href) }
+  
+  console.log("personal info", onlineUsers)
 
   idle.checkAway()
   checkResponsive()
@@ -473,14 +480,14 @@ $(document).ready(function () {
   
   key.filter = function (e) { return true }
   key('ctrl+alt+e', function (e) {
-    if (ui.toolbar.edit.data('blockSource')) return
+    if (ui.toolbar.edit.data('blockSource') && isLogin === false) return
     changeMode(modeType.edit)
   })
   key('ctrl+alt+v', function (e) {
     changeMode(modeType.view)
   })
   key('ctrl+alt+b', function (e) {
-    if (ui.toolbar.both.data('blockSource')) return
+    if (ui.toolbar.both.data('blockSource') && isLogin === false) return
     changeMode(modeType.both)
   })
   // toggle-dropdown
@@ -505,16 +512,34 @@ $(window).on('error', function () {
 })
 
 // replace url if user have not rights to veiw source code
-function replaceUrl(url) {
-  const urlHasEdit = /\?edit/;
-  const urlHasBoth = /\?both/;
-  if (urlHasEdit.test(url)) {
-    let newUrl = url.toString().replace(urlHasEdit, '?view');
-    window.location.replace(newUrl);
-  } else if (urlHasBoth.test(url)) {
-    let newUrl = url.toString().replace(urlHasBoth, '?view');
+function replaceUrl (url) {
+  const urlHasEditOrBoth = /\?edit|\?both/;
+  if (urlHasEditOrBoth.test(url)) {
+    let newUrl = url.toString().replace(urlHasEditOrBoth, '?view');
     window.location.replace(newUrl);
   }
+}
+
+//
+function disableToolbarButtons (isLogin, elems) {
+  if (isLogin === false) {
+    elems.edit.setAttribute('disabled', null)
+    elems.edit.setAttribute('title', 'You have no rights to edit this note')
+    elems.both.setAttribute('disabled', null)
+    elems.both.setAttribute('title', 'You have no rights to edit this note')
+  } else {
+    elems.edit.removeAttribute('disabled')
+    elems.both.removeAttribute('disabled')
+  }
+}
+
+function userIsLogin (userPersonalInfo) {
+  if (userPersonalInfo.hasOwnProperty('login')) {
+    if (userPersonalInfo.login === true) {
+      return isLogin = true
+    }
+  }
+  return isLogin = false
 }
 
 setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown, editor)
@@ -1585,12 +1610,17 @@ function importFromUrl (url) {
 
 // mode
 ui.toolbar.mode.click(function () {
-  if (ui.toolbar.mode.data('blockSource')) return
+  if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
+    toggleMode()  
+  } else if (ui.toolbar.mode.data('blockSource')) return
   toggleMode()
 })
 // edit
 ui.toolbar.edit.click(function () {
-  if (ui.toolbar.edit.data('blockSource')) return
+  if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
+    console.dir(personalInfo)
+    changeMode(modeType.edit)
+  } else if (ui.toolbar.edit.data('blockSource')) return
   changeMode(modeType.edit)
 })
 // view
@@ -1599,7 +1629,9 @@ ui.toolbar.view.click(function () {
 })
 // both
 ui.toolbar.both.click(function () {
-  if (ui.toolbar.both.data('blockSource')) return
+  if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
+    changeMode(modeType.edit)
+  } else if (ui.toolbar.both.data('blockSource')) return
   changeMode(modeType.both)
 })
 
@@ -2189,6 +2221,9 @@ socket.on('online users', function (data) {
     var user = data.users[i]
     if (user.id !== socket.id) { buildCursor(user) } else { personalInfo = user }
   }
+  if (ui.toolbar.edit.data('blockSource')) {
+    disableToolbarButtons(userIsLogin(personalInfo), uiByNativeJS)
+  }
 })
 socket.on('user status', function (data) {
   if (debug) { console.debug(data) }
@@ -2237,6 +2272,12 @@ socket.on('cursor blur', function (data) {
     cursor.stop(true).fadeOut()
   }
 })
+
+//checked user is login
+async function userPersonalInfo (personalInfo) {
+  let userInfo = await personalInfo
+  return userInfo
+}
 
 var options = {
   valueNames: ['id', 'name'],
