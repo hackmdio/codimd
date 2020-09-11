@@ -25,10 +25,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/4.4.0/vega-lite.min.js" integrity="sha256-ollz/GSuG0/f7aV4v8LGDYxPs4G2DwEk9+hALicqp9I=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/6.2.2/vega-embed.min.js" integrity="sha256-AW13lGYqQzWT9PymwqUEJqQHaz9ntM5m5jQVkvtzja4=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" integrity="sha256-fNoRrwkP2GuYPbNSJmMJOCyfRB2DhPQe0rGTgzRsyso=" crossorigin="anonymous" defer></script>
-<%- include('../build/index-scripts'); %>
+<%- include('../build/index-scripts') %>
 <% } else { %>
 <script src="<%- serverURL %>/build/MathJax/MathJax.js" defer></script>
 <script src="<%- serverURL %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
 <script src="<%- serverURL %>/build/MathJax/config/Safe.js" defer></script>
-<%- include('../build/index-pack-scripts'); %>
+<%- include('../build/index-pack-scripts') %>
 <% } %>
