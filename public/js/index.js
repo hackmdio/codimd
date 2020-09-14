@@ -81,7 +81,6 @@ import uiElemsWithoutJquery from './lib/editor/ui-elems-without-jquery'
 import { emojifyImageDir } from './lib/editor/constants'
 import modeType from './lib/modeType'
 import appState from './lib/appState'
-//import { isLogicalNot } from 'vega-lite/build/src/logical'
 
 require('../vendor/showup/showup')
 
@@ -259,6 +258,7 @@ const statusType = {
 // global vars
 window.loaded = false
 let isLogin = false
+let blockSourceView = false
 let needRefresh = false
 let isDirty = false
 let editShown = false
@@ -293,6 +293,7 @@ const lastInfo = {
 }
 let personalInfo = {}
 let onlineUsers = []
+let currentPermission = ''
 const fileTypes = {
   pl: 'perl',
   cgi: 'perl',
@@ -428,9 +429,7 @@ Visibility.change(function (e, state) {
 
 // when page ready
 $(document).ready(function () {
-  if (ui.toolbar.edit.data('blockSource') && isLogin === false) { replaceUrl(window.location.href) }
-  
-  console.log("personal info", onlineUsers)
+  if (ui.toolbar.edit.data('blockSource') && !isLogin) { replaceUrl(window.location.href) }
 
   idle.checkAway()
   checkResponsive()
@@ -480,14 +479,14 @@ $(document).ready(function () {
   
   key.filter = function (e) { return true }
   key('ctrl+alt+e', function (e) {
-    if (ui.toolbar.edit.data('blockSource') && isLogin === false) return
+    if (blockSourceView) return
     changeMode(modeType.edit)
   })
   key('ctrl+alt+v', function (e) {
     changeMode(modeType.view)
   })
   key('ctrl+alt+b', function (e) {
-    if (ui.toolbar.both.data('blockSource') && isLogin === false) return
+    if (blockSourceView) return
     changeMode(modeType.both)
   })
   // toggle-dropdown
@@ -521,18 +520,79 @@ function replaceUrl (url) {
 }
 
 //
-function disableToolbarButtons (isLogin, elems) {
-  if (isLogin === false) {
-    elems.edit.setAttribute('disabled', null)
-    elems.edit.setAttribute('title', 'You have no rights to edit this note')
-    elems.both.setAttribute('disabled', null)
-    elems.both.setAttribute('title', 'You have no rights to edit this note')
-  } else {
-    elems.edit.removeAttribute('disabled')
-    elems.both.removeAttribute('disabled')
+function allowVisibleSource (isLogin, permission) {
+  console.log('isWokr?', isLogin, permission)
+  switch(permission) {
+    case 'freely':
+      blockSourceView = false
+      break
+    case 'editable':
+      if (!isLogin) {
+        blockSourceView = true
+        uiByNativeJS.toolbar.edit.setAttribute('disabled', null)
+        uiByNativeJS.toolbar.edit.setAttribute('title', 'You have no rights to edit this note')
+        uiByNativeJS.toolbar.both.setAttribute('disabled', null)
+        uiByNativeJS.toolbar.both.setAttribute('title', 'You have no rights to edit this note')
+      } else {
+        blockSourceView = false
+        uiByNativeJS.toolbar.edit.removeAttribute('disabled')
+        uiByNativeJS.toolbar.edit.setAttribute('title', 'Edit (Ctrl+Alt+E)')
+        uiByNativeJS.toolbar.both.removeAttribute('disabled')
+        uiByNativeJS.toolbar.both.setAttribute('title', 'Both (Ctrl+Alt+B)')
+      }
+      break
+    case 'limited':
+      if (!isLogin) {
+        blockSourceView = true
+        uiByNativeJS.toolbar.edit.setAttribute('disabled', null)
+        uiByNativeJS.toolbar.edit.setAttribute('title', 'You have no rights to edit this note')
+        uiByNativeJS.toolbar.both.setAttribute('disabled', null)
+        uiByNativeJS.toolbar.both.setAttribute('title', 'You have no rights to edit this note')
+      } else {
+        blockSourceView = false
+        uiByNativeJS.toolbar.edit.removeAttribute('disabled')
+        uiByNativeJS.toolbar.edit.setAttribute('title', 'Edit (Ctrl+Alt+E)')
+        uiByNativeJS.toolbar.both.removeAttribute('disabled')
+        uiByNativeJS.toolbar.both.setAttribute('title', 'Both (Ctrl+Alt+B)')
+      }
+      break
+    case 'locked':
+      if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
+        blockSourceView = false
+      } else {
+        blockSourceView = true
+        uiByNativeJS.toolbar.edit.setAttribute('disabled', null)
+        uiByNativeJS.toolbar.edit.setAttribute('title', 'You have no rights to edit this note')
+        uiByNativeJS.toolbar.both.setAttribute('disabled', null)
+        uiByNativeJS.toolbar.both.setAttribute('title', 'You have no rights to edit this note')
+      }
+      break
+    case 'protected':
+      if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
+        blockSourceView = false
+      } else {
+        blockSourceView = true
+        uiByNativeJS.toolbar.edit.setAttribute('disabled', null)
+        uiByNativeJS.toolbar.edit.setAttribute('title', 'You have no rights to edit this note')
+        uiByNativeJS.toolbar.both.setAttribute('disabled', null)
+        uiByNativeJS.toolbar.both.setAttribute('title', 'You have no rights to edit this note')
+      }
+      break
+    case 'private':
+      if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
+        blockSourceView = false
+      } else {
+        blockSourceView = true
+        uiByNativeJS.toolbar.edit.setAttribute('disabled', null)
+        uiByNativeJS.toolbar.edit.setAttribute('title', 'You have no rights to edit this note')
+        uiByNativeJS.toolbar.both.setAttribute('disabled', null)
+        uiByNativeJS.toolbar.both.setAttribute('title', 'You have no rights to edit this note')
+      }
+      break
   }
 }
 
+//checking is user log in
 function userIsLogin (userPersonalInfo) {
   if (userPersonalInfo.hasOwnProperty('login')) {
     if (userPersonalInfo.login === true) {
@@ -1612,15 +1672,14 @@ function importFromUrl (url) {
 ui.toolbar.mode.click(function () {
   if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
     toggleMode()  
-  } else if (ui.toolbar.mode.data('blockSource')) return
+  } else if (blockSourceView) return
   toggleMode()
 })
 // edit
 ui.toolbar.edit.click(function () {
   if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
-    console.dir(personalInfo)
     changeMode(modeType.edit)
-  } else if (ui.toolbar.edit.data('blockSource')) return
+  } else if (blockSourceView) return
   changeMode(modeType.edit)
 })
 // view
@@ -1631,7 +1690,7 @@ ui.toolbar.view.click(function () {
 ui.toolbar.both.click(function () {
   if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
     changeMode(modeType.edit)
-  } else if (ui.toolbar.both.data('blockSource')) return
+  } else if (blockSourceView) return
   changeMode(modeType.both)
 })
 
@@ -2100,6 +2159,7 @@ socket.on('refresh', function (data) {
   editor.setOption('maxLength', editorInstance.config.docmaxlength)
   updateInfo(data)
   updatePermission(data.permission)
+  currentPermission = data.permission
   if (!window.loaded) {
     // auto change mode if no content detected
     var nocontent = editor.getValue().length <= 0
@@ -2222,7 +2282,12 @@ socket.on('online users', function (data) {
     if (user.id !== socket.id) { buildCursor(user) } else { personalInfo = user }
   }
   if (ui.toolbar.edit.data('blockSource')) {
-    disableToolbarButtons(userIsLogin(personalInfo), uiByNativeJS)
+    setTimeout(() => {
+      allowVisibleSource(userIsLogin(personalInfo), currentPermission)
+      console.log('per in timeout', currentPermission)
+    }, 10000)
+    //allowVisibleSource(userIsLogin(personalInfo), currentPermission)
+    //console.log('per', currentPermission)
   }
 })
 socket.on('user status', function (data) {
@@ -2272,12 +2337,6 @@ socket.on('cursor blur', function (data) {
     cursor.stop(true).fadeOut()
   }
 })
-
-//checked user is login
-async function userPersonalInfo (personalInfo) {
-  let userInfo = await personalInfo
-  return userInfo
-}
 
 var options = {
   valueNames: ['id', 'name'],
