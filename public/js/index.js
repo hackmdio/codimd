@@ -429,8 +429,6 @@ Visibility.change(function (e, state) {
 
 // when page ready
 $(document).ready(function () {
-  if (ui.toolbar.edit.data('blockSource') && !isLogin) { replaceUrl(window.location.href) }
-
   idle.checkAway()
   checkResponsive()
   // if in smaller screen, we don't need advanced scrollbar
@@ -519,9 +517,8 @@ function replaceUrl (url) {
   }
 }
 
-//
+//denied access to view or both mode if user have not permission for that
 function allowVisibleSource (isLogin, permission) {
-  console.log('isWokr?', isLogin, permission)
   switch(permission) {
     case 'freely':
       blockSourceView = false
@@ -529,31 +526,19 @@ function allowVisibleSource (isLogin, permission) {
     case 'editable':
       if (!isLogin) {
         blockSourceView = true
-        uiByNativeJS.toolbar.edit.setAttribute('disabled', null)
-        uiByNativeJS.toolbar.edit.setAttribute('title', 'You have no rights to edit this note')
-        uiByNativeJS.toolbar.both.setAttribute('disabled', null)
-        uiByNativeJS.toolbar.both.setAttribute('title', 'You have no rights to edit this note')
+        disableControls()
       } else {
         blockSourceView = false
-        uiByNativeJS.toolbar.edit.removeAttribute('disabled')
-        uiByNativeJS.toolbar.edit.setAttribute('title', 'Edit (Ctrl+Alt+E)')
-        uiByNativeJS.toolbar.both.removeAttribute('disabled')
-        uiByNativeJS.toolbar.both.setAttribute('title', 'Both (Ctrl+Alt+B)')
+        enableControls()
       }
       break
     case 'limited':
       if (!isLogin) {
         blockSourceView = true
-        uiByNativeJS.toolbar.edit.setAttribute('disabled', null)
-        uiByNativeJS.toolbar.edit.setAttribute('title', 'You have no rights to edit this note')
-        uiByNativeJS.toolbar.both.setAttribute('disabled', null)
-        uiByNativeJS.toolbar.both.setAttribute('title', 'You have no rights to edit this note')
+        disableControls()
       } else {
         blockSourceView = false
-        uiByNativeJS.toolbar.edit.removeAttribute('disabled')
-        uiByNativeJS.toolbar.edit.setAttribute('title', 'Edit (Ctrl+Alt+E)')
-        uiByNativeJS.toolbar.both.removeAttribute('disabled')
-        uiByNativeJS.toolbar.both.setAttribute('title', 'Both (Ctrl+Alt+B)')
+        enableControls()
       }
       break
     case 'locked':
@@ -561,10 +546,7 @@ function allowVisibleSource (isLogin, permission) {
         blockSourceView = false
       } else {
         blockSourceView = true
-        uiByNativeJS.toolbar.edit.setAttribute('disabled', null)
-        uiByNativeJS.toolbar.edit.setAttribute('title', 'You have no rights to edit this note')
-        uiByNativeJS.toolbar.both.setAttribute('disabled', null)
-        uiByNativeJS.toolbar.both.setAttribute('title', 'You have no rights to edit this note')
+        disableControls()
       }
       break
     case 'protected':
@@ -572,10 +554,7 @@ function allowVisibleSource (isLogin, permission) {
         blockSourceView = false
       } else {
         blockSourceView = true
-        uiByNativeJS.toolbar.edit.setAttribute('disabled', null)
-        uiByNativeJS.toolbar.edit.setAttribute('title', 'You have no rights to edit this note')
-        uiByNativeJS.toolbar.both.setAttribute('disabled', null)
-        uiByNativeJS.toolbar.both.setAttribute('title', 'You have no rights to edit this note')
+        disableControls()
       }
       break
     case 'private':
@@ -583,13 +562,33 @@ function allowVisibleSource (isLogin, permission) {
         blockSourceView = false
       } else {
         blockSourceView = true
-        uiByNativeJS.toolbar.edit.setAttribute('disabled', null)
-        uiByNativeJS.toolbar.edit.setAttribute('title', 'You have no rights to edit this note')
-        uiByNativeJS.toolbar.both.setAttribute('disabled', null)
-        uiByNativeJS.toolbar.both.setAttribute('title', 'You have no rights to edit this note')
+        disableControls()
       }
       break
   }
+}
+
+//set disable attr for UI
+function disableControls () {
+  ui.toolbar.edit.attr({
+    disabled: 'true',
+    title: 'You have no rights to edit this note'
+  })
+  ui.toolbar.both.attr({
+    disabled: 'true',
+    title: 'You have no rights to edit this note'
+  })
+}
+//remove disable attr from UI
+function enableControls () {
+  ui.toolbar.edit.removeAttr('disabled')
+  ui.toolbar.both.removeAttr('disabled')
+  ui.toolbar.edit.attr({
+    title: 'Edit (Ctrl+Alt+E)'
+  })
+  ui.toolbar.both.attr({
+    title: 'Both (Ctrl+Alt+B)'
+  })
 }
 
 //checking is user log in
@@ -2160,6 +2159,8 @@ socket.on('refresh', function (data) {
   updateInfo(data)
   updatePermission(data.permission)
   currentPermission = data.permission
+  if (ui.toolbar.edit.data('blockSource')) { allowVisibleSource(userIsLogin(personalInfo), currentPermission) }
+  if (ui.toolbar.edit.data('blockSource') && blockSourceView) { replaceUrl(window.location.href) }
   if (!window.loaded) {
     // auto change mode if no content detected
     var nocontent = editor.getValue().length <= 0
@@ -2262,6 +2263,7 @@ socket.on('operation', function () {
 })
 
 socket.on('online users', function (data) {
+  console.log('who faster? online users')
   if (debug) { console.debug(data) }
   onlineUsers = data.users
   updateOnlineStatus()
@@ -2280,14 +2282,6 @@ socket.on('online users', function (data) {
   for (var i = 0; i < data.users.length; i++) {
     var user = data.users[i]
     if (user.id !== socket.id) { buildCursor(user) } else { personalInfo = user }
-  }
-  if (ui.toolbar.edit.data('blockSource')) {
-    setTimeout(() => {
-      allowVisibleSource(userIsLogin(personalInfo), currentPermission)
-      console.log('per in timeout', currentPermission)
-    }, 10000)
-    //allowVisibleSource(userIsLogin(personalInfo), currentPermission)
-    //console.log('per', currentPermission)
   }
 })
 socket.on('user status', function (data) {
