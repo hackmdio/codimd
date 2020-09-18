@@ -508,6 +508,13 @@ $(window).on('error', function () {
   // setNeedRefresh();
 })
 
+//
+function checkParametr (isLogin, permission) {
+  if (typeof isLogin !== 'boolean' || !permission) {
+    throw new Error('one or more parametr is incorrect')
+  } else return allowVisibleSource(isLogin, permission)
+}
+
 // replace url if user have not rights to veiw source code
 function replaceUrl (url) {
   const urlHasEditOrBoth = /\?edit|\?both/;
@@ -2159,7 +2166,14 @@ socket.on('refresh', function (data) {
   updateInfo(data)
   updatePermission(data.permission)
   currentPermission = data.permission
-  if (ui.toolbar.edit.data('blockSource')) { allowVisibleSource(userIsLogin(personalInfo), currentPermission) }
+  // run allowVisebleSource functionality
+  if (ui.toolbar.edit.data('blockSource')) {
+    try {
+      checkParametr(userIsLogin(personalInfo), currentPermission)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   if (ui.toolbar.edit.data('blockSource') && blockSourceView) { replaceUrl(window.location.href) }
   if (!window.loaded) {
     // auto change mode if no content detected
