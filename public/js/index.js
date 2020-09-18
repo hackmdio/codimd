@@ -531,14 +531,6 @@ function allowVisibleSource (isLogin, permission) {
       blockSourceView = false
       break
     case 'editable':
-      if (!isLogin) {
-        blockSourceView = true
-        disableControls()
-      } else {
-        blockSourceView = false
-        enableControls()
-      }
-      break
     case 'limited':
       if (!isLogin) {
         blockSourceView = true
@@ -549,21 +541,7 @@ function allowVisibleSource (isLogin, permission) {
       }
       break
     case 'locked':
-      if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
-        blockSourceView = false
-      } else {
-        blockSourceView = true
-        disableControls()
-      }
-      break
     case 'protected':
-      if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
-        blockSourceView = false
-      } else {
-        blockSourceView = true
-        disableControls()
-      }
-      break
     case 'private':
       if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
         blockSourceView = false
