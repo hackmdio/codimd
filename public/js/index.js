@@ -77,7 +77,6 @@ import { preventXSS } from './render'
 import Editor from './lib/editor'
 
 import getUIElements from './lib/editor/ui-elements'
-import uiElemsWithoutJquery from './lib/editor/ui-elems-without-jquery'
 import { emojifyImageDir } from './lib/editor/constants'
 import modeType from './lib/modeType'
 import appState from './lib/appState'
@@ -322,8 +321,6 @@ defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
 
 //  initalize ui reference
 const ui = getUIElements()
-
-const uiByNativeJS = uiElemsWithoutJquery()
 
 // page actions
 var opts = {
