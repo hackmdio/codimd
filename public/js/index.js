@@ -256,7 +256,6 @@ const statusType = {
 
 // global vars
 window.loaded = false
-let isLogin = false
 let blockSourceView = false
 let needRefresh = false
 let isDirty = false
@@ -511,15 +510,15 @@ function checkParametr (isLogin, permission) {
 }
 
 function replaceUrl (url) {
-  const urlHasEditOrBoth = /\?edit|\?both/;
+  const urlHasEditOrBoth = /\?edit|\?both/
   if (urlHasEditOrBoth.test(url)) {
-    let newUrl = url.toString().replace(urlHasEditOrBoth, '?view');
-    window.location.replace(newUrl);
+    const newUrl = url.toString().replace(urlHasEditOrBoth, '?view')
+    window.location.replace(newUrl)
   }
 }
 
 function allowVisibleSource (isLogin, permission) {
-  switch(permission) {
+  switch (permission) {
     case 'freely':
       blockSourceView = false
       break
@@ -548,10 +547,10 @@ function allowVisibleSource (isLogin, permission) {
 
 function disableControls () {
   ui.toolbar.edit.attr({
-    disabled: 'true',
+    disabled: 'true'
   })
   ui.toolbar.both.attr({
-    disabled: 'true',
+    disabled: 'true'
   })
 }
 
@@ -561,12 +560,12 @@ function enableControls () {
 }
 
 function userIsLogin (userPersonalInfo) {
-  if (userPersonalInfo.hasOwnProperty('login')) {
+  if (Object.prototype.hasOwnProperty.call(userPersonalInfo, 'login')) {
     if (userPersonalInfo.login === true) {
-      return isLogin = true
+      return true
     }
   }
-  return isLogin = false
+  return false
 }
 
 setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown, editor)
@@ -1637,9 +1636,7 @@ function importFromUrl (url) {
 
 // mode
 ui.toolbar.mode.click(function () {
-  if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
-    toggleMode()  
-  } else if (blockSourceView) return
+  if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) { toggleMode() } else if (blockSourceView) return
   toggleMode()
 })
 // edit
