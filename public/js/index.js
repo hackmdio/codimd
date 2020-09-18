@@ -471,7 +471,6 @@ $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip()
   // shortcuts
   // allow on all tags
-  
   key.filter = function (e) { return true }
   key('ctrl+alt+e', function (e) {
     if (blockSourceView) return
@@ -505,14 +504,12 @@ $(window).on('error', function () {
   // setNeedRefresh();
 })
 
-//
 function checkParametr (isLogin, permission) {
   if (typeof isLogin !== 'boolean' || !permission) {
     throw new Error('one or more parametr is incorrect')
   } else return allowVisibleSource(isLogin, permission)
 }
 
-// replace url if user have not rights to veiw source code
 function replaceUrl (url) {
   const urlHasEditOrBoth = /\?edit|\?both/;
   if (urlHasEditOrBoth.test(url)) {
@@ -521,7 +518,6 @@ function replaceUrl (url) {
   }
 }
 
-//denied access to view or both mode if user have not permission for that
 function allowVisibleSource (isLogin, permission) {
   switch(permission) {
     case 'freely':
@@ -550,30 +546,20 @@ function allowVisibleSource (isLogin, permission) {
   }
 }
 
-//set disable attr for UI
 function disableControls () {
   ui.toolbar.edit.attr({
     disabled: 'true',
-    title: 'You have no rights to edit this note'
   })
   ui.toolbar.both.attr({
     disabled: 'true',
-    title: 'You have no rights to edit this note'
-  })
-}
-//remove disable attr from UI
-function enableControls () {
-  ui.toolbar.edit.removeAttr('disabled')
-  ui.toolbar.both.removeAttr('disabled')
-  ui.toolbar.edit.attr({
-    title: 'Edit (Ctrl+Alt+E)'
-  })
-  ui.toolbar.both.attr({
-    title: 'Both (Ctrl+Alt+B)'
   })
 }
 
-//checking is user log in
+function enableControls () {
+  ui.toolbar.edit.removeAttr('disabled')
+  ui.toolbar.both.removeAttr('disabled')
+}
+
 function userIsLogin (userPersonalInfo) {
   if (userPersonalInfo.hasOwnProperty('login')) {
     if (userPersonalInfo.login === true) {
