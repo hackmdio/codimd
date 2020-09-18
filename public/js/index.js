@@ -2127,7 +2127,7 @@ socket.on('refresh', function (data) {
   updateInfo(data)
   updatePermission(data.permission)
   currentPermission = data.permission
-  // run allowVisebleSource functionality
+  // run allowVisibleSource functionality
   if (ui.toolbar.edit.data('blockSource')) {
     try {
       checkParametr(userIsLogin(personalInfo), currentPermission)
