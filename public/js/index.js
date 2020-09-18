@@ -2252,7 +2252,6 @@ socket.on('operation', function () {
 })
 
 socket.on('online users', function (data) {
-  console.log('who faster? online users')
   if (debug) { console.debug(data) }
   onlineUsers = data.users
   updateOnlineStatus()
