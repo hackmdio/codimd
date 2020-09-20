@@ -17,6 +17,8 @@ import {
   parseHistory,
   parseServerToHistory,
   parseStorageToHistory,
+  parseServerToShareHistory,
+  parseServerToSearchShareHistory,
   postHistoryToServer,
   removeHistory,
   saveHistory,
@@ -26,6 +28,7 @@ import {
 import { saveAs } from 'file-saver'
 import List from 'list.js'
 import unescapeHTML from 'lodash/unescape'
+
 
 require('./locale')
 
@@ -60,6 +63,35 @@ const options = {
 }
 const historyList = new List('history', options)
 
+const shareOptions = {
+  listClass: 'share-list',
+  valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
+  item: `<li class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <span class="id" style="display:none;"></span>
+          <a href="#">
+            <div class="item">
+              <div class="content">
+                <h4 class="text"></h4>
+                <p>
+                  <i><i class="fa fa-clock-o"></i> visited </i><i class="fromNow"></i>
+                  <br>
+                  <i class="timestamp" style="display:none;"></i>
+                  <i class="time"></i>
+                </p>
+                <p class="tags"></p>
+              </div>
+            </div>
+          </a>
+        </li>`,
+  pagination: [{
+    outerWindow: 1,
+    paginationClass: 'share-pagination'
+  }]
+}
+
+const shareHistoryList = new List('share-history', shareOptions)
+var offset = 0;
+
 window.migrateHistoryFromTempCallback = pageInit
 setloginStateChangeEvent(pageInit)
 
@@ -77,6 +109,17 @@ function pageInit () {
       $('.ui-signout').show()
       $('.ui-history').click()
       parseServerToHistory(historyList, parseHistoryCallback)
+      parseServerToShareHistory(shareHistoryList, offset, parseShareHistoryCallback)
+      offset = offset + 18
+      $.get(`${serverurl}/sharehistory?offset=${offset}`)
+        .done(data => {
+          if (data.history.length == 0) {
+            $('.share-history-more').hide()
+          }
+        })
+        .fail((xhr, status, error) => {
+          console.error(xhr.responseText)
+        })
     },
     () => {
       $('.ui-signin').show()
@@ -89,6 +132,37 @@ function pageInit () {
     }
   )
 }
+
+$('.share-history-more').click(() => {
+  const lastKeyword = $('.share-search').val()
+  if (lastKeyword != '') {
+      parseServerToSearchShareHistory(shareHistoryList, offset, lastKeyword, parseShareHistoryCallback)
+      $('#share-history-list').slideDown('fast')
+      offset = offset + 18
+      $.get(`${serverurl}/sharehistory?offset=${offset}&&keywords=${lastKeyword}`)
+        .done(data => {
+          if (data.history.length == 0) {
+            $('.share-history-more').hide()
+          }
+        })
+        .fail((xhr, status, error) => {
+          console.error(xhr.responseText)
+        })
+    } else {
+      parseServerToShareHistory(shareHistoryList, offset, parseShareHistoryCallback)
+      $('#share-history-list').slideDown('fast')
+      offset = offset + 18
+      $.get(`${serverurl}/sharehistory?offset=${offset}`)
+        .done(data => {
+          if (data.history.length == 0) {
+            $('.share-history-more').hide()
+          }
+        })
+        .fail((xhr, status, error) => {
+          console.error(xhr.responseText)
+        })
+    }
+})
 
 $('.masthead-nav li').click(function () {
   $(this).siblings().removeClass('active')
@@ -113,6 +187,57 @@ $('.ui-history').click(() => {
     $('#history').fadeIn()
   }
 })
+
+function checkShareHistoryList () {
+  if ($('#share-history-list').children().length > 0) {
+    $('.share-pagination').hide()
+    $('.ui-nosharehistory').hide()
+    $('.ui-import-from-browser').hide()
+    $('.share-history-more').show()
+  } else if ($('#share-history-list').children().length === 0) {
+    $('.share-pagination').hide()
+    $('.ui-nosharehistory').slideDown()
+    $('.share-history-more').hide()
+  }
+}
+
+function parseShareHistoryCallback (list, notehistory) {
+  checkShareHistoryList()
+  // sort by pinned then timestamp
+  list.sort('', {
+    sortFunction (a, b) {
+      const notea = a.values()
+      const noteb = b.values()
+      if (notea.pinned && !noteb.pinned) {
+        return -1
+      } else if (!notea.pinned && noteb.pinned) {
+        return 1
+      } else {
+        if (notea.timestamp > noteb.timestamp) {
+          return -1
+        } else if (notea.timestamp < noteb.timestamp) {
+          return 1
+        } else {
+          return 0
+        }
+      }
+    }
+  })
+  // parse filter tags
+  const filtertags = []
+  for (let i = 0, l = list.items.length; i < l; i++) {
+    const tags = list.items[i]._values.tags
+    if (tags && tags.length > 0) {
+      for (let j = 0; j < tags.length; j++) {
+        // push info filtertags if not found
+        let found = false
+        if (filtertags.includes(tags[j])) { found = true }
+        if (!found) { filtertags.push(tags[j]) }
+      }
+    }
+  }
+  buildTagsFilter(filtertags)
+}
 
 function checkHistoryList () {
   if ($('#history-list').children().length > 0) {
@@ -202,6 +327,37 @@ historyList.on('updated', e => {
   $('.ui-history-close').on('click', historyCloseClick)
   $('.ui-history-pin').off('click')
   $('.ui-history-pin').on('click', historyPinClick)
+})
+
+shareHistoryList.on('updated', e => {
+  for (let i = 0, l = e.items.length; i < l; i++) {
+    const item = e.items[i]
+    if (item.visible()) {
+      const itemEl = $(item.elm)
+      const values = item._values
+      const a = itemEl.find('a')
+      const pin = itemEl.find('.ui-history-pin')
+      const tagsEl = itemEl.find('.tags')
+      // parse link to element a
+      a.attr('href', `${serverurl}/${values.id}`)
+      // parse pinned
+      if (values.pinned) {
+        pin.addClass('active')
+      } else {
+        pin.removeClass('active')
+      }
+      // parse tags
+      const tags = values.tags
+      if (tags && tags.length > 0 && tagsEl.children().length <= 0) {
+        const labels = []
+        for (let j = 0; j < tags.length; j++) {
+          // push into the item label
+          labels.push(`<span class='label label-default'>${tags[j]}</span>`)
+        }
+        tagsEl.html(labels.join(' '))
+      }
+    }
+  }
 })
 
 function historyCloseClick (e) {
@@ -371,6 +527,30 @@ $('.ui-refresh-history').click(() => {
   })
 })
 
+$('.ui-refresh-share-history').click(() => {
+  const lastTags = $('.ui-share-use-tags').select2('val')
+  $('.ui-share-use-tagss').select2('val', '')
+  shareHistoryList.filter()
+  const lastKeyword = $('.share-search').val()
+  $('.share-search').val('')
+  shareHistoryList.search()
+  $('#share-history-list').slideUp('fast')
+
+  resetCheckAuth()
+  shareHistoryList.clear()
+  offset = 0
+  parseServerToShareHistory(shareHistoryList, offset, (list, notehistory) => {
+    parseHistoryCallback(list, notehistory)
+    $('.ui-share-use-tagss').select2('val', lastTags)
+    $('.ui-share-use-tagss').trigger('change')
+    shareHistoryList.search(lastKeyword)
+    $('.share-search').val(lastKeyword)
+    checkShareHistoryList()
+    $('#share-history-list').slideDown('fast')
+  })
+  offset = offset + 18
+})
+
 $('.ui-delete-user-modal-cancel').click(() => {
   $('.ui-delete-user').parent().removeClass('active')
 })
@@ -425,6 +605,64 @@ $('.ui-use-tags').on('change', function () {
   checkHistoryList()
 })
 
+$('.ui-share-use-tags').on('change', function () {
+  const tags = []
+  const data = $(this).select2('data')
+  for (let i = 0; i < data.length; i++) { tags.push(data[i].text) }
+  if (tags.length > 0) {
+    shareHistoryList.filter(item => {
+      const values = item.values()
+      if (!values.tags) return false
+      let found = false
+      for (let i = 0; i < tags.length; i++) {
+        if (values.tags.includes(tags[i])) {
+          found = true
+          break
+        }
+      }
+      return found
+    })
+  } else {
+    shareHistoryList.filter()
+  }
+  checkShareHistoryList()
+})
+
 $('.search').keyup(() => {
   checkHistoryList()
 })
+
+$('.share-search').keydown((event) => {
+  if (event.which == 13){
+    const lastTags = $('.ui-share-use-tags').select2('val')
+    $('.ui-share-use-tagss').select2('val', '')
+    shareHistoryList.filter()
+    const lastKeyword = $('.share-search').val()
+    $('#share-history-list').slideUp('fast')
+
+    resetCheckAuth()
+    shareHistoryList.clear()
+    offset = 0
+    parseServerToSearchShareHistory(shareHistoryList, offset, lastKeyword, (list, notehistory) => {
+      parseShareHistoryCallback(list, notehistory)
+      $('.ui-share-use-tagss').select2('val', lastTags)
+      $('.ui-share-use-tagss').trigger('change')
+      $('.share-search').val(lastKeyword)
+      checkShareHistoryList()
+      $('#share-history-list').slideDown('fast')
+
+      offset = offset + 18
+
+      $.get(`${serverurl}/sharehistory?offset=${offset}&&keywords=${lastKeyword}`)
+        .done(data => {
+          if (data.history.length == 0) {
+            $('.share-history-more').hide()
+          }
+        })
+        .fail((xhr, status, error) => {
+          console.error(xhr.responseText)
+        })
+    })
+  }
+})
+
