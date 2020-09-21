@@ -185,6 +185,7 @@ $('.ui-history').click(() => {
   if (!$('#history').is(':visible')) {
     $('.section:visible').hide()
     $('#history').fadeIn()
+    $('#share-history').fadeIn()
   }
 })
 
