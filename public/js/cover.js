@@ -129,6 +129,17 @@ function pageInit () {
       $('.ui-name').html('')
       $('.ui-signout').hide()
       parseStorageToHistory(historyList, parseHistoryCallback)
+      parseServerToShareHistory(shareHistoryList, offset, parseShareHistoryCallback)
+      offset = offset + 18
+      $.get(`${serverurl}/sharehistory?offset=${offset}`)
+        .done(data => {
+          if (data.history.length == 0) {
+            $('.share-history-more').hide()
+          }
+        })
+        .fail((xhr, status, error) => {
+          console.error(xhr.responseText)
+        })
     }
   )
 }
