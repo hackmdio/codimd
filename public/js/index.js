@@ -425,6 +425,8 @@ Visibility.change(function (e, state) {
 
 // when page ready
 $(document).ready(function () {
+  if (ui.toolbar.edit.data('blockSource')) { replaceUrl(window.location.href) }
+
   idle.checkAway()
   checkResponsive()
   // if in smaller screen, we don't need advanced scrollbar
@@ -470,6 +472,7 @@ $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip()
   // shortcuts
   // allow on all tags
+  
   key.filter = function (e) { return true }
   key('ctrl+alt+e', function (e) {
     if (blockSourceView) return
