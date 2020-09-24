@@ -196,7 +196,6 @@ app.locals.serverURL = config.serverURL
 app.locals.sourceURL = config.sourceURL
 app.locals.allowAnonymous = config.allowAnonymous
 app.locals.allowAnonymousEdits = config.allowAnonymousEdits
-//here 1 line below is mine
 app.locals.allowVisibleSource = config.allowVisibleSource
 app.locals.permission = config.permission
 app.locals.allowPDFExport = config.allowPDFExport
