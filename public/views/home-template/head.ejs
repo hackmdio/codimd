@@ -1,0 +1,24 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="<%= __('Best way to write and share your knowledge in markdown.') %>">
+<meta name="keywords" content="Collaborative, Markdown, Notes">
+<title>CodiMD - <%= __('Collaborative markdown notes') %></title>
+<link rel="icon" type="image/png" href="<%- serverURL %>/favicon.png">
+<link rel="apple-touch-icon" href="<%- serverURL %>/apple-touch-icon.png">
+<% if(useCDN) { %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha256-H0KfTigpUV+0/5tn2HXC0CPwhhDhWgSawJdnFd0CGCo=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fork-awesome/1.1.7/css/fork-awesome.min.css" integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.9.0/bootstrap-social.min.css" integrity="sha256-02JtFTurpwBjQJ6q13iJe82/NF0RbZlJroDegK5g87Y=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.css" integrity="sha256-k5tPXFBQl+dOk8OmqCtptRa7bRYNRJuvs37bcqsmDB0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2-bootstrap.min.css" integrity="sha256-HbewCP50syA/2d3zPv+/CdQ4ufX6bI2ntjD3MwsA0UE=" crossorigin="anonymous" />
+<%- include ../build/cover-header %>
+<%- include ../shared/polyfill %>
+<% } else { %>
+<link rel="stylesheet" href='<%- serverURL %>/css/font.css'>
+  <link rel="stylesheet" href='<%- serverURL %>/build/fork-awesome/css/fork-awesome.min.css'>
+<%- include ../build/cover-pack-header %>
+<% } %>

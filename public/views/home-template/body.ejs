@@ -1,0 +1,204 @@
+<div class="site-wrapper">
+  <div class="site-wrapper-inner">
+      <div class="cover-container">
+
+          <div class="masthead clearfix">
+              <div class="inner">
+                  <h3 class="masthead-brand"></h3>
+                  <nav>
+                      <ul class="nav masthead-nav">
+                          <li class="ui-home<% if(!signin) { %> active<% } %>"><a href="#"><%= __('Intro') %></a>
+                          </li>
+                          <li class="ui-history<% if(signin) { %> active<% } %>"><a href="#"><%= __('History') %></a>
+                          </li>
+                          <div class="ui-signin" style="float: right; margin-top: 8px;<% if(signin) { %> display: none;<% } %>">
+                              <% if (allowAnonymous) { %>
+                              <a type="button" href="<%- serverURL %>/new" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> <%= __('New guest note') %></a>
+                              <% } %>
+                              <% if (authProviders.facebook || authProviders.twitter || authProviders.github || authProviders.bitbucket || authProviders.gitlab ||authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.ldap || authProviders.saml || authProviders.oauth2 || authProviders.email) { %>
+                              <button class="btn btn-sm btn-success ui-signin" data-toggle="modal" data-target=".signin-modal"><%= __('Sign In') %></button>
+                              <% } %>
+                          </div>
+                          <div class="ui-signout" style="float: right; margin-top: 8px;<% if(!signin) { %> display: none;<% } %>">
+                              <a type="button" href="<%- serverURL %>/new" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> <%= __('New note') %></a>
+                              <span class="ui-profile dropdown pull-right">
+                                  <button id="profileLabel" class="btn btn-sm btn-link ui-profile-label" style="padding-right: 0;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <img class="ui-avatar" width="20" height="20"><span class="hidden-xs hidden-sm">&ensp;<span class="ui-name"></span></span>&ensp;<i class="fa fa-caret-down"></i>
+                                  </button>
+                                  <ul class="dropdown-menu" aria-labelledby="profileLabel">
+                                      <li><a href="<%- serverURL %>/features"><i class="fa fa-dot-circle-o fa-fw"></i> <%= __('Features') %></a></li>
+                                      <li><a href="<%- serverURL %>/me/export"><i class="fa fa-cloud-download fa-fw"></i> <%= __('Export user data') %></a></li>
+                                      <li><a class="ui-delete-user" data-toggle="modal" data-target=".delete-user-modal"><i class="fa fa-trash fa-fw"></i> <%= __('Delete user') %></a></li>
+                                      <li><a href="<%- serverURL %>/logout"><i class="fa fa-sign-out fa-fw"></i> <%= __('Sign Out') %></a></li>
+                                  </ul>
+                              </span>
+                          </div>
+                      </ul>
+                  </nav>
+              </div>
+          </div>
+
+          <div id="home" class="section"<% if(signin) { %> style="display:none;"<% } %>>
+              <div class="inner cover">
+                  <h1 class="cover-heading"><i class="fa fa-file-text"></i> HELLO WORLD!!!</h1>
+                  <p class="lead">
+                      <%= __('Best way to write and share your knowledge in markdown.') %>
+                  </p>
+                  <% if (infoMessage && infoMessage.length > 0) { %>
+                  <div class="alert alert-info" style="max-width: 400px; margin: 0 auto;"><%= infoMessage %></div>
+                  <% } %>
+                  <% if (errorMessage && errorMessage.length > 0) { %>
+                  <div class="alert alert-danger" style="max-width: 400px; margin: 0 auto;"><%= errorMessage %></div>
+                  <% } %>
+                  <% if (authProviders.facebook || authProviders.twitter || authProviders.github|| authProviders.bitbucket || authProviders.gitlab || authProviders.mattermost || authProviders.dropbox || authProviders.google || authProviders.ldap || authProviders.saml || authProviders.oauth2 || authProviders.email) { %>
+                  <span class="ui-signin">
+                      <br>
+                      <a type="button" class="btn btn-lg btn-success ui-signin" data-toggle="modal" data-target=".signin-modal" style="min-width: 200px;"><%= __('Sign In') %></a>
+                  </span>
+                  <span class="ui-or"><%= __('or') %></span>
+                  <% } %>
+                  <span class="ui-signin">
+                      <a type="button" href="<%- serverURL %>/features" class="btn btn-lg btn-primary" style="min-width: 200px;"><%= __('Explore all features') %></a>
+                      <br>
+                      <br>
+                      <img src="<%- serverURL %>/screenshot.png" class="screenshot ui-signin">
+                  </span>
+                  <div class="lead row" style="width: 90%; margin: 0 auto;">
+                      <div class="col-md-4 inner">
+                          <a href="<%- serverURL %>/features#Share-Notes">
+                              <i class="fa fa-bolt fa-3x"></i>
+                              <h4><%= __('Collaborate with URL') %></h4>
+                          </a>
+                      </div>
+                      <div class="col-md-4 inner">
+                          <a href="<%- serverURL %>/features#MathJax">
+                              <i class="fa fa-bar-chart fa-3x"></i>
+                              <h4><%= __('Support charts and MathJax') %></h4>
+                          </a>
+                      </div>
+                      <div class="col-md-4 inner">
+                          <a href="<%- serverURL %>/features#Slide-Modee">
+                              <i class="fa fa-tv fa-3x"></i>
+                              <h4><%= __('Support slide mode') %></h4>
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div id="history" class="section"<% if(!signin) { %> style="display:none;"<% } %>>
+              <div class="ui-signin"<% if(signin) { %> style="display:none;"<% } %>>
+                  <p><%= __('Below is the history from browser') %></p>
+              </div>
+              <br>
+              <form class="form-inline">
+                  <div class="form-group" style="vertical-align: bottom;">
+                      <input class="form-control ui-use-tags" placeholder="<%= __('Select tags...') %>" />
+                  </div>
+                  <div class="form-group">
+                      <input class="search form-control" placeholder="<%= __('Search keyword...') %>" />
+                  </div>
+                  <a href="#" class="sort btn btn-default" data-sort="text" title="<%= __('Sort by title') %>">
+                  <%= __('Title') %>
+                  </a>
+                  <a href="#" class="sort btn btn-default" data-sort="timestamp" title="<%= __('Sort by time') %>">
+                  <%= __('Time') %>
+                  </a>
+                  <span class="hidden-xs hidden-sm">
+                      <a href="#" class="btn btn-default ui-save-history" title="<%= __('Export history') %>"><i class="fa fa-save"></i></a>
+                      <span class="btn btn-default btn-file ui-open-history" title="<%= __('Import history') %>">
+                          <i class="fa fa-folder-open-o"></i><input type="file" />
+                      </span>
+                  <a href="#" class="btn btn-default ui-clear-history" title="<%= __('Clear history') %>" data-toggle="modal" data-target=".delete-history-modal"><i class="fa fa-trash-o"></i></a>
+                  </span>
+                  <a href="#" class="btn btn-default ui-refresh-history" title="<%= __('Refresh history') %>"><i class="fa fa-refresh"></i></a>
+              </form>
+              <h4 class="ui-nohistory" style="display:none;">
+                  <%= __('No history') %>
+              </h4>
+              <a href="#" class="btn btn-primary ui-import-from-browser" style="display:none;"><%= __('Import from browser') %></a>
+              <ul id="history-list" class="list">
+              </ul>
+              <ul class="pagination"></ul>
+          </div>
+
+          <div class="mastfoot">
+              <div class="inner">
+                  <select class="ui-locale">
+                      <option value="en">English</option>
+                      <option value="zh-CN">简体中文</option>
+                      <option value="zh-TW">繁體中文</option>
+                      <option value="fr">Français</option>
+                      <option value="de">Deutsch</option>
+                      <option value="ja">日本語</option>
+                      <option value="es">Español</option>
+                      <option value="ca">Català</option>
+                      <option value="el">Ελληνικά</option>
+                      <option value="pt">Português</option>
+                      <option value="it">italiano</option>
+                      <option value="tr">Türkçe</option>
+                      <option value="ru">Русский</option>
+                      <option value="nl">Nederlands</option>
+                      <option value="hr">hrvatski jezik</option>
+                      <option value="pl">język polski</option>
+                      <option value="uk">Українська</option>
+                      <option value="hi">हिन्दी</option>
+                      <option value="sv">svenska</option>
+                      <option value="eo">Esperanto</option>
+                      <option value="da">dansk</option>
+                      <option value="ko">한국어</option>
+                      <option value="id">Bahasa Indonesia</option>
+                      <option value="sr">српски</option>
+                  </select>
+                  <p>
+                      <%- __('Powered by %s', '<a href="https://github.com/hackmdio/codimd">CodiMD</a>') %> | <a href="<%- serverURL %>/s/release-notes" target="_blank" rel="noopener"><%= __('Releases') %></a> | <a href="<%- sourceURL %>" target="_blank" rel="noopener"><%= __('Source Code') %></a><% if(privacyStatement) { %> | <a href="<%- serverURL %>/s/privacy" target="_blank" rel="noopener"><%= __('Privacy') %></a><% } %><% if(termsOfUse) { %> | <a href="<%- serverURL %>/s/terms-of-use" target="_blank" rel="noopener"><%= __('Terms of Use') %></a><% } %>
+                  </p>
+                  <h6 class="social-foot">
+                      <%- __('Follow us on %s and %s.', '<a href="https://github.com/hackmdio/CodiMD" target="_blank" rel="noopener"><i class="fa fa-github"></i> GitHub</a>, <a href="https://gitter.im/hackmdio/hackmd" target="_blank" rel="noopener"><i class="fa fa-comments"></i> Gitter</a>', '<a href="https://poeditor.com/join/project/q0nuPWyztp" target="_blank" rel="noopener"><i class="fa fa-globe"></i> POEditor</a>') %>
+                  </h6>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- delete history modal -->
+<div class="modal fade delete-history-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel"><%= __('Are you sure?') %></h4>
+          </div>
+          <div class="modal-body">
+              <h5 class="ui-delete-history-modal-msg"></h5>
+              <strong class="ui-delete-history-modal-item"></strong>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('Cancel') %></button>
+              <button type="button" class="btn btn-danger ui-delete-history-modal-confirm"><%= __('Yes, do it!') %></button>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- delete user modal -->
+<div class="modal fade delete-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel"><%= __('Are you sure?') %></h4>
+          </div>
+          <div class="modal-body">
+              <h5 class="ui-delete-user-modal-msg"><%= __('Do you really want to delete your user account?') %></h5>
+              <strong class="ui-delete-user-modal-item"><%= __('This will delete your account, all notes that are owned by you and remove all references to your account from other notes.') %></strong>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default ui-delete-user-modal-cancel" data-dismiss="modal"><%= __('Cancel') %></button>
+              <a type="button" class="btn btn-danger" href="<%- serverURL %>/me/delete/<%- deleteToken %>"><%= __('Yes, do it!') %></a>
+          </div>
+      </div>
+  </div>
+</div>
+<%- include ../shared/signin-modal %>
