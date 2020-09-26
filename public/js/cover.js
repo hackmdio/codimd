@@ -248,7 +248,7 @@ function parseShareHistoryCallback (list, notehistory) {
       }
     }
   }
-  buildTagsFilter(filtertags)
+  buildShareTagsFilter(filtertags)
 }
 
 function checkHistoryList () {
@@ -541,7 +541,7 @@ $('.ui-refresh-history').click(() => {
 
 $('.ui-refresh-share-history').click(() => {
   const lastTags = $('.ui-share-use-tags').select2('val')
-  $('.ui-share-use-tagss').select2('val', '')
+  $('.ui-share-use-tags').select2('val', '')
   shareHistoryList.filter()
   const lastKeyword = $('.share-search').val()
   $('.share-search').val('')
@@ -553,8 +553,8 @@ $('.ui-refresh-share-history').click(() => {
   offset = 0
   parseServerToShareHistory(shareHistoryList, offset, (list, notehistory) => {
     parseHistoryCallback(list, notehistory)
-    $('.ui-share-use-tagss').select2('val', lastTags)
-    $('.ui-share-use-tagss').trigger('change')
+    $('.ui-share-use-tags').select2('val', lastTags)
+    $('.ui-share-use-tags').trigger('change')
     shareHistoryList.search(lastKeyword)
     $('.share-search').val(lastKeyword)
     checkShareHistoryList()
@@ -617,6 +617,28 @@ $('.ui-use-tags').on('change', function () {
   checkHistoryList()
 })
 
+let filtersharetags = []
+$('.ui-share-use-tags').select2({
+  placeholder: $('.ui-share-use-tags').attr('placeholder'),
+  multiple: true,
+  data () {
+    return {
+      results: filtersharetags
+    }
+  }
+})
+$('.select2-input').css('width', 'inherit')
+buildShareTagsFilter([])
+
+function buildShareTagsFilter (tags) {
+  for (let i = 0; i < tags.length; i++) {
+    tags[i] = {
+      id: i,
+      text: unescapeHTML(tags[i])
+    }
+  }
+  filtersharetags = tags
+}
 $('.ui-share-use-tags').on('change', function () {
   const tags = []
   const data = $(this).select2('data')

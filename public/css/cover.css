@@ -430,6 +430,9 @@ select {
     .ui-use-tags {
         max-width: 100%;
     }
+    .ui-share-use-tags {
+        max-width: 100%;
+    }
 }
 
 .btn-mattermost {
@@ -484,6 +487,11 @@ a.btn.btn-login-method > i.oauth-icon > img {
     width: 100%;
     height: 100%;
     line-height: inherit;
+}
+
+.ui-share-use-tags {
+    min-width: 172px;
+    max-width: 344px;
 }
 
 .share-pagination {
