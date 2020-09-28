@@ -29,7 +29,6 @@ import { saveAs } from 'file-saver'
 import List from 'list.js'
 import unescapeHTML from 'lodash/unescape'
 
-
 require('./locale')
 
 require('../css/cover.css')
