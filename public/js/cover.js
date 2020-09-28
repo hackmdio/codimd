@@ -90,7 +90,7 @@ const shareOptions = {
 }
 
 const shareHistoryList = new List('share-history', shareOptions)
-var offset = 0;
+var offset = 0
 
 window.migrateHistoryFromTempCallback = pageInit
 setloginStateChangeEvent(pageInit)
@@ -113,7 +113,7 @@ function pageInit () {
       offset = offset + 18
       $.get(`${serverurl}/sharehistory?offset=${offset}`)
         .done(data => {
-          if (data.history.length == 0) {
+          if (data.history.length === 0) {
             $('.share-history-more').hide()
           }
         })
@@ -133,7 +133,7 @@ function pageInit () {
       offset = offset + 18
       $.get(`${serverurl}/sharehistory?offset=${offset}`)
         .done(data => {
-          if (data.history.length == 0) {
+          if (data.history.length === 0) {
             $('.share-history-more').hide()
           }
         })
@@ -146,33 +146,33 @@ function pageInit () {
 
 $('.share-history-more').click(() => {
   const lastKeyword = $('.share-search').val()
-  if (lastKeyword != '') {
-      parseServerToSearchShareHistory(shareHistoryList, offset, lastKeyword, parseShareHistoryCallback)
-      $('#share-history-list').slideDown('fast')
-      offset = offset + 18
-      $.get(`${serverurl}/sharehistory?offset=${offset}&&keywords=${lastKeyword}`)
-        .done(data => {
-          if (data.history.length == 0) {
-            $('.share-history-more').hide()
-          }
-        })
-        .fail((xhr, status, error) => {
-          console.error(xhr.responseText)
-        })
-    } else {
-      parseServerToShareHistory(shareHistoryList, offset, parseShareHistoryCallback)
-      $('#share-history-list').slideDown('fast')
-      offset = offset + 18
-      $.get(`${serverurl}/sharehistory?offset=${offset}`)
-        .done(data => {
-          if (data.history.length == 0) {
-            $('.share-history-more').hide()
-          }
-        })
-        .fail((xhr, status, error) => {
-          console.error(xhr.responseText)
-        })
-    }
+  if (lastKeyword !== '') {
+    parseServerToSearchShareHistory(shareHistoryList, offset, lastKeyword, parseShareHistoryCallback)
+    $('#share-history-list').slideDown('fast')
+    offset = offset + 18
+    $.get(`${serverurl}/sharehistory?offset=${offset}&&keywords=${lastKeyword}`)
+      .done(data => {
+        if (data.history.length === 0) {
+          $('.share-history-more').hide()
+        }
+      })
+      .fail((xhr, status, error) => {
+        console.error(xhr.responseText)
+      })
+  } else {
+    parseServerToShareHistory(shareHistoryList, offset, parseShareHistoryCallback)
+    $('#share-history-list').slideDown('fast')
+    offset = offset + 18
+    $.get(`${serverurl}/sharehistory?offset=${offset}`)
+      .done(data => {
+        if (data.history.length === 0) {
+          $('.share-history-more').hide()
+        }
+      })
+      .fail((xhr, status, error) => {
+        console.error(xhr.responseText)
+      })
+  }
 })
 
 $('.masthead-nav li').click(function () {
@@ -667,9 +667,9 @@ $('.search').keyup(() => {
 })
 
 $('.share-search').keydown((event) => {
-  if (event.which == 13){
+  if (event.which === 13) {
     const lastTags = $('.ui-share-use-tags').select2('val')
-    $('.ui-share-use-tagss').select2('val', '')
+    $('.ui-share-use-tags').select2('val', '')
     shareHistoryList.filter()
     const lastKeyword = $('.share-search').val()
     $('#share-history-list').slideUp('fast')
@@ -679,8 +679,8 @@ $('.share-search').keydown((event) => {
     offset = 0
     parseServerToSearchShareHistory(shareHistoryList, offset, lastKeyword, (list, notehistory) => {
       parseShareHistoryCallback(list, notehistory)
-      $('.ui-share-use-tagss').select2('val', lastTags)
-      $('.ui-share-use-tagss').trigger('change')
+      $('.ui-share-use-tags').select2('val', lastTags)
+      $('.ui-share-use-tags').trigger('change')
       $('.share-search').val(lastKeyword)
       checkShareHistoryList()
       $('#share-history-list').slideDown('fast')
@@ -689,7 +689,7 @@ $('.share-search').keydown((event) => {
 
       $.get(`${serverurl}/sharehistory?offset=${offset}&&keywords=${lastKeyword}`)
         .done(data => {
-          if (data.history.length == 0) {
+          if (data.history.length === 0) {
             $('.share-history-more').hide()
           }
         })
@@ -699,4 +699,3 @@ $('.share-search').keydown((event) => {
     })
   }
 })
-
