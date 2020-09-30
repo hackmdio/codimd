@@ -472,6 +472,7 @@ $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip()
   // shortcuts
   // allow on all tags
+  
   key.filter = function (e) { return true }
   key('ctrl+alt+e', function (e) {
     if (blockSourceView) return
