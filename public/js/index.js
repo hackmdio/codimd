@@ -425,7 +425,7 @@ Visibility.change(function (e, state) {
 
 // when page ready
 $(document).ready(function () {
-  if (ui.toolbar.edit.data('blockSource')) { replaceUrl(window.location.href) }
+  if (ui.toolbar.edit.data('blockSource')) { replaceUrlToViewMode(window.location.href) }
 
   idle.checkAway()
   checkResponsive()
@@ -505,13 +505,14 @@ $(window).on('error', function () {
   // setNeedRefresh();
 })
 
-function checkParametr (isLogin, permission) {
+function checkParameter (isLogin, permission) {
   if (typeof isLogin !== 'boolean' || !permission) {
-    throw new Error('one or more parametr is incorrect')
-  } else return allowVisibleSource(isLogin, permission)
+    throw new Error('one or more parameter is incorrect')
+  }
+  return allowVisibleSource(isLogin, permission)
 }
 
-function replaceUrl (url) {
+function replaceUrlToViewMode (url) {
   const urlHasEditOrBoth = /\?edit|\?both/
   if (urlHasEditOrBoth.test(url)) {
     const newUrl = url.toString().replace(urlHasEditOrBoth, '?view')
@@ -528,10 +529,10 @@ function allowVisibleSource (isLogin, permission) {
     case 'limited':
       if (!isLogin) {
         blockSourceView = true
-        disableControls()
+        disableModeChangeControls()
       } else {
         blockSourceView = false
-        enableControls()
+        enableModeChangeControls()
       }
       break
     case 'locked':
@@ -541,13 +542,13 @@ function allowVisibleSource (isLogin, permission) {
         blockSourceView = false
       } else {
         blockSourceView = true
-        disableControls()
+        disableModeChangeControls()
       }
       break
   }
 }
 
-function disableControls () {
+function disableModeChangeControls () {
   ui.toolbar.edit.attr({
     disabled: 'true'
   })
@@ -556,18 +557,18 @@ function disableControls () {
   })
 }
 
-function enableControls () {
+function enableModeChangeControls () {
   ui.toolbar.edit.removeAttr('disabled')
   ui.toolbar.both.removeAttr('disabled')
 }
 
 function userIsLogin (userPersonalInfo) {
-  if (Object.prototype.hasOwnProperty.call(userPersonalInfo, 'login')) {
-    if (userPersonalInfo.login === true) {
-      return true
-    }
-  }
-  return false
+  return !!userPersonalInfo && !!userPersonalInfo.login
+}
+
+function isAllowUserChangeMode () {
+  const isOwner = personalInfo.userid && window.owner && personalInfo.userid === window.owner
+  return isOwner || !blockSourceView
 }
 
 setupSyncAreas(ui.area.codemirrorScroll, ui.area.view, ui.area.markdown, editor)
@@ -1638,15 +1639,11 @@ function importFromUrl (url) {
 
 // mode
 ui.toolbar.mode.click(function () {
-  if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) { toggleMode() } else if (blockSourceView) return
-  toggleMode()
+  if (isAllowUserChangeMode()) { return toggleMode() }
 })
 // edit
 ui.toolbar.edit.click(function () {
-  if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
-    changeMode(modeType.edit)
-  } else if (blockSourceView) return
-  changeMode(modeType.edit)
+  if (isAllowUserChangeMode()) { return changeMode(modeType.edit) }
 })
 // view
 ui.toolbar.view.click(function () {
@@ -1654,10 +1651,7 @@ ui.toolbar.view.click(function () {
 })
 // both
 ui.toolbar.both.click(function () {
-  if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
-    changeMode(modeType.edit)
-  } else if (blockSourceView) return
-  changeMode(modeType.both)
+  if (isAllowUserChangeMode()) { return changeMode(modeType.both) }
 })
 
 ui.toolbar.night.click(function () {
@@ -2129,12 +2123,12 @@ socket.on('refresh', function (data) {
   // run allowVisibleSource functionality
   if (ui.toolbar.edit.data('blockSource')) {
     try {
-      checkParametr(userIsLogin(personalInfo), currentPermission)
+      checkParameter(userIsLogin(personalInfo), currentPermission)
     } catch (error) {
       console.log(error)
     }
   }
-  if (ui.toolbar.edit.data('blockSource') && blockSourceView) { replaceUrl(window.location.href) }
+  if (ui.toolbar.edit.data('blockSource') && blockSourceView) { replaceUrlToViewMode(window.location.href) }
   if (!window.loaded) {
     // auto change mode if no content detected
     var nocontent = editor.getValue().length <= 0
