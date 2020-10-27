@@ -239,6 +239,7 @@ body.night{
     font-size: 16px !important;
 }
 .navbar-brand {
+    color: #000 !important;
     display: flex;
     font-weight: bold;
 }

@@ -488,3 +488,14 @@ body {
 .mastfoot .inner .social-foot a {
     color: #000;
 }
+
+.ui-signout {
+    display: flex;
+    align-items: center;
+}
+
+.ui-signout .ui-profile.dropdown.pull-right {
+    border: 1px solid #333;
+    border-radius: 3px;
+    margin-left: 5px;
+}
