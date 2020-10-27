@@ -426,3 +426,65 @@ a.btn.btn-login-method > i.oauth-icon > img {
     height: 100%;
     line-height: inherit;
 }
+
+/*
+ * Hneu styles
+ */
+body {
+    background-color: #c9c7c7;
+    color: #333; 
+}
+
+.nav.masthead-nav li a {
+    color: #333;
+}
+
+.masthead-nav li a:hover,
+.masthead-nav li a:focus {
+    color: rgba(70, 69, 69, 80%);
+    border-bottom-color: rgba(70, 69, 69, 80%);
+}
+
+.nav.masthead-nav .active a,
+.nav.masthead-nav .active a:hover,
+.nav.masthead-nav .active a:focus {
+    color: #333;
+    border-bottom-color: #333;
+}
+
+.list li .item {
+    box-shadow: 2px 1px 1px rgba(51,51,51, 60%);
+}
+
+.inner.cover p {
+    font-weight: bold;
+}
+
+.hneu-img .hneu-img__img {
+    width: 100%;
+}
+
+.btn {
+    box-shadow: 2px 1px 1px rgba(51,51,51, 60%);
+    font-weight: bold;
+}
+
+.lead.row .col-md-4.inner a {
+    color: #333;
+}
+
+.mastfoot .inner p {
+    color: #444;
+}
+
+.mastfoot .inner p a {
+    color: #000;
+}
+
+.mastfoot .inner .social-foot {
+    color: #444;
+}
+
+.mastfoot .inner .social-foot a {
+    color: #000;
+}
