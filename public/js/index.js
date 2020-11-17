@@ -1724,27 +1724,27 @@ function updatePermission (newPermission) {
   switch (permission) {
     case 'freely':
       label = '<i class="fa fa-leaf"></i> Freely'
-      title = 'Anyone can edit'
+      title = 'Кожен може редагувати'
       break
     case 'editable':
       label = '<i class="fa fa-shield"></i> Editable'
-      title = 'Signed people can edit'
+      title = 'Люди, які ввійшли в систему, можуть редагувати'
       break
     case 'limited':
       label = '<i class="fa fa-id-card"></i> Limited'
-      title = 'Signed people can edit (forbid guest)'
+      title = 'Люди, які ввійшли в систему, можуть редагувати (заборонити гостям)'
       break
     case 'locked':
       label = '<i class="fa fa-lock"></i> Locked'
-      title = 'Only owner can edit'
+      title = 'Редагувати може лише власник'
       break
     case 'protected':
       label = '<i class="fa fa-umbrella"></i> Protected'
-      title = 'Only owner can edit (forbid guest)'
+      title = 'Редагувати може лише власник (заборонити гостям)'
       break
     case 'private':
       label = '<i class="fa fa-hand-stop-o"></i> Private'
-      title = 'Only owner can view & edit'
+      title = 'Лише власник може переглядати та редагувати'
       break
   }
   if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {

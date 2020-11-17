@@ -353,21 +353,21 @@ export default class Editor {
     if (!this.statusBar) return
 
     var cursor = this.editor.getCursor()
-    var cursorText = 'Line ' + (cursor.line + 1) + ', Column ' + (cursor.ch + 1)
+    var cursorText = 'Рядок ' + (cursor.line + 1) + ', Стовпець ' + (cursor.ch + 1)
     this.statusCursor.text(cursorText)
-    var fileText = ' — ' + editor.lineCount() + ' Lines'
+    var fileText = ' — ' + editor.lineCount() + ' Рядків'
     this.statusFile.text(fileText)
     var docLength = editor.getValue().length
-    this.statusLength.text('Length ' + docLength)
+    this.statusLength.text('Символів ' + docLength)
     if (docLength > (config.docmaxlength * 0.95)) {
       this.statusLength.css('color', 'red')
-      this.statusLength.attr('title', 'You have almost reached the limit for this document.')
+      this.statusLength.attr('title', 'Ви майже досягли ліміту для цього документа.')
     } else if (docLength > (config.docmaxlength * 0.8)) {
       this.statusLength.css('color', 'orange')
-      this.statusLength.attr('title', 'This document is nearly full, consider splitting it or creating a new one.')
+      this.statusLength.attr('title', 'Цей документ майже повний, розгляньте можливість його розділення або створення нового.')
     } else {
       this.statusLength.css('color', 'white')
-      this.statusLength.attr('title', 'You can write up to ' + config.docmaxlength + ' characters in this document.')
+      this.statusLength.attr('title', 'У цьому документі можна записати до ' + config.docmaxlength + ' символів.')
     }
   }
 
@@ -416,12 +416,12 @@ export default class Editor {
         Cookies.set('indent_type', 'tab', {
           expires: 365
         })
-        type.text('Tab Size:')
+        type.text('Розмір відступу:')
       } else {
         Cookies.set('indent_type', 'space', {
           expires: 365
         })
-        type.text('Spaces:')
+        type.text('Пробілів:')
       }
     }
     setType()
@@ -778,7 +778,7 @@ export default class Editor {
       readOnly: true,
       autoRefresh: true,
       otherCursors: true,
-      placeholder: "← Start by entering a title here\n===\nVisit /features if you don't know what to do.\nHappy hacking :)"
+      placeholder: "← Почніть із введення заголовка тут\n===\nВідвідайте /features, якщо ви не знаєте, що робити.\nHappy hacking :)"
     })
 
     this.spellchecker = new CodeMirrorSpellChecker(CodeMirror, this.getExistingSpellcheckLang(), this.editor)
