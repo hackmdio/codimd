@@ -1,57 +1,60 @@
-Features
+Кузня контенту
 ===
 
-Introduction
+Вступ
 ===
-<i class="fa fa-file-text"></i> **CodiMD** is a real-time, multi-platform collaborative markdown note editor.
-This means that you can write notes with other people on your **desktop**, **tablet** or even on the **phone**.
-You can sign-in via multiple auth providers like **Facebook**, **Twitter**, **GitHub** and many more on the [_homepage_](/).
+**Кузня контенту** - це мультиплатформний онлайн редактор документів **markdown** з можливостями спільного доступу до перегляду та редагування.
 
-If you experience any _issues_, feel free to report it on [**GitHub**](https://github.com/hackmdio/codimd/issues).
-Or meet us on [**Gitter**](https://gitter.im/hackmdio/hackmd) for dev-talk and interactive help.
-**Thank you very much!**
+Це означає, що ви можете створювати документи разом з іншими людьми, використовуючи **ПК**, **планшет** та навіть **смартфон**.
 
-Workspace
+Також ви можете авторизуватись за допомогою різних систем, таких як **Facebook**, **Twitter**, **GitHub** та інших, використовуючи [_домашню сторінку_](/).
+
+Якщо у вас виникли будь-які _проблеми_, не соромтеся повідомити про це на [**GitHub**](https://github.com/hackmdio/codimd/issues).
+Або зв'яжіться з нами на  [**Gitter**](https://gitter.im/hackmdio/hackmd) для обговорення будь-яких ідей щодо покращення, або отримання допомоги.
+
+**Дякуємо!**
+
+Робоча область
 ===
-## Modes
-**Desktop & Tablet**
+## Режими роботи:
+**Стаціонарний та планшетний ПК**
 
-<i class="fa fa-edit fa-fw"></i> Edit: See only the editor.
-<i class="fa fa-eye fa-fw"></i> View: See only the result.
-<i class="fa fa-columns fa-fw"></i> Both: See both in split view.
+<i class="fa fa-edit fa-fw"></i> Редагування: щоб бачити лише код.
+<i class="fa fa-eye fa-fw"></i> Перегляд: щоб бачити візуальний результат.
+<i class="fa fa-columns fa-fw"></i> Спільний режим: щоб бачити і те, і інше.
 
-**Mobile**
+**Мобільний**
 
-<i class="fa fa-toggle-on fa-fw"></i> View: See only the result.
-<i class="fa fa-toggle-off fa-fw"></i> Edit: See only the editor.
+<i class="fa fa-toggle-on fa-fw"></i> Перегляд: щоб бачити візуальний результат.
+<i class="fa fa-toggle-off fa-fw"></i> Редагування: щоб бачити лише код.
 
-## Night Mode:
-When you are tired of a white screen and like a night mode, click on the little moon <i class="fa fa-moon-o"></i> and turn on the night view of CodiMD.
+## Темна тема:
+Якщо ви не бажаєте бачити білий фон статті, і хочете переглядати все на чорному тлі, натисніть на іконку півмісяця <i class="fa fa-moon-o"></i> та оберіть темну тему Кузні контенту.
 
-The editor view, which is in night mode by default, can also be toggled between night and day view using the the little sun<i class="fa fa-sun-o fa-fw"></i>.
+Вигляд редактора, що перебуває у нічному режимі, можна також повернути до попереднього стану, натиснувши на іконку сонця <i class="fa fa-sun-o fa-fw"></i>.
 
-## Image Upload:
-You can upload an image simply by clicking on the camera button <i class="fa fa-camera"></i>.
-Alternatively, you can **drag-n-drop** an image into the editor. Even **pasting** images is possible!
-This will automatically upload the image to **[imgur](http://imgur.com)**, **[Amazon S3](https://aws.amazon.com/s3/)**, **[Minio](https://minio.io)** or **local filesystem**, nothing to worry about. :tada:
+## Завантаження зображень:
+Ви можете завантажити зображення, натиснувши кнопку камери <i class="fa fa-camera"></i>.
+Також, ви можете просто перетягнути зображення в редактор. Це можно зробити і за допомогою буфера обміну, просто натиснувши **Ctrl+V**.
+
+Зображення буде автоматично завантжено в **[imgur](http://imgur.com)**, **[Amazon S3](https://aws.amazon.com/s3/)**, **[Minio](https://minio.io)** або **локальну файлову систему**, і тому вам не потрібно буде додатково за це перейматися :tada:.
 ![imgur](https://i.imgur.com/9cgQVqD.png)
 
-## Share Notes:
-If you want to share an **editable** note, just copy the URL.
-If you want to share a **read-only** note, simply press publish button <i class="fa fa-share-square-o"></i> and copy the URL.
+## Публікація документів:
+Якщо ви хочете поділитися документом з можливістю **редагування** -- просто скопіюйте URL-адресу веб-сторінки.
+Якщо ви хочете поділитися документом так, щоб його можна було лише **переглядати**, натисніть кнопку "Опублікувати" <i class="fa fa-share-square-o"></i> та скопіюйте отриману URL-адресу для подальшого поширення.
 
-## Save a Note:
-Currently, you can save to **Dropbox** <i class="fa fa-dropbox"></i> or save an `.md` file <i class="fa fa-file-text"></i> locally.
+## Збереження документів:
+Наразі ви можете зберегти файл на **Dropbox** <i class="fa fa-dropbox"></i> або **завантажити** <i class="fa fa-file-text"></i>  його у форматі `.md`  у локальну базу.
 
-## Import Notes:
-Similarly to the _save_ feature, you can also import an `.md` file from **Dropbox** <i class="fa fa-dropbox"></i>,
-or import content from your **clipboard** <i class="fa fa-clipboard"></i>, and that can parse some **html** which might be useful :smiley:
+## Імпорт документів:
+Аналогічно до функції _збереження_, ви також можете завантажити файл формату `.md` з **Dropbox** <i class="fa fa-dropbox"></i>, або **буферу обміну** <i class="fa fa-clipboard"></i>, and that can parse some **html** which might be useful :smiley:
 
-## Permissions:
-It is possible to change the access permission to a note through the little button on the top right of the view.
-There are four possible options:
+## Рівень доступу:
+Можна змінити дозвіл на доступ до документу за допомогою маленької кнопки у верхньому правому куті екрана. 
+Можливі шість варіантів:
 
-|                              |Owner read/write|Signed-in read|Signed-in write|Guest read|Guest write|
+|                              |Читання/редагування для власника|Читання для зареєстрованого|Редагування для зареєстрованого|Читання для незареєстрованого|Редагування для незареєстрованого|
 |:-----------------------------|:--------------:|:------------:|:-------------:|:--------:|:---------:|
 |<span class="text-nowrap"><i class="fa fa-leaf fa-fw"></i> **Freely**</span>               |✔|✔|✔|✔|✔|
 |<span class="text-nowrap"><i class="fa fa-pencil fa-fw"></i> **Editable**</span>           |✔|✔|✔|✔|✖|
@@ -61,96 +64,99 @@ There are four possible options:
 |<span class="text-nowrap"><i class="fa fa-hand-stop-o fa-fw"></i> **Private**</span>       |✔|✖|✖|✖|✖|
 
 
-**Only the owner of the note can change the note's permissions.**
+**Лише власник документу може змінити рівень дозволу документу.**
 
-## Embed a Note:
-Notes can be embedded as follows:
+## Вбудовування документу:
+Документи можна вбудувати так:
 
-```xml
-<iframe width="100%" height="500" src="https://hackmd.io/features" frameborder="0"></iframe>
+```html
+<iframe width="100%" height="500" src="https://content.hneu.edu.ua/features" frameborder="0"></iframe>
 ```
 
-## [Slide Mode](./slide-example):
-You can use a special syntax to organize your note into slides.
-After that, you can use the **[Slide Mode](./slide-example)** <i class="fa fa-tv"></i> to make a presentation.
-Visit the above link for details.
+## [Режим презентації](./slide-example):
+Ви можете використовувати спеціальний синтаксис для перетворення документу у слайди презентації.
 
-To switch the editor into slide mode, set the [document type](./yaml-metadata#type) to `slide`.
+Для цього ви можете скористатися  **[Режимом презентації](./slide-example)** <i class="fa fa-tv"></i>.
+Перейдіть за вищенаведеним посиланням для отримання більш докладних інструкцій.
 
-View
+Для того, щоб переключити редактор у режим презентації, змініть [document type](./yaml-metadata#type) на `slide`.
+
+Перегляд
 ===
-## Table of Contents:
-You can look at the bottom right section of the view area, there is a _ToC_ button <i class="fa fa-bars"></i>.
-Pressing that button will show you a current _Table of Contents_, and will highlight which section you're at.
-ToCs support up to **three header levels**.
+## Зміст:
+В правій нижній частині області перегляду є кнопка _ToC_  <i class="fa fa-bars"></i>  (відображається лише у **спільному режимі**).
+При натисканні цієї кнопки ви побачите поточний зміст -- _Table of Contents_, де буде виділено розділ, в якому ви перебуваєте. 
+ToC відображає до **трьох рівнів заголовків**.
 
-## Permalink
-Every header will automatically add a permalink on the right side.
-You can hover and click <i class="fa fa-chain"></i> to anchor on it.
+## Постійне посилання:
+Кожен заголовок автоматично створює постійне посилання з лівого боку від себе. 
+Ви можете навести курсор миші та натиснути на <i class="fa fa-chain"></i> для того, щоб перейти до відповідної частини документу.
 
-Edit:
+Редагування
 ===
-## Editor Modes:
-You can look in the bottom right section of the editor area, there you'll find a button with `sublime` on it.
-When you click it, you can select 3 editor modes:
+## Режим редагування:
+У правому нижньому кутку області редактора є кнопка з підписом `sublime`.
+Натиснувши на неї, ви можете вибрати 3 режими редактора:
 
-- sublime (default)
-- emacs
-- vim
+- sublime (за замовчуванням);
+- emacs;
+- vim.
 
-## Shortcut Keys:
-The shortcut keys depend on your selected editor mode. By default they are just like Sublime text, which is pretty quick and convenient.
-> For more information, see [here](https://codemirror.net/demo/sublime.html).
+## Комбінації клавіш:
+Комбінації клавіш залежать від обраного режиму редактора. За замовчуванням вони такі ж, як текст Sublime, що досить швидко і зручно.
 
-For emacs:
-> For more information, see [here](https://codemirror.net/demo/emacs.html).
+> Більше інформації дивіться [тут](https://codemirror.net/demo/sublime.html).
 
-For vim:
-> For more information, see [here](https://codemirror.net/demo/vim.html).
+Для emacs:
+> Більше інформації дивіться [тут](https://codemirror.net/demo/emacs.html).
 
-## Auto-Complete:
-This editor provides full auto-complete hints in markdown.
-- Emojis: type `:` to show hints.
-- Code blocks: type ` ``` ` and plus a character to show hint. <i hidden>```</i>
-- Headers: type `#` to show hint.
-- Referrals: type `[]` to show hint.
-- Externals: type `{}` to show hint.
-- Images: type `!` to show hint.
+Для vim:
+> Більше інформації дивіться [тут](https://codemirror.net/demo/vim.html).
 
-## Title:
-This will take the first **level 1 header** as the note title.
+## Автозаповнення:
+Цей редактор надає повну підказку щодо автоматичного заповнення markdown.
+- Емоджі: введіть `:`, щоб показати підказки.
+- Кодові блоки: введіть ` ``` ` та додатковий символ, щоб показати підказку.
+- Заголовки: введіть`#`, щоб показати підказки.
+- Посилання: введіть `[]`, щоб показати підказки.
+- Externals: введіть `{}`, щоб показати підказки.
+- Зображення: введіть `!`, щоб показати підказки.
 
-## Tags:
-Using tags as follows, the specified tags will show in your **history**.
-###### tags: `features` `cool` `updated`
+## Назва документу:
+Перший заголовок **першого рівня** буде використовуватись як назва документу.
 
-## [YAML Metadata](./yaml-metadata)
-You can provide advanced note information to set the browser behavior (visit above link for details):
-- robots: set web robots meta
-- lang: set browser language
-- dir: set text direction
-- breaks: set to use line breaks
-- GA: set to use Google Analytics
-- disqus: set to use Disqus
-- slideOptions: setup slide mode options
+## Теги:
+При використанні тегів наступним чином, зазначені теги відобразяться у вашій **історії** .
+###### теги: `особливості` `навчання` `оновлення`
+
+## [Метадані YAML:](./yaml-metadata)
+
+Ви можете надати розширену інформацію про документ, встановивши певну надбудову у браузер (перегляньте посилання вище):
+- robots: встановлення метаботів;
+- lang: встановлення мови браузера;
+- dir: встановлення напрямку тексту;
+- breaks: встановлюється для використання розривів рядків;
+- GA: встановлюється для використання Google Analytics;
+- disqus: встановлюється для використання Disqus;
+- slideOptions: налаштування параметрів режиму слайдів.
 
 ## ToC:
-Use the syntax `[TOC]` to embed table of content into your note.
+Використайте елемент `[TOC]`, щоб додати *Зміст* у ваш документ.
 
 [TOC]
 
-## Emoji
-You can type any emoji like this :smile: :smiley: :cry: :wink:
-> See full emoji list [here](http://www.emoji-cheat-sheet.com/).
+## Emoji:
+Ви можете ввести будь-який смайлик, наприклад: :smile: :smiley: :cry: :wink:.
+> Повний перелік смайлів можна подивитися [тут](http://www.emoji-cheat-sheet.com/).
 
-## ToDo List:
-- [ ] ToDos
-  - [x] Buy some salad
-  - [ ] Brush teeth
-  - [x] Drink some water
+## Перелік завдань:
+- [ ] План
+  - [x] Купити овочі.
+  - [ ] Розробити електронний посібник.
+  - [x] Випити трохи води.
 
-## Code Block:
-We support many programming languages, use the auto complete function to see the entire list.
+## Блоки коду:
+Ми підтримуємо багато мов програмування. Використовуйте функцію автоматичного заповнення, щоб побачити весь список.
 ```javascript=
 var s = "JavaScript syntax highlighting";
 alert(s);
@@ -168,9 +174,10 @@ function $initHighlight(block, cls) {
   }
 }
 ```
-> If you want **line numbers**, type `=` after specifying the code block languagues.
-> Also, you can specify the start line number.
-> Like below, the line number starts from 101:
+
+> Якщо потрібно позначити **номери рядків**, введіть = після введення мови блоку коду.
+> Також ви можете вказати номер рядка, з якого почнеться код.
+> Так, у блоці нижче, номер рядка починається зі 101:
 ```javascript=101
 var s = "JavaScript syntax highlighting";
 alert(s);
@@ -189,50 +196,26 @@ function $initHighlight(block, cls) {
 }
 ```
 
-> Or you might want to continue the previous code block's line number, use `=+`
+> Або ви можете продовжити нумерацію рядків попереднього кодового блоку, використовуючи`=+`:
 
 ```javascript=+
 var s = "JavaScript syntax highlighting";
 alert(s);
 ```
 
-> Somtimes you have a super long text without breaks. It's time to use `!` to wrap your code.
+> Іноді у вас може виникати надто довгий текст без переносів . Використайте `!` для перенесення стрічок коду.
 
 ```!
 When you’re a carpenter making a beautiful chest of drawers, you’re not going to use a piece of plywood on the back.
 ```
 
-### Blockquote Tags:
-> Using the syntax below to specifiy your **name, time and color** to vary the blockquotes.
-> [name=ChengHan Wu] [time=Sun, Jun 28, 2015 9:59 PM] [color=#907bf7]
-> > Even support the nest blockquotes!
-> > [name=ChengHan Wu] [time=Sun, Jun 28, 2015 10:00 PM] [color=red]
+### Коментарі:
+> Використовуйте наступний синтаксис, щоб вказати своє  **ім'я, час та колір** для внесення різноманіття у коментарі.
+> [name=Тарас Шевченко] [time=Ср, червень 24, 2020 9:59 PM] [color=#907bf7]
+> > Їх також можна групувати!
+> > [name=Тарас Шевченко] [time=Ср, червень 24, 2020 10:00 PM] [color=red]
 
-### Render CSV as table
-
-You can use write csv in the codeblock:
-
-~~~md
-```csvpreview {header="true"}
-firstName,lastName,email,phoneNumber
-John,Doe,john@doe.com,0123456789
-Jane,Doe,jane@doe.com,9876543210
-James,Bond,james.bond@mi6.co.uk,0612345678
-```
-~~~
-
-which rendered to:
-
-```csvpreview {header="true"}
-firstName,lastName,email,phoneNumber
-John,Doe,john@doe.com,0123456789
-Jane,Doe,jane@doe.com,9876543210
-James,Bond,james.bond@mi6.co.uk,0612345678
-```
-
-We use [Papa Parse](https://www.papaparse.com/) for parsing csv. The parsing option is given in braces: `{}`, and multiple options are seperated by a space. e.g. `{header="true" delimiter="."}`. Please read [their documentation](https://www.papaparse.com/docs#config) as reference.
-
-## Externals
+## Зовнішні матеріали:
 
 ### YouTube
 {%youtube aqz-KE-bpKQ %}
@@ -247,14 +230,14 @@ We use [Papa Parse](https://www.papaparse.com/) for parsing csv. The parsing opt
 {%slideshare briansolis/26-disruptive-technology-trends-2016-2018-56796196 %}
 
 ### PDF
-**Caution: this might be blocked by your browser if not using an `https` URL.**
+**Увага: Ваш веб-переглядач може бути заблокований, якщо не використовується `https` URL-адреса.**
 {%pdf https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf %}
 
-## MathJax
+## MathJax:
 
-You can render *LaTeX* mathematical expressions using **MathJax**, as on [math.stackexchange.com](http://math.stackexchange.com/):
+Ви можете використовувати математичні вирази та формули **MathJax**, як на [math.stackexchange.com](http://math.stackexchange.com/):
 
-The *Gamma function* satisfying $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$ is via the Euler integral
+Функція *Gamma*, що задовольняє $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$, що здійснюється через інтеграл Ейлера:
 
 $$
 x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
@@ -264,38 +247,38 @@ $$
 \Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
 $$
 
-> More information about **LaTeX** mathematical expressions [here](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
+> Більш детально про математичні вирази **LaTeX** можна почитати [тут](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
 
-## UML Diagrams
+## Діаграми UML:
 
-### Sequence Diagrams
+### Діаграми послідовності
 
-You can render sequence diagrams like this:
+Діаграми послідовностей можна надати таким чином:
 
 ```sequence
-Alice->Bob: Hello Bob, how are you?
-Note right of Bob: Bob thinks
-Bob-->Alice: I am good thanks!
-Note left of Alice: Alice responds
-Alice->Bob: Where have you been?
+Марічка->Іван: Привіт, Іван, як справи?
+Note right of Іван: Іван посміхається
+Іван-->Марічка: Все добре, дякую.
+Note left of Марічка: Марічка позіхає
+Марічка->Іван: Коли у нас сессія?
 ```
 
-### Flow Charts
+### Алгоритми
 
-Flow charts can be specified like this:
+Алгоритми можна вказати так:
 ```flow
-st=>start: Start
-e=>end: End
-op=>operation: My Operation
-op2=>operation: lalala
-cond=>condition: Yes or No?
+st=>start: Початок
+e=>end: Кінець
+op=>operation: Обчислення
+op2=>operation: Текст Текст Текст
+cond=>condition: Так чи ні?
 
 st->op->op2->cond
 cond(yes)->e
 cond(no)->op2
 ```
 
-### Graphviz
+### Графік класифікації
 ```graphviz
 digraph hierarchy {
 
@@ -304,27 +287,27 @@ digraph hierarchy {
                 node [color=Red,fontname=Courier,shape=box] //All nodes will this shape and colour
                 edge [color=Blue, style=dashed] //All the lines look like this
 
-                Headteacher->{Deputy1 Deputy2 BusinessManager}
-                Deputy1->{Teacher1 Teacher2}
-                BusinessManager->ITManager
-                {rank=same;ITManager Teacher1 Teacher2}  // Put them on the same level
+                Університет->{Деканат1 Деканат2 Їдальня}
+                Деканат1->{Кафедра1 Кафедра2}
+                Їдальня-> Буфет
+                {rank=same;Буфет Кафедра1 Кафедра2}  // Put them on the same level
 }
 ```
 
-### Mermaid
+### Графік з часом
 ```mermaid
 gantt
-    title A Gantt Diagram
+    title Графік-графік
 
-    section Section
-    A task           :a1, 2014-01-01, 30d
-    Another task     :after a1  , 20d
-    section Another
-    Task in sec      :2014-01-12  , 12d
-    anther task      : 24d
+    section Студент 1
+    Створення проекту          :a1, 2014-01-01, 30d
+    Захист проекту             :after a1  , 20d
+    section Студент 2
+    Створення проекту          :2014-01-12  , 12d
+    Захист проекту             :20d
 ```
 
-### Abc
+### Ноти
 ```abc
 X:1
 T:Speed the Plough
@@ -369,50 +352,50 @@ stop
 }
 ```
 
-> More information about **sequence diagrams** syntax [here](http://bramp.github.io/js-sequence-diagrams/).
-> More information about **flow charts** syntax [here](http://adrai.github.io/flowchart.js/).
-> More information about **graphviz** syntax [here](http://www.tonyballantyne.com/graphs.html)
-> More information about **mermaid** syntax [here](http://mermaid-js.github.io/mermaid)
-> More information about **abc** syntax [here](http://abcnotation.com/learn)
-> More information about **plantuml** syntax [here](http://plantuml.com/index)
-> More information about **vega** syntax [here](https://vega.github.io/vega-lite/docs)
+> Детальніше про **діаграми послідовності** можна прочитати [тут](http://bramp.github.io/js-sequence-diagrams/).
+> Детальніше про **алгоритми** можна прочитати [тут](http://adrai.github.io/flowchart.js/).
+> Детальніше про **графіки класифікації** можна прочитати [тут](http://www.tonyballantyne.com/graphs.html).
+> Детальніше про **часові графіки** можна прочитати [тут](http://mermaid-js.github.io/mermaid).
+> Детальніше про **ноти** можна прочитати [тут](http://abcnotation.com/learn).
+> Детальніше про **plantuml** можна прочитати [тут](http://plantuml.com/index).
+> Детальніше проt **vega** можна прочитати [тут](https://vega.github.io/vega-lite/docs).
 
-Alert Area
+Область повідомлень:
 ---
 :::success
-Yes :tada:
+Вітаємо :tada:
 :::
 
 :::info
-This is a message :mega:
+Це інформаційне повідомлення :mega:
 :::
 
 :::warning
-Watch out :zap:
+Попередження :zap:
 :::
 
 :::danger
-Oh No! :fire:
+Обережно! :fire:
 :::
 
-:::spoiler Click to show details
-You found me :stuck_out_tongue_winking_eye:
+:::spoiler Натисніть сюди для отримання деталей.
+А ось і я :stuck_out_tongue_winking_eye:.
 :::
 
-## Typography
+## Форматування тексту:
 
-### Headers
+### Заголовки
 
 ```
-# h1 Heading
-## h2 Heading
-### h3 Heading
-#### h4 Heading
-##### h5 Heading
-###### h6 Heading
+# h1 Заголовок
+## h2 Заголовок
+### h3 Заголовок
+#### h4 Заголовок
+##### h5 Заголовок
+###### h6 Заголовок
 ```
 
-### Horizontal Rules
+### Горизонтальні лінії
 
 ___
 
@@ -421,89 +404,88 @@ ___
 ***
 
 
-### Typographic Replacements
+### Автозаміна
 
-Enable typographer option to see result.
+Увімкніть опцію друкарської автозаміни, щоб побачити результат.
 
 (c) (C) (r) (R) (tm) (TM) (p) (P) +-
 
-test.. test... test..... test?..... test!....
+тест.. тест... тест..... тест?..... тест!....
 
 !!!!!! ???? ,,
 
-Remarkable -- awesome
+Два дефіси -- довге тире
 
-"Smartypants, double quotes"
+"Подвійні лапки"
 
-'Smartypants, single quotes'
+'Одинарні лапки'
 
-### Emphasis
+### Акценти
 
-**This is bold text**
+**Це полужирний текст**
 
-__This is bold text__
+__Це полужирний текст__
 
-*This is italic text*
+*Це курсив*
 
-_This is italic text_
+_Це курсив_
 
-~~Deleted text~~
+~~Закреслений текст~~
 
-lu~lala~
-
-Superscript: 19^th^
-
-Subscript: H~2~O
-
-++Inserted text++
-
-==Marked text==
-
-{ruby base|rubytext}
-
-### Blockquotes
+Раз ~дватри~
 
 
-> Blockquotes can also be nested...
->> ...by using additional greater-than signs right next to each other...
-> > > ...or with spaces between arrows.
+Надрядковий текст: 19^th^
+
+Підрядковий текст: H~2~O
+
+++Підкреслений текст++
+
+==Виділений текст==
+
+### Цитати
 
 
-### Lists
+> Цитати також можна групувати ...
+>> ...за допомогою додаткових знаків `>` , якщо розміщувати їх поруч..
+> > > ...або з пробілами.
 
-#### Unordered
 
-+ Create a list by starting a line with `+`, `-`, or `*`
-+ Sub-lists are made by indenting 2 spaces:
-  - Marker character change forces new list start:
+### Списки
+
+#### Маркований
+
++ Створіть список, починаючи рядок із `+`, `-`, або `*`
++ Підсписки формуються відступом з 2 пробілів:
+  - Зміна символів маркера змушує запустити новий список:
     * Ac tristique libero volutpat at
     + Facilisis in pretium nisl aliquet
     - Nulla volutpat aliquam velit
-+ Very easy!
++ Дуже просто!
 
-#### Ordered
+#### Нумерований
 
-1. Lorem ipsum dolor sit amet
-2. Consectetur adipiscing elit
-3. Integer molestie lorem at massa
+1. Світає
+2. Край неба палає
+3. Соловейко в темнім гаї сонце зустрічає
 
 
-1. You can use sequential numbers...
-1. ...or keep all the numbers as `1.`
+1. Ви можете використовувати послідовні номери ...
+1. ...або завжди ставити `1.`
 1. feafw
 2. 332
 3. 242
 4. 2552
 1. e2
 
-Start numbering with offset:
+Почніть нумерацію зі зміщенням:
 
-57. foo
-1. bar
+57. Верба
+1. Тополя
 
-### Code
+### Код
 
-Inline `code`
+Рядок `code`
 
 Indented code
 
@@ -519,7 +501,7 @@ Block code "fences"
 Sample text here...
 ```
 
-Syntax highlighting
+Підсвічування синтаксису:
 
 ``` js
 var foo = function (bar) {
@@ -529,95 +511,95 @@ var foo = function (bar) {
 console.log(foo(5));
 ```
 
-### Tables
+### Таблиці
 
-| Option | Description |
+| Назва  | Пояснення   |
 | ------ | ----------- |
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+| ЕІ     | Факультет економічної інформатики. |
+| ХНЕУ   | Харківський національний економічний університет імені Семена Кузнеця.  |
+| Харків | Місто на північному сході України на Слобожанщині. |
 
-Right aligned columns
+Вирівнювання по правому краю
 
-| Option | Description |
-| ------:| -----------:|
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+| Назва   |  Пояснення   |
+| ------: | -----------: |
+| ЕІ      | Факультет економічної інформатики. |
+| ХНЕУ    | Харківський національний економічний університет імені Семена Кузнеця.  |
+| Харків  | Місто на північному сході України на Слобожанщині. |
 
-Left aligned columns
+Вирівнювання по лівому краю
 
-| Option | Description |
-|:------ |:----------- |
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+| Назва   | Пояснення    |
+| :------ | :----------- |
+| ЕІ      | Факультет економічної інформатики. |
+| ХНЕУ    | Харківський національний економічний університет імені Семена Кузнеця.  |
+| Харків  | Місто на північному сході України на Слобожанщині. |
 
-Center aligned columns
+Вирівнювання по центру
 
-| Option | Description |
-|:------:|:-----------:|
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
-
-
-### Links
-[link text](http://dev.nodeca.com)
-[link with title](http://nodeca.github.io/pica/demo/ "title text!")
-Autoconverted link https://github.com/nodeca/pica
+| Назва    | Пояснення     |
+| :------: | :-----------: |
+| ЕІ       | Факультет економічної інформатики. |
+| ХНЕУ     | Харківський національний економічний університет імені Семена Кузнеця.  |
+| Харків   | Місто на північному сході України на Слобожанщині. |
 
 
-### Images
+### Посилання
+[Текст посилання](http://dev.nodeca.com)
+[Посилання з заголовком](http://nodeca.github.io/pica/demo/ "А ось і заголовок!")
+Автоперетворене посилання https://github.com/nodeca/pica
+
+
+### Зображення
 ![Minion](https://octodex.github.com/images/minion.png)
-![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
-Like links, Images also have a footnote style syntax
+![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "Кіт-штурмовик")
+Подібно до посилань, зображення також мають синтаксис віповідний стилю примітки: 
 ![Alt text][id]
-With a reference later in the document defining the URL location:
+Зображення з посиланням та заголовком, поданим нижче в документі, що визначає URL-адресу:
 
-[id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
+[id]: https://octodex.github.com/images/dojocat.jpg  "Ніндзя-кішка"
 
 ![Minion](https://octodex.github.com/images/minion.png =200x200)
-Show the image with given size
+Можна відобразити зображення із заданим розміром.
 
-### Footnotes
+### Підрядкові посилання (примітки)
 
-Footnote 1 link[^first].
-Footnote 2 link[^second].
-Inline footnote^[Text of inline footnote] definition.
-Duplicated footnote reference[^second].
+Примітка 1 з посиланням[^first].
+Примітка 2 з посиланням[^second].
+Вбудована примітка^[Текст вбудованої примітки].
+Дублювання посилання на виноску[^second].
 
-[^first]: Footnote **can have markup**
-    and multiple paragraphs.
-[^second]: Footnote text.
+[^first]: Примітка **може мати розмітку**
+    та кілька абзаців.
+[^second]: Примітка з текстом.
 
-### Definition Lists
+### Визначення
 
-Term 1
+Термін 1
 
-:   Definition 1
-with lazy continuation.
+:   Визначення 1 
+з коротким продовженням.
 
-Term 2 with *inline markup*
+Термін 2 з *вбудованою розміткою*
 
-:   Definition 2
+:   Визначення 2
 
-        { some code, part of Definition 2 }
+        { трішки коду, друга частина Визначення 2 }
 
-    Third paragraph of definition 2.
+    Третій пункт визначення Визначення 2.
 
-_Compact style:_
+_Компактний стиль:_
 
-Term 1
-  ~ Definition 1
+Термін 1
+  ~ Визначення 1
 
-Term 2
-  ~ Definition 2a
-  ~ Definition 2b
+Термін 2
+  ~ Визначення 2а
+  ~ Визначення 2b
 
-### Abbreviations
+### Абревіатури
 
-This is an HTML abbreviation example.
-It converts "HTML", but keeps intact partial entries like "xxxHTMLyyy" and so on.
+Це приклад абревіатури HTML.
+Слово "HTML" конвертується, але лише при повному співпадінні, у таких словах, як, наприклад, "xxxHTMLyyy" абревіатура не буде відображатися.
 
 *[HTML]: Hyper Text Markup Language
