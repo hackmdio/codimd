@@ -137,7 +137,7 @@ export function renderTitle (view) {
   if (title) {
     title += ' - Кузня'
   } else {
-    title = 'Кузня - Collaborative markdown notes'
+    title = 'Кузня - Спільний освітній контент'
   }
   return title
 }
@@ -146,7 +146,7 @@ export function renderTitle (view) {
 export function renderFilename (view) {
   let filename = getTitle(view)
   if (!filename) {
-    filename = 'Untitled'
+    filename = 'Без назви'
   }
   return filename
 }

@@ -364,7 +364,7 @@ export default class Editor {
       this.statusLength.attr('title', 'Ви майже досягли ліміту для цього документа.')
     } else if (docLength > (config.docmaxlength * 0.8)) {
       this.statusLength.css('color', 'orange')
-      this.statusLength.attr('title', 'Цей документ майже повний, розгляньте можливість його розділення або створення нового.')
+      this.statusLength.attr('title', 'Цей документ майже досяг ліміту, розгляньте можливість його розділення або створення нового.')
     } else {
       this.statusLength.css('color', 'white')
       this.statusLength.attr('title', 'У цьому документі можна записати до ' + config.docmaxlength + ' символів.')
@@ -778,7 +778,7 @@ export default class Editor {
       readOnly: true,
       autoRefresh: true,
       otherCursors: true,
-      placeholder: "← Почніть із введення заголовка тут\n===\nВідвідайте /features, якщо ви не знаєте, що робити.\nHappy hacking :)"
+      placeholder: "← Почніть із введення заголовка тут\n===\nВідкрийте /features, якщо ви не знаєте, як діяти"
     })
 
     this.spellchecker = new CodeMirrorSpellChecker(CodeMirror, this.getExistingSpellcheckLang(), this.editor)

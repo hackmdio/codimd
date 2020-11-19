@@ -22,13 +22,13 @@
                         <li class="ui-permission-protected"<% if(!('protected' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-umbrella fa-fw"></i> Protected - редагувати може лише власник (заборонити гостям)</a></li>
                         <li class="ui-permission-private"<% if(!('private' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-hand-stop-o fa-fw"></i> Private - лише власник може переглядати та редагувати</a></li>
                         <li class="divider"></li>
-                        <li class="ui-delete-note"><a><i class="fa fa-trash-o fa-fw"></i> Видалити цю нотатку</a></li>
+                        <li class="ui-delete-note"><a><i class="fa fa-trash-o fa-fw"></i> Видалити цей документ</a></li>
                     </ul>
                 </span>
                 <br>
                 <span class="ui-owner" style="display: none;">
                     &thinsp;<i class="ui-user-icon small" data-toggle="tooltip" data-placement="right"></i>
-                    &nbsp;<span class="text-uppercase"> власник нотатки</span>
+                    &nbsp;<span class="text-uppercase"> власник документа</span>
                 </span>
             </small>
         </div>
@@ -199,7 +199,7 @@
                         <input class="form-control" placeholder="new snippet" type="text" id="snippetExportModalTitle" />
                     </div>
                     <div style="display:table-row;margin-bottom:5px;">
-                        <label style="display:table-cell;">Ім'я файлу:</label>
+                        <label style="display:table-cell;">Назва файлу:</label>
                         <input class="form-control" placeholder="new_snippet.md" type="text" id="snippetExportModalFileName" />
                     </div>
                     <div style="display:table-row;margin-bottom:5px;">
@@ -212,7 +212,7 @@
                         <label style="display:table-cell;">Видимість:</label>
                         <select class="form-control" id="snippetExportModalVisibility" style="display:table-cell;">
                             <option value="" selected="selected" disabled="disabled"><%= __('Select Visibility Level') %></option>
-                            <option value="0">Приватна</option>
+                            <option value="0">Приватний</option>
                             <option value="10">Внутрішній</option>
                         </select>
                     </div>
