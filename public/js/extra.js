@@ -32,6 +32,7 @@ import markdownitContainer from 'markdown-it-container'
 
 /* Defined regex markdown it plugins */
 import Plugin from 'markdown-it-regexp'
+import moment from 'moment'
 
 require('prismjs/themes/prism.css')
 require('prismjs/components/prism-wiki')
@@ -46,6 +47,9 @@ require('./lib/common/login')
 require('../vendor/md-toc')
 let viz = new window.Viz()
 const plantumlEncoder = require('plantuml-encoder')
+
+//set uk locales for moment.js
+moment.locale('uk')
 
 const ui = getUIElements()
 
@@ -65,9 +69,9 @@ export function updateLastChange () {
   if (!window.lastchangeui) return
   if (window.createtime) {
     if (window.createtime && !window.lastchangetime) {
-      window.lastchangeui.status.text('created')
+      window.lastchangeui.status.text('створено')
     } else {
-      window.lastchangeui.status.text('changed')
+      window.lastchangeui.status.text('змінено')
     }
     const time = window.lastchangetime || window.createtime
     window.lastchangeui.time.html(moment(time).fromNow())
@@ -131,9 +135,9 @@ function getTitle (view) {
 export function renderTitle (view) {
   let title = getTitle(view)
   if (title) {
-    title += ' - CodiMD'
+    title += ' - Кузня'
   } else {
-    title = 'CodiMD - Collaborative markdown notes'
+    title = 'Кузня - Спільний освітній контент'
   }
   return title
 }
@@ -142,7 +146,7 @@ export function renderTitle (view) {
 export function renderFilename (view) {
   let filename = getTitle(view)
   if (!filename) {
-    filename = 'Untitled'
+    filename = 'Без назви'
   }
   return filename
 }
@@ -841,10 +845,10 @@ function checkExpandToggle () {
   const toggle = $('.expand-toggle')
   if (!tocExpand) {
     toc.removeClass('expand')
-    toggle.text('Expand all')
+    toggle.text('Розгорнути все')
   } else {
     toc.addClass('expand')
-    toggle.text('Collapse all')
+    toggle.text('Згорнути все')
   }
 }
 
@@ -864,9 +868,9 @@ export function generateToc (id) {
   /* eslint-enable no-unused-vars */
   if (target.text() === 'undefined') { target.html('') }
   const tocMenu = $('<div class="toc-menu"></div')
-  const toggle = $('<a class="expand-toggle" href="#">Expand all</a>')
-  const backtotop = $('<a class="back-to-top" href="#">Back to top</a>')
-  const gotobottom = $('<a class="go-to-bottom" href="#">Go to bottom</a>')
+  const toggle = $('<a class="expand-toggle" href="#">Розгорнути все</a>')
+  const backtotop = $('<a class="back-to-top" href="#">Повернутися до початку</a>')
+  const gotobottom = $('<a class="go-to-bottom" href="#">Перейти донизу</a>')
   checkExpandToggle()
   toggle.click(e => {
     e.preventDefault()

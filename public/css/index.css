@@ -239,7 +239,13 @@ body.night{
     font-size: 16px !important;
 }
 .navbar-brand {
+    color: #000 !important;
+    display: flex;
     font-weight: bold;
+}
+.navbar-brand img {
+    height: 100%;
+    margin-right: 5px;
 }
 .nav-status .ui-status * {
     font-size: 14px;

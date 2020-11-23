@@ -15,20 +15,20 @@
                     <a id="permissionLabel" class="ui-permission-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="permissionLabel">
-                        <li class="ui-permission-freely"<% if(!('freely' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-leaf fa-fw"></i> Freely - Anyone can edit</a></li>
-                        <li class="ui-permission-editable"<% if(!('editable' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-shield fa-fw"></i> Editable - Signed-in people can edit</a></li>
-                        <li class="ui-permission-limited"<% if(!('limited' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-id-card fa-fw"></i> Limited - Signed-in people can edit (forbid guests)</a></li>
-                        <li class="ui-permission-locked"<% if(!('locked' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-lock fa-fw"></i> Locked - Only owner can edit</a></li>
-                        <li class="ui-permission-protected"<% if(!('protected' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-umbrella fa-fw"></i> Protected - Only owner can edit (forbid guests)</a></li>
-                        <li class="ui-permission-private"<% if(!('private' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-hand-stop-o fa-fw"></i> Private - Only owner can view &amp; edit</a></li>
+                        <li class="ui-permission-freely"<% if(!('freely' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-leaf fa-fw"></i> Freely - кожен може редагувати</a></li>
+                        <li class="ui-permission-editable"<% if(!('editable' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-shield fa-fw"></i> Editable - люди, які ввійшли в систему, можуть редагувати</a></li>
+                        <li class="ui-permission-limited"<% if(!('limited' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-id-card fa-fw"></i> Limited - люди, які ввійшли в систему, можуть редагувати (заборонити гостям)</a></li>
+                        <li class="ui-permission-locked"<% if(!('locked' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-lock fa-fw"></i> Locked - редагувати може лише власник</a></li>
+                        <li class="ui-permission-protected"<% if(!('protected' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-umbrella fa-fw"></i> Protected - редагувати може лише власник (заборонити гостям)</a></li>
+                        <li class="ui-permission-private"<% if(!('private' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-hand-stop-o fa-fw"></i> Private - лише власник може переглядати та редагувати</a></li>
                         <li class="divider"></li>
-                        <li class="ui-delete-note"><a><i class="fa fa-trash-o fa-fw"></i> Delete this note</a></li>
+                        <li class="ui-delete-note"><a><i class="fa fa-trash-o fa-fw"></i> Видалити цей документ</a></li>
                     </ul>
                 </span>
                 <br>
                 <span class="ui-owner" style="display: none;">
                     &thinsp;<i class="ui-user-icon small" data-toggle="tooltip" data-placement="right"></i>
-                    &nbsp;<span class="text-uppercase">owned this note</span>
+                    &nbsp;<span class="text-uppercase"> власник документа</span>
                 </span>
             </small>
         </div>
@@ -156,13 +156,13 @@
                 <input type="hidden" id="snippetImportModalVersion" />
                 <div class="ui-field-contain" style="display:table;margin-bottom:10px;width:100%;">
                     <div style="display:table-row;margin-bottom:5px;">
-                        <label style="display:table-cell;">Project:</label>
+                        <label style="display:table-cell;">Проект:</label>
                         <select class="form-control" id="snippetImportModalProjects" style="display:table-cell;" disabled="disabled">
                             <option value="init" selected="selected" disabled="disabled"><%= __('Select From Available Projects') %></option>
                         </select>
                     </div>
                     <div style="display:table-row;">
-                        <label style="display:table-cell;">Snippet</label>
+                        <label style="display:table-cell;">Фрагмент</label>
                         <select class="form-control" id="snippetImportModalSnippets" style="display:table-cell;" disabled="disabled">
                             <option value="init" selected="selected" disabled="disabled"><%= __('Select From Available Snippets') %></option>
                         </select>
@@ -195,25 +195,25 @@
                 <input type="hidden" id="snippetExportModalVersion" />
                 <div class="ui-field-contain" style="display:table;margin-bottom:10px;width:100%;">
                     <div style="display:table-row;margin-bottom:5px;">
-                        <label style="display:table-cell;">Title:</label>
+                        <label style="display:table-cell;">Заголовок:</label>
                         <input class="form-control" placeholder="new snippet" type="text" id="snippetExportModalTitle" />
                     </div>
                     <div style="display:table-row;margin-bottom:5px;">
-                        <label style="display:table-cell;">File Name:</label>
+                        <label style="display:table-cell;">Назва файлу:</label>
                         <input class="form-control" placeholder="new_snippet.md" type="text" id="snippetExportModalFileName" />
                     </div>
                     <div style="display:table-row;margin-bottom:5px;">
-                        <label style="display:table-cell;">Project:</label>
+                        <label style="display:table-cell;">Проект:</label>
                         <select class="form-control" id="snippetExportModalProjects" style="display:table-cell;">
                             <option value="init" selected="selected" disabled="disabled"><%= __('Select From Available Projects') %></option>
                         </select>
                     </div>
                     <div style="display:table-row;margin-bottom:5px;">
-                        <label style="display:table-cell;">Visibility:</label>
+                        <label style="display:table-cell;">Видимість:</label>
                         <select class="form-control" id="snippetExportModalVisibility" style="display:table-cell;">
                             <option value="" selected="selected" disabled="disabled"><%= __('Select Visibility Level') %></option>
-                            <option value="0">Private</option>
-                            <option value="10">Internal</option>
+                            <option value="0">Приватний</option>
+                            <option value="10">Внутрішній</option>
                         </select>
                     </div>
                 </div>

@@ -26,11 +26,14 @@ import {
 import { saveAs } from 'file-saver'
 import List from 'list.js'
 import unescapeHTML from 'lodash/unescape'
+import moment from 'moment'
 
 require('./locale')
 
 require('../css/cover.css')
 require('../css/site.css')
+
+moment.locale('uk')
 
 const options = {
   valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
@@ -43,7 +46,7 @@ const options = {
               <div class="content">
                 <h4 class="text"></h4>
                 <p>
-                  <i><i class="fa fa-clock-o"></i> visited </i><i class="fromNow"></i>
+                  <i><i class="fa fa-clock-o"></i> відвідано </i><i class="fromNow"></i>
                   <br>
                   <i class="timestamp" style="display:none;"></i>
                   <i class="time"></i>
