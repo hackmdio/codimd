@@ -1,0 +1,11 @@
+@import './hneu-font.css';
+
+.navbar-brand {
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.ui-toc-dropdown .nav > li > a {
+  font-size: 12px !important;
+  font-family: 'Roboto-Light', sans-serif !important;
+}
