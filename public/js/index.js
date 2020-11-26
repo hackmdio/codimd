@@ -321,6 +321,21 @@ defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
 //  initalize ui reference
 const ui = getUIElements()
 
+//controls to need disabled when allowVisibleSource run
+//this prevent user to access source code
+const modeChangeControls = {
+  edit: ui.toolbar.edit,
+  both: ui.toolbar.both,
+}
+const exportImportControls = {
+  revision: ui.toolbar.extra.revision,
+  markdown: ui.toolbar.download.markdown,
+  rawhtml: ui.toolbar.download.rawhtml,
+  gist: ui.toolbar.import.gist,
+  clipboard: ui.toolbar.import.clipboard,
+  pandoc: ui.toolbar.download.pandoc
+}
+
 // page actions
 var opts = {
   lines: 11, // The number of lines to draw
@@ -529,10 +544,10 @@ function allowVisibleSource (isLogin, permission) {
     case 'limited':
       if (!isLogin) {
         blockSourceView = true
-        disableModeChangeControls()
+        disableControls()
       } else {
         blockSourceView = false
-        enableModeChangeControls()
+        enableControls()
       }
       break
     case 'locked':
@@ -542,24 +557,36 @@ function allowVisibleSource (isLogin, permission) {
         blockSourceView = false
       } else {
         blockSourceView = true
-        disableModeChangeControls()
+        disableControls()
       }
       break
   }
 }
 
-function disableModeChangeControls () {
-  ui.toolbar.edit.attr({
-    disabled: 'true'
-  })
-  ui.toolbar.both.attr({
-    disabled: 'true'
-  })
+function disableControls () {
+  for (let key of Object.keys(modeChangeControls)) {
+    modeChangeControls[key].attr({
+      disabled: 'disabled'
+    })
+  }
+  for (let key of Object.keys(exportImportControls)) {
+    exportImportControls[key].attr({
+      disabled: 'disabled',
+      title: 'disabled by permission'
+    })
+  }
 }
 
-function enableModeChangeControls () {
-  ui.toolbar.edit.removeAttr('disabled')
-  ui.toolbar.both.removeAttr('disabled')
+function enableControls () {
+  for (let key of Object.keys(modeChangeControls)) {
+    modeChangeControls[key].removeAttr('disable')
+  }
+  for (let key of Object.keys(exportImportControls)) {
+    exportImportControls[key].removeAttr({
+      disable,
+      title
+    })
+  }
 }
 
 function userIsLogin (userPersonalInfo) {
