@@ -6,7 +6,7 @@
 body {
   background-color: #c9c7c7 !important;
   color: #333 !important;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 .nav.masthead-nav li a {
