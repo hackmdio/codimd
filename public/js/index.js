@@ -321,11 +321,11 @@ defaultTextHeight = parseInt($('.CodeMirror').css('line-height'))
 //  initalize ui reference
 const ui = getUIElements()
 
-//controls to need disabled when allowVisibleSource run
-//this prevent user to access source code
+// controls to need disabled when allowVisibleSource run
+// this prevent user to access source code
 const modeChangeControls = {
   edit: ui.toolbar.edit,
-  both: ui.toolbar.both,
+  both: ui.toolbar.both
 }
 const exportImportControls = {
   revision: ui.toolbar.extra.revision,
@@ -564,28 +564,24 @@ function allowVisibleSource (isLogin, permission) {
 }
 
 function disableControls () {
-  for (let key of Object.keys(modeChangeControls)) {
+  for (const key of Object.keys(modeChangeControls)) {
     modeChangeControls[key].attr({
       disabled: 'disabled'
     })
   }
-  for (let key of Object.keys(exportImportControls)) {
+  for (const key of Object.keys(exportImportControls)) {
     exportImportControls[key].attr({
-      disabled: 'disabled',
-      title: 'disabled by permission'
+      disabled: 'disabled'
     })
   }
 }
 
 function enableControls () {
-  for (let key of Object.keys(modeChangeControls)) {
+  for (const key of Object.keys(modeChangeControls)) {
     modeChangeControls[key].removeAttr('disable')
   }
-  for (let key of Object.keys(exportImportControls)) {
-    exportImportControls[key].removeAttr({
-      disable,
-      title
-    })
+  for (const key of Object.keys(exportImportControls)) {
+    exportImportControls[key].removeAttr('disable')
   }
 }
 
