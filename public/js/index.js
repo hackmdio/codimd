@@ -573,6 +573,7 @@ function disableControls () {
     exportImportControls[key].attr({
       disabled: 'disabled'
     })
+    exportImportControls[key].parent().css('cursor', 'not-allowed')
   }
 }
 

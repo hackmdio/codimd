@@ -13,7 +13,6 @@ body {
 
 a[disabled='disabled'] {
     color: #939090 !important;
-    cursor: not-allowed;
     pointer-events: none;
 }
 
