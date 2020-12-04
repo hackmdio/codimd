@@ -7,8 +7,26 @@
 <meta name="description" content="<%= __('Best way to write and share your knowledge in markdown.') %>">
 <meta name="keywords" content="Collaborative, Markdown, Notes">
 <title>Кузня контенту</title>
-<link rel="icon" type="image/png" href="<%- serverURL %>/images/img_logo.png">
+<!-- <link rel="icon" type="image/png" href="<%- serverURL %>/images/hneu-images/img_logo.png">
 <link rel="apple-touch-icon" href="<%- serverURL %>/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="57x57" href="<%- serverURL %>/images/hneu-images/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="<%- serverURL %>/images/hneu-images/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="<%- serverURL %>/images/hneu-images/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="<%- serverURL %>/images/hneu-images/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="<%- serverURL %>/images/hneu-images/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="<%- serverURL %>/images/hneu-images/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="<%- serverURL %>/images/hneu-images/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="<%- serverURL %>/images/hneu-images/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="<%- serverURL %>/images/hneu-images/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="<%- serverURL %>/images/hneu-images/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="<%- serverURL %>/images/hneu-images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="<%- serverURL %>/images/hneu-images/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="<%- serverURL %>/images/hneu-images/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json"> -->
+<link rel="icon" type="image/png" sizes="32x32" href="<%- serverURL %>/images/hneu-images/hneu-favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="<%- serverURL %>/images/hneu-images/hneu-favicon.png">
+<link rel="icon" type="image/png" sizes="96x96" href="<%- serverURL %>/images/hneu-images/hneu-favicon.png">
+<link rel="icon" type="image/png" href="<%- serverURL %>/images/hneu-images/hneu-favicon.png">
 <% if(useCDN) { %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha256-H0KfTigpUV+0/5tn2HXC0CPwhhDhWgSawJdnFd0CGCo=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fork-awesome/1.1.7/css/fork-awesome.min.css" integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=" crossorigin="anonymous" />
@@ -19,6 +37,6 @@
 <%- include ../shared/polyfill %>
 <% } else { %>
 <link rel="stylesheet" href='<%- serverURL %>/css/font.css'>
-  <link rel="stylesheet" href='<%- serverURL %>/build/fork-awesome/css/fork-awesome.min.css'>
+<link rel="stylesheet" href='<%- serverURL %>/build/fork-awesome/css/fork-awesome.min.css'>
 <%- include ../build/cover-pack-header %>
 <% } %>
