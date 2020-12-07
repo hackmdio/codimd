@@ -1,5 +1,5 @@
 /* eslint-env browser, jquery */
-/* global moment, serverurl, plantumlServer, L */
+/* global serverurl, plantumlServer, L */
 
 import Prism from 'prismjs'
 import hljs from 'highlight.js'
@@ -48,7 +48,7 @@ require('../vendor/md-toc')
 let viz = new window.Viz()
 const plantumlEncoder = require('plantuml-encoder')
 
-//set uk locales for moment.js
+// set uk locales for moment.js
 moment.locale('uk')
 
 const ui = getUIElements()

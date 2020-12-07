@@ -778,7 +778,7 @@ export default class Editor {
       readOnly: true,
       autoRefresh: true,
       otherCursors: true,
-      placeholder: "← Почніть із введення заголовка тут\n===\nВідкрийте /features, якщо ви не знаєте, як діяти"
+      placeholder: '← Почніть із введення заголовка тут\n===\nВідкрийте /features, якщо ви не знаєте, як діяти'
     })
 
     this.spellchecker = new CodeMirrorSpellChecker(CodeMirror, this.getExistingSpellcheckLang(), this.editor)
