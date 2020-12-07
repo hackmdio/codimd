@@ -1,4 +1,4 @@
-CodiMD
+CodiMD Kuznets Edition
 ===
 
 [![build status][travis-image]][travis-url]
