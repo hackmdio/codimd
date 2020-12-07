@@ -1,0 +1,28 @@
+@import './hneu-font.css';
+
+.navbar-brand {
+  font-size: 17px;
+  font-family: 'Roboto', sans-serif !important;
+  line-height: 25px;
+}
+
+.navbar-brand img {
+  height: 25px !important;
+}
+
+.ui-toc-dropdown .nav > li > a {
+  font-size: 12px !important;
+  font-family: 'Roboto-Light', sans-serif !important;
+}
+
+.ui-toc-dropdown a {
+  font-family: 'Roboto-Light', sans-serif !important;
+}
+
+.navbar-default .navbar-nav > li > a {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.navbar-default .navbar-nav > li .dropdown-menu.list li a {
+  font-family: 'Roboto', sans-serif !important;
+}

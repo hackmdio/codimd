@@ -7,8 +7,7 @@
 <meta name="description" content="<%= __('Best way to write and share your knowledge in markdown.') %>">
 <meta name="keywords" content="Collaborative, Markdown, Notes">
 <title>Кузня контенту</title>
-<link rel="icon" type="image/png" href="<%- serverURL %>/images/img_logo.png">
-<link rel="apple-touch-icon" href="<%- serverURL %>/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="<%- serverURL %>/images/hneu-images/emb150.png">
 <% if(useCDN) { %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha256-H0KfTigpUV+0/5tn2HXC0CPwhhDhWgSawJdnFd0CGCo=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fork-awesome/1.1.7/css/fork-awesome.min.css" integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=" crossorigin="anonymous" />
@@ -19,6 +18,6 @@
 <%- include ../shared/polyfill %>
 <% } else { %>
 <link rel="stylesheet" href='<%- serverURL %>/css/font.css'>
-  <link rel="stylesheet" href='<%- serverURL %>/build/fork-awesome/css/fork-awesome.min.css'>
+<link rel="stylesheet" href='<%- serverURL %>/build/fork-awesome/css/fork-awesome.min.css'>
 <%- include ../build/cover-pack-header %>
 <% } %>
