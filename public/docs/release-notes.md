@@ -1,6 +1,82 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.2.0 Diploderma swinhonis <i class="fa fa-clock-o"></i> 2020-07-20
+---
+
+<div style="text-align: center; margin-bottom: 1em;">
+  <img src="https://i.imgur.com/P1HXrhw.jpg" width="600">
+  <small style="display: block;">Diploderma swinhonis</small>
+</div>
+
+> Diploderma swinhonis, also known as the Taiwan japalure, Swinhoe's japalure, and Swinhoe's tree lizard, is a species of lizard in the family Agamidae. The species is endemic to Taiwan.
+> \- Wikipedia [Diploderma swinhonis](https://en.wikipedia.org/wiki/Diploderma_swinhonis)
+
+In this release, we've added some Markdown renderer plugins, including fretboard guitar, Mindmap, and CSV. We believe the simplicity and the extensibility of markdown can bring more possibilities to you and your workflow. So let's find out more about what we can do with markdown. :100: 
+
+We also fixed a long-lasting issue: CodiMD cannot be hosted under URL subpath perfectly. Check PR [#1551](https://github.com/hackmdio/codimd/pull/1551) for details.
+
+Last but not least, we start standarizing CodiMD API. We drafted [`List my notes`](https://github.com/hackmdio/codimd/pull/1548) API in this release. Stay tuned. :person_in_lotus_position: 
+
+Here are some highlights from this release:
+
+- [Fretboard Guitar tab renderer](#Fretboard-Guitar-tab-renderer)
+- [Mindmap rendrer](#Mindmap)
+- [Image Lightbox](#Image-Lightbox-Support)
+- [CSV renderer](#Render-csv-codeblock-as-table)
+
+[Check out the complete release note][v2_2_0]. Thank you CodiMD community and all our contributors. ❤️
+
+[v2_2_0]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_2_0
+
+### Enhancements
+
+- Use array for tags when available
+- Replace btn-social with btn-login-method
+- Set html image meta tag with YAML metadata
+- List my note API
+
+### Fixes
+
+- Update Simplified Chinese translation and fix typography
+- Fix webpack urlpath font loading error
+
+
+
+<i class="fa fa-tag"></i> 2.1.0 Zhangixalus prasinatus <i class="fa fa-clock-o"></i> 2020-05-18
+---
+
+<div style="text-align: center; margin-bottom: 1em;">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Rhacophorus_prasinatus.jpg/640px-Rhacophorus_prasinatus.jpg" width="450">
+  <small style="display: block;">Zhangixalus prasinatus</small>
+</div>
+
+> Zhangixalus prasinatus is a species of frog in the family Rhacophoridae endemic to northern Taiwan. It is the largest tree frog in Taiwan; females can reach 7 cm (2.8 in) in snout-vent length. It is known from Taipei, Yilan, and Taoyuan.
+> \- Wikipedia [Zhangixalus prasinatus](https://en.wikipedia.org/wiki/Zhangixalus_prasinatus)
+
+During this hard time of COVID-19, it's a pleasure to help people collaborate better with CodiMD. We hope the world will recover from this situation soon. :sunrise: 
+
+Good news, we have some goodies for CodiMD including:
+
+- [Support Prometheus metrics](https://hackmd.io/@codimd/v2_1_0#Support-Prometheus-metrics)
+- [Cut docker image size by 57%](https://hackmd.io/@codimd/v2_1_0#Cut-docker-image-size-by-57)
+- [Drop Node 8 Support](https://hackmd.io/@codimd/v2_1_0#Drop-Node-8-Support)
+
+[Check out the complete release note][v2_1_0]. Thank you CodiMD community and all our contributors. ❤️
+
+[v2_1_0]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_1_0
+
+### Enhancements
+
+- Optimize module size
+- Support brace wrapped param in fence lang
+- Upgrade Node.JS version to 10.20.1
+
+### Fixes
+
+- Fix getStatus caused "TypeError: Converting circular structure to JSON"
+
+
 <i class="fa fa-tag"></i> 2.0.1 Urocissa caerulea <i class="fa fa-clock-o"></i> 2020-04-09
 ---
 

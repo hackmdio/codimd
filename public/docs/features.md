@@ -352,6 +352,40 @@ stop
 }
 ```
 
+### Fretboad
+
+```fretboard {title="horizontal, 5 frets", type="h6 noNut"}
+-oO-*-
+--o-o-
+-o-oo-
+-o-oO-
+-oo-o-
+-*O-o-
+```
+
+### Mindmap
+
+```markmap
+# markmap-lib
+
+## Links
+
+- <https://markmap.js.org/>
+- [GitHub](https://github.com/gera2ld/markmap-lib)
+
+## Related
+
+- [coc-markmap](https://github.com/gera2ld/coc-markmap)
+- [gatsby-remark-markmap](https://github.com/gera2ld/gatsby-remark-markmap)
+
+## Features
+
+- links
+- **inline** ~~text~~ *styles*
+- multiline
+  text
+```
+
 > Детальніше про **діаграми послідовності** можна прочитати [тут](http://bramp.github.io/js-sequence-diagrams/).
 > Детальніше про **алгоритми** можна прочитати [тут](http://adrai.github.io/flowchart.js/).
 > Детальніше про **графіки класифікації** можна прочитати [тут](http://www.tonyballantyne.com/graphs.html).
