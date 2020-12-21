@@ -253,7 +253,12 @@ function replaceExtraTags (html) {
   return html
 }
 
-if (typeof window.mermaid !== 'undefined' && window.mermaid) window.mermaid.startOnLoad = false
+if (typeof window.mermaid !== 'undefined' && window.mermaid) {
+  window.mermaid.startOnLoad = false
+  window.mermaid.parseError = function (err, hash) {
+    console.warn(err)
+  }
+}
 
 // dynamic event or object binding here
 export function finishView (view) {
@@ -397,13 +402,14 @@ export function finishView (view) {
       var $value = $(value)
       const $ele = $(value).closest('pre')
 
-      /* eslint-disable prefer-const */
-      let text = $value.text()
-      window.mermaid.parse(text)
-      $ele.addClass('mermaid')
-      $ele.text(text)
-      /* eslint-enable prefer-const */
-      window.mermaid.init(undefined, $ele)
+      const text = $value.text()
+      // validate the syntax first
+      if (window.mermaid.parse(text)) {
+        $ele.addClass('mermaid')
+        $ele.text(text)
+        // render the diagram
+        window.mermaid.init(undefined, $ele)
+      }
     } catch (err) {
       $value.unwrap()
       $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err.str)}</div>`)
