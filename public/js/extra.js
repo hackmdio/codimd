@@ -397,10 +397,12 @@ export function finishView (view) {
       var $value = $(value)
       const $ele = $(value).closest('pre')
 
+      /* eslint-disable prefer-const */
       let text = $value.text()
       window.mermaid.parse(text)
       $ele.addClass('mermaid')
       $ele.text(text)
+      /* eslint-enable prefer-const */
       window.mermaid.init(undefined, $ele)
     } catch (err) {
       $value.unwrap()
