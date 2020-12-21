@@ -397,9 +397,10 @@ export function finishView (view) {
       var $value = $(value)
       const $ele = $(value).closest('pre')
 
-      window.mermaid.parse($value.text())
+      let text = $value.text()
+      window.mermaid.parse(text)
       $ele.addClass('mermaid')
-      $ele.html($value.text())
+      $ele.text(text)
       window.mermaid.init(undefined, $ele)
     } catch (err) {
       $value.unwrap()
