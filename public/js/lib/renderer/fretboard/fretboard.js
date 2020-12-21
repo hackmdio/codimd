@@ -1,4 +1,5 @@
 /* global $ */
+import escapeHTML from 'lodash/escape'
 
 import './css/i.css'
 import dotEmpty from './svg/dotEmpty.svg'
@@ -41,7 +42,7 @@ export const renderFretBoard = (content, { title: fretTitle = '', type = '' }) =
   const fretboardHTML = $(`<div class="${containerClass}"></div>`)
 
   if (fretTitle) {
-    $(fretboardHTML).append(`<div class="fretTitle">${fretTitle}</div>`)
+    $(fretboardHTML).append(`<div class="fretTitle">${escapeHTML(fretTitle)}</div>`)
   }
 
   // create fretboard background HTML
