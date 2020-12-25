@@ -1,4 +1,5 @@
 import './lightbox.css'
+import escape from 'lodash/escape'
 
 let images = []
 /** @type {HTMLImageElement} */
@@ -74,7 +75,7 @@ function setImageInner (img, lightBoxContainer) {
   const src = img.getAttribute('src')
   const alt = img.getAttribute('alt')
 
-  lightBoxContainer.querySelector('.lightbox-inner').innerHTML = `<img src="${src}" alt="${alt}" draggable="false">`
+  lightBoxContainer.querySelector('.lightbox-inner').innerHTML = `<img src="${escape(src)}" alt="${escape(alt)}" draggable="false">`
   addImageDragListener(lightBoxContainer.querySelector('.lightbox-inner img'))
 }
 
