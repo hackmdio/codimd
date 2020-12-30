@@ -248,7 +248,7 @@ We use [Papa Parse](https://www.papaparse.com/) for parsing csv. The parsing opt
 
 ### PDF
 **Caution: this might be blocked by your browser if not using an `https` URL.**
-{%pdf https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf %}
+{%pdf https://www.w3.org/TR/WAI-WEBCONTENT/wai-pageauth.pdf %}
 
 ## MathJax
 
