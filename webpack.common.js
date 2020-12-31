@@ -182,6 +182,11 @@ module.exports = {
         to: 'dictionary-de-ch/'
       },
       {
+        context: path.join(__dirname, 'node_modules/dictionary-en-gb'),
+        from: '*',
+        to: 'dictionary-en-gb/'
+      },
+      {
         context: path.join(__dirname, 'node_modules/leaflet'),
         from: 'dist',
         to: 'leaflet'

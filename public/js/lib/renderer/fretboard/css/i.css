@@ -1,8 +1,8 @@
 /* -- GENERAL TYPOGRAPHY -- */
 .fretTitle {
   color: #555;
+  text-align: center;
   font-family: "Helvetica Neue", sans-serif;
-  background: #eee;
   line-height: 1.4;
   font-size: 1.6em;
   margin: 10px 0 10px 0;
@@ -20,14 +20,19 @@ section {
 }
 
 /* Fretboard Container/Wrapper */
+
+.fretContainer, .fretContainer_h {
+  outline: solid 1px #eeee;
+  margin: 0 auto;
+  padding: 15px 0;
+}
+
 .fretContainer {
   width: 320px;
-  margin: 0 auto;
 }
 
 .fretContainer_h {
   max-width: 400px;
-  margin: 0 auto;
 }
 
 @media all and (max-width: 400px) {
@@ -59,7 +64,6 @@ section {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 10;
 }
 
 .svg_wrapper.v4 {
@@ -181,3 +185,7 @@ section {
 }
 
 /*# sourceMappingURL=i.css.map */
+
+.markdown-body pre.fretboard {
+  background-color: transparent;
+}

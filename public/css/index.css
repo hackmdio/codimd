@@ -411,7 +411,7 @@ div[contenteditable]:empty:not(:focus):before{
     color: #eee;
 }
 
-.night .btn.btn-default.ui-view.active{
+.night .btn.btn-default.active{
     background: #202020;
 }
 

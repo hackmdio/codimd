@@ -248,7 +248,7 @@ We use [Papa Parse](https://www.papaparse.com/) for parsing csv. The parsing opt
 
 ### PDF
 **Caution: this might be blocked by your browser if not using an `https` URL.**
-{%pdf https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf %}
+{%pdf https://www.w3.org/TR/WAI-WEBCONTENT/wai-pageauth.pdf %}
 
 ## MathJax
 
@@ -369,15 +369,16 @@ stop
 }
 ```
 
-### Fretboad
+### Fretboard
 
-```fretboard {title="horizontal, 5 frets", type="h6 noNut"}
+```fretboard {title="horizontal, 6 frets, with nut", type="h6"}
 -oO-*-
 --o-o-
 -o-oo-
 -o-oO-
 -oo-o-
 -*O-o-
+  3
 ```
 
 ### Mindmap
@@ -410,7 +411,7 @@ stop
 > More information about **abc** syntax [here](http://abcnotation.com/learn)
 > More information about **plantuml** syntax [here](http://plantuml.com/index)
 > More information about **vega** syntax [here](https://vega.github.io/vega-lite/docs)
-> More information about **fretboard** syntax [here](https://hackmd.io/c/codimd-documentation/%2F%40codimd%2Ffretboard-syntax)
+> More information about **fretboard** syntax [here](https://hackmd.io/@docs/fretboard-syntax)
 
 Alert Area
 ---

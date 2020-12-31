@@ -1,4 +1,5 @@
 /* global $ */
+import escapeHTML from 'lodash/escape'
 
 import './css/i.css'
 import dotEmpty from './svg/dotEmpty.svg'
@@ -32,26 +33,33 @@ const switchListH = {
   '\n': `<div class='cell empty'>${dotEmptyH}</div><div class='cell empty'>${dotEmptyH}</div>`
 }
 
-export const renderFretBoard = (content, { title: fretTitle, type }) => {
-  const fretType = type.split(' ')
-  const containerClass = fretType && fretType[0].startsWith('h') ? 'fretContainer_h' : 'fretContainer'
+export const renderFretBoard = (content, { title: fretTitle = '', type = '' }) => {
+  const isVertical = !(typeof type[0] === 'string' && type[0].startsWith('h'))
+
+  const containerClass = isVertical ? 'fretContainer' : 'fretContainer_h'
+
+  const [fretType, nutOption] = type.split(' ')
   const fretboardHTML = $(`<div class="${containerClass}"></div>`)
 
-  $(fretboardHTML).append($(`<div class="fretTitle">${fretTitle}</div>`))
+  if (fretTitle) {
+    $(fretboardHTML).append(`<div class="fretTitle">${escapeHTML(fretTitle)}</div>`)
+  }
 
   // create fretboard background HTML
-  const fretbOrientation = fretType && fretType[0].startsWith('v') ? 'vert' : 'horiz'
-  const fretbLen = fretType && fretType[0].substring(1)
-  const fretbClass = fretType && fretType[0][0] + ' ' + fretType[0]
-  const nut = (fretType[1] && fretType[1] === 'noNut') ? 'noNut' : ''
+  const fretbOrientation = isVertical ? 'vert' : 'horiz'
+  const fretbLen = fretType && fretType.substring(1)
+  const fretbClass = fretType && fretType[0] + ' ' + fretType
+  const nut = nutOption === 'noNut' ? 'noNut' : ''
+
   const svgHTML = $(`<div class="svg_wrapper ${fretbClass} ${nut}"></div>`)
   const fretbBg = require(`./svg/fretb_${fretbOrientation}_${fretbLen}.svg`)
+
   $(svgHTML).append($(fretbBg))
 
   // create cells HTML
   const cellsHTML = $('<div class="cells"></div>')
-  let switchList = ''
-  if (fretbOrientation && fretbOrientation === 'vert') {
+  let switchList = {}
+  if (isVertical) {
     switchList = switchListV
   } else {
     // calculate position
@@ -66,16 +74,16 @@ export const renderFretBoard = (content, { title: fretTitle, type }) => {
   const numArray = [...Array(10).keys()].slice(1)
   contentCell && contentCell.forEach(char => {
     if (numArray.toString().indexOf(char) !== -1) {
-      const numType = fretType && fretType[0].startsWith('h') ? '_h' : ''
+      const numType = isVertical ? '' : '_h'
       const numSvg = require(`./svg/number${char}${numType}.svg`)
-      cellsHTML.append($(`<div class='cell empty'>${numSvg}</div>`))
-    } else if (switchList[char] !== undefined) {
-      cellsHTML.append($(switchList[char]))
+      cellsHTML.append(`<div class='cell empty'>${numSvg}</div>`)
+    } else if (typeof switchList[char] !== 'undefined') {
+      cellsHTML.append(switchList[char])
     }
   })
 
-  $(svgHTML).append($(cellsHTML))
-  $(fretboardHTML).append($(svgHTML))
+  $(svgHTML).append(cellsHTML)
+  $(fretboardHTML).append(svgHTML)
 
   return fretboardHTML[0].outerHTML
 }

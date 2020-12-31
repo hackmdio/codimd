@@ -253,7 +253,12 @@ function replaceExtraTags (html) {
   return html
 }
 
-if (typeof window.mermaid !== 'undefined' && window.mermaid) window.mermaid.startOnLoad = false
+if (typeof window.mermaid !== 'undefined' && window.mermaid) {
+  window.mermaid.startOnLoad = false
+  window.mermaid.parseError = function (err, hash) {
+    console.warn(err)
+  }
+}
 
 // dynamic event or object binding here
 export function finishView (view) {
@@ -368,9 +373,10 @@ export function finishView (view) {
   graphvizs.each(function (key, value) {
     try {
       var $value = $(value)
+      const options = deserializeParamAttributeFromElement(value)
       var $ele = $(value).parent().parent()
       $value.unwrap()
-      viz.renderString($value.text())
+      viz.renderString($value.text(), options)
         .then(graphviz => {
           if (!graphviz) throw Error('viz.js output empty graph')
           $value.html(graphviz)
@@ -396,10 +402,14 @@ export function finishView (view) {
       var $value = $(value)
       const $ele = $(value).closest('pre')
 
-      window.mermaid.parse($value.text())
-      $ele.addClass('mermaid')
-      $ele.html($value.text())
-      window.mermaid.init(undefined, $ele)
+      const text = $value.text()
+      // validate the syntax first
+      if (window.mermaid.parse(text)) {
+        $ele.addClass('mermaid')
+        $ele.text(text)
+        // render the diagram
+        window.mermaid.init(undefined, $ele)
+      }
     } catch (err) {
       $value.unwrap()
       $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err.str)}</div>`)
@@ -502,6 +512,7 @@ export function finishView (view) {
     try {
       const $ele = $(value).parent().parent()
       $ele.html(renderFretBoard($value.text(), params))
+      $ele.addClass('fretboard')
     } catch (err) {
       $value.unwrap()
       $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
@@ -516,7 +527,7 @@ export function finishView (view) {
     $value.unwrap()
     try {
       const data = transform(content)
-      $elem.html(`<div class="markmap-container"><svg></svg></div>`)
+      $elem.html('<div class="markmap-container"><svg></svg></div>')
       markmap($elem.find('svg')[0], data, {
         duration: 0
       })
