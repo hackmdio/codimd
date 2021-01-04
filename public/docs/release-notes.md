@@ -1,6 +1,13 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.3.1 Isoetes taiwanensis <i class="fa fa-clock-o"></i> 2021-01-04
+---
+
+### Fixes
+
+* Upgrade mermaid to 8.6.4 to make the previous fix works
+
 <i class="fa fa-tag"></i> 2.3.0 Isoetes taiwanensis <i class="fa fa-clock-o"></i> 2020-12-30
 ---
 
