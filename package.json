@@ -166,7 +166,7 @@
     "markdownlint": "^0.17.0",
     "markmap-lib": "^0.4.2",
     "mathjax": "~2.7.5",
-    "mermaid": "~8.4.8",
+    "mermaid": "~8.6.4",
     "mini-css-extract-plugin": "~0.4.1",
     "mocha": "~5.2.0",
     "mock-require": "~3.0.3",
