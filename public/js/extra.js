@@ -260,6 +260,23 @@ if (typeof window.mermaid !== 'undefined' && window.mermaid) {
   }
 }
 
+function jsonp(url, callback) {
+  const callbackName = 'jsonp_callback_' + Math.round(1000000000 * Math.random())
+  window[callbackName] = function (data) {
+      delete window[callbackName]
+      document.body.removeChild(script)
+      callback(data)
+  }
+
+  const script = document.createElement('script')
+  script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName
+  document.body.appendChild(script)
+  script.onerror = function (e) {
+    console.error(e)
+    script.remove()
+  }
+}
+
 // dynamic event or object binding here
 export function finishView (view) {
   // todo list
@@ -304,17 +321,11 @@ export function finishView (view) {
       imgPlayiframe(this, '//player.vimeo.com/video/')
     })
     .each((key, value) => {
-      $.ajax({
-        type: 'GET',
-        url: `//vimeo.com/api/v2/video/${$(value).attr('data-videoid')}.json`,
-        jsonp: 'callback',
-        dataType: 'jsonp',
-        success (data) {
-          const thumbnailSrc = data[0].thumbnail_large
-          const image = `<img src="${thumbnailSrc}" />`
-          $(value).prepend(image)
-          if (window.viewAjaxCallback) window.viewAjaxCallback()
-        }
+      jsonp(`//vimeo.com/api/v2/video/${$(value).attr('data-videoid')}.json`, function (data) {
+        const thumbnailSrc = data[0].thumbnail_large
+        const image = `<img src="${thumbnailSrc}" />`
+        $(value).prepend(image)
+        if (window.viewAjaxCallback) window.viewAjaxCallback()
       })
     })
     // gist
