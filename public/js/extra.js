@@ -260,12 +260,12 @@ if (typeof window.mermaid !== 'undefined' && window.mermaid) {
   }
 }
 
-function jsonp(url, callback) {
+function jsonp (url, callback) {
   const callbackName = 'jsonp_callback_' + Math.round(1000000000 * Math.random())
   window[callbackName] = function (data) {
-      delete window[callbackName]
-      document.body.removeChild(script)
-      callback(data)
+    delete window[callbackName]
+    document.body.removeChild(script)
+    callback(data)
   }
 
   const script = document.createElement('script')
