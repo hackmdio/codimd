@@ -597,9 +597,11 @@ export function finishView (view) {
       const url = $(value).attr('data-pdfurl')
       const inner = $('<div></div>')
       $(this).append(inner)
-      PDFObject.embed(url, inner, {
-        height: '400px'
-      })
+      setTimeout(() => {
+        PDFObject.embed(url, inner, {
+          height: '400px'
+        })
+      }, 1)
     })
     // syntax highlighting
   view.find('code.raw').removeClass('raw')
