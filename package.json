@@ -105,7 +105,7 @@
     "ws": "~7.1.1"
   },
   "devDependencies": {
-    "@hackmd/codemirror": "~5.49.8",
+    "@hackmd/codemirror": "~5.57.4",
     "@hackmd/emojify.js": "^2.1.0",
     "@hackmd/idle-js": "~1.0.1",
     "@hackmd/js-sequence-diagrams": "~0.0.1-alpha.3",
@@ -163,7 +163,8 @@
     "markdown-it-ruby": "^0.1.1",
     "markdown-it-sub": "~1.0.0",
     "markdown-it-sup": "~1.0.0",
-    "markdownlint": "^0.17.0",
+    "markdownlint": "^0.22.0",
+    "markdownlint-rule-helpers": "^0.13.0",
     "markmap-lib": "^0.4.2",
     "mathjax": "~2.7.5",
     "mermaid": "~8.6.4",
