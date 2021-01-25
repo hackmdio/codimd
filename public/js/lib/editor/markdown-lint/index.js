@@ -35,8 +35,7 @@ require('script-loader!markdownlint');
         to: CodeMirror.Pos(lineNumber, end),
         __ruleNames: ruleNames,
         __ruleDescription: ruleDescription,
-        __error: error,
-        __lineNumber: lineNumber
+        __error: error
       }
     })
   }
@@ -55,34 +54,30 @@ export const linterOptions = {
           content: `Fix ${error.ruleDescription}`,
           onClick () {
             const doc = window.editor.doc
-            const fixInfo = error.fixInfo
+            const fixInfo = normalizeFixInfo(error.fixInfo, error.lineNumber)
             const line = fixInfo.lineNumber - 1
             const lineContent = doc.getLine(line) || ''
-            const fixedText = helpers.applyFix(lineContent, error.fixInfo, '\n')
+            const fixedText = helpers.applyFix(lineContent, fixInfo, '\n')
 
             let from = { line, ch: 0 }
-            let to = { line, ch: lineContent ? lineContent.length - 1 : 0 }
+            let to = { line, ch: lineContent ? lineContent.length : 0 }
 
             if (typeof fixedText === 'string') {
               doc.replaceRange(fixedText, from, to)
             } else {
               if (fixInfo.lineNumber === 1) {
-                if (document.lineCount > 1) {
-                  const nextLine = doc.getLine(to.line + 1) || ''
-                  to = {
-                    line: nextLine,
+                if (doc.lineCount() > 1) {
+                  const nextLineStart = doc.indexFromPos({
+                    line: to.line + 1,
                     ch: 0
-                  }
+                  })
+                  to = doc.posFromIndex(nextLineStart)
                 }
               } else {
-                const previousLine = doc.getLine(from.line - 1) || ''
-                from = {
-                  line: previousLine,
-                  ch: previousLine.length
-                }
+                const previousLineEnd = doc.indexFromPos(from) - 1
+                from = doc.posFromIndex(previousLineEnd)
               }
 
-              // !FIXME: certain range out of bound
               doc.replaceRange('', from, to)
             }
           }
@@ -101,4 +96,21 @@ function lint (content) {
     resultVersion: 3
   })
   return errors
+}
+
+// Taken from https://github.com/DavidAnson/markdownlint/blob/2a9274ece586514ba3e2819cec3eb74312dc1b84/helpers/helpers.js#L611
+/**
+ * Normalizes the fields of a RuleOnErrorFixInfo instance.
+ *
+ * @param {Object} fixInfo RuleOnErrorFixInfo instance.
+ * @param {number} [lineNumber] Line number.
+ * @returns {Object} Normalized RuleOnErrorFixInfo instance.
+ */
+function normalizeFixInfo (fixInfo, lineNumber) {
+  return {
+    lineNumber: fixInfo.lineNumber || lineNumber,
+    editColumn: fixInfo.editColumn || 1,
+    deleteCount: fixInfo.deleteCount || 0,
+    insertText: fixInfo.insertText || ''
+  }
 }
