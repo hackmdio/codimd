@@ -173,7 +173,7 @@
     "nyc": "~14.0.0",
     "optimize-css-assets-webpack-plugin": "~5.0.0",
     "papaparse": "^5.2.0",
-    "pdfobject": "~2.1.1",
+    "pdfobject": "~2.2.4",
     "plantuml-encoder": "^1.2.5",
     "power-assert": "~1.6.1",
     "prismjs": "^1.17.1",
