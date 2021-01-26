@@ -29,12 +29,10 @@ require('script-loader!markdownlint');
       }
 
       return {
-        messageHTML: `${ruleNames.slice(0, 1)}: ${ruleDescription}`,
+        messageHTML: `${ruleNames.join('/')}: ${ruleDescription} <small>markdownlint(${ruleNames[0]})</small>`,
         severity: 'error',
         from: CodeMirror.Pos(lineNumber, start),
         to: CodeMirror.Pos(lineNumber, end),
-        __ruleNames: ruleNames,
-        __ruleDescription: ruleDescription,
         __error: error
       }
     })
@@ -47,38 +45,48 @@ export const linterOptions = {
   fixedTooltip: true,
   contextmenu: annotations => {
     const singleFixMenus = annotations
-      .filter(ann => ann.__error.fixInfo)
       .map(annotation => {
         const error = annotation.__error
-        return {
-          content: `Fix ${error.ruleDescription}`,
-          onClick () {
-            const doc = window.editor.doc
-            const fixInfo = normalizeFixInfo(error.fixInfo, error.lineNumber)
-            const line = fixInfo.lineNumber - 1
-            const lineContent = doc.getLine(line) || ''
-            const fixedText = helpers.applyFix(lineContent, fixInfo, '\n')
+        const ruleNameAlias = error.ruleNames.join('/')
 
-            let from = { line, ch: 0 }
-            let to = { line, ch: lineContent ? lineContent.length : 0 }
+        if (annotation.__error.fixInfo) {
+          return {
+            content: `Click to fix this violoation of ${ruleNameAlias}`,
+            onClick () {
+              const doc = window.editor.doc
+              const fixInfo = normalizeFixInfo(error.fixInfo, error.lineNumber)
+              const line = fixInfo.lineNumber - 1
+              const lineContent = doc.getLine(line) || ''
+              const fixedText = helpers.applyFix(lineContent, fixInfo, '\n')
 
-            if (typeof fixedText === 'string') {
-              doc.replaceRange(fixedText, from, to)
-            } else {
-              if (fixInfo.lineNumber === 1) {
-                if (doc.lineCount() > 1) {
-                  const nextLineStart = doc.indexFromPos({
-                    line: to.line + 1,
-                    ch: 0
-                  })
-                  to = doc.posFromIndex(nextLineStart)
-                }
+              let from = { line, ch: 0 }
+              let to = { line, ch: lineContent ? lineContent.length : 0 }
+
+              if (typeof fixedText === 'string') {
+                doc.replaceRange(fixedText, from, to)
               } else {
-                const previousLineEnd = doc.indexFromPos(from) - 1
-                from = doc.posFromIndex(previousLineEnd)
-              }
+                if (fixInfo.lineNumber === 1) {
+                  if (doc.lineCount() > 1) {
+                    const nextLineStart = doc.indexFromPos({
+                      line: to.line + 1,
+                      ch: 0
+                    })
+                    to = doc.posFromIndex(nextLineStart)
+                  }
+                } else {
+                  const previousLineEnd = doc.indexFromPos(from) - 1
+                  from = doc.posFromIndex(previousLineEnd)
+                }
 
-              doc.replaceRange('', from, to)
+                doc.replaceRange('', from, to)
+              }
+            }
+          }
+        } else {
+          return {
+            content: `Click for more information about ${ruleNameAlias}`,
+            onClick () {
+              window.open(error.ruleInformation, '_blank')
             }
           }
         }
