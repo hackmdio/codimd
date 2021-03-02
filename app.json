@@ -143,6 +143,10 @@
         "CMD_ALLOW_PDF_EXPORT": {
             "description": "Enable or disable PDF exports",
             "required": false
+        },
+        "PGSSLMODE": {
+          "description": "Enforce PG SSL mode",
+          "value": "require"
         }
     },
     "addons": [
