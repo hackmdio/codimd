@@ -522,7 +522,8 @@ module.exports = {
     }]
   },
   node: {
-    fs: 'empty'
+    fs: 'empty',
+    os: 'empty'
   },
 
   stats: {

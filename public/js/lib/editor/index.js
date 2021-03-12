@@ -6,7 +6,7 @@ import * as utils from './utils'
 import config from './config'
 import statusBarTemplate from './statusbar.html'
 import toolBarTemplate from './toolbar.html'
-import './markdown-lint'
+import { linterOptions } from './markdown-lint'
 import CodeMirrorSpellChecker, { supportLanguages, supportLanguageCodes } from './spellcheck'
 import { initTableEditor } from './table-editor'
 import { availableThemes } from './constants'
@@ -674,7 +674,7 @@ export default class Editor {
       this.editor.setOption('gutters', gutters.filter(g => g !== lintGutter))
       Cookies.remove('linter')
     }
-    this.editor.setOption('lint', enable)
+    this.editor.setOption('lint', enable ? linterOptions : false)
   }
 
   setLinter () {
@@ -685,7 +685,7 @@ export default class Editor {
     }
 
     linterToggle.click(() => {
-      const lintEnable = this.editor.getOption('lint')
+      const lintEnable = !!this.editor.getOption('lint')
       this.toggleLinter.bind(this)(!lintEnable)
       updateLinterStatus(!lintEnable)
     })
