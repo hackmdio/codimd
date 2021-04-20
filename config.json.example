@@ -42,6 +42,7 @@
             "host": "localhost",
             "port": "5432",
             "dialect": "postgres"
+            "charset": "utf8mb4" //if use mysql need to set charset
         },
         "facebook": {
             "clientID": "change this",
