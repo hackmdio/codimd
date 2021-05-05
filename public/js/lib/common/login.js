@@ -20,12 +20,14 @@ export function resetCheckAuth () {
 export function setLoginState (bool, id) {
   Cookies.set('loginstate', bool, {
     expires: 365,
-    sameSite: 'Lax'
+    sameSite: 'Lax',
+    secure: window.location.protocol === 'https:'
   })
   if (id) {
     Cookies.set('userid', id, {
       expires: 365,
-      sameSite: 'Lax'
+      sameSite: 'Lax',
+      secure: window.location.protocol === 'https:'
     })
   } else {
     Cookies.remove('userid')
