@@ -156,6 +156,7 @@
                     <h6 class="social-foot">
                         <%- __('Follow us on %s and %s.', '<a href="https://github.com/hackmdio/CodiMD" target="_blank" rel="noopener"><i class="fa fa-github"></i> GitHub</a>, <a href="https://gitter.im/hackmdio/hackmd" target="_blank" rel="noopener"><i class="fa fa-comments"></i> Gitter</a>', '<a href="https://poeditor.com/join/project/q0nuPWyztp" target="_blank" rel="noopener"><i class="fa fa-globe"></i> POEditor</a>') %>
                     </h6>
+                    <% if(privacyPolicyURL && privacyPolicyURL.length > 0) { %><p><a href="<%- privacyPolicyURL %>"><%= __('Privacy Policy') %></a></p><% } %>
                 </div>
             </div>
         </div>
