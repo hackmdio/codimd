@@ -1,9 +1,23 @@
+# HELP online_notes Number of currently used notes
+# TYPE online_notes gauge
 online_notes <%- onlineNotes %>
+# HELP online_users Number of online users
+# TYPE online_users gauge
 online_users <%- onlineUsers %>
+# HELP distinct_online_users Number of distinct online users
+# TYPE distinct_online_users gauge
 distinct_online_users <%- distinctOnlineUsers %>
+# HELP notes_count Total count of notes
+# TYPE notes_count gauge
 notes_count <%- notesCount %>
+# HELP registered_users Number of registered users
+# TYPE registered_users gauge
 registered_users <%- registeredUsers %>
+# HELP online_registered_users Number of online registered users
+# TYPE online_registered_users gauge
 online_registered_users <%- onlineRegisteredUsers %>
+# HELP distinct_online_registered_users Number of distinct online registered users
+# TYPE distinct_online_registered_users gauge
 distinct_online_registered_users <%- distinctOnlineRegisteredUsers %>
 is_connection_busy <%- isConnectionBusy ? 1 : 0 %>
 connection_socket_queue_length <%- connectionSocketQueueLength %>
