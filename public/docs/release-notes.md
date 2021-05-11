@@ -1,6 +1,44 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.4.0 Papilio maraho <i class="fa fa-clock-o"></i> 2021-05-11
+---
+
+<div style="text-align: center; margin-bottom: 1em;">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Papilio_maraho_male_ventral_view_20160423.jpg/569px-Papilio_maraho_male_ventral_view_20160423.jpg" width="600">
+  <small style="display: block;">Papilio maraho</small>
+</div>
+
+> Papilio maraho is a species of butterfly in the family Papilionidae. It is endemic to Taiwan.
+> \- Wikipedia [Papilio maraho](https://en.wikipedia.org/wiki/Papilio_maraho)
+
+[Check out the complete release note][v2_4_0]. Thank you CodiMD community and all our contributors. ❤️
+
+[v2_4_0]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_4_0
+
+## Enhancements
+
+- Support autofix linter errors
+- Support anonymous updates via API
+- Support mediawiki export format in pandoc export
+- Add some help strings to Prometheus metrics
+- Allow more syntax highlight modes in editor
+- Support TOC level customization
+- Follow Google guidelines to use Google OAuth
+
+## Fixes
+
+- Vimeo won't show up due to the jsonp callback data unable be parsed with jQuery
+- Fix slide mode stored XSS
+- Enforce PG ssl require mode on heroku
+- Webpack exclude path should support windows path
+- Free url can read any md in file system
+- Use encoded noteId when calling updateHistory
+
+## Docs
+
+- Add matrix badge and links to README [#1629](https://github.com/hackmdio/codimd/pull/1629) [@a-andreyev](https://github.com/a-andreyev)
+
 <i class="fa fa-tag"></i> 2.3.1 Isoetes taiwanensis <i class="fa fa-clock-o"></i> 2021-01-04
 ---
 
