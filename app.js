@@ -194,6 +194,7 @@ app.set('view engine', 'ejs')
 app.locals.useCDN = config.useCDN
 app.locals.serverURL = config.serverURL
 app.locals.sourceURL = config.sourceURL
+app.locals.privacyPolicyURL = config.privacyPolicyURL
 app.locals.allowAnonymous = config.allowAnonymous
 app.locals.allowAnonymousEdits = config.allowAnonymousEdits
 app.locals.permission = config.permission

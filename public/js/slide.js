@@ -80,6 +80,8 @@ const defaultOptions = {
 }
 
 var options = meta.slideOptions || {}
+// delete dependencies to avoid import user defined external resources
+delete options.dependencies
 
 if (Object.hasOwnProperty.call(options, 'spotlight')) {
   defaultOptions.dependencies.push({

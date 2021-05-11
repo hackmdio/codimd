@@ -260,6 +260,23 @@ if (typeof window.mermaid !== 'undefined' && window.mermaid) {
   }
 }
 
+function jsonp (url, callback) {
+  const callbackName = 'jsonp_callback_' + Math.round(1000000000 * Math.random())
+  window[callbackName] = function (data) {
+    delete window[callbackName]
+    document.body.removeChild(script)
+    callback(data)
+  }
+
+  const script = document.createElement('script')
+  script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName
+  document.body.appendChild(script)
+  script.onerror = function (e) {
+    console.error(e)
+    script.remove()
+  }
+}
+
 // dynamic event or object binding here
 export function finishView (view) {
   // todo list
@@ -304,17 +321,11 @@ export function finishView (view) {
       imgPlayiframe(this, '//player.vimeo.com/video/')
     })
     .each((key, value) => {
-      $.ajax({
-        type: 'GET',
-        url: `//vimeo.com/api/v2/video/${$(value).attr('data-videoid')}.json`,
-        jsonp: 'callback',
-        dataType: 'jsonp',
-        success (data) {
-          const thumbnailSrc = data[0].thumbnail_large
-          const image = `<img src="${thumbnailSrc}" />`
-          $(value).prepend(image)
-          if (window.viewAjaxCallback) window.viewAjaxCallback()
-        }
+      jsonp(`//vimeo.com/api/v2/video/${$(value).attr('data-videoid')}.json`, function (data) {
+        const thumbnailSrc = data[0].thumbnail_large
+        const image = `<img src="${thumbnailSrc}" />`
+        $(value).prepend(image)
+        if (window.viewAjaxCallback) window.viewAjaxCallback()
       })
     })
     // gist
@@ -597,9 +608,11 @@ export function finishView (view) {
       const url = $(value).attr('data-pdfurl')
       const inner = $('<div></div>')
       $(this).append(inner)
-      PDFObject.embed(url, inner, {
-        height: '400px'
-      })
+      setTimeout(() => {
+        PDFObject.embed(url, inner, {
+          height: '400px'
+        })
+      }, 1)
     })
     // syntax highlighting
   view.find('code.raw').removeClass('raw')
@@ -864,8 +877,12 @@ export function generateToc (id) {
   const target = $(`#${id}`)
   target.html('')
   /* eslint-disable no-unused-vars */
+
+  var tocOptions = md.meta.toc || {}
+  var maxLevel = (typeof tocOptions.maxLevel === 'number' && tocOptions.maxLevel > 0) ? tocOptions.maxLevel : window.defaultTocDepth
+
   var toc = new window.Toc('doc', {
-    level: 3,
+    level: maxLevel,
     top: -1,
     class: 'toc',
     ulClass: 'nav',
@@ -1063,11 +1080,20 @@ export function renderTOC (view) {
     const target = $(`#${id}`)
     target.html('')
     /* eslint-disable no-unused-vars */
+
+    const specificDepth = parseInt(toc.data('toc-depth'))
+
+    var tocOptions = md.meta.toc || {}
+    var yamlMaxDepth = (typeof tocOptions.maxLevel === 'number' && tocOptions.maxLevel > 0) ? tocOptions.maxLevel : window.defaultTocDepth
+
+    var maxLevel = specificDepth || yamlMaxDepth
+
     const TOC = new window.Toc('doc', {
-      level: 3,
+      level: maxLevel,
       top: -1,
       class: 'toc',
       targetId: id,
+      data: { tocDepth: specificDepth },
       process: getHeaderContent
     })
     /* eslint-enable no-unused-vars */
@@ -1322,9 +1348,12 @@ const gistPlugin = new Plugin(
 // TOC
 const tocPlugin = new Plugin(
   // regexp to match
-  /^\[TOC\]$/i,
+  /^\[TOC(|\s*maxLevel=\d+?)\]$/i,
 
-  (match, utils) => '<div class="toc"></div>'
+  (match, utils) => {
+    const tocDepth = match[1].split(/[?&=]+/)[1]
+    return `<div class="toc" data-toc-depth="${tocDepth}"></div>`
+  }
 )
 // slideshare
 const slidesharePlugin = new Plugin(

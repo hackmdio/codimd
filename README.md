@@ -4,6 +4,7 @@ CodiMD
 [![build status][travis-image]][travis-url]
 [![version][github-version-badge]][github-release-page]
 [![Gitter][gitter-image]][gitter-url]
+[![Matrix][matrix-image]][matrix-url]
 [![POEditor][poeditor-image]][poeditor-url]
 
 CodiMD lets you collaborate in real-time with markdown.
@@ -90,7 +91,7 @@ To stay up to date with your installation it's recommended to subscribe the [rel
 
 **License under AGPL.**
 
-[gitter-image]: https://img.shields.io/badge/gitter-hackmdio/codimd-blue.svg	
+[gitter-image]: https://img.shields.io/badge/gitter-hackmdio/codimd-blue.svg
 [gitter-url]: https://gitter.im/hackmdio/hackmd
 [travis-image]: https://travis-ci.com/hackmdio/codimd.svg?branch=master
 [travis-url]: https://travis-ci.com/hackmdio/codimd
@@ -99,3 +100,5 @@ To stay up to date with your installation it's recommended to subscribe the [rel
 [github-release-feed]: https://github.com/hackmdio/codimd/releases.atom
 [poeditor-image]: https://img.shields.io/badge/POEditor-translate-blue.svg
 [poeditor-url]: https://poeditor.com/join/project/q0nuPWyztp
+[matrix-image]: https://img.shields.io/matrix/hackmdio_hackmd:gitter.im?color=blue&logo=matrix
+[matrix-url]: https://matrix.to/#/#hackmdio_hackmd:gitter.im

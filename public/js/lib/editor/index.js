@@ -6,7 +6,7 @@ import * as utils from './utils'
 import config from './config'
 import statusBarTemplate from './statusbar.html'
 import toolBarTemplate from './toolbar.html'
-import './markdown-lint'
+import { linterOptions } from './markdown-lint'
 import CodeMirrorSpellChecker, { supportLanguages, supportLanguageCodes } from './spellcheck'
 import { initTableEditor } from './table-editor'
 import { availableThemes } from './constants'
@@ -140,6 +140,42 @@ export default class Editor {
       }
     }
 
+    CodeMirror.defineMode('c', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-csrc'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('cpp', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-c++src'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('java', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-java'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('csharp', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-csharp'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('objectivec', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-objectivec'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('scala', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-scala'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('kotlin', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-kotlin'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('json', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'application/json'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('jsonld', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'application/ld+json'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('bash', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-sh'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('ocaml', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-ocaml'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('csvpreview', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'csv'), ignoreOverlay)
+    })
     CodeMirror.defineMode('vega', function (config, modeConfig) {
       return CodeMirror.overlayMode(CodeMirror.getMode(config, 'application/ld+json'), ignoreOverlay)
     })
@@ -674,7 +710,7 @@ export default class Editor {
       this.editor.setOption('gutters', gutters.filter(g => g !== lintGutter))
       Cookies.remove('linter')
     }
-    this.editor.setOption('lint', enable)
+    this.editor.setOption('lint', enable ? linterOptions : false)
   }
 
   setLinter () {
@@ -685,7 +721,7 @@ export default class Editor {
     }
 
     linterToggle.click(() => {
-      const lintEnable = this.editor.getOption('lint')
+      const lintEnable = !!this.editor.getOption('lint')
       this.toggleLinter.bind(this)(!lintEnable)
       updateLinterStatus(!lintEnable)
     })
