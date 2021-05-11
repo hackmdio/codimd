@@ -140,6 +140,42 @@ export default class Editor {
       }
     }
 
+    CodeMirror.defineMode('c', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-csrc'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('cpp', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-c++src'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('java', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-java'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('csharp', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-csharp'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('objectivec', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-objectivec'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('scala', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-scala'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('kotlin', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-kotlin'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('json', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'application/json'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('jsonld', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'application/ld+json'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('bash', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-sh'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('ocaml', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'text/x-ocaml'), ignoreOverlay)
+    })
+    CodeMirror.defineMode('csvpreview', function (config, modeConfig) {
+      return CodeMirror.overlayMode(CodeMirror.getMode(config, 'csv'), ignoreOverlay)
+    })
     CodeMirror.defineMode('vega', function (config, modeConfig) {
       return CodeMirror.overlayMode(CodeMirror.getMode(config, 'application/ld+json'), ignoreOverlay)
     })
