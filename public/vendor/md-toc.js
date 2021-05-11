@@ -2,6 +2,8 @@
 /**
  * md-toc.js v1.0.2
  * https://github.com/yijian166/md-toc.js
+ *
+ * Adapted to accept data attributes
  */
 
 (function (window) {
@@ -15,6 +17,7 @@
     this.tocTop = parseInt(options.top) || 0
     this.elChilds = this.el.children
     this.process = options['process']
+    this.data = options.data || {}
     if (!this.elChilds.length) return
     this._init()
   }
@@ -123,6 +126,9 @@
     this.toc = document.createElement('div')
     this.toc.innerHTML = this.tocContent
     this.toc.setAttribute('class', this.tocClass)
+    if (this.data.tocDepth) {
+      this.toc.dataset.tocDepth = this.data.tocDepth
+    }
     if (!this.options.targetId) {
       this.el.appendChild(this.toc)
     } else {

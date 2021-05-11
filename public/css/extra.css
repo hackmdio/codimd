@@ -263,6 +263,32 @@
     padding-right: 40px;
 }
 
+.ui-toc-dropdown .nav .nav>li>ul>li>ul>li>a {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 50px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>ul>li>a {
+  padding-right: 50px;
+}
+
+.ui-toc-dropdown .nav .nav>li>ul>li>ul>li>ul>li>a {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 60px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>ul>li>ul>li>a {
+  padding-right: 60px;
+}
+
+
+
 .ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover {
     padding-left: 29px;
 }
@@ -277,6 +303,22 @@
 
 .ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>a:hover {
     padding-right: 39px;
+}
+
+.ui-toc-dropdown .nav .nav>li>ul>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>ul>li>a:hover {
+  padding-left: 49px;
+}
+
+.ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>ul>li>a:focus,.ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>ul>li>a:hover {
+  padding-right: 49px;
+}
+
+.ui-toc-dropdown .nav .nav>li>ul>li>ul>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>ul>li>ul>li>a:hover {
+  padding-left: 59px;
+}
+
+.ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>ul>li>ul>li>a:focus,.ui-toc-dropdown[dir='rtl'] .nav .nav>li>ul>li>ul>li>ul>li>a:hover {
+  padding-right: 59px;
 }
 
 .ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a {
@@ -295,6 +337,24 @@
 
 .ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.nav>.active>a {
     padding-right: 38px;
+}
+
+.ui-toc-dropdown .nav .nav>.active>.nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>.nav>.active>a {
+  padding-left: 48px;
+  font-weight: 500;
+}
+
+.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.active>.nav>.nav>.active>a {
+  padding-right: 48px;
+}
+
+.ui-toc-dropdown .nav .nav>.active>.nav>.active>.nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>.nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>.nav>.active>.nav>.active>a {
+  padding-left: 58px;
+  font-weight: 500;
+}
+
+.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.nav>.active>.nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.nav>.active>.nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir='rtl'] .nav .nav>.active>.active>.nav>.nav>.active>.nav>.active>a {
+  padding-right: 58px;
 }
 
 /* support japanese font */

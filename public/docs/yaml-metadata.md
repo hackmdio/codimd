@@ -139,6 +139,22 @@ This option allows you to enable Disqus with your shortname.
 disqus: codimd
 ```
 
+toc
+---
+
+This option allows you to set options regarding the table of contents (toc). Currently, its only option is to set the maxDepth.
+
+**Notice: always use two spaces as indention in YAML metadata!**
+
+
+> **maxDepth:**
+> default: not set (whioch will show everything until level 3 (h1 -- h3))
+> max: 5 (as defined by md-toc.js)
+
+
+**Example**
+
+
 type
 ---
 This option allows you to switch the document view to the slide preview, to simplify live editing of presentations.
