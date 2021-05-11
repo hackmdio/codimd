@@ -443,7 +443,10 @@ module.exports = {
     }, {
       test: /\.js$/,
       use: [{ loader: 'babel-loader' }],
-      exclude: [/node_modules/, /public\/vendor/]
+      exclude: [
+        path.resolve(__dirname, 'node_modules'),
+        path.resolve(__dirname, 'public/vendor')
+      ]
     }, {
       test: /\.css$/,
       use: [
