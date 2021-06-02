@@ -330,7 +330,12 @@ export function finishView (view) {
     })
     // gist
   view.find('code[data-gist-id]').each((key, value) => {
-    if ($(value).children().length === 0) { $(value).gist(window.viewAjaxCallback) }
+    if ($(value).children().length === 0) {
+      // strip HTML tags to avoid stored XSS
+      const gistid = value.getAttribute('data-gist-id')
+      value.setAttribute('data-gist-id', stripTags(gistid))
+      $(value).gist(window.viewAjaxCallback)
+    }
   })
   // sequence diagram
   const sequences = view.find('div.sequence-diagram.raw').removeClass('raw')
