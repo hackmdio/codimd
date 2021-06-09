@@ -334,6 +334,14 @@ export function finishView (view) {
       // strip HTML tags to avoid stored XSS
       const gistid = value.getAttribute('data-gist-id')
       value.setAttribute('data-gist-id', stripTags(gistid))
+      const gistfile = value.getAttribute('data-gist-file')
+      if (gistfile) value.setAttribute('data-gist-file', stripTags(gistfile))
+      const gistline = value.getAttribute('data-gist-line')
+      if (gistline) value.setAttribute('data-gist-line', stripTags(gistline))
+      const gisthighlightline = value.getAttribute('data-gist-highlight-line')
+      if (gisthighlightline) value.setAttribute('data-gist-highlight-line', stripTags(gisthighlightline))
+      const gistshowloading = value.getAttribute('data-gist-show-loading')
+      if (gistshowloading) value.setAttribute('data-gist-show-loading', stripTags(gistshowloading))
       $(value).gist(window.viewAjaxCallback)
     }
   })
