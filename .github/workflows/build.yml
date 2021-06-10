@@ -8,6 +8,10 @@ on:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+
     steps:
     - uses: actions/checkout@v2
 
@@ -19,10 +23,29 @@ jobs:
           ${{ runner.os }}-node-
 
     - uses: actions/setup-node@v2
+      name: Use Node.js ${{ matrix.node-version }}
       with:
-        node-version: '12'
+        node-version: ${{ matrix.node-version }}
         check-latest: true
 
     - run: npm ci
     - run: npm run test:ci
     - run: npm run build
+
+  doctoc:
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' || github.event.pull_request
+
+    steps:
+    - uses: actions/setup-node@v2
+      name: Use Node.js 12
+      with:
+        node-version: 12
+        check-latest: true
+    - name: Install doctoc-check
+      run: |
+        npm install -g doctoc
+        cp README.md README.md.orig
+        npm run doctoc
+        diff -q README.md README.md.orig
