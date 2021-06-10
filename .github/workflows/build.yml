@@ -33,11 +33,11 @@ jobs:
     - run: npm run build
 
   doctoc:
-    needs: test-and-build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.event.pull_request
 
     steps:
+    - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
       name: Use Node.js 12
       with:
