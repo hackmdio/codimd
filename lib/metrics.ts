@@ -1,8 +1,5 @@
-'use strict'
-
-const { Router } = require('express')
-
-const { wrap } = require('./utils')
+import {Router} from "express";
+import {wrap} from "./utils";
 
 // load controller
 const statusController = require('./status')
