@@ -1,10 +1,10 @@
-'use strict'
-const config = require('../config')
-const logger = require('../logger')
+import lutim from "lutim";
 
-const lutim = require('lutim')
+import config from "../config";
+import logger from "../logger";
 
-exports.uploadImage = function (imagePath, callback) {
+
+export function uploadImage(imagePath, callback) {
   if (!imagePath || typeof imagePath !== 'string') {
     callback(new Error('Image path is missing or wrong'), null)
     return
@@ -26,6 +26,6 @@ exports.uploadImage = function (imagePath, callback) {
       }
       callback(null, lutim.getAPIUrl() + json.msg.short)
     }).catch(function (err) {
-      callback(new Error(err), null)
-    })
+    callback(new Error(err), null)
+  })
 }
