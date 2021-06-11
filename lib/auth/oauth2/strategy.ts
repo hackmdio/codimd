@@ -1,9 +1,7 @@
-'use strict'
+import {InternalOAuthError, Strategy} from "passport-oauth2";
+import * as config from "../../config";
 
-const { Strategy, InternalOAuthError } = require('passport-oauth2')
-const config = require('../../config')
-
-function parseProfile (data) {
+export function parseProfile (data) {
   const username = extractProfileAttribute(data, config.oauth2.userProfileUsernameAttr)
   const displayName = extractProfileAttribute(data, config.oauth2.userProfileDisplayNameAttr)
   const email = extractProfileAttribute(data, config.oauth2.userProfileEmailAttr)
@@ -22,7 +20,7 @@ function parseProfile (data) {
   }
 }
 
-function extractProfileAttribute (data, path) {
+export function extractProfileAttribute (data, path) {
   if (!data) return undefined
   if (typeof path !== 'string') return undefined
   // can handle stuff like `attrs[0].name`
@@ -41,7 +39,8 @@ function extractProfileAttribute (data, path) {
   return data
 }
 
-class OAuth2CustomStrategy extends Strategy {
+export class OAuth2CustomStrategy extends Strategy {
+  private _userProfileURL: any;
   constructor (options, verify) {
     options.customHeaders = options.customHeaders || {}
     super(options, verify)
@@ -58,10 +57,10 @@ class OAuth2CustomStrategy extends Strategy {
 
       let profile, json
       try {
-        json = JSON.parse(body)
+        json = JSON.parse(body as any)
         profile = parseProfile(json)
       } catch (ex) {
-        return done(new InternalOAuthError('Failed to parse user profile' + ex.toString()))
+        return done(new InternalOAuthError('Failed to parse user profile' + ex.toString(), null))
       }
 
       profile.provider = 'oauth2'
@@ -70,7 +69,3 @@ class OAuth2CustomStrategy extends Strategy {
     })
   }
 }
-
-exports.OAuth2CustomStrategy = OAuth2CustomStrategy
-exports.parseProfile = parseProfile
-exports.extractProfileAttribute = extractProfileAttribute
