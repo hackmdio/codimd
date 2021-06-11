@@ -1,13 +1,12 @@
-'use strict'
+import {Router} from "express";
+import passport from "passport";
+import {Strategy as FacebookStrategy} from "passport-facebook";
 
-const Router = require('express').Router
-const passport = require('passport')
-const FacebookStrategy = require('passport-facebook').Strategy
+import * as config from "../../config";
+import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
-const config = require('../../config')
-const { setReturnToFromReferer, passportGeneralCallback } = require('../utils')
-
-const facebookAuth = module.exports = Router()
+const facebookAuth = Router()
+export = facebookAuth
 
 passport.use(new FacebookStrategy({
   clientID: config.facebook.clientID,
