@@ -1,15 +1,12 @@
-'use strict'
+import * as archiver from 'archiver'
+import * as async from 'async'
+import * as response from '../response'
+import * as config from '../config'
+import * as models from '../models'
+import * as logger from '../logger'
+import { generateAvatar } from '../letter-avatars'
 
-const archiver = require('archiver')
-const async = require('async')
-
-const response = require('../response')
-const config = require('../config')
-const models = require('../models')
-const logger = require('../logger')
-const { generateAvatar } = require('../letter-avatars')
-
-exports.getMe = async (req, res) => {
+export async function getMe (req, res) {
   if (!req.isAuthenticated()) {
     return res.status(401).send({
       status: 'forbidden'
@@ -35,7 +32,7 @@ exports.getMe = async (req, res) => {
   })
 }
 
-exports.deleteUser = async (req, res) => {
+export async function deleteUser (req, res) {
   if (!req.isAuthenticated()) {
     return response.errorForbidden(req, res)
   }
@@ -58,7 +55,7 @@ exports.deleteUser = async (req, res) => {
   return res.redirect(config.serverURL + '/')
 }
 
-exports.exportMyData = (req, res) => {
+export function exportMyData (req, res) {
   if (!req.isAuthenticated()) {
     return response.errorForbidden(req, res)
   }
@@ -117,7 +114,7 @@ exports.exportMyData = (req, res) => {
   })
 }
 
-exports.getMyAvatar = (req, res) => {
+export function getMyAvatar (req, res) {
   res.setHeader('Content-Type', 'image/svg+xml')
   res.setHeader('Cache-Control', 'public, max-age=86400')
   res.send(generateAvatar(req.params.username))
