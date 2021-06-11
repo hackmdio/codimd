@@ -1,13 +1,13 @@
-'use strict'
-const fs = require('fs')
-const path = require('path')
+import fs from "fs";
+import path from "path";
 
-const config = require('../config')
-const { getImageMimeType } = require('../utils')
-const logger = require('../logger')
+import {S3Client} from "@aws-sdk/client-s3-node/S3Client";
+import {PutObjectCommand, PutObjectInput} from "@aws-sdk/client-s3-node/commands/PutObjectCommand";
 
-const { S3Client } = require('@aws-sdk/client-s3-node/S3Client')
-const { PutObjectCommand } = require('@aws-sdk/client-s3-node/commands/PutObjectCommand')
+import config from "../config";
+import {getImageMimeType} from "../utils";
+import logger from "../logger";
+
 
 const credentials = {
   accessKeyId: config.s3.accessKeyId,
@@ -20,7 +20,7 @@ const s3 = new S3Client({
   endpoint: config.s3.endpoint
 })
 
-exports.uploadImage = function (imagePath, callback) {
+export function uploadImage(imagePath, callback) {
   if (!imagePath || typeof imagePath !== 'string') {
     callback(new Error('Image path is missing or wrong'), null)
     return
@@ -33,17 +33,19 @@ exports.uploadImage = function (imagePath, callback) {
 
   fs.readFile(imagePath, function (err, buffer) {
     if (err) {
-      callback(new Error(err), null)
+      callback(err, null)
       return
     }
-    const params = {
+    const params: PutObjectInput = {
       Bucket: config.s3bucket,
       Key: path.join('uploads', path.basename(imagePath)),
       Body: buffer,
       ACL: 'public-read'
     }
     const mimeType = getImageMimeType(imagePath)
-    if (mimeType) { params.ContentType = mimeType }
+    if (mimeType) {
+      params.ContentType = mimeType
+    }
 
     const command = new PutObjectCommand(params)
 
