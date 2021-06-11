@@ -1,11 +1,9 @@
-'use strict'
+import {promisify} from "util";
 
-const { promisify } = require('util')
+import * as request from "request";
 
-const request = require('request')
-
-const logger = require('../../logger')
-const config = require('../../config')
+import * as logger from "../../logger";
+import * as config from "../../config";
 
 let lastCheckAt
 
@@ -14,11 +12,10 @@ const CHECK_TIMEOUT = 1000 * 60 * 60 * 24 // 1 day
 
 const rp = promisify(request)
 
-exports.checkVersion = checkVersion
 /**
  * @param {Express.Application|Express.Request} ctx
  */
-async function checkVersion (ctx) {
+export async function checkVersion(ctx) {
   if (lastCheckAt && (lastCheckAt + CHECK_TIMEOUT > Date.now())) {
     return
   }
@@ -27,7 +24,7 @@ async function checkVersion (ctx) {
   lastCheckAt = Date.now()
 
   try {
-    const { statusCode, body: data } = await rp({
+    const {statusCode, body: data} = await rp({
       url: `${VERSION_CHECK_ENDPOINT}?v=${config.version}`,
       method: 'GET',
       json: true,
@@ -45,7 +42,7 @@ async function checkVersion (ctx) {
     locals.versionInfo.versionItem = data.latest ? null : data.versionItem
 
     if (!data.latest) {
-      const { version, link } = data.versionItem
+      const {version, link} = data.versionItem
 
       logger.info(`Your CodiMD version is out of date! The latest version is ${version}. Please see what's new on ${link}.`)
     }
@@ -56,7 +53,7 @@ async function checkVersion (ctx) {
   }
 }
 
-exports.versionCheckMiddleware = function (req, res, next) {
+export function versionCheckMiddleware(req, res, next) {
   checkVersion(req)
     .then(() => {
       next()
