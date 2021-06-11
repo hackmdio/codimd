@@ -1,14 +1,13 @@
-'use strict'
+import {Router} from "express";
+import * as passport from "passport";
+import {Strategy as GithubStrategy} from "passport-github";
+import * as config from "../../config";
+import * as response from "../../response";
+import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
+import {URL} from "url";
 
-const Router = require('express').Router
-const passport = require('passport')
-const GithubStrategy = require('passport-github').Strategy
-const config = require('../../config')
-const response = require('../../response')
-const { setReturnToFromReferer, passportGeneralCallback } = require('../utils')
-const { URL } = require('url')
-
-const githubAuth = module.exports = Router()
+const githubAuth = Router()
+export = githubAuth
 
 function githubUrl (path) {
   return config.github.enterpriseURL && new URL(path, config.github.enterpriseURL).toString()
