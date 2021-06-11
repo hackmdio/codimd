@@ -1,16 +1,14 @@
-'use strict'
-
-exports.Environment = {
+export const Environment = {
   development: 'development',
   production: 'production',
   test: 'test'
-}
+};
 
-exports.Permission = {
+export const Permission = {
   freely: 'freely',
   editable: 'editable',
   limited: 'limited',
   locked: 'locked',
   protected: 'protected',
   private: 'private'
-}
+};
