@@ -1,13 +1,12 @@
-'use strict'
+import {Router} from "express";
+import passport from "passport";
+import {Strategy as TwitterStrategy} from "passport-twitter";
 
-const Router = require('express').Router
-const passport = require('passport')
-const TwitterStrategy = require('passport-twitter').Strategy
+import * as config from "../../config";
+import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
-const config = require('../../config')
-const { setReturnToFromReferer, passportGeneralCallback } = require('../utils')
-
-const twitterAuth = module.exports = Router()
+const twitterAuth = Router()
+export = module.exports
 
 passport.use(new TwitterStrategy({
   consumerKey: config.twitter.consumerKey,
