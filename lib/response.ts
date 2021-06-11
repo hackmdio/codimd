@@ -1,65 +1,45 @@
-'use strict'
 // response
 // external modules
-const request = require('request')
-
+import * as request from "request";
 // core
-const config = require('./config')
-const logger = require('./logger')
-const models = require('./models')
-const utils = require('./utils')
-const history = require('./history')
+import * as config from "./config";
+import * as logger from "./logger";
+import * as models from "./models";
+import * as utils from "./utils";
+import * as  history from "./history";
 
-// public
-exports.responseError = responseError
-exports.errorForbidden = errorForbidden
-exports.errorNotFound = errorNotFound
-exports.errorBadRequest = errorBadRequest
-exports.errorTooLong = errorTooLong
-exports.errorInternalError = errorInternalError
-exports.errorServiceUnavailable = errorServiceUnavailable
-exports.newNote = newNote
-exports.showPublishSlide = showPublishSlide
-exports.publishNoteActions = publishNoteActions
-exports.publishSlideActions = publishSlideActions
-exports.githubActions = githubActions
-exports.gitlabActions = gitlabActions
-exports.checkViewPermission = checkViewPermission
-exports.newCheckViewPermission = newCheckViewPermission
-exports.responseCodiMD = responseCodiMD
-
-function errorForbidden (req, res) {
+export function errorForbidden(req, res) {
   if (req.user) {
     responseError(res, '403', 'Forbidden', 'oh no.')
   } else {
     var nextURL = new URL('', config.serverURL)
-    nextURL.search = new URLSearchParams({ next: req.originalUrl })
+    nextURL.search = (new URLSearchParams({next: req.originalUrl})).toString()
     req.flash('error', 'You are not allowed to access this page. Maybe try logging in?')
     res.redirect(nextURL.toString())
   }
 }
 
-function errorNotFound (req, res) {
+export function errorNotFound(req, res) {
   responseError(res, '404', 'Not Found', 'oops.')
 }
 
-function errorBadRequest (req, res) {
+export function errorBadRequest(req, res) {
   responseError(res, '400', 'Bad Request', 'something not right.')
 }
 
-function errorTooLong (req, res) {
+export function errorTooLong(req, res) {
   responseError(res, '413', 'Payload Too Large', 'Shorten your note!')
 }
 
-function errorInternalError (req, res) {
+export function errorInternalError(req, res) {
   responseError(res, '500', 'Internal Error', 'wtf.')
 }
 
-function errorServiceUnavailable (req, res) {
+export function errorServiceUnavailable(req, res) {
   res.status(503).send('I\'m busy right now, try again later.')
 }
 
-function responseError (res, code, detail, msg) {
+export function responseError(res, code, detail, msg) {
   res.status(code).render('error.ejs', {
     title: code + ' ' + detail + ' ' + msg,
     code: code,
@@ -68,7 +48,7 @@ function responseError (res, code, detail, msg) {
   })
 }
 
-function responseCodiMD (res, note) {
+export function responseCodiMD(res, note) {
   var body = note.content
   var extracted = models.Note.extractMeta(body)
   var meta = models.Note.parseMeta(extracted.meta)
@@ -83,13 +63,13 @@ function responseCodiMD (res, note) {
   })
 }
 
-function updateHistory (userId, note, document, time) {
+function updateHistory(userId, note, document, time?: any) {
   var noteId = note.alias ? note.alias : models.Note.encodeNoteId(note.id)
   history.updateHistory(userId, noteId, document, time)
   logger.info('history updated')
 }
 
-function newNote (req, res, next) {
+export function newNote(req, res, next?: any) {
   var owner = null
   var body = ''
   if (req.body && req.body.length > config.documentMaxLength) {
@@ -119,7 +99,7 @@ function newNote (req, res, next) {
   })
 }
 
-function newCheckViewPermission (note, isLogin, userId) {
+export function newCheckViewPermission(note, isLogin, userId) {
   if (note.permission === 'private') {
     return note.ownerId === userId
   }
@@ -129,17 +109,25 @@ function newCheckViewPermission (note, isLogin, userId) {
   return true
 }
 
-function checkViewPermission (req, note) {
+export function checkViewPermission(req, note) {
   if (note.permission === 'private') {
-    if (!req.isAuthenticated() || note.ownerId !== req.user.id) { return false } else { return true }
+    if (!req.isAuthenticated() || note.ownerId !== req.user.id) {
+      return false
+    } else {
+      return true
+    }
   } else if (note.permission === 'limited' || note.permission === 'protected') {
-    if (!req.isAuthenticated()) { return false } else { return true }
+    if (!req.isAuthenticated()) {
+      return false
+    } else {
+      return true
+    }
   } else {
     return true
   }
 }
 
-function findNote (req, res, callback, include) {
+function findNote(req, res, callback, include?: any) {
   var noteId = req.params.noteId
   var id = req.params.noteId || req.params.shortid
   models.Note.parseNoteId(id, function (err, _id) {
@@ -173,7 +161,7 @@ function findNote (req, res, callback, include) {
   })
 }
 
-function actionDownload (req, res, note) {
+function actionDownload(req, res, note) {
   var body = note.content
   var title = models.Note.decodeTitle(note.title)
   var filename = title
@@ -190,7 +178,7 @@ function actionDownload (req, res, note) {
   res.send(body)
 }
 
-function publishNoteActions (req, res, next) {
+export function publishNoteActions(req, res, next) {
   findNote(req, res, function (note) {
     var action = req.params.action
     switch (action) {
@@ -207,7 +195,7 @@ function publishNoteActions (req, res, next) {
   })
 }
 
-function publishSlideActions (req, res, next) {
+export function publishSlideActions(req, res, next) {
   findNote(req, res, function (note) {
     var action = req.params.action
     switch (action) {
@@ -221,7 +209,7 @@ function publishSlideActions (req, res, next) {
   })
 }
 
-function githubActions (req, res, next) {
+export function githubActions(req, res, next) {
   var noteId = req.params.noteId
   findNote(req, res, function (note) {
     var action = req.params.action
@@ -236,7 +224,7 @@ function githubActions (req, res, next) {
   })
 }
 
-function githubActionGist (req, res, note) {
+function githubActionGist(req, res, note) {
   var code = req.query.code
   var state = req.query.state
   if (!code || !state) {
@@ -293,7 +281,7 @@ function githubActionGist (req, res, note) {
   }
 }
 
-function gitlabActions (req, res, next) {
+export function gitlabActions(req, res, next) {
   var noteId = req.params.noteId
   findNote(req, res, function (note) {
     var action = req.params.action
@@ -308,15 +296,17 @@ function gitlabActions (req, res, next) {
   })
 }
 
-function gitlabActionProjects (req, res, note) {
+function gitlabActionProjects(req, res, note) {
   if (req.isAuthenticated()) {
     models.User.findOne({
       where: {
         id: req.user.id
       }
     }).then(function (user) {
-      if (!user) { return errorNotFound(req, res) }
-      var ret = { baseURL: config.gitlab.baseURL, version: config.gitlab.version }
+      if (!user) {
+        return errorNotFound(req, res)
+      }
+      var ret: any = {baseURL: config.gitlab.baseURL, version: config.gitlab.version}
       ret.accesstoken = user.accessToken
       ret.profileid = user.profileid
       request(
@@ -339,7 +329,7 @@ function gitlabActionProjects (req, res, note) {
   }
 }
 
-function showPublishSlide (req, res, next) {
+export function showPublishSlide(req, res, next) {
   var include = [{
     model: models.User,
     as: 'owner'
@@ -350,7 +340,9 @@ function showPublishSlide (req, res, next) {
   findNote(req, res, function (note) {
     // force to use short id
     var shortid = req.params.shortid
-    if ((note.alias && shortid !== note.alias) || (!note.alias && shortid !== note.shortid)) { return res.redirect(config.serverURL + '/p/' + (note.alias || note.shortid)) }
+    if ((note.alias && shortid !== note.alias) || (!note.alias && shortid !== note.shortid)) {
+      return res.redirect(config.serverURL + '/p/' + (note.alias || note.shortid))
+    }
     note.increment('viewcount').then(function (note) {
       if (!note) {
         return errorNotFound(req, res)
