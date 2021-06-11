@@ -3,7 +3,8 @@
   "compilerOptions": {
     "allowJs": true,
     "target": "ES5",
-    "outDir": "./dist/"
+    "outDir": "./dist/",
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "./lib/**/*"
