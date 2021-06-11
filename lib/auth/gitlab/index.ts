@@ -1,14 +1,14 @@
-'use strict'
+import {Router} from "express";
+import * as passport from "passport";
+import {Strategy as GitlabStrategy} from "passport-gitlab2";
 
-const Router = require('express').Router
-const passport = require('passport')
-const GitlabStrategy = require('passport-gitlab2').Strategy
-const config = require('../../config')
-const response = require('../../response')
-const { setReturnToFromReferer, passportGeneralCallback } = require('../utils')
-const HttpsProxyAgent = require('https-proxy-agent')
+import * as config from "../../config";
+import * as response from "../../response";
+import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
+import * as HttpsProxyAgent from "https-proxy-agent";
 
-const gitlabAuth = module.exports = Router()
+const gitlabAuth = Router()
+export = gitlabAuth
 
 const gitlabAuthStrategy = new GitlabStrategy({
   baseURL: config.gitlab.baseURL,
