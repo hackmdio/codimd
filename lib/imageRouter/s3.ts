@@ -1,12 +1,12 @@
-import fs from "fs";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 
 import {S3Client} from "@aws-sdk/client-s3-node/S3Client";
 import {PutObjectCommand, PutObjectInput} from "@aws-sdk/client-s3-node/commands/PutObjectCommand";
 
-import config from "../config";
+import * as config from "../config";
 import {getImageMimeType} from "../utils";
-import logger from "../logger";
+import * as logger from "../logger";
 
 
 const credentials = {
