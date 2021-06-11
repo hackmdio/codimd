@@ -1,7 +1,7 @@
-import lutim from "lutim";
+import * as  lutim from "lutim";
 
-import config from "../config";
-import logger from "../logger";
+import * as  config from "../config";
+import * as logger from "../logger";
 
 
 export function uploadImage(imagePath, callback) {
