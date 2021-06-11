@@ -20,14 +20,14 @@ var flash = require('connect-flash')
 var apiMetrics = require('prometheus-api-metrics')
 
 // core
-var config = require('./lib/config')
-var logger = require('./lib/logger')
-var response = require('./lib/response')
-var models = require('./lib/models')
-var csp = require('./lib/csp')
-const { Environment } = require('./lib/config/enum')
+var config = require('./dist/config')
+var logger = require('./dist/logger')
+var response = require('./dist/response')
+var models = require('./dist/models')
+var csp = require('./dist/csp')
+const { Environment } = require('./dist/config/enum')
 
-const { versionCheckMiddleware, checkVersion } = require('./lib/web/middleware/checkVersion')
+const { versionCheckMiddleware, checkVersion } = require('./dist/web/middleware/checkVersion')
 
 function createHttpServer () {
   if (config.useSSL) {
@@ -76,7 +76,7 @@ io.engine.ws = new (require('ws').Server)({
 })
 
 // others
-var realtime = require('./lib/realtime/realtime.js')
+var realtime = require('./dist/realtime/realtime.js')
 
 // assign socket io to realtime
 realtime.io = io
@@ -138,7 +138,7 @@ app.use('/', express.static(path.join(__dirname, '/public'), { maxAge: config.st
 app.use('/docs', express.static(path.resolve(__dirname, config.docsPath), { maxAge: config.staticCacheTime }))
 app.use('/uploads', express.static(path.resolve(__dirname, config.uploadsPath), { maxAge: config.staticCacheTime }))
 app.use('/default.md', express.static(path.resolve(__dirname, config.defaultNotePath), { maxAge: config.staticCacheTime }))
-app.use(require('./lib/metrics').router)
+app.use(require('./dist/metrics').router)
 
 // session
 app.use(session({
@@ -164,7 +164,7 @@ server.on('resumeSession', function (id, cb) {
 })
 
 // middleware which blocks requests when we're too busy
-app.use(require('./lib/middleware/tooBusy'))
+app.use(require('./dist/middleware/tooBusy'))
 
 app.use(flash())
 
@@ -173,10 +173,10 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // check uri is valid before going further
-app.use(require('./lib/middleware/checkURIValid'))
+app.use(require('./dist/middleware/checkURIValid'))
 // redirect url without trailing slashes
-app.use(require('./lib/middleware/redirectWithoutTrailingSlashes'))
-app.use(require('./lib/middleware/codiMDVersion'))
+app.use(require('./dist/middleware/redirectWithoutTrailingSlashes'))
+app.use(require('./dist/middleware/codiMDVersion'))
 
 if (config.autoVersionCheck && process.env.NODE_ENV === Environment.production) {
   checkVersion(app)
@@ -227,7 +227,7 @@ app.locals.enableDropBoxSave = config.isDropboxEnable
 app.locals.enableGitHubGist = config.isGitHubEnable
 app.locals.enableGitlabSnippets = config.isGitlabSnippetsEnable
 
-app.use(require('./lib/routes').router)
+app.use(require('./dist/routes').router)
 
 // response not found if no any route matxches
 app.get('*', function (req, res) {
