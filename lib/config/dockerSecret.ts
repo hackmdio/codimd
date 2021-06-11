@@ -1,18 +1,17 @@
-'use strict'
-
-const fs = require('fs')
-const path = require('path')
+import * as fs from "fs";
+import * as path from "path";
 
 const basePath = path.resolve('/var/run/secrets/')
 
-function getSecret (secret) {
+function getSecret(secret) {
   const filePath = path.join(basePath, secret)
   if (fs.existsSync(filePath)) return fs.readFileSync(filePath)
   return undefined
 }
 
+let dockerSecretConfig: any = {}
 if (fs.existsSync(basePath)) {
-  module.exports = {
+  dockerSecretConfig = {
     dbURL: getSecret('dburl'),
     // ssl path
     sslKeyPath: getSecret('sslkeypath'),
@@ -77,3 +76,5 @@ if (fs.existsSync(basePath)) {
     }
   }
 }
+
+export = dockerSecretConfig
