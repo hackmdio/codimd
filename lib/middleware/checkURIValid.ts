@@ -1,9 +1,7 @@
-'use strict'
+import * as logger from '../logger'
+import * as response from "../response";
 
-const logger = require('../logger')
-const response = require('../response')
-
-module.exports = function (req, res, next) {
+export = function (req, res, next) {
   try {
     decodeURIComponent(req.path)
   } catch (err) {
