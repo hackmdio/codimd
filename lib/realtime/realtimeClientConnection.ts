@@ -2,11 +2,11 @@
 
 import {get} from "lodash";
 
-import config from "../config";
-import models from "../models";
-import logger from "../logger";
+import * as config from "../config";
+import * as models from "../models";
+import * as logger from "../logger";
 
-class RealtimeClientConnection {
+export class RealtimeClientConnection {
   private socket: any;
   private realtime: any;
 
