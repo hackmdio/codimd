@@ -1,13 +1,12 @@
-'use strict'
+import {Router} from 'express'
+import * as passport from 'passport'
 
-const Router = require('express').Router
-const passport = require('passport')
+import * as config from '../../config'
+import {passportGeneralCallback, setReturnToFromReferer} from '../utils'
+import {OAuth2CustomStrategy} from './strategy'
 
-const config = require('../../config')
-const { setReturnToFromReferer, passportGeneralCallback } = require('../utils')
-const { OAuth2CustomStrategy } = require('./strategy')
-
-const oauth2Auth = module.exports = Router()
+const oauth2Auth = Router()
+export = oauth2Auth
 
 passport.use(new OAuth2CustomStrategy({
   authorizationURL: config.oauth2.authorizationURL,
