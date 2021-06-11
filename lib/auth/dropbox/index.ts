@@ -1,12 +1,12 @@
-'use strict'
+import {Router} from "express";
+import passport from "passport";
+import {Strategy as DropboxStrategy} from "passport-dropbox-oauth2";
 
-const Router = require('express').Router
-const passport = require('passport')
-const DropboxStrategy = require('passport-dropbox-oauth2').Strategy
-const config = require('../../config')
-const { setReturnToFromReferer, passportGeneralCallback } = require('../utils')
+import * as config from "../../config";
+import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
-const dropboxAuth = module.exports = Router()
+const dropboxAuth = Router()
+export = dropboxAuth
 
 passport.use(new DropboxStrategy({
   apiVersion: '2',
