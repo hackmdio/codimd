@@ -1,8 +1,8 @@
-'use strict'
+import {Request, Response} from "express";
 
-const config = require('../config')
+import * as config from "../config";
 
-module.exports = function (req, res, next) {
+export = function (req: Request, res: Response, next) {
   if (req.method === 'GET' && req.path.substr(-1) === '/' && req.path.length > 1) {
     const queryString = req.url.slice(req.path.length)
     const urlPath = req.path.slice(0, -1)
