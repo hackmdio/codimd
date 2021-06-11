@@ -90,7 +90,7 @@ function pageInit () {
   )
 }
 
-$('.masthead-nav li').click(function () {
+$('.masthead-nav > li').click(function () {
   $(this).siblings().removeClass('active')
   $(this).addClass('active')
 })
@@ -429,6 +429,6 @@ $('.search').keyup(() => {
   checkHistoryList()
 })
 
-$(".ui-export-user-data").click(function (e) {
+$('.ui-export-user-data').click(function (e) {
   document.exportNoteData.submit()
 })
