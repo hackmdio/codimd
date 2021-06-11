@@ -1,10 +1,9 @@
-'use strict'
+import {Router} from "express";
+import * as passport from "passport";
+import {Strategy as GoogleStrategy} from "passport-google-oauth20";
 
-const Router = require('express').Router
-const passport = require('passport')
-var GoogleStrategy = require('passport-google-oauth20').Strategy
-const config = require('../../config')
-const { setReturnToFromReferer, passportGeneralCallback } = require('../utils')
+import * as config from "../../config";
+import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
 const googleAuth = module.exports = Router()
 
