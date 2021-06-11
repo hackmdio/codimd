@@ -1,7 +1,10 @@
-'use strict'
-const { createLogger, format, transports } = require('winston')
+import {createLogger, format, transports, Logger} from "winston";
 
-const logger = createLogger({
+interface CodiMDLogger extends Logger {
+  stream: any
+}
+
+const logger: CodiMDLogger = createLogger({
   level: 'debug',
   format: format.combine(
     format.uncolorize(),
@@ -24,4 +27,4 @@ logger.stream = {
   }
 }
 
-module.exports = logger
+export = logger
