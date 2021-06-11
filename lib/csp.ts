@@ -1,5 +1,5 @@
-var config = require('./config')
-var uuid = require('uuid')
+import * as config from "./config";
+import * as uuid from "uuid";
 
 var CspStrategy = {}
 
@@ -52,7 +52,7 @@ CspStrategy.computeDirectives = function () {
   return directives
 }
 
-function mergeDirectives (existingDirectives, newDirectives) {
+function mergeDirectives(existingDirectives, newDirectives) {
   for (var propertyName in newDirectives) {
     var newDirective = newDirectives[propertyName]
     if (newDirective) {
@@ -62,28 +62,28 @@ function mergeDirectives (existingDirectives, newDirectives) {
   }
 }
 
-function mergeDirectivesIf (condition, existingDirectives, newDirectives) {
+function mergeDirectivesIf(condition, existingDirectives, newDirectives) {
   if (condition) {
     mergeDirectives(existingDirectives, newDirectives)
   }
 }
 
-function areAllInlineScriptsAllowed (directives) {
+function areAllInlineScriptsAllowed(directives) {
   return directives.scriptSrc.indexOf('\'unsafe-inline\'') !== -1
 }
 
-function addInlineScriptExceptions (directives) {
+function addInlineScriptExceptions(directives) {
   directives.scriptSrc.push(getCspNonce)
   // TODO: This is the SHA-256 hash of the inline script in build/reveal.js/plugins/notes/notes.html
   // Any more clean solution appreciated.
   directives.scriptSrc.push('\'sha256-81acLZNZISnyGYZrSuoYhpzwDTTxi7vC1YM4uNxqWaM=\'')
 }
 
-function getCspNonce (req, res) {
+function getCspNonce(req, res) {
   return "'nonce-" + res.locals.nonce + "'"
 }
 
-function addUpgradeUnsafeRequestsOptionTo (directives) {
+function addUpgradeUnsafeRequestsOptionTo(directives) {
   if (config.csp.upgradeInsecureRequests === 'auto' && config.useSSL) {
     directives.upgradeInsecureRequests = true
   } else if (config.csp.upgradeInsecureRequests === true) {
@@ -91,7 +91,7 @@ function addUpgradeUnsafeRequestsOptionTo (directives) {
   }
 }
 
-function addReportURI (directives) {
+function addReportURI(directives) {
   if (config.csp.reportURI) {
     directives.reportUri = config.csp.reportURI
   }
@@ -102,4 +102,4 @@ CspStrategy.addNonceToLocals = function (req, res, next) {
   next()
 }
 
-module.exports = CspStrategy
+export = CspStrategy
