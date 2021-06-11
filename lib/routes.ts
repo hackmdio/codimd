@@ -1,18 +1,17 @@
-'use strict'
-
-const { Router } = require('express')
-
-const { wrap, urlencodedParser, markdownParser } = require('./utils')
+import {Router} from "express";
+import {markdownParser, urlencodedParser, wrap} from "./utils";
 
 // load controller
-const indexController = require('./homepage')
-const errorPageController = require('./errorPage')
-const statusController = require('./status')
-const historyController = require('./history')
-const userController = require('./user')
-const noteController = require('./note')
-const response = require('./response')
-const bodyParser = require('body-parser')
+import * as indexController from "./homepage";
+import * as errorPageController from "./errorPage";
+import * as statusController from "./status";
+import * as historyController from "./history";
+import * as userController from "./user";
+import * as noteController from "./note";
+
+import * as response from "./response";
+import * as bodyParser from "body-parser";
+
 const appRouter = Router()
 
 // register route
