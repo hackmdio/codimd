@@ -1,26 +1,28 @@
-'use strict'
+import * as moment from "moment";
 
-const config = require('../config')
-const logger = require('../logger')
-const moment = require('moment')
+import * as config from "../config";
+import * as logger from "../logger";
 
-class UpdateDirtyNoteJob {
-  constructor (realtime) {
+export class UpdateDirtyNoteJob {
+  private realtime: any;
+  private timer: NodeJS.Timeout;
+
+  constructor(realtime) {
     this.realtime = realtime
   }
 
-  start () {
+  start() {
     if (this.timer) return
     this.timer = setInterval(this.updateDirtyNotes.bind(this), 1000)
   }
 
-  stop () {
+  stop() {
     if (!this.timer) return
     clearInterval(this.timer)
     this.timer = undefined
   }
 
-  updateDirtyNotes () {
+  updateDirtyNotes() {
     const notes = this.realtime.getNotePool()
     Object.keys(notes).forEach((key) => {
       const note = notes[key]
@@ -31,7 +33,7 @@ class UpdateDirtyNoteJob {
     })
   }
 
-  async updateDirtyNote (note) {
+  async updateDirtyNote(note) {
     const notes = this.realtime.getNotePool()
     if (!note.server.isDirty) return
 
@@ -63,7 +65,7 @@ class UpdateDirtyNoteJob {
     }
   }
 
-  updateNoteAsync (note) {
+  updateNoteAsync(note): Promise<any> {
     return new Promise((resolve, reject) => {
       this.realtime.updateNote(note, (err, _note) => {
         if (err) {
@@ -74,5 +76,3 @@ class UpdateDirtyNoteJob {
     })
   }
 }
-
-exports.UpdateDirtyNoteJob = UpdateDirtyNoteJob
