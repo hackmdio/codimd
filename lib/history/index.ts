@@ -71,7 +71,7 @@ function setHistory (userid, history, callback) {
   })
 }
 
-export function updateHistory (userid, noteId, document, time) {
+export function updateHistory (userid, noteId, document?: string, time?: any) {
   if (userid && noteId && typeof document !== 'undefined') {
     getHistory(userid, function (err, history) {
       if (err || !history) return
