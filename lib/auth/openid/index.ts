@@ -1,13 +1,13 @@
-'use strict'
+import {Router} from "express";
+import * as passport from "passport";
+import {Strategy as OpenIDStrategy} from "@passport-next/passport-openid";
 
-const Router = require('express').Router
-const passport = require('passport')
-const OpenIDStrategy = require('@passport-next/passport-openid').Strategy
-const config = require('../../config')
-const models = require('../../models')
-const logger = require('../../logger')
-const { urlencodedParser } = require('../../utils')
-const { setReturnToFromReferer } = require('../utils')
+import * as config from "../../config";
+import * as models from "../../models";
+import * as logger from "../../logger";
+import {urlencodedParser} from "../../utils";
+import {setReturnToFromReferer} from "../utils";
+
 
 const openIDAuth = module.exports = Router()
 
@@ -33,11 +33,15 @@ passport.use(new OpenIDStrategy({
       }
       if (needSave) {
         user.save().then(function () {
-          if (config.debug) { logger.info('user login: ' + user.id) }
+          if (config.debug) {
+            logger.info('user login: ' + user.id)
+          }
           return done(null, user)
         })
       } else {
-        if (config.debug) { logger.info('user login: ' + user.id) }
+        if (config.debug) {
+          logger.info('user login: ' + user.id)
+        }
         return done(null, user)
       }
     }
