@@ -1,27 +1,28 @@
-'use strict'
+import * as fs from "fs";
+import * as path from "path";
 
-const fs = require('fs')
-const path = require('path')
-const markdownpdf = require('markdown-pdf')
-const shortId = require('shortid')
-const querystring = require('querystring')
-const moment = require('moment')
+import * as markdownpdf from "markdown-pdf";
+import * as shortId from "shortid";
+import * as querystring from "querystring";
+import * as moment from "moment";
 // const { Pandoc } = require('@hackmd/pandoc.js')
 
-const config = require('../config')
-const logger = require('../logger')
-const { Note, Revision } = require('../models')
-const { errorInternalError, errorNotFound } = require('../response')
+import * as config from "../config";
+import * as logger from "../logger";
+// @ts-ignore
+import {Note, Revision} from "../models";
+import {errorInternalError, errorNotFound} from "../response";
 
-function actionPublish (req, res, note) {
+
+export function actionPublish(req, res, note) {
   res.redirect(config.serverURL + '/s/' + (note.alias || note.shortid))
 }
 
-function actionSlide (req, res, note) {
+export function actionSlide(req, res, note) {
   res.redirect(config.serverURL + '/p/' + (note.alias || note.shortid))
 }
 
-function actionDownload (req, res, note) {
+export function actionDownload(req, res, note) {
   const body = note.content
   const title = Note.decodeTitle(note.title)
   const filename = encodeURIComponent(title)
@@ -37,7 +38,7 @@ function actionDownload (req, res, note) {
   res.send(body)
 }
 
-function actionInfo (req, res, note) {
+export function actionInfo(req, res, note) {
   const body = note.content
   const extracted = Note.extractMeta(body)
   const markdown = extracted.markdown
@@ -64,7 +65,7 @@ function actionInfo (req, res, note) {
   res.send(data)
 }
 
-function actionPDF (req, res, note) {
+export function actionPDF(req, res, note) {
   const url = config.serverURL || 'http://' + req.get('host')
   const body = note.content
   const extracted = Note.extractMeta(body)
@@ -117,7 +118,7 @@ const outputFormats = {
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 }
 
-async function actionPandoc (req, res, note) {
+export async function actionPandoc(req, res, note) {
 //   var url = config.serverURL || 'http://' + req.get('host')
 //   var body = note.content
 //   var extracted = Note.extractMeta(body)
@@ -160,7 +161,7 @@ async function actionPandoc (req, res, note) {
 //   }
 }
 
-function actionGist (req, res, note) {
+export function actionGist(req, res, note) {
   const data = {
     client_id: config.github.clientID,
     redirect_uri: config.serverURL + '/auth/github/callback/' + Note.encodeNoteId(note.id) + '/gist',
@@ -171,7 +172,7 @@ function actionGist (req, res, note) {
   res.redirect('https://github.com/login/oauth/authorize?' + query)
 }
 
-function actionRevision (req, res, note) {
+export function actionRevision(req, res, note) {
   const actionId = req.params.actionId
   if (actionId) {
     const time = moment(parseInt(actionId))
@@ -215,12 +216,3 @@ function actionRevision (req, res, note) {
     })
   }
 }
-
-exports.actionPublish = actionPublish
-exports.actionSlide = actionSlide
-exports.actionDownload = actionDownload
-exports.actionInfo = actionInfo
-exports.actionPDF = actionPDF
-exports.actionGist = actionGist
-exports.actionPandoc = actionPandoc
-exports.actionRevision = actionRevision
