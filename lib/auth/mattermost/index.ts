@@ -1,14 +1,17 @@
-'use strict'
+import {Router} from "express";
+import * as passport from "passport";
+
 require('babel-polyfill')
 require('isomorphic-fetch')
-const Router = require('express').Router
-const passport = require('passport')
-const MattermostClient = require('mattermost-redux/client/client4').default
-const OAuthStrategy = require('passport-oauth2').Strategy
-const config = require('../../config')
-const { setReturnToFromReferer, passportGeneralCallback } = require('../utils')
+import MattermostClient from "mattermost-redux/client/client4";
+import {Strategy as OAuthStrategy} from "passport-oauth2";
 
-const mattermostAuth = module.exports = Router()
+import * as config from "../../config";
+import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
+
+
+const mattermostAuth = Router()
+export = module.exports
 
 const mattermostClient = new MattermostClient()
 
