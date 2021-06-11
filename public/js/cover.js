@@ -428,3 +428,7 @@ $('.ui-use-tags').on('change', function () {
 $('.search').keyup(() => {
   checkHistoryList()
 })
+
+$(".ui-export-user-data").click(function (e) {
+  document.exportNoteData.submit()
+})
