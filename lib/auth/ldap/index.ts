@@ -1,16 +1,16 @@
-'use strict'
+import {Router} from "express";
+import * as passport from "passport";
+import * as LDAPStrategy from "passport-ldapauth";
 
-const Router = require('express').Router
-const passport = require('passport')
-const LDAPStrategy = require('passport-ldapauth')
-const config = require('../../config')
-const models = require('../../models')
-const logger = require('../../logger')
-const { setReturnToFromReferer } = require('../utils')
-const { urlencodedParser } = require('../../utils')
-const response = require('../../response')
+import * as config from "../../config";
+import * as models from "../../models";
+import * as logger from "../../logger";
+import * as response from "../../response";
+import {setReturnToFromReferer} from "../utils";
+import {urlencodedParser} from "../../utils";
 
-const ldapAuth = module.exports = Router()
+const ldapAuth = Router()
+export = ldapAuth
 
 passport.use(new LDAPStrategy({
   server: {
@@ -30,9 +30,9 @@ passport.use(new LDAPStrategy({
 
   if (typeof uuid === 'undefined') {
     throw new Error('Could not determine UUID for LDAP user. Check that ' +
-    'either uidNumber, uid or sAMAccountName is set in your LDAP directory ' +
-    'or use another unique attribute and configure it using the ' +
-    '"useridField" option in ldap settings.')
+      'either uidNumber, uid or sAMAccountName is set in your LDAP directory ' +
+      'or use another unique attribute and configure it using the ' +
+      '"useridField" option in ldap settings.')
   }
 
   var username = uuid
@@ -66,11 +66,15 @@ passport.use(new LDAPStrategy({
       }
       if (needSave) {
         user.save().then(function () {
-          if (config.debug) { logger.debug('user login: ' + user.id) }
+          if (config.debug) {
+            logger.debug('user login: ' + user.id)
+          }
           return done(null, user)
         })
       } else {
-        if (config.debug) { logger.debug('user login: ' + user.id) }
+        if (config.debug) {
+          logger.debug('user login: ' + user.id)
+        }
         return done(null, user)
       }
     }
