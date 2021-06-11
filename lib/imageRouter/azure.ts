@@ -1,12 +1,12 @@
 'use strict'
-const path = require('path')
+import * as path from "path";
 
-const config = require('../config')
-const logger = require('../logger')
+import * as azure from "azure-storage";
 
-const azure = require('azure-storage')
+import * as config from "../config";
+import * as logger from "../logger";
 
-exports.uploadImage = function (imagePath, callback) {
+export function uploadImage(imagePath, callback) {
   if (!imagePath || typeof imagePath !== 'string') {
     callback(new Error('Image path is missing or wrong'), null)
     return
@@ -19,7 +19,7 @@ exports.uploadImage = function (imagePath, callback) {
 
   var azureBlobService = azure.createBlobService(config.azure.connectionString)
 
-  azureBlobService.createContainerIfNotExists(config.azure.container, { publicAccessLevel: 'blob' }, function (err, result, response) {
+  azureBlobService.createContainerIfNotExists(config.azure.container, {publicAccessLevel: 'blob'}, function (err, result, response) {
     if (err) {
       callback(new Error(err.message), null)
     } else {
