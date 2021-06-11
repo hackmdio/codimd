@@ -1,10 +1,11 @@
 import {createLogger, format, transports, Logger} from "winston";
 
-interface CodiMDLogger extends Logger {
+type CodiMDLogger = Logger & {
   stream: any
+  setLevel?: (string) => void
 }
 
-const logger: CodiMDLogger = createLogger({
+let logger: CodiMDLogger = createLogger({
   level: 'debug',
   format: format.combine(
     format.uncolorize(),
@@ -25,6 +26,10 @@ logger.stream = {
   write: function (message, encoding) {
     logger.info(message)
   }
+}
+
+logger.setLevel = function (level) {
+  logger.level = level
 }
 
 export = logger

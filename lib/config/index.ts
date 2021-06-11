@@ -1,14 +1,12 @@
+import * as  crypto from "crypto";
+import * as  fs from "fs";
+import * as  path from "path";
+import {merge} from "lodash";
+import * as  deepFreeze from "deep-freeze";
 
-'use strict'
-
-const crypto = require('crypto')
-const fs = require('fs')
-const path = require('path')
-const { merge } = require('lodash')
-const deepFreeze = require('deep-freeze')
-const { Environment, Permission } = require('./enum')
-const logger = require('../logger')
-const { getGitCommit, getGitHubURL } = require('./utils')
+import {Environment, Permission} from "./enum";
+import * as logger from "../logger";
+import {getGitCommit, getGitHubURL} from "./utils";
 
 const appRootPath = path.resolve(__dirname, '../../')
 const env = process.env.NODE_ENV || Environment.development
@@ -17,7 +15,7 @@ const debugConfig = {
 }
 
 // Get version string from package.json
-const { version, repository } = require(path.join(appRootPath, 'package.json'))
+const {version, repository} = require(path.join(appRootPath, 'package.json'))
 
 const commitID = getGitCommit(appRootPath)
 const sourceURL = getGitHubURL(repository.url, commitID || version)
@@ -31,7 +29,7 @@ const packageConfig = {
 }
 
 const configFilePath = path.resolve(appRootPath, process.env.CMD_CONFIG_FILE ||
-'config.json')
+  'config.json')
 const fileConfig = fs.existsSync(configFilePath) ? require(configFilePath)[env] : undefined
 
 let config = require('./default')
@@ -43,7 +41,7 @@ merge(config, require('./environment'))
 merge(config, require('./dockerSecret'))
 
 if (['debug', 'verbose', 'info', 'warn', 'error'].includes(config.loglevel)) {
-  logger.level = config.loglevel
+  logger.setLevel(config.loglevel)
 } else {
   logger.error('Selected loglevel %s doesn\'t exist, using default level \'debug\'. Available options: debug, verbose, info, warn, error', config.loglevel)
 }
@@ -79,15 +77,15 @@ if (!(config.defaultPermission in config.permission)) {
 }
 
 // cache result, cannot change config in runtime!!!
-config.isStandardHTTPsPort = (function isStandardHTTPsPort () {
+config.isStandardHTTPsPort = (function isStandardHTTPsPort() {
   return config.useSSL && config.port === 443
 })()
-config.isStandardHTTPPort = (function isStandardHTTPPort () {
+config.isStandardHTTPPort = (function isStandardHTTPPort() {
   return !config.useSSL && config.port === 80
 })()
 
 // cache serverURL
-config.serverURL = (function getserverurl () {
+config.serverURL = (function getserverurl() {
   var url = ''
   if (config.domain) {
     var protocol = config.protocolUseSSL ? 'https://' : 'http://'
@@ -147,8 +145,8 @@ for (let i = keys.length; i--;) {
   // and the config with uppercase is not set
   // we set the new config using the old key.
   if (uppercase.test(keys[i]) &&
-  config[lowercaseKey] !== undefined &&
-  fileConfig[keys[i]] === undefined) {
+    config[lowercaseKey] !== undefined &&
+    fileConfig[keys[i]] === undefined) {
     logger.warn('config.js contains deprecated lowercase setting for ' + keys[i] + '. Please change your config.js file to replace ' + lowercaseKey + ' with ' + keys[i])
     config[keys[i]] = config[lowercaseKey]
   }
