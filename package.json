@@ -112,6 +112,7 @@
     "@susisu/mte-kernel": "^2.1.0",
     "@types/express": "4.17.9",
     "@types/express-flash": "0.0.2",
+    "@types/minio": "^7.0.7",
     "@types/node": "~12.20.15",
     "@types/qs": "^6.9.6",
     "acorn": "~6.1.1",

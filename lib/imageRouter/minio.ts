@@ -1,12 +1,12 @@
-'use strict'
-const fs = require('fs')
-const path = require('path')
+import fs from "fs";
+import path from "path";
 
-const config = require('../config')
-const { getImageMimeType } = require('../utils')
-const logger = require('../logger')
+import Minio from "minio";
 
-const Minio = require('minio')
+import config from "../config";
+import {getImageMimeType} from "../utils";
+import logger from "../logger";
+
 const minioClient = new Minio.Client({
   endPoint: config.minio.endPoint,
   port: config.minio.port,
@@ -15,7 +15,7 @@ const minioClient = new Minio.Client({
   secretKey: config.minio.secretKey
 })
 
-exports.uploadImage = function (imagePath, callback) {
+export function uploadImage(imagePath, callback) {
   if (!imagePath || typeof imagePath !== 'string') {
     callback(new Error('Image path is missing or wrong'), null)
     return
@@ -28,16 +28,16 @@ exports.uploadImage = function (imagePath, callback) {
 
   fs.readFile(imagePath, function (err, buffer) {
     if (err) {
-      callback(new Error(err), null)
+      callback(err, null)
       return
     }
 
     const key = path.join('uploads', path.basename(imagePath))
     const protocol = config.minio.secure ? 'https' : 'http'
 
-    minioClient.putObject(config.s3bucket, key, buffer, buffer.size, getImageMimeType(imagePath), function (err, data) {
+    minioClient.putObject(config.s3bucket, key, buffer, buffer.length, getImageMimeType(imagePath), function (err, data) {
       if (err) {
-        callback(new Error(err), null)
+        callback(err, null)
         return
       }
       const hidePort = [80, 443].includes(config.minio.port)
