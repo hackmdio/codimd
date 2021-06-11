@@ -1,0 +1,11 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "ES5",
+    "outDir": "./dist/"
+  },
+  "include": [
+    "./lib/**/*"
+  ]
+}
