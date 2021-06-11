@@ -1,29 +1,33 @@
 'use strict'
 
-const async = require('async')
-const config = require('../config')
-const logger = require('../logger')
+import * as async from "async";
+
+import * as config from "../config";
+import * as logger from "../logger";
 
 /**
  * clean when user not in any rooms or user not in connected list
  */
-class CleanDanglingUserJob {
-  constructor (realtime) {
+export class CleanDanglingUserJob {
+  private realtime: any;
+  private timer: NodeJS.Timeout;
+
+  constructor(realtime) {
     this.realtime = realtime
   }
 
-  start () {
+  start() {
     if (this.timer) return
     this.timer = setInterval(this.cleanDanglingUser.bind(this), 60000)
   }
 
-  stop () {
+  stop() {
     if (!this.timer) return
     clearInterval(this.timer)
     this.timer = undefined
   }
 
-  cleanDanglingUser () {
+  cleanDanglingUser() {
     const users = this.realtime.getUserPool()
     async.each(Object.keys(users), (key, callback) => {
       const socket = this.realtime.io.sockets.connected[key]
@@ -46,4 +50,3 @@ class CleanDanglingUserJob {
   }
 }
 
-exports.CleanDanglingUserJob = CleanDanglingUserJob
