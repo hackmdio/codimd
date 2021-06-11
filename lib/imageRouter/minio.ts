@@ -1,11 +1,11 @@
-import fs from "fs";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 
-import Minio from "minio";
+import * as Minio from "minio";
 
-import config from "../config";
+import * as config from "../config";
 import {getImageMimeType} from "../utils";
-import logger from "../logger";
+import * as logger from "../logger";
 
 const minioClient = new Minio.Client({
   endPoint: config.minio.endPoint,
