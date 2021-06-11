@@ -1,6 +1,4 @@
-'use strict'
-
-const EventEmitter = require('events').EventEmitter
+import {EventEmitter} from "events";
 
 /**
  * Queuing Class for connection queuing
@@ -12,15 +10,22 @@ const QueueEvent = {
   Finish: 'Finish'
 }
 
-class ProcessQueue extends EventEmitter {
-  constructor ({
-    maximumLength = 500,
-    triggerTimeInterval = 5000,
-    // execute on push
-    proactiveMode = true,
-    // execute next work on finish
-    continuousMode = true
-  }) {
+export class ProcessQueue extends EventEmitter {
+  private max: number;
+  private triggerTime: number;
+  private taskMap: Map<string, boolean>;
+  private queue: any[];
+  private lock: boolean;
+  private eventTrigger: NodeJS.Timeout;
+
+  constructor({
+                maximumLength = 500,
+                triggerTimeInterval = 5000,
+                // execute on push
+                proactiveMode = true,
+                // execute next work on finish
+                continuousMode = true
+              }) {
     super()
     this.max = maximumLength
     this.triggerTime = triggerTimeInterval
@@ -37,7 +42,7 @@ class ProcessQueue extends EventEmitter {
     }
   }
 
-  onEventProcessFunc () {
+  onEventProcessFunc() {
     if (this.lock) return
     this.lock = true
     setImmediate(() => {
@@ -45,21 +50,21 @@ class ProcessQueue extends EventEmitter {
     })
   }
 
-  start () {
+  start() {
     if (this.eventTrigger) return
     this.eventTrigger = setInterval(() => {
       this.emit(QueueEvent.Tick)
     }, this.triggerTime)
   }
 
-  stop () {
+  stop() {
     if (this.eventTrigger) {
       clearInterval(this.eventTrigger)
       this.eventTrigger = null
     }
   }
 
-  checkTaskIsInQueue (id) {
+  checkTaskIsInQueue(id) {
     return this.taskMap.has(id)
   }
 
@@ -69,7 +74,7 @@ class ProcessQueue extends EventEmitter {
    * @param processingFunc {Function<Promise>}
    * @returns {boolean} if success return true, otherwise false
    */
-  push (id, processingFunc) {
+  push(id: string, processingFunc) {
     if (this.queue.length >= this.max) return false
     if (this.checkTaskIsInQueue(id)) return false
     const task = {
@@ -83,7 +88,7 @@ class ProcessQueue extends EventEmitter {
     return true
   }
 
-  process () {
+  process() {
     if (this.queue.length <= 0) {
       this.stop()
       this.lock = false
@@ -103,4 +108,3 @@ class ProcessQueue extends EventEmitter {
   }
 }
 
-exports.ProcessQueue = ProcessQueue
