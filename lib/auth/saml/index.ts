@@ -1,16 +1,19 @@
-'use strict'
+import * as fs from "fs";
+import {Router} from "express";
+import * as passport from "passport";
+import {Strategy as SamlStrategy} from "passport-saml";
 
-const Router = require('express').Router
-const passport = require('passport')
-const SamlStrategy = require('passport-saml').Strategy
-const config = require('../../config')
-const models = require('../../models')
-const logger = require('../../logger')
-const { urlencodedParser } = require('../../utils')
-const fs = require('fs')
-const intersection = function (array1, array2) { return array1.filter((n) => array2.includes(n)) }
+import * as config from "../../config";
+import * as models from "../../models";
+import * as logger from "../../logger";
+import {urlencodedParser} from "../../utils";
 
-const samlAuth = module.exports = Router()
+const intersection = function (array1, array2) {
+  return array1.filter((n) => array2.includes(n))
+}
+
+const samlAuth = Router()
+export = samlAuth
 
 passport.use(new SamlStrategy({
   callbackUrl: config.serverURL + '/auth/saml/callback',
@@ -62,11 +65,15 @@ passport.use(new SamlStrategy({
       }
       if (needSave) {
         user.save().then(function () {
-          if (config.debug) { logger.debug('user login: ' + user.id) }
+          if (config.debug) {
+            logger.debug('user login: ' + user.id)
+          }
           return done(null, user)
         })
       } else {
-        if (config.debug) { logger.debug('user login: ' + user.id) }
+        if (config.debug) {
+          logger.debug('user login: ' + user.id)
+        }
         return done(null, user)
       }
     }
@@ -92,5 +99,5 @@ samlAuth.post('/auth/saml/callback', urlencodedParser,
 
 samlAuth.get('/auth/saml/metadata', function (req, res) {
   res.type('application/xml')
-  res.send(passport._strategy('saml').generateServiceProviderMetadata())
+  res.send((passport as any)._strategy('saml').generateServiceProviderMetadata())
 })
