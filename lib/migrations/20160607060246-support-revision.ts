@@ -1,5 +1,4 @@
-'use strict'
-module.exports = {
+export = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.addColumn('Notes', 'savedAt', Sequelize.DATE).then(function () {
       return queryInterface.createTable('Revisions', {
@@ -16,6 +15,7 @@ module.exports = {
         updatedAt: Sequelize.DATE
       })
     }).catch(function (error) {
+      // @ts-ignore
       if (error.message === 'SQLITE_ERROR: duplicate column name: savedAt' | error.message === "ER_DUP_FIELDNAME: Duplicate column name 'savedAt'" || error.message === 'column "savedAt" of relation "Notes" already exists') {
         console.log('Migration has already run… ignoring.')
       } else {

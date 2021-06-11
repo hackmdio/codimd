@@ -1,5 +1,4 @@
-'use strict'
-module.exports = {
+export = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.addColumn('Users', 'deleteToken', {
       type: Sequelize.UUID,

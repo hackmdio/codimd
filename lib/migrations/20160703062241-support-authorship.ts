@@ -1,5 +1,4 @@
-'use strict'
-module.exports = {
+export = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.addColumn('Notes', 'authorship', Sequelize.TEXT).then(function () {
       return queryInterface.addColumn('Revisions', 'authorship', Sequelize.TEXT)

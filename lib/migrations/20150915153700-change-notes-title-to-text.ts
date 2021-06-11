@@ -1,6 +1,6 @@
-'use strict'
-const isSQLite = require('../utils').isSQLite
-module.exports = {
+import {isSQLite} from "../utils";
+
+export = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.changeColumn('Notes', 'title', {
       type: Sequelize.TEXT

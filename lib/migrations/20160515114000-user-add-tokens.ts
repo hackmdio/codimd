@@ -1,5 +1,4 @@
-'use strict'
-module.exports = {
+export = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.addColumn('Users', 'accessToken', Sequelize.STRING).then(function () {
       return queryInterface.addColumn('Users', 'refreshToken', Sequelize.STRING)

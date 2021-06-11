@@ -1,21 +1,23 @@
-'use strict'
-module.exports = {
+export = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable('Notes', {
+    return queryInterface.createTable('Users', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
         defaultValue: Sequelize.UUIDV4
       },
-      ownerId: Sequelize.UUID,
-      content: Sequelize.TEXT,
-      title: Sequelize.STRING,
+      profileid: {
+        type: Sequelize.STRING,
+        unique: true
+      },
+      profile: Sequelize.TEXT,
+      history: Sequelize.TEXT,
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
     })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('Notes')
+    return queryInterface.dropTable('Users')
   }
 }

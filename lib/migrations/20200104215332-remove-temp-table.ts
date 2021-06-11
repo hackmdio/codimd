@@ -1,6 +1,4 @@
-'use strict'
-
-module.exports = {
+export = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Temp')
     /*
