@@ -1,17 +1,17 @@
-'use strict'
+import {Router} from "express";
+import * as  passport from "passport";
+import * as validator from "validator";
+import {Strategy as LocalStrategy} from 'passport-local';
 
-const Router = require('express').Router
-const passport = require('passport')
-const validator = require('validator')
-const LocalStrategy = require('passport-local').Strategy
-const config = require('../../config')
-const models = require('../../models')
-const logger = require('../../logger')
-const { setReturnToFromReferer } = require('../utils')
-const { urlencodedParser } = require('../../utils')
-const response = require('../../response')
+import * as config from '../../config';
+import * as models from '../../models';
+import * as logger from "../../logger";
+import {setReturnToFromReferer} from "../utils";
+import {urlencodedParser} from "../../utils";
+import * as response from "../../response";
 
-const emailAuth = module.exports = Router()
+const emailAuth = Router()
+export = emailAuth
 
 passport.use(new LocalStrategy({
   usernameField: 'email'
