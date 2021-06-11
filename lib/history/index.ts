@@ -1,13 +1,11 @@
-'use strict'
 // history
 // external modules
-var LZString = require('@hackmd/lz-string')
+import * as LZString from '@hackmd/lz-string'
 
-// core
-var config = require('../config')
-var logger = require('../logger')
-var response = require('../response')
-var models = require('../models')
+import * as models from '../models'
+import * as logger from '../logger'
+import * as config from '../config'
+import * as response from '../response'
 
 function getHistory (userid, callback) {
   models.User.findOne({
@@ -18,13 +16,13 @@ function getHistory (userid, callback) {
     if (!user) {
       return callback(null, null)
     }
-    var history = {}
+    var history : [] | {} = []
     if (user.history) {
       history = JSON.parse(user.history)
       // migrate LZString encoded note id to base64url encoded note id
-      for (let i = 0, l = history.length; i < l; i++) {
+      for (let i = 0, l = (history as []).length; i < l; i++) {
         // Calculate minimal string length for an UUID that is encoded
-        // base64 encoded and optimize comparsion by using -1
+        // base64 encoded and optimize comparison by using -1
         // this should make a lot of LZ-String parsing errors obsolete
         // as we can assume that a nodeId that is 48 chars or longer is a
         // noteID.
@@ -73,7 +71,7 @@ function setHistory (userid, history, callback) {
   })
 }
 
-function updateHistory (userid, noteId, document, time) {
+export function updateHistory (userid, noteId, document, time) {
   if (userid && noteId && typeof document !== 'undefined') {
     getHistory(userid, function (err, history) {
       if (err || !history) return
@@ -113,7 +111,7 @@ function parseHistoryToObject (history) {
   return _history
 }
 
-function historyGet (req, res) {
+export function historyGet (req, res) {
   if (req.isAuthenticated()) {
     getHistory(req.user.id, function (err, history) {
       if (err) return response.errorInternalError(req, res)
@@ -127,7 +125,7 @@ function historyGet (req, res) {
   }
 }
 
-function historyPost (req, res) {
+export function historyPost (req, res) {
   if (req.isAuthenticated()) {
     var noteId = req.params.noteId
     if (!noteId) {
@@ -168,7 +166,7 @@ function historyPost (req, res) {
   }
 }
 
-function historyDelete (req, res) {
+export function historyDelete (req, res) {
   if (req.isAuthenticated()) {
     var noteId = req.params.noteId
     if (!noteId) {
@@ -191,9 +189,3 @@ function historyDelete (req, res) {
     return response.errorForbidden(req, res)
   }
 }
-
-// public
-exports.historyGet = historyGet
-exports.historyPost = historyPost
-exports.historyDelete = historyDelete
-exports.updateHistory = updateHistory
