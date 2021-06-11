@@ -14,8 +14,8 @@ export class ProcessQueue extends EventEmitter {
   private max: number;
   private triggerTime: number;
   private taskMap: Map<string, boolean>;
-  private queue: any[];
-  private lock: boolean;
+  public queue: any[];
+  public lock: boolean;
   private eventTrigger: NodeJS.Timeout;
 
   constructor({
