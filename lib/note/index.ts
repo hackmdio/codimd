@@ -1,15 +1,25 @@
-'use strict'
+import * as config from "../config";
+import * as logger from "../logger";
 
-const config = require('../config')
-const logger = require('../logger')
-const { Note, User, Revision } = require('../models')
+// @ts-ignore
+import {Note, Revision, User} from "../models";
 
-const { newCheckViewPermission, errorForbidden, responseCodiMD, errorNotFound, errorInternalError } = require('../response')
-const { updateHistory, historyDelete } = require('../history')
-const { actionPublish, actionSlide, actionInfo, actionDownload, actionPDF, actionGist, actionRevision, actionPandoc } = require('./noteActions')
-const realtime = require('../realtime/realtime')
 
-async function getNoteById (noteId, { includeUser } = { includeUser: false }) {
+import {errorForbidden, errorInternalError, errorNotFound, newCheckViewPermission, responseCodiMD} from "../response";
+import {historyDelete, updateHistory} from "../history";
+import {
+  actionDownload,
+  actionGist,
+  actionInfo, actionPandoc,
+  actionPDF,
+  actionPublish,
+  actionRevision,
+  actionSlide
+} from "./noteActions";
+
+import * as realtime from "../realtime/realtime";
+
+async function getNoteById(noteId, {includeUser} = {includeUser: false}) {
   const id = await Note.parseNoteIdAsync(noteId)
 
   const includes = []
@@ -33,7 +43,7 @@ async function getNoteById (noteId, { includeUser } = { includeUser: false }) {
   return note
 }
 
-async function createNote (userId, noteAlias) {
+async function createNote(userId, noteAlias) {
   if (!config.allowAnonymous && !userId) {
     throw new Error('can not create note')
   }
@@ -51,7 +61,7 @@ async function createNote (userId, noteAlias) {
 }
 
 // controller
-async function showNote (req, res) {
+export async function showNote(req, res) {
   const noteId = req.params.noteId
   const userId = req.user ? req.user.id : null
 
@@ -79,7 +89,7 @@ async function showNote (req, res) {
   return responseCodiMD(res, note)
 }
 
-function canViewNote (note, isLogin, userId) {
+function canViewNote(note, isLogin, userId) {
   if (note.permission === 'private') {
     return note.ownerId === userId
   }
@@ -89,7 +99,7 @@ function canViewNote (note, isLogin, userId) {
   return true
 }
 
-async function showPublishNote (req, res) {
+export async function showPublishNote(req, res) {
   const shortid = req.params.shortid
 
   const note = await getNoteById(shortid, {
@@ -143,7 +153,7 @@ async function showPublishNote (req, res) {
   res.render('pretty.ejs', data)
 }
 
-async function noteActions (req, res) {
+export async function noteActions(req, res) {
   const noteId = req.params.noteId
 
   const note = await getNoteById(noteId)
@@ -191,7 +201,7 @@ async function noteActions (req, res) {
   }
 }
 
-async function getMyNoteList (userId, callback) {
+async function getMyNoteList(userId, callback) {
   const myNotes = await Note.findAll({
     where: {
       ownerId: userId
@@ -219,7 +229,7 @@ async function getMyNoteList (userId, callback) {
   }
 }
 
-function listMyNotes (req, res) {
+export function listMyNotes(req, res) {
   if (req.isAuthenticated()) {
     getMyNoteList(req.user.id, (err, myNoteList) => {
       if (err) return errorInternalError(req, res)
@@ -233,7 +243,7 @@ function listMyNotes (req, res) {
   }
 }
 
-const deleteNote = async (req, res) => {
+export const deleteNote = async (req, res) => {
   if (req.isAuthenticated()) {
     const noteId = await Note.parseNoteIdAsync(req.params.noteId)
     try {
@@ -267,7 +277,7 @@ const deleteNote = async (req, res) => {
   }
 }
 
-const updateNote = async (req, res) => {
+export const updateNote = async (req, res) => {
   if (req.isAuthenticated() || config.allowAnonymousEdits) {
     const noteId = await Note.parseNoteIdAsync(req.params.noteId)
     try {
@@ -283,7 +293,7 @@ const updateNote = async (req, res) => {
 
       if (realtime.isNoteExistsInPool(noteId)) {
         logger.error('Update note failed: There are online users opening this note.')
-        return res.status('403').json({ status: 'error', message: 'Update API can only be used when no users is online' })
+        return res.status('403').json({status: 'error', message: 'Update API can only be used when no users is online'})
       }
 
       const now = Date.now()
@@ -331,10 +341,3 @@ const updateNote = async (req, res) => {
     return errorForbidden(req, res)
   }
 }
-
-exports.showNote = showNote
-exports.showPublishNote = showPublishNote
-exports.noteActions = noteActions
-exports.listMyNotes = listMyNotes
-exports.deleteNote = deleteNote
-exports.updateNote = updateNote
