@@ -1,11 +1,11 @@
-'use strict'
 // external modules
-const crypto = require('crypto')
-const randomcolor = require('randomcolor')
-const config = require('./config')
+import * as crypto from "crypto";
+import * as randomcolor from "randomcolor";
+
+import * as config from "./config";
 
 // core
-exports.generateAvatar = function (name) {
+export function generateAvatar(name) {
   const color = randomcolor({
     seed: name,
     luminosity: 'dark'
@@ -25,7 +25,7 @@ exports.generateAvatar = function (name) {
   return svg
 }
 
-exports.generateAvatarURL = function (name, email = '', big = true) {
+export function generateAvatarURL(name, email = '', big = true) {
   let photo
   if (typeof email !== 'string') {
     email = '' + name + '@example.com'
