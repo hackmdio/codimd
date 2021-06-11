@@ -32,7 +32,7 @@ const configFilePath = path.resolve(appRootPath, process.env.CMD_CONFIG_FILE ||
   'config.json')
 const fileConfig = fs.existsSync(configFilePath) ? require(configFilePath)[env] : undefined
 
-let config = require('./default')
+let config: any = require('./default')
 merge(config, require('./defaultSSL'))
 merge(config, debugConfig)
 merge(config, packageConfig)
@@ -209,6 +209,6 @@ config.docsPath = path.resolve(appRootPath, config.docsPath)
 config.uploadsPath = path.resolve(appRootPath, config.uploadsPath)
 
 // make config readonly
-config = deepFreeze(config)
+config = deepFreeze(config) as any
 
-module.exports = config
+export = config
