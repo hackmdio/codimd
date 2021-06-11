@@ -1,28 +1,27 @@
-'use strict'
+import * as fs from "fs";
+import * as path from "path";
 
-const fs = require('fs')
-const path = require('path')
-const Router = require('express').Router
-const formidable = require('formidable')
+import {Router} from "express";
+import * as formidable from "formidable";
+import * as readChunk from "read-chunk";
+import * as imageType from "image-type";
+import * as mime from "mime-types";
 
-const readChunk = require('read-chunk')
-const imageType = require('image-type')
-const mime = require('mime-types')
+import * as config from "../config";
+import * as logger from "../logger";
+import * as response from "../response";
 
-const config = require('../config')
-const logger = require('../logger')
-const response = require('../response')
+const imageRouter = Router()
+export = imageRouter
 
-const imageRouter = module.exports = Router()
-
-function checkImageValid (filepath) {
+function checkImageValid(filepath) {
   const buffer = readChunk.sync(filepath, 0, 12)
   /** @type {{ ext: string, mime: string } | null} */
   const mimetypeFromBuf = imageType(buffer)
   const mimeTypeFromExt = mime.lookup(path.extname(filepath))
 
   return mimetypeFromBuf && config.allowedUploadMimeTypes.includes(mimetypeFromBuf.mime) &&
-         mimeTypeFromExt && config.allowedUploadMimeTypes.includes(mimeTypeFromExt)
+    mimeTypeFromExt && config.allowedUploadMimeTypes.includes(mimeTypeFromExt)
 }
 
 // upload image
@@ -46,7 +45,8 @@ imageRouter.post('/uploadimage', function (req, res) {
       const uploadProvider = require('./' + config.imageUploadType)
       uploadProvider.uploadImage(files.image.path, function (err, url) {
         // remove temporary upload file, and ignore any error
-        fs.unlink(files.image.path, () => {})
+        fs.unlink(files.image.path, () => {
+        })
         if (err !== null) {
           logger.error(err)
           return res.status(500).end('upload image error')
