@@ -1,17 +1,17 @@
 'use strict'
 
-const crypto = require('crypto')
-const fs = require('fs')
-const URL = require('url').URL
-const path = require('path')
+import * as fs from "fs";
+import * as path from "path";
+import * as crypto from "crypto";
+import {URL} from "url";
 
-const config = require('../config')
-const logger = require('../logger')
+import * as config from "../config";
+import * as logger from "../logger";
 
 /**
  * generate a random filename for uploaded image
  */
-function randomFilename () {
+function randomFilename() {
   const buf = crypto.randomBytes(16)
   return `upload_${buf.toString('hex')}`
 }
@@ -20,7 +20,7 @@ function randomFilename () {
  * pick a filename not exist in filesystem
  * maximum attempt 5 times
  */
-function pickFilename (defaultFilename) {
+function pickFilename(defaultFilename) {
   let retryCounter = 5
   let filename = defaultFilename
   const extname = path.extname(defaultFilename)
@@ -34,7 +34,7 @@ function pickFilename (defaultFilename) {
   throw new Error('file exists.')
 }
 
-exports.uploadImage = function (imagePath, callback) {
+export function uploadImage(imagePath, callback) {
   if (!imagePath || typeof imagePath !== 'string') {
     callback(new Error('Image path is missing or wrong'), null)
     return
