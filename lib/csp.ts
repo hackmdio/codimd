@@ -1,7 +1,7 @@
 import * as config from "./config";
 import * as uuid from "uuid";
 
-var CspStrategy = {}
+var CspStrategy: any = {}
 
 var defaultDirectives = {
   defaultSrc: ['\'self\''],
@@ -86,8 +86,10 @@ function getCspNonce(req, res) {
 function addUpgradeUnsafeRequestsOptionTo(directives) {
   if (config.csp.upgradeInsecureRequests === 'auto' && config.useSSL) {
     directives.upgradeInsecureRequests = true
-  } else if (config.csp.upgradeInsecureRequests === true) {
-    directives.upgradeInsecureRequests = true
+  } else { // @ts-ignore
+    if (config.csp.upgradeInsecureRequests === true) {
+        directives.upgradeInsecureRequests = true
+      }
   }
 }
 
