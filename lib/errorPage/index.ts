@@ -1,9 +1,8 @@
-'use strict'
+import * as config from "../config";
 
-const config = require('../config')
-const { responseError } = require('../response')
+import {responseError} from "../response";
 
-exports.errorForbidden = (req, res) => {
+export function errorForbidden(req, res) {
   if (req.user) {
     return responseError(res, '403', 'Forbidden', 'oh no.')
   }
@@ -12,10 +11,10 @@ exports.errorForbidden = (req, res) => {
   res.redirect(config.serverURL + '/')
 }
 
-exports.errorNotFound = (req, res) => {
+export function errorNotFound(req, res) {
   responseError(res, '404', 'Not Found', 'oops.')
 }
 
-exports.errorInternalError = (req, res) => {
+export function errorInternalError(req, res) {
   responseError(res, '500', 'Internal Error', 'wtf.')
 }
