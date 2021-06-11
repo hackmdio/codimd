@@ -1,12 +1,13 @@
-'use strict'
+import * as fs from 'fs'
+import * as path from 'path'
+import * as config from '../config'
+// @ts-ignore
+import {User} from '../models'
+import * as logger from '../logger'
+import {Request, Response} from "express";
 
-const fs = require('fs')
-const path = require('path')
-const config = require('../config')
-const { User } = require('../models')
-const logger = require('../logger')
 
-exports.showIndex = async (req, res) => {
+export async function showIndex(req: Request, res: Response) {
   const isLogin = req.isAuthenticated()
   const deleteToken = ''
 
@@ -25,7 +26,7 @@ exports.showIndex = async (req, res) => {
 
   const user = await User.findOne({
     where: {
-      id: req.user.id
+      id: (req.user as any).id
     }
   })
   if (user) {
@@ -33,6 +34,6 @@ exports.showIndex = async (req, res) => {
     return res.render('index.ejs', data)
   }
 
-  logger.error(`error: user not found with id ${req.user.id}`)
+  logger.error(`error: user not found with id ${(req.user as any).id}`)
   return res.render('index.ejs', data)
 }
