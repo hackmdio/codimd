@@ -1,16 +1,15 @@
-'use strict'
+import {Router} from "express";
 
-const Router = require('express').Router
-const passport = require('passport')
+import * as passport from "passport";
+import * as config from "../config";
+import * as logger from "../logger";
+import * as models from "../models";
 
-const config = require('../config')
-const logger = require('../logger')
-const models = require('../models')
-
-const authRouter = module.exports = Router()
+const authRouter = Router()
+export = authRouter
 
 // serialize and deserialize
-passport.serializeUser(function (user, done) {
+passport.serializeUser(function (user: any, done) {
   logger.info('serializeUser: ' + user.id)
   return done(null, user.id)
 })
@@ -23,7 +22,8 @@ passport.deserializeUser(function (id, done) {
   }).then(function (user) {
     // Don't die on non-existent user
     if (user == null) {
-      return done(null, false, { message: 'Invalid UserID' })
+      // @ts-ignore
+      return done(null, false, {message: 'Invalid UserID'})
     }
 
     logger.info('deserializeUser: ' + user.id)
@@ -51,7 +51,7 @@ if (config.isOpenIDEnable) authRouter.use(require('./openid'))
 // logout
 authRouter.get('/logout', function (req, res) {
   if (config.debug && req.isAuthenticated()) {
-    logger.debug('user logout: ' + req.user.id)
+    logger.debug('user logout: ' + (req.user as any).id)
   }
   req.logout()
   res.redirect(config.serverURL + '/')
