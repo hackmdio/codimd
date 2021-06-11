@@ -1,8 +1,6 @@
-'use strict'
+import * as os from "os";
 
-const os = require('os')
-
-module.exports = {
+const defaultConfig = {
   domain: '',
   urlPath: '',
   host: '0.0.0.0',
@@ -19,8 +17,7 @@ module.exports = {
   },
   csp: {
     enable: true,
-    directives: {
-    },
+    directives: {},
     addDefaults: true,
     addDisqus: true,
     addGoogleAnalytics: true,
@@ -192,3 +189,5 @@ module.exports = {
   autoVersionCheck: true,
   defaultTocDepth: 3
 }
+
+export = defaultConfig
