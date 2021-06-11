@@ -1,18 +1,21 @@
 'use strict'
 
-const get = require('lodash/get')
+import {get} from "lodash";
 
-const config = require('../config')
-const models = require('../models')
-const logger = require('../logger')
+import config from "../config";
+import models from "../models";
+import logger from "../logger";
 
 class RealtimeClientConnection {
-  constructor (socket) {
+  private socket: any;
+  private realtime: any;
+
+  constructor(socket) {
     this.socket = socket
     this.realtime = require('./realtime')
   }
 
-  registerEventHandler () {
+  registerEventHandler() {
     // received client refresh request
     this.socket.on('refresh', this.refreshEventHandler.bind(this))
     // received user status
@@ -37,27 +40,27 @@ class RealtimeClientConnection {
     this.socket.on('permission', this.permissionChangeEventHandler.bind(this))
   }
 
-  isUserLoggedIn () {
+  isUserLoggedIn() {
     return this.socket.request.user && this.socket.request.user.logged_in
   }
 
-  isNoteAndUserExists () {
+  isNoteAndUserExists() {
     const note = this.realtime.getNoteFromNotePool(this.socket.noteId)
     const user = this.realtime.getUserFromUserPool(this.socket.id)
     return note && user
   }
 
-  isNoteOwner () {
+  isNoteOwner() {
     const note = this.getCurrentNote()
     return get(note, 'owner') === this.getCurrentLoggedInUserId()
   }
 
-  isAnonymousEnable () {
+  isAnonymousEnable() {
     // TODO: move this method to config module
     return config.allowAnonymous || config.allowAnonymousEdits
   }
 
-  getAvailablePermissions () {
+  getAvailablePermissions() {
     // TODO: move this method to config module
     const availablePermission = Object.assign({}, config.permission)
     if (!config.allowAnonymous && !config.allowAnonymousViews) {
@@ -70,31 +73,31 @@ class RealtimeClientConnection {
     return availablePermission
   }
 
-  getCurrentUser () {
+  getCurrentUser() {
     if (!this.socket.id) return
     return this.realtime.getUserFromUserPool(this.socket.id)
   }
 
-  getCurrentLoggedInUserId () {
+  getCurrentLoggedInUserId() {
     return get(this.socket, 'request.user.id')
   }
 
-  getCurrentNote () {
+  getCurrentNote() {
     if (!this.socket.noteId) return
     return this.realtime.getNoteFromNotePool(this.socket.noteId)
   }
 
-  getNoteChannel () {
+  getNoteChannel() {
     return this.socket.broadcast.to(this.socket.noteId)
   }
 
-  async destroyNote (id) {
+  async destroyNote(id) {
     return models.Note.destroy({
-      where: { id: id }
+      where: {id: id}
     })
   }
 
-  async changeNotePermission (newPermission) {
+  async changeNotePermission(newPermission) {
     const [changedRows] = await models.Note.update({
       permission: newPermission
     }, {
@@ -107,7 +110,7 @@ class RealtimeClientConnection {
     }
   }
 
-  notifyPermissionChanged () {
+  notifyPermissionChanged() {
     this.realtime.io.to(this.getCurrentNote().id).emit('permission', {
       permission: this.getCurrentNote().permission
     })
@@ -125,18 +128,18 @@ class RealtimeClientConnection {
     })
   }
 
-  refreshEventHandler () {
+  refreshEventHandler() {
     this.realtime.emitRefresh(this.socket)
   }
 
-  checkVersionEventHandler () {
+  checkVersionEventHandler() {
     this.socket.emit('version', {
       version: config.fullversion,
       minimumCompatibleVersion: config.minimumCompatibleVersion
     })
   }
 
-  userStatusEventHandler (data) {
+  userStatusEventHandler(data) {
     if (!this.isNoteAndUserExists()) return
     const user = this.getCurrentUser()
     if (config.debug) {
@@ -149,7 +152,7 @@ class RealtimeClientConnection {
     this.realtime.emitUserStatus(this.socket)
   }
 
-  userChangedEventHandler () {
+  userChangedEventHandler() {
     logger.info('user changed')
 
     const note = this.getCurrentNote()
@@ -161,7 +164,7 @@ class RealtimeClientConnection {
     this.realtime.emitOnlineUsers(this.socket)
   }
 
-  onlineUsersEventHandler () {
+  onlineUsersEventHandler() {
     if (!this.isNoteAndUserExists()) return
 
     const currentNote = this.getCurrentNote()
@@ -174,7 +177,7 @@ class RealtimeClientConnection {
     })
   }
 
-  cursorFocusEventHandler (data) {
+  cursorFocusEventHandler(data) {
     if (!this.isNoteAndUserExists()) return
     const user = this.getCurrentUser()
     user.cursor = data
@@ -182,7 +185,7 @@ class RealtimeClientConnection {
     this.getNoteChannel().emit('cursor focus', out)
   }
 
-  cursorActivityEventHandler (data) {
+  cursorActivityEventHandler(data) {
     if (!this.isNoteAndUserExists()) return
     const user = this.getCurrentUser()
     user.cursor = data
@@ -190,7 +193,7 @@ class RealtimeClientConnection {
     this.getNoteChannel().emit('cursor activity', out)
   }
 
-  cursorBlurEventHandler () {
+  cursorBlurEventHandler() {
     if (!this.isNoteAndUserExists()) return
     const user = this.getCurrentUser()
     user.cursor = null
@@ -199,7 +202,7 @@ class RealtimeClientConnection {
     })
   }
 
-  deleteNoteEventHandler () {
+  deleteNoteEventHandler() {
     // need login to do more actions
     if (this.isUserLoggedIn() && this.isNoteAndUserExists()) {
       const note = this.getCurrentNote()
@@ -217,7 +220,7 @@ class RealtimeClientConnection {
     }
   }
 
-  permissionChangeEventHandler (permission) {
+  permissionChangeEventHandler(permission) {
     if (!this.isUserLoggedIn()) return
     if (!this.isNoteAndUserExists()) return
 
@@ -234,7 +237,7 @@ class RealtimeClientConnection {
       .catch(err => logger.error('update note permission failed: ' + err))
   }
 
-  disconnectEventHandler () {
+  disconnectEventHandler() {
     if (this.realtime.disconnectProcessQueue.checkTaskIsInQueue(this.socket.id)) {
       return
     }
