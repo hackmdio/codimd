@@ -1,9 +1,9 @@
-'use strict'
+import * as realtime from "../realtime/realtime";
 
-const realtime = require('../realtime/realtime')
-const config = require('../config')
+import * as config from "../config";
 
-exports.getStatus = async (req, res) => {
+
+export async function getStatus(req, res) {
   res.set({
     'Cache-Control': 'private', // only cache by client
     'X-Robots-Tag': 'noindex, nofollow', // prevent crawling
@@ -19,7 +19,7 @@ exports.getStatus = async (req, res) => {
   }
 }
 
-exports.getMetrics = async (req, res) => {
+export async function getMetrics(req, res) {
   const data = await realtime.getStatus()
 
   res.set({
@@ -30,7 +30,7 @@ exports.getMetrics = async (req, res) => {
   res.render('../js/lib/common/metrics.ejs', data)
 }
 
-exports.getConfig = (req, res) => {
+export function getConfig(req, res) {
   const data = {
     domain: config.domain,
     urlpath: config.urlPath,
