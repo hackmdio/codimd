@@ -1,12 +1,11 @@
 'use strict'
 // external modules
-var DiffMatchPatch = require('@hackmd/diff-match-patch')
-var dmp = new DiffMatchPatch()
-
+import * as DiffMatchPatch from "@hackmd/diff-match-patch";
 // core
-var config = require('../config')
-var logger = require('../logger')
+import * as config from "../config";
+import * as logger from "../logger";
 
+var dmp = new DiffMatchPatch()
 process.on('message', function (data) {
   if (!data || !data.msg || !data.cacheKey) {
     return logger.error('dmp worker error: not enough data')
