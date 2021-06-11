@@ -1,10 +1,10 @@
 'use strict'
 
-const models = require('../models')
-const config = require('../config')
-const logger = require('../logger')
+import * as models from "../models";
+import * as config from "../config";
+import * as logger from "../logger";
 
-exports.setReturnToFromReferer = function setReturnToFromReferer (req) {
+export function setReturnToFromReferer(req) {
   if (!req.session) req.session = {}
 
   var referer = req.get('referer')
@@ -30,7 +30,7 @@ exports.setReturnToFromReferer = function setReturnToFromReferer (req) {
   }
 }
 
-exports.passportGeneralCallback = function callback (accessToken, refreshToken, profile, done) {
+export function passportGeneralCallback(accessToken, refreshToken, profile, done) {
   var stringifiedProfile = JSON.stringify(profile)
   models.User.findOrCreate({
     where: {
@@ -58,11 +58,15 @@ exports.passportGeneralCallback = function callback (accessToken, refreshToken, 
       }
       if (needSave) {
         user.save().then(function () {
-          if (config.debug) { logger.info('user login: ' + user.id) }
+          if (config.debug) {
+            logger.info('user login: ' + user.id)
+          }
           return done(null, user)
         })
       } else {
-        if (config.debug) { logger.info('user login: ' + user.id) }
+        if (config.debug) {
+          logger.info('user login: ' + user.id)
+        }
         return done(null, user)
       }
     }
