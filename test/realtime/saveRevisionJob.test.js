@@ -8,23 +8,22 @@ const { removeModuleFromRequireCache, removeLibModuleCache } = require('./utils'
 
 describe('save revision job', function () {
   let clock
-  let mockModels
+  let noteService
   let realtime
   beforeEach(() => {
     removeLibModuleCache()
-    mockModels = {
-      Revision: {
-        saveAllNotesRevision: sinon.stub()
-      }
-    }
     clock = sinon.useFakeTimers()
+    noteService = {
+      saveAllNotesRevision: sinon.stub()
+    }
     mock('../../dist/processQueue', require('../testDoubles/ProcessQueueFake'))
     mock('../../dist/logger', {
       error: () => {},
       info: () => {}
     })
     mock('../../dist/history', {})
-    mock('../../dist/models', mockModels)
+    mock('../../dist/models', {  })
+    mock('../../dist/services/note', noteService)
     mock('../../dist/config', {
       debug: true
     })
@@ -41,28 +40,28 @@ describe('save revision job', function () {
   })
 
   it('should execute save revision job every 5 min', (done) => {
-    mockModels.Revision.saveAllNotesRevision.callsFake((callback) => {
+    noteService.saveAllNotesRevision.callsFake((callback) => {
       callback(null, [])
     })
     realtime = require('../../dist/realtime/realtime')
     clock.tick(5 * 60 * 1000)
     clock.restore()
     setTimeout(() => {
-      assert(mockModels.Revision.saveAllNotesRevision.called)
+      assert(noteService.saveAllNotesRevision.called)
       assert(realtime.saveRevisionJob.getSaverSleep() === true)
       done()
     }, 50)
   })
 
   it('should not set saverSleep when more than 1 note save revision', (done) => {
-    mockModels.Revision.saveAllNotesRevision.callsFake((callback) => {
+    noteService.saveAllNotesRevision.callsFake((callback) => {
       callback(null, [1])
     })
     realtime = require('../../dist/realtime/realtime')
     clock.tick(5 * 60 * 1000)
     clock.restore()
     setTimeout(() => {
-      assert(mockModels.Revision.saveAllNotesRevision.called)
+      assert(noteService.saveAllNotesRevision.called)
       assert(realtime.saveRevisionJob.getSaverSleep() === false)
       done()
     }, 50)

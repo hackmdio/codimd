@@ -4,6 +4,7 @@
 const assert = require('assert')
 const mock = require('mock-require')
 const sinon = require('sinon')
+const { createFakeLogger } = require('../testDoubles/loggerFake')
 const { removeModuleFromRequireCache, makeMockSocket, removeLibModuleCache } = require('./utils')
 
 describe('realtime#update note is dirty timer', function () {
@@ -15,16 +16,11 @@ describe('realtime#update note is dirty timer', function () {
     clock = sinon.useFakeTimers({
       toFake: ['setInterval']
     })
-    mock('../../dist/logger', {
-      error: () => {
-      }
-    })
+    mock('../../dist/logger', createFakeLogger())
     mock('../../dist/history', {})
-    mock('../../dist/models', {
-      Revision: {
-        saveAllNotesRevision: () => {
-        }
-      }
+    mock('../../dist/models', {})
+    mock('../../dist/services/note', {
+      saveAllNotesRevision: () => {}
     })
     mock('../../dist/config', {})
     realtime = require('../../dist/realtime/realtime')

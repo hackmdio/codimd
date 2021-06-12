@@ -19,11 +19,10 @@ describe('realtime#disconnect', function () {
       error: () => {
       }
     })
+    mock('../../dist/models', {})
     mock('../../dist/history', {})
-    mock('../../dist/models', {
-      Revision: {
-        saveAllNotesRevision: () => {
-        }
+    mock('../../dist/services/note', {
+      saveAllNotesRevision: () => {
       }
     })
     mock('../../dist/config', {})

@@ -4,6 +4,7 @@
 const assert = require('assert')
 const mock = require('mock-require')
 const sinon = require('sinon')
+const { createFakeLogger } = require('../testDoubles/loggerFake')
 
 const { makeMockSocket, removeModuleFromRequireCache } = require('./utils')
 
@@ -64,16 +65,15 @@ describe('realtime#socket event', function () {
         locked: 'locked',
         protected: 'protected',
         private: 'private'
-      }
-    }
-    mock('../../dist/logger', {
-      error: () => {
       },
-      info: () => {
-      }
-    })
+      db: {}
+    }
+    mock('../../dist/logger', createFakeLogger())
     mock('../../dist/history', {})
     mock('../../dist/models', modelsMock)
+    mock('../../dist/services/note', {
+      saveAllNotesRevision: () => {}
+    })
     mock('../../dist/config', configMock)
     mock('ot', require('../testDoubles/otFake'))
     realtime = require('../../dist/realtime/realtime')

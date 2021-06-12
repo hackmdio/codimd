@@ -4,26 +4,24 @@
 const assert = require('assert')
 const mock = require('mock-require')
 const sinon = require('sinon')
+const { createFakeLogger } = require('../testDoubles/loggerFake')
 const { removeModuleFromRequireCache, makeMockSocket } = require('./utils')
 
 describe('cleanDanglingUser', function () {
   let clock
   beforeEach(() => {
     clock = sinon.useFakeTimers()
+    mock('../../dist/models', {})
     mock('../../dist/processQueue', require('../testDoubles/ProcessQueueFake'))
-    mock('../../dist/logger', {
-      error: () => {},
-      info: () => {}
-    })
+    mock('../../dist/logger', createFakeLogger())
     mock('../../dist/history', {})
-    mock('../../dist/models', {
-      Revision: {
-        saveAllNotesRevision: () => {
-        }
+    mock('../../dist/services/note', {
+      saveAllNotesRevision: () => {
       }
     })
     mock('../../dist/config', {
-      debug: true
+      debug: true,
+      db: {}
     })
     mock('../../dist/realtimeUpdateDirtyNoteJob', require('../testDoubles/realtimeJobStub'))
     mock('../../dist/realtimeSaveRevisionJob', require('../testDoubles/realtimeJobStub'))

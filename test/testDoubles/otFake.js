@@ -12,6 +12,8 @@ class EditorSocketIOServerFake {
     this.setColor = sinon.stub()
     this.getClient = sinon.stub()
     this.onDisconnect = sinon.stub()
+    this.setLogger = sinon.stub()
+    this.setDocumentMaxLength = sinon.stub()
   }
 }
 
