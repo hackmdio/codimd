@@ -1,6 +1,6 @@
 import {Router} from "express";
 import * as  passport from "passport";
-import * as validator from "validator";
+import validator from "validator";
 import {Strategy as LocalStrategy} from 'passport-local';
 
 import * as config from '../../config';
