@@ -1,9 +1,9 @@
 const path = require('path')
-const config = require('./lib/config')
+const config = require('./dist/config')
 
 module.exports = {
   config: path.resolve('config.js'),
-  'migrations-path': path.resolve('lib', 'migrations'),
-  'models-path': path.resolve('lib', 'models'),
+  'migrations-path': path.resolve('dist', 'migrations'),
+  'models-path': path.resolve('dist', 'models'),
   url: config.dbURL
 }
