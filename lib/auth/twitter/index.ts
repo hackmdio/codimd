@@ -1,5 +1,5 @@
 import {Router} from "express";
-import passport from "passport";
+import * as passport from "passport";
 import {Strategy as TwitterStrategy} from "passport-twitter";
 
 import * as config from "../../config";
