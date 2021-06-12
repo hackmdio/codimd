@@ -46,7 +46,7 @@ merge(config, require('./environment'))
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 merge(config, require('./dockerSecret'))
 
-if (['debug', 'verbose', 'info', 'warn', 'error'].includes(config.loglevel)) {
+if (['debug', 'verbose', 'http', 'info', 'warn', 'error'].includes(config.loglevel)) {
   logger.setLevel(config.loglevel)
 } else {
   logger.error('Selected loglevel %s doesn\'t exist, using default level \'debug\'. Available options: debug, verbose, info, warn, error', config.loglevel)
@@ -213,7 +213,7 @@ config.tmpPath = path.resolve(appRootPath, config.tmpPath)
 config.defaultNotePath = path.resolve(appRootPath, config.defaultNotePath)
 config.docsPath = path.resolve(appRootPath, config.docsPath)
 config.uploadsPath = path.resolve(appRootPath, config.uploadsPath)
-
+config.env = env
 // make config readonly
 config = deepFreeze(config) as any
 

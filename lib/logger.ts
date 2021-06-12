@@ -1,7 +1,10 @@
 import {createLogger, format, transports, Logger} from "winston";
 
+
 type CodiMDLogger = Logger & {
-  stream: any
+  morganLog?: {
+    write: (message: string) => void
+  }
   setLevel?: (string) => void
 }
 
@@ -23,7 +26,6 @@ if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
 }
 
 const logger: CodiMDLogger = createLogger({
-  level: 'debug',
   format: defaultFormatter,
   transports: [
     new transports.Console({
@@ -33,9 +35,10 @@ const logger: CodiMDLogger = createLogger({
   exitOnError: false
 })
 
-logger.stream = {
-  write: function (message, encoding) {
-    logger.info(message)
+// for morgan used
+logger.morganLog = {
+  write: buffer => {
+    logger.http(buffer.trim())
   }
 }
 

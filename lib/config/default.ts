@@ -5,7 +5,7 @@ const defaultConfig = {
   urlPath: '',
   host: '0.0.0.0',
   port: 3000,
-  loglevel: 'info',
+  loglevel: 'http',
   urlAddPort: false,
   allowOrigin: ['localhost'],
   useSSL: false,

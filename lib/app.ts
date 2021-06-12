@@ -75,8 +75,9 @@ app.use(expressPrometheusMetricsMiddleware({
 }))
 
 // logger
-app.use(morgan('combined', {
-  stream: logger.stream
+const morganLogType = config.env === config.Environment.development ? 'dev' : 'combined'
+app.use(morgan(morganLogType, {
+  stream: logger.morganLog,
 }))
 
 // socket io
@@ -338,6 +339,7 @@ function handleTermSignals() {
     process.exit(1)
   }, 5000)
 }
+
 process.on('SIGINT', handleTermSignals)
 process.on('SIGTERM', handleTermSignals)
 process.on('SIGQUIT', handleTermSignals)
