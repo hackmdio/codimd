@@ -32,3 +32,4 @@ public/uploads/*
 .vscode/settings.json
 
 /dist
+lib/**/*.js

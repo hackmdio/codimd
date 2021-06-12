@@ -85,4 +85,4 @@ appRouter.get('/:noteId/:action', noteController.noteActions)
 // note actions with action id
 appRouter.get('/:noteId/:action/:actionId', noteController.noteActions)
 
-exports.router = appRouter
+export const router = appRouter

@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 
 import * as config from "../config";
 
-export = function (req: Request, res: Response, next) {
+export default function (req: Request, res: Response, next) {
   if (req.method === 'GET' && req.path.substr(-1) === '/' && req.path.length > 1) {
     const queryString = req.url.slice(req.path.length)
     const urlPath = req.path.slice(0, -1)

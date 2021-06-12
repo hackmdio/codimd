@@ -10,4 +10,4 @@ const appRouter = Router()
 appRouter.get('/status', wrap(statusController.getStatus))
 appRouter.get('/metrics/codimd', wrap(statusController.getMetrics))
 
-exports.router = appRouter
+export const router = appRouter

@@ -25,8 +25,16 @@ import {SaveRevisionJob} from "./realtimeSaveRevisionJob";
 
 const chance = new Chance()
 
-export const io = null
-export const maintenance = true
+export let io = null
+export let maintenance = true
+
+export function setSocketIo(socketIO) {
+  io = socketIO
+}
+
+export function setMaintenance(isMaintenance) {
+  maintenance = isMaintenance
+}
 
 // public
 const connectProcessQueue = new ProcessQueue({})

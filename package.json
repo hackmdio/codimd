@@ -18,7 +18,7 @@
     "build": "webpack --config webpack.prod.js --display errors-only -p",
     "dev": "webpack --config webpack.dev.js --progress --colors --watch",
     "doctoc": "doctoc --title='# Table of Contents' README.md",
-    "lint": "standard && eslint lib/**",
+    "lint": "standard ./public && eslint --quiet lib/**/*.ts lib/app.ts",
     "jsonlint": "find . -type f -not -ipath \"./node_modules/*\" -not -ipath \"./.vscode/*\" \\( -name \"*.json\" -o -name \"*.json.*\" \\) | xargs -n 1 -I{} -- bash -c 'echo {}; jq . {} > /dev/null;'",
     "start": "sequelize db:migrate && node app.js",
     "mocha": "mocha --require intelli-espower-loader --exit ./test --recursive",

@@ -5,7 +5,7 @@ import * as response from "../response";
 
 toobusy.maxLag(config.responseMaxLag)
 
-export = function (req, res, next) {
+export default function (req, res, next) {
   if (toobusy()) {
     response.errorServiceUnavailable(req, res)
   } else {
