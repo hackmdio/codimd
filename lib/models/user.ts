@@ -1,13 +1,13 @@
 'use strict'
 // external modules
-var Sequelize = require('sequelize')
-var Scrypt = require('scrypt-kdf')
+import * as Sequelize from "sequelize";
 
+import * as Scrypt from "scrypt-kdf";
 // core
-var logger = require('../logger')
-var { generateAvatarURL } = require('../letter-avatars')
+import * as logger from "../logger";
+import {generateAvatarURL} from "../letter-avatars";
 
-module.exports = function (sequelize, DataTypes) {
+export = function (sequelize, DataTypes) {
   var User = sequelize.define('User', {
     id: {
       type: DataTypes.UUID,
@@ -118,7 +118,7 @@ module.exports = function (sequelize, DataTypes) {
         const photoURL = new URL(profile.photos && profile.photos[0]
           ? profile.photos[0].value
           : `https://avatars.githubusercontent.com/u/${profile.id}`)
-        photoURL.searchParams.set('s', bigger ? 400 : 96)
+        photoURL.searchParams.set('s', (bigger ? 400 : 96).toString())
         photo = photoURL.toString()
         break
       case 'gitlab':
