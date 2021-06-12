@@ -10,34 +10,34 @@ describe('cleanDanglingUser', function () {
   let clock
   beforeEach(() => {
     clock = sinon.useFakeTimers()
-    mock('../../lib/processQueue', require('../testDoubles/ProcessQueueFake'))
-    mock('../../lib/logger', {
+    mock('../../dist/processQueue', require('../testDoubles/ProcessQueueFake'))
+    mock('../../dist/logger', {
       error: () => {},
       info: () => {}
     })
-    mock('../../lib/history', {})
-    mock('../../lib/models', {
+    mock('../../dist/history', {})
+    mock('../../dist/models', {
       Revision: {
         saveAllNotesRevision: () => {
         }
       }
     })
-    mock('../../lib/config', {
+    mock('../../dist/config', {
       debug: true
     })
-    mock('../../lib/realtimeUpdateDirtyNoteJob', require('../testDoubles/realtimeJobStub'))
-    mock('../../lib/realtimeSaveRevisionJob', require('../testDoubles/realtimeJobStub'))
+    mock('../../dist/realtimeUpdateDirtyNoteJob', require('../testDoubles/realtimeJobStub'))
+    mock('../../dist/realtimeSaveRevisionJob', require('../testDoubles/realtimeJobStub'))
   })
 
   afterEach(() => {
     clock.restore()
-    removeModuleFromRequireCache('../../lib/realtime/realtime')
+    removeModuleFromRequireCache('../../dist/realtime/realtime')
     mock.stopAll()
     sinon.restore()
   })
 
   it('should call queueForDisconnectSpy when user is dangling', (done) => {
-    const realtime = require('../../lib/realtime/realtime')
+    const realtime = require('../../dist/realtime/realtime')
     const queueForDisconnectSpy = sinon.spy(realtime, 'queueForDisconnect')
     realtime.io = {
       to: sinon.stub().callsFake(function () {

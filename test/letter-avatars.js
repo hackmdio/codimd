@@ -14,8 +14,8 @@ describe('generateAvatarURL() gravatar enabled', function () {
       serverURL: 'http://localhost:3000',
       port: 3000
     }
-    mock('../lib/config', testconfig)
-    avatars = mock.reRequire('../lib/letter-avatars')
+    mock('../dist/config', testconfig)
+    avatars = mock.reRequire('../dist/letter-avatars')
   })
 
   it('should return correct urls', function () {
@@ -37,8 +37,8 @@ describe('generateAvatarURL() gravatar disabled', function () {
       serverURL: 'http://localhost:3000',
       port: 3000
     }
-    mock('../lib/config', testconfig)
-    avatars = mock.reRequire('../lib/letter-avatars')
+    mock('../dist/config', testconfig)
+    avatars = mock.reRequire('../dist/letter-avatars')
   })
 
   it('should return correct urls', function () {

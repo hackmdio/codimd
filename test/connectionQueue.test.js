@@ -4,7 +4,7 @@
 const assert = require('assert')
 const sinon = require('sinon')
 
-const { ProcessQueue } = require('../lib/realtime/processQueue')
+const { ProcessQueue } = require('../dist/realtime/processQueue')
 
 describe('ProcessQueue', function () {
   let clock

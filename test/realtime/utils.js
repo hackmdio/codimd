@@ -38,8 +38,9 @@ function makeMockSocket (headers, query) {
 function removeModuleFromRequireCache (modulePath) {
   delete require.cache[require.resolve(modulePath)]
 }
+
 function removeLibModuleCache () {
-  const libPath = path.resolve(path.join(__dirname, '../../lib'))
+  const libPath = path.resolve(path.join(__dirname, '../../dist'))
   Object.keys(require.cache).forEach(key => {
     if (key.startsWith(libPath)) {
       delete require.cache[require.resolve(key)]

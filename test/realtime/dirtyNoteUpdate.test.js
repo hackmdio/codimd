@@ -15,19 +15,19 @@ describe('realtime#update note is dirty timer', function () {
     clock = sinon.useFakeTimers({
       toFake: ['setInterval']
     })
-    mock('../../lib/logger', {
+    mock('../../dist/logger', {
       error: () => {
       }
     })
-    mock('../../lib/history', {})
-    mock('../../lib/models', {
+    mock('../../dist/history', {})
+    mock('../../dist/models', {
       Revision: {
         saveAllNotesRevision: () => {
         }
       }
     })
-    mock('../../lib/config', {})
-    realtime = require('../../lib/realtime/realtime')
+    mock('../../dist/config', {})
+    realtime = require('../../dist/realtime/realtime')
 
     realtime.io = {
       to: sinon.stub().callsFake(function () {
@@ -39,8 +39,8 @@ describe('realtime#update note is dirty timer', function () {
   })
 
   afterEach(() => {
-    removeModuleFromRequireCache('../../lib/realtime/realtimeUpdateDirtyNoteJob')
-    removeModuleFromRequireCache('../../lib/realtime/realtime')
+    removeModuleFromRequireCache('../../dist/realtime/realtimeUpdateDirtyNoteJob')
+    removeModuleFromRequireCache('../../dist/realtime/realtime')
     mock.stopAll()
     clock.restore()
   })

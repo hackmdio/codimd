@@ -18,24 +18,24 @@ describe('save revision job', function () {
       }
     }
     clock = sinon.useFakeTimers()
-    mock('../../lib/processQueue', require('../testDoubles/ProcessQueueFake'))
-    mock('../../lib/logger', {
+    mock('../../dist/processQueue', require('../testDoubles/ProcessQueueFake'))
+    mock('../../dist/logger', {
       error: () => {},
       info: () => {}
     })
-    mock('../../lib/history', {})
-    mock('../../lib/models', mockModels)
-    mock('../../lib/config', {
+    mock('../../dist/history', {})
+    mock('../../dist/models', mockModels)
+    mock('../../dist/config', {
       debug: true
     })
-    mock('../../lib/realtimeUpdateDirtyNoteJob', require('../testDoubles/realtimeJobStub'))
-    mock('../../lib/realtimeCleanDanglingUserJob', require('../testDoubles/realtimeJobStub'))
+    mock('../../dist/realtimeUpdateDirtyNoteJob', require('../testDoubles/realtimeJobStub'))
+    mock('../../dist/realtimeCleanDanglingUserJob', require('../testDoubles/realtimeJobStub'))
   })
 
   afterEach(() => {
     clock.restore()
-    removeModuleFromRequireCache('../../lib/realtime/realtime')
-    removeModuleFromRequireCache('../../lib/realtime/realtimeSaveRevisionJob')
+    removeModuleFromRequireCache('../../dist/realtime/realtime')
+    removeModuleFromRequireCache('../../dist/realtime/realtimeSaveRevisionJob')
     mock.stopAll()
     sinon.restore()
   })
@@ -44,7 +44,7 @@ describe('save revision job', function () {
     mockModels.Revision.saveAllNotesRevision.callsFake((callback) => {
       callback(null, [])
     })
-    realtime = require('../../lib/realtime/realtime')
+    realtime = require('../../dist/realtime/realtime')
     clock.tick(5 * 60 * 1000)
     clock.restore()
     setTimeout(() => {
@@ -58,7 +58,7 @@ describe('save revision job', function () {
     mockModels.Revision.saveAllNotesRevision.callsFake((callback) => {
       callback(null, [1])
     })
-    realtime = require('../../lib/realtime/realtime')
+    realtime = require('../../dist/realtime/realtime')
     clock.tick(5 * 60 * 1000)
     clock.restore()
     setTimeout(() => {

@@ -23,15 +23,15 @@ describe('realtime#connection', function () {
         User: {},
         Author: {}
       }
-      mock('../../lib/logger', createFakeLogger())
-      mock('../../lib/history', {})
-      mock('../../lib/models', modelStub)
-      mock('../../lib/config', {})
-      mock('../../lib/realtimeUpdateDirtyNoteJob', realtimeJobStub)
-      mock('../../lib/realtimeCleanDanglingUserJob', realtimeJobStub)
-      mock('../../lib/realtimeSaveRevisionJob', realtimeJobStub)
-      mock('../../lib/ot', require('../testDoubles/otFake'))
-      realtime = require('../../lib/realtime/realtime')
+      mock('../../dist/logger', createFakeLogger())
+      mock('../../dist/history', {})
+      mock('../../dist/models', modelStub)
+      mock('../../dist/config', {})
+      mock('../../dist/realtimeUpdateDirtyNoteJob', realtimeJobStub)
+      mock('../../dist/realtimeCleanDanglingUserJob', realtimeJobStub)
+      mock('../../dist/realtimeSaveRevisionJob', realtimeJobStub)
+      mock('../../dist/ot', require('../testDoubles/otFake'))
+      realtime = require('../../dist/realtime/realtime')
     })
 
     afterEach(() => {

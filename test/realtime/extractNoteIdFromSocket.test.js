@@ -8,20 +8,20 @@ const { makeMockSocket } = require('./utils')
 
 describe('realtime#extractNoteIdFromSocket', function () {
   beforeEach(() => {
-    mock('../../lib/logger', {})
-    mock('../../lib/history', {})
-    mock('../../lib/models', {})
+    mock('../../dist/logger', {})
+    mock('../../dist/history', {})
+    mock('../../dist/models', {})
   })
 
   afterEach(() => {
-    delete require.cache[require.resolve('../../lib/realtime/realtime')]
+    delete require.cache[require.resolve('../../dist/realtime/realtime')]
     mock.stopAll()
   })
 
   describe('urlPath not set', function () {
     beforeEach(() => {
-      mock('../../lib/config', {})
-      realtime = require('../../lib/realtime/realtime')
+      mock('../../dist/config', {})
+      realtime = require('../../dist/realtime/realtime')
     })
 
     let realtime
@@ -73,10 +73,10 @@ describe('realtime#extractNoteIdFromSocket', function () {
     it('return noteId from old method (referer) and urlPath set', function () {
       // Arrange
       const urlPath = 'hello'
-      mock('../../lib/config', {
+      mock('../../dist/config', {
         urlPath: urlPath
       })
-      realtime = require('../../lib/realtime/realtime')
+      realtime = require('../../dist/realtime/realtime')
       const incomingNoteId = 'myNoteId'
       const incomingSocket = makeMockSocket({
         referer: `https://localhost:3000/${urlPath}/${incomingNoteId}`

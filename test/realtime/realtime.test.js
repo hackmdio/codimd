@@ -39,18 +39,18 @@ describe('realtime', function () {
     let realtime
 
     beforeEach(() => {
-      mock('../../lib/logger', {
+      mock('../../dist/logger', {
         error: () => {
         }
       })
-      mock('../../lib/history', {})
-      mock('../../lib/models', {
+      mock('../../dist/history', {})
+      mock('../../dist/models', {
         Note: {
           parseNoteTitle: (data) => (data)
         }
       })
-      mock('../../lib/config', {})
-      realtime = require('../../lib/realtime/realtime')
+      mock('../../dist/config', {})
+      realtime = require('../../dist/realtime/realtime')
     })
 
     Object.keys(viewPermission).forEach(function (permission) {
