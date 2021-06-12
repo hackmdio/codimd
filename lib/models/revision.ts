@@ -71,7 +71,7 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
   length: number;
   patch: string;
 
-  public readonly createdAt ?:number
+  public readonly createdAt ?: number
 
   static initialize(sequelize: MySequelize): void {
     Revision.init({

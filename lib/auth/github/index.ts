@@ -9,7 +9,7 @@ import {URL} from "url";
 const githubAuth = Router()
 export = githubAuth
 
-function githubUrl (path) {
+function githubUrl(path) {
   return config.github.enterpriseURL && new URL(path, config.github.enterpriseURL).toString()
 }
 

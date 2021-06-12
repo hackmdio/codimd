@@ -1,7 +1,7 @@
 import {InternalOAuthError, Strategy} from "passport-oauth2";
 import config from "../../config";
 
-export function parseProfile (data) {
+export function parseProfile(data) {
   const username = extractProfileAttribute(data, config.oauth2.userProfileUsernameAttr)
   const displayName = extractProfileAttribute(data, config.oauth2.userProfileDisplayNameAttr)
   const email = extractProfileAttribute(data, config.oauth2.userProfileEmailAttr)
@@ -20,7 +20,7 @@ export function parseProfile (data) {
   }
 }
 
-export function extractProfileAttribute (data, path) {
+export function extractProfileAttribute(data, path) {
   if (!data) return undefined
   if (typeof path !== 'string') return undefined
   // can handle stuff like `attrs[0].name`
@@ -41,7 +41,8 @@ export function extractProfileAttribute (data, path) {
 
 export class OAuth2CustomStrategy extends Strategy {
   private _userProfileURL: any;
-  constructor (options, verify) {
+
+  constructor(options, verify) {
     options.customHeaders = options.customHeaders || {}
     super(options, verify)
     this.name = 'oauth2'
@@ -49,7 +50,7 @@ export class OAuth2CustomStrategy extends Strategy {
     this._oauth2.useAuthorizationHeaderforGET(true)
   }
 
-  userProfile (accessToken, done) {
+  userProfile(accessToken, done) {
     this._oauth2.get(this._userProfileURL, accessToken, function (err, body, res) {
       if (err) {
         return done(new InternalOAuthError('Failed to fetch user profile', err))
