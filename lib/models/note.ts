@@ -1,32 +1,31 @@
-'use strict'
 // external modules
-var fs = require('fs')
-var path = require('path')
-var LZString = require('@hackmd/lz-string')
-var base64url = require('base64url')
-var md = require('markdown-it')()
-var metaMarked = require('@hackmd/meta-marked')
-var cheerio = require('cheerio')
-var shortId = require('shortid')
-var Sequelize = require('sequelize')
-var async = require('async')
-var moment = require('moment')
-var DiffMatchPatch = require('@hackmd/diff-match-patch')
-var dmp = new DiffMatchPatch()
-
-const { stripTags } = require('../string')
+import * as fs from "fs";
+import * as path from "path";
+import * as LZString from "@hackmd/lz-string";
+import base64url from "base64url";
+import * as markdown_it from "markdown-it";
+import * as metaMarked from "@hackmd/meta-marked";
+import * as cheerio from "cheerio";
+import * as shortId from "shortid";
+import * as Sequelize from "sequelize";
+import * as async from "async";
+import * as moment from "moment";
+import * as DiffMatchPatch from "@hackmd/diff-match-patch";
 
 // core
-var config = require('../config')
-var logger = require('../logger')
+import * as config from "../config";
+import * as logger from "../logger";
+import {stripTags} from "../string";
 
 // ot
-var ot = require('../ot')
+import * as ot from "../ot";
 
+var md = markdown_it()
+var dmp = new DiffMatchPatch()
 // permission types
 var permissionTypes = ['freely', 'editable', 'limited', 'locked', 'protected', 'private']
 
-module.exports = function (sequelize, DataTypes) {
+export = function (sequelize, DataTypes) {
   var Note = sequelize.define('Note', {
     id: {
       type: DataTypes.UUID,
@@ -186,7 +185,11 @@ module.exports = function (sequelize, DataTypes) {
   Note.checkNoteIdValid = function (id) {
     var uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
     var result = id.match(uuidRegex)
-    if (result && result.length === 1) { return true } else { return false }
+    if (result && result.length === 1) {
+      return true
+    } else {
+      return false
+    }
   }
   Note.parseNoteIdAsync = function (noteId) {
     return new Promise((resolve, reject) => {
@@ -199,7 +202,7 @@ module.exports = function (sequelize, DataTypes) {
     })
   }
 
-  async function syncNote (noteInFS, note) {
+  async function syncNote(noteInFS, note) {
     const contentLength = noteInFS.content.length
 
     let note2 = await note.update({
@@ -276,7 +279,11 @@ module.exports = function (sequelize, DataTypes) {
         // try to parse note id by LZString Base64
         try {
           var id = LZString.decompressFromBase64(noteId)
-          if (id && Note.checkNoteIdValid(id)) { return callback(null, id) } else { return _callback(null, null) }
+          if (id && Note.checkNoteIdValid(id)) {
+            return callback(null, id)
+          } else {
+            return _callback(null, null)
+          }
         } catch (err) {
           if (err.message === 'Cannot read property \'charAt\' of undefined') {
             logger.warning('Looks like we can not decode "' + noteId + '" with LZString. Can be ignored.')
@@ -290,7 +297,11 @@ module.exports = function (sequelize, DataTypes) {
         // try to parse note id by base64url
         try {
           var id = Note.decodeNoteId(noteId)
-          if (id && Note.checkNoteIdValid(id)) { return callback(null, id) } else { return _callback(null, null) }
+          if (id && Note.checkNoteIdValid(id)) {
+            return callback(null, id)
+          } else {
+            return _callback(null, null)
+          }
         } catch (err) {
           logger.error(err)
           return _callback(null, null)
@@ -344,7 +355,9 @@ module.exports = function (sequelize, DataTypes) {
       title = meta.title
     } else {
       var h1s = $('h1')
-      if (h1s.length > 0 && h1s.first().text().split('\n').length === 1) { title = stripTags(h1s.first().text()) }
+      if (h1s.length > 0 && h1s.first().text().split('\n').length === 1) {
+        title = stripTags(h1s.first().text())
+      }
     }
     if (!title) title = 'Untitled'
     return title
@@ -393,7 +406,9 @@ module.exports = function (sequelize, DataTypes) {
           break
         }
       }
-      if (!found) { tags.push(rawtags[i]) }
+      if (!found) {
+        tags.push(rawtags[i])
+      }
     }
     return tags
   }
@@ -412,14 +427,26 @@ module.exports = function (sequelize, DataTypes) {
     return obj
   }
   Note.parseMeta = function (meta) {
-    var _meta = {}
+    var _meta: any = {}
     if (meta) {
-      if (meta.title && (typeof meta.title === 'string' || typeof meta.title === 'number')) { _meta.title = meta.title }
-      if (meta.description && (typeof meta.description === 'string' || typeof meta.description === 'number')) { _meta.description = meta.description }
-      if (meta.robots && (typeof meta.robots === 'string' || typeof meta.robots === 'number')) { _meta.robots = meta.robots }
-      if (meta.GA && (typeof meta.GA === 'string' || typeof meta.GA === 'number')) { _meta.GA = meta.GA }
-      if (meta.disqus && (typeof meta.disqus === 'string' || typeof meta.disqus === 'number')) { _meta.disqus = meta.disqus }
-      if (meta.slideOptions && (typeof meta.slideOptions === 'object')) { _meta.slideOptions = meta.slideOptions }
+      if (meta.title && (typeof meta.title === 'string' || typeof meta.title === 'number')) {
+        _meta.title = meta.title
+      }
+      if (meta.description && (typeof meta.description === 'string' || typeof meta.description === 'number')) {
+        _meta.description = meta.description
+      }
+      if (meta.robots && (typeof meta.robots === 'string' || typeof meta.robots === 'number')) {
+        _meta.robots = meta.robots
+      }
+      if (meta.GA && (typeof meta.GA === 'string' || typeof meta.GA === 'number')) {
+        _meta.GA = meta.GA
+      }
+      if (meta.disqus && (typeof meta.disqus === 'string' || typeof meta.disqus === 'number')) {
+        _meta.disqus = meta.disqus
+      }
+      if (meta.slideOptions && (typeof meta.slideOptions === 'object')) {
+        _meta.slideOptions = meta.slideOptions
+      }
     }
     return _meta
   }
@@ -584,7 +611,7 @@ module.exports = function (sequelize, DataTypes) {
     return operations
   }
 
-  function readFileSystemNote (filePath) {
+  function readFileSystemNote(filePath) {
     const fsModifiedTime = moment(fs.statSync(filePath).mtime)
     const content = fs.readFileSync(filePath, 'utf8')
 
@@ -595,7 +622,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }
 
-  function shouldSyncNote (note, noteInFS) {
+  function shouldSyncNote(note, noteInFS) {
     const dbModifiedTime = moment(note.lastchangeAt || note.createdAt)
     return noteInFS.lastchangeAt.isAfter(dbModifiedTime) && note.content !== noteInFS.content
   }
