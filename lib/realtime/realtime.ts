@@ -533,7 +533,10 @@ export function queueForDisconnect(socket) {
       if (Object.keys(note.users).length === 0) {
         if (note.server.isDirty) {
           exports.updateNote(note, function (err, _note) {
-            if (err) return logger.error('disconnect note failed: ' + err)
+            if (err) {
+              logger.error('disconnect note failed: ' + err)
+              return
+            }
             // clear server before delete to avoid memory leaks
             note.server.document = ''
             note.server.operations = []
@@ -657,7 +660,7 @@ function operationCallback(socket, operation) {
 }
 
 // TODO: test it
-export function updateHistory(userId, note, time) {
+export function updateHistory(userId, note, time?: any) {
   var noteId = note.alias ? note.alias : models.Note.encodeNoteId(note.id)
   if (note.server) history.updateHistory(userId, noteId, note.server.document, time)
 }
@@ -687,7 +690,7 @@ function getUniqueColorPerNote(noteId, maxAttempt = 10) {
 function queueForConnect(socket) {
   connectProcessQueue.push(socket.id, async function () {
     try {
-      const noteId = await exports.parseNoteIdFromSocketAsync(socket)
+      const noteId = await exports.parseNoteIdFromSocketAsync(socket) as string
       if (!noteId) {
         return exports.failConnection(404, 'note id not found', socket)
       }

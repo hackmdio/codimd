@@ -23,7 +23,8 @@ function createDmpWorker() {
   if (config.debug) logger.info('dmp worker process started')
   worker.on('message', function (data) {
     if (!data || !data.msg || !data.cacheKey) {
-      return logger.error('dmp worker error: not enough data on message')
+      logger.error('dmp worker error: not enough data on message')
+      return
     }
     var cacheKey = data.cacheKey
     switch (data.msg) {

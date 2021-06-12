@@ -30,7 +30,9 @@ export class SaveRevisionJob {
   saveRevision() {
     if (this.getSaverSleep()) return
     models.Revision.saveAllNotesRevision((err, notes) => {
-      if (err) return logger.error('revision saver failed: ' + err)
+      if (err) {
+        logger.error('revision saver failed: ' + err)
+      }
       if (notes && notes.length <= 0) {
         this.setSaverSleep(true)
       }

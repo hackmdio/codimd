@@ -8,12 +8,14 @@ import * as logger from "../logger";
 var dmp = new DiffMatchPatch()
 process.on('message', function (data) {
   if (!data || !data.msg || !data.cacheKey) {
-    return logger.error('dmp worker error: not enough data')
+    logger.error('dmp worker error: not enough data')
+    return null
   }
   switch (data.msg) {
     case 'create patch':
       if (!Object.hasOwnProperty.call(data, 'lastDoc') || !Object.hasOwnProperty.call(data, 'currDoc')) {
-        return logger.error('dmp worker error: not enough data on create patch')
+        logger.error('dmp worker error: not enough data on create patch')
+        return null
       }
       try {
         var patch = createPatch(data.lastDoc, data.currDoc)
@@ -52,9 +54,10 @@ process.on('message', function (data) {
       }
       break
   }
+  return null
 })
 
-function createPatch (lastDoc, currDoc) {
+function createPatch(lastDoc, currDoc) {
   var msStart = (new Date()).getTime()
   var diff = dmp.diff_main(lastDoc, currDoc)
   var patch = dmp.patch_make(lastDoc, diff)
@@ -67,7 +70,7 @@ function createPatch (lastDoc, currDoc) {
   return patch
 }
 
-function getRevision (revisions, count) {
+function getRevision(revisions, count) {
   var msStart = (new Date()).getTime()
   var startContent = null
   var lastPatch = []
@@ -91,7 +94,11 @@ function getRevision (revisions, count) {
     for (let i = 0, l = applyPatches.length; i < l; i++) {
       for (let j = 0, m = applyPatches[i].diffs.length; j < m; j++) {
         var diff = applyPatches[i].diffs[j]
-        if (diff[0] === DiffMatchPatch.DIFF_INSERT) { diff[0] = DiffMatchPatch.DIFF_DELETE } else if (diff[0] === DiffMatchPatch.DIFF_DELETE) { diff[0] = DiffMatchPatch.DIFF_INSERT }
+        if (diff[0] === DiffMatchPatch.DIFF_INSERT) {
+          diff[0] = DiffMatchPatch.DIFF_DELETE
+        } else if (diff[0] === DiffMatchPatch.DIFF_DELETE) {
+          diff[0] = DiffMatchPatch.DIFF_INSERT
+        }
       }
     }
   } else {

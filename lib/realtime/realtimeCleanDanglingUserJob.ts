@@ -45,7 +45,9 @@ export class CleanDanglingUserJob {
       }
       return callback(null, null)
     }, function (err) {
-      if (err) return logger.error('cleaner error', err)
+      if (err) {
+        logger.error('cleaner error', err)
+      }
     })
   }
 }
