@@ -664,9 +664,9 @@ function operationCallback(socket, operation) {
         return logger.error('operation callback failed: ' + err)
       })
     }
-    note.server.isDirty = true
     note.tempUsers[userId] = Date.now()
   }
+  note.server.isDirty = true
   // save authorship - use timer here because it's an O(n) complexity algorithm
   setImmediate(function () {
     note.authorship = Note.updateAuthorshipByOperation(operation, userId, note.authorship)
