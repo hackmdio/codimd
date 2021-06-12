@@ -479,6 +479,10 @@ function buildAuthorProfilesFromNote(noteAuthors) {
 
 function makeNewServerNote(note) {
   const authors = buildAuthorProfilesFromNote(note.authors)
+  const otServer = new ot.EditorSocketIOServer(note.content, [], note.id, ifMayEdit, operationCallback)
+  otServer.debug = config.debug
+  otServer.setLogger(logger)
+  otServer.setDocumentMaxLength(config.documentmaxlength)
 
   return {
     id: note.id,
@@ -494,7 +498,7 @@ function makeNewServerNote(note) {
     tempUsers: {},
     createtime: moment(note.createdAt).valueOf(),
     updatetime: moment(note.lastchangeAt).valueOf(),
-    server: new ot.EditorSocketIOServer(note.content, [], note.id, ifMayEdit, operationCallback),
+    server: otServer,
     authors: authors,
     authorship: note.authorship
   }
@@ -652,6 +656,7 @@ function operationCallback(socket, operation) {
         return logger.error('operation callback failed: ' + err)
       })
     }
+    note.server.isDirty = true
     note.tempUsers[userId] = Date.now()
   }
   // save authorship - use timer here because it's an O(n) complexity algorithm
