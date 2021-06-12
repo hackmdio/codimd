@@ -1,23 +1,22 @@
-'use strict'
 // external modules
-var Sequelize = require('sequelize')
-var async = require('async')
-var moment = require('moment')
-var childProcess = require('child_process')
-var shortId = require('shortid')
-var path = require('path')
-var util = require('util')
-
-var Op = Sequelize.Op
+import * as Sequelize from "sequelize";
+import * as  async from "async";
+import * as  moment from "moment";
+import * as  childProcess from "child_process";
+import * as  shortId from "shortid";
+import * as  path from "path";
+import * as  util from "util";
 
 // core
-var config = require('../config')
-var logger = require('../logger')
+import * as config from "../config";
+import * as logger from "../logger";
+
+var Op = Sequelize.Op
 
 var dmpWorker = createDmpWorker()
 var dmpCallbackCache = {}
 
-function createDmpWorker () {
+function createDmpWorker() {
   var worker = childProcess.fork(path.resolve(__dirname, '../workers/dmpWorker.js'), {
     stdio: 'ignore'
   })
@@ -44,7 +43,7 @@ function createDmpWorker () {
   return worker
 }
 
-function sendDmpWorker (data, callback) {
+function sendDmpWorker(data, callback) {
   if (!dmpWorker) dmpWorker = createDmpWorker()
   var cacheKey = Date.now() + '_' + shortId.generate()
   dmpCallbackCache[cacheKey] = callback
