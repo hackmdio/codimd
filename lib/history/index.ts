@@ -2,13 +2,13 @@
 // external modules
 import LZString from '@hackmd/lz-string'
 
-import * as models from '../models'
+import {Note, User} from '../models'
 import {logger} from '../logger'
 import config from '../config'
 import * as response from '../response'
 
-function getHistory (userid, callback) {
-  models.User.findOne({
+function getHistory(userid, callback) {
+  User.findOne({
     where: {
       id: userid
     }
@@ -32,8 +32,8 @@ function getHistory (userid, callback) {
         }
         try {
           const id = LZString.decompressFromBase64(history[i].id)
-          if (id && models.Note.checkNoteIdValid(id)) {
-            history[i].id = models.Note.encodeNoteId(id)
+          if (id && Note.checkNoteIdValid(id)) {
+            history[i].id = Note.encodeNoteId(id)
           }
         } catch (err) {
           // most error here comes from LZString, ignore
@@ -56,8 +56,8 @@ function getHistory (userid, callback) {
   })
 }
 
-function setHistory (userid, history, callback) {
-  models.User.update({
+function setHistory(userid, history, callback) {
+  User.update({
     history: JSON.stringify(parseHistoryToArray(history))
   }, {
     where: {
@@ -71,7 +71,7 @@ function setHistory (userid, history, callback) {
   })
 }
 
-export function updateHistory (userid, noteId, document?: string, time?: any) {
+export function updateHistory(userid, noteId, document?: string, time?: any) {
   if (userid && noteId && typeof document !== 'undefined') {
     getHistory(userid, function (err, history) {
       if (err || !history) return
@@ -79,7 +79,7 @@ export function updateHistory (userid, noteId, document?: string, time?: any) {
         history[noteId] = {}
       }
       const noteHistory = history[noteId]
-      const noteInfo = models.Note.parseNoteInfo(document)
+      const noteInfo = Note.parseNoteInfo(document)
       noteHistory.id = noteId
       noteHistory.text = noteInfo.title
       noteHistory.time = time || Date.now()
@@ -93,7 +93,7 @@ export function updateHistory (userid, noteId, document?: string, time?: any) {
   }
 }
 
-function parseHistoryToArray (history) {
+function parseHistoryToArray(history) {
   const _history = []
   Object.keys(history).forEach(function (key) {
     const item = history[key]
@@ -102,7 +102,7 @@ function parseHistoryToArray (history) {
   return _history
 }
 
-function parseHistoryToObject (history) {
+function parseHistoryToObject(history) {
   const _history = {}
   for (let i = 0, l = history.length; i < l; i++) {
     const item = history[i]
@@ -111,7 +111,7 @@ function parseHistoryToObject (history) {
   return _history
 }
 
-export function historyGet (req, res) {
+export function historyGet(req, res) {
   if (req.isAuthenticated()) {
     getHistory(req.user.id, function (err, history) {
       if (err) return response.errorInternalError(req, res)
@@ -125,12 +125,14 @@ export function historyGet (req, res) {
   }
 }
 
-export function historyPost (req, res) {
+export function historyPost(req, res) {
   if (req.isAuthenticated()) {
     const noteId = req.params.noteId
     if (!noteId) {
       if (typeof req.body.history === 'undefined') return response.errorBadRequest(req, res)
-      if (config.debug) { logger.info('SERVER received history from [' + req.user.id + ']: ' + req.body.history) }
+      if (config.debug) {
+        logger.info('SERVER received history from [' + req.user.id + ']: ' + req.body.history)
+      }
       let history = null
       try {
         history = JSON.parse(req.body.history)
@@ -167,7 +169,7 @@ export function historyPost (req, res) {
   }
 }
 
-export function historyDelete (req, res) {
+export function historyDelete(req, res) {
   if (req.isAuthenticated()) {
     const noteId = req.params.noteId
     if (!noteId) {

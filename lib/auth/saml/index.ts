@@ -4,7 +4,7 @@ import passport from "passport";
 import {Strategy as SamlStrategy} from "passport-saml";
 
 import config from "../../config";
-import * as models from "../../models";
+import {User} from "../../models";
 import {logger} from "../../logger";
 import {urlencodedParser} from "../../utils";
 
@@ -49,7 +49,7 @@ passport.use(new SamlStrategy({
     profile.emails.push(user.nameID)
   }
   const stringifiedProfile = JSON.stringify(profile)
-  models.User.findOrCreate({
+  User.findOrCreate({
     where: {
       profileid: profile.id.toString()
     },

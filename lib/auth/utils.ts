@@ -1,6 +1,6 @@
 'use strict'
 
-import * as models from "../models";
+import {User} from "../models";
 import config from "../config";
 import {logger} from "../logger";
 
@@ -32,7 +32,7 @@ export function setReturnToFromReferer(req) {
 
 export function passportGeneralCallback(accessToken, refreshToken, profile, done) {
   const stringifiedProfile = JSON.stringify(profile)
-  models.User.findOrCreate({
+  User.findOrCreate({
     where: {
       profileid: profile.id.toString()
     },

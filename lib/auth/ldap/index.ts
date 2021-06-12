@@ -3,7 +3,7 @@ import passport from "passport";
 import LDAPStrategy from "passport-ldapauth";
 
 import config from "../../config";
-import * as models from "../../models";
+import {User} from "../../models";
 import {logger} from "../../logger";
 import * as response from "../../response";
 import {setReturnToFromReferer} from "../utils";
@@ -50,7 +50,7 @@ passport.use(new LDAPStrategy({
     provider: 'ldap'
   }
   const stringifiedProfile = JSON.stringify(profile)
-  models.User.findOrCreate({
+  User.findOrCreate({
     where: {
       profileid: profile.id.toString()
     },

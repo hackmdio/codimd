@@ -4,7 +4,7 @@ import * as request from "request";
 // core
 import config from "./config";
 import {logger} from "./logger";
-import * as models from "./models";
+import {Note, User} from "./models";
 import {createNoteWithRevision} from "./services/note";
 import * as utils from "./utils";
 import * as  history from "./history";
@@ -51,10 +51,10 @@ export function responseError(res, code, detail, msg) {
 
 export function responseCodiMD(res, note) {
   const body = note.content
-  const extracted = models.Note.extractMeta(body)
-  const meta = models.Note.parseMeta(extracted.meta)
-  let title = models.Note.decodeTitle(note.title)
-  title = models.Note.generateWebTitle(meta.title || title)
+  const extracted = Note.extractMeta(body)
+  const meta = Note.parseMeta(extracted.meta)
+  let title = Note.decodeTitle(note.title)
+  title = Note.generateWebTitle(meta.title || title)
   res.set({
     'Cache-Control': 'private', // only cache by client
     'X-Robots-Tag': 'noindex, nofollow' // prevent crawling
@@ -65,7 +65,7 @@ export function responseCodiMD(res, note) {
 }
 
 function updateHistory(userId, note, document, time?: any) {
-  const noteId = note.alias ? note.alias : models.Note.encodeNoteId(note.id)
+  const noteId = note.alias ? note.alias : Note.encodeNoteId(note.id)
   history.updateHistory(userId, noteId, document, time)
   logger.info('history updated')
 }
@@ -93,7 +93,7 @@ export function newNote(req, res, next?: any) {
       updateHistory(owner, note, body)
     }
 
-    return res.redirect(config.serverURL + '/' + models.Note.encodeNoteId(note.id))
+    return res.redirect(config.serverURL + '/' + Note.encodeNoteId(note.id))
   }).catch(function (err) {
     logger.error(err)
     return errorInternalError(req, res)
@@ -131,12 +131,12 @@ export function checkViewPermission(req, note) {
 function findNote(req, res, callback, include?: any) {
   const noteId = req.params.noteId
   const id = req.params.noteId || req.params.shortid
-  models.Note.parseNoteId(id, function (err, _id) {
+  Note.parseNoteId(id, function (err, _id) {
     if (err) {
       logger.error(err)
       return errorInternalError(req, res)
     }
-    models.Note.findOne({
+    Note.findOne({
       where: {
         id: _id
       },
@@ -164,7 +164,7 @@ function findNote(req, res, callback, include?: any) {
 
 function actionDownload(req, res, note) {
   const body = note.content
-  const title = models.Note.decodeTitle(note.title)
+  const title = Note.decodeTitle(note.title)
   let filename = title
   filename = encodeURIComponent(filename)
   res.set({
@@ -187,7 +187,7 @@ export function publishNoteActions(req, res, next) {
         actionDownload(req, res, note)
         break
       case 'edit':
-        res.redirect(config.serverURL + '/' + (note.alias ? note.alias : models.Note.encodeNoteId(note.id)))
+        res.redirect(config.serverURL + '/' + (note.alias ? note.alias : Note.encodeNoteId(note.id)))
         break
       default:
         res.redirect(config.serverURL + '/s/' + note.shortid)
@@ -201,7 +201,7 @@ export function publishSlideActions(req, res, next) {
     const action = req.params.action
     switch (action) {
       case 'edit':
-        res.redirect(config.serverURL + '/' + (note.alias ? note.alias : models.Note.encodeNoteId(note.id)))
+        res.redirect(config.serverURL + '/' + (note.alias ? note.alias : Note.encodeNoteId(note.id)))
         break
       default:
         res.redirect(config.serverURL + '/p/' + note.shortid)
@@ -247,7 +247,7 @@ function githubActionGist(req, res, note) {
         const accessToken = body.access_token
         if (accessToken) {
           const content = note.content
-          const title = models.Note.decodeTitle(note.title)
+          const title = Note.decodeTitle(note.title)
           const filename = title.replace('/', ' ') + '.md'
           const gist = {
             files: {}
@@ -299,7 +299,7 @@ export function gitlabActions(req, res, next) {
 
 function gitlabActionProjects(req, res, note) {
   if (req.isAuthenticated()) {
-    models.User.findOne({
+    User.findOne({
       where: {
         id: req.user.id
       }
@@ -332,10 +332,10 @@ function gitlabActionProjects(req, res, note) {
 
 export function showPublishSlide(req, res, next) {
   const include = [{
-    model: models.User,
+    model: User,
     as: 'owner'
   }, {
-    model: models.User,
+    model: User,
     as: 'lastchangeuser'
   }]
   findNote(req, res, function (note) {
@@ -349,16 +349,16 @@ export function showPublishSlide(req, res, next) {
         return errorNotFound(req, res)
       }
       const body = note.content
-      const extracted = models.Note.extractMeta(body)
+      const extracted = Note.extractMeta(body)
       const markdown = extracted.markdown
-      const meta = models.Note.parseMeta(extracted.meta)
+      const meta = Note.parseMeta(extracted.meta)
       const createtime = note.createdAt
       const updatetime = note.lastchangeAt
-      let title = models.Note.decodeTitle(note.title)
-      title = models.Note.generateWebTitle(meta.title || title)
+      let title = Note.decodeTitle(note.title)
+      title = Note.generateWebTitle(meta.title || title)
       const data = {
         title: title,
-        description: meta.description || (markdown ? models.Note.generateDescription(markdown) : null),
+        description: meta.description || (markdown ? Note.generateDescription(markdown) : null),
         viewcount: note.viewcount,
         createtime: createtime,
         updatetime: updatetime,
@@ -366,9 +366,9 @@ export function showPublishSlide(req, res, next) {
         theme: meta.slideOptions && utils.isRevealTheme(meta.slideOptions.theme),
         meta: JSON.stringify(extracted.meta),
         owner: note.owner ? note.owner.id : null,
-        ownerprofile: note.owner ? models.User.getProfile(note.owner) : null,
+        ownerprofile: note.owner ? User.getProfile(note.owner) : null,
         lastchangeuser: note.lastchangeuser ? note.lastchangeuser.id : null,
-        lastchangeuserprofile: note.lastchangeuser ? models.User.getProfile(note.lastchangeuser) : null,
+        lastchangeuserprofile: note.lastchangeuser ? User.getProfile(note.lastchangeuser) : null,
         robots: meta.robots || false, // default allow robots
         GA: meta.GA,
         disqus: meta.disqus,

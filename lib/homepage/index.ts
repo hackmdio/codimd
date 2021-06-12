@@ -1,8 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import config from '../config'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import {User} from '../models'
 import {logger} from '../logger'
 import {Request, Response} from "express";

@@ -3,8 +3,8 @@ import passport from "passport";
 import validator from "validator";
 import {Strategy as LocalStrategy} from 'passport-local';
 
-import * as models from '../../models';
 import config from '../../config';
+import {User} from '../../models';
 import {logger} from "../../logger";
 import {setReturnToFromReferer} from "../utils";
 import {urlencodedParser} from "../../utils";
@@ -19,7 +19,7 @@ passport.use(new LocalStrategy({
   if (!validator.isEmail(email)) return done(null, false)
 
   try {
-    const user = await models.User.findOne({
+    const user = await User.findOne({
       where: {
         email: email
       }
@@ -39,7 +39,7 @@ if (config.allowEmailRegister) {
     if (!req.body.email || !req.body.password) return response.errorBadRequest(req, res)
     if (!validator.isEmail(req.body.email)) return response.errorBadRequest(req, res)
     try {
-      const [user, created] = await models.User.findOrCreate({
+      const [user, created] = await User.findOrCreate({
         where: {
           email: req.body.email
         },

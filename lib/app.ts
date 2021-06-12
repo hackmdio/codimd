@@ -22,7 +22,7 @@ import {Server as WsServer} from 'ws'
 import config from "./config";
 import {logger} from "./logger";
 import * as response from "./response";
-import * as models from "./models";
+import {sequelize} from "./models";
 import * as csp from "./csp";
 import {Environment} from "./config/enum";
 import {checkAllNotesRevision} from "./services/note";
@@ -101,7 +101,7 @@ app.use(methodOverride('_method'))
 
 // session store
 const sessionStore = new SequelizeStore({
-  db: models.sequelize
+  db: sequelize
 })
 
 // use hsts to tell https users stick to this
@@ -286,7 +286,7 @@ function startListen() {
 }
 
 // sync db then start listen
-models.sequelize.sync().then(function () {
+sequelize.sync().then(function () {
   // check if realtime is ready
   if (realtime.isReady()) {
     checkAllNotesRevision(function (err, notes) {

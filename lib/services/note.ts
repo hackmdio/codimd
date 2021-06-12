@@ -2,9 +2,7 @@ import DiffMatchPatch from "@hackmd/diff-match-patch";
 import async from 'async'
 import moment from "moment";
 import {col, Op} from "sequelize";
-import {Note} from "../models";
-import * as models from '../models'
-import {NoteAttributes} from "../models/note";
+import {Note, Revision, NoteAttributes} from "../models";
 
 const dmp = new DiffMatchPatch()
 
@@ -20,7 +18,7 @@ export function checkAllNotesRevision(callback) {
 }
 
 export function saveAllNotesRevision(callback: any): void {
-  models.Note.findAll({
+  Note.findAll({
     // query all notes that need to save for revision
     where: {
       [Op.and]: [
@@ -55,16 +53,16 @@ export function saveAllNotesRevision(callback: any): void {
         const savedAt = moment(note.savedAt)
         if (moment().isAfter(lastchangeAt.add(5, 'minutes'))) {
           savedNotes.push(note)
-          models.Revision.saveNoteRevision(note, _callback)
+          Revision.saveNoteRevision(note, _callback)
         } else if (lastchangeAt.isAfter(savedAt.add(10, 'minutes'))) {
           savedNotes.push(note)
-          models.Revision.saveNoteRevision(note, _callback)
+          Revision.saveNoteRevision(note, _callback)
         } else {
           return _callback(null, null)
         }
       } else {
         savedNotes.push(note)
-        models.Revision.saveNoteRevision(note, _callback)
+        Revision.saveNoteRevision(note, _callback)
       }
     }, function (err) {
       if (err) {
@@ -87,13 +85,13 @@ export async function syncNote(noteInFS, note): Promise<string> {
     content: noteInFS.content,
     lastchangeAt: noteInFS.lastchangeAt
   })
-  const revision = await models.Revision.saveNoteRevisionAsync(note2)
+  const revision = await Revision.saveNoteRevisionAsync(note2)
   // update authorship on after making revision of docs
   const patch = dmp.patch_fromText(revision.patch)
-  const operations = models.Note.transformPatchToOperations(patch, contentLength)
+  const operations = Note.transformPatchToOperations(patch, contentLength)
   let authorship = note2.authorship
   for (let i = 0; i < operations.length; i++) {
-    authorship = models.Note.updateAuthorshipByOperation(operations[i], null, authorship)
+    authorship = Note.updateAuthorshipByOperation(operations[i], null, authorship)
   }
   note2 = await note.update({
     authorship: authorship
@@ -104,7 +102,7 @@ export async function syncNote(noteInFS, note): Promise<string> {
 export async function createNoteWithRevision(noteAttribute: NoteAttributes): Promise<Note> {
   const note = await Note.create(noteAttribute) as Note
   return new Promise((resolve, reject) => {
-    models.Revision.saveNoteRevision(note, function (err) {
+    Revision.saveNoteRevision(note, function (err) {
       if (err) {
         reject(err)
         return

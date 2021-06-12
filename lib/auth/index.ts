@@ -3,7 +3,7 @@ import {Router} from "express";
 import passport from "passport";
 import config from "../config";
 import {logger} from "../logger";
-import * as models from "../models";
+import {User} from "../models";
 
 const authRouter = Router()
 export = authRouter
@@ -15,7 +15,7 @@ passport.serializeUser(function (user: any, done) {
 })
 
 passport.deserializeUser(function (id, done) {
-  models.User.findOne({
+  User.findOne({
     where: {
       id: id
     }

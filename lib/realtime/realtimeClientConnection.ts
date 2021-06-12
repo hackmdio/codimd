@@ -3,7 +3,7 @@
 import {get} from "lodash";
 
 import config from "../config";
-import * as models from "../models";
+import {Note} from "../models";
 import {logger} from "../logger";
 
 export class RealtimeClientConnection {
@@ -92,13 +92,13 @@ export class RealtimeClientConnection {
   }
 
   async destroyNote(id) {
-    return models.Note.destroy({
+    return Note.destroy({
       where: {id: id}
     })
   }
 
   async changeNotePermission(newPermission) {
-    const [changedRows] = await models.Note.update({
+    const [changedRows] = await Note.update({
       permission: newPermission
     }, {
       where: {

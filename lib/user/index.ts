@@ -1,19 +1,19 @@
 import archiver from 'archiver'
 import async from 'async'
 import * as response from '../response'
-import * as models from '../models'
 import config from '../config'
+import {Note, User} from '../models'
 import {logger} from '../logger'
-import { generateAvatar } from '../letter-avatars'
+import {generateAvatar} from '../letter-avatars'
 
-export async function getMe (req, res) {
+export async function getMe(req, res) {
   if (!req.isAuthenticated()) {
     return res.status(401).send({
       status: 'forbidden'
     })
   }
 
-  const user = await models.User.findOne({
+  const user = await User.findOne({
     where: {
       id: req.user.id
     }
@@ -22,7 +22,7 @@ export async function getMe (req, res) {
   if (!user) {
     return response.errorNotFound(req, res)
   }
-  const profile = models.User.getProfile(user)
+  const profile = User.getProfile(user)
 
   res.send({
     status: 'ok',
@@ -32,12 +32,12 @@ export async function getMe (req, res) {
   })
 }
 
-export async function deleteUser (req, res) {
+export async function deleteUser(req, res) {
   if (!req.isAuthenticated()) {
     return response.errorForbidden(req, res)
   }
 
-  const user = await models.User.findOne({
+  const user = await User.findOne({
     where: {
       id: req.user.id
     }
@@ -55,13 +55,13 @@ export async function deleteUser (req, res) {
   return res.redirect(config.serverURL + '/')
 }
 
-export function exportMyData (req, res) {
+export function exportMyData(req, res) {
   if (!req.isAuthenticated()) {
     return response.errorForbidden(req, res)
   }
 
   const archive = archiver('zip', {
-    zlib: { level: 3 } // Sets the compression level.
+    zlib: {level: 3} // Sets the compression level.
   })
 
   res.setHeader('Content-Type', 'application/zip')
@@ -72,12 +72,12 @@ export function exportMyData (req, res) {
     return response.errorInternalError(req, res)
   })
 
-  models.User.findOne({
+  User.findOne({
     where: {
       id: req.user.id
     }
   }).then(function (user) {
-    models.Note.findAll({
+    Note.findAll({
       where: {
         ownerId: user.id
       }
@@ -98,7 +98,7 @@ export function exportMyData (req, res) {
         filenames[filename] = true
 
         logger.debug('Write: ' + filename)
-        archive.append(Buffer.from(note.content), { name: filename, date: note.lastchangeAt })
+        archive.append(Buffer.from(note.content), {name: filename, date: note.lastchangeAt})
         callback(null, null)
       }, function (err) {
         if (err) {
@@ -114,7 +114,7 @@ export function exportMyData (req, res) {
   })
 }
 
-export function getMyAvatar (req, res) {
+export function getMyAvatar(req, res) {
   res.setHeader('Content-Type', 'image/svg+xml')
   res.setHeader('Cache-Control', 'public, max-age=86400')
   res.send(generateAvatar(req.params.username))

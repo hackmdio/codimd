@@ -12,7 +12,7 @@ import {get} from "lodash";
 import config from "../config";
 import {logger} from "../logger";
 import * as history from "../history";
-import * as models from "../models";
+import {Author, Note, User} from "../models";
 
 // ot
 import ot from "ot";
@@ -163,7 +163,7 @@ export function updateNote(note, callback) {
 }
 
 function findNoteByIdAsync(id) {
-  return models.Note.findOne({
+  return Note.findOne({
     where: {
       id: id
     }
@@ -181,13 +181,13 @@ function updateHistoryForEveryUserCollaborateNote(note) {
 }
 
 async function getUserProfileByIdAsync(id) {
-  const user = await models.User.findOne({
+  const user = await User.findOne({
     where: {
       id: id
     }
   })
   if (!user) return null
-  return models.User.getProfile(user)
+  return User.getProfile(user)
 }
 
 class UserNotFoundException extends Error {
@@ -210,7 +210,7 @@ async function getLastChangeUserProfileAsync(currentLastChangeUserId, lastChange
 
 function buildNoteUpdateData(note) {
   const body = note.server.document
-  const title = note.title = models.Note.parseNoteTitle(body)
+  const title = note.title = Note.parseNoteTitle(body)
   return {
     title: title,
     content: body,
@@ -247,7 +247,7 @@ async function _updateNoteAsync(note) {
 
 // TODO: test it
 export function getStatus() {
-  return models.Note.count()
+  return Note.count()
     .then(function (notecount) {
       const distinctaddresses = []
       const regaddresses = []
@@ -280,7 +280,7 @@ export function getStatus() {
         }
       })
 
-      return models.User.count()
+      return User.count()
         .then(function (regcount) {
           return {
             onlineNotes: Object.keys(notes).length,
@@ -324,7 +324,7 @@ function parseUrl(data) {
       return url.parse(data)
     }
   } catch (e) {
-  //  just ignore
+    //  just ignore
   }
   return null
 }
@@ -369,7 +369,7 @@ export async function parseNoteIdFromSocketAsync(socket) {
   }
 
   return new Promise((resolve, reject) => {
-    models.Note.parseNoteId(noteId, function (err, id) {
+    Note.parseNoteId(noteId, function (err, id) {
       if (err) {
         reject(err)
       }
@@ -448,21 +448,21 @@ export function checkViewPermission(req, note) {
 
 // TODO: test it
 async function fetchFullNoteAsync(noteId) {
-  return models.Note.findOne({
+  return Note.findOne({
     where: {
       id: noteId
     },
     include: [{
-      model: models.User,
+      model: User,
       as: 'owner'
     }, {
-      model: models.User,
+      model: User,
       as: 'lastchangeuser'
     }, {
-      model: models.Author,
+      model: Author,
       as: 'authors',
       include: [{
-        model: models.User,
+        model: User,
         as: 'user'
       }]
     }]
@@ -472,7 +472,7 @@ async function fetchFullNoteAsync(noteId) {
 function buildAuthorProfilesFromNote(noteAuthors) {
   const authors = {}
   noteAuthors.forEach((author) => {
-    const profile = models.User.getProfile(author.user)
+    const profile = User.getProfile(author.user)
     if (profile) {
       authors[author.userId] = {
         userid: author.userId,
@@ -497,10 +497,10 @@ function makeNewServerNote(note) {
     alias: note.alias,
     title: note.title,
     owner: note.ownerId,
-    ownerprofile: note.owner ? models.User.getProfile(note.owner) : null,
+    ownerprofile: note.owner ? User.getProfile(note.owner) : null,
     permission: note.permission,
     lastchangeuser: note.lastchangeuserId,
-    lastchangeuserprofile: note.lastchangeuser ? models.User.getProfile(note.lastchangeuser) : null,
+    lastchangeuserprofile: note.lastchangeuser ? User.getProfile(note.lastchangeuser) : null,
     socks: [],
     users: {},
     tempUsers: {},
@@ -585,7 +585,7 @@ export function buildUserOutData(user) {
 export function updateUserData(socket, user) {
   // retrieve user data from passport
   if (socket.request.user && socket.request.user.logged_in) {
-    const profile = models.User.getProfile(socket.request.user)
+    const profile = User.getProfile(socket.request.user)
     user.photo = profile.photo
     user.name = profile.name
     user.userid = socket.request.user.id
@@ -641,7 +641,7 @@ function operationCallback(socket, operation) {
     if (!user) return
     userId = socket.request.user.id
     if (!note.authors[userId]) {
-      models.Author.findOrCreate({
+      Author.findOrCreate({
         where: {
           noteId: noteId,
           userId: userId
@@ -669,13 +669,13 @@ function operationCallback(socket, operation) {
   }
   // save authorship - use timer here because it's an O(n) complexity algorithm
   setImmediate(function () {
-    note.authorship = models.Note.updateAuthorshipByOperation(operation, userId, note.authorship)
+    note.authorship = Note.updateAuthorshipByOperation(operation, userId, note.authorship)
   })
 }
 
 // TODO: test it
 export function updateHistory(userId, note, time?: any) {
-  const noteId = note.alias ? note.alias : models.Note.encodeNoteId(note.id)
+  const noteId = note.alias ? note.alias : Note.encodeNoteId(note.id)
   if (note.server) history.updateHistory(userId, noteId, note.server.document, time)
 }
 

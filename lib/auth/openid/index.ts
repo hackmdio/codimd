@@ -3,7 +3,7 @@ import passport from "passport";
 import {Strategy as OpenIDStrategy} from "@passport-next/passport-openid";
 
 import config from "../../config";
-import * as models from "../../models";
+import {User} from "../../models";
 import {logger} from "../../logger";
 import {urlencodedParser} from "../../utils";
 import {setReturnToFromReferer} from "../utils";
@@ -17,7 +17,7 @@ passport.use(new OpenIDStrategy({
   profile: true
 }, function (openid, profile, done) {
   const stringifiedProfile = JSON.stringify(profile)
-  models.User.findOrCreate({
+  User.findOrCreate({
     where: {
       profileid: openid
     },

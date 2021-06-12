@@ -1,6 +1,5 @@
 'use strict'
 
-import * as models from "../models";
 import {logger} from "../logger";
 import {saveAllNotesRevision} from "../services/note";
 
