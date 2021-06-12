@@ -89,7 +89,7 @@ export function emitCheck(note) {
 export var users = {}
 export var notes = {}
 
-export function getNotePool() {
+export function getNotePool(): any {
   return notes
 }
 
