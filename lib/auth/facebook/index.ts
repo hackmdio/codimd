@@ -1,5 +1,5 @@
 import {Router} from "express";
-import passport from "passport";
+import * as passport from "passport";
 import {Strategy as FacebookStrategy} from "passport-facebook";
 
 import * as config from "../../config";
