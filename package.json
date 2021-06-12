@@ -69,7 +69,7 @@
     "minimist": "~1.2.0",
     "minio": "^7.0.12",
     "moment": "~2.24.0",
-    "morgan": "~1.9.1",
+    "morgan": "1.10.0",
     "mysql": "~2.17.1",
     "mysql2": "^2.0.1",
     "ot": "git+https://github.com/hackmdio/ot.js.git#cc1f338",
