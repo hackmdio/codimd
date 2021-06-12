@@ -10,7 +10,7 @@ import {get} from "lodash";
 
 // core
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 import * as history from "../history";
 import * as models from "../models";
 

@@ -4,7 +4,7 @@ import * as config from '../config'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {User} from '../models'
-import * as logger from '../logger'
+import {logger} from '../logger'
 import {Request, Response} from "express";
 
 

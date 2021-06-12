@@ -5,7 +5,7 @@ import {merge} from "lodash";
 import deepFreeze from "deep-freeze";
 
 import {Environment, Permission} from "./enum";
-import * as logger from "../logger";
+import {logger} from "../logger";
 import {getGitCommit, getGitHubURL} from "./utils";
 
 const appRootPath = path.resolve(__dirname, '../../')

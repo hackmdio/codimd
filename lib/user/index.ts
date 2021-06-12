@@ -3,7 +3,7 @@ import async from 'async'
 import * as response from '../response'
 import * as config from '../config'
 import * as models from '../models'
-import * as logger from '../logger'
+import {logger} from '../logger'
 import { generateAvatar } from '../letter-avatars'
 
 export async function getMe (req, res) {

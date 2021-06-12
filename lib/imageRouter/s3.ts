@@ -6,7 +6,7 @@ import {PutObjectCommand, PutObjectInput} from "@aws-sdk/client-s3-node/commands
 
 import * as config from "../config";
 import {getImageMimeType} from "../utils";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 
 const credentials = {

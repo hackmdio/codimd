@@ -4,7 +4,7 @@ import LDAPStrategy from "passport-ldapauth";
 
 import * as config from "../../config";
 import * as models from "../../models";
-import * as logger from "../../logger";
+import {logger} from "../../logger";
 import * as response from "../../response";
 import {setReturnToFromReferer} from "../utils";
 import {urlencodedParser} from "../../utils";

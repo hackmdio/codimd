@@ -5,7 +5,7 @@ import Minio from "minio";
 
 import * as config from "../config";
 import {getImageMimeType} from "../utils";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 const minioClient = new Minio.Client({
   endPoint: config.minio.endPoint,

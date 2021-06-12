@@ -6,7 +6,7 @@ import {cloneDeep} from "lodash";
 
 // core
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 const dbconfig = cloneDeep(config.db)
 dbconfig.logging = config.debug ? (data) => {

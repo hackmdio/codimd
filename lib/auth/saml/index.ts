@@ -5,7 +5,7 @@ import {Strategy as SamlStrategy} from "passport-saml";
 
 import * as config from "../../config";
 import * as models from "../../models";
-import * as logger from "../../logger";
+import {logger} from "../../logger";
 import {urlencodedParser} from "../../utils";
 
 const intersection = function (array1, array2) {

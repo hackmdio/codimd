@@ -3,7 +3,7 @@
 import async from "async";
 
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 /**
  * clean when user not in any rooms or user not in connected list

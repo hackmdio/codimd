@@ -3,7 +3,7 @@
 import DiffMatchPatch from "@hackmd/diff-match-patch";
 // core
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 const dmp = new DiffMatchPatch()
 process.on('message', function (data) {

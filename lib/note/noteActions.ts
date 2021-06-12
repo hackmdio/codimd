@@ -8,7 +8,7 @@ import moment from "moment";
 // const { Pandoc } = require('@hackmd/pandoc.js')
 
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {Note, Revision} from "../models";

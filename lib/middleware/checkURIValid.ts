@@ -1,4 +1,4 @@
-import * as logger from '../logger'
+import {logger} from '../logger'
 import * as response from "../response";
 
 export default function (req, res, next) {

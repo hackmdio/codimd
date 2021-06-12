@@ -9,7 +9,7 @@ import * as  util from "util";
 
 // core
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 const Op = Sequelize.Op
 

@@ -5,7 +5,7 @@ import {Strategy as LocalStrategy} from 'passport-local';
 
 import * as config from '../../config';
 import * as models from '../../models';
-import * as logger from "../../logger";
+import {logger} from "../../logger";
 import {setReturnToFromReferer} from "../utils";
 import {urlencodedParser} from "../../utils";
 import * as response from "../../response";

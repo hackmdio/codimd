@@ -4,7 +4,7 @@ import * as path from "path";
 import azure from "azure-storage";
 
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 export function uploadImage(imagePath, callback) {
   if (!imagePath || typeof imagePath !== 'string') {

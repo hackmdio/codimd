@@ -2,7 +2,7 @@
 import imgur from "@hackmd/imgur";
 
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 export function uploadImage(imagePath, callback) {
   if (!imagePath || typeof imagePath !== 'string') {

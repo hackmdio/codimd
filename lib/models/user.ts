@@ -4,7 +4,7 @@ import * as Sequelize from "sequelize";
 
 import Scrypt from "scrypt-kdf";
 // core
-import * as logger from "../logger";
+import {logger} from "../logger";
 import {generateAvatarURL} from "../letter-avatars";
 
 export = function (sequelize, DataTypes) {

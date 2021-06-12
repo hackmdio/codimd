@@ -20,7 +20,7 @@ import SocketIo from 'socket.io'
 import {Server as WsServer} from 'ws'
 // core
 import * as config from "./config";
-import * as logger from "./logger";
+import {logger} from "./logger";
 import * as response from "./response";
 import * as models from "./models";
 import * as csp from "./csp";

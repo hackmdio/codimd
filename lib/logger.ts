@@ -1,3 +1,4 @@
+// Do not require any relative module in this file, will caused circular dependencies.
 import {createLogger, format, transports, Logger} from "winston";
 
 
@@ -25,7 +26,7 @@ if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
   )
 }
 
-const logger: CodiMDLogger = createLogger({
+export const logger: CodiMDLogger = createLogger({
   format: defaultFormatter,
   transports: [
     new transports.Console({
@@ -46,4 +47,4 @@ logger.setLevel = function (level) {
   logger.level = level
 }
 
-export = logger
+export default logger

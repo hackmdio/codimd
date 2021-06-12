@@ -6,7 +6,7 @@ import * as crypto from "crypto";
 import {URL} from "url";
 
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 /**
  * generate a random filename for uploaded image

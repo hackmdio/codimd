@@ -9,7 +9,7 @@ import imageType from "image-type";
 import mime from "mime-types";
 
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 import * as response from "../response";
 
 const imageRouter = Router()

@@ -1,7 +1,7 @@
 import moment from "moment";
 
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 export class UpdateDirtyNoteJob {
   private realtime: any;

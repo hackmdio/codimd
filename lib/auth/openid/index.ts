@@ -4,7 +4,7 @@ import {Strategy as OpenIDStrategy} from "@passport-next/passport-openid";
 
 import * as config from "../../config";
 import * as models from "../../models";
-import * as logger from "../../logger";
+import {logger} from "../../logger";
 import {urlencodedParser} from "../../utils";
 import {setReturnToFromReferer} from "../utils";
 

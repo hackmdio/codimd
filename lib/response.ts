@@ -3,7 +3,7 @@
 import * as request from "request";
 // core
 import * as config from "./config";
-import * as logger from "./logger";
+import {logger} from "./logger";
 import * as models from "./models";
 import * as utils from "./utils";
 import * as  history from "./history";

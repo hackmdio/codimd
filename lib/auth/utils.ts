@@ -2,7 +2,7 @@
 
 import * as models from "../models";
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 export function setReturnToFromReferer(req) {
   if (!req.session) req.session = {}

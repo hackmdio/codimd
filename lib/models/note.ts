@@ -14,7 +14,7 @@ import DiffMatchPatch from "@hackmd/diff-match-patch";
 
 // core
 import * as config from "../config";
-import * as logger from "../logger";
+import {logger} from "../logger";
 import {stripTags} from "../string";
 
 // ot

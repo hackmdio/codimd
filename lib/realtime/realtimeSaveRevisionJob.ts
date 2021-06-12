@@ -1,7 +1,7 @@
 'use strict'
 
 import * as models from "../models";
-import * as logger from "../logger";
+import {logger} from "../logger";
 
 /**
  * clean when user not in any rooms or user not in connected list
