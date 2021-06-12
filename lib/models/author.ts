@@ -1,8 +1,7 @@
-'use strict'
 // external modules
-var Sequelize = require('sequelize')
+import * as Sequelize from "sequelize";
 
-module.exports = function (sequelize, DataTypes) {
+export = function (sequelize, DataTypes) {
   var Author = sequelize.define('Author', {
     id: {
       type: Sequelize.INTEGER,
