@@ -244,5 +244,3 @@ export class RealtimeClientConnection {
     this.realtime.queueForDisconnect(this.socket)
   }
 }
-
-exports.RealtimeClientConnection = RealtimeClientConnection
