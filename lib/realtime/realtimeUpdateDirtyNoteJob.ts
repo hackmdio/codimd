@@ -1,4 +1,4 @@
-import * as moment from "moment";
+import moment from "moment";
 
 import * as config from "../config";
 import * as logger from "../logger";

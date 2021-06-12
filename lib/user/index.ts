@@ -1,5 +1,5 @@
-import * as archiver from 'archiver'
-import * as async from 'async'
+import archiver from 'archiver'
+import async from 'async'
 import * as response from '../response'
 import * as config from '../config'
 import * as models from '../models'

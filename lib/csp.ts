@@ -1,5 +1,5 @@
 import * as config from "./config";
-import * as uuid from "uuid";
+import uuid from "uuid";
 
 const CspStrategy: any = {}
 

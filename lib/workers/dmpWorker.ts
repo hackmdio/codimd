@@ -1,6 +1,6 @@
 'use strict'
 // external modules
-import * as DiffMatchPatch from "@hackmd/diff-match-patch";
+import DiffMatchPatch from "@hackmd/diff-match-patch";
 // core
 import * as config from "../config";
 import * as logger from "../logger";

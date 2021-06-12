@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import * as Minio from "minio";
+import Minio from "minio";
 
 import * as config from "../config";
 import {getImageMimeType} from "../utils";

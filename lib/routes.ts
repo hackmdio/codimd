@@ -10,7 +10,7 @@ import * as userController from "./user";
 import * as noteController from "./note";
 
 import * as response from "./response";
-import * as bodyParser from "body-parser";
+import bodyParser from "body-parser";
 
 const appRouter = Router()
 

@@ -1,6 +1,6 @@
 'use strict'
 
-import * as async from "async";
+import async from "async";
 
 import * as config from "../config";
 import * as logger from "../logger";

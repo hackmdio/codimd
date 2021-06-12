@@ -1,6 +1,6 @@
 // external modules
 import * as crypto from "crypto";
-import * as randomcolor from "randomcolor";
+import randomcolor from "randomcolor";
 
 import * as config from "./config";
 

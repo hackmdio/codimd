@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import * as mime from "mime-types";
-import * as bodyParser from "body-parser";
+import mime from "mime-types";
+import bodyParser from "body-parser";
 
 export function isSQLite(sequelize) {
   return sequelize.options.dialect === 'sqlite'

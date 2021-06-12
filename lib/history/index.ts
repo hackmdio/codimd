@@ -1,6 +1,6 @@
 // history
 // external modules
-import * as LZString from '@hackmd/lz-string'
+import LZString from '@hackmd/lz-string'
 
 import * as models from '../models'
 import * as logger from '../logger'

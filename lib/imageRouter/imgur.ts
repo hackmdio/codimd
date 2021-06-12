@@ -1,5 +1,5 @@
 'use strict'
-import * as imgur from "@hackmd/imgur";
+import imgur from "@hackmd/imgur";
 
 import * as config from "../config";
 import * as logger from "../logger";

@@ -1,16 +1,16 @@
 // external modules
 import * as fs from "fs";
 import * as path from "path";
-import * as LZString from "@hackmd/lz-string";
+import LZString from "@hackmd/lz-string";
 import base64url from "base64url";
-import * as markdown_it from "markdown-it";
-import * as metaMarked from "@hackmd/meta-marked";
-import * as cheerio from "cheerio";
-import * as shortId from "shortid";
+import markdownIt from "markdown-it";
+import metaMarked from "@hackmd/meta-marked";
+import cheerio from "cheerio";
+import shortId from "shortid";
 import * as Sequelize from "sequelize";
-import * as async from "async";
-import * as moment from "moment";
-import * as DiffMatchPatch from "@hackmd/diff-match-patch";
+import async from "async";
+import moment from "moment";
+import DiffMatchPatch from "@hackmd/diff-match-patch";
 
 // core
 import * as config from "../config";
@@ -18,9 +18,9 @@ import * as logger from "../logger";
 import {stripTags} from "../string";
 
 // ot
-import * as ot from "ot";
+import ot from "ot";
 
-const md = markdown_it()
+const md = markdownIt()
 const dmp = new DiffMatchPatch()
 // permission types
 const permissionTypes = ['freely', 'editable', 'limited', 'locked', 'protected', 'private']

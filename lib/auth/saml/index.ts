@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import {Router} from "express";
-import * as passport from "passport";
+import passport from "passport";
 import {Strategy as SamlStrategy} from "passport-saml";
 
 import * as config from "../../config";

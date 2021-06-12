@@ -1,5 +1,5 @@
 import {Router} from "express";
-import * as passport from "passport";
+import passport from "passport";
 import {Strategy as GithubStrategy} from "passport-github";
 import * as config from "../../config";
 import * as response from "../../response";

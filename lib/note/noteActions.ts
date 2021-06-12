@@ -1,10 +1,10 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import * as markdownpdf from "markdown-pdf";
-import * as shortId from "shortid";
-import * as querystring from "querystring";
-import * as moment from "moment";
+import markdownpdf from "markdown-pdf";
+import shortId from "shortid";
+import querystring from "querystring";
+import moment from "moment";
 // const { Pandoc } = require('@hackmd/pandoc.js')
 
 import * as config from "../config";

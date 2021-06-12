@@ -5,7 +5,7 @@
     "target": "ES2019",
     "outDir": "./dist/",
     "module": "CommonJS",
-    "moduleResolution": "Node"
+    "esModuleInterop": true
   },
   "include": [
     "./lib/**/*"

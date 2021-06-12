@@ -1,5 +1,5 @@
 import {Router} from "express";
-import * as passport from "passport";
+import passport from "passport";
 import {Strategy as OpenIDStrategy} from "@passport-next/passport-openid";
 
 import * as config from "../../config";

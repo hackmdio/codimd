@@ -1,7 +1,7 @@
 'use strict'
 import * as path from "path";
 
-import * as azure from "azure-storage";
+import azure from "azure-storage";
 
 import * as config from "../config";
 import * as logger from "../logger";

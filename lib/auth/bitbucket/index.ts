@@ -1,5 +1,5 @@
 import {Router} from "express";
-import * as passport from "passport";
+import passport from "passport";
 import {Strategy as BitbucketStrategy} from "passport-bitbucket-oauth2";
 
 import * as config from "../../config";

@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import * as passport from 'passport'
+import passport from 'passport'
 
 import * as config from '../../config'
 import {passportGeneralCallback, setReturnToFromReferer} from '../utils'

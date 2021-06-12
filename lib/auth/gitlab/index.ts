@@ -1,11 +1,11 @@
 import {Router} from "express";
-import * as passport from "passport";
+import passport from "passport";
 import {Strategy as GitlabStrategy} from "passport-gitlab2";
 
 import * as config from "../../config";
 import * as response from "../../response";
 import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
-import * as HttpsProxyAgent from "https-proxy-agent";
+import HttpsProxyAgent from "https-proxy-agent";
 
 const gitlabAuth = Router()
 export = gitlabAuth

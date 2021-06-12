@@ -1,9 +1,9 @@
 // external modules
 import * as Sequelize from "sequelize";
-import * as  async from "async";
-import * as  moment from "moment";
+import async from "async";
+import moment from "moment";
 import * as  childProcess from "child_process";
-import * as  shortId from "shortid";
+import shortId from "shortid";
 import * as  path from "path";
 import * as  util from "util";
 

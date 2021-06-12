@@ -2,7 +2,7 @@
 // external modules
 import * as Sequelize from "sequelize";
 
-import * as Scrypt from "scrypt-kdf";
+import Scrypt from "scrypt-kdf";
 // core
 import * as logger from "../logger";
 import {generateAvatarURL} from "../letter-avatars";

@@ -1,6 +1,6 @@
 import {Router} from "express";
-import * as passport from "passport";
-import * as LDAPStrategy from "passport-ldapauth";
+import passport from "passport";
+import LDAPStrategy from "passport-ldapauth";
 
 import * as config from "../../config";
 import * as models from "../../models";

@@ -1,4 +1,4 @@
-import * as  lutim from "lutim";
+import lutim from "lutim";
 
 import * as  config from "../config";
 import * as logger from "../logger";

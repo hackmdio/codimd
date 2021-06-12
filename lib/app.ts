@@ -1,21 +1,22 @@
 // app
 // external modules
-import * as express from "express";
-import * as ejs from "ejs";
-import * as passport from "passport";
-import * as methodOverride from "method-override";
-import * as cookieParser from "cookie-parser";
-import * as session from "express-session";
-import * as fs from "fs";
-import * as path from "path";
-import * as morgan from "morgan";
-import * as helmet from "helmet";
-import * as i18n from "i18n";
-import * as flash from "connect-flash";
+import fs from "fs";
+import path from "path";
+
+import express from "express";
+import ejs from "ejs";
+import passport from "passport";
+import methodOverride from "method-override";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import morgan from "morgan";
+import helmet from "helmet";
+import i18n from "i18n";
+import flash from "connect-flash";
 import {expressMiddleware as expressPrometheusMetricsMiddleware} from "prometheus-api-metrics";
-import * as connectSessionSequelize from 'connect-session-sequelize'
-import * as passportSocketIo from 'passport.socketio'
-import * as SocketIo from 'socket.io'
+import connectSessionSequelize from 'connect-session-sequelize'
+import passportSocketIo from 'passport.socketio'
+import SocketIo from 'socket.io'
 import {Server as WsServer} from 'ws'
 // core
 import * as config from "./config";

@@ -1,10 +1,9 @@
 // external modules
-import * as Sequelize from "sequelize";
 
 export = function (sequelize, DataTypes) {
   const Author = sequelize.define('Author', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },

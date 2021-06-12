@@ -1,11 +1,11 @@
 // realtime
 // external modules
-import * as cookie from "cookie";
-import * as cookieParser from "cookie-parser";
-import * as url from "url";
-import * as randomcolor from "randomcolor";
-import * as Chance from "chance";
-import * as moment from "moment";
+import cookie from "cookie";
+import cookieParser from "cookie-parser";
+import url from "url";
+import randomcolor from "randomcolor";
+import Chance from "chance";
+import moment from "moment";
 import {get} from "lodash";
 
 // core
@@ -15,7 +15,7 @@ import * as history from "../history";
 import * as models from "../models";
 
 // ot
-import * as ot from "ot";
+import ot from "ot";
 
 import {ProcessQueue} from "./processQueue";
 import {RealtimeClientConnection} from "./realtimeClientConnection";

@@ -3,10 +3,10 @@ import * as path from "path";
 import {noop} from 'lodash'
 
 import {Router} from "express";
-import * as formidable from "formidable";
-import * as readChunk from "read-chunk";
-import * as imageType from "image-type";
-import * as mime from "mime-types";
+import formidable from "formidable";
+import readChunk from "read-chunk";
+import imageType from "image-type";
+import mime from "mime-types";
 
 import * as config from "../config";
 import * as logger from "../logger";

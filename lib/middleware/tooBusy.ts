@@ -1,4 +1,4 @@
-import * as toobusy from "toobusy-js";
+import toobusy from "toobusy-js";
 
 import * as config from "../config";
 import * as response from "../response";
