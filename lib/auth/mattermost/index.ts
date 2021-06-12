@@ -11,7 +11,7 @@ import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
 
 const mattermostAuth = Router()
-export = module.exports
+export = mattermostAuth
 
 const mattermostClient = new MattermostClient()
 
