@@ -1,10 +1,11 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "allowJs": true,
-    "target": "ES5",
+    "allowJs": false,
+    "target": "ES2019",
     "outDir": "./dist/",
-    "allowSyntheticDefaultImports": true
+    "module": "CommonJS",
+    "moduleResolution": "Node"
   },
   "include": [
     "./lib/**/*"
