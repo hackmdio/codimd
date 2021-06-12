@@ -1,13 +1,12 @@
-'use strict'
 // external modules
-var fs = require('fs')
-var path = require('path')
-var Sequelize = require('sequelize')
-const { cloneDeep } = require('lodash')
+import * as fs from "fs";
+import * as path from "path";
+import {Sequelize} from "sequelize";
+import {cloneDeep} from "lodash";
 
 // core
-var config = require('../config')
-var logger = require('../logger')
+import * as config from "../config";
+import * as logger from "../logger";
 
 var dbconfig = cloneDeep(config.db)
 dbconfig.logging = config.debug ? (data) => {
@@ -25,20 +24,22 @@ if (config.dbURL) {
 
 // [Postgres] Handling NULL bytes
 // https://github.com/sequelize/sequelize/issues/6485
-function stripNullByte (value) {
+function stripNullByte(value) {
   value = '' + value
   // eslint-disable-next-line no-control-regex
   return value ? value.replace(/\u0000/g, '') : value
 }
+
 sequelize.stripNullByte = stripNullByte
 
-function processData (data, _default, process) {
+function processData(data, _default, process) {
   if (data === undefined) return data
   else return data === null ? _default : (process ? process(data) : data)
 }
+
 sequelize.processData = processData
 
-var db = {}
+var db: any = {}
 
 fs.readdirSync(__dirname)
   .filter(function (file) {
@@ -58,4 +59,4 @@ Object.keys(db).forEach(function (modelName) {
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
-module.exports = db
+export = db
