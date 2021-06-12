@@ -27,7 +27,7 @@
     "coverage:ci": "nyc mocha --no-color -R dot --require intelli-espower-loader --exit --recursive ./test",
     "test": "npm run-script lint && npm run-script jsonlint && npm run-script coverage",
     "test:ci": "npm run-script lint && npm run-script jsonlint && npm run-script coverage:ci",
-    "heroku-postbuild": "npm run build && ./bin/heroku"
+    "heroku-postbuild": "tsc && npm run build && ./bin/heroku"
   },
   "dependencies": {
     "@aws-sdk/client-s3-node": "0.1.0-preview.2",
