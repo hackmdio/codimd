@@ -102,7 +102,7 @@
     "toobusy-js": "~0.5.1",
     "uuid": "~3.3.2",
     "validator": "~11.1.0",
-    "winston": "~3.2.1",
+    "winston": "3.3.3",
     "ws": "~7.1.1"
   },
   "devDependencies": {
