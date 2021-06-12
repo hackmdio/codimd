@@ -18,7 +18,7 @@ import * as logger from "../logger";
 import {stripTags} from "../string";
 
 // ot
-import * as ot from "../ot";
+import * as ot from "ot";
 
 var md = markdown_it()
 var dmp = new DiffMatchPatch()

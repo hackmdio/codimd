@@ -72,6 +72,7 @@
     "morgan": "~1.9.1",
     "mysql": "~2.17.1",
     "mysql2": "^2.0.1",
+    "ot": "git+https://github.com/hackmdio/ot.js.git#cc1f338",
     "passport": "~0.4.0",
     "passport-bitbucket-oauth2": "~0.1.2",
     "passport-dropbox-oauth2": "~1.1.0",

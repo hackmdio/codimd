@@ -15,7 +15,7 @@ import * as history from "../history";
 import * as models from "../models";
 
 // ot
-import * as ot from "../ot";
+import * as ot from "ot";
 
 import {ProcessQueue} from "./processQueue";
 import {RealtimeClientConnection} from "./realtimeClientConnection";
