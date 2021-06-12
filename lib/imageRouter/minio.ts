@@ -35,7 +35,9 @@ export function uploadImage(imagePath, callback) {
     const key = path.join('uploads', path.basename(imagePath))
     const protocol = config.minio.secure ? 'https' : 'http'
 
-    minioClient.putObject(config.s3bucket, key, buffer, buffer.length, getImageMimeType(imagePath), function (err, data) {
+    minioClient.putObject(config.s3bucket, key, buffer, buffer.length, {
+      ContentType: getImageMimeType(imagePath)
+    }, function (err, data) {
       if (err) {
         callback(err, null)
         return
