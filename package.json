@@ -236,7 +236,6 @@
     "ignore": [
       "/public/build",
       "/public/vendor",
-      "/lib/ot",
       "webpack.*"
     ]
   },

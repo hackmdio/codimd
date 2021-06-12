@@ -5,7 +5,7 @@ const path = require('path')
 
 function makeMockSocket (headers, query) {
   const broadCastChannelCache = {}
-  return {
+  const fakesocket = {
     id: Math.round(Math.random() * 10000),
     request: {
       user: {}
@@ -14,8 +14,6 @@ function makeMockSocket (headers, query) {
       headers: Object.assign({}, headers),
       query: Object.assign({}, query)
     },
-    on: sinon.fake(),
-    emit: sinon.fake(),
     broadCastChannelCache: {},
     broadcast: {
       to: (channel) => {
@@ -31,6 +29,10 @@ function makeMockSocket (headers, query) {
     disconnect: sinon.fake(),
     rooms: []
   }
+  fakesocket.on = sinon.fake.returns(fakesocket)
+  fakesocket.emit = sinon.fake.returns(fakesocket)
+  fakesocket.join = sinon.fake.returns(fakesocket)
+  return fakesocket
 }
 
 function removeModuleFromRequireCache (modulePath) {
