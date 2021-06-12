@@ -6,7 +6,7 @@ import * as config from "../../config";
 import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
 const twitterAuth = Router()
-export = module.exports
+export = twitterAuth
 
 passport.use(new TwitterStrategy({
   consumerKey: config.twitter.consumerKey,
