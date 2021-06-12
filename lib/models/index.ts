@@ -8,12 +8,12 @@ import {cloneDeep} from "lodash";
 import * as config from "../config";
 import * as logger from "../logger";
 
-var dbconfig = cloneDeep(config.db)
+const dbconfig = cloneDeep(config.db)
 dbconfig.logging = config.debug ? (data) => {
   logger.info(data)
 } : false
 
-var sequelize = null
+let sequelize = null
 
 // Heroku specific
 if (config.dbURL) {
@@ -39,14 +39,14 @@ function processData(data, _default, process) {
 
 sequelize.processData = processData
 
-var db: any = {}
+const db: any = {}
 
 fs.readdirSync(__dirname)
   .filter(function (file) {
     return (file.indexOf('.') !== 0) && (file !== 'index.js')
   })
   .forEach(function (file) {
-    var model = sequelize.import(path.join(__dirname, file))
+    const model = sequelize.import(path.join(__dirname, file))
     db[model.name] = model
   })
 

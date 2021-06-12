@@ -20,13 +20,13 @@ import {stripTags} from "../string";
 // ot
 import * as ot from "ot";
 
-var md = markdown_it()
-var dmp = new DiffMatchPatch()
+const md = markdown_it()
+const dmp = new DiffMatchPatch()
 // permission types
-var permissionTypes = ['freely', 'editable', 'limited', 'locked', 'protected', 'private']
+const permissionTypes = ['freely', 'editable', 'limited', 'locked', 'protected', 'private']
 
 export = function (sequelize, DataTypes) {
-  var Note = sequelize.define('Note', {
+  const Note = sequelize.define('Note', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -183,8 +183,8 @@ export = function (sequelize, DataTypes) {
     return idParts.join('-')
   }
   Note.checkNoteIdValid = function (id) {
-    var uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-    var result = id.match(uuidRegex)
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+    const result = id.match(uuidRegex)
     if (result && result.length === 1) {
       return true
     } else {
@@ -278,7 +278,7 @@ export = function (sequelize, DataTypes) {
         }
         // try to parse note id by LZString Base64
         try {
-          var id = LZString.decompressFromBase64(noteId)
+          const id = LZString.decompressFromBase64(noteId)
           if (id && Note.checkNoteIdValid(id)) {
             return callback(null, id)
           } else {
@@ -296,7 +296,7 @@ export = function (sequelize, DataTypes) {
       parseNoteIdByBase64Url: function (_callback) {
         // try to parse note id by base64url
         try {
-          var id = Note.decodeNoteId(noteId)
+          const id = Note.decodeNoteId(noteId)
           if (id && Note.checkNoteIdValid(id)) {
             return callback(null, id)
           } else {
@@ -337,24 +337,24 @@ export = function (sequelize, DataTypes) {
     })
   }
   Note.parseNoteInfo = function (body) {
-    var parsed = Note.extractMeta(body)
-    var $ = cheerio.load(md.render(parsed.markdown))
+    const parsed = Note.extractMeta(body)
+    const $ = cheerio.load(md.render(parsed.markdown))
     return {
       title: Note.extractNoteTitle(parsed.meta, $),
       tags: Note.extractNoteTags(parsed.meta, $)
     }
   }
   Note.parseNoteTitle = function (body) {
-    var parsed = Note.extractMeta(body)
-    var $ = cheerio.load(md.render(parsed.markdown))
+    const parsed = Note.extractMeta(body)
+    const $ = cheerio.load(md.render(parsed.markdown))
     return Note.extractNoteTitle(parsed.meta, $)
   }
   Note.extractNoteTitle = function (meta, $) {
-    var title = ''
+    let title = ''
     if (meta.title && (typeof meta.title === 'string' || typeof meta.title === 'number')) {
       title = meta.title
     } else {
-      var h1s = $('h1')
+      const h1s = $('h1')
       if (h1s.length > 0 && h1s.first().text().split('\n').length === 1) {
         title = stripTags(h1s.first().text())
       }
@@ -373,9 +373,9 @@ export = function (sequelize, DataTypes) {
     return title
   }
   Note.extractNoteTags = function (meta, $) {
-    var tags = []
-    var rawtags = []
-    var metaTags
+    const tags = []
+    const rawtags = []
+    let metaTags
     if (meta.tags && (typeof meta.tags === 'string' || typeof meta.tags === 'number')) {
       metaTags = ('' + meta.tags).split(',')
     } else if (meta.tags && (Array.isArray(meta.tags))) {
@@ -383,23 +383,23 @@ export = function (sequelize, DataTypes) {
     }
     if (metaTags) {
       for (let i = 0; i < metaTags.length; i++) {
-        var text = metaTags[i].trim()
+        const text = metaTags[i].trim()
         if (text) rawtags.push(text)
       }
     } else {
-      var h6s = $('h6')
+      const h6s = $('h6')
       h6s.each(function (key, value) {
         if (/^tags/gmi.test($(value).text())) {
-          var codes = $(value).find('code')
+          const codes = $(value).find('code')
           for (let i = 0; i < codes.length; i++) {
-            var text = stripTags($(codes[i]).text().trim())
+            const text = stripTags($(codes[i]).text().trim())
             if (text) rawtags.push(text)
           }
         }
       })
     }
     for (let i = 0; i < rawtags.length; i++) {
-      var found = false
+      let found = false
       for (let j = 0; j < tags.length; j++) {
         if (tags[j] === rawtags[i]) {
           found = true
@@ -413,7 +413,7 @@ export = function (sequelize, DataTypes) {
     return tags
   }
   Note.extractMeta = function (content) {
-    var obj = null
+    let obj = null
     try {
       obj = metaMarked(content)
       if (!obj.markdown) obj.markdown = ''
@@ -427,7 +427,7 @@ export = function (sequelize, DataTypes) {
     return obj
   }
   Note.parseMeta = function (meta) {
-    var _meta: any = {}
+    const _meta: any = {}
     if (meta) {
       if (meta.title && (typeof meta.title === 'string' || typeof meta.title === 'number')) {
         _meta.title = meta.title
@@ -451,10 +451,10 @@ export = function (sequelize, DataTypes) {
     return _meta
   }
   Note.updateAuthorshipByOperation = function (operation, userId, authorships) {
-    var index = 0
-    var timestamp = Date.now()
+    let index = 0
+    const timestamp = Date.now()
     for (let i = 0; i < operation.length; i++) {
-      var op = operation[i]
+      const op = operation[i]
       if (ot.TextOperation.isRetain(op)) {
         index += op
       } else if (ot.TextOperation.isInsert(op)) {
@@ -552,13 +552,13 @@ export = function (sequelize, DataTypes) {
     return authorships
   }
   Note.transformPatchToOperations = function (patch, contentLength) {
-    var operations = []
+    const operations = []
     if (patch.length > 0) {
       // calculate original content length
       for (let j = patch.length - 1; j >= 0; j--) {
-        var p = patch[j]
+        const p = patch[j]
         for (let i = 0; i < p.diffs.length; i++) {
-          var diff = p.diffs[i]
+          const diff = p.diffs[i]
           switch (diff[0]) {
             case 1: // insert
               contentLength -= diff[1].length
@@ -570,13 +570,13 @@ export = function (sequelize, DataTypes) {
         }
       }
       // generate operations
-      var bias = 0
-      var lengthBias = 0
+      let bias = 0
+      let lengthBias = 0
       for (let j = 0; j < patch.length; j++) {
-        var operation = []
+        const operation = []
         const p = patch[j]
-        var currIndex = p.start1
-        var currLength = contentLength - bias
+        let currIndex = p.start1
+        const currLength = contentLength - bias
         for (let i = 0; i < p.diffs.length; i++) {
           const diff = p.diffs[i]
           switch (diff[0]) {

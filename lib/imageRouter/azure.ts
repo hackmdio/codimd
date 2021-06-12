@@ -17,7 +17,7 @@ export function uploadImage(imagePath, callback) {
     return
   }
 
-  var azureBlobService = azure.createBlobService(config.azure.connectionString)
+  const azureBlobService = azure.createBlobService(config.azure.connectionString)
 
   azureBlobService.createContainerIfNotExists(config.azure.container, {publicAccessLevel: 'blob'}, function (err, result, response) {
     if (err) {

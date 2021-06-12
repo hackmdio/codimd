@@ -11,13 +11,13 @@ import * as  util from "util";
 import * as config from "../config";
 import * as logger from "../logger";
 
-var Op = Sequelize.Op
+const Op = Sequelize.Op
 
-var dmpWorker = createDmpWorker()
-var dmpCallbackCache = {}
+let dmpWorker = createDmpWorker()
+const dmpCallbackCache = {}
 
 function createDmpWorker() {
-  var worker = childProcess.fork(path.resolve(__dirname, '../workers/dmpWorker.js'), {
+  const worker = childProcess.fork(path.resolve(__dirname, '../workers/dmpWorker.js'), {
     stdio: 'ignore'
   })
   if (config.debug) logger.info('dmp worker process started')
@@ -26,7 +26,7 @@ function createDmpWorker() {
       logger.error('dmp worker error: not enough data on message')
       return
     }
-    var cacheKey = data.cacheKey
+    const cacheKey = data.cacheKey
     switch (data.msg) {
       case 'error':
         dmpCallbackCache[cacheKey](data.error, null)
@@ -46,7 +46,7 @@ function createDmpWorker() {
 
 function sendDmpWorker(data, callback) {
   if (!dmpWorker) dmpWorker = createDmpWorker()
-  var cacheKey = Date.now() + '_' + shortId.generate()
+  const cacheKey = Date.now() + '_' + shortId.generate()
   dmpCallbackCache[cacheKey] = callback
   data = Object.assign(data, {
     cacheKey: cacheKey
@@ -55,7 +55,7 @@ function sendDmpWorker(data, callback) {
 }
 
 module.exports = function (sequelize, DataTypes) {
-  var Revision = sequelize.define('Revision', {
+  const Revision = sequelize.define('Revision', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -118,9 +118,9 @@ module.exports = function (sequelize, DataTypes) {
       },
       order: [['createdAt', 'DESC']]
     }).then(function (revisions) {
-      var data = []
-      for (var i = 0, l = revisions.length; i < l; i++) {
-        var revision = revisions[i]
+      const data = []
+      for (let i = 0, l = revisions.length; i < l; i++) {
+        const revision = revisions[i]
         data.push({
           time: moment(revision.createdAt).valueOf(),
           length: revision.length
@@ -201,12 +201,12 @@ module.exports = function (sequelize, DataTypes) {
       }
     }).then(function (notes) {
       if (notes.length <= 0) return callback(null, notes)
-      var savedNotes = []
+      const savedNotes = []
       async.each(notes, function (note, _callback) {
         // revision saving policy: note not been modified for 5 mins or not save for 10 mins
         if (note.lastchangeAt && note.savedAt) {
-          var lastchangeAt = moment(note.lastchangeAt)
-          var savedAt = moment(note.savedAt)
+          const lastchangeAt = moment(note.lastchangeAt)
+          const savedAt = moment(note.savedAt)
           if (moment().isAfter(lastchangeAt.add(5, 'minutes'))) {
             savedNotes.push(note)
             Revision.saveNoteRevision(note, _callback)
@@ -225,7 +225,7 @@ module.exports = function (sequelize, DataTypes) {
           return callback(err, null)
         }
         // return null when no notes need saving at this moment but have delayed tasks to be done
-        var result = ((savedNotes.length === 0) && (notes.length > savedNotes.length)) ? null : savedNotes
+        const result = ((savedNotes.length === 0) && (notes.length > savedNotes.length)) ? null : savedNotes
         return callback(null, result)
       })
     }).catch(function (err) {
@@ -252,9 +252,9 @@ module.exports = function (sequelize, DataTypes) {
           return callback(err, null)
         })
       } else {
-        var latestRevision = revisions[0]
-        var lastContent = latestRevision.content || latestRevision.lastContent
-        var content = note.content
+        const latestRevision = revisions[0]
+        const lastContent = latestRevision.content || latestRevision.lastContent
+        const content = note.content
         sendDmpWorker({
           msg: 'create patch',
           lastDoc: lastContent,

@@ -5,7 +5,7 @@ type CodiMDLogger = Logger & {
   setLevel?: (string) => void
 }
 
-let logger: CodiMDLogger = createLogger({
+const logger: CodiMDLogger = createLogger({
   level: 'debug',
   format: format.combine(
     format.uncolorize(),

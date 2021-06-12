@@ -7,11 +7,11 @@ import * as logger from "../logger";
 export function setReturnToFromReferer(req) {
   if (!req.session) req.session = {}
 
-  var referer = req.get('referer')
-  var nextURL
+  const referer = req.get('referer')
+  let nextURL
   if (referer) {
     try {
-      var refererSearchParams = new URLSearchParams(new URL(referer).search)
+      const refererSearchParams = new URLSearchParams(new URL(referer).search)
       nextURL = refererSearchParams.get('next')
     } catch (err) {
       logger.warn(err)
@@ -19,7 +19,7 @@ export function setReturnToFromReferer(req) {
   }
 
   if (nextURL) {
-    var isRelativeNextURL = nextURL.indexOf('://') === -1 && !nextURL.startsWith('//')
+    const isRelativeNextURL = nextURL.indexOf('://') === -1 && !nextURL.startsWith('//')
     if (isRelativeNextURL) {
       req.session.returnTo = (new URL(nextURL, config.serverURL)).toString()
     } else {
@@ -31,7 +31,7 @@ export function setReturnToFromReferer(req) {
 }
 
 export function passportGeneralCallback(accessToken, refreshToken, profile, done) {
-  var stringifiedProfile = JSON.stringify(profile)
+  const stringifiedProfile = JSON.stringify(profile)
   models.User.findOrCreate({
     where: {
       profileid: profile.id.toString()
@@ -43,7 +43,7 @@ export function passportGeneralCallback(accessToken, refreshToken, profile, done
     }
   }).spread(function (user, created) {
     if (user) {
-      var needSave = false
+      let needSave = false
       if (user.profile !== stringifiedProfile) {
         user.profile = stringifiedProfile
         needSave = true

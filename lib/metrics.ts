@@ -2,7 +2,8 @@ import {Router} from "express";
 import {wrap} from "./utils";
 
 // load controller
-const statusController = require('./status')
+import * as statusController from "./status";
+
 const appRouter = Router()
 
 // register route

@@ -25,8 +25,8 @@ import {SaveRevisionJob} from "./realtimeSaveRevisionJob";
 
 const chance = new Chance()
 
-export let io = null
-export let maintenance = true
+export const io = null
+export const maintenance = true
 
 // public
 const connectProcessQueue = new ProcessQueue({})
@@ -49,7 +49,7 @@ export function onAuthorizeFail(data, message, error, accept) {
 // secure the origin by the cookie
 export function secure(socket, next) {
   try {
-    var handshakeData = socket.request
+    const handshakeData = socket.request
     if (handshakeData.headers.cookie) {
       handshakeData.cookie = cookie.parse(handshakeData.headers.cookie)
       handshakeData.sessionID = cookieParser.signedCookie(handshakeData.cookie[config.sessionName], config.sessionSecret)
@@ -74,7 +74,7 @@ export function secure(socket, next) {
 // TODO: only use in `updateDirtyNote`
 // TODO: test it
 export function emitCheck(note) {
-  var out = {
+  const out = {
     title: note.title,
     updatetime: note.updatetime,
     lastchangeuser: note.lastchangeuser,
@@ -86,8 +86,8 @@ export function emitCheck(note) {
 }
 
 // actions
-export var users = {}
-export var notes = {}
+export const users = {}
+export const notes = {}
 
 export function getNotePool(): any {
   return notes
@@ -241,11 +241,11 @@ async function _updateNoteAsync(note) {
 export function getStatus() {
   return models.Note.count()
     .then(function (notecount) {
-      var distinctaddresses = []
-      var regaddresses = []
-      var distinctregaddresses = []
+      const distinctaddresses = []
+      const regaddresses = []
+      const distinctregaddresses = []
       Object.keys(users).forEach(function (key) {
-        var user = users[key]
+        const user = users[key]
         if (!user) return
         let found = false
         for (let i = 0; i < distinctaddresses.length; i++) {
@@ -316,6 +316,7 @@ function parseUrl(data) {
       return url.parse(data)
     }
   } catch (e) {
+  //  just ignore
   }
   return null
 }
@@ -374,16 +375,16 @@ export async function parseNoteIdFromSocketAsync(socket) {
 
 // TODO: test it
 export function emitOnlineUsers(socket) {
-  var noteId = socket.noteId
+  const noteId = socket.noteId
   if (!noteId || !notes[noteId]) return
-  var users = []
+  const users = []
   Object.keys(notes[noteId].users).forEach(function (key) {
-    var user = notes[noteId].users[key]
+    const user = notes[noteId].users[key]
     if (user) {
       users.push(buildUserOutData(user))
     }
   })
-  var out = {
+  const out = {
     users: users
   }
   io.to(noteId).emit('online users', out)
@@ -391,19 +392,19 @@ export function emitOnlineUsers(socket) {
 
 // TODO: test it
 export function emitUserStatus(socket) {
-  var noteId = socket.noteId
-  var user = users[socket.id]
+  const noteId = socket.noteId
+  const user = users[socket.id]
   if (!noteId || !notes[noteId] || !user) return
-  var out = buildUserOutData(user)
+  const out = buildUserOutData(user)
   socket.broadcast.to(noteId).emit('user status', out)
 }
 
 // TODO: test it
 export function emitRefresh(socket) {
-  var noteId = socket.noteId
+  const noteId = socket.noteId
   if (!noteId || !notes[noteId]) return
-  var note = notes[noteId]
-  var out = {
+  const note = notes[noteId]
+  const out = {
     title: note.title,
     docmaxlength: config.documentMaxLength,
     owner: note.owner,
@@ -554,7 +555,7 @@ export function queueForDisconnect(socket) {
 }
 
 export function buildUserOutData(user) {
-  var out = {
+  const out = {
     id: user.id,
     login: user.login,
     userid: user.userid,
@@ -572,7 +573,7 @@ export function buildUserOutData(user) {
 export function updateUserData(socket, user) {
   // retrieve user data from passport
   if (socket.request.user && socket.request.user.logged_in) {
-    var profile = models.User.getProfile(socket.request.user)
+    const profile = models.User.getProfile(socket.request.user)
     user.photo = profile.photo
     user.name = profile.name
     user.userid = socket.request.user.id
@@ -618,13 +619,13 @@ export function ifMayEdit(socket, callback) {
 
 // TODO: test it
 function operationCallback(socket, operation) {
-  var noteId = socket.noteId
+  const noteId = socket.noteId
   if (!noteId || !notes[noteId]) return
-  var note = notes[noteId]
-  var userId = null
+  const note = notes[noteId]
+  let userId = null
   // save authors
   if (socket.request.user && socket.request.user.logged_in) {
-    var user = users[socket.id]
+    const user = users[socket.id]
     if (!user) return
     userId = socket.request.user.id
     if (!note.authors[userId]) {
@@ -661,7 +662,7 @@ function operationCallback(socket, operation) {
 
 // TODO: test it
 export function updateHistory(userId, note, time?: any) {
-  var noteId = note.alias ? note.alias : models.Note.encodeNoteId(note.id)
+  const noteId = note.alias ? note.alias : models.Note.encodeNoteId(note.id)
   if (note.server) history.updateHistory(userId, noteId, note.server.document, time)
 }
 
@@ -698,7 +699,7 @@ function queueForConnect(socket) {
       socket.noteId = noteId
       // initialize user data
       // random color
-      var color = getUniqueColorPerNote(noteId)
+      const color = getUniqueColorPerNote(noteId)
       // create user data
       users[socket.id] = {
         id: socket.id,

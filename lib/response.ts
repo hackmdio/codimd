@@ -12,7 +12,7 @@ export function errorForbidden(req, res) {
   if (req.user) {
     responseError(res, '403', 'Forbidden', 'oh no.')
   } else {
-    var nextURL = new URL('', config.serverURL)
+    const nextURL = new URL('', config.serverURL)
     nextURL.search = (new URLSearchParams({next: req.originalUrl})).toString()
     req.flash('error', 'You are not allowed to access this page. Maybe try logging in?')
     res.redirect(nextURL.toString())
@@ -49,10 +49,10 @@ export function responseError(res, code, detail, msg) {
 }
 
 export function responseCodiMD(res, note) {
-  var body = note.content
-  var extracted = models.Note.extractMeta(body)
-  var meta = models.Note.parseMeta(extracted.meta)
-  var title = models.Note.decodeTitle(note.title)
+  const body = note.content
+  const extracted = models.Note.extractMeta(body)
+  const meta = models.Note.parseMeta(extracted.meta)
+  let title = models.Note.decodeTitle(note.title)
   title = models.Note.generateWebTitle(meta.title || title)
   res.set({
     'Cache-Control': 'private', // only cache by client
@@ -64,14 +64,14 @@ export function responseCodiMD(res, note) {
 }
 
 function updateHistory(userId, note, document, time?: any) {
-  var noteId = note.alias ? note.alias : models.Note.encodeNoteId(note.id)
+  const noteId = note.alias ? note.alias : models.Note.encodeNoteId(note.id)
   history.updateHistory(userId, noteId, document, time)
   logger.info('history updated')
 }
 
 export function newNote(req, res, next?: any) {
-  var owner = null
-  var body = ''
+  let owner = null
+  let body = ''
   if (req.body && req.body.length > config.documentMaxLength) {
     return errorTooLong(req, res)
   } else if (req.body) {
@@ -128,8 +128,8 @@ export function checkViewPermission(req, note) {
 }
 
 function findNote(req, res, callback, include?: any) {
-  var noteId = req.params.noteId
-  var id = req.params.noteId || req.params.shortid
+  const noteId = req.params.noteId
+  const id = req.params.noteId || req.params.shortid
   models.Note.parseNoteId(id, function (err, _id) {
     if (err) {
       logger.error(err)
@@ -162,9 +162,9 @@ function findNote(req, res, callback, include?: any) {
 }
 
 function actionDownload(req, res, note) {
-  var body = note.content
-  var title = models.Note.decodeTitle(note.title)
-  var filename = title
+  const body = note.content
+  const title = models.Note.decodeTitle(note.title)
+  let filename = title
   filename = encodeURIComponent(filename)
   res.set({
     'Access-Control-Allow-Origin': '*', // allow CORS as API
@@ -180,7 +180,7 @@ function actionDownload(req, res, note) {
 
 export function publishNoteActions(req, res, next) {
   findNote(req, res, function (note) {
-    var action = req.params.action
+    const action = req.params.action
     switch (action) {
       case 'download':
         actionDownload(req, res, note)
@@ -197,7 +197,7 @@ export function publishNoteActions(req, res, next) {
 
 export function publishSlideActions(req, res, next) {
   findNote(req, res, function (note) {
-    var action = req.params.action
+    const action = req.params.action
     switch (action) {
       case 'edit':
         res.redirect(config.serverURL + '/' + (note.alias ? note.alias : models.Note.encodeNoteId(note.id)))
@@ -210,9 +210,9 @@ export function publishSlideActions(req, res, next) {
 }
 
 export function githubActions(req, res, next) {
-  var noteId = req.params.noteId
+  const noteId = req.params.noteId
   findNote(req, res, function (note) {
-    var action = req.params.action
+    const action = req.params.action
     switch (action) {
       case 'gist':
         githubActionGist(req, res, note)
@@ -225,36 +225,36 @@ export function githubActions(req, res, next) {
 }
 
 function githubActionGist(req, res, note) {
-  var code = req.query.code
-  var state = req.query.state
+  const code = req.query.code
+  const state = req.query.state
   if (!code || !state) {
     return errorForbidden(req, res)
   } else {
-    var data = {
+    const data = {
       client_id: config.github.clientID,
       client_secret: config.github.clientSecret,
       code: code,
       state: state
     }
-    var authUrl = 'https://github.com/login/oauth/access_token'
+    const authUrl = 'https://github.com/login/oauth/access_token'
     request({
       url: authUrl,
       method: 'POST',
       json: data
     }, function (error, httpResponse, body) {
       if (!error && httpResponse.statusCode === 200) {
-        var accessToken = body.access_token
+        const accessToken = body.access_token
         if (accessToken) {
-          var content = note.content
-          var title = models.Note.decodeTitle(note.title)
-          var filename = title.replace('/', ' ') + '.md'
-          var gist = {
+          const content = note.content
+          const title = models.Note.decodeTitle(note.title)
+          const filename = title.replace('/', ' ') + '.md'
+          const gist = {
             files: {}
           }
           gist.files[filename] = {
             content: content
           }
-          var gistUrl = 'https://api.github.com/gists'
+          const gistUrl = 'https://api.github.com/gists';
           request({
             url: gistUrl,
             headers: {
@@ -282,9 +282,9 @@ function githubActionGist(req, res, note) {
 }
 
 export function gitlabActions(req, res, next) {
-  var noteId = req.params.noteId
+  const noteId = req.params.noteId
   findNote(req, res, function (note) {
-    var action = req.params.action
+    const action = req.params.action
     switch (action) {
       case 'projects':
         gitlabActionProjects(req, res, note)
@@ -306,7 +306,7 @@ function gitlabActionProjects(req, res, note) {
       if (!user) {
         return errorNotFound(req, res)
       }
-      var ret: any = {baseURL: config.gitlab.baseURL, version: config.gitlab.version}
+      const ret: any = {baseURL: config.gitlab.baseURL, version: config.gitlab.version}
       ret.accesstoken = user.accessToken
       ret.profileid = user.profileid
       request(
@@ -330,7 +330,7 @@ function gitlabActionProjects(req, res, note) {
 }
 
 export function showPublishSlide(req, res, next) {
-  var include = [{
+  const include = [{
     model: models.User,
     as: 'owner'
   }, {
@@ -339,7 +339,7 @@ export function showPublishSlide(req, res, next) {
   }]
   findNote(req, res, function (note) {
     // force to use short id
-    var shortid = req.params.shortid
+    const shortid = req.params.shortid
     if ((note.alias && shortid !== note.alias) || (!note.alias && shortid !== note.shortid)) {
       return res.redirect(config.serverURL + '/p/' + (note.alias || note.shortid))
     }
@@ -347,15 +347,15 @@ export function showPublishSlide(req, res, next) {
       if (!note) {
         return errorNotFound(req, res)
       }
-      var body = note.content
-      var extracted = models.Note.extractMeta(body)
-      var markdown = extracted.markdown
-      var meta = models.Note.parseMeta(extracted.meta)
-      var createtime = note.createdAt
-      var updatetime = note.lastchangeAt
-      var title = models.Note.decodeTitle(note.title)
+      const body = note.content
+      const extracted = models.Note.extractMeta(body)
+      const markdown = extracted.markdown
+      const meta = models.Note.parseMeta(extracted.meta)
+      const createtime = note.createdAt
+      const updatetime = note.lastchangeAt
+      let title = models.Note.decodeTitle(note.title)
       title = models.Note.generateWebTitle(meta.title || title)
-      var data = {
+      const data = {
         title: title,
         description: meta.description || (markdown ? models.Note.generateDescription(markdown) : null),
         viewcount: note.viewcount,

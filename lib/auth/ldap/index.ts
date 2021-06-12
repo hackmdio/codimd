@@ -23,7 +23,7 @@ passport.use(new LDAPStrategy({
     tlsOptions: config.ldap.tlsOptions || null
   }
 }, function (user, done) {
-  var uuid = user.uidNumber || user.uid || user.sAMAccountName || undefined
+  let uuid = user.uidNumber || user.uid || user.sAMAccountName || undefined
   if (config.ldap.useridField && user[config.ldap.useridField]) {
     uuid = user[config.ldap.useridField]
   }
@@ -35,12 +35,12 @@ passport.use(new LDAPStrategy({
       '"useridField" option in ldap settings.')
   }
 
-  var username = uuid
+  let username = uuid
   if (config.ldap.usernameField && user[config.ldap.usernameField]) {
     username = user[config.ldap.usernameField]
   }
 
-  var profile = {
+  const profile = {
     id: 'LDAP-' + uuid,
     username: username,
     displayName: user.displayName,
@@ -49,7 +49,7 @@ passport.use(new LDAPStrategy({
     profileUrl: null,
     provider: 'ldap'
   }
-  var stringifiedProfile = JSON.stringify(profile)
+  const stringifiedProfile = JSON.stringify(profile)
   models.User.findOrCreate({
     where: {
       profileid: profile.id.toString()
@@ -59,7 +59,7 @@ passport.use(new LDAPStrategy({
     }
   }).spread(function (user, created) {
     if (user) {
-      var needSave = false
+      let needSave = false
       if (user.profile !== stringifiedProfile) {
         user.profile = stringifiedProfile
         needSave = true

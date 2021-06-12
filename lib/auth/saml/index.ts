@@ -25,7 +25,7 @@ passport.use(new SamlStrategy({
 }, function (user, done) {
   // check authorization if needed
   if (config.saml.externalGroups && config.saml.groupAttribute) {
-    var externalGroups = intersection(config.saml.externalGroups, user[config.saml.groupAttribute])
+    const externalGroups = intersection(config.saml.externalGroups, user[config.saml.groupAttribute])
     if (externalGroups.length > 0) {
       logger.error('saml permission denied: ' + externalGroups.join(', '))
       return done('Permission denied', null)
@@ -38,8 +38,8 @@ passport.use(new SamlStrategy({
     }
   }
   // user creation
-  var uuid = user[config.saml.attribute.id] || user.nameID
-  var profile = {
+  const uuid = user[config.saml.attribute.id] || user.nameID
+  const profile = {
     provider: 'saml',
     id: 'SAML-' + uuid,
     username: user[config.saml.attribute.username] || user.nameID,
@@ -48,7 +48,7 @@ passport.use(new SamlStrategy({
   if (profile.emails.length === 0 && config.saml.identifierFormat === 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress') {
     profile.emails.push(user.nameID)
   }
-  var stringifiedProfile = JSON.stringify(profile)
+  const stringifiedProfile = JSON.stringify(profile)
   models.User.findOrCreate({
     where: {
       profileid: profile.id.toString()
@@ -58,7 +58,7 @@ passport.use(new SamlStrategy({
     }
   }).spread(function (user, created) {
     if (user) {
-      var needSave = false
+      let needSave = false
       if (user.profile !== stringifiedProfile) {
         user.profile = stringifiedProfile
         needSave = true

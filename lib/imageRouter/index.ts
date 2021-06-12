@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import {noop} from 'lodash'
 
 import {Router} from "express";
 import * as formidable from "formidable";
@@ -26,7 +27,7 @@ function checkImageValid(filepath) {
 
 // upload image
 imageRouter.post('/uploadimage', function (req, res) {
-  var form = new formidable.IncomingForm()
+  const form = new formidable.IncomingForm()
 
   form.keepExtensions = true
 
@@ -42,11 +43,11 @@ imageRouter.post('/uploadimage', function (req, res) {
         return response.errorForbidden(req, res)
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const uploadProvider = require('./' + config.imageUploadType)
       uploadProvider.uploadImage(files.image.path, function (err, url) {
         // remove temporary upload file, and ignore any error
-        fs.unlink(files.image.path, () => {
-        })
+        fs.unlink(files.image.path, noop)
         if (err !== null) {
           logger.error(err)
           return res.status(500).end('upload image error')

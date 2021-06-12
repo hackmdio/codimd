@@ -16,7 +16,7 @@ function getHistory (userid, callback) {
     if (!user) {
       return callback(null, null)
     }
-    var history : [] | {} = []
+    let history: any = []
     if (user.history) {
       history = JSON.parse(user.history)
       // migrate LZString encoded note id to base64url encoded note id
@@ -78,8 +78,8 @@ export function updateHistory (userid, noteId, document?: string, time?: any) {
       if (!history[noteId]) {
         history[noteId] = {}
       }
-      var noteHistory = history[noteId]
-      var noteInfo = models.Note.parseNoteInfo(document)
+      const noteHistory = history[noteId]
+      const noteInfo = models.Note.parseNoteInfo(document)
       noteHistory.id = noteId
       noteHistory.text = noteInfo.title
       noteHistory.time = time || Date.now()
@@ -94,18 +94,18 @@ export function updateHistory (userid, noteId, document?: string, time?: any) {
 }
 
 function parseHistoryToArray (history) {
-  var _history = []
+  const _history = []
   Object.keys(history).forEach(function (key) {
-    var item = history[key]
+    const item = history[key]
     _history.push(item)
   })
   return _history
 }
 
 function parseHistoryToObject (history) {
-  var _history = {}
-  for (var i = 0, l = history.length; i < l; i++) {
-    var item = history[i]
+  const _history = {}
+  for (let i = 0, l = history.length; i < l; i++) {
+    const item = history[i]
     _history[item.id] = item
   }
   return _history
@@ -127,12 +127,13 @@ export function historyGet (req, res) {
 
 export function historyPost (req, res) {
   if (req.isAuthenticated()) {
-    var noteId = req.params.noteId
+    const noteId = req.params.noteId
     if (!noteId) {
       if (typeof req.body.history === 'undefined') return response.errorBadRequest(req, res)
       if (config.debug) { logger.info('SERVER received history from [' + req.user.id + ']: ' + req.body.history) }
+      let history = null
       try {
-        var history = JSON.parse(req.body.history)
+        history = JSON.parse(req.body.history)
       } catch (err) {
         return response.errorBadRequest(req, res)
       }
@@ -168,7 +169,7 @@ export function historyPost (req, res) {
 
 export function historyDelete (req, res) {
   if (req.isAuthenticated()) {
-    var noteId = req.params.noteId
+    const noteId = req.params.noteId
     if (!noteId) {
       setHistory(req.user.id, [], function (err, count) {
         if (err) return response.errorInternalError(req, res)

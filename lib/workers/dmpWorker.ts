@@ -5,7 +5,7 @@ import * as DiffMatchPatch from "@hackmd/diff-match-patch";
 import * as config from "../config";
 import * as logger from "../logger";
 
-var dmp = new DiffMatchPatch()
+const dmp = new DiffMatchPatch()
 process.on('message', function (data) {
   if (!data || !data.msg || !data.cacheKey) {
     logger.error('dmp worker error: not enough data')
@@ -18,7 +18,7 @@ process.on('message', function (data) {
         return null
       }
       try {
-        var patch = createPatch(data.lastDoc, data.currDoc)
+        const patch = createPatch(data.lastDoc, data.currDoc)
         process.send({
           msg: 'check',
           result: patch,
@@ -38,7 +38,7 @@ process.on('message', function (data) {
         return logger.error('dmp worker error: not enough data on get revision')
       }
       try {
-        var result = getRevision(data.revisions, data.count)
+        const result = getRevision(data.revisions, data.count)
         process.send({
           msg: 'check',
           result: result,
@@ -58,11 +58,11 @@ process.on('message', function (data) {
 })
 
 function createPatch(lastDoc, currDoc) {
-  var msStart = (new Date()).getTime()
-  var diff = dmp.diff_main(lastDoc, currDoc)
-  var patch = dmp.patch_make(lastDoc, diff)
+  const msStart = (new Date()).getTime()
+  const diff = dmp.diff_main(lastDoc, currDoc)
+  let patch = dmp.patch_make(lastDoc, diff)
   patch = dmp.patch_toText(patch)
-  var msEnd = (new Date()).getTime()
+  const msEnd = (new Date()).getTime()
   if (config.debug) {
     logger.info(patch)
     logger.info((msEnd - msStart) + 'ms')
@@ -71,11 +71,11 @@ function createPatch(lastDoc, currDoc) {
 }
 
 function getRevision(revisions, count) {
-  var msStart = (new Date()).getTime()
-  var startContent = null
-  var lastPatch = []
-  var applyPatches = []
-  var authorship = []
+  const msStart = (new Date()).getTime()
+  let startContent = null
+  let lastPatch = []
+  let applyPatches = []
+  let authorship = []
   if (count <= Math.round(revisions.length / 2)) {
     // start from top to target
     for (let i = 0; i < count; i++) {
@@ -93,7 +93,7 @@ function getRevision(revisions, count) {
     // swap DIFF_INSERT and DIFF_DELETE to achieve unpatching
     for (let i = 0, l = applyPatches.length; i < l; i++) {
       for (let j = 0, m = applyPatches[i].diffs.length; j < m; j++) {
-        var diff = applyPatches[i].diffs[j]
+        const diff = applyPatches[i].diffs[j]
         if (diff[0] === DiffMatchPatch.DIFF_INSERT) {
           diff[0] = DiffMatchPatch.DIFF_DELETE
         } else if (diff[0] === DiffMatchPatch.DIFF_DELETE) {
@@ -103,8 +103,8 @@ function getRevision(revisions, count) {
     }
   } else {
     // start from bottom to target
-    var l = revisions.length - 1
-    for (var i = l; i >= count - 1; i--) {
+    const l = revisions.length - 1
+    for (let i = l; i >= count - 1; i--) {
       const revision = revisions[i]
       if (i === l) {
         startContent = revision.lastContent
@@ -118,17 +118,18 @@ function getRevision(revisions, count) {
       authorship = revision.authorship
     }
   }
+  let finalContent = ""
   try {
-    var finalContent = dmp.patch_apply(applyPatches, startContent)[0]
+    finalContent = dmp.patch_apply(applyPatches, startContent)[0]
   } catch (err) {
     throw new Error(err)
   }
-  var data = {
+  const data = {
     content: finalContent,
     patch: dmp.patch_fromText(lastPatch),
     authorship: authorship
   }
-  var msEnd = (new Date()).getTime()
+  const msEnd = (new Date()).getTime()
   if (config.debug) {
     logger.info((msEnd - msStart) + 'ms')
   }

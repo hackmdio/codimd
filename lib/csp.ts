@@ -1,9 +1,9 @@
 import * as config from "./config";
 import * as uuid from "uuid";
 
-var CspStrategy: any = {}
+const CspStrategy: any = {}
 
-var defaultDirectives = {
+const defaultDirectives = {
   defaultSrc: ['\'self\''],
   scriptSrc: ['\'self\'', 'vimeo.com', 'https://gist.github.com', 'www.slideshare.net', 'https://query.yahooapis.com', '\'unsafe-eval\''],
   // ^ TODO: Remove unsafe-eval - webpack script-loader issues https://github.com/hackmdio/codimd/issues/594
@@ -16,28 +16,28 @@ var defaultDirectives = {
   connectSrc: ['*']
 }
 
-var dropboxDirectives = {
+const dropboxDirectives = {
   scriptSrc: ['https://www.dropbox.com']
 }
 
-var cdnDirectives = {
+const cdnDirectives = {
   scriptSrc: ['https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net', 'https://cdn.mathjax.org'],
   styleSrc: ['https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net', 'https://fonts.googleapis.com'],
   fontSrc: ['https://cdnjs.cloudflare.com', 'https://fonts.gstatic.com']
 }
 
-var disqusDirectives = {
+const disqusDirectives = {
   scriptSrc: ['https://disqus.com', 'https://*.disqus.com', 'https://*.disquscdn.com'],
   styleSrc: ['https://*.disquscdn.com'],
   fontSrc: ['https://*.disquscdn.com']
 }
 
-var googleAnalyticsDirectives = {
+const googleAnalyticsDirectives = {
   scriptSrc: ['https://www.google-analytics.com']
 }
 
 CspStrategy.computeDirectives = function () {
-  var directives = {}
+  const directives = {}
   mergeDirectives(directives, config.csp.directives)
   mergeDirectivesIf(config.csp.addDefaults, directives, defaultDirectives)
   mergeDirectivesIf(config.useCDN, directives, cdnDirectives)
@@ -53,10 +53,10 @@ CspStrategy.computeDirectives = function () {
 }
 
 function mergeDirectives(existingDirectives, newDirectives) {
-  for (var propertyName in newDirectives) {
-    var newDirective = newDirectives[propertyName]
+  for (const propertyName in newDirectives) {
+    const newDirective = newDirectives[propertyName]
     if (newDirective) {
-      var existingDirective = existingDirectives[propertyName] || []
+      const existingDirective = existingDirectives[propertyName] || []
       existingDirectives[propertyName] = existingDirective.concat(newDirective)
     }
   }
@@ -86,10 +86,10 @@ function getCspNonce(req, res) {
 function addUpgradeUnsafeRequestsOptionTo(directives) {
   if (config.csp.upgradeInsecureRequests === 'auto' && config.useSSL) {
     directives.upgradeInsecureRequests = true
-  } else { // @ts-ignore
+  } else {
     if (config.csp.upgradeInsecureRequests === true) {
-        directives.upgradeInsecureRequests = true
-      }
+      directives.upgradeInsecureRequests = true
+    }
   }
 }
 

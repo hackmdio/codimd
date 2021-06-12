@@ -8,7 +8,7 @@ import * as logger from "../logger";
 import {generateAvatarURL} from "../letter-avatars";
 
 export = function (sequelize, DataTypes) {
-  var User = sequelize.define('User', {
+  const User = sequelize.define('User', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -102,7 +102,7 @@ export = function (sequelize, DataTypes) {
     return profile
   }
   User.parsePhotoByProfile = function (profile, bigger) {
-    var photo = null
+    let photo = null
     switch (profile.provider) {
       case 'facebook':
         photo = 'https://graph.facebook.com/' + profile.id + '/picture'
@@ -114,13 +114,14 @@ export = function (sequelize, DataTypes) {
         if (bigger) photo += '?size=original'
         else photo += '?size=bigger'
         break
-      case 'github':
+      case 'github': {
         const photoURL = new URL(profile.photos && profile.photos[0]
           ? profile.photos[0].value
           : `https://avatars.githubusercontent.com/u/${profile.id}`)
         photoURL.searchParams.set('s', (bigger ? 400 : 96).toString())
         photo = photoURL.toString()
         break
+      }
       case 'gitlab':
         photo = profile.avatarUrl
         if (photo) {

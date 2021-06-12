@@ -15,6 +15,7 @@ const debugConfig = {
 }
 
 // Get version string from package.json
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const {version, repository} = require(path.join(appRootPath, 'package.json'))
 
 const commitID = getGitCommit(appRootPath)
@@ -30,14 +31,19 @@ const packageConfig = {
 
 const configFilePath = path.resolve(appRootPath, process.env.CMD_CONFIG_FILE ||
   'config.json')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const fileConfig = fs.existsSync(configFilePath) ? require(configFilePath)[env] : undefined
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 let config: any = require('./default')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 merge(config, require('./defaultSSL'))
 merge(config, debugConfig)
 merge(config, packageConfig)
 merge(config, fileConfig)
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 merge(config, require('./environment'))
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 merge(config, require('./dockerSecret'))
 
 if (['debug', 'verbose', 'info', 'warn', 'error'].includes(config.loglevel)) {
@@ -86,9 +92,9 @@ config.isStandardHTTPPort = (function isStandardHTTPPort() {
 
 // cache serverURL
 config.serverURL = (function getserverurl() {
-  var url = ''
+  let url = ''
   if (config.domain) {
-    var protocol = config.protocolUseSSL ? 'https://' : 'http://'
+    const protocol = config.protocolUseSSL ? 'https://' : 'http://'
     url = protocol + config.domain
     if (config.urlAddPort) {
       if (!config.isStandardHTTPPort || !config.isStandardHTTPsPort) {

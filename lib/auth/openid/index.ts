@@ -16,7 +16,7 @@ passport.use(new OpenIDStrategy({
   realm: config.serverURL,
   profile: true
 }, function (openid, profile, done) {
-  var stringifiedProfile = JSON.stringify(profile)
+  const stringifiedProfile = JSON.stringify(profile)
   models.User.findOrCreate({
     where: {
       profileid: openid
@@ -26,7 +26,7 @@ passport.use(new OpenIDStrategy({
     }
   }).spread(function (user, created) {
     if (user) {
-      var needSave = false
+      let needSave = false
       if (user.profile !== stringifiedProfile) {
         user.profile = stringifiedProfile
         needSave = true

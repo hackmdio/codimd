@@ -9,6 +9,7 @@ import * as moment from "moment";
 
 import * as config from "../config";
 import * as logger from "../logger";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {Note, Revision} from "../models";
 import {errorInternalError, errorNotFound} from "../response";

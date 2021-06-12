@@ -30,6 +30,7 @@ appRouter.get('/500', errorPageController.errorInternalError)
 appRouter.get('/config', statusController.getConfig)
 
 // register auth module
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 appRouter.use(require('./auth'))
 
 // get history
@@ -56,6 +57,7 @@ appRouter.get('/me/export', userController.exportMyData)
 appRouter.get('/user/:username/avatar.svg', userController.getMyAvatar)
 
 // register image upload module
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 appRouter.use(require('./imageRouter'))
 
 // get new note
