@@ -2,7 +2,7 @@
 // external modules
 import DiffMatchPatch from "@hackmd/diff-match-patch";
 // core
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 
 const dmp = new DiffMatchPatch()

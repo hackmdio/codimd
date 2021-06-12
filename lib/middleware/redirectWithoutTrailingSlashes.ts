@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 
-import * as config from "../config";
+import config from "../config";
 
 export default function (req: Request, res: Response, next) {
   if (req.method === 'GET' && req.path.substr(-1) === '/' && req.path.length > 1) {

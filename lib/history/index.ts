@@ -4,7 +4,7 @@ import LZString from '@hackmd/lz-string'
 
 import * as models from '../models'
 import {logger} from '../logger'
-import * as config from '../config'
+import config from '../config'
 import * as response from '../response'
 
 function getHistory (userid, callback) {

@@ -1,7 +1,7 @@
 'use strict'
 
 import * as models from "../models";
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 
 export function setReturnToFromReferer(req) {

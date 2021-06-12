@@ -13,7 +13,7 @@ import moment from "moment";
 import DiffMatchPatch from "@hackmd/diff-match-patch";
 
 // core
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 import {stripTags} from "../string";
 

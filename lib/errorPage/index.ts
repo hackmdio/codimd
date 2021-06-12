@@ -1,4 +1,4 @@
-import * as config from "../config";
+import config from "../config";
 
 import {responseError} from "../response";
 

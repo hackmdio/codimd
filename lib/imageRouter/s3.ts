@@ -4,7 +4,7 @@ import * as path from "path";
 import {S3Client} from "@aws-sdk/client-s3-node/S3Client";
 import {PutObjectCommand, PutObjectInput} from "@aws-sdk/client-s3-node/commands/PutObjectCommand";
 
-import * as config from "../config";
+import config from "../config";
 import {getImageMimeType} from "../utils";
 import {logger} from "../logger";
 

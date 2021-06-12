@@ -1,6 +1,6 @@
 import toobusy from "toobusy-js";
 
-import * as config from "../config";
+import config from "../config";
 import * as response from "../response";
 
 toobusy.maxLag(config.responseMaxLag)

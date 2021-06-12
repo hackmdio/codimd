@@ -3,7 +3,7 @@ import * as path from "path";
 
 import Minio from "minio";
 
-import * as config from "../config";
+import config from "../config";
 import {getImageMimeType} from "../utils";
 import {logger} from "../logger";
 

@@ -1,7 +1,7 @@
 import {Router} from "express";
 
 import passport from "passport";
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 import * as models from "../models";
 

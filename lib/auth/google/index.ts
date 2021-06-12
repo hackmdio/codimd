@@ -2,7 +2,7 @@ import {Router} from "express";
 import passport from "passport";
 import {Strategy as GoogleStrategy} from "passport-google-oauth20";
 
-import * as config from "../../config";
+import config from "../../config";
 import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
 const googleAuth = module.exports = Router()

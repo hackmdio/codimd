@@ -8,10 +8,10 @@ import * as  path from "path";
 import * as  util from "util";
 
 // core
-import * as config from "../config";
 import {logger} from "../logger";
 
 const Op = Sequelize.Op
+import config from "../config";
 
 let dmpWorker = createDmpWorker()
 const dmpCallbackCache = {}

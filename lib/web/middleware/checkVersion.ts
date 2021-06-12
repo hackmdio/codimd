@@ -3,7 +3,7 @@ import {promisify} from "util";
 import request from "request";
 
 import {logger} from "../../logger";
-import * as config from "../../config";
+import config from "../../config";
 
 let lastCheckAt
 

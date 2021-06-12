@@ -2,7 +2,7 @@
 import * as crypto from "crypto";
 import randomcolor from "randomcolor";
 
-import * as config from "./config";
+import config from "./config";
 
 // core
 export function generateAvatar(name) {

@@ -1,4 +1,4 @@
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

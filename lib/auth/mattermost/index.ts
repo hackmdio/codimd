@@ -6,7 +6,7 @@ require('isomorphic-fetch')
 import MattermostClient from "mattermost-redux/client/client4";
 import {Strategy as OAuthStrategy} from "passport-oauth2";
 
-import * as config from "../../config";
+import config from "../../config";
 import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
 

@@ -3,7 +3,7 @@ import * as path from "path";
 
 import azure from "azure-storage";
 
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 
 export function uploadImage(imagePath, callback) {

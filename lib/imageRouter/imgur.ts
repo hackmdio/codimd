@@ -1,7 +1,7 @@
 'use strict'
 import imgur from "@hackmd/imgur";
 
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 
 export function uploadImage(imagePath, callback) {

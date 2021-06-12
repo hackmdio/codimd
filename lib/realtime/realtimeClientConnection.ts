@@ -2,7 +2,7 @@
 
 import {get} from "lodash";
 
-import * as config from "../config";
+import config from "../config";
 import * as models from "../models";
 import {logger} from "../logger";
 

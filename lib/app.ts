@@ -19,7 +19,7 @@ import passportSocketIo from 'passport.socketio'
 import SocketIo from 'socket.io'
 import {Server as WsServer} from 'ws'
 // core
-import * as config from "./config";
+import config from "./config";
 import {logger} from "./logger";
 import * as response from "./response";
 import * as models from "./models";

@@ -3,8 +3,8 @@ import passport from "passport";
 import validator from "validator";
 import {Strategy as LocalStrategy} from 'passport-local';
 
-import * as config from '../../config';
 import * as models from '../../models';
+import config from '../../config';
 import {logger} from "../../logger";
 import {setReturnToFromReferer} from "../utils";
 import {urlencodedParser} from "../../utils";

@@ -2,7 +2,7 @@ import {Router} from "express";
 import passport from "passport";
 import {Strategy as DropboxStrategy} from "passport-dropbox-oauth2";
 
-import * as config from "../../config";
+import config from "../../config";
 import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
 const dropboxAuth = Router()

@@ -1,8 +1,8 @@
 import archiver from 'archiver'
 import async from 'async'
 import * as response from '../response'
-import * as config from '../config'
 import * as models from '../models'
+import config from '../config'
 import {logger} from '../logger'
 import { generateAvatar } from '../letter-avatars'
 

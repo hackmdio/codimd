@@ -2,7 +2,7 @@
 // external modules
 import * as request from "request";
 // core
-import * as config from "./config";
+import config from "./config";
 import {logger} from "./logger";
 import * as models from "./models";
 import * as utils from "./utils";

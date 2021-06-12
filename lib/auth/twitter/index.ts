@@ -2,7 +2,7 @@ import {Router} from "express";
 import passport from "passport";
 import {Strategy as TwitterStrategy} from "passport-twitter";
 
-import * as config from "../../config";
+import config from "../../config";
 import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
 const twitterAuth = Router()

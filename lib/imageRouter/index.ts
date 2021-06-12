@@ -8,7 +8,7 @@ import readChunk from "read-chunk";
 import imageType from "image-type";
 import mime from "mime-types";
 
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 import * as response from "../response";
 

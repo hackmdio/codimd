@@ -5,7 +5,7 @@ import {Sequelize} from "sequelize";
 import {cloneDeep} from "lodash";
 
 // core
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 
 const dbconfig = cloneDeep(config.db)

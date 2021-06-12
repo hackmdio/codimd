@@ -1,7 +1,7 @@
 import {Router} from "express";
 import passport from "passport";
 import {Strategy as GithubStrategy} from "passport-github";
-import * as config from "../../config";
+import config from "../../config";
 import * as response from "../../response";
 import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 import {URL} from "url";

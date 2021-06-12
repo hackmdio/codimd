@@ -2,7 +2,7 @@ import {Router} from "express";
 import passport from "passport";
 import {Strategy as GitlabStrategy} from "passport-gitlab2";
 
-import * as config from "../../config";
+import config from "../../config";
 import * as response from "../../response";
 import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 import HttpsProxyAgent from "https-proxy-agent";

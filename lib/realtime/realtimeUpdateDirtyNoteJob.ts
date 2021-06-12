@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 
 export class UpdateDirtyNoteJob {

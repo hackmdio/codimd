@@ -2,7 +2,7 @@ import {Router} from "express";
 import passport from "passport";
 import {Strategy as FacebookStrategy} from "passport-facebook";
 
-import * as config from "../../config";
+import config from "../../config";
 import {passportGeneralCallback, setReturnToFromReferer} from "../utils";
 
 const facebookAuth = Router()

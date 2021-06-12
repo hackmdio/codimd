@@ -9,7 +9,7 @@ import moment from "moment";
 import {get} from "lodash";
 
 // core
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 import * as history from "../history";
 import * as models from "../models";

@@ -3,7 +3,7 @@ import {Router} from "express";
 import passport from "passport";
 import {Strategy as SamlStrategy} from "passport-saml";
 
-import * as config from "../../config";
+import config from "../../config";
 import * as models from "../../models";
 import {logger} from "../../logger";
 import {urlencodedParser} from "../../utils";

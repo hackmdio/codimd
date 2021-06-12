@@ -1,6 +1,6 @@
 import * as realtime from "../realtime/realtime";
 
-import * as config from "../config";
+import config from "../config";
 
 
 export async function getStatus(req, res) {

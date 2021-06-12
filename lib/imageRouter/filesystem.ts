@@ -5,7 +5,7 @@ import * as path from "path";
 import * as crypto from "crypto";
 import {URL} from "url";
 
-import * as config from "../config";
+import config from "../config";
 import {logger} from "../logger";
 
 /**

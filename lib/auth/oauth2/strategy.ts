@@ -1,5 +1,5 @@
 import {InternalOAuthError, Strategy} from "passport-oauth2";
-import * as config from "../../config";
+import config from "../../config";
 
 export function parseProfile (data) {
   const username = extractProfileAttribute(data, config.oauth2.userProfileUsernameAttr)
