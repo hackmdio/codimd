@@ -1,5 +1,5 @@
 import {Router} from "express";
-import passport from "passport";
+import * as passport from "passport";
 import {Strategy as DropboxStrategy} from "passport-dropbox-oauth2";
 
 import * as config from "../../config";
