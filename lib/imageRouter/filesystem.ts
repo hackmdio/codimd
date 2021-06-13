@@ -34,7 +34,7 @@ function pickFilename(defaultFilename) {
   throw new Error('file exists.')
 }
 
-export function uploadImage(imagePath, callback) {
+export function uploadImage(imagePath: string, callback: (err: Error | null, url?: string) => void): void {
   if (!imagePath || typeof imagePath !== 'string') {
     callback(new Error('Image path is missing or wrong'), null)
     return

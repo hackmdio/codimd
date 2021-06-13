@@ -4,7 +4,7 @@ import imgur from "@hackmd/imgur";
 import config from "../config";
 import {logger} from "../logger";
 
-export function uploadImage(imagePath, callback) {
+export function uploadImage(imagePath: string, callback: (err: Error | null, url?: string) => void): void {
   if (!imagePath || typeof imagePath !== 'string') {
     callback(new Error('Image path is missing or wrong'), null)
     return

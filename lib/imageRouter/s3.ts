@@ -20,7 +20,7 @@ const s3 = new S3Client({
   endpoint: config.s3.endpoint
 })
 
-export function uploadImage(imagePath, callback) {
+export function uploadImage(imagePath: string, callback: (err: Error | null, url: string) => void): void {
   if (!imagePath || typeof imagePath !== 'string') {
     callback(new Error('Image path is missing or wrong'), null)
     return
@@ -44,12 +44,12 @@ export function uploadImage(imagePath, callback) {
     }
     const mimeType = getImageMimeType(imagePath)
     if (mimeType) {
-      params.ContentType = mimeType
+      params.ContentType = mimeType as string
     }
 
     const command = new PutObjectCommand(params)
 
-    s3.send(command).then(data => {
+    s3.send(command).then(() => {
       let s3Endpoint = 's3.amazonaws.com'
       if (config.s3.endpoint) {
         s3Endpoint = config.s3.endpoint

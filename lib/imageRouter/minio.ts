@@ -15,7 +15,7 @@ const minioClient = new Minio.Client({
   secretKey: config.minio.secretKey
 })
 
-export function uploadImage(imagePath, callback) {
+export function uploadImage(imagePath: string, callback: (err: Error | null, url?: string) => void): void {
   if (!imagePath || typeof imagePath !== 'string') {
     callback(new Error('Image path is missing or wrong'), null)
     return
@@ -37,7 +37,7 @@ export function uploadImage(imagePath, callback) {
 
     minioClient.putObject(config.s3bucket, key, buffer, buffer.length, {
       ContentType: getImageMimeType(imagePath)
-    }, function (err, data) {
+    }, function (err) {
       if (err) {
         callback(err, null)
         return
