@@ -6,6 +6,7 @@ import {Socket} from "socket.io";
 import config from "../config";
 import {Note} from "../models";
 import {logger} from "../logger";
+import {RealtimeUserData} from "./realtime";
 
 export type CursorData = Record<string, string>
 
@@ -81,7 +82,7 @@ export class RealtimeClientConnection {
     return availablePermission
   }
 
-  getCurrentUser() {
+  getCurrentUser(): RealtimeUserData {
     if (!this.socket.id) return
     return this.realtime.getUserFromUserPool(this.socket.id)
   }
