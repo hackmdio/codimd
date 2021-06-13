@@ -1,16 +1,18 @@
 import archiver from 'archiver'
 import async from 'async'
+import {Request, Response} from "express";
 import * as response from '../response'
 import config from '../config'
 import {Note, User} from '../models'
 import {logger} from '../logger'
 import {generateAvatar} from '../letter-avatars'
 
-export async function getMe(req, res) {
+export async function getMe(req: Request, res: Response): Promise<void> {
   if (!req.isAuthenticated()) {
-    return res.status(401).send({
+    res.status(401).send({
       status: 'forbidden'
     })
+    return
   }
 
   const user = await User.findOne({
@@ -32,7 +34,7 @@ export async function getMe(req, res) {
   })
 }
 
-export async function deleteUser(req, res) {
+export async function deleteUser(req: Request, res: Response): Promise<void> {
   if (!req.isAuthenticated()) {
     return response.errorForbidden(req, res)
   }
@@ -55,7 +57,7 @@ export async function deleteUser(req, res) {
   return res.redirect(config.serverURL + '/')
 }
 
-export function exportMyData(req, res) {
+export function exportMyData(req: Request, res: Response): void {
   if (!req.isAuthenticated()) {
     return response.errorForbidden(req, res)
   }
@@ -114,7 +116,7 @@ export function exportMyData(req, res) {
   })
 }
 
-export function getMyAvatar(req, res) {
+export function getMyAvatar(req: Request, res: Response): void {
   res.setHeader('Content-Type', 'image/svg+xml')
   res.setHeader('Cache-Control', 'public, max-age=86400')
   res.send(generateAvatar(req.params.username))
