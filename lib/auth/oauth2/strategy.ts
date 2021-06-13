@@ -9,7 +9,10 @@ interface Oauth2Profile {
   photo: string
 }
 
-export function parseProfile(data: Record<string, string>): Oauth2Profile {
+// eslint-disable-next-line
+type ProfileData = Record<string, any> | string
+
+export function parseProfile(data: ProfileData): Oauth2Profile {
   const username = extractProfileAttribute(data, config.oauth2.userProfileUsernameAttr) as string
   const displayName = extractProfileAttribute(data, config.oauth2.userProfileDisplayNameAttr) as string
   const email = extractProfileAttribute(data, config.oauth2.userProfileEmailAttr) as string
@@ -28,7 +31,7 @@ export function parseProfile(data: Record<string, string>): Oauth2Profile {
   }
 }
 
-export function extractProfileAttribute(data: any, path: string): string | string[] | undefined {
+export function extractProfileAttribute(data: ProfileData, path: string): string | string[] | undefined {
   if (!data) return undefined
   if (typeof path !== 'string') return undefined
   // can handle stuff like `attrs[0].name`
@@ -44,7 +47,7 @@ export function extractProfileAttribute(data: any, path: string): string | strin
     }
     if (!data) return undefined
   }
-  return data
+  return data as string
 }
 
 interface OAuth2CustomStrategyOptions extends StrategyOptions {
