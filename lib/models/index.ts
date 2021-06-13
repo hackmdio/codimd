@@ -1,12 +1,23 @@
 // external modules
 import * as fs from "fs";
 import * as path from "path";
-import {Sequelize} from "sequelize";
+import {Model, Sequelize} from "sequelize";
 import {cloneDeep} from "lodash";
 
 // core
 import config from "../config";
 import {logger} from "../logger";
+
+
+import {BaseModel} from "./baseModel";
+
+import {Author, AuthorAttributes} from './author'
+import {User, UserAttributes} from './user'
+import {Revision, RevisionAttributes} from "./revision";
+import {Note, NoteAttributes} from './note'
+
+export {Author, User, Revision, Note}
+export {AuthorAttributes, UserAttributes, RevisionAttributes, NoteAttributes}
 
 const dbconfig = cloneDeep(config.db)
 dbconfig.logging = config.debug ? (data) => {
@@ -41,22 +52,16 @@ sequelize.processData = processData
 
 const db: any = {}
 
-fs.readdirSync(__dirname)
-  .filter(function (file) {
-    return (file.indexOf('.') !== 0) && (file !== 'index.js') && file.endsWith('.js')
-  })
-  .forEach(function (file) {
-    const model = sequelize.import(path.join(__dirname, file))
-    db[model.name] = model
-  })
+const models: BaseModel<Model>[] = [User, Note, Author, Revision]
 
-Object.keys(db).forEach(function (modelName) {
-  if ('associate' in db[modelName]) {
-    db[modelName].associate(db)
+models.forEach(m => {
+  m.initialize(sequelize)
+  db[m.name] = m
+})
+models.forEach(m => {
+  if ('associate' in m) {
+    m.associate(db)
   }
 })
 
-db.sequelize = sequelize
-db.Sequelize = Sequelize
-
-export = db
+export {sequelize}

@@ -1,25 +1,40 @@
 // external modules
 
-export = function (sequelize, DataTypes) {
-  const Author = sequelize.define('Author', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    color: {
-      type: DataTypes.STRING
-    }
-  }, {
-    indexes: [
-      {
-        unique: true,
-        fields: ['noteId', 'userId']
-      }
-    ]
-  })
+import {Model, DataTypes} from "sequelize";
 
-  Author.associate = function (models) {
+export interface AuthorAttributes {
+  id: string
+  color: string
+}
+
+export class Author extends Model<AuthorAttributes> implements AuthorAttributes {
+  color: string;
+  id: string;
+
+  static initialize(sequelize): void {
+    Author.init(
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          autoIncrement: true
+        },
+        color: {
+          type: DataTypes.STRING
+        }
+      },
+      {
+        sequelize,
+        indexes: [
+          {
+            unique: true,
+            fields: ['noteId', 'userId']
+          }
+        ]
+      })
+  }
+
+  static associate(models: any): void {
     Author.belongsTo(models.Note, {
       foreignKey: 'noteId',
       as: 'note',
@@ -35,6 +50,4 @@ export = function (sequelize, DataTypes) {
       hooks: true
     })
   }
-
-  return Author
 }

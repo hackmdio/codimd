@@ -25,6 +25,7 @@ import * as response from "./response";
 import * as models from "./models";
 import * as csp from "./csp";
 import {Environment} from "./config/enum";
+import {checkAllNotesRevision} from "./services/note";
 
 import {checkVersion, versionCheckMiddleware} from "./web/middleware/checkVersion";
 import TooBusyMiddleware from './middleware/tooBusy'
@@ -288,7 +289,7 @@ function startListen() {
 models.sequelize.sync().then(function () {
   // check if realtime is ready
   if (realtime.isReady()) {
-    models.Revision.checkAllNotesRevision(function (err, notes) {
+    checkAllNotesRevision(function (err, notes) {
       if (err) throw new Error(err)
       if (!notes || notes.length <= 0) return startListen()
     })
@@ -327,7 +328,7 @@ function handleTermSignals() {
   })
   const checkCleanTimer = setInterval(function () {
     if (realtime.isReady()) {
-      models.Revision.checkAllNotesRevision(function (err, notes) {
+      checkAllNotesRevision(function (err, notes) {
         if (err) return logger.error(err)
         if (!notes || notes.length <= 0) {
           clearInterval(checkCleanTimer)

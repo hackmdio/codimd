@@ -1,75 +1,113 @@
-'use strict'
-// external modules
-import * as Sequelize from "sequelize";
-
+import {Sequelize, Model, DataTypes} from "sequelize";
 import Scrypt from "scrypt-kdf";
-// core
+
 import {logger} from "../logger";
 import {generateAvatarURL} from "../letter-avatars";
 
-export = function (sequelize, DataTypes) {
-  const User = sequelize.define('User', {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: Sequelize.UUIDV4
-    },
-    profileid: {
-      type: DataTypes.STRING,
-      unique: true
-    },
-    profile: {
-      type: DataTypes.TEXT
-    },
-    history: {
-      type: DataTypes.TEXT
-    },
-    accessToken: {
-      type: DataTypes.TEXT
-    },
-    refreshToken: {
-      type: DataTypes.TEXT
-    },
-    deleteToken: {
-      type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4
-    },
-    email: {
-      type: Sequelize.TEXT,
-      validate: {
-        isEmail: true
+
+interface BaseProfile {
+  provider: string
+}
+
+interface DropboxProfile extends BaseProfile {
+  provider: 'dropbox'
+  emails?: { value: string }[]
+}
+
+interface GenericProfile extends BaseProfile {
+  provider: string
+  displayName?: string
+  username?: string
+  id?: string
+  photos?: { value: string }[]
+  avatarUrl?: string
+  emails?: string[]
+  photo?: string
+  email?: string
+}
+
+interface UserProfile {
+  name: string
+  photo: string
+  biggerphoto: string
+}
+
+export interface UserAttributes {
+  id: string
+  profileid?: string
+  profile?: string
+  history?: string
+  accessToken?: string
+  refreshToken?: string
+  deleteToken?: string
+  email?: string
+  password?: string
+}
+
+export class User extends Model<UserAttributes> implements UserAttributes {
+  accessToken: string;
+  deleteToken: string;
+  email: string;
+  history: string;
+  id: string;
+  password: string;
+  profile: string;
+  profileid: string;
+  refreshToken: string;
+
+  static initialize(sequelize: Sequelize): void {
+    User.init({
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4
+      },
+      profileid: {
+        type: DataTypes.STRING,
+        unique: true
+      },
+      profile: {
+        type: DataTypes.TEXT
+      },
+      history: {
+        type: DataTypes.TEXT
+      },
+      accessToken: {
+        type: DataTypes.TEXT
+      },
+      refreshToken: {
+        type: DataTypes.TEXT
+      },
+      deleteToken: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
+      },
+      email: {
+        type: DataTypes.TEXT,
+        validate: {
+          isEmail: true
+        }
+      },
+      password: {
+        type: DataTypes.TEXT
       }
-    },
-    password: {
-      type: Sequelize.TEXT
-    }
-  })
+    }, {sequelize})
 
-  User.hashPassword = async function (plain) {
-    return (await Scrypt.kdf(plain, await Scrypt.pickParams(0.1))).toString('hex')
+    User.addHook('beforeCreate', async function (user: User) {
+      // only do hash when password is presented
+      if (user.password) {
+        user.password = await User.hashPassword(user.password)
+      }
+    })
+
+    User.addHook('beforeUpdate', async function (user: User) {
+      if (user.changed('password')) {
+        user.password = await User.hashPassword(user.password)
+      }
+    })
   }
 
-  User.prototype.verifyPassword = async function (attempt) {
-    if (await Scrypt.verify(Buffer.from(this.password, 'hex'), attempt)) {
-      return this
-    }
-
-    return false
-  }
-
-  User.addHook('beforeCreate', async function (user) {
-    // only do hash when password is presented
-    if (user.password) {
-      user.password = await User.hashPassword(user.password)
-    }
-  })
-  User.addHook('beforeUpdate', async function (user) {
-    if (user.changed('password')) {
-      user.password = await User.hashPassword(user.password)
-    }
-  })
-
-  User.associate = function (models) {
+  static associate(models: any): void {
     User.hasMany(models.Note, {
       foreignKey: 'ownerId',
       constraints: false
@@ -79,95 +117,123 @@ export = function (sequelize, DataTypes) {
       constraints: false
     })
   }
-  User.getProfile = function (user) {
-    if (!user) {
-      return null
-    }
-    return user.profile ? User.parseProfile(user.profile) : (user.email ? User.parseProfileByEmail(user.email) : null)
+
+  static async hashPassword(plain): Promise<string> {
+    return (await Scrypt.kdf(plain, await Scrypt.pickParams(0.1))).toString('hex')
   }
-  User.parseProfile = function (profile) {
+
+  async verifyPassword(attempt: string): Promise<false | User> {
+    if (await Scrypt.verify(Buffer.from(this.password, 'hex'), attempt)) {
+      return this
+    }
+    return false
+  }
+
+  static getProfile(user): UserProfile | null {
+    if (!user) return null
+    if (user.profile) return User.parseProfile(user.profile)
+    if (user.email) return User.parseProfileByEmail(user.email)
+    return null
+  }
+
+  static parseProfile(profile: string): UserProfile | null {
+    let parsedProfile: GenericProfile | null
     try {
-      profile = JSON.parse(profile)
+      parsedProfile = JSON.parse(profile)
     } catch (err) {
       logger.error(err)
-      profile = null
+      return null
     }
-    if (profile) {
-      profile = {
-        name: profile.displayName || profile.username,
-        photo: User.parsePhotoByProfile(profile),
-        biggerphoto: User.parsePhotoByProfile(profile, true)
+    let returnProfile: UserProfile | null = null
+    if (parsedProfile) {
+      returnProfile = {
+        name: parsedProfile.displayName || parsedProfile.username,
+        photo: User.parsePhotoByProfile(parsedProfile),
+        biggerphoto: User.parsePhotoByProfile(parsedProfile, true)
       }
     }
-    return profile
+    return returnProfile
   }
-  User.parsePhotoByProfile = function (profile, bigger) {
+
+  static parsePhotoByProfile(profile: BaseProfile, bigger = false): string {
     let photo = null
-    switch (profile.provider) {
-      case 'facebook':
-        photo = 'https://graph.facebook.com/' + profile.id + '/picture'
+    switch ((profile as GenericProfile).provider) {
+      case 'facebook': {
+        let photo = 'https://graph.facebook.com/' + (profile as GenericProfile).id + '/picture'
         if (bigger) photo += '?width=400'
         else photo += '?width=96'
-        break
-      case 'twitter':
-        photo = 'https://twitter.com/' + profile.username + '/profile_image'
+        return photo
+      }
+      case 'twitter': {
+        photo = 'https://twitter.com/' + (profile as GenericProfile).username + '/profile_image'
         if (bigger) photo += '?size=original'
         else photo += '?size=bigger'
-        break
-      case 'github': {
-        const photoURL = new URL(profile.photos && profile.photos[0]
-          ? profile.photos[0].value
-          : `https://avatars.githubusercontent.com/u/${profile.id}`)
-        photoURL.searchParams.set('s', (bigger ? 400 : 96).toString())
-        photo = photoURL.toString()
-        break
+        return photo
       }
-      case 'gitlab':
-        photo = profile.avatarUrl
+      case 'github': {
+        const githubProfile = profile as GenericProfile
+        const photoURL = new URL(
+          githubProfile.photos && githubProfile.photos[0] ?
+            githubProfile.photos[0].value
+            : `https://avatars.githubusercontent.com/u/${githubProfile.id}`)
+        photoURL.searchParams.set('s', (bigger ? 400 : 96).toString())
+        return photoURL.toString()
+      }
+      case 'gitlab': {
+        const gitlabProfile = profile as GenericProfile
+        let photo = gitlabProfile.avatarUrl
         if (photo) {
           if (bigger) photo = photo.replace(/(\?s=)\d*$/i, '$1400')
           else photo = photo.replace(/(\?s=)\d*$/i, '$196')
         } else {
-          photo = generateAvatarURL(profile.username)
+          photo = generateAvatarURL(gitlabProfile.username)
         }
-        break
-      case 'mattermost':
-        photo = profile.avatarUrl
+        return photo
+      }
+      case 'mattermost': {
+        const mattermostProfile = profile as GenericProfile
+        let photo = mattermostProfile.avatarUrl
         if (photo) {
           if (bigger) photo = photo.replace(/(\?s=)\d*$/i, '$1400')
           else photo = photo.replace(/(\?s=)\d*$/i, '$196')
         } else {
-          photo = generateAvatarURL(profile.username)
+          photo = generateAvatarURL(mattermostProfile.username)
         }
-        break
-      case 'dropbox':
-        photo = generateAvatarURL('', profile.emails[0].value, bigger)
-        break
-      case 'google':
-        photo = profile.photos[0].value
-        if (bigger) photo = photo.replace(/(\?sz=)\d*$/i, '$1400')
-        else photo = photo.replace(/(\?sz=)\d*$/i, '$196')
-        break
-      case 'ldap':
-        photo = generateAvatarURL(profile.username, profile.emails[0], bigger)
-        break
-      case 'saml':
-        photo = generateAvatarURL(profile.username, profile.emails[0], bigger)
-        break
-      case 'oauth2':
-        photo = profile.photo
-        if (!photo) photo = generateAvatarURL(profile.username, profile.email, bigger)
-        break
+        return photo
+      }
+      case 'dropbox': {
+        return generateAvatarURL('', (profile as DropboxProfile).emails[0].value, bigger)
+      }
+      case 'google': {
+        const googleProfile = profile as GenericProfile
+        const photo = googleProfile.photos[0].value
+        if (bigger) return photo.replace(/(\?sz=)\d*$/i, '$1400')
+        else return photo.replace(/(\?sz=)\d*$/i, '$196')
+      }
+      case 'ldap': {
+        const ldapProfile = profile as GenericProfile
+        return generateAvatarURL(ldapProfile.username, ldapProfile.emails[0], bigger)
+      }
+      case 'saml': {
+        const samlProfile = profile as GenericProfile
+        return generateAvatarURL(samlProfile.username, samlProfile.emails[0], bigger)
+      }
+      case 'oauth2': {
+        const oauth2Profile = profile as GenericProfile
+        let photo = oauth2Profile.photo
+        if (!photo) photo = generateAvatarURL(oauth2Profile.username, oauth2Profile.email, bigger)
+        return photo
+      }
+      default:
+        return ''
     }
-    return photo
   }
-  User.parseProfileByEmail = function (email) {
+
+  static parseProfileByEmail(email: string): UserProfile {
     return {
       name: email.substring(0, email.lastIndexOf('@')),
       photo: generateAvatarURL('', email, false),
       biggerphoto: generateAvatarURL('', email, true)
     }
   }
-
-  return User
 }

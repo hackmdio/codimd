@@ -5,6 +5,7 @@ import * as request from "request";
 import config from "./config";
 import {logger} from "./logger";
 import * as models from "./models";
+import {createNoteWithRevision} from "./services/note";
 import * as utils from "./utils";
 import * as  history from "./history";
 
@@ -83,7 +84,7 @@ export function newNote(req, res, next?: any) {
   } else if (!config.allowAnonymous) {
     return errorForbidden(req, res)
   }
-  models.Note.create({
+  createNoteWithRevision({
     ownerId: owner,
     alias: req.alias ? req.alias : null,
     content: body

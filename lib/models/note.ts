@@ -1,140 +1,163 @@
 // external modules
-import * as fs from "fs";
-import * as path from "path";
-import LZString from "@hackmd/lz-string";
-import base64url from "base64url";
-import markdownIt from "markdown-it";
-import metaMarked from "@hackmd/meta-marked";
-import cheerio from "cheerio";
-import shortId from "shortid";
-import * as Sequelize from "sequelize";
-import async from "async";
-import moment from "moment";
 import DiffMatchPatch from "@hackmd/diff-match-patch";
+import LZString from "@hackmd/lz-string";
+import metaMarked from "@hackmd/meta-marked";
+import async from "async";
+import base64url from "base64url";
+import cheerio from "cheerio";
+import * as fs from "fs";
+import markdownIt from "markdown-it";
+import moment from "moment";
+
+// ot
+import ot from "ot";
+import * as path from "path";
+import {DataTypes, Model} from "sequelize";
+import shortId from "shortid";
 
 // core
 import config from "../config";
 import {logger} from "../logger";
+import {createNoteWithRevision, syncNote} from "../services/note";
 import {stripTags} from "../string";
-
-// ot
-import ot from "ot";
+import {MySequelize} from "./baseModel";
 
 const md = markdownIt()
-const dmp = new DiffMatchPatch()
+export const dmp = new DiffMatchPatch()
 // permission types
 const permissionTypes = ['freely', 'editable', 'limited', 'locked', 'protected', 'private']
 
-export = function (sequelize, DataTypes) {
-  const Note = sequelize.define('Note', {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: Sequelize.UUIDV4
-    },
-    shortid: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-      defaultValue: shortId.generate
-    },
-    alias: {
-      type: DataTypes.STRING,
-      unique: true
-    },
-    permission: {
-      type: DataTypes.ENUM,
-      values: permissionTypes
-    },
-    viewcount: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
-    },
-    title: {
-      type: DataTypes.TEXT,
-      get: function () {
-        return sequelize.processData(this.getDataValue('title'), '')
-      },
-      set: function (value) {
-        this.setDataValue('title', sequelize.stripNullByte(value))
-      }
-    },
-    content: {
-      type: DataTypes.TEXT('long'),
-      get: function () {
-        return sequelize.processData(this.getDataValue('content'), '')
-      },
-      set: function (value) {
-        this.setDataValue('content', sequelize.stripNullByte(value))
-      }
-    },
-    authorship: {
-      type: DataTypes.TEXT('long'),
-      get: function () {
-        return sequelize.processData(this.getDataValue('authorship'), [], JSON.parse)
-      },
-      set: function (value) {
-        this.setDataValue('authorship', JSON.stringify(value))
-      }
-    },
-    lastchangeAt: {
-      type: DataTypes.DATE
-    },
-    savedAt: {
-      type: DataTypes.DATE
-    }
-  }, {
-    paranoid: false,
-    hooks: {
-      beforeCreate: function (note, options) {
-        return new Promise(function (resolve, reject) {
-          // if no content specified then use default note
-          if (!note.content) {
-            let filePath = config.defaultNotePath
+export interface NoteAttributes {
+  id?: string
+  shortid?: string
+  alias?: string
+  permission?: string
+  viewcount?: number
+  title?: string
+  content?: string
+  authorship?: string
+  lastchangeAt?: Date
+  savedAt?: Date
 
-            if (note.alias) {
-              const notePathInDocPath = path.join(config.docsPath, path.basename(note.alias) + '.md')
-              if (Note.checkFileExist(notePathInDocPath)) {
-                filePath = notePathInDocPath
-              }
-            }
+  ownerId?: string
+}
 
-            if (Note.checkFileExist(filePath)) {
-              const noteInFS = readFileSystemNote(filePath)
-              note.title = noteInFS.title
-              note.content = noteInFS.content
-              if (filePath !== config.defaultNotePath) {
-                note.createdAt = noteInFS.lastchangeAt
-                note.lastchangeAt = noteInFS.lastchangeAt
-              }
+export class Note extends Model<NoteAttributes> implements NoteAttributes {
+  alias: string;
+  authorship: string;
+  content: string;
+  id: string;
+  lastchangeAt: Date;
+  permission: string;
+  savedAt: Date;
+  shortid: string;
+  title: string;
+  viewcount: number;
+  createdAt: Date
+
+  ownerId: string
+
+  static initialize(sequelize: MySequelize): void {
+    Note.init({
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4
+      },
+      shortid: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false,
+        defaultValue: shortId.generate
+      },
+      alias: {
+        type: DataTypes.STRING,
+        unique: true
+      },
+      permission: {
+        type: DataTypes.ENUM,
+        values: permissionTypes
+      },
+      viewcount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      title: {
+        type: DataTypes.TEXT,
+        get: function () {
+          return sequelize.processData(this.getDataValue('title'), '')
+        },
+        set: function (value) {
+          this.setDataValue('title', sequelize.stripNullByte(value))
+        }
+      },
+      content: {
+        type: DataTypes.TEXT({length: 'long'}),
+        get: function () {
+          return sequelize.processData(this.getDataValue('content'), '')
+        },
+        set: function (value) {
+          this.setDataValue('content', sequelize.stripNullByte(value))
+        }
+      },
+      authorship: {
+        type: DataTypes.TEXT({length: 'long'}),
+        get: function () {
+          return sequelize.processData(this.getDataValue('authorship'), [], JSON.parse)
+        },
+        set: function (value) {
+          this.setDataValue('authorship', JSON.stringify(value))
+        }
+      },
+      lastchangeAt: {
+        type: DataTypes.DATE
+      },
+      savedAt: {
+        type: DataTypes.DATE
+      }
+    }, {
+      sequelize,
+      paranoid: false
+    })
+
+    Note.addHook('beforeCreate', function (note: Note): Promise<void> {
+      return new Promise(function (resolve, reject) {
+        // if no content specified then use default note
+        if (!note.content) {
+          let filePath = config.defaultNotePath
+
+          if (note.alias) {
+            const notePathInDocPath = path.join(config.docsPath, path.basename(note.alias) + '.md')
+            if (Note.checkFileExist(notePathInDocPath)) {
+              filePath = notePathInDocPath
             }
           }
-          // if no permission specified and have owner then give default permission in config, else default permission is freely
-          if (!note.permission) {
-            if (note.ownerId) {
-              note.permission = config.defaultPermission
-            } else {
-              note.permission = 'freely'
+
+          if (Note.checkFileExist(filePath)) {
+            const noteInFS = readFileSystemNote(filePath)
+            note.title = noteInFS.title
+            note.content = noteInFS.content
+            if (filePath !== config.defaultNotePath) {
+              note.createdAt = noteInFS.lastchangeAt.toDate()
+              note.lastchangeAt = noteInFS.lastchangeAt.toDate()
             }
           }
-          return resolve(note)
-        })
-      },
-      afterCreate: function (note, options, callback) {
-        return new Promise(function (resolve, reject) {
-          sequelize.models.Revision.saveNoteRevision(note, function (err, revision) {
-            if (err) {
-              return reject(err)
-            }
-            return resolve(note)
-          })
-        })
-      }
-    }
-  })
+        }
+        // if no permission specified and have owner then give default permission in config, else default permission is freely
+        if (!note.permission) {
+          if (note.ownerId) {
+            note.permission = config.defaultPermission
+          } else {
+            note.permission = 'freely'
+          }
+        }
+        return resolve()
+      })
+    })
+  }
 
-  Note.associate = function (models) {
+  static associate(models: any): void {
     Note.belongsTo(models.User, {
       foreignKey: 'ownerId',
       as: 'owner',
@@ -157,20 +180,24 @@ export = function (sequelize, DataTypes) {
       constraints: false
     })
   }
-  Note.checkFileExist = function (filePath) {
+
+
+  static checkFileExist(filePath) {
     try {
       return fs.statSync(filePath).isFile()
     } catch (err) {
       return false
     }
   }
-  Note.encodeNoteId = function (id) {
+
+  static encodeNoteId(id) {
     // remove dashes in UUID and encode in url-safe base64
     const str = id.replace(/-/g, '')
     const hexStr = Buffer.from(str, 'hex')
     return base64url.encode(hexStr)
   }
-  Note.decodeNoteId = function (encodedId) {
+
+  static decodeNoteId(encodedId) {
     // decode from url-safe base64
     const id = base64url.toBuffer(encodedId).toString('hex')
     // add dashes between the UUID string parts
@@ -182,7 +209,8 @@ export = function (sequelize, DataTypes) {
     idParts.push(id.substr(20, 12))
     return idParts.join('-')
   }
-  Note.checkNoteIdValid = function (id) {
+
+  static checkNoteIdValid(id) {
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
     const result = id.match(uuidRegex)
     if (result && result.length === 1) {
@@ -191,7 +219,8 @@ export = function (sequelize, DataTypes) {
       return false
     }
   }
-  Note.parseNoteIdAsync = function (noteId) {
+
+  static parseNoteIdAsync(noteId) {
     return new Promise((resolve, reject) => {
       Note.parseNoteId(noteId, (err, id) => {
         if (err) {
@@ -202,29 +231,7 @@ export = function (sequelize, DataTypes) {
     })
   }
 
-  async function syncNote(noteInFS, note) {
-    const contentLength = noteInFS.content.length
-
-    let note2 = await note.update({
-      title: noteInFS.title,
-      content: noteInFS.content,
-      lastchangeAt: noteInFS.lastchangeAt
-    })
-    const revision = await sequelize.models.Revision.saveNoteRevisionAsync(note2)
-    // update authorship on after making revision of docs
-    const patch = dmp.patch_fromText(revision.patch)
-    const operations = Note.transformPatchToOperations(patch, contentLength)
-    let authorship = note2.authorship
-    for (let i = 0; i < operations.length; i++) {
-      authorship = Note.updateAuthorshipByOperation(operations[i], null, authorship)
-    }
-    note2 = await note.update({
-      authorship: authorship
-    })
-    return note2.id
-  }
-
-  Note.parseNoteId = function (noteId, callback) {
+  static parseNoteId(noteId, callback) {
     async.series({
       parseNoteIdByAlias: function (_callback) {
         // try to parse note id by alias (e.g. doc)
@@ -246,9 +253,9 @@ export = function (sequelize, DataTypes) {
                 }
               } else {
                 // create new note with alias, and will sync md file in beforeCreateHook
-                const note = await Note.create({
+                const note = await createNoteWithRevision({
                   alias: noteId,
-                  owner: null,
+                  ownerId: null,
                   permission: 'locked'
                 })
                 return callback(null, note.id)
@@ -336,7 +343,8 @@ export = function (sequelize, DataTypes) {
       return callback(null, null)
     })
   }
-  Note.parseNoteInfo = function (body) {
+
+  static parseNoteInfo(body) {
     const parsed = Note.extractMeta(body)
     const $ = cheerio.load(md.render(parsed.markdown))
     return {
@@ -344,12 +352,14 @@ export = function (sequelize, DataTypes) {
       tags: Note.extractNoteTags(parsed.meta, $)
     }
   }
-  Note.parseNoteTitle = function (body) {
+
+  static parseNoteTitle(body) {
     const parsed = Note.extractMeta(body)
     const $ = cheerio.load(md.render(parsed.markdown))
     return Note.extractNoteTitle(parsed.meta, $)
   }
-  Note.extractNoteTitle = function (meta, $) {
+
+  static extractNoteTitle(meta, $) {
     let title = ''
     if (meta.title && (typeof meta.title === 'string' || typeof meta.title === 'number')) {
       title = meta.title
@@ -362,17 +372,21 @@ export = function (sequelize, DataTypes) {
     if (!title) title = 'Untitled'
     return title
   }
-  Note.generateDescription = function (markdown) {
+
+  static generateDescription(markdown) {
     return markdown.substr(0, 100).replace(/(?:\r\n|\r|\n)/g, ' ')
   }
-  Note.decodeTitle = function (title) {
+
+  static decodeTitle(title) {
     return title || 'Untitled'
   }
-  Note.generateWebTitle = function (title) {
+
+  static generateWebTitle(title) {
     title = !title || title === 'Untitled' ? 'CodiMD - Collaborative markdown notes' : title + ' - CodiMD'
     return title
   }
-  Note.extractNoteTags = function (meta, $) {
+
+  static extractNoteTags(meta, $) {
     const tags = []
     const rawtags = []
     let metaTags
@@ -412,7 +426,8 @@ export = function (sequelize, DataTypes) {
     }
     return tags
   }
-  Note.extractMeta = function (content) {
+
+  static extractMeta(content) {
     let obj = null
     try {
       obj = metaMarked(content)
@@ -426,7 +441,8 @@ export = function (sequelize, DataTypes) {
     }
     return obj
   }
-  Note.parseMeta = function (meta) {
+
+  static parseMeta(meta) {
     const _meta: any = {}
     if (meta) {
       if (meta.title && (typeof meta.title === 'string' || typeof meta.title === 'number')) {
@@ -450,7 +466,8 @@ export = function (sequelize, DataTypes) {
     }
     return _meta
   }
-  Note.updateAuthorshipByOperation = function (operation, userId, authorships) {
+
+  static updateAuthorshipByOperation(operation, userId, authorships) {
     let index = 0
     const timestamp = Date.now()
     for (let i = 0; i < operation.length; i++) {
@@ -551,7 +568,8 @@ export = function (sequelize, DataTypes) {
     }
     return authorships
   }
-  Note.transformPatchToOperations = function (patch, contentLength) {
+
+  static transformPatchToOperations(patch, contentLength) {
     const operations = []
     if (patch.length > 0) {
       // calculate original content length
@@ -610,22 +628,21 @@ export = function (sequelize, DataTypes) {
     }
     return operations
   }
-
-  function readFileSystemNote(filePath) {
-    const fsModifiedTime = moment(fs.statSync(filePath).mtime)
-    const content = fs.readFileSync(filePath, 'utf8')
-
-    return {
-      lastchangeAt: fsModifiedTime,
-      title: Note.parseNoteTitle(content),
-      content: content
-    }
-  }
-
-  function shouldSyncNote(note, noteInFS) {
-    const dbModifiedTime = moment(note.lastchangeAt || note.createdAt)
-    return noteInFS.lastchangeAt.isAfter(dbModifiedTime) && note.content !== noteInFS.content
-  }
-
-  return Note
 }
+
+function readFileSystemNote(filePath) {
+  const fsModifiedTime = moment(fs.statSync(filePath).mtime)
+  const content = fs.readFileSync(filePath, 'utf8')
+
+  return {
+    lastchangeAt: fsModifiedTime,
+    title: Note.parseNoteTitle(content),
+    content: content
+  }
+}
+
+function shouldSyncNote(note, noteInFS) {
+  const dbModifiedTime = moment(note.lastchangeAt || note.createdAt)
+  return noteInFS.lastchangeAt.isAfter(dbModifiedTime) && note.content !== noteInFS.content
+}
+

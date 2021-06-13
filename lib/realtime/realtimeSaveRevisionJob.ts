@@ -2,6 +2,7 @@
 
 import * as models from "../models";
 import {logger} from "../logger";
+import {saveAllNotesRevision} from "../services/note";
 
 /**
  * clean when user not in any rooms or user not in connected list
@@ -29,7 +30,7 @@ export class SaveRevisionJob {
 
   saveRevision() {
     if (this.getSaverSleep()) return
-    models.Revision.saveAllNotesRevision((err, notes) => {
+    saveAllNotesRevision((err, notes) => {
       if (err) {
         logger.error('revision saver failed: ' + err)
       }

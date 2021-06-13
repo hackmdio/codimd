@@ -8,6 +8,7 @@ import {Note, Revision, User} from "../models";
 
 import {errorForbidden, errorInternalError, errorNotFound, newCheckViewPermission, responseCodiMD} from "../response";
 import {historyDelete, updateHistory} from "../history";
+import {createNoteWithRevision} from "../services/note";
 import {
   actionDownload,
   actionGist,
@@ -49,7 +50,7 @@ async function createNote(userId, noteAlias) {
     throw new Error('can not create note')
   }
 
-  const note = await Note.create({
+  const note = await createNoteWithRevision({
     ownerId: userId,
     alias: noteAlias
   })
