@@ -1,7 +1,12 @@
+import {RequestHandler} from "express";
 import config from "./config";
 import uuid from "uuid";
 
-const CspStrategy: any = {}
+
+const CspStrategy: {
+  computeDirectives?: () => Record<string, string[]>
+  addNonceToLocals?: RequestHandler
+} = {}
 
 const defaultDirectives = {
   defaultSrc: ['\'self\''],
@@ -37,7 +42,7 @@ const googleAnalyticsDirectives = {
 }
 
 CspStrategy.computeDirectives = function () {
-  const directives = {}
+  const directives: Record<string, string[]> = {}
   mergeDirectives(directives, config.csp.directives)
   mergeDirectivesIf(config.csp.addDefaults, directives, defaultDirectives)
   mergeDirectivesIf(config.useCDN, directives, cdnDirectives)
@@ -52,12 +57,14 @@ CspStrategy.computeDirectives = function () {
   return directives
 }
 
-function mergeDirectives(existingDirectives, newDirectives) {
+function mergeDirectives(existingDirectives: Record<string, string[]>, newDirectives: Record<string, string[]>) {
   for (const propertyName in newDirectives) {
-    const newDirective = newDirectives[propertyName]
-    if (newDirective) {
-      const existingDirective = existingDirectives[propertyName] || []
-      existingDirectives[propertyName] = existingDirective.concat(newDirective)
+    if (Object.hasOwnProperty.call(newDirectives, propertyName)) {
+      const newDirective = newDirectives[propertyName]
+      if (newDirective) {
+        const existingDirective = existingDirectives[propertyName] || []
+        existingDirectives[propertyName] = existingDirective.concat(newDirective)
+      }
     }
   }
 }
