@@ -14,12 +14,13 @@ import config from "../config";
 import {logger} from "../logger";
 import * as history from "../history";
 import {Author, Note, User} from "../models";
+import {UserProfile} from "../models/baseModel";
 
 // ot
 import ot from "ot";
 
 import {ProcessQueue} from "./processQueue";
-import {RealtimeClientConnection} from "./realtimeClientConnection";
+import {CursorData, RealtimeClientConnection} from "./realtimeClientConnection";
 import {UpdateDirtyNoteJob} from "./realtimeUpdateDirtyNoteJob";
 import {CleanDanglingUserJob} from "./realtimeCleanDanglingUserJob";
 import {SaveRevisionJob} from "./realtimeSaveRevisionJob";
@@ -40,6 +41,42 @@ export interface RealtimeUserData {
   idle?: any
   type?: any
 }
+
+interface RealtimeAuthorData {
+  userid: string
+  color: string
+  photo: string
+  name: string
+}
+
+export interface RealtimeNoteData {
+  id: string,
+  alias?: string,
+  title?: string,
+  // owner id
+  owner?: string,
+  ownerprofile?: UserProfile
+  permission?: string
+  // last change user id
+  lastchangeuser?: string
+  lastchangeuserprofile?: UserProfile
+
+  socks: SocketIO.Socket[]
+  users: Record<string, RealtimeUserData>
+  //???
+  tempUsers: any
+
+  createtime: number
+  updatetime: number
+
+  // type: ot.EditorSocketIOServer
+  server: any
+
+  authors: Record<string, RealtimeAuthorData>
+  authorship: string
+}
+
+
 const chance = new Chance()
 
 export let io: SocketIO.Server = null
@@ -98,7 +135,7 @@ export function secure(socket: SocketIO.Socket, next: (err?: Error | null) => vo
 
 // TODO: only use in `updateDirtyNote`
 // TODO: test it
-export function emitCheck(note) {
+export function emitCheck(note: RealtimeNoteData): void {
   const out = {
     title: note.title,
     updatetime: note.updatetime,
@@ -111,10 +148,10 @@ export function emitCheck(note) {
 }
 
 // actions
-export const notes = {}
 export const users: Record<string, RealtimeUserData> = {}
+export const notes: Record<string, RealtimeNoteData> = {}
 
-export function getNotePool(): any {
+export function getNotePool(): Record<string, RealtimeNoteData> {
   return notes
 }
 
@@ -122,7 +159,7 @@ export function isNoteExistsInPool(noteId: string): boolean {
   return !!notes[noteId]
 }
 
-export function addNote(note) {
+export function addNote(note: RealtimeNoteData): boolean {
   if (exports.isNoteExistsInPool(note.id)) return false
   notes[note.id] = note
   return true
@@ -142,7 +179,7 @@ export function deleteAllNoteFromPool(): void {
   })
 }
 
-export function getNoteFromNotePool(noteId) {
+export function getNoteFromNotePool(noteId: string): RealtimeNoteData | null {
   return notes[noteId]
 }
 
@@ -159,7 +196,7 @@ updateDirtyNoteJob.start()
 cleanDanglingUserJob.start()
 saveRevisionJob.start()
 
-export function disconnectSocketOnNote(note) {
+export function disconnectSocketOnNote(note: RealtimeNoteData): void {
   note.socks.forEach((sock) => {
     if (sock) {
       sock.emit('delete')
@@ -170,7 +207,7 @@ export function disconnectSocketOnNote(note) {
   })
 }
 
-export function updateNote(note, callback) {
+export function updateNote(note: RealtimeNoteData, callback: (err: Error | null, note: Note) => void): void {
   _updateNoteAsync(note).then(_note => {
     callback(null, _note)
   }).catch((err) => {
@@ -179,7 +216,7 @@ export function updateNote(note, callback) {
   })
 }
 
-function findNoteByIdAsync(id) {
+function findNoteByIdAsync(id: string): Promise<Note> {
   return Note.findOne({
     where: {
       id: id
@@ -187,7 +224,7 @@ function findNoteByIdAsync(id) {
   })
 }
 
-function updateHistoryForEveryUserCollaborateNote(note) {
+function updateHistoryForEveryUserCollaborateNote(note: RealtimeNoteData): void {
   // update history to every user in this note
   const tempUsers = Object.assign({}, note.tempUsers)
   note.tempUsers = {}
@@ -197,7 +234,7 @@ function updateHistoryForEveryUserCollaborateNote(note) {
   })
 }
 
-async function getUserProfileByIdAsync(id) {
+async function getUserProfileByIdAsync(id: string): Promise<UserProfile> {
   const user = await User.findOne({
     where: {
       id: id
@@ -237,7 +274,7 @@ function buildNoteUpdateData(note) {
   }
 }
 
-async function _updateNoteAsync(note) {
+async function _updateNoteAsync(note: RealtimeNoteData) {
   let noteModel = await findNoteByIdAsync(note.id)
   if (!noteModel) return null
 
@@ -247,7 +284,7 @@ async function _updateNoteAsync(note) {
     note.lastchangeuserprofile = await getLastChangeUserProfileAsync(
       note.lastchangeuser,
       noteModel.lastchangeuserId,
-      noteModel.lastchangeuserprofile
+      note.lastchangeuser
     )
   } catch (err) {
     if (err instanceof UserNotFoundException) {
@@ -262,8 +299,22 @@ async function _updateNoteAsync(note) {
   return noteModel
 }
 
+interface StatusData {
+  onlineNotes: number
+  onlineUsers: number
+  distinctOnlineUsers: number
+  notesCount: number
+  registeredUsers: number
+  onlineRegisteredUsers: number
+  distinctOnlineRegisteredUsers: number
+  isConnectionBusy: boolean
+  connectionSocketQueueLength: number
+  isDisconnectBusy: boolean
+  disconnectSocketQueueLength: number
+}
+
 // TODO: test it
-export function getStatus() {
+export function getStatus(): Promise<StatusData> {
   return Note.count()
     .then(function (notecount: number) {
       const distinctaddresses = []
@@ -402,7 +453,7 @@ export const parseNoteIdFromSocketAsync = async function (socket: SocketIO.Socke
 export function emitOnlineUsers(socket: SocketIO.Socket): void {
   const noteId = socket.noteId
   if (!noteId || !notes[noteId]) return
-  const users = []
+  const users: RealtimeClientUserData[] = []
   Object.keys(notes[noteId].users).forEach(function (key) {
     const user = notes[noteId].users[key]
     if (user) {
@@ -486,10 +537,10 @@ async function fetchFullNoteAsync(noteId: string): Promise<Note> {
   })
 }
 
-function buildAuthorProfilesFromNote(noteAuthors) {
-  const authors = {}
+function buildAuthorProfilesFromNote(noteAuthors: Author[]): Record<string, RealtimeAuthorData> {
+  const authors: Record<string, RealtimeAuthorData> = {}
   noteAuthors.forEach((author) => {
-    const profile = User.getProfile(author.user)
+    const profile = User.getProfile(author.user as User)
     if (profile) {
       authors[author.userId] = {
         userid: author.userId,
@@ -584,7 +635,19 @@ export function queueForDisconnect(socket: SocketIO.Socket): void {
   })
 }
 
-export function buildUserOutData(user) {
+interface RealtimeClientUserData {
+  id?: string
+  login?: boolean
+  userid?: string
+  photo?: string
+  color?: string
+  cursor?: CursorData
+  name?: string
+  idle?: boolean
+  type?: string
+}
+
+export function buildUserOutData(user: RealtimeUserData): RealtimeClientUserData {
   const out = {
     id: user.id,
     login: user.login,

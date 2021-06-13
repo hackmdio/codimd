@@ -6,7 +6,7 @@ import {Socket} from "socket.io";
 import config from "../config";
 import {Note} from "../models";
 import {logger} from "../logger";
-import {RealtimeUserData} from "./realtime";
+import {RealtimeNoteData, RealtimeUserData} from "./realtime";
 
 export type CursorData = Record<string, string>
 
@@ -91,7 +91,7 @@ export class RealtimeClientConnection {
     return get(this.socket, 'request.user.id')
   }
 
-  getCurrentNote() {
+  getCurrentNote(): RealtimeNoteData {
     if (!this.socket.noteId) return
     return this.realtime.getNoteFromNotePool(this.socket.noteId)
   }

@@ -47,6 +47,8 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
 
   ownerId: string
 
+  lastchangeuserId?: string
+
   static initialize(sequelize: MySequelize): void {
     Note.init({
       id: {

@@ -2,7 +2,9 @@ import moment from "moment";
 
 import config from "../config";
 import {logger} from "../logger";
+import {Note} from "../models";
 import {JobWorker} from "./jobWorker";
+import {RealtimeNoteData} from "./realtime";
 
 export class UpdateDirtyNoteJob implements JobWorker {
   private realtime: any;
@@ -34,7 +36,7 @@ export class UpdateDirtyNoteJob implements JobWorker {
     })
   }
 
-  async updateDirtyNote(note) {
+  async updateDirtyNote(note: RealtimeNoteData): Promise<void> {
     const notes = this.realtime.getNotePool()
     if (!note.server.isDirty) return
 
@@ -66,7 +68,7 @@ export class UpdateDirtyNoteJob implements JobWorker {
     }
   }
 
-  updateNoteAsync(note): Promise<any> {
+  updateNoteAsync(note: RealtimeNoteData): Promise<Note> {
     return new Promise((resolve, reject) => {
       this.realtime.updateNote(note, (err, _note) => {
         if (err) {

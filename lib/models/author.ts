@@ -1,11 +1,14 @@
 // external modules
 
 import {Model, DataTypes} from "sequelize";
-import {MySequelize, AuthorAttributes, ModelObj} from "./baseModel";
+import {MySequelize, AuthorAttributes, ModelObj, UserModel} from "./baseModel";
 
 export class Author extends Model<AuthorAttributes> implements AuthorAttributes {
   color: string;
   id: string;
+
+  userId?: string
+  user?: UserModel
 
   static initialize(sequelize: MySequelize): void {
     Author.init(
