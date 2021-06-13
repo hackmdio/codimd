@@ -1,28 +1,28 @@
 import * as fs from "fs";
 import * as path from "path";
 
-export function toBooleanConfig(configValue) {
+export function toBooleanConfig(configValue: string | boolean): boolean {
   if (configValue && typeof configValue === 'string') {
     return (configValue === 'true')
   }
-  return configValue
+  return configValue as boolean
 }
 
-export function toArrayConfig(configValue, separator = ',', fallback ?: any) {
+export function toArrayConfig(configValue: string | [], separator = ',', fallback ?: string[]): string[] {
   if (configValue && typeof configValue === 'string') {
     return (configValue.split(separator).map(arrayItem => arrayItem.trim()))
   }
   return fallback
 }
 
-export function toIntegerConfig(configValue) {
+export function toIntegerConfig(configValue: string | number): number {
   if (configValue && typeof configValue === 'string') {
     return parseInt(configValue)
   }
-  return configValue
+  return configValue as number
 }
 
-export function getGitCommit(repodir) {
+export function getGitCommit(repodir: string): string {
   if (!fs.existsSync(repodir + '/.git/HEAD')) {
     return undefined
   }
@@ -35,7 +35,7 @@ export function getGitCommit(repodir) {
   return reference
 }
 
-export function getGitHubURL(repo, reference) {
+export function getGitHubURL(repo: string, reference: string): string {
   // if it's not a github reference, we handle handle that anyway
   if (!repo.startsWith('https://github.com') && !repo.startsWith('git@github.com')) {
     return repo

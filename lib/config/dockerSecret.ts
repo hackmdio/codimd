@@ -9,7 +9,9 @@ function getSecret(secret) {
   return undefined
 }
 
-let dockerSecretConfig: any = {}
+// eslint-disable-next-line
+let dockerSecretConfig: Record<string, any> = {}
+
 if (fs.existsSync(basePath)) {
   dockerSecretConfig = {
     dbURL: getSecret('dburl'),

@@ -34,7 +34,7 @@ const configFilePath = path.resolve(appRootPath, process.env.CMD_CONFIG_FILE ||
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fileConfig = fs.existsSync(configFilePath) ? require(configFilePath)[env] : undefined
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line
 let config: any = require('./default')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 merge(config, require('./defaultSSL'))
@@ -214,7 +214,9 @@ config.defaultNotePath = path.resolve(appRootPath, config.defaultNotePath)
 config.docsPath = path.resolve(appRootPath, config.docsPath)
 config.uploadsPath = path.resolve(appRootPath, config.uploadsPath)
 config.env = env
+
 // make config readonly
+// eslint-disable-next-line
 config = deepFreeze(config) as any
 
 export = config
