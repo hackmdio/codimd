@@ -1,11 +1,7 @@
 // external modules
 
 import {Model, DataTypes} from "sequelize";
-
-export interface AuthorAttributes {
-  id: string
-  color: string
-}
+import {AuthorAttributes} from "./baseModel";
 
 export class Author extends Model<AuthorAttributes> implements AuthorAttributes {
   color: string;

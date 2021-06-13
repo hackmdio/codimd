@@ -1,6 +1,5 @@
 // external modules
-import {Model, Sequelize, Op, DataTypes} from "sequelize";
-import async from "async";
+import {Model, Op, DataTypes} from "sequelize";
 import moment from "moment";
 import * as  childProcess from "child_process";
 import shortId from "shortid";
@@ -10,7 +9,7 @@ import * as  util from "util";
 // core
 import config from "../config";
 import logger from "../logger";
-import {MySequelize} from "./baseModel";
+import {MySequelize, RevisionAttributes} from "./baseModel";
 
 let dmpWorker = createDmpWorker()
 const dmpCallbackCache = {}
@@ -53,15 +52,6 @@ function sendDmpWorker(data, callback) {
   dmpWorker.send(data)
 }
 
-
-export interface RevisionAttributes {
-  id: string
-  patch: string
-  lastContent: string
-  content: string
-  length: number
-  authorship: string
-}
 
 export class Revision extends Model<RevisionAttributes> implements RevisionAttributes {
   authorship: string;

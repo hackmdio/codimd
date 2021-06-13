@@ -20,27 +20,12 @@ import config from "../config";
 import {logger} from "../logger";
 import {createNoteWithRevision, syncNote} from "../services/note";
 import {stripTags} from "../string";
-import {MySequelize} from "./baseModel";
+import {MySequelize, NoteAttributes} from "./baseModel";
 
 const md = markdownIt()
 export const dmp = new DiffMatchPatch()
 // permission types
 const permissionTypes = ['freely', 'editable', 'limited', 'locked', 'protected', 'private']
-
-export interface NoteAttributes {
-  id?: string
-  shortid?: string
-  alias?: string
-  permission?: string
-  viewcount?: number
-  title?: string
-  content?: string
-  authorship?: string
-  lastchangeAt?: Date
-  savedAt?: Date
-
-  ownerId?: string
-}
 
 export class Note extends Model<NoteAttributes> implements NoteAttributes {
   alias: string;

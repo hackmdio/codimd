@@ -3,46 +3,7 @@ import Scrypt from "scrypt-kdf";
 
 import {logger} from "../logger";
 import {generateAvatarURL} from "../letter-avatars";
-
-
-interface BaseProfile {
-  provider: string
-}
-
-interface DropboxProfile extends BaseProfile {
-  provider: 'dropbox'
-  emails?: { value: string }[]
-}
-
-interface GenericProfile extends BaseProfile {
-  provider: string
-  displayName?: string
-  username?: string
-  id?: string
-  photos?: { value: string }[]
-  avatarUrl?: string
-  emails?: string[]
-  photo?: string
-  email?: string
-}
-
-interface UserProfile {
-  name: string
-  photo: string
-  biggerphoto: string
-}
-
-export interface UserAttributes {
-  id: string
-  profileid?: string
-  profile?: string
-  history?: string
-  accessToken?: string
-  refreshToken?: string
-  deleteToken?: string
-  email?: string
-  password?: string
-}
+import {BaseProfile, DropboxProfile, GenericProfile, UserAttributes, UserProfile} from "./baseModel";
 
 export class User extends Model<UserAttributes> implements UserAttributes {
   accessToken: string;

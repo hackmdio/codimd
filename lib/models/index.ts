@@ -1,6 +1,4 @@
 // external modules
-import * as fs from "fs";
-import * as path from "path";
 import {Model, Sequelize} from "sequelize";
 import {cloneDeep} from "lodash";
 
@@ -9,15 +7,15 @@ import config from "../config";
 import {logger} from "../logger";
 
 
-import {BaseModel} from "./baseModel";
+import {BaseModel, AuthorAttributes, NoteAttributes, RevisionAttributes, UserAttributes, GenericProfile} from "./baseModel";
 
-import {Author, AuthorAttributes} from './author'
-import {User, UserAttributes} from './user'
-import {Revision, RevisionAttributes} from "./revision";
-import {Note, NoteAttributes} from './note'
+import {Author} from './author'
+import {User} from './user'
+import {Revision} from "./revision";
+import {Note} from './note'
 
 export {Author, User, Revision, Note}
-export {AuthorAttributes, UserAttributes, RevisionAttributes, NoteAttributes}
+export {AuthorAttributes, UserAttributes, RevisionAttributes, NoteAttributes, GenericProfile}
 
 const dbconfig = cloneDeep(config.db)
 dbconfig.logging = config.debug ? (data) => {
