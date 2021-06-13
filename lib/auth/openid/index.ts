@@ -24,7 +24,7 @@ passport.use(new OpenIDStrategy({
     defaults: {
       profile: stringifiedProfile
     }
-  }).spread(function (user, created) {
+  }).spread(function (user) {
     if (user) {
       let needSave = false
       if (user.profile !== stringifiedProfile) {
