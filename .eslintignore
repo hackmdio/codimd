@@ -1,0 +1,7 @@
+/dist
+/public
+node_modules
+/test
+/*.js
+
+lib/migrations
