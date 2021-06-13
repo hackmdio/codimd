@@ -24,6 +24,22 @@ import {UpdateDirtyNoteJob} from "./realtimeUpdateDirtyNoteJob";
 import {CleanDanglingUserJob} from "./realtimeCleanDanglingUserJob";
 import {SaveRevisionJob} from "./realtimeSaveRevisionJob";
 
+
+export interface RealtimeUserData {
+  id?: string
+  color?: string
+  address?: string
+  'user-agent'?: string
+  photo?: string
+
+  cursor?: any
+  login?: boolean
+  userid?: string
+  name?: string
+
+  idle?: any
+  type?: any
+}
 const chance = new Chance()
 
 export let io: SocketIO.Server = null
@@ -95,8 +111,8 @@ export function emitCheck(note) {
 }
 
 // actions
-export const users = {}
 export const notes = {}
+export const users: Record<string, RealtimeUserData> = {}
 
 export function getNotePool(): any {
   return notes
@@ -130,11 +146,11 @@ export function getNoteFromNotePool(noteId) {
   return notes[noteId]
 }
 
-export function getUserPool() {
+export function getUserPool(): Record<string, RealtimeUserData> {
   return users
 }
 
-export function getUserFromUserPool(userId) {
+export function getUserFromUserPool(userId: string): RealtimeUserData | null {
   return users[userId]
 }
 
