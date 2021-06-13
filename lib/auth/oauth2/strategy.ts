@@ -1,11 +1,19 @@
-import {InternalOAuthError, Strategy} from "passport-oauth2";
+import {InternalOAuthError, Strategy, StrategyOptions, VerifyFunction} from "passport-oauth2";
 import config from "../../config";
 
-export function parseProfile(data) {
-  const username = extractProfileAttribute(data, config.oauth2.userProfileUsernameAttr)
-  const displayName = extractProfileAttribute(data, config.oauth2.userProfileDisplayNameAttr)
-  const email = extractProfileAttribute(data, config.oauth2.userProfileEmailAttr)
-  const photo = extractProfileAttribute(data, config.oauth2.userProfilePhotoAttr)
+interface Oauth2Profile {
+  id: string
+  username: string
+  displayName: string
+  email: string
+  photo: string
+}
+
+export function parseProfile(data: Record<string, string>): Oauth2Profile {
+  const username = extractProfileAttribute(data, config.oauth2.userProfileUsernameAttr) as string
+  const displayName = extractProfileAttribute(data, config.oauth2.userProfileDisplayNameAttr) as string
+  const email = extractProfileAttribute(data, config.oauth2.userProfileEmailAttr) as string
+  const photo = extractProfileAttribute(data, config.oauth2.userProfilePhotoAttr) as string
 
   if (!username) {
     throw new Error('cannot fetch username: please set correct CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR')
@@ -20,12 +28,12 @@ export function parseProfile(data) {
   }
 }
 
-export function extractProfileAttribute(data, path) {
+export function extractProfileAttribute(data: any, path: string): string | string[] | undefined {
   if (!data) return undefined
   if (typeof path !== 'string') return undefined
   // can handle stuff like `attrs[0].name`
-  path = path.split('.')
-  for (const segment of path) {
+  const pathSegments = path.split('.')
+  for (const segment of pathSegments) {
     const m = segment.match(/([\d\w]+)\[(.*)\]/)
     if (!m) {
       data = data[segment]
@@ -39,10 +47,14 @@ export function extractProfileAttribute(data, path) {
   return data
 }
 
-export class OAuth2CustomStrategy extends Strategy {
-  private _userProfileURL: any;
+interface OAuth2CustomStrategyOptions extends StrategyOptions {
+  userProfileURL
+}
 
-  constructor(options, verify) {
+export class OAuth2CustomStrategy extends Strategy {
+  private readonly _userProfileURL: string;
+
+  constructor(options: OAuth2CustomStrategyOptions, verify: VerifyFunction) {
     options.customHeaders = options.customHeaders || {}
     super(options, verify)
     this.name = 'oauth2'
@@ -50,15 +62,15 @@ export class OAuth2CustomStrategy extends Strategy {
     this._oauth2.useAuthorizationHeaderforGET(true)
   }
 
-  userProfile(accessToken, done) {
-    this._oauth2.get(this._userProfileURL, accessToken, function (err, body, res) {
+  userProfile(accessToken: string, done: (err: Error | null, profile?: Oauth2Profile) => void): void {
+    this._oauth2.get(this._userProfileURL, accessToken, function (err, body) {
       if (err) {
         return done(new InternalOAuthError('Failed to fetch user profile', err))
       }
 
       let profile, json
       try {
-        json = JSON.parse(body as any)
+        json = JSON.parse(body.toString())
         profile = parseProfile(json)
       } catch (ex) {
         return done(new InternalOAuthError('Failed to parse user profile' + ex.toString(), null))
