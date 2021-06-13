@@ -6,7 +6,7 @@ import {logger} from '../logger'
 import {Request, Response} from "express";
 
 
-export async function showIndex(req: Request, res: Response) {
+export async function showIndex(req: Request, res: Response): Promise<void> {
   const isLogin = req.isAuthenticated()
   const deleteToken = ''
 
@@ -25,7 +25,7 @@ export async function showIndex(req: Request, res: Response) {
 
   const user = await User.findOne({
     where: {
-      id: (req.user as any).id
+      id: req.user.id
     }
   })
   if (user) {
@@ -33,6 +33,6 @@ export async function showIndex(req: Request, res: Response) {
     return res.render('index.ejs', data)
   }
 
-  logger.error(`error: user not found with id ${(req.user as any).id}`)
+  logger.error(`error: user not found with id ${req.user.id}`)
   return res.render('index.ejs', data)
 }
