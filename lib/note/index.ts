@@ -1,28 +1,29 @@
 import {Request, Response} from "express";
 import config from "../config";
+import {historyDelete, updateHistory} from "../history";
 import {logger} from "../logger";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {Note, Revision, User} from "../models";
 
+import * as realtime from "../realtime/realtime";
+
 
 import {errorForbidden, errorInternalError, errorNotFound, newCheckViewPermission, responseCodiMD} from "../response";
-import {historyDelete, updateHistory} from "../history";
 import {createNoteWithRevision} from "../services/note";
 import {
   actionDownload,
   actionGist,
-  actionInfo, actionPandoc,
+  actionInfo,
+  actionPandoc,
   actionPDF,
   actionPublish,
   actionRevision,
   actionSlide
 } from "./noteActions";
 
-import * as realtime from "../realtime/realtime";
-
-async function getNoteById(noteId, {includeUser} = {includeUser: false}) {
+async function getNoteById(noteId, {includeUser} = {includeUser: false}): Promise<Note> {
   const id = await Note.parseNoteIdAsync(noteId)
 
   const includes = []
@@ -37,13 +38,12 @@ async function getNoteById(noteId, {includeUser} = {includeUser: false}) {
     })
   }
 
-  const note = await Note.findOne({
+  return Note.findOne({
     where: {
       id: id
     },
     include: includes
-  })
-  return note
+  });
 }
 
 async function createNote(userId, noteAlias) {
@@ -92,7 +92,7 @@ export async function showNote(req: Request, res: Response): Promise<void> {
   return responseCodiMD(res, note)
 }
 
-function canViewNote(note, isLogin, userId) {
+function canViewNote(note: Note, isLogin: boolean, userId: string | null): boolean {
   if (note.permission === 'private') {
     return note.ownerId === userId
   }
