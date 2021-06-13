@@ -1,16 +1,24 @@
 'use strict'
 
 import {get} from "lodash";
+import {Socket} from "socket.io";
 
 import config from "../config";
 import {Note} from "../models";
 import {logger} from "../logger";
 
+export type CursorData = Record<string, string>
+
+export interface UserStatus {
+  type: string
+  idle: boolean
+}
+
 export class RealtimeClientConnection {
-  private socket: any;
+  private socket: Socket;
   private realtime: any;
 
-  constructor(socket) {
+  constructor(socket: Socket) {
     this.socket = socket
     this.realtime = require('./realtime')
   }
@@ -87,7 +95,7 @@ export class RealtimeClientConnection {
     return this.realtime.getNoteFromNotePool(this.socket.noteId)
   }
 
-  getNoteChannel() {
+  getNoteChannel(): Socket {
     return this.socket.broadcast.to(this.socket.noteId)
   }
 
@@ -139,7 +147,7 @@ export class RealtimeClientConnection {
     })
   }
 
-  userStatusEventHandler(data) {
+  userStatusEventHandler(data: UserStatus): void {
     if (!this.isNoteAndUserExists()) return
     const user = this.getCurrentUser()
     if (config.debug) {
@@ -177,7 +185,7 @@ export class RealtimeClientConnection {
     })
   }
 
-  cursorFocusEventHandler(data) {
+  cursorFocusEventHandler(data: CursorData): void {
     if (!this.isNoteAndUserExists()) return
     const user = this.getCurrentUser()
     user.cursor = data
@@ -185,7 +193,7 @@ export class RealtimeClientConnection {
     this.getNoteChannel().emit('cursor focus', out)
   }
 
-  cursorActivityEventHandler(data) {
+  cursorActivityEventHandler(data: CursorData): void {
     if (!this.isNoteAndUserExists()) return
     const user = this.getCurrentUser()
     user.cursor = data
