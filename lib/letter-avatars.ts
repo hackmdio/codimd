@@ -5,7 +5,7 @@ import randomcolor from "randomcolor";
 import config from "./config";
 
 // core
-export function generateAvatar(name) {
+export function generateAvatar(name: string): string {
   const color = randomcolor({
     seed: name,
     luminosity: 'dark'
@@ -25,7 +25,7 @@ export function generateAvatar(name) {
   return svg
 }
 
-export function generateAvatarURL(name, email = '', big = true) {
+export function generateAvatarURL(name: string, email = '', big = true): string {
   let photo
   if (typeof email !== 'string') {
     email = '' + name + '@example.com'
