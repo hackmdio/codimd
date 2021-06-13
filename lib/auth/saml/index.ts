@@ -56,7 +56,7 @@ passport.use(new SamlStrategy({
     defaults: {
       profile: stringifiedProfile
     }
-  }).spread(function (user, created) {
+  }).spread(function (user) {
     if (user) {
       let needSave = false
       if (user.profile !== stringifiedProfile) {
@@ -99,5 +99,6 @@ samlAuth.post('/auth/saml/callback', urlencodedParser,
 
 samlAuth.get('/auth/saml/metadata', function (req, res) {
   res.type('application/xml')
+  // eslint-disable-next-line
   res.send((passport as any)._strategy('saml').generateServiceProviderMetadata())
 })
