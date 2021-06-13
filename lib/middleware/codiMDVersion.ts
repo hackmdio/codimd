@@ -1,7 +1,7 @@
 import config from "../config";
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 
-export default function (req: Request, res: Response, next) {
+export default function (req: Request, res: Response, next: NextFunction): void {
   res.set({
     'CodiMD-Version': config.version
   })
