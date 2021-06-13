@@ -2,32 +2,33 @@
 
 import {logger} from "../logger";
 import {saveAllNotesRevision} from "../services/note";
+import {JobWorker} from "./jobWorker";
 
 /**
  * clean when user not in any rooms or user not in connected list
  */
-export class SaveRevisionJob {
+export class SaveRevisionJob implements JobWorker {
   private realtime: any;
   private saverSleep: boolean;
   private timer: NodeJS.Timeout;
 
-  constructor(realtime) {
+  constructor(realtime: any) {
     this.realtime = realtime
     this.saverSleep = false
   }
 
-  start() {
+  start(): void {
     if (this.timer) return
     this.timer = setInterval(this.saveRevision.bind(this), 5 * 60 * 1000)
   }
 
-  stop() {
+  stop(): void {
     if (!this.timer) return
     clearInterval(this.timer)
     this.timer = undefined
   }
 
-  saveRevision() {
+  saveRevision(): void {
     if (this.getSaverSleep()) return
     saveAllNotesRevision((err, notes) => {
       if (err) {
@@ -39,11 +40,11 @@ export class SaveRevisionJob {
     })
   }
 
-  getSaverSleep() {
+  getSaverSleep(): boolean {
     return this.saverSleep
   }
 
-  setSaverSleep(val) {
+  setSaverSleep(val: boolean): void {
     this.saverSleep = val
   }
 }

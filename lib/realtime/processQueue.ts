@@ -1,4 +1,5 @@
 import {EventEmitter} from "events";
+import {JobWorker} from "./jobWorker";
 
 /**
  * Queuing Class for connection queuing
@@ -10,22 +11,48 @@ const QueueEvent = {
   Finish: 'Finish'
 }
 
-export class ProcessQueue extends EventEmitter {
-  private max: number;
-  private triggerTime: number;
+type AsyncFunc = () => Promise<void>
+type SyncFun = () => void
+type TaskFunc = AsyncFunc | SyncFun
+
+interface Task {
+  id: string
+  processingFunc: TaskFunc
+}
+
+
+export interface ProcessQueueOptions {
+  maximumLength?: number
+  triggerTimeInterval?: number
+  proactiveMode?: boolean
+  continuousMode?: boolean
+}
+
+const defaultOptions: ProcessQueueOptions = {
+  maximumLength: 500,
+  triggerTimeInterval: 5000,
+  // execute on push
+  proactiveMode: true,
+  // execute next work on finish
+  continuousMode: true
+}
+
+export class ProcessQueue extends EventEmitter implements JobWorker {
+  private readonly max: number;
+  private readonly triggerTime: number;
   private taskMap: Map<string, boolean>;
-  public queue: any[];
+  public queue: Task[];
   public lock: boolean;
   private eventTrigger: NodeJS.Timeout;
 
   constructor({
-                maximumLength = 500,
-                triggerTimeInterval = 5000,
+                maximumLength,
+                triggerTimeInterval,
                 // execute on push
-                proactiveMode = true,
+                proactiveMode,
                 // execute next work on finish
-                continuousMode = true
-              }) {
+                continuousMode
+              } = defaultOptions) {
     super()
     this.max = maximumLength
     this.triggerTime = triggerTimeInterval
@@ -42,7 +69,7 @@ export class ProcessQueue extends EventEmitter {
     }
   }
 
-  onEventProcessFunc() {
+  onEventProcessFunc(): void {
     if (this.lock) return
     this.lock = true
     setImmediate(() => {
@@ -50,21 +77,21 @@ export class ProcessQueue extends EventEmitter {
     })
   }
 
-  start() {
+  start(): void {
     if (this.eventTrigger) return
     this.eventTrigger = setInterval(() => {
       this.emit(QueueEvent.Tick)
     }, this.triggerTime)
   }
 
-  stop() {
+  stop(): void {
     if (this.eventTrigger) {
       clearInterval(this.eventTrigger)
       this.eventTrigger = null
     }
   }
 
-  checkTaskIsInQueue(id) {
+  checkTaskIsInQueue(id: string): boolean {
     return this.taskMap.has(id)
   }
 
@@ -74,7 +101,7 @@ export class ProcessQueue extends EventEmitter {
    * @param processingFunc {Function<Promise>}
    * @returns {boolean} if success return true, otherwise false
    */
-  push(id: string, processingFunc) {
+  push(id: string, processingFunc: TaskFunc): boolean {
     if (this.queue.length >= this.max) return false
     if (this.checkTaskIsInQueue(id)) return false
     const task = {
@@ -88,7 +115,7 @@ export class ProcessQueue extends EventEmitter {
     return true
   }
 
-  process() {
+  process(): void {
     if (this.queue.length <= 0) {
       this.stop()
       this.lock = false
@@ -104,7 +131,13 @@ export class ProcessQueue extends EventEmitter {
         this.emit(QueueEvent.Finish)
       })
     }
-    task.processingFunc().then(finishTask).catch(finishTask)
+    const runFunc = task.processingFunc() as Promise<void>;
+    // Wait until the promise fulfilled if processing function is a promise
+    if (typeof runFunc.then === 'function') {
+      runFunc.then(finishTask).catch(finishTask)
+    } else {
+      finishTask()
+    }
   }
 }
 

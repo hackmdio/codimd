@@ -4,30 +4,31 @@ import async from "async";
 
 import config from "../config";
 import {logger} from "../logger";
+import {JobWorker} from "./jobWorker";
 
 /**
  * clean when user not in any rooms or user not in connected list
  */
-export class CleanDanglingUserJob {
+export class CleanDanglingUserJob implements JobWorker {
   private realtime: any;
   private timer: NodeJS.Timeout;
 
-  constructor(realtime) {
+  constructor(realtime: any) {
     this.realtime = realtime
   }
 
-  start() {
+  start(): void {
     if (this.timer) return
     this.timer = setInterval(this.cleanDanglingUser.bind(this), 60000)
   }
 
-  stop() {
+  stop(): void {
     if (!this.timer) return
     clearInterval(this.timer)
     this.timer = undefined
   }
 
-  cleanDanglingUser() {
+  cleanDanglingUser(): void {
     const users = this.realtime.getUserPool()
     async.each(Object.keys(users), (key, callback) => {
       const socket = this.realtime.io.sockets.connected[key]

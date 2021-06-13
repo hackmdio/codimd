@@ -15,7 +15,7 @@ export class RealtimeClientConnection {
     this.realtime = require('./realtime')
   }
 
-  registerEventHandler() {
+  registerEventHandler(): void {
     // received client refresh request
     this.socket.on('refresh', this.refreshEventHandler.bind(this))
     // received user status
@@ -40,27 +40,27 @@ export class RealtimeClientConnection {
     this.socket.on('permission', this.permissionChangeEventHandler.bind(this))
   }
 
-  isUserLoggedIn() {
+  isUserLoggedIn(): boolean {
     return this.socket.request.user && this.socket.request.user.logged_in
   }
 
-  isNoteAndUserExists() {
+  isNoteAndUserExists(): boolean {
     const note = this.realtime.getNoteFromNotePool(this.socket.noteId)
     const user = this.realtime.getUserFromUserPool(this.socket.id)
     return note && user
   }
 
-  isNoteOwner() {
+  isNoteOwner(): boolean {
     const note = this.getCurrentNote()
     return get(note, 'owner') === this.getCurrentLoggedInUserId()
   }
 
-  isAnonymousEnable() {
+  isAnonymousEnable(): boolean {
     // TODO: move this method to config module
     return config.allowAnonymous || config.allowAnonymousEdits
   }
 
-  getAvailablePermissions() {
+  getAvailablePermissions(): string[] {
     // TODO: move this method to config module
     const availablePermission = Object.assign({}, config.permission)
     if (!config.allowAnonymous && !config.allowAnonymousViews) {
@@ -78,7 +78,7 @@ export class RealtimeClientConnection {
     return this.realtime.getUserFromUserPool(this.socket.id)
   }
 
-  getCurrentLoggedInUserId() {
+  getCurrentLoggedInUserId(): string {
     return get(this.socket, 'request.user.id')
   }
 
@@ -91,13 +91,13 @@ export class RealtimeClientConnection {
     return this.socket.broadcast.to(this.socket.noteId)
   }
 
-  async destroyNote(id) {
+  async destroyNote(id: string): Promise<number> {
     return Note.destroy({
       where: {id: id}
     })
   }
 
-  async changeNotePermission(newPermission) {
+  async changeNotePermission(newPermission: string): Promise<void> {
     const [changedRows] = await Note.update({
       permission: newPermission
     }, {
@@ -110,7 +110,7 @@ export class RealtimeClientConnection {
     }
   }
 
-  notifyPermissionChanged() {
+  notifyPermissionChanged(): void {
     this.realtime.io.to(this.getCurrentNote().id).emit('permission', {
       permission: this.getCurrentNote().permission
     })
@@ -128,11 +128,11 @@ export class RealtimeClientConnection {
     })
   }
 
-  refreshEventHandler() {
+  refreshEventHandler(): void {
     this.realtime.emitRefresh(this.socket)
   }
 
-  checkVersionEventHandler() {
+  checkVersionEventHandler(): void {
     this.socket.emit('version', {
       version: config.fullversion,
       minimumCompatibleVersion: config.minimumCompatibleVersion
@@ -152,7 +152,7 @@ export class RealtimeClientConnection {
     this.realtime.emitUserStatus(this.socket)
   }
 
-  userChangedEventHandler() {
+  userChangedEventHandler(): void {
     logger.info('user changed')
 
     const note = this.getCurrentNote()
@@ -164,7 +164,7 @@ export class RealtimeClientConnection {
     this.realtime.emitOnlineUsers(this.socket)
   }
 
-  onlineUsersEventHandler() {
+  onlineUsersEventHandler(): void {
     if (!this.isNoteAndUserExists()) return
 
     const currentNote = this.getCurrentNote()
@@ -193,7 +193,7 @@ export class RealtimeClientConnection {
     this.getNoteChannel().emit('cursor activity', out)
   }
 
-  cursorBlurEventHandler() {
+  cursorBlurEventHandler(): void {
     if (!this.isNoteAndUserExists()) return
     const user = this.getCurrentUser()
     user.cursor = null
@@ -202,7 +202,7 @@ export class RealtimeClientConnection {
     })
   }
 
-  deleteNoteEventHandler() {
+  deleteNoteEventHandler(): void {
     // need login to do more actions
     if (this.isUserLoggedIn() && this.isNoteAndUserExists()) {
       const note = this.getCurrentNote()
@@ -220,7 +220,7 @@ export class RealtimeClientConnection {
     }
   }
 
-  permissionChangeEventHandler(permission) {
+  permissionChangeEventHandler(permission: string): void {
     if (!this.isUserLoggedIn()) return
     if (!this.isNoteAndUserExists()) return
 
@@ -237,7 +237,7 @@ export class RealtimeClientConnection {
       .catch(err => logger.error('update note permission failed: ' + err))
   }
 
-  disconnectEventHandler() {
+  disconnectEventHandler(): void {
     if (this.realtime.disconnectProcessQueue.checkTaskIsInQueue(this.socket.id)) {
       return
     }

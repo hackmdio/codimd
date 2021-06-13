@@ -2,27 +2,28 @@ import moment from "moment";
 
 import config from "../config";
 import {logger} from "../logger";
+import {JobWorker} from "./jobWorker";
 
-export class UpdateDirtyNoteJob {
+export class UpdateDirtyNoteJob implements JobWorker {
   private realtime: any;
   private timer: NodeJS.Timeout;
 
-  constructor(realtime) {
+  constructor(realtime: any) {
     this.realtime = realtime
   }
 
-  start() {
+  start(): void {
     if (this.timer) return
     this.timer = setInterval(this.updateDirtyNotes.bind(this), 1000)
   }
 
-  stop() {
+  stop(): void {
     if (!this.timer) return
     clearInterval(this.timer)
     this.timer = undefined
   }
 
-  updateDirtyNotes() {
+  updateDirtyNotes(): void {
     const notes = this.realtime.getNotePool()
     Object.keys(notes).forEach((key) => {
       const note = notes[key]
