@@ -4,8 +4,9 @@ import * as path from "path";
 
 import mime from "mime-types";
 import bodyParser from "body-parser";
+import {MySequelize} from "./models/baseModel";
 
-export function isSQLite(sequelize): boolean {
+export function isSQLite(sequelize: MySequelize): boolean {
   return sequelize.options.dialect === 'sqlite'
 }
 

@@ -2,8 +2,12 @@ import {Moment} from "moment";
 import {Sequelize, Model, ModelCtor} from "sequelize";
 
 export type MySequelize = Sequelize & {
-  processData?: any
-  stripNullByte?: any
+  //data, _default, process
+  processData?: (data: string | [], _default: string | [], process?: (string) => string) => void
+  stripNullByte?: (string) => string
+  options?: {
+    dialect?: string
+  } & Record<string, string>
 }
 
 export type BaseModel = {
