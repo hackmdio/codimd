@@ -1,6 +1,8 @@
 // response
 // external modules
 import * as request from "request";
+import {Request, Response} from "express";
+import {Includeable} from "sequelize";
 // core
 import config from "./config";
 import {logger} from "./logger";
@@ -9,9 +11,9 @@ import {createNoteWithRevision} from "./services/note";
 import * as utils from "./utils";
 import * as  history from "./history";
 
-export function errorForbidden(req, res) {
+export function errorForbidden(req: Request, res: Response): void {
   if (req.user) {
-    responseError(res, '403', 'Forbidden', 'oh no.')
+    responseError(res, 403, 'Forbidden', 'oh no.')
   } else {
     const nextURL = new URL('', config.serverURL)
     nextURL.search = (new URLSearchParams({next: req.originalUrl})).toString()
@@ -20,27 +22,27 @@ export function errorForbidden(req, res) {
   }
 }
 
-export function errorNotFound(req, res) {
-  responseError(res, '404', 'Not Found', 'oops.')
+export function errorNotFound(req: Request, res: Response): void {
+  responseError(res, 404, 'Not Found', 'oops.')
 }
 
-export function errorBadRequest(req, res) {
-  responseError(res, '400', 'Bad Request', 'something not right.')
+export function errorBadRequest(req: Request, res: Response): void {
+  responseError(res, 400, 'Bad Request', 'something not right.')
 }
 
-export function errorTooLong(req, res) {
-  responseError(res, '413', 'Payload Too Large', 'Shorten your note!')
+export function errorTooLong(req: Request, res: Response): void {
+  responseError(res, 413, 'Payload Too Large', 'Shorten your note!')
 }
 
-export function errorInternalError(req, res) {
-  responseError(res, '500', 'Internal Error', 'wtf.')
+export function errorInternalError(req: Request, res: Response): void {
+  responseError(res, 500, 'Internal Error', 'wtf.')
 }
 
-export function errorServiceUnavailable(req, res) {
+export function errorServiceUnavailable(req: Request, res: Response): void {
   res.status(503).send('I\'m busy right now, try again later.')
 }
 
-export function responseError(res, code, detail, msg) {
+export function responseError(res: Response, code: number, detail: string, msg: string): void {
   res.status(code).render('error.ejs', {
     title: code + ' ' + detail + ' ' + msg,
     code: code,
@@ -49,7 +51,7 @@ export function responseError(res, code, detail, msg) {
   })
 }
 
-export function responseCodiMD(res, note) {
+export function responseCodiMD(res: Response, note: Note): void {
   const body = note.content
   const extracted = Note.extractMeta(body)
   const meta = Note.parseMeta(extracted.meta)
@@ -64,13 +66,17 @@ export function responseCodiMD(res, note) {
   })
 }
 
-function updateHistory(userId, note, document, time?: any) {
+function updateHistory(userId, note, document, time?: number) {
   const noteId = note.alias ? note.alias : Note.encodeNoteId(note.id)
   history.updateHistory(userId, noteId, document, time)
   logger.info('history updated')
 }
 
-export function newNote(req, res, next?: any) {
+type NewNoteReq = Request & {
+  alias?: string
+}
+
+export function newNote(req: NewNoteReq, res: Response): void {
   let owner = null
   let body = ''
   if (req.body && req.body.length > config.documentMaxLength) {
@@ -100,7 +106,7 @@ export function newNote(req, res, next?: any) {
   })
 }
 
-export function newCheckViewPermission(note, isLogin, userId) {
+export function newCheckViewPermission(note: Note, isLogin: boolean, userId: string): boolean {
   if (note.permission === 'private') {
     return note.ownerId === userId
   }
@@ -110,25 +116,17 @@ export function newCheckViewPermission(note, isLogin, userId) {
   return true
 }
 
-export function checkViewPermission(req, note) {
+export function checkViewPermission(req: Request, note: Note): boolean {
   if (note.permission === 'private') {
-    if (!req.isAuthenticated() || note.ownerId !== req.user.id) {
-      return false
-    } else {
-      return true
-    }
-  } else if (note.permission === 'limited' || note.permission === 'protected') {
-    if (!req.isAuthenticated()) {
-      return false
-    } else {
-      return true
-    }
-  } else {
-    return true
+    return !(!req.isAuthenticated() || note.ownerId !== req.user.id);
   }
+  if (note.permission === 'limited' || note.permission === 'protected') {
+    return req.isAuthenticated();
+  }
+  return true
 }
 
-function findNote(req, res, callback, include?: any) {
+function findNote(req, res, callback: (note: Note) => void, include?: Includeable[] | null) {
   const noteId = req.params.noteId
   const id = req.params.noteId || req.params.shortid
   Note.parseNoteId(id, function (err, _id) {
@@ -164,8 +162,7 @@ function findNote(req, res, callback, include?: any) {
 
 function actionDownload(req, res, note) {
   const body = note.content
-  const title = Note.decodeTitle(note.title)
-  let filename = title
+  let filename = Note.decodeTitle(note.title)
   filename = encodeURIComponent(filename)
   res.set({
     'Access-Control-Allow-Origin': '*', // allow CORS as API
@@ -179,7 +176,11 @@ function actionDownload(req, res, note) {
   res.send(body)
 }
 
-export function publishNoteActions(req, res, next) {
+interface PublishActionParams {
+  action: 'download' | 'edit'
+}
+
+export function publishNoteActions(req: Request<PublishActionParams>, res: Response): void {
   findNote(req, res, function (note) {
     const action = req.params.action
     switch (action) {
@@ -196,7 +197,7 @@ export function publishNoteActions(req, res, next) {
   })
 }
 
-export function publishSlideActions(req, res, next) {
+export function publishSlideActions(req: Request<PublishActionParams>, res: Response): void {
   findNote(req, res, function (note) {
     const action = req.params.action
     switch (action) {
@@ -210,7 +211,12 @@ export function publishSlideActions(req, res, next) {
   })
 }
 
-export function githubActions(req, res, next) {
+interface GithubActionParams extends Record<string, string> {
+  action: 'gist'
+  noteId: string
+}
+
+export function githubActions(req: Request<GithubActionParams>, res: Response): void {
   const noteId = req.params.noteId
   findNote(req, res, function (note) {
     const action = req.params.action
@@ -225,7 +231,7 @@ export function githubActions(req, res, next) {
   })
 }
 
-function githubActionGist(req, res, note) {
+function githubActionGist(req: Request, res: Response, note: Note) {
   const code = req.query.code
   const state = req.query.state
   if (!code || !state) {
@@ -282,13 +288,18 @@ function githubActionGist(req, res, note) {
   }
 }
 
-export function gitlabActions(req, res, next) {
+interface GitLabParams extends Record<string, string>{
+  noteId: string
+  action: 'projects'
+}
+
+export function gitlabActions(req: Request<GitLabParams>, res: Response): void {
   const noteId = req.params.noteId
-  findNote(req, res, function (note) {
+  findNote(req, res, function () {
     const action = req.params.action
     switch (action) {
       case 'projects':
-        gitlabActionProjects(req, res, note)
+        gitlabActionProjects(req, res)
         break
       default:
         res.redirect(config.serverURL + '/' + noteId)
@@ -297,7 +308,15 @@ export function gitlabActions(req, res, next) {
   })
 }
 
-function gitlabActionProjects(req, res, note) {
+interface GitLabActionResponse {
+  baseURL: string
+  version: string
+  accesstoken: string
+  profileid: string
+  projects?: Record<string, string>
+}
+
+function gitlabActionProjects(req: Request, res: Response) {
   if (req.isAuthenticated()) {
     User.findOne({
       where: {
@@ -307,7 +326,7 @@ function gitlabActionProjects(req, res, note) {
       if (!user) {
         return errorNotFound(req, res)
       }
-      const ret: any = {baseURL: config.gitlab.baseURL, version: config.gitlab.version}
+      const ret: Partial<GitLabActionResponse> = {baseURL: config.gitlab.baseURL, version: config.gitlab.version}
       ret.accesstoken = user.accessToken
       ret.profileid = user.profileid
       request(
@@ -330,7 +349,7 @@ function gitlabActionProjects(req, res, note) {
   }
 }
 
-export function showPublishSlide(req, res, next) {
+export function showPublishSlide(req: Request, res: Response): void {
   const include = [{
     model: User,
     as: 'owner'

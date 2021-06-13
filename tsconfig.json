@@ -5,7 +5,8 @@
     "target": "ES2019",
     "outDir": "./dist/",
     "module": "CommonJS",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "typeRoots": ["./typings", "./node_modules/@types"]
   },
   "include": [
     "./lib/**/*"
