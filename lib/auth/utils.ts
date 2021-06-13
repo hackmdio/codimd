@@ -1,10 +1,13 @@
 'use strict'
 
+import {Request} from "express";
 import {User} from "../models";
 import config from "../config";
 import {logger} from "../logger";
 
-export function setReturnToFromReferer(req) {
+export function setReturnToFromReferer(req: Request): void {
+  // eslint-disable-next-line
+  // @ts-ignore
   if (!req.session) req.session = {}
 
   const referer = req.get('referer')
@@ -30,7 +33,11 @@ export function setReturnToFromReferer(req) {
   }
 }
 
-export function passportGeneralCallback(accessToken, refreshToken, profile, done) {
+interface Profile {
+  id?: string
+}
+
+export function passportGeneralCallback(accessToken: string, refreshToken: string, profile: Profile, done: (err: Error | null, user?: User) => void): void {
   const stringifiedProfile = JSON.stringify(profile)
   User.findOrCreate({
     where: {
@@ -41,7 +48,7 @@ export function passportGeneralCallback(accessToken, refreshToken, profile, done
       accessToken: accessToken,
       refreshToken: refreshToken
     }
-  }).spread(function (user, created) {
+  }).spread(function (user) {
     if (user) {
       let needSave = false
       if (user.profile !== stringifiedProfile) {
