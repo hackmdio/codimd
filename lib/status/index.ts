@@ -1,9 +1,10 @@
+import {Request, Response} from "express";
 import * as realtime from "../realtime/realtime";
 
 import config from "../config";
 
 
-export async function getStatus(req, res) {
+export async function getStatus(req: Request, res: Response): Promise<void> {
   res.set({
     'Cache-Control': 'private', // only cache by client
     'X-Robots-Tag': 'noindex, nofollow', // prevent crawling
@@ -19,7 +20,7 @@ export async function getStatus(req, res) {
   }
 }
 
-export async function getMetrics(req, res) {
+export async function getMetrics(req: Request, res: Response): Promise<void> {
   const data = await realtime.getStatus()
 
   res.set({
@@ -30,7 +31,7 @@ export async function getMetrics(req, res) {
   res.render('../js/lib/common/metrics.ejs', data)
 }
 
-export function getConfig(req, res) {
+export function getConfig(req: Request, res: Response): void {
   const data = {
     domain: config.domain,
     urlpath: config.urlPath,
