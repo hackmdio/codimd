@@ -35,7 +35,7 @@ passport.use(new LocalStrategy({
 }))
 
 if (config.allowEmailRegister) {
-  emailAuth.post('/register', urlencodedParser, async function (req, res, next) {
+  emailAuth.post('/register', urlencodedParser, async function (req, res) {
     if (!req.body.email || !req.body.password) return response.errorBadRequest(req, res)
     if (!validator.isEmail(req.body.email)) return response.errorBadRequest(req, res)
     try {
