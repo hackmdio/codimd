@@ -1,3 +1,4 @@
+import {Request, Response} from "express";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -14,16 +15,15 @@ import {logger} from "../logger";
 import {Note, Revision} from "../models";
 import {errorInternalError, errorNotFound} from "../response";
 
-
-export function actionPublish(req, res, note) {
+export function actionPublish(req: Request, res: Response, note): void {
   res.redirect(config.serverURL + '/s/' + (note.alias || note.shortid))
 }
 
-export function actionSlide(req, res, note) {
+export function actionSlide(req: Request, res: Response, note): void {
   res.redirect(config.serverURL + '/p/' + (note.alias || note.shortid))
 }
 
-export function actionDownload(req, res, note) {
+export function actionDownload(req: Request, res: Response, note): void {
   const body = note.content
   const title = Note.decodeTitle(note.title)
   const filename = encodeURIComponent(title)
@@ -39,7 +39,7 @@ export function actionDownload(req, res, note) {
   res.send(body)
 }
 
-export function actionInfo(req, res, note) {
+export function actionInfo(req: Request, res: Response, note): void {
   const body = note.content
   const extracted = Note.extractMeta(body)
   const markdown = extracted.markdown
@@ -66,7 +66,7 @@ export function actionInfo(req, res, note) {
   res.send(data)
 }
 
-export function actionPDF(req, res, note) {
+export function actionPDF(req: Request, res: Response, note): void {
   const url = config.serverURL || 'http://' + req.get('host')
   const body = note.content
   const extracted = Note.extractMeta(body)
@@ -119,7 +119,7 @@ const outputFormats = {
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 }
 
-export async function actionPandoc(req, res, note) {
+export async function actionPandoc(req: Request, res: Response, note): Promise<void> {
 //   var url = config.serverURL || 'http://' + req.get('host')
 //   var body = note.content
 //   var extracted = Note.extractMeta(body)
@@ -162,7 +162,7 @@ export async function actionPandoc(req, res, note) {
 //   }
 }
 
-export function actionGist(req, res, note) {
+export function actionGist(req: Request, res: Response, note): void {
   const data = {
     client_id: config.github.clientID,
     redirect_uri: config.serverURL + '/auth/github/callback/' + Note.encodeNoteId(note.id) + '/gist',
@@ -173,7 +173,7 @@ export function actionGist(req, res, note) {
   res.redirect('https://github.com/login/oauth/authorize?' + query)
 }
 
-export function actionRevision(req, res, note) {
+export function actionRevision(req: Request, res: Response, note): void {
   const actionId = req.params.actionId
   if (actionId) {
     const time = moment(parseInt(actionId))
