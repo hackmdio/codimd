@@ -7,6 +7,7 @@ import randomcolor from "randomcolor";
 import Chance from "chance";
 import moment from "moment";
 import {get} from "lodash";
+import SocketIO from "socket.io";
 
 // core
 import config from "../config";
@@ -25,14 +26,14 @@ import {SaveRevisionJob} from "./realtimeSaveRevisionJob";
 
 const chance = new Chance()
 
-export let io = null
+export let io: SocketIO.Server = null
 export let maintenance = true
 
-export function setSocketIo(socketIO) {
+export function setSocketIo(socketIO: SocketIO.Server): void {
   io = socketIO
 }
 
-export function setMaintenance(isMaintenance) {
+export function setMaintenance(isMaintenance: boolean): void {
   maintenance = isMaintenance
 }
 
@@ -44,18 +45,18 @@ const cleanDanglingUserJob = new CleanDanglingUserJob(exports)
 export const saveRevisionJob = new SaveRevisionJob(exports)
 
 // TODO: test it
-export function onAuthorizeSuccess(data, accept) {
+export function onAuthorizeSuccess(data: Record<null, null>, accept: (err?: Error | null, accepted?: boolean) => void): void {
   accept()
 }
 
 // TODO: test it
-export function onAuthorizeFail(data, message, error, accept) {
+export function onAuthorizeFail(data: Record<null, null>, message: string, error: boolean, accept: (err?: Error | null, accepted?: boolean) => void): void {
   accept() // accept whether authorize or not to allow anonymous usage
 }
 
 // TODO: test it
 // secure the origin by the cookie
-export function secure(socket, next) {
+export function secure(socket: SocketIO.Socket, next: (err?: Error | null) => void): void {
   try {
     const handshakeData = socket.request
     if (handshakeData.headers.cookie) {
@@ -101,7 +102,7 @@ export function getNotePool(): any {
   return notes
 }
 
-export function isNoteExistsInPool(noteId) {
+export function isNoteExistsInPool(noteId: string): boolean {
   return !!notes[noteId]
 }
 
@@ -111,15 +112,15 @@ export function addNote(note) {
   return true
 }
 
-export function getNotePoolSize() {
+export function getNotePoolSize(): number {
   return Object.keys(notes).length
 }
 
-export function deleteNoteFromPool(noteId) {
+export function deleteNoteFromPool(noteId: string): void {
   delete notes[noteId]
 }
 
-export function deleteAllNoteFromPool() {
+export function deleteAllNoteFromPool(): void {
   Object.keys(notes).forEach(noteId => {
     delete notes[noteId]
   })
@@ -248,7 +249,7 @@ async function _updateNoteAsync(note) {
 // TODO: test it
 export function getStatus() {
   return Note.count()
-    .then(function (notecount) {
+    .then(function (notecount: number) {
       const distinctaddresses = []
       const regaddresses = []
       const distinctregaddresses = []
@@ -281,7 +282,7 @@ export function getStatus() {
       })
 
       return User.count()
-        .then(function (regcount) {
+        .then(function (regcount: number) {
           return {
             onlineNotes: Object.keys(notes).length,
             onlineUsers: Object.keys(users).length,
@@ -307,7 +308,7 @@ export function getStatus() {
 }
 
 // TODO: test it
-export function isReady() {
+export function isReady(): boolean {
   return io &&
     Object.keys(notes).length === 0 && Object.keys(users).length === 0 &&
     connectProcessQueue.queue.length === 0 && !connectProcessQueue.lock &&
@@ -329,8 +330,8 @@ function parseUrl(data) {
   return null
 }
 
-export function extractNoteIdFromSocket(socket) {
-  function extractNoteIdFromReferer(referer) {
+export function extractNoteIdFromSocket(socket: SocketIO.Socket): string | null | boolean {
+  function extractNoteIdFromReferer(referer: string): string | null | boolean {
     if (referer) {
       const hostUrl = parseUrl(referer)
       if (!hostUrl) {
@@ -362,14 +363,14 @@ export function extractNoteIdFromSocket(socket) {
   return false
 }
 
-export async function parseNoteIdFromSocketAsync(socket) {
+export const parseNoteIdFromSocketAsync = async function (socket: SocketIO.Socket): Promise<string | null> {
   const noteId = extractNoteIdFromSocket(socket)
   if (!noteId) {
     return null
   }
 
   return new Promise((resolve, reject) => {
-    Note.parseNoteId(noteId, function (err, id) {
+    Note.parseNoteId(noteId as string, function (err, id) {
       if (err) {
         reject(err)
       }
@@ -382,7 +383,7 @@ export async function parseNoteIdFromSocketAsync(socket) {
 }
 
 // TODO: test it
-export function emitOnlineUsers(socket) {
+export function emitOnlineUsers(socket: SocketIO.Socket): void {
   const noteId = socket.noteId
   if (!noteId || !notes[noteId]) return
   const users = []
@@ -399,7 +400,7 @@ export function emitOnlineUsers(socket) {
 }
 
 // TODO: test it
-export function emitUserStatus(socket) {
+export function emitUserStatus(socket: SocketIO.Socket): void {
   const noteId = socket.noteId
   const user = users[socket.id]
   if (!noteId || !notes[noteId] || !user) return
@@ -408,7 +409,7 @@ export function emitUserStatus(socket) {
 }
 
 // TODO: test it
-export function emitRefresh(socket) {
+export function emitRefresh(socket: SocketIO.Socket): void {
   const noteId = socket.noteId
   if (!noteId || !notes[noteId]) return
   const note = notes[noteId]
@@ -447,7 +448,7 @@ export function checkViewPermission(req, note) {
 }
 
 // TODO: test it
-async function fetchFullNoteAsync(noteId) {
+async function fetchFullNoteAsync(noteId: string): Promise<Note> {
   return Note.findOne({
     where: {
       id: noteId
@@ -513,16 +514,17 @@ function makeNewServerNote(note) {
 }
 
 // TODO: test it
-export function failConnection(code, err, socket) {
+export function failConnection(code: number, err: string | Error, socket: SocketIO.Socket): void {
   logger.error(err)
   // emit error info
   socket.emit('info', {
     code: code
   })
-  return socket.disconnect(true)
+  socket.disconnect(true)
+  return
 }
 
-export function queueForDisconnect(socket) {
+export function queueForDisconnect(socket: SocketIO.Socket): void {
   disconnectProcessQueue.push(socket.id, async function () {
     if (users[socket.id]) {
       delete users[socket.id]
@@ -545,7 +547,7 @@ export function queueForDisconnect(socket) {
       // remove note in notes if no user inside
       if (Object.keys(note.users).length === 0) {
         if (note.server.isDirty) {
-          exports.updateNote(note, function (err, _note) {
+          exports.updateNote(note, function (err) {
             if (err) {
               logger.error('disconnect note failed: ' + err)
               return
@@ -582,7 +584,7 @@ export function buildUserOutData(user) {
 }
 
 // TODO: test it
-export function updateUserData(socket, user) {
+export function updateUserData(socket: SocketIO.Socket, user): void {
   // retrieve user data from passport
   if (socket.request.user && socket.request.user.logged_in) {
     const profile = User.getProfile(socket.request.user)
@@ -597,7 +599,7 @@ export function updateUserData(socket, user) {
   }
 }
 
-function canEditNote(notePermission, noteOwnerId, currentUserId) {
+function canEditNote(notePermission: string, noteOwnerId: string, currentUserId: string): boolean {
   switch (notePermission) {
     case 'freely':
       return true
@@ -613,7 +615,7 @@ function canEditNote(notePermission, noteOwnerId, currentUserId) {
   }
 }
 
-export function ifMayEdit(socket, callback) {
+export function ifMayEdit(socket: SocketIO.Socket, callback: (canEdit: boolean) => void): void {
   const note = getNoteFromNotePool(socket.noteId)
   if (!note) return
   const mayEdit = canEditNote(note.permission, note.owner, socket.request.user.id)
@@ -630,7 +632,7 @@ export function ifMayEdit(socket, callback) {
 }
 
 // TODO: test it
-function operationCallback(socket, operation) {
+function operationCallback(socket: SocketIO.Socket, operation: any) {
   const noteId = socket.noteId
   if (!noteId || !notes[noteId]) return
   const note = notes[noteId]
@@ -651,7 +653,7 @@ function operationCallback(socket, operation) {
           userId: userId,
           color: user.color
         }
-      }).spread(function (author, created) {
+      }).spread(function (author) {
         if (author) {
           note.authors[author.userId] = {
             userid: author.userId,
@@ -674,12 +676,12 @@ function operationCallback(socket, operation) {
 }
 
 // TODO: test it
-export function updateHistory(userId, note, time?: any) {
+export function updateHistory(userId: string, note, time?: number): void {
   const noteId = note.alias ? note.alias : Note.encodeNoteId(note.id)
   if (note.server) history.updateHistory(userId, noteId, note.server.document, time)
 }
 
-function getUniqueColorPerNote(noteId, maxAttempt = 10) {
+function getUniqueColorPerNote(noteId: string, maxAttempt = 10): string {
   // random color
   let color = randomcolor()
   if (!notes[noteId]) return color
@@ -701,7 +703,7 @@ function getUniqueColorPerNote(noteId, maxAttempt = 10) {
   return color
 }
 
-function queueForConnect(socket) {
+function queueForConnect(socket: SocketIO.Socket) {
   connectProcessQueue.push(socket.id, async function () {
     try {
       const noteId = await exports.parseNoteIdFromSocketAsync(socket) as string
@@ -800,13 +802,13 @@ function queueForConnect(socket) {
   })
 }
 
-export function connection(socket) {
+export function connection(socket: SocketIO.Socket): void {
   if (maintenance) return
   queueForConnect(socket)
 }
 
 // TODO: test it
-export function terminate() {
+export function terminate(): void {
   disconnectProcessQueue.stop()
   connectProcessQueue.stop()
   updateDirtyNoteJob.stop()
