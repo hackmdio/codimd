@@ -1,13 +1,13 @@
 // external modules
 
 import {Model, DataTypes} from "sequelize";
-import {AuthorAttributes} from "./baseModel";
+import {MySequelize, AuthorAttributes, ModelObj} from "./baseModel";
 
 export class Author extends Model<AuthorAttributes> implements AuthorAttributes {
   color: string;
   id: string;
 
-  static initialize(sequelize): void {
+  static initialize(sequelize: MySequelize): void {
     Author.init(
       {
         id: {
@@ -30,7 +30,7 @@ export class Author extends Model<AuthorAttributes> implements AuthorAttributes 
       })
   }
 
-  static associate(models: any): void {
+  static associate(models: ModelObj): void {
     Author.belongsTo(models.Note, {
       foreignKey: 'noteId',
       as: 'note',

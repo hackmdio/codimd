@@ -3,7 +3,7 @@ import Scrypt from "scrypt-kdf";
 
 import {logger} from "../logger";
 import {generateAvatarURL} from "../letter-avatars";
-import {BaseProfile, DropboxProfile, GenericProfile, UserAttributes, UserProfile} from "./baseModel";
+import {BaseProfile, DropboxProfile, GenericProfile, UserAttributes, UserProfile, ModelObj} from "./baseModel";
 
 export class User extends Model<UserAttributes> implements UserAttributes {
   accessToken: string;
@@ -68,7 +68,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     })
   }
 
-  static associate(models: any): void {
+  static associate(models: ModelObj): void {
     User.hasMany(models.Note, {
       foreignKey: 'ownerId',
       constraints: false
@@ -79,7 +79,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     })
   }
 
-  static async hashPassword(plain): Promise<string> {
+  static async hashPassword(plain: string): Promise<string> {
     return (await Scrypt.kdf(plain, await Scrypt.pickParams(0.1))).toString('hex')
   }
 
@@ -90,7 +90,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     return false
   }
 
-  static getProfile(user): UserProfile | null {
+  static getProfile(user: User): UserProfile | null {
     if (!user) return null
     if (user.profile) return User.parseProfile(user.profile)
     if (user.email) return User.parseProfileByEmail(user.email)

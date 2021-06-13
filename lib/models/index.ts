@@ -1,5 +1,5 @@
 // external modules
-import {Model, Sequelize} from "sequelize";
+import {Sequelize} from "sequelize";
 import {cloneDeep} from "lodash";
 
 // core
@@ -7,7 +7,15 @@ import config from "../config";
 import {logger} from "../logger";
 
 
-import {BaseModel, AuthorAttributes, NoteAttributes, RevisionAttributes, UserAttributes, GenericProfile} from "./baseModel";
+import {
+  BaseModel,
+  AuthorAttributes,
+  NoteAttributes,
+  RevisionAttributes,
+  UserAttributes,
+  GenericProfile,
+  ModelObj
+} from "./baseModel";
 
 import {Author} from './author'
 import {User} from './user'
@@ -48,9 +56,9 @@ function processData(data, _default, process) {
 
 sequelize.processData = processData
 
-const db: any = {}
+const db: Partial<ModelObj> = {}
 
-const models: BaseModel<Model>[] = [User, Note, Author, Revision]
+const models: BaseModel[] = [User, Note, Author, Revision]
 
 models.forEach(m => {
   m.initialize(sequelize)
@@ -58,7 +66,7 @@ models.forEach(m => {
 })
 models.forEach(m => {
   if ('associate' in m) {
-    m.associate(db)
+    m.associate(db as ModelObj)
   }
 })
 

@@ -9,10 +9,15 @@ import * as  util from "util";
 // core
 import config from "../config";
 import logger from "../logger";
-import {MySequelize, RevisionAttributes} from "./baseModel";
+import {MySequelize, RevisionAttributes, ModelObj, NoteModel} from "./baseModel";
 
 let dmpWorker = createDmpWorker()
 const dmpCallbackCache = {}
+
+export interface ClientRevisionData {
+  time: number
+  length: number
+}
 
 function createDmpWorker() {
   const worker = childProcess.fork(path.resolve(__dirname, '../workers/dmpWorker.js'), {
@@ -62,6 +67,7 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
   patch: string;
 
   public readonly createdAt ?: number
+  public readonly updatedAt ?: number
 
   static initialize(sequelize: MySequelize): void {
     Revision.init({
@@ -112,7 +118,7 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
     }, {sequelize})
   }
 
-  static associate(models: any): void {
+  static associate(models: ModelObj): void {
     Revision.belongsTo(models.Note, {
       foreignKey: 'noteId',
       as: 'note',
@@ -123,14 +129,14 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
   }
 
 
-  static getNoteRevisions(note, callback) {
+  static getNoteRevisions(note: NoteModel, callback: (err: Error | null, data?: ClientRevisionData[]) => void): void {
     Revision.findAll({
       where: {
         noteId: note.id
       },
       order: [['createdAt', 'DESC']]
-    }).then(function (revisions) {
-      const data = []
+    }).then(function (revisions: Revision[]) {
+      const data: ClientRevisionData[] = []
       for (let i = 0, l = revisions.length; i < l; i++) {
         const revision = revisions[i]
         data.push({
@@ -144,14 +150,14 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
     })
   }
 
-  static getPatchedNoteRevisionByTime(note, time, callback) {
+  static getPatchedNoteRevisionByTime(note: NoteModel, time: number | moment.Moment, callback: (err: Error | null, data?: null) => void): void {
     // find all revisions to prepare for all possible calculation
     Revision.findAll({
       where: {
         noteId: note.id
       },
       order: [['createdAt', 'DESC']]
-    }).then(function (revisions) {
+    }).then(function (revisions: Revision[]) {
       if (revisions.length <= 0) return callback(null, null)
       // measure target revision position
       Revision.count({
@@ -161,7 +167,7 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
             [Op.gte]: time
           }
         },
-      }).then(function (count) {
+      }).then(function (count: number) {
         if (count <= 0) return callback(null, null)
         sendDmpWorker({
           msg: 'get revision',
@@ -176,13 +182,13 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
     })
   }
 
-  static saveNoteRevision(note, callback) {
+  static saveNoteRevision(note: NoteModel, callback: (err: Error | null, rev?: Revision) => void): void {
     Revision.findAll({
       where: {
         noteId: note.id
       },
       order: [['createdAt', 'DESC']]
-    }).then(function (revisions) {
+    }).then(function (revisions: Revision[]) {
       if (revisions.length <= 0) {
         // if no revision available
         Revision.create({
@@ -190,7 +196,7 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
           lastContent: note.content ? note.content : '',
           length: note.content ? note.content.length : 0,
           authorship: note.authorship
-        }).then(function (revision) {
+        }).then(function (revision: Revision) {
           Revision.finishSaveNoteRevision(note, revision, callback)
         }).catch(function (err) {
           return callback(err, null)
@@ -203,14 +209,14 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
           msg: 'create patch',
           lastDoc: lastContent,
           currDoc: content
-        }, function (err, patch) {
+        }, function (err: Error | null, patch: string) {
           if (err) logger.error('save note revision error', err)
           if (!patch) {
             // if patch is empty (means no difference) then just update the latest revision updated time
             latestRevision.changed('updatedAt', true)
             latestRevision.update({
               updatedAt: Date.now()
-            }).then(function (revision) {
+            }).then(function (revision: Revision) {
               Revision.finishSaveNoteRevision(note, revision, callback)
             }).catch(function (err) {
               return callback(err, null)
@@ -222,7 +228,7 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
               content: note.content,
               length: note.content.length,
               authorship: note.authorship
-            }).then(function (revision) {
+            }).then(function (revision: Revision) {
               // clear last revision content to reduce db size
               latestRevision.update({
                 content: null
@@ -244,7 +250,7 @@ export class Revision extends Model<RevisionAttributes> implements RevisionAttri
 
   static saveNoteRevisionAsync = util.promisify(Revision.saveNoteRevision) as (note) => Promise<Revision>
 
-  static finishSaveNoteRevision(note, revision, callback) {
+  static finishSaveNoteRevision(note: NoteModel, revision: Revision, callback: (err: Error | null, rev: Revision) => void): void {
     note.update({
       savedAt: revision.updatedAt
     }).then(function () {

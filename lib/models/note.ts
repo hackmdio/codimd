@@ -7,7 +7,7 @@ import base64url from "base64url";
 import cheerio from "cheerio";
 import * as fs from "fs";
 import markdownIt from "markdown-it";
-import moment from "moment";
+import moment, {Moment} from "moment";
 
 // ot
 import ot from "ot";
@@ -20,19 +20,24 @@ import config from "../config";
 import {logger} from "../logger";
 import {createNoteWithRevision, syncNote} from "../services/note";
 import {stripTags} from "../string";
-import {MySequelize, NoteAttributes} from "./baseModel";
+import {ModelObj, MySequelize, NoteAttributes, NoteMeta} from "./baseModel";
 
 const md = markdownIt()
 export const dmp = new DiffMatchPatch()
 // permission types
 const permissionTypes = ['freely', 'editable', 'limited', 'locked', 'protected', 'private']
 
+interface ParsedMeta {
+  markdown: string,
+  meta: Record<string, string>
+}
+
 export class Note extends Model<NoteAttributes> implements NoteAttributes {
   alias: string;
   authorship: string;
   content: string;
   id: string;
-  lastchangeAt: Date;
+  lastchangeAt: Date | Moment;
   permission: string;
   savedAt: Date;
   shortid: string;
@@ -107,7 +112,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     })
 
     Note.addHook('beforeCreate', function (note: Note): Promise<void> {
-      return new Promise(function (resolve, reject) {
+      return new Promise(function (resolve) {
         // if no content specified then use default note
         if (!note.content) {
           let filePath = config.defaultNotePath
@@ -124,8 +129,8 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
             note.title = noteInFS.title
             note.content = noteInFS.content
             if (filePath !== config.defaultNotePath) {
-              note.createdAt = noteInFS.lastchangeAt.toDate()
-              note.lastchangeAt = noteInFS.lastchangeAt.toDate()
+              note.createdAt = (noteInFS.lastchangeAt as Moment).toDate()
+              note.lastchangeAt = (noteInFS.lastchangeAt as Moment).toDate()
             }
           }
         }
@@ -142,7 +147,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     })
   }
 
-  static associate(models: any): void {
+  static associate(models: ModelObj): void {
     Note.belongsTo(models.User, {
       foreignKey: 'ownerId',
       as: 'owner',
@@ -167,7 +172,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
   }
 
 
-  static checkFileExist(filePath) {
+  static checkFileExist(filePath: string): boolean {
     try {
       return fs.statSync(filePath).isFile()
     } catch (err) {
@@ -175,14 +180,14 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     }
   }
 
-  static encodeNoteId(id) {
+  static encodeNoteId(id: string): string {
     // remove dashes in UUID and encode in url-safe base64
     const str = id.replace(/-/g, '')
     const hexStr = Buffer.from(str, 'hex')
     return base64url.encode(hexStr)
   }
 
-  static decodeNoteId(encodedId) {
+  static decodeNoteId(encodedId: string): string {
     // decode from url-safe base64
     const id = base64url.toBuffer(encodedId).toString('hex')
     // add dashes between the UUID string parts
@@ -195,7 +200,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     return idParts.join('-')
   }
 
-  static checkNoteIdValid(id) {
+  static checkNoteIdValid(id: string): boolean {
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
     const result = id.match(uuidRegex)
     if (result && result.length === 1) {
@@ -205,7 +210,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     }
   }
 
-  static parseNoteIdAsync(noteId) {
+  static parseNoteIdAsync(noteId: string): Promise<string> {
     return new Promise((resolve, reject) => {
       Note.parseNoteId(noteId, (err, id) => {
         if (err) {
@@ -216,7 +221,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     })
   }
 
-  static parseNoteId(noteId, callback) {
+  static parseNoteId(noteId: string, callback: (err: Error | null, id: string) => void): void {
     async.series({
       parseNoteIdByAlias: function (_callback) {
         // try to parse note id by alias (e.g. doc)
@@ -320,7 +325,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
           return _callback(err, null)
         }
       }
-    }, function (err, result) {
+    }, function (err) {
       if (err) {
         logger.error(err)
         return callback(err, null)
@@ -329,7 +334,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     })
   }
 
-  static parseNoteInfo(body) {
+  static parseNoteInfo(body: string): Partial<NoteMeta> {
     const parsed = Note.extractMeta(body)
     const $ = cheerio.load(md.render(parsed.markdown))
     return {
@@ -338,13 +343,13 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     }
   }
 
-  static parseNoteTitle(body) {
+  static parseNoteTitle(body: string): string {
     const parsed = Note.extractMeta(body)
     const $ = cheerio.load(md.render(parsed.markdown))
     return Note.extractNoteTitle(parsed.meta, $)
   }
 
-  static extractNoteTitle(meta, $) {
+  static extractNoteTitle(meta: Record<string, string>, $: cheerio.Root): string {
     let title = ''
     if (meta.title && (typeof meta.title === 'string' || typeof meta.title === 'number')) {
       title = meta.title
@@ -358,20 +363,20 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     return title
   }
 
-  static generateDescription(markdown) {
+  static generateDescription(markdown: string): string {
     return markdown.substr(0, 100).replace(/(?:\r\n|\r|\n)/g, ' ')
   }
 
-  static decodeTitle(title) {
+  static decodeTitle(title: string): string {
     return title || 'Untitled'
   }
 
-  static generateWebTitle(title) {
+  static generateWebTitle(title: string): string {
     title = !title || title === 'Untitled' ? 'CodiMD - Collaborative markdown notes' : title + ' - CodiMD'
     return title
   }
 
-  static extractNoteTags(meta, $) {
+  static extractNoteTags(meta: Record<string, string>, $: cheerio.Root): string[] {
     const tags = []
     const rawtags = []
     let metaTags
@@ -412,7 +417,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     return tags
   }
 
-  static extractMeta(content) {
+  static extractMeta(content: string): ParsedMeta {
     let obj = null
     try {
       obj = metaMarked(content)
@@ -427,8 +432,8 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     return obj
   }
 
-  static parseMeta(meta) {
-    const _meta: any = {}
+  static parseMeta(meta: Record<string, string>): Partial<NoteMeta> {
+    const _meta: Partial<NoteMeta> = {}
     if (meta) {
       if (meta.title && (typeof meta.title === 'string' || typeof meta.title === 'number')) {
         _meta.title = meta.title
@@ -452,7 +457,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     return _meta
   }
 
-  static updateAuthorshipByOperation(operation, userId, authorships) {
+  static updateAuthorshipByOperation(operation: any, userId: string, authorships: any): any {
     let index = 0
     const timestamp = Date.now()
     for (let i = 0; i < operation.length; i++) {
@@ -554,7 +559,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     return authorships
   }
 
-  static transformPatchToOperations(patch, contentLength) {
+  static transformPatchToOperations(patch: any, contentLength: number) {
     const operations = []
     if (patch.length > 0) {
       // calculate original content length
@@ -615,7 +620,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
   }
 }
 
-function readFileSystemNote(filePath) {
+function readFileSystemNote(filePath: string): Partial<Note> {
   const fsModifiedTime = moment(fs.statSync(filePath).mtime)
   const content = fs.readFileSync(filePath, 'utf8')
 
