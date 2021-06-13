@@ -1,3 +1,4 @@
+import {Request, Response} from "express";
 import config from "../config";
 import {logger} from "../logger";
 
@@ -63,7 +64,7 @@ async function createNote(userId, noteAlias) {
 }
 
 // controller
-export async function showNote(req, res) {
+export async function showNote(req: Request, res: Response): Promise<void> {
   const noteId = req.params.noteId
   const userId = req.user ? req.user.id : null
 
@@ -101,7 +102,7 @@ function canViewNote(note, isLogin, userId) {
   return true
 }
 
-export async function showPublishNote(req, res) {
+export async function showPublishNote(req: Request, res: Response): Promise<void> {
   const shortid = req.params.shortid
 
   const note = await getNoteById(shortid, {
@@ -155,7 +156,7 @@ export async function showPublishNote(req, res) {
   res.render('pretty.ejs', data)
 }
 
-export async function noteActions(req, res) {
+export async function noteActions(req: Request, res: Response): Promise<void> {
   const noteId = req.params.noteId
 
   const note = await getNoteById(noteId)
@@ -231,7 +232,7 @@ async function getMyNoteList(userId, callback) {
   }
 }
 
-export function listMyNotes(req, res) {
+export function listMyNotes(req: Request, res: Response): void {
   if (req.isAuthenticated()) {
     getMyNoteList(req.user.id, (err, myNoteList) => {
       if (err) return errorInternalError(req, res)
@@ -245,7 +246,7 @@ export function listMyNotes(req, res) {
   }
 }
 
-export const deleteNote = async (req, res) => {
+export async function deleteNote(req: Request, res: Response): Promise<void> {
   if (req.isAuthenticated()) {
     const noteId = await Note.parseNoteIdAsync(req.params.noteId)
     try {
@@ -279,7 +280,7 @@ export const deleteNote = async (req, res) => {
   }
 }
 
-export const updateNote = async (req, res) => {
+export async function updateNote(req: Request, res: Response): Promise<void> {
   if (req.isAuthenticated() || config.allowAnonymousEdits) {
     const noteId = await Note.parseNoteIdAsync(req.params.noteId)
     try {
@@ -295,7 +296,8 @@ export const updateNote = async (req, res) => {
 
       if (realtime.isNoteExistsInPool(noteId)) {
         logger.error('Update note failed: There are online users opening this note.')
-        return res.status('403').json({status: 'error', message: 'Update API can only be used when no users is online'})
+        res.status(403).json({status: 'error', message: 'Update API can only be used when no users is online'})
+        return
       }
 
       const now = Date.now()
