@@ -1,3 +1,4 @@
+import {Application, NextFunction, Request, Response} from "express";
 import {promisify} from "util";
 
 import request from "request";
@@ -15,7 +16,7 @@ const rp = promisify(request)
 /**
  * @param {Express.Application|Express.Request} ctx
  */
-export async function checkVersion(ctx) {
+export async function checkVersion(ctx: Request | Application):Promise<void> {
   if (lastCheckAt && (lastCheckAt + CHECK_TIMEOUT > Date.now())) {
     return
   }
@@ -36,7 +37,7 @@ export async function checkVersion(ctx) {
       return
     }
 
-    const locals = ctx.locals ? ctx.locals : ctx.app.locals
+    const locals = ctx.locals ? ctx.locals : (ctx as Request).app.locals
 
     locals.versionInfo.latest = data.latest
     locals.versionInfo.versionItem = data.latest ? null : data.versionItem
@@ -53,7 +54,7 @@ export async function checkVersion(ctx) {
   }
 }
 
-export function versionCheckMiddleware(req, res, next) {
+export function versionCheckMiddleware(req: Request, res: Response, next: NextFunction): void {
   checkVersion(req)
     .then(() => {
       next()
