@@ -290,7 +290,7 @@ sequelize.sync().then(function () {
   // check if realtime is ready
   if (realtime.isReady()) {
     checkAllNotesRevision(function (err, notes) {
-      if (err) throw new Error(err)
+      if (err) throw new Error(err.toString())
       if (!notes || notes.length <= 0) return startListen()
     })
   } else {

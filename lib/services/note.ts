@@ -6,7 +6,11 @@ import {Note, Revision, NoteAttributes} from "../models";
 
 const dmp = new DiffMatchPatch()
 
-export function checkAllNotesRevision(callback) {
+interface Callback {
+  (err: Error | string | null, notes?: Note[] | null): void
+}
+
+export function checkAllNotesRevision(callback: Callback): void {
   saveAllNotesRevision(function (err, notes) {
     if (err) return callback(err, null)
     if (!notes || notes.length <= 0) {
@@ -17,7 +21,7 @@ export function checkAllNotesRevision(callback) {
   })
 }
 
-export function saveAllNotesRevision(callback: any): void {
+export function saveAllNotesRevision(callback: Callback): void {
   Note.findAll({
     // query all notes that need to save for revision
     where: {
@@ -43,7 +47,7 @@ export function saveAllNotesRevision(callback: any): void {
         }
       ]
     }
-  }).then(function (notes) {
+  }).then(function (notes: Note[]) {
     if (notes.length <= 0) return callback(null, notes)
     const savedNotes = []
     async.each(notes, function (note, _callback) {
@@ -77,7 +81,7 @@ export function saveAllNotesRevision(callback: any): void {
   })
 }
 
-export async function syncNote(noteInFS, note): Promise<string> {
+export async function syncNote(noteInFS: Partial<Note>, note: Note): Promise<string> {
   const contentLength = noteInFS.content.length
 
   let note2 = await note.update({
