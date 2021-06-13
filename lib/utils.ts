@@ -1,26 +1,30 @@
+import {NextFunction, Request, Response} from "express";
 import * as fs from "fs";
 import * as path from "path";
 
 import mime from "mime-types";
 import bodyParser from "body-parser";
 
-export function isSQLite(sequelize) {
+export function isSQLite(sequelize): boolean {
   return sequelize.options.dialect === 'sqlite'
 }
 
-export function getImageMimeType(imagePath) {
+export function getImageMimeType(imagePath: string): string | boolean {
   return mime.lookup(path.extname(imagePath))
 }
 
-export function isRevealTheme(theme) {
+export function isRevealTheme(theme: string): string | undefined {
   if (fs.existsSync(path.join(__dirname, '..', 'public', 'build', 'reveal.js', 'css', 'theme', theme + '.css'))) {
     return theme
   }
   return undefined
 }
 
-export function wrap(innerHandler) {
-  return (req, res, next) => innerHandler(req, res).catch(err => next(err))
+export function wrap<T>(innerHandler: (req?: Request, res?: Response, next?: NextFunction) => Promise<T>) {
+  return (req: Request, res: Response, next: NextFunction): void => {
+    innerHandler(req, res)
+      .catch(err => next(err));
+  }
 }
 
 // create application/x-www-form-urlencoded parser
