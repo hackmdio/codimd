@@ -8,8 +8,12 @@ import {User} from "../models";
 const authRouter = Router()
 export = authRouter
 
+interface PassportUser {
+  id?: string
+}
+
 // serialize and deserialize
-passport.serializeUser(function (user: any, done) {
+passport.serializeUser(function (user: PassportUser, done) {
   logger.info('serializeUser: ' + user.id)
   return done(null, user.id)
 })
@@ -65,7 +69,7 @@ if (config.isOpenIDEnable) authRouter.use(require('./openid'))
 // logout
 authRouter.get('/logout', function (req, res) {
   if (config.debug && req.isAuthenticated()) {
-    logger.debug('user logout: ' + (req.user as any).id)
+    logger.debug('user logout: ' + req.user.id)
   }
   req.logout()
   res.redirect(config.serverURL + '/')
