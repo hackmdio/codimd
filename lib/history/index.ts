@@ -1,13 +1,22 @@
 // history
 // external modules
 import LZString from '@hackmd/lz-string'
+import {Request, Response} from "express";
 
 import {Note, User} from '../models'
 import {logger} from '../logger'
 import config from '../config'
 import * as response from '../response'
 
-function getHistory(userid, callback) {
+interface History {
+  id?: string
+  text?: string
+  time?: Date | number
+  tags?: string[]
+  pinned?: boolean
+}
+
+function getHistory(userid: string, callback: (err: Error | null, history: Record<string, History>) => void) {
   User.findOne({
     where: {
       id: userid
@@ -16,11 +25,11 @@ function getHistory(userid, callback) {
     if (!user) {
       return callback(null, null)
     }
-    let history: any = []
+    let history: History[] = []
     if (user.history) {
       history = JSON.parse(user.history)
       // migrate LZString encoded note id to base64url encoded note id
-      for (let i = 0, l = (history as []).length; i < l; i++) {
+      for (let i = 0, l = history.length; i < l; i++) {
         // Calculate minimal string length for an UUID that is encoded
         // base64 encoded and optimize comparison by using -1
         // this should make a lot of LZ-String parsing errors obsolete
@@ -44,12 +53,11 @@ function getHistory(userid, callback) {
           }
         }
       }
-      history = parseHistoryToObject(history)
     }
     if (config.debug) {
       logger.info('read history success: ' + user.id)
     }
-    return callback(null, history)
+    return callback(null, parseHistoryToObject(history))
   }).catch(function (err) {
     logger.error('read history failed: ' + err)
     return callback(err, null)
@@ -71,7 +79,7 @@ function setHistory(userid, history, callback) {
   })
 }
 
-export function updateHistory(userid, noteId, document?: string, time?: any) {
+export function updateHistory(userid: string, noteId: string, document?: string, time?: number): void {
   if (userid && noteId && typeof document !== 'undefined') {
     getHistory(userid, function (err, history) {
       if (err || !history) return
@@ -84,7 +92,7 @@ export function updateHistory(userid, noteId, document?: string, time?: any) {
       noteHistory.text = noteInfo.title
       noteHistory.time = time || Date.now()
       noteHistory.tags = noteInfo.tags
-      setHistory(userid, history, function (err, count) {
+      setHistory(userid, history, function (err) {
         if (err) {
           logger.log(err)
         }
@@ -102,7 +110,7 @@ function parseHistoryToArray(history) {
   return _history
 }
 
-function parseHistoryToObject(history) {
+function parseHistoryToObject(history: History[]): Record<string, History> {
   const _history = {}
   for (let i = 0, l = history.length; i < l; i++) {
     const item = history[i]
@@ -111,7 +119,7 @@ function parseHistoryToObject(history) {
   return _history
 }
 
-export function historyGet(req, res) {
+export function historyGet(req: Request, res: Response): void {
   if (req.isAuthenticated()) {
     getHistory(req.user.id, function (err, history) {
       if (err) return response.errorInternalError(req, res)
@@ -125,7 +133,7 @@ export function historyGet(req, res) {
   }
 }
 
-export function historyPost(req, res) {
+export function historyPost(req: Request, res: Response): void {
   if (req.isAuthenticated()) {
     const noteId = req.params.noteId
     if (!noteId) {
@@ -140,7 +148,7 @@ export function historyPost(req, res) {
         return response.errorBadRequest(req, res)
       }
       if (Array.isArray(history)) {
-        setHistory(req.user.id, history, function (err, count) {
+        setHistory(req.user.id, history, function (err) {
           if (err) return response.errorInternalError(req, res)
           res.end()
         })
@@ -155,7 +163,7 @@ export function historyPost(req, res) {
         if (!history[noteId]) return response.errorNotFound(req, res)
         if (req.body.pinned === 'true' || req.body.pinned === 'false') {
           history[noteId].pinned = (req.body.pinned === 'true')
-          setHistory(req.user.id, history, function (err, count) {
+          setHistory(req.user.id, history, function (err) {
             if (err) return response.errorInternalError(req, res)
             res.end()
           })
@@ -169,11 +177,11 @@ export function historyPost(req, res) {
   }
 }
 
-export function historyDelete(req, res) {
+export function historyDelete(req: Request, res: Response): void {
   if (req.isAuthenticated()) {
     const noteId = req.params.noteId
     if (!noteId) {
-      setHistory(req.user.id, [], function (err, count) {
+      setHistory(req.user.id, [], function (err) {
         if (err) return response.errorInternalError(req, res)
         res.end()
       })
@@ -182,7 +190,7 @@ export function historyDelete(req, res) {
         if (err) return response.errorInternalError(req, res)
         if (!history) return response.errorNotFound(req, res)
         delete history[noteId]
-        setHistory(req.user.id, history, function (err, count) {
+        setHistory(req.user.id, history, function (err) {
           if (err) return response.errorInternalError(req, res)
           res.end()
         })

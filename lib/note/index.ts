@@ -56,7 +56,7 @@ async function createNote(userId, noteAlias) {
   })
 
   if (userId) {
-    updateHistory(userId, note)
+    updateHistory(userId, note.id)
   }
 
   return note
@@ -321,7 +321,7 @@ export const updateNote = async (req, res) => {
       }
 
       if (req.isAuthenticated()) {
-        updateHistory(req.user.id, noteId, content)
+        updateHistory(req.user.id, noteId as string, content)
       }
 
       Revision.saveNoteRevision(note, (err, revision) => {
