@@ -20,23 +20,6 @@ interface Task {
   processingFunc: TaskFunc
 }
 
-
-export interface ProcessQueueOptions {
-  maximumLength?: number
-  triggerTimeInterval?: number
-  proactiveMode?: boolean
-  continuousMode?: boolean
-}
-
-const defaultOptions: ProcessQueueOptions = {
-  maximumLength: 500,
-  triggerTimeInterval: 5000,
-  // execute on push
-  proactiveMode: true,
-  // execute next work on finish
-  continuousMode: true
-}
-
 export class ProcessQueue extends EventEmitter implements JobWorker {
   private readonly max: number;
   private readonly triggerTime: number;
@@ -52,7 +35,7 @@ export class ProcessQueue extends EventEmitter implements JobWorker {
                 proactiveMode = true,
                 // execute next work on finish
                 continuousMode = true
-              }: ProcessQueueOptions = {}) {
+              } = {}) {
     super()
     this.max = maximumLength
     this.triggerTime = triggerTimeInterval
@@ -140,4 +123,3 @@ export class ProcessQueue extends EventEmitter implements JobWorker {
     }
   }
 }
-
