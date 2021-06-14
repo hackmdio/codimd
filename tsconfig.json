@@ -7,6 +7,14 @@
     "outDir": "./dist/",
     "module": "CommonJS",
     "esModuleInterop": true,
+
+    // strict check
+    "strictBindCallApply": true,
+    "preserveConstEnums": true,
+    "downlevelIteration": false,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
+
     "typeRoots": ["./typings", "./node_modules/@types"],
     "paths": {
       "@hackmd/diff-match-patch": ["./typings/diff-match-patch/"]
