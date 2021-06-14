@@ -17,7 +17,8 @@
 
     "typeRoots": ["./typings", "./node_modules/@types"],
     "paths": {
-      "@hackmd/diff-match-patch": ["./typings/diff-match-patch/"]
+      "@hackmd/diff-match-patch": ["./typings/diff-match-patch/"],
+      "ot": ["./typings/ot/"]
     }
   },
   "include": [

@@ -72,7 +72,7 @@ export interface RealtimeNoteData {
   updatetime: number
 
   // type: ot.EditorSocketIOServer
-  server: any
+  server: ot.EditorSocketIOServer
 
   authors: Record<string, RealtimeAuthorData>
   authorship: Authorship[]
@@ -714,7 +714,7 @@ export function ifMayEdit(socket: SocketIO.Socket, callback: (canEdit: boolean) 
 }
 
 // TODO: test it
-function operationCallback(socket: SocketIO.Socket, operation: any) {
+function operationCallback(socket: SocketIO.Socket, operation: ot.Operation[]) {
   const noteId = socket.noteId
   if (!noteId || !notes[noteId]) return
   const note = notes[noteId]
