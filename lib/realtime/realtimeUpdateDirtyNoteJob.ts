@@ -5,12 +5,13 @@ import {logger} from "../logger";
 import {Note} from "../models";
 import {JobWorker} from "./jobWorker";
 import {RealtimeNoteData} from "./realtime";
+import {RealtimeModule} from "./realtime-types";
 
 export class UpdateDirtyNoteJob implements JobWorker {
-  private realtime: any;
+  private realtime: RealtimeModule;
   private timer: NodeJS.Timeout;
 
-  constructor(realtime: any) {
+  constructor(realtime: RealtimeModule) {
     this.realtime = realtime
   }
 

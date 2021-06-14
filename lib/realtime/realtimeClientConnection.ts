@@ -7,6 +7,7 @@ import config from "../config";
 import {Note} from "../models";
 import {logger} from "../logger";
 import {RealtimeNoteData, RealtimeUserData} from "./realtime";
+import {RealtimeModule} from "./realtime-types";
 
 export type CursorData = {line: number, ch: number}
 
@@ -17,7 +18,7 @@ export interface UserStatus {
 
 export class RealtimeClientConnection {
   private socket: Socket;
-  private realtime: any;
+  private realtime: RealtimeModule;
 
   constructor(socket: Socket) {
     this.socket = socket
@@ -56,7 +57,7 @@ export class RealtimeClientConnection {
   isNoteAndUserExists(): boolean {
     const note = this.realtime.getNoteFromNotePool(this.socket.noteId)
     const user = this.realtime.getUserFromUserPool(this.socket.id)
-    return note && user
+    return !!(note && user)
   }
 
   isNoteOwner(): boolean {

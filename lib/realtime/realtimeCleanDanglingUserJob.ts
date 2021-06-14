@@ -5,15 +5,16 @@ import async from "async";
 import config from "../config";
 import {logger} from "../logger";
 import {JobWorker} from "./jobWorker";
+import {RealtimeModule} from "./realtime-types";
 
 /**
  * clean when user not in any rooms or user not in connected list
  */
 export class CleanDanglingUserJob implements JobWorker {
-  private realtime: any;
+  private realtime: RealtimeModule;
   private timer: NodeJS.Timeout;
 
-  constructor(realtime: any) {
+  constructor(realtime: RealtimeModule) {
     this.realtime = realtime
   }
 
@@ -33,7 +34,7 @@ export class CleanDanglingUserJob implements JobWorker {
     async.each(Object.keys(users), (key, callback) => {
       const socket = this.realtime.io.sockets.connected[key]
       if ((!socket && users[key]) ||
-        (socket && (!socket.rooms || socket.rooms.length <= 0))) {
+        (socket && (!socket.rooms || Object.keys(socket.rooms).length <= 0))) {
         if (config.debug) {
           logger.info('cleaner found redundant user: ' + key)
         }

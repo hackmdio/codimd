@@ -3,16 +3,17 @@
 import {logger} from "../logger";
 import {saveAllNotesRevision} from "../services/note";
 import {JobWorker} from "./jobWorker";
+import {RealtimeModule} from "./realtime-types";
 
 /**
  * clean when user not in any rooms or user not in connected list
  */
 export class SaveRevisionJob implements JobWorker {
-  private realtime: any;
+  private realtime: RealtimeModule;
   private saverSleep: boolean;
   private timer: NodeJS.Timeout;
 
-  constructor(realtime: any) {
+  constructor(realtime: RealtimeModule) {
     this.realtime = realtime
     this.saverSleep = false
   }

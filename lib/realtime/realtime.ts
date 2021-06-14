@@ -497,7 +497,7 @@ export function emitRefresh(socket: SocketIO.Socket): void {
   socket.emit('refresh', out)
 }
 
-export function checkViewPermission(req, note: RealtimeNoteData) {
+export function checkViewPermission(req, note: RealtimeNoteData): boolean {
   if (note.permission === 'private') {
     if (req.user && req.user.logged_in && req.user.id === note.owner) {
       return true
@@ -636,7 +636,7 @@ export function queueForDisconnect(socket: SocketIO.Socket): void {
   })
 }
 
-interface RealtimeClientUserData {
+export interface RealtimeClientUserData {
   id?: string
   login?: boolean
   userid?: string
