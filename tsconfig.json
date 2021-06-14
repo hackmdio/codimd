@@ -1,12 +1,16 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "baseUrl": ".",
     "allowJs": false,
     "target": "ES2019",
     "outDir": "./dist/",
     "module": "CommonJS",
     "esModuleInterop": true,
-    "typeRoots": ["./typings", "./node_modules/@types"]
+    "typeRoots": ["./typings", "./node_modules/@types"],
+    "paths": {
+      "@hackmd/diff-match-patch": ["./typings/diff-match-patch/"]
+    }
   },
   "include": [
     "./lib/**/*"

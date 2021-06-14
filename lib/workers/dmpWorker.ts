@@ -4,6 +4,7 @@ import DiffMatchPatch from "@hackmd/diff-match-patch";
 // core
 import config from "../config";
 import {logger} from "../logger";
+import {Revision} from "../models";
 
 const dmp = new DiffMatchPatch()
 process.on('message', function (data) {
@@ -57,25 +58,31 @@ process.on('message', function (data) {
   return null
 })
 
-function createPatch(lastDoc, currDoc) {
+function createPatch(lastDoc: string, currDoc: string): string {
   const msStart = (new Date()).getTime()
   const diff = dmp.diff_main(lastDoc, currDoc)
-  let patch = dmp.patch_make(lastDoc, diff)
-  patch = dmp.patch_toText(patch)
+  const patch = dmp.patch_make(lastDoc, diff)
+  const patchText = dmp.patch_toText(patch)
   const msEnd = (new Date()).getTime()
   if (config.debug) {
-    logger.info(patch)
+    logger.info(patchText)
     logger.info((msEnd - msStart) + 'ms')
   }
-  return patch
+  return patchText
 }
 
-function getRevision(revisions, count) {
+interface DiffRevision {
+  content: string,
+  patch: Patch[],
+  authorship: string
+}
+
+function getRevision(revisions: Revision[], count: number): DiffRevision {
   const msStart = (new Date()).getTime()
   let startContent = null
-  let lastPatch = []
+  let lastPatch = ""
   let applyPatches = []
-  let authorship = []
+  let authorship = ""
   if (count <= Math.round(revisions.length / 2)) {
     // start from top to target
     for (let i = 0; i < count; i++) {
