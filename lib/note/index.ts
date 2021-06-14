@@ -140,9 +140,9 @@ export async function showPublishNote(req: Request, res: Response): Promise<void
     updatetime: updateTime,
     body: body,
     owner: note.owner ? note.owner.id : null,
-    ownerprofile: note.owner ? User.getProfile(note.owner) : null,
+    ownerprofile: note.owner ? User.getProfile(note.owner as User) : null,
     lastchangeuser: note.lastchangeuser ? note.lastchangeuser.id : null,
-    lastchangeuserprofile: note.lastchangeuser ? User.getProfile(note.lastchangeuser) : null,
+    lastchangeuserprofile: note.lastchangeuser ? User.getProfile(note.lastchangeuser as User) : null,
     robots: meta.robots || false, // default allow robots
     GA: meta.GA,
     disqus: meta.disqus,

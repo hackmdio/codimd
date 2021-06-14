@@ -33,13 +33,14 @@ export interface RealtimeUserData {
   'user-agent'?: string
   photo?: string
 
-  cursor?: any
+  cursor?: {line: number, ch: number}
   login?: boolean
   userid?: string
   name?: string
 
-  idle?: any
-  type?: any
+  // user status
+  idle: boolean
+  type: 'xs' | 'sm' | 'md' | 'lg'
 }
 
 interface RealtimeAuthorData {

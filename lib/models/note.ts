@@ -20,7 +20,7 @@ import config from "../config";
 import {logger} from "../logger";
 import {createNoteWithRevision, syncNote} from "../services/note";
 import {stripTags} from "../string";
-import {Authorship, ModelObj, MySequelize, NoteAttributes, NoteMeta} from "./baseModel";
+import {Authorship, ModelObj, MySequelize, NoteAttributes, NoteMeta, UserModel} from "./baseModel";
 
 const md = markdownIt()
 export const dmp = new DiffMatchPatch()
@@ -48,6 +48,8 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
   ownerId: string
 
   lastchangeuserId?: string
+  owner?: UserModel;
+  lastchangeuser?: UserModel;
 
   static initialize(sequelize: MySequelize): void {
     Note.init({
