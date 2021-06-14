@@ -14,7 +14,7 @@ import config from "../config";
 import {logger} from "../logger";
 import * as history from "../history";
 import {Author, Note, User} from "../models";
-import {UserProfile} from "../models/baseModel";
+import {Authorship, UserProfile} from "../models/baseModel";
 
 // ot
 import ot from "ot";
@@ -73,7 +73,7 @@ export interface RealtimeNoteData {
   server: any
 
   authors: Record<string, RealtimeAuthorData>
-  authorship: string
+  authorship: Authorship[]
 }
 
 

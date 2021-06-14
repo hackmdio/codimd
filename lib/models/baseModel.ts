@@ -33,6 +33,14 @@ export interface AuthorAttributes {
   color: string
 }
 
+export interface Authorship {
+  [0]: string // userId
+  [1]: number // startPos
+  [2]: number // endPos
+  [3]: number // createdAt
+  [4]: number // updatedAt
+}
+
 export interface NoteAttributes {
   id?: string
   shortid?: string
@@ -41,7 +49,7 @@ export interface NoteAttributes {
   viewcount?: number
   title?: string
   content?: string
-  authorship?: string
+  authorship?: Authorship[]
   lastchangeAt?: Date | Moment
   savedAt?: Date
 

@@ -20,7 +20,7 @@ import config from "../config";
 import {logger} from "../logger";
 import {createNoteWithRevision, syncNote} from "../services/note";
 import {stripTags} from "../string";
-import {ModelObj, MySequelize, NoteAttributes, NoteMeta} from "./baseModel";
+import {Authorship, ModelObj, MySequelize, NoteAttributes, NoteMeta} from "./baseModel";
 
 const md = markdownIt()
 export const dmp = new DiffMatchPatch()
@@ -34,7 +34,7 @@ interface ParsedMeta {
 
 export class Note extends Model<NoteAttributes> implements NoteAttributes {
   alias: string;
-  authorship: string;
+  authorship: Authorship[];
   content: string;
   id: string;
   lastchangeAt: Date | Moment;
@@ -96,9 +96,13 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
       authorship: {
         type: DataTypes.TEXT({length: 'long'}),
         get: function () {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           return sequelize.processData(this.getDataValue('authorship'), [], JSON.parse)
         },
         set: function (value) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           this.setDataValue('authorship', JSON.stringify(value))
         }
       },
@@ -459,16 +463,16 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     return _meta
   }
 
-  static updateAuthorshipByOperation(operation: any, userId: string, authorships: any): any {
+  static updateAuthorshipByOperation(operation: (string|number)[], userId: string, authorships: Authorship[]): Authorship[] {
     let index = 0
     const timestamp = Date.now()
     for (let i = 0; i < operation.length; i++) {
       const op = operation[i]
       if (ot.TextOperation.isRetain(op)) {
-        index += op
+        index += op as number
       } else if (ot.TextOperation.isInsert(op)) {
         const opStart = index
-        const opEnd = index + op.length
+        const opEnd = index + (op as string).length
         let inserted = false
         // authorship format: [userId, startPos, endPos, createdAt, updatedAt]
         if (authorships.length <= 0) authorships.push([userId, opStart, opEnd, timestamp, timestamp])
@@ -499,15 +503,15 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
               }
             }
             if (authorship[1] >= opStart) {
-              authorship[1] += op.length
-              authorship[2] += op.length
+              authorship[1] += (op as string).length
+              authorship[2] += (op as string).length
             }
           }
         }
-        index += op.length
+        index += (op as string).length
       } else if (ot.TextOperation.isDelete(op)) {
         const opStart = index
-        const opEnd = index - op
+        const opEnd = index - (op as number)
         if (operation.length === 1) {
           authorships = []
         } else if (authorships.length > 0) {
@@ -517,7 +521,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
               authorships.splice(j, 1)
               j -= 1
             } else if (authorship[1] < opStart && authorship[1] < opEnd && authorship[2] > opStart && authorship[2] > opEnd) {
-              authorship[2] += op
+              authorship[2] += op as number
               authorship[4] = timestamp
             } else if (authorship[2] >= opStart && authorship[2] <= opEnd) {
               authorship[2] = opStart
@@ -527,12 +531,12 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
               authorship[4] = timestamp
             }
             if (authorship[1] >= opEnd) {
-              authorship[1] += op
-              authorship[2] += op
+              authorship[1] += op as number
+              authorship[2] += op as number
             }
           }
         }
-        index += op
+        index += (op as number)
       }
     }
     // merge
@@ -561,7 +565,7 @@ export class Note extends Model<NoteAttributes> implements NoteAttributes {
     return authorships
   }
 
-  static transformPatchToOperations(patch: any, contentLength: number) {
+  static transformPatchToOperations(patch: Patch[], contentLength: number): (number | string)[][] {
     const operations = []
     if (patch.length > 0) {
       // calculate original content length
