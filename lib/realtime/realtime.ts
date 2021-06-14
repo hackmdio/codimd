@@ -24,6 +24,7 @@ import {CursorData, RealtimeClientConnection} from "./realtimeClientConnection";
 import {UpdateDirtyNoteJob} from "./realtimeUpdateDirtyNoteJob";
 import {CleanDanglingUserJob} from "./realtimeCleanDanglingUserJob";
 import {SaveRevisionJob} from "./realtimeSaveRevisionJob";
+import SocketRequest = SocketIO.SocketRequest;
 
 
 export interface RealtimeUserData {
@@ -497,7 +498,7 @@ export function emitRefresh(socket: SocketIO.Socket): void {
   socket.emit('refresh', out)
 }
 
-export function checkViewPermission(req, note: RealtimeNoteData): boolean {
+export function checkViewPermission(req: SocketRequest, note: RealtimeNoteData): boolean {
   if (note.permission === 'private') {
     if (req.user && req.user.logged_in && req.user.id === note.owner) {
       return true

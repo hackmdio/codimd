@@ -10,9 +10,17 @@ declare namespace SocketIO {
     } | any
   }
 
+  export interface SocketRequest {
+    user?: {
+      logged_in: boolean
+      id: string
+    }
+  }
+
   export interface Socket {
     origin?: any
     noteId?: string
+    request: SocketRequest | any
   }
 
 }
