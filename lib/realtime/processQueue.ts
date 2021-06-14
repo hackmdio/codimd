@@ -46,13 +46,13 @@ export class ProcessQueue extends EventEmitter implements JobWorker {
   private eventTrigger: NodeJS.Timeout;
 
   constructor({
-                maximumLength,
-                triggerTimeInterval,
+                maximumLength = 500,
+                triggerTimeInterval = 5000,
                 // execute on push
-                proactiveMode,
+                proactiveMode = true,
                 // execute next work on finish
-                continuousMode
-              } = defaultOptions) {
+                continuousMode = true
+              }: ProcessQueueOptions = {}) {
     super()
     this.max = maximumLength
     this.triggerTime = triggerTimeInterval
