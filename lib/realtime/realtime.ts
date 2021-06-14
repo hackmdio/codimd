@@ -33,7 +33,7 @@ export interface RealtimeUserData {
   'user-agent'?: string
   photo?: string
 
-  cursor?: {line: number, ch: number}
+  cursor?: CursorData
   login?: boolean
   userid?: string
   name?: string
@@ -65,7 +65,7 @@ export interface RealtimeNoteData {
   socks: SocketIO.Socket[]
   users: Record<string, RealtimeUserData>
   //???
-  tempUsers: any
+  tempUsers: Record<string, number>
 
   createtime: number
   updatetime: number
@@ -497,7 +497,7 @@ export function emitRefresh(socket: SocketIO.Socket): void {
   socket.emit('refresh', out)
 }
 
-export function checkViewPermission(req, note) {
+export function checkViewPermission(req, note: RealtimeNoteData) {
   if (note.permission === 'private') {
     if (req.user && req.user.logged_in && req.user.id === note.owner) {
       return true
@@ -644,8 +644,9 @@ interface RealtimeClientUserData {
   color?: string
   cursor?: CursorData
   name?: string
-  idle?: boolean
-  type?: string
+
+  idle: boolean
+  type: 'xs' | 'sm' | 'md' | 'lg'
 }
 
 export function buildUserOutData(user: RealtimeUserData): RealtimeClientUserData {
@@ -664,7 +665,7 @@ export function buildUserOutData(user: RealtimeUserData): RealtimeClientUserData
 }
 
 // TODO: test it
-export function updateUserData(socket: SocketIO.Socket, user): void {
+export function updateUserData(socket: SocketIO.Socket, user: RealtimeUserData): void {
   // retrieve user data from passport
   if (socket.request.user && socket.request.user.logged_in) {
     const profile = User.getProfile(socket.request.user)
@@ -756,7 +757,7 @@ function operationCallback(socket: SocketIO.Socket, operation: any) {
 }
 
 // TODO: test it
-export function updateHistory(userId: string, note, time?: number): void {
+export function updateHistory(userId: string, note: RealtimeNoteData, time?: number): void {
   const noteId = note.alias ? note.alias : Note.encodeNoteId(note.id)
   if (note.server) history.updateHistory(userId, noteId, note.server.document, time)
 }

@@ -8,11 +8,11 @@ import {Note} from "../models";
 import {logger} from "../logger";
 import {RealtimeNoteData, RealtimeUserData} from "./realtime";
 
-export type CursorData = Record<string, string>
+export type CursorData = {line: number, ch: number}
 
 export interface UserStatus {
-  type: string
   idle: boolean
+  type: 'xs' | 'sm' | 'md' | 'lg'
 }
 
 export class RealtimeClientConnection {
