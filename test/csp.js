@@ -11,7 +11,7 @@ describe('Content security policies', function () {
   let defaultConfig, csp
 
   before(function () {
-    csp = require('../lib/csp')
+    csp = require('../dist/csp')
   })
 
   beforeEach(function () {
@@ -32,21 +32,21 @@ describe('Content security policies', function () {
   })
 
   afterEach(function () {
-    mock.stop('../lib/config')
-    csp = mock.reRequire('../lib/csp')
+    mock.stop('../dist/config')
+    csp = mock.reRequire('../dist/csp')
   })
 
   after(function () {
     mock.stopAll()
-    csp = mock.reRequire('../lib/csp')
+    csp = mock.reRequire('../dist/csp')
   })
 
   // beginnging Tests
   it('Disable CDN', function () {
     const testconfig = defaultConfig
     testconfig.useCDN = false
-    mock('../lib/config', testconfig)
-    csp = mock.reRequire('../lib/csp')
+    mock('../dist/config', testconfig)
+    csp = mock.reRequire('../dist/csp')
 
     assert(!csp.computeDirectives().scriptSrc.includes('https://cdnjs.cloudflare.com'))
     assert(!csp.computeDirectives().scriptSrc.includes('https://cdn.jsdelivr.net'))
@@ -61,8 +61,8 @@ describe('Content security policies', function () {
   it('Disable Google Analytics', function () {
     const testconfig = defaultConfig
     testconfig.csp.addGoogleAnalytics = false
-    mock('../lib/config', testconfig)
-    csp = mock.reRequire('../lib/csp')
+    mock('../dist/config', testconfig)
+    csp = mock.reRequire('../dist/csp')
 
     assert(!csp.computeDirectives().scriptSrc.includes('https://www.google-analytics.com'))
   })
@@ -70,8 +70,8 @@ describe('Content security policies', function () {
   it('Disable Disqus', function () {
     const testconfig = defaultConfig
     testconfig.csp.addDisqus = false
-    mock('../lib/config', testconfig)
-    csp = mock.reRequire('../lib/csp')
+    mock('../dist/config', testconfig)
+    csp = mock.reRequire('../dist/csp')
 
     assert(!csp.computeDirectives().scriptSrc.includes('https://disqus.com'))
     assert(!csp.computeDirectives().scriptSrc.includes('https://*.disqus.com'))
@@ -83,16 +83,16 @@ describe('Content security policies', function () {
   it('Set ReportURI', function () {
     const testconfig = defaultConfig
     testconfig.csp.reportURI = 'https://example.com/reportURI'
-    mock('../lib/config', testconfig)
-    csp = mock.reRequire('../lib/csp')
+    mock('../dist/config', testconfig)
+    csp = mock.reRequire('../dist/csp')
 
     assert.strictEqual(csp.computeDirectives().reportUri, 'https://example.com/reportURI')
   })
 
   it('Set own directives', function () {
     const testconfig = defaultConfig
-    mock('../lib/config', defaultConfig)
-    csp = mock.reRequire('../lib/csp')
+    mock('../dist/config', defaultConfig)
+    csp = mock.reRequire('../dist/csp')
     const unextendedCSP = csp.computeDirectives()
     testconfig.csp.directives = {
       defaultSrc: ['https://default.example.com'],
@@ -105,8 +105,8 @@ describe('Content security policies', function () {
       childSrc: ['https://child.example.com'],
       connectSrc: ['https://connect.example.com']
     }
-    mock('../lib/config', testconfig)
-    csp = mock.reRequire('../lib/csp')
+    mock('../dist/config', testconfig)
+    csp = mock.reRequire('../dist/csp')
 
     const variations = ['default', 'script', 'img', 'style', 'font', 'object', 'media', 'child', 'connect']
 

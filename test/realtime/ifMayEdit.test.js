@@ -13,12 +13,12 @@ describe('realtime#ifMayEdit', function () {
   let modelsStub
   beforeEach(() => {
     removeLibModuleCache()
-    mock('../../lib/config', {})
-    mock('../../lib/logger', createFakeLogger())
-    mock('../../lib/models', modelsStub)
-    mock('../../lib/realtimeUpdateDirtyNoteJob', realtimeJobStub)
-    mock('../../lib/realtimeCleanDanglingUserJob', realtimeJobStub)
-    mock('../../lib/realtimeSaveRevisionJob', realtimeJobStub)
+    mock('../../dist/config', {})
+    mock('../../dist/logger', createFakeLogger())
+    mock('../../dist/models', modelsStub)
+    mock('../../dist/realtimeUpdateDirtyNoteJob', realtimeJobStub)
+    mock('../../dist/realtimeCleanDanglingUserJob', realtimeJobStub)
+    mock('../../dist/realtimeSaveRevisionJob', realtimeJobStub)
   })
 
   afterEach(() => {
@@ -81,7 +81,7 @@ describe('realtime#ifMayEdit', function () {
         client.request.user.id = noteOwnerId
       }
       client.noteId = noteId
-      const realtime = require('../../lib/realtime/realtime')
+      const realtime = require('../../dist/realtime/realtime')
       realtime.getNotePool()[noteId] = note
       const callback = sinon.stub()
       realtime.ifMayEdit(client, callback)
@@ -98,7 +98,7 @@ describe('realtime#ifMayEdit', function () {
     client.noteId = noteId
     const callback = sinon.stub()
     client.origin = 'operation'
-    const realtime = require('../../lib/realtime/realtime')
+    const realtime = require('../../dist/realtime/realtime')
     realtime.getNotePool()[noteId] = note
     realtime.ifMayEdit(client, callback)
     assert(callback.calledOnce)
@@ -116,7 +116,7 @@ describe('realtime#ifMayEdit', function () {
     client.request.user.id = loggedInUserId
     const callback = sinon.stub()
     client.origin = 'operation'
-    const realtime = require('../../lib/realtime/realtime')
+    const realtime = require('../../dist/realtime/realtime')
     realtime.getNotePool()[noteId] = note
     realtime.ifMayEdit(client, callback)
     assert(callback.calledOnce)

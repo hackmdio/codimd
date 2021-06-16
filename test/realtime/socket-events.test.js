@@ -4,6 +4,7 @@
 const assert = require('assert')
 const mock = require('mock-require')
 const sinon = require('sinon')
+const { createFakeLogger } = require('../testDoubles/loggerFake')
 
 const { makeMockSocket, removeModuleFromRequireCache } = require('./utils')
 
@@ -64,19 +65,18 @@ describe('realtime#socket event', function () {
         locked: 'locked',
         protected: 'protected',
         private: 'private'
-      }
-    }
-    mock('../../lib/logger', {
-      error: () => {
       },
-      info: () => {
-      }
+      db: {}
+    }
+    mock('../../dist/logger', createFakeLogger())
+    mock('../../dist/history', {})
+    mock('../../dist/models', modelsMock)
+    mock('../../dist/services/note', {
+      saveAllNotesRevision: () => {}
     })
-    mock('../../lib/history', {})
-    mock('../../lib/models', modelsMock)
-    mock('../../lib/config', configMock)
-    mock('../../lib/ot', require('../testDoubles/otFake'))
-    realtime = require('../../lib/realtime/realtime')
+    mock('../../dist/config', configMock)
+    mock('ot', require('../testDoubles/otFake'))
+    realtime = require('../../dist/realtime/realtime')
 
     // get all socket event handler
     clientSocket = makeMockSocket(null, {
@@ -122,8 +122,8 @@ describe('realtime#socket event', function () {
   })
 
   afterEach(function () {
-    removeModuleFromRequireCache('../../lib/realtime/realtime')
-    removeModuleFromRequireCache('../../lib/realtime/realtimeClientConnection')
+    removeModuleFromRequireCache('../../dist/realtime/realtime')
+    removeModuleFromRequireCache('../../dist/realtime/realtimeClientConnection')
     mock.stopAll()
     sinon.restore()
     clock.restore()

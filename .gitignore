@@ -30,3 +30,6 @@ public/uploads/*
 /coverage/
 
 .vscode/settings.json
+
+/dist
+lib/**/*.js

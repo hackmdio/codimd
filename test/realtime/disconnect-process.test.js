@@ -15,20 +15,19 @@ describe('realtime#disconnect', function () {
   let client
 
   beforeEach(() => {
-    mock('../../lib/logger', {
+    mock('../../dist/logger', {
       error: () => {
       }
     })
-    mock('../../lib/history', {})
-    mock('../../lib/models', {
-      Revision: {
-        saveAllNotesRevision: () => {
-        }
+    mock('../../dist/models', {})
+    mock('../../dist/history', {})
+    mock('../../dist/services/note', {
+      saveAllNotesRevision: () => {
       }
     })
-    mock('../../lib/config', {})
+    mock('../../dist/config', {})
 
-    realtime = require('../../lib/realtime/realtime')
+    realtime = require('../../dist/realtime/realtime')
     updateNoteStub = sinon.stub(realtime, 'updateNote').callsFake((note, callback) => {
       callback(null, note)
     })
@@ -60,7 +59,7 @@ describe('realtime#disconnect', function () {
   })
 
   afterEach(() => {
-    removeModuleFromRequireCache('../../lib/realtime/realtime')
+    removeModuleFromRequireCache('../../dist/realtime/realtime')
     mock.stopAll()
     sinon.restore()
   })

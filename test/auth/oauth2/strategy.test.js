@@ -4,7 +4,7 @@
 const assert = require('assert')
 const chance = require('chance')()
 
-const { extractProfileAttribute } = require('../../../lib/auth/oauth2/strategy')
+const { extractProfileAttribute } = require('../../../dist/auth/oauth2/strategy')
 
 describe('OAuth2CustomStrategy', function () {
   describe('#extractProfileAttribute', function () {

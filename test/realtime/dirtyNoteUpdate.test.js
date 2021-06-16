@@ -4,6 +4,7 @@
 const assert = require('assert')
 const mock = require('mock-require')
 const sinon = require('sinon')
+const { createFakeLogger } = require('../testDoubles/loggerFake')
 const { removeModuleFromRequireCache, makeMockSocket, removeLibModuleCache } = require('./utils')
 
 describe('realtime#update note is dirty timer', function () {
@@ -15,19 +16,14 @@ describe('realtime#update note is dirty timer', function () {
     clock = sinon.useFakeTimers({
       toFake: ['setInterval']
     })
-    mock('../../lib/logger', {
-      error: () => {
-      }
+    mock('../../dist/logger', createFakeLogger())
+    mock('../../dist/history', {})
+    mock('../../dist/models', {})
+    mock('../../dist/services/note', {
+      saveAllNotesRevision: () => {}
     })
-    mock('../../lib/history', {})
-    mock('../../lib/models', {
-      Revision: {
-        saveAllNotesRevision: () => {
-        }
-      }
-    })
-    mock('../../lib/config', {})
-    realtime = require('../../lib/realtime/realtime')
+    mock('../../dist/config', {})
+    realtime = require('../../dist/realtime/realtime')
 
     realtime.io = {
       to: sinon.stub().callsFake(function () {
@@ -39,8 +35,8 @@ describe('realtime#update note is dirty timer', function () {
   })
 
   afterEach(() => {
-    removeModuleFromRequireCache('../../lib/realtime/realtimeUpdateDirtyNoteJob')
-    removeModuleFromRequireCache('../../lib/realtime/realtime')
+    removeModuleFromRequireCache('../../dist/realtime/realtimeUpdateDirtyNoteJob')
+    removeModuleFromRequireCache('../../dist/realtime/realtime')
     mock.stopAll()
     clock.restore()
   })

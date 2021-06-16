@@ -8,7 +8,14 @@ function createFakeLogger () {
     warn: sinon.stub(),
     info: sinon.stub(),
     debug: sinon.stub(),
-    log: sinon.stub()
+    log: sinon.stub(),
+    logger: {
+      error: sinon.stub(),
+      warn: sinon.stub(),
+      info: sinon.stub(),
+      debug: sinon.stub(),
+      log: sinon.stub()
+    }
   }
 }
 
