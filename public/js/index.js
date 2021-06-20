@@ -1266,6 +1266,73 @@ $('#revisionModalRevert').click(function () {
   editor.setValue(revision.content)
   ui.modal.revision.modal('hide')
 })
+
+// custom note url modal
+const checkNoteUrlValid = (noteUrl = '') => {
+  return new Promise((resolve) => {
+    $.ajax({
+      method: 'GET',
+      url: `/api/notes/${noteid}/checkAliasValid`,
+      data: {
+        alias: noteUrl
+      },
+      success: (data) => {
+        resolve(data.isValid);
+      }
+    })
+  });
+}
+
+const updateNoteUrl = (noteUrl = '') => {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      method: 'PATCH',
+      url: `/api/notes/${noteid}/alias`,
+      data: JSON.stringify({
+        alias: noteUrl
+      }),
+      contentType: "application/json;charset=utf-8",
+      success: (data) => {
+        resolve(data.status === 'ok');
+      },
+      error: reject
+    })
+  });
+}
+
+ui.modal.customNoteUrl.on('submit', function (e) {
+  e.preventDefault();
+  const showErrorMessage = (msg) => {
+    ui.modal.customNoteUrl.find('.error-message').text(msg);
+    ui.modal.customNoteUrl.find('.alert').show();
+  }
+  const hideErrorMessage = () => ui.modal.customNoteUrl.find('.alert').hide();
+
+  const customUrl = ui.modal.customNoteUrl.find('[name="custom-url"]').val();
+  checkNoteUrlValid(customUrl)
+    .then(isValid => {
+      if (!isValid) {
+        showErrorMessage('The url is exist.');
+        return ;
+      }
+      hideErrorMessage();
+      return updateNoteUrl(customUrl);
+    })
+    .then(isSuccess => {
+      if(isSuccess){
+        hideErrorMessage();
+        ui.modal.customNoteUrl.modal('hide')
+      }
+    }, err => {
+      if(err.status == 403){
+        showErrorMessage('Only note owner can edit custom url.');
+      }
+    })
+    .catch((err) => {
+      showErrorMessage('Something wrong: ' + err.message);
+    })
+})
+
 // snippet projects
 ui.modal.snippetImportProjects.change(function () {
   var accesstoken = $('#snippetImportModalAccessToken').val()
@@ -1803,6 +1870,7 @@ socket.on('version', function (data) {
     }
   }
 })
+
 var authors = []
 var authorship = []
 var authorMarks = {} // temp variable
@@ -2216,6 +2284,11 @@ socket.on('cursor blur', function (data) {
     cursor.stop(true).fadeOut()
   }
 })
+
+socket.on('alias updated', function (data) {
+  const alias = data.alias;
+  history.replaceState({}, '', alias)
+});
 
 var options = {
   valueNames: ['id', 'name'],
