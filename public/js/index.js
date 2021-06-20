@@ -1277,10 +1277,10 @@ const checkNoteUrlValid = (noteUrl = '') => {
         alias: noteUrl
       },
       success: (data) => {
-        resolve(data.isValid);
+        resolve(data.isValid)
       }
     })
-  });
+  })
 }
 
 const updateNoteUrl = (noteUrl = '') => {
@@ -1291,45 +1291,45 @@ const updateNoteUrl = (noteUrl = '') => {
       data: JSON.stringify({
         alias: noteUrl
       }),
-      contentType: "application/json;charset=utf-8",
+      contentType: 'application/json;charset=utf-8',
       success: (data) => {
-        resolve(data.status === 'ok');
+        resolve(data.status === 'ok')
       },
       error: reject
     })
-  });
+  })
 }
 
 ui.modal.customNoteUrl.on('submit', function (e) {
-  e.preventDefault();
+  e.preventDefault()
   const showErrorMessage = (msg) => {
-    ui.modal.customNoteUrl.find('.error-message').text(msg);
-    ui.modal.customNoteUrl.find('.alert').show();
+    ui.modal.customNoteUrl.find('.error-message').text(msg)
+    ui.modal.customNoteUrl.find('.alert').show()
   }
-  const hideErrorMessage = () => ui.modal.customNoteUrl.find('.alert').hide();
+  const hideErrorMessage = () => ui.modal.customNoteUrl.find('.alert').hide()
 
-  const customUrl = ui.modal.customNoteUrl.find('[name="custom-url"]').val();
+  const customUrl = ui.modal.customNoteUrl.find('[name="custom-url"]').val()
   checkNoteUrlValid(customUrl)
     .then(isValid => {
       if (!isValid) {
-        showErrorMessage('The url is exist.');
-        return ;
+        showErrorMessage('The url is exist.')
+        return
       }
-      hideErrorMessage();
-      return updateNoteUrl(customUrl);
+      hideErrorMessage()
+      return updateNoteUrl(customUrl)
     })
     .then(isSuccess => {
-      if(isSuccess){
-        hideErrorMessage();
+      if (isSuccess) {
+        hideErrorMessage()
         ui.modal.customNoteUrl.modal('hide')
       }
     }, err => {
-      if(err.status == 403){
-        showErrorMessage('Only note owner can edit custom url.');
+      if (err.status === 403) {
+        showErrorMessage('Only note owner can edit custom url.')
       }
     })
     .catch((err) => {
-      showErrorMessage('Something wrong: ' + err.message);
+      showErrorMessage('Something wrong: ' + err.message)
     })
 })
 
@@ -2286,9 +2286,9 @@ socket.on('cursor blur', function (data) {
 })
 
 socket.on('alias updated', function (data) {
-  const alias = data.alias;
+  const alias = data.alias
   history.replaceState({}, '', alias)
-});
+})
 
 var options = {
   valueNames: ['id', 'name'],
