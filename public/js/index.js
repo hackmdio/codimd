@@ -1268,21 +1268,6 @@ $('#revisionModalRevert').click(function () {
 })
 
 // custom note url modal
-const checkNoteUrlValid = (noteUrl = '') => {
-  return new Promise((resolve) => {
-    $.ajax({
-      method: 'GET',
-      url: `/api/notes/${noteid}/checkAliasValid`,
-      data: {
-        alias: noteUrl
-      },
-      success: (data) => {
-        resolve(data.isValid)
-      }
-    })
-  })
-}
-
 const updateNoteUrl = (noteUrl = '') => {
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -1292,9 +1277,7 @@ const updateNoteUrl = (noteUrl = '') => {
         alias: noteUrl
       }),
       contentType: 'application/json;charset=utf-8',
-      success: (data) => {
-        resolve(data.status === 'ok')
-      },
+      success: resolve,
       error: reject
     })
   })
@@ -1309,27 +1292,34 @@ ui.modal.customNoteUrl.on('submit', function (e) {
   const hideErrorMessage = () => ui.modal.customNoteUrl.find('.alert').hide()
 
   const customUrl = ui.modal.customNoteUrl.find('[name="custom-url"]').val()
-  checkNoteUrlValid(customUrl)
-    .then(isValid => {
-      if (!isValid) {
-        showErrorMessage('The url is exist.')
-        return
+  if (!/^[0-9a-z-_]+$/.test(customUrl)) {
+    showErrorMessage('The url must be lowercase letters, decimal digits, hyphen or underscore.')
+    return
+  }
+
+  updateNoteUrl(customUrl)
+    .then(
+      ({ status }) => {
+        if (status === 'ok') {
+          hideErrorMessage()
+          ui.modal.customNoteUrl.modal('hide')
+        }
+      },
+      err => {
+        console.log(err)
+        if (err.status === 400 && err.responseJSON.message) {
+          showErrorMessage(err.responseJSON.message)
+          return
+        }
+        if (err.status === 403) {
+          showErrorMessage('Only note owner can edit custom url.')
+          return
+        }
+        showErrorMessage('Something wrong.')
       }
-      hideErrorMessage()
-      return updateNoteUrl(customUrl)
-    })
-    .then(isSuccess => {
-      if (isSuccess) {
-        hideErrorMessage()
-        ui.modal.customNoteUrl.modal('hide')
-      }
-    }, err => {
-      if (err.status === 403) {
-        showErrorMessage('Only note owner can edit custom url.')
-      }
-    })
-    .catch((err) => {
-      showErrorMessage('Something wrong: ' + err.message)
+    )
+    .catch(() => {
+      showErrorMessage('Something wrong.')
     })
 })
 
