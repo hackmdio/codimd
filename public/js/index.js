@@ -26,14 +26,7 @@ import {
   setloginStateChangeEvent
 } from './lib/common/login'
 
-import {
-  debug,
-  DROPBOX_APP_KEY,
-  noteid,
-  noteurl,
-  urlpath,
-  version
-} from './lib/config'
+import { getConfig } from './lib/config'
 
 import {
   autoLinkify,
@@ -90,6 +83,24 @@ require('../css/site.css')
 require('spin.js/spin.css')
 
 require('highlight.js/styles/github-gist.css')
+
+let debug,
+  DROPBOX_APP_KEY,
+  noteid,
+  noteurl,
+  urlpath,
+  version
+
+function updateConfig () {
+  const config = getConfig()
+  debug = config.debug
+  DROPBOX_APP_KEY = config.DROPBOX_APP_KEY
+  noteid = config.noteid
+  noteurl = config.noteurl
+  urlpath = config.urlpath
+  version = config.version
+}
+updateConfig()
 
 var defaultTextHeight = 20
 var viewportMargin = 20
@@ -1286,10 +1297,10 @@ const updateNoteUrl = (noteUrl = '') => {
 ui.modal.customNoteUrl.on('submit', function (e) {
   e.preventDefault()
   const showErrorMessage = (msg) => {
-    ui.modal.customNoteUrl.find('.error-message').text(msg)
-    ui.modal.customNoteUrl.find('.alert').show()
+    ui.modal.customNoteUrl.find('.js-error-message').text(msg)
+    ui.modal.customNoteUrl.find('.js-error-alert').show()
   }
-  const hideErrorMessage = () => ui.modal.customNoteUrl.find('.alert').hide()
+  const hideErrorMessage = () => ui.modal.customNoteUrl.find('.js-error-alert').hide()
 
   const customUrl = ui.modal.customNoteUrl.find('[name="custom-url"]').val()
   if (!/^[0-9a-z-_]+$/.test(customUrl)) {
@@ -1306,7 +1317,6 @@ ui.modal.customNoteUrl.on('submit', function (e) {
         }
       },
       err => {
-        console.log(err)
         if (err.status === 400 && err.responseJSON.message) {
           showErrorMessage(err.responseJSON.message)
           return
@@ -2278,6 +2288,7 @@ socket.on('cursor blur', function (data) {
 socket.on('alias updated', function (data) {
   const alias = data.alias
   history.replaceState({}, '', alias)
+  updateConfig()
 })
 
 var options = {

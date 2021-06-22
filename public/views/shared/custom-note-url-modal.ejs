@@ -13,9 +13,13 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <div class="alert alert-danger" style="display: none" role="alert">
+            <div class="alert alert-warning" role="alert">
               <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-              <span class="error-message"></span>
+              <span>Notice: the previous custom note url will not be redirected to the new one, please take your own risk to change this.</span>
+            </div>
+            <div class="alert alert-danger js-error-alert" style="display: none" role="alert">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="js-error-message"></span>
             </div>
             <p>For example: /hello-world</p>
             <input type="text" class="form-control" name="custom-url" placeholder="hello-world" required>
