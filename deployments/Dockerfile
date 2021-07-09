@@ -1,8 +1,10 @@
 ARG RUNTIME
+ARG BUILDPACK
 
-FROM hackmdio/buildpack:node-10-0baafb79 as BUILD
+FROM $BUILDPACK as BUILD
 
 COPY --chown=hackmd:hackmd . .
+ENV QT_QPA_PLATFORM=offscreen
 
 RUN set -xe && \
     git reset --hard && \
@@ -18,6 +20,7 @@ RUN set -xe && \
 
 FROM $RUNTIME
 USER hackmd
+ENV QT_QPA_PLATFORM=offscreen
 WORKDIR /home/hackmd/app
 COPY --chown=1500:1500 --from=BUILD /home/hackmd/app .
 RUN npm install --production && npm cache clean --force && rm -rf /tmp/{core-js-banners,phantomjs}
