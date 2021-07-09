@@ -3137,7 +3137,7 @@ function checkInContainerSyntax () {
 
 function matchInContainer (text) {
   var match
-  match = text.match(/:{3,}/g)
+  match = text.match(/^:::/gm)
   if (match && match.length % 2) {
     return true
   } else {
