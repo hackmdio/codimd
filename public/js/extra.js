@@ -27,6 +27,8 @@ import { renderFretBoard } from './lib/renderer/fretboard/fretboard'
 import './lib/renderer/lightbox'
 import { renderCSVPreview } from './lib/renderer/csvpreview'
 
+import { escapeAttrValue } from './render'
+
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
 
@@ -202,18 +204,15 @@ export function parseMeta (md, edit, view, toc, tocAffix) {
     dir = meta.dir
     breaks = meta.breaks
   }
-  // text language
-  if (lang && typeof lang === 'string') {
-    view.attr('lang', lang)
-    toc.attr('lang', lang)
-    tocAffix.attr('lang', lang)
-    if (edit) { edit.attr('lang', lang) }
-  } else {
-    view.removeAttr('lang')
-    toc.removeAttr('lang')
-    tocAffix.removeAttr('lang')
-    if (edit) { edit.removeAttr('lang', lang) }
+  if (!lang || typeof lang !== 'string') {
+    lang = 'en'
   }
+  // text language
+  view.attr('lang', lang)
+  toc.attr('lang', lang)
+  tocAffix.attr('lang', lang)
+  if (edit) { edit.attr('lang', lang) }
+
   // text direction
   if (dir && typeof dir === 'string') {
     view.attr('dir', dir)
@@ -817,8 +816,8 @@ export function exportToHTML (view) {
         html: src[0].outerHTML,
         'ui-toc': toc.html(),
         'ui-toc-affix': tocAffix.html(),
-        lang: (md && md.meta && md.meta.lang) ? `lang="${md.meta.lang}"` : null,
-        dir: (md && md.meta && md.meta.dir) ? `dir="${md.meta.dir}"` : null
+        lang: (md && md.meta && md.meta.lang) ? `lang="${escapeAttrValue(md.meta.lang)}"` : null,
+        dir: (md && md.meta && md.meta.dir) ? `dir="${escapeAttrValue(md.meta.dir)}"` : null
       }
       const html = template(context)
       //        console.log(html);
