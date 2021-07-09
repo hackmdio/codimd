@@ -12,23 +12,27 @@
                     <span class="ui-lastchange text-uppercase"></span>
                 </span>
                 <span class="ui-permission dropdown pull-right">
-                    <a id="permissionLabel" class="ui-permission-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="permissionLabel">
-                        <li class="ui-permission-freely"<% if(!('freely' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-leaf fa-fw"></i> Freely - Anyone can edit</a></li>
-                        <li class="ui-permission-editable"<% if(!('editable' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-shield fa-fw"></i> Editable - Signed-in people can edit</a></li>
-                        <li class="ui-permission-limited"<% if(!('limited' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-id-card fa-fw"></i> Limited - Signed-in people can edit (forbid guests)</a></li>
-                        <li class="ui-permission-locked"<% if(!('locked' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-lock fa-fw"></i> Locked - Only owner can edit</a></li>
-                        <li class="ui-permission-protected"<% if(!('protected' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-umbrella fa-fw"></i> Protected - Only owner can edit (forbid guests)</a></li>
-                        <li class="ui-permission-private"<% if(!('private' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-hand-stop-o fa-fw"></i> Private - Only owner can view &amp; edit</a></li>
+                    <a id="permissionLabelFreely" class="ui-permission-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="display: none;" title="<%= __('Anyone can edit') %>"><i class="fa fa-leaf"></i> <%= __('Freely') %> <i class="ui-permission-caret-down fa fa-caret-down" style="display: none;"></i></a>
+                    <a id="permissionLabelEditable" class="ui-permission-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="display: none;" title="<%= __('Signed-in people can edit') %>"><i class="fa fa-shield fa-fw"></i> <%= __('Editable') %> <i class="ui-permission-caret-down fa fa-caret-down" style="display: none;"></i></a>
+                    <a id="permissionLabelLimited" class="ui-permission-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="display: none;" title="<%= __('Signed-in people can edit (forbid guests)') %>"><i class="fa fa-id-card fa-fw"></i> <%= __('Limited') %> <i class="ui-permission-caret-down fa fa-caret-down" style="display: none;"></i></a>
+                    <a id="permissionLabelLocked" class="ui-permission-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="display: none;" title="<%= __('Only owner can edit') %>"><i class="fa fa-lock fa-fw"></i> <%= __('Locked') %> <i class="ui-permission-caret-down fa fa-caret-down" style="display: none;"></i></a>
+                    <a id="permissionLabelProtected" class="ui-permission-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="display: none;" title="<%= __('Only owner can edit (forbid guests)') %>"><i class="fa fa-umbrella fa-fw"></i> <%= __('Protected') %> <i class="ui-permission-caret-down fa fa-caret-down" style="display: none;"></i></a>
+                    <a id="permissionLabelPrivate" class="ui-permission-label text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="display: none;" title="<%= __('Only owner can view & edit') %>"><i class="fa fa-hand-stop-o fa-fw"></i> <%= __('Private') %> <i class="ui-permission-caret-down fa fa-caret-down" style="display: none;"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="permissionLabelFreely permissionLabelEditable permissionLabelLimited permissionLabelLocked permissionLabelProtected permissionLabelPrivate">
+                        <li class="ui-permission-freely"<% if(!('freely' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-leaf fa-fw"></i> <%= __('Freely') %> - <%= __('Anyone can edit') %></a></li>
+                        <li class="ui-permission-editable"<% if(!('editable' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-shield fa-fw"></i> <%= __('Editable') %> - <%= __('Signed-in people can edit') %></a></li>
+                        <li class="ui-permission-limited"<% if(!('limited' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-id-card fa-fw"></i> <%= __('Limited') %> - <%= __('Signed-in people can edit (forbid guests)') %></a></li>
+                        <li class="ui-permission-locked"<% if(!('locked' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-lock fa-fw"></i> <%= __('Locked') %> - <%= __('Only owner can edit') %></a></li>
+                        <li class="ui-permission-protected"<% if(!('protected' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-umbrella fa-fw"></i> <%= __('Protected') %> - <%= __('Only owner can edit (forbid guests)') %></a></li>
+                        <li class="ui-permission-private"<% if(!('private' in permission)) { %> style="display: none;"<% } %>><a><i class="fa fa-hand-stop-o fa-fw"></i> <%= __('Private') %> - <%= __('Only owner can view & edit') %></a></li>
                         <li class="divider"></li>
-                        <li class="ui-delete-note"><a><i class="fa fa-trash-o fa-fw"></i> Delete this note</a></li>
+                        <li class="ui-delete-note"><a><i class="fa fa-trash-o fa-fw"></i> <%= __('Delete this note') %></a></li>
                     </ul>
                 </span>
                 <br>
                 <span class="ui-owner" style="display: none;">
                     &thinsp;<i class="ui-user-icon small" data-toggle="tooltip" data-placement="right"></i>
-                    &nbsp;<span class="text-uppercase">owned this note</span>
+                    &nbsp;<span class="text-uppercase"><%= __('owned this note') %></span>
                 </span>
             </small>
         </div>
@@ -44,6 +48,13 @@
         </div>
         <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:51px;display:none;"></div>
     </div>
+</div>
+<!-- toc menu -->
+<div class="toc-menu" style="display: none;">
+    <a class="expand-toggle expand-all" href="#"><%= __('Expand all') %></a>
+    <a class="expand-toggle collapse-all" href="#" style="display: none;"><%= __('Collapse all') %></a>
+    <a class="back-to-top" href="#"><%= __('Back to top') %></a>
+    <a class="go-to-bottom" href="#"><%= __('Go to bottom') %></a>
 </div>
 <!-- clipboard modal -->
 <div class="modal fade" id="clipboardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
