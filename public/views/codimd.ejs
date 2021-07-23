@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= getLocale() %>">
 
 <head>
-    <%- include codimd/head %>
+    <%- include('codimd/head') %>
 </head>
 
 <body>
-    <%- include codimd/header %>
-    <%- include codimd/body %>
-    <%- include codimd/footer %>
-    <%- include codimd/foot %>
+    <%- include('codimd/header') %>
+    <%- include('codimd/body') %>
+    <%- include('codimd/footer') %>
+    <%- include('codimd/foot') %>
 </body>
 
 </html>

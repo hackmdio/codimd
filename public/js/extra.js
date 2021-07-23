@@ -27,6 +27,8 @@ import { renderFretBoard } from './lib/renderer/fretboard/fretboard'
 import './lib/renderer/lightbox'
 import { renderCSVPreview } from './lib/renderer/csvpreview'
 
+import { escapeAttrValue } from './render'
+
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
 
@@ -202,18 +204,15 @@ export function parseMeta (md, edit, view, toc, tocAffix) {
     dir = meta.dir
     breaks = meta.breaks
   }
-  // text language
-  if (lang && typeof lang === 'string') {
-    view.attr('lang', lang)
-    toc.attr('lang', lang)
-    tocAffix.attr('lang', lang)
-    if (edit) { edit.attr('lang', lang) }
-  } else {
-    view.removeAttr('lang')
-    toc.removeAttr('lang')
-    tocAffix.removeAttr('lang')
-    if (edit) { edit.removeAttr('lang', lang) }
+  if (!lang || typeof lang !== 'string') {
+    lang = 'en'
   }
+  // text language
+  view.attr('lang', lang)
+  toc.attr('lang', lang)
+  tocAffix.attr('lang', lang)
+  if (edit) { edit.attr('lang', lang) }
+
   // text direction
   if (dir && typeof dir === 'string') {
     view.attr('dir', dir)
@@ -817,8 +816,8 @@ export function exportToHTML (view) {
         html: src[0].outerHTML,
         'ui-toc': toc.html(),
         'ui-toc-affix': tocAffix.html(),
-        lang: (md && md.meta && md.meta.lang) ? `lang="${md.meta.lang}"` : null,
-        dir: (md && md.meta && md.meta.dir) ? `dir="${md.meta.dir}"` : null
+        lang: (md && md.meta && md.meta.lang) ? `lang="${escapeAttrValue(md.meta.lang)}"` : null,
+        dir: (md && md.meta && md.meta.dir) ? `dir="${escapeAttrValue(md.meta.dir)}"` : null
       }
       const html = template(context)
       //        console.log(html);
@@ -875,13 +874,16 @@ let tocExpand = false
 
 function checkExpandToggle () {
   const toc = $('.ui-toc-dropdown .toc')
-  const toggle = $('.expand-toggle')
+  const expand = $('.expand-toggle.expand-all')
+  const collapse = $('.expand-toggle.collapse-all')
   if (!tocExpand) {
     toc.removeClass('expand')
-    toggle.text('Expand all')
+    expand.show()
+    collapse.hide()
   } else {
     toc.addClass('expand')
-    toggle.text('Collapse all')
+    expand.hide()
+    collapse.show()
   }
 }
 
@@ -904,11 +906,12 @@ export function generateToc (id) {
   })
   /* eslint-enable no-unused-vars */
   if (target.text() === 'undefined') { target.html('') }
-  const tocMenu = $('<div class="toc-menu"></div')
-  const toggle = $('<a class="expand-toggle" href="#">Expand all</a>')
-  const backtotop = $('<a class="back-to-top" href="#">Back to top</a>')
-  const gotobottom = $('<a class="go-to-bottom" href="#">Go to bottom</a>')
   checkExpandToggle()
+  const tocMenu = $('body').children('.toc-menu')
+  target.append(tocMenu.clone().show())
+  const toggle = $('.expand-toggle', target)
+  const backtotop = $('.back-to-top', target)
+  const gotobottom = $('.go-to-bottom', target)
   toggle.click(e => {
     e.preventDefault()
     e.stopPropagation()
@@ -927,8 +930,6 @@ export function generateToc (id) {
     if (window.scrollToBottom) { window.scrollToBottom() }
     removeHash()
   })
-  tocMenu.append(toggle).append(backtotop).append(gotobottom)
-  target.append(tocMenu)
 }
 
 // smooth all hash trigger scrolling

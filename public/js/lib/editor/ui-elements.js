@@ -9,6 +9,10 @@ export const getUIElements = () => ({
   toolbar: {
     shortStatus: $('.ui-short-status'),
     status: $('.ui-status'),
+    statusShortMsg: $('.ui-status-short-msg'),
+    statusConnected: $('.ui-status-connected'),
+    statusOnline: $('.ui-status-online'),
+    statusOffline: $('.ui-status-offline'),
     new: $('.ui-new'),
     publish: $('.ui-publish'),
     extra: {
@@ -46,6 +50,7 @@ export const getUIElements = () => ({
     permission: {
       permission: $('.ui-permission'),
       label: $('.ui-permission-label'),
+      labelCaretDown: $('.ui-permission-caret-down'),
       freely: $('.ui-permission-freely'),
       editable: $('.ui-permission-editable'),
       locked: $('.ui-permission-locked'),
