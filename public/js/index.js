@@ -26,7 +26,16 @@ import {
   setloginStateChangeEvent
 } from './lib/common/login'
 
-import { getConfig } from './lib/config'
+import {
+  debug,
+  DROPBOX_APP_KEY,
+  noteid,
+  noteurl,
+  noteAlias,
+  urlpath,
+  version,
+  updateNoteAliasConfig,
+} from './lib/config'
 
 import {
   autoLinkify,
@@ -83,24 +92,6 @@ require('../css/site.css')
 require('spin.js/spin.css')
 
 require('highlight.js/styles/github-gist.css')
-
-let debug,
-  DROPBOX_APP_KEY,
-  noteid,
-  noteurl,
-  urlpath,
-  version
-
-function updateConfig () {
-  const config = getConfig()
-  debug = config.debug
-  DROPBOX_APP_KEY = config.DROPBOX_APP_KEY
-  noteid = config.noteid
-  noteurl = config.noteurl
-  urlpath = config.urlpath
-  version = config.version
-}
-updateConfig()
 
 var defaultTextHeight = 20
 var viewportMargin = 20
@@ -1279,56 +1270,58 @@ $('#revisionModalRevert').click(function () {
 })
 
 // custom note url modal
-const updateNoteUrl = (noteUrl = '') => {
+const updateNoteAlias = (newAlias = '') => {
   return new Promise((resolve, reject) => {
     $.ajax({
       method: 'PATCH',
-      url: `/api/notes/${noteid}/alias`,
-      data: JSON.stringify({
-        alias: noteUrl
-      }),
+      url: `/api/notes/${noteid}/alias`,
+      dataType: "json",
       contentType: 'application/json;charset=utf-8',
+      data: JSON.stringify({
+        alias: newAlias
+      }),
       success: resolve,
       error: reject
     })
   })
 }
 
-ui.modal.customNoteUrl.on('submit', function (e) {
+ui.modal.changeNoteAliasModal.on('show.bs.modal', function (e) {
+  ui.modal.changeNoteAliasModal.find('[name="note-alias"]').val(noteAlias)
+})
+
+ui.modal.changeNoteAliasModal.on('submit', function (e) {
   e.preventDefault()
   const showErrorMessage = (msg) => {
-    ui.modal.customNoteUrl.find('.js-error-message').text(msg)
-    ui.modal.customNoteUrl.find('.js-error-alert').show()
+    ui.modal.changeNoteAliasModal.find('.js-error-message').text(msg)
+    ui.modal.changeNoteAliasModal.find('.js-error-alert').show()
   }
-  const hideErrorMessage = () => ui.modal.customNoteUrl.find('.js-error-alert').hide()
+  const hideErrorMessage = () => ui.modal.changeNoteAliasModal.find('.js-error-alert').hide()
 
-  const customUrl = ui.modal.customNoteUrl.find('[name="custom-url"]').val()
-  if (!/^[0-9a-z-_]+$/.test(customUrl)) {
+  const newNoteAlias = ui.modal.changeNoteAliasModal.find('[name="note-alias"]').val()
+  if (!/^[0-9a-z-_]+$/.test(newNoteAlias)) {
     showErrorMessage('The url must be lowercase letters, decimal digits, hyphen or underscore.')
     return
   }
 
-  updateNoteUrl(customUrl)
+  updateNoteAlias(newNoteAlias)
     .then(
       ({ status }) => {
         if (status === 'ok') {
           hideErrorMessage()
-          ui.modal.customNoteUrl.modal('hide')
+          ui.modal.changeNoteAliasModal.modal('hide')
         }
-      },
-      err => {
-        if (err.status === 400 && err.responseJSON.message) {
-          showErrorMessage(err.responseJSON.message)
-          return
-        }
-        if (err.status === 403) {
-          showErrorMessage('Only note owner can edit custom url.')
-          return
-        }
-        showErrorMessage('Something wrong.')
       }
     )
-    .catch(() => {
+    .catch((err) => {
+      if (err.status === 400 && err.responseJSON.message) {
+        showErrorMessage(err.responseJSON.message)
+        return
+      }
+      if (err.status === 403) {
+        showErrorMessage('Only note owner can edit custom url.')
+        return
+      }
       showErrorMessage('Something wrong.')
     })
 })
@@ -2288,7 +2281,7 @@ socket.on('cursor blur', function (data) {
 socket.on('alias updated', function (data) {
   const alias = data.alias
   history.replaceState({}, '', alias)
-  updateConfig()
+  updateNoteAliasConfig(alias)
 })
 
 var options = {

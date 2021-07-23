@@ -1,26 +1,26 @@
-export function getConfig () {
-  return {
-    DROPBOX_APP_KEY: window.DROPBOX_APP_KEY || '',
-    domain: window.domain || '',
-    urlpath: window.urlpath || '',
-    debug: window.debug || false,
-    serverurl: `${window.location.protocol}//${domain || window.location.hostname}${port ? ':' + port : ''}${urlpath ? '/' + urlpath : ''}`,
-    port: window.location.port,
-    noteid: decodeURIComponent(urlpath ? window.location.pathname.slice(urlpath.length + 1, window.location.pathname.length).split('/')[1] : window.location.pathname.split('/')[1]),
-    noteurl: `${serverurl}/${noteid}`,
-    version: window.version
-  }
+export const DROPBOX_APP_KEY = window.DROPBOX_APP_KEY || ''
+export const domain = window.domain || '' // domain name
+export const urlpath = window.urlpath || '' // sub url path, like: www.example.com/<urlpath>
+export const debug = window.debug || false
+export const port = window.location.port
+export const serverurl = `${window.location.protocol}//${domain || window.location.hostname}${port ? ':' + port : ''}${urlpath ? '/' + urlpath : ''}`
+window.serverurl = serverurl
+export let noteid = ''
+export let noteurl = ''
+export let noteAlias = document.querySelector("meta[name='note-alias']").getAttribute('content')
+
+export function updateNoteAliasConfig (alias) {
+  noteAlias = alias
+  document.querySelector("meta[name='note-alias']").setAttribute('content', noteAlias)
+
+  refreshNoteUrlConfig()
 }
 
-const config = getConfig()
-window.serverurl = config.serverurl
+export function refreshNoteUrlConfig () {
+  noteid = decodeURIComponent(urlpath ? window.location.pathname.slice(urlpath.length + 1, window.location.pathname.length).split('/')[1] : window.location.pathname.split('/')[1])
+  noteurl = `${serverurl}/${noteid}`
+}
 
-export const DROPBOX_APP_KEY = config.DROPBOX_APP_KEY
-export const domain = config.domain
-export const urlpath = config.urlpath
-export const debug = config.debug
-export const port = config.port
-export const serverurl = config.serverurl
-export const noteid = config.noteid
-export const noteurl = config.noteurl
-export const version = config.version
+refreshNoteUrlConfig()
+
+export const version = window.version
