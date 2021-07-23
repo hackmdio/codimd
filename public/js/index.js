@@ -34,7 +34,7 @@ import {
   noteAlias,
   urlpath,
   version,
-  updateNoteAliasConfig,
+  updateNoteAliasConfig
 } from './lib/config'
 
 import {
@@ -1243,7 +1243,7 @@ const updateNoteAlias = (newAlias = '') => {
     $.ajax({
       method: 'PATCH',
       url: `/api/notes/${noteid}/alias`,
-      dataType: "json",
+      dataType: 'json',
       contentType: 'application/json;charset=utf-8',
       data: JSON.stringify({
         alias: newAlias
