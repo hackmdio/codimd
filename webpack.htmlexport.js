@@ -6,6 +6,15 @@ module.exports = {
   entry: {
     htmlExport: path.join(__dirname, 'public/js/htmlExport.js')
   },
+  resolve: {
+    fallback: {
+      fs: 'false',
+      os: 'false',
+      buffer: 'false',
+      path: 'false',
+      util: 'false'
+    }
+  },
   module: {
     rules: [{
       test: /\.css$/,

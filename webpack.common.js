@@ -12,6 +12,7 @@ gracefulFs.gracefulify(fs)
 module.exports = {
   name: 'app',
   plugins: [
+    new webpack.EnvironmentPlugin(['NODE_ENV', 'NODE_DEBUG']),
     new webpack.ProvidePlugin({
       Visibility: 'visibilityjs',
       Cookies: 'js-cookie',
@@ -129,79 +130,81 @@ module.exports = {
       filename: path.join(__dirname, 'public/views/build/slide-pack-scripts.ejs'),
       inject: false
     }),
-    new CopyWebpackPlugin([
-      {
-        context: path.join(__dirname, 'node_modules/mathjax'),
-        from: {
-          glob: '**/*',
-          dot: false
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          context: path.join(__dirname, 'node_modules/mathjax'),
+          from: '**/*',
+          to: 'MathJax/',
+          globOptions: {
+            dot: false
+          }
         },
-        to: 'MathJax/'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/@hackmd/emojify.js'),
-        from: {
-          glob: 'dist/**/*',
-          dot: false
+        {
+          context: path.join(__dirname, 'node_modules/@hackmd/emojify.js'),
+          from: 'dist/**/*',
+          to: 'emojify.js/',
+          globOptions: {
+            dot: false
+          }
         },
-        to: 'emojify.js/'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/reveal.js'),
-        from: 'js',
-        to: 'reveal.js/js'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/reveal.js'),
-        from: 'css',
-        to: 'reveal.js/css'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/reveal.js'),
-        from: 'lib',
-        to: 'reveal.js/lib'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/reveal.js'),
-        from: 'plugin',
-        to: 'reveal.js/plugin'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/dictionary-de'),
-        from: '*',
-        to: 'dictionary-de/'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/dictionary-de-at'),
-        from: '*',
-        to: 'dictionary-de-at/'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/dictionary-de-ch'),
-        from: '*',
-        to: 'dictionary-de-ch/'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/dictionary-en-gb'),
-        from: '*',
-        to: 'dictionary-en-gb/'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/leaflet'),
-        from: 'dist',
-        to: 'leaflet'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/fork-awesome'),
-        from: 'fonts',
-        to: 'fork-awesome/fonts'
-      },
-      {
-        context: path.join(__dirname, 'node_modules/fork-awesome'),
-        from: 'css',
-        to: 'fork-awesome/css'
-      }
-    ]),
+        {
+          context: path.join(__dirname, 'node_modules/reveal.js'),
+          from: 'js',
+          to: 'reveal.js/js'
+        },
+        {
+          context: path.join(__dirname, 'node_modules/reveal.js'),
+          from: 'css',
+          to: 'reveal.js/css'
+        },
+        {
+          context: path.join(__dirname, 'node_modules/reveal.js'),
+          from: 'lib',
+          to: 'reveal.js/lib'
+        },
+        {
+          context: path.join(__dirname, 'node_modules/reveal.js'),
+          from: 'plugin',
+          to: 'reveal.js/plugin'
+        },
+        {
+          context: path.join(__dirname, 'node_modules/dictionary-de'),
+          from: '*',
+          to: 'dictionary-de/'
+        },
+        {
+          context: path.join(__dirname, 'node_modules/dictionary-de-at'),
+          from: '*',
+          to: 'dictionary-de-at/'
+        },
+        {
+          context: path.join(__dirname, 'node_modules/dictionary-de-ch'),
+          from: '*',
+          to: 'dictionary-de-ch/'
+        },
+        {
+          context: path.join(__dirname, 'node_modules/dictionary-en-gb'),
+          from: '*',
+          to: 'dictionary-en-gb/'
+        },
+        {
+          context: path.join(__dirname, 'node_modules/leaflet'),
+          from: 'dist',
+          to: 'leaflet'
+        },
+        {
+          context: path.join(__dirname, 'node_modules/fork-awesome'),
+          from: 'fonts',
+          to: 'fork-awesome/fonts'
+        },
+        {
+          context: path.join(__dirname, 'node_modules/fork-awesome'),
+          from: 'css',
+          to: 'fork-awesome/css'
+        }
+      ]
+    }),
     new MiniCssExtractPlugin()
   ],
 
@@ -398,8 +401,6 @@ module.exports = {
   },
 
   resolve: {
-    modules: ['node_modules'],
-    extensions: ['.js'],
     alias: {
       codemirror: path.join(__dirname, 'node_modules/@hackmd/codemirror/codemirror.min.js'),
       inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
@@ -423,6 +424,14 @@ module.exports = {
       'viz.js': path.join(__dirname, 'node_modules/viz.js/viz.js'),
       'viz.render.js': path.join(__dirname, 'node_modules/viz.js/full.render.js'),
       markdownlint: path.join(__dirname, 'node_modules/markdownlint/demo/markdownlint-browser.js')
+    },
+    fallback: {
+      "fs": false,
+      "os": false,
+      "path": false,
+      "util": require.resolve("util"),
+      "buffer": false,
+      "process": false
     }
   },
 
@@ -523,13 +532,5 @@ module.exports = {
         loader: 'script-loader'
       }]
     }]
-  },
-  node: {
-    fs: 'empty',
-    os: 'empty'
-  },
-
-  stats: {
-    assets: false
   }
 }
