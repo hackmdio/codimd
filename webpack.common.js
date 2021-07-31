@@ -468,30 +468,6 @@ module.exports = {
         'css-loader'
       ]
     }, {
-      test: /\.scss$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1
-          }
-        },
-        'sass-loader'
-      ]
-    }, {
-      test: /\.less$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1
-          }
-        },
-        'less-loader'
-      ]
-    }, {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       use: [{ loader: 'file-loader' }]
     }, {
