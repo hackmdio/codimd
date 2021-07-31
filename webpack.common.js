@@ -211,7 +211,7 @@ module.exports = {
   entry: {
     font: path.join(__dirname, 'public/css/google-font.css'),
     common: [
-      'expose-loader?jQuery!expose-loader?$!jquery',
+      'expose-loader?exposes=$,jQuery!jquery',
       'velocity-animate',
       'imports-loader?$=jquery!jquery-mousewheel',
       'bootstrap'
@@ -229,8 +229,8 @@ module.exports = {
     'cover-pack': [
       'babel-polyfill',
       'bootstrap-validator',
-      'expose-loader?select2!select2',
-      'expose-loader?moment!moment',
+      'expose-loader?exposes=select2!select2',
+      'expose-loader?exposes=moment!moment',
       path.join(__dirname, 'public/js/cover.js')
     ],
     index: [
@@ -243,7 +243,7 @@ module.exports = {
       'script-loader!ot',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?RevealMarkdown!reveal-markdown',
+      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/index.js')
     ],
     'index-styles': [
@@ -284,11 +284,11 @@ module.exports = {
       'babel-polyfill',
       'script-loader!jquery-ui-resizable',
       'bootstrap-validator',
-      'expose-loader?jsyaml!js-yaml',
+      'expose-loader?exposes=jsyaml!js-yaml',
       'script-loader!mermaid',
-      'expose-loader?moment!moment',
+      'expose-loader?exposes=moment!moment',
       'script-loader!handlebars',
-      'expose-loader?hljs!highlight.js',
+      'expose-loader?exposes=hljs!highlight.js',
       'emojify.js',
       'script-loader!gist-embed',
       'script-loader!codemirror',
@@ -304,16 +304,16 @@ module.exports = {
       'script-loader!vega',
       'script-loader!vega-lite',
       'script-loader!vega-embed',
-      'expose-loader?io!socket.io-client',
-      'expose-loader?RevealMarkdown!reveal-markdown',
-      'expose-loader?L!leaflet',
+      'expose-loader?exposes=io!socket.io-client',
+      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
+      'expose-loader?exposes=L|L|true!leaflet',
       path.join(__dirname, 'public/js/index.js')
     ],
     pretty: [
       'babel-polyfill',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?RevealMarkdown!reveal-markdown',
+      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
     ],
     'pretty-styles': [
@@ -329,11 +329,11 @@ module.exports = {
     ],
     'pretty-pack': [
       'babel-polyfill',
-      'expose-loader?jsyaml!js-yaml',
+      'expose-loader?exposes=jsyaml!js-yaml',
       'script-loader!mermaid',
-      'expose-loader?moment!moment',
+      'expose-loader?exposes=moment!moment',
       'script-loader!handlebars',
-      'expose-loader?hljs!highlight.js',
+      'expose-loader?exposes=hljs!highlight.js',
       'emojify.js',
       'script-loader!gist-embed',
       'flowchart.js',
@@ -344,8 +344,8 @@ module.exports = {
       'script-loader!vega',
       'script-loader!vega-lite',
       'script-loader!vega-embed',
-      'expose-loader?RevealMarkdown!reveal-markdown',
-      'expose-loader?L!leaflet',
+      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
+      'expose-loader?exposes=L|L|true!leaflet',
       path.join(__dirname, 'public/js/pretty.js')
     ],
     slide: [
@@ -353,7 +353,7 @@ module.exports = {
       'bootstrap-tooltip',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?RevealMarkdown!reveal-markdown',
+      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/slide.js')
     ],
     'slide-styles': [
@@ -368,15 +368,15 @@ module.exports = {
     ],
     'slide-pack': [
       'babel-polyfill',
-      'expose-loader?jQuery!expose-loader?$!jquery',
+      'expose-loader?exposes=$,jQuery!jquery',
       'velocity-animate',
       'imports-loader?$=jquery!jquery-mousewheel',
       'bootstrap-tooltip',
-      'expose-loader?jsyaml!js-yaml',
+      'expose-loader?exposes=jsyaml!js-yaml',
       'script-loader!mermaid',
-      'expose-loader?moment!moment',
+      'expose-loader?exposes=moment!moment',
       'script-loader!handlebars',
-      'expose-loader?hljs!highlight.js',
+      'expose-loader?exposes=hljs!highlight.js',
       'emojify.js',
       'script-loader!gist-embed',
       'flowchart.js',
@@ -387,9 +387,9 @@ module.exports = {
       'script-loader!vega',
       'script-loader!vega-lite',
       'script-loader!vega-embed',
-      'expose-loader?Reveal!reveal.js',
-      'expose-loader?RevealMarkdown!reveal-markdown',
-      'expose-loader?L!leaflet',
+      'expose-loader?exposes=Reveal!reveal.js',
+      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
+      'expose-loader?exposes=L|L|true!leaflet',
       path.join(__dirname, 'public/js/slide.js')
     ]
   },
