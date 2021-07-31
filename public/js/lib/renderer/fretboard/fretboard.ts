@@ -12,6 +12,8 @@ import dotWideMiddle from './svg/dotWideMiddle.svg'
 import stringO from './svg/string_o.svg'
 import stringX from './svg/string_x.svg'
 
+declare const $: any
+
 const switchListV = {
   o: `<div class='cell dot'>${dot}</div>`,
   '*': `<div class='cell dot faded'>${dot}</div>`,

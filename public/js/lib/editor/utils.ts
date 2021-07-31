@@ -1,4 +1,5 @@
 /* global CodeMirror, editor */
+declare const CodeMirror: any
 const wrapSymbols = ['*', '_', '~', '^', '+', '=']
 export function wrapTextWith (editor, cm, symbol) {
   if (!cm.getSelection()) {

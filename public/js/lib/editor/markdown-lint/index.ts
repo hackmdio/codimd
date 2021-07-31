@@ -10,6 +10,8 @@ window.markdownit = require('markdown-it')
 // eslint-disable-next-line
 require('script-loader!markdownlint');
 
+declare const CodeMirror: any
+
 (function (mod) {
   mod(CodeMirror)
 })(function (CodeMirror) {

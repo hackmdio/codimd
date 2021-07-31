@@ -222,7 +222,7 @@ module.exports = {
     cover: [
       'core-js',
       'regenerator-runtime/runtime',
-      path.join(__dirname, 'public/js/cover.js')
+      path.join(__dirname, 'public/js/cover.ts')
     ],
     'cover-styles-pack': [
       path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
@@ -236,7 +236,7 @@ module.exports = {
       'bootstrap-validator',
       'expose-loader?exposes=select2!select2',
       'expose-loader?exposes=moment!moment',
-      path.join(__dirname, 'public/js/cover.js')
+      path.join(__dirname, 'public/js/cover.ts')
     ],
     index: [
       'core-js',
@@ -249,7 +249,7 @@ module.exports = {
       'script-loader!ot',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      path.join(__dirname, 'public/js/index.js')
+      path.join(__dirname, 'public/js/index.ts')
     ],
     'index-styles': [
       path.join(__dirname, 'public/vendor/jquery-ui/jquery-ui.min.css'),
@@ -312,14 +312,14 @@ module.exports = {
       'script-loader!vega-embed',
       'expose-loader?exposes=io!socket.io-client',
       'expose-loader?exposes=L|L|true!leaflet',
-      path.join(__dirname, 'public/js/index.js')
+      path.join(__dirname, 'public/js/index.ts')
     ],
     pretty: [
       'core-js',
       'regenerator-runtime/runtime',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      path.join(__dirname, 'public/js/pretty.js')
+      path.join(__dirname, 'public/js/pretty.ts')
     ],
     'pretty-styles': [
       path.join(__dirname, 'public/css/github-extract.css'),
@@ -351,7 +351,7 @@ module.exports = {
       'script-loader!vega-lite',
       'script-loader!vega-embed',
       'expose-loader?exposes=L|L|true!leaflet',
-      path.join(__dirname, 'public/js/pretty.js')
+      path.join(__dirname, 'public/js/pretty.ts')
     ],
     slide: [
       'core-js',
@@ -359,7 +359,7 @@ module.exports = {
       'bootstrap-tooltip',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      path.join(__dirname, 'public/js/slide.js')
+      path.join(__dirname, 'public/js/slide.ts')
     ],
     'slide-styles': [
       path.join(__dirname, 'public/vendor/bootstrap/tooltip.min.css'),
@@ -395,7 +395,7 @@ module.exports = {
       'script-loader!vega-embed',
       'expose-loader?exposes=Reveal!reveal.js',
       'expose-loader?exposes=L|L|true!leaflet',
-      path.join(__dirname, 'public/js/slide.js')
+      path.join(__dirname, 'public/js/slide.ts')
     ]
   },
 

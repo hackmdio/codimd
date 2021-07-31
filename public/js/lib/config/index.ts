@@ -1,10 +1,11 @@
-interface Window {
+declare interface Window {
   DROPBOX_APP_KEY: string,
   domain: string,
   urlpath: string,
   debug: boolean,
   serverurl: string,
   version: string
+  USE_CDN: boolean
 }
 
 export const DROPBOX_APP_KEY = window.DROPBOX_APP_KEY || ''

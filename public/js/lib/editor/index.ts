@@ -11,6 +11,8 @@ import CodeMirrorSpellChecker, { supportLanguages, supportLanguageCodes } from '
 import { initTableEditor } from './table-editor'
 import { availableThemes } from './constants'
 
+declare const CodeMirror: any
+
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
 const defaultEditorMode = 'gfm'
