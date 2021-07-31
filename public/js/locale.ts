@@ -1,31 +1,48 @@
 /* eslint-env browser, jquery */
 /* global Cookies */
 
-var lang = 'en'
-var userLang = navigator.language || navigator.userLanguage
-var userLangCode = userLang.split('-')[0]
-var locale = $('.ui-locale')
-var supportLangs = []
-$('.ui-locale option').each(function () {
-  supportLangs.push($(this).val())
-})
-if (Cookies.get('locale')) {
-  lang = Cookies.get('locale')
-  if (lang === 'zh') {
-    lang = 'zh-TW'
+import $ from 'jquery'
+import Cookies from 'js-cookie'
+
+const userLang = navigator.language || navigator.userLanguage
+const userLangCode = userLang.split('-')[0]
+
+let lang = 'en'
+let supportLangs: string[] = []
+
+function reloadLanguageFromCookie () {
+  if (Cookies.get('locale')) {
+    lang = Cookies.get('locale') as string
+    if (lang === 'zh') {
+      lang = 'zh-TW'
+    }
+  } else if (supportLangs.indexOf(userLang) !== -1) {
+    lang = supportLangs[supportLangs.indexOf(userLang)]
+  } else if (supportLangs.indexOf(userLangCode) !== -1) {
+    lang = supportLangs[supportLangs.indexOf(userLangCode)]
   }
-} else if (supportLangs.indexOf(userLang) !== -1) {
-  lang = supportLangs[supportLangs.indexOf(userLang)]
-} else if (supportLangs.indexOf(userLangCode) !== -1) {
-  lang = supportLangs[supportLangs.indexOf(userLangCode)]
 }
 
-locale.val(lang)
-$('select.ui-locale option[value="' + lang + '"]').attr('selected', 'selected')
-
-locale.change(function () {
-  Cookies.set('locale', $(this).val(), {
-    expires: 365
+function fillSupportLanguageArrayFromDropdownOptions () {
+  const $langOptions = $('.ui-locale option');
+  $langOptions.each(function () {
+    supportLangs.push($(this).val() as string)
   })
-  window.location.reload()
-})
+}
+
+export function initializeLocaleDropdown() {
+  const $locale = $('.ui-locale')
+
+  fillSupportLanguageArrayFromDropdownOptions()
+  reloadLanguageFromCookie()
+
+  $locale.val(lang)
+  $('select.ui-locale option[value="' + lang + '"]').attr('selected', 'selected')
+
+  $locale.on('change', function () {
+    Cookies.set('locale', $(this).val() as string, {
+      expires: 365
+    })
+    window.location.reload()
+  })
+}

@@ -119,6 +119,9 @@
     "@types/express": "4.17.9",
     "@types/express-flash": "0.0.2",
     "@types/express-session": "^1.17.3",
+    "@types/jquery": "^3.5.6",
+    "@types/js-cookie": "^2.2.7",
+    "@types/list.js": "^2.3.1",
     "@types/lodash": "^4.14.170",
     "@types/markdown-pdf": "^9.0.0",
     "@types/mime-types": "^2.1.0",
@@ -128,7 +131,9 @@
     "@types/passport.socketio": "^3.7.5",
     "@types/qs": "^6.9.6",
     "@types/randomcolor": "^0.5.5",
+    "@types/select2": "^4.0.54",
     "@types/socket.io": "^2.1.13",
+    "@types/store": "^2.0.2",
     "@types/validator": "^13.1.4",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
@@ -222,7 +227,7 @@
     "webpack-cli": "~4.7.2",
     "webpack-merge": "~5.8.0",
     "wurl": "~2.5.3",
-    "xss": "~1.0.6"
+    "xss": "~1.0.9"
   },
   "optionalDependencies": {
     "bufferutil": "~4.0.0",

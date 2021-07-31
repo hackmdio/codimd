@@ -23,14 +23,14 @@ import { Spinner } from 'spin.js'
 
 import {
   checkLoginStateChanged,
-  setloginStateChangeEvent
+  setLoginStateChangeEvent
 } from './lib/common/login'
 
 import {
   debug,
   DROPBOX_APP_KEY,
   noteid,
-  noteurl,
+  noteurl, serverurl,
   urlpath,
   version
 } from './lib/config'
@@ -66,10 +66,9 @@ import {
 
 import {
   writeHistory,
-  deleteServerHistory,
   getHistory,
   saveHistory,
-  removeHistory
+  removeHistory, deleteServerHistoryAsync
 } from './history'
 
 import { preventXSS } from './render'
@@ -396,7 +395,7 @@ function setNeedRefresh () {
   showStatus(statusType.offline)
 }
 
-setloginStateChangeEvent(function () {
+setLoginStateChangeEvent(function () {
   setRefreshModal('user-state-changed')
   setNeedRefresh()
 })
@@ -1752,11 +1751,14 @@ socket.on('error', function (data) {
   console.error(data)
   if (data.message && data.message.indexOf('AUTH failed') === 0) { location.href = serverurl + '/403' }
 })
-socket.on('delete', function () {
+socket.on('delete', async function () {
   if (personalInfo.login) {
-    deleteServerHistory(noteid, function (err, data) {
-      if (!err) location.href = serverurl
-    })
+    try {
+      await deleteServerHistoryAsync(noteid)
+      location.href = serverurl
+    } catch (err) {
+      console.error(err)
+    }
   } else {
     getHistory(function (notehistory) {
       var newnotehistory = removeHistory(noteid, notehistory)

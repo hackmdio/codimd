@@ -1,9 +1,10 @@
 /* eslint-env browser, jquery */
 /* global serverurl, moment */
 
+import $ from 'jquery'
 import store from 'store'
 import LZString from '@hackmd/lz-string'
-
+import {serverurl} from "./lib/config";
 import escapeHTML from 'lodash/escape'
 
 import {
@@ -11,13 +12,11 @@ import {
   encodeNoteId
 } from './utils'
 
-import { checkIfAuth } from './lib/common/login'
+import {checkIfAuth, isLogin} from './lib/common/login'
 
-import { urlpath } from './lib/config'
+import {urlpath} from './lib/config'
 
-window.migrateHistoryFromTempCallback = null
-
-export function saveHistory (notehistory) {
+export function saveHistory(notehistory) {
   checkIfAuth(
     () => {
       saveHistoryToServer(notehistory)
@@ -28,17 +27,17 @@ export function saveHistory (notehistory) {
   )
 }
 
-function saveHistoryToStorage (notehistory) {
+function saveHistoryToStorage(notehistory) {
   store.set('notehistory', JSON.stringify(notehistory))
 }
 
-function saveHistoryToServer (notehistory) {
+function saveHistoryToServer(notehistory) {
   $.post(`${serverurl}/history`, {
     history: JSON.stringify(notehistory)
   })
 }
 
-export function saveStorageHistoryToServer (callback) {
+export function saveStorageHistoryToServer(callback) {
   const data = store.get('notehistory')
   if (data) {
     $.post(`${serverurl}/history`, {
@@ -50,7 +49,7 @@ export function saveStorageHistoryToServer (callback) {
   }
 }
 
-export function clearDuplicatedHistory (notehistory) {
+export function clearDuplicatedHistory(notehistory) {
   const newnotehistory = []
   for (let i = 0; i < notehistory.length; i++) {
     let found = false
@@ -67,12 +66,14 @@ export function clearDuplicatedHistory (notehistory) {
         break
       }
     }
-    if (!found) { newnotehistory.push(notehistory[i]) }
+    if (!found) {
+      newnotehistory.push(notehistory[i])
+    }
   }
   return newnotehistory
 }
 
-function addHistory (id, text, time, tags, pinned, notehistory) {
+function addHistory(id, text, time, tags, pinned, notehistory) {
   // only add when note id exists
   if (id) {
     notehistory.push({
@@ -86,7 +87,7 @@ function addHistory (id, text, time, tags, pinned, notehistory) {
   return notehistory
 }
 
-export function removeHistory (id, notehistory) {
+export function removeHistory(id, notehistory) {
   for (let i = 0; i < notehistory.length; i++) {
     if (notehistory[i].id === id) {
       notehistory.splice(i, 1)
@@ -97,7 +98,7 @@ export function removeHistory (id, notehistory) {
 }
 
 // used for inner
-export function writeHistory (title, tags) {
+export function writeHistory(title, tags) {
   checkIfAuth(
     () => {
       // no need to do this anymore, this will count from server-side
@@ -109,7 +110,7 @@ export function writeHistory (title, tags) {
   )
 }
 
-function writeHistoryToStorage (title, tags) {
+function writeHistoryToStorage(title, tags) {
   const data = store.get('notehistory')
   let notehistory
   if (data && typeof data === 'string') {
@@ -126,7 +127,7 @@ if (!Array.isArray) {
   Array.isArray = arg => Object.prototype.toString.call(arg) === '[object Array]'
 }
 
-function renderHistory (title, tags) {
+function renderHistory(title, tags) {
   // console.debug(tags);
   const id = urlpath ? location.pathname.slice(urlpath.length + 1, location.pathname.length).split('/')[1] : location.pathname.split('/')[1]
   return {
@@ -137,7 +138,7 @@ function renderHistory (title, tags) {
   }
 }
 
-function generateHistory (title, tags, notehistory) {
+function generateHistory(title, tags, notehistory) {
   const info = renderHistory(title, tags)
   // keep any pinned data
   let pinned = false
@@ -154,22 +155,42 @@ function generateHistory (title, tags, notehistory) {
 }
 
 // used for outer
-export function getHistory (callback) {
-  checkIfAuth(
-    () => {
-      getServerHistory(callback)
-    },
-    () => {
-      getStorageHistory(callback)
-    }
-  )
+
+export async function getHistoryAsync(): Promise<NoteHistory[]> {
+  if (await isLogin()) {
+    return await getServerHistoryAsync()
+  }
+  return getStorageHistoryAsync();
 }
 
-function getServerHistory (callback) {
+export function getHistory(callback: (_: NoteHistory[]) => void) {
+  getHistoryAsync()
+    .then((data) => {
+      callback(data)
+    })
+}
+
+export interface NoteHistory {
+  id?: string
+  text?: string
+  time?: Date | number
+  tags?: string[]
+  pinned?: boolean
+}
+
+function getServerHistoryAsync(): Promise<NoteHistory[]> {
+  return new Promise((resolve) => {
+    getServerHistory(function (data: NoteHistory[]) {
+      resolve(data)
+    })
+  })
+}
+
+function getServerHistory(callback) {
   $.get(`${serverurl}/history`)
     .done(data => {
       if (data.history) {
-        callback(data.history)
+        callback(data.history as NoteHistory[])
       }
     })
     .fail((xhr, status, error) => {
@@ -177,17 +198,30 @@ function getServerHistory (callback) {
     })
 }
 
-export function getStorageHistory (callback) {
+function getStorageHistoryAsync(): NoteHistory[] {
   let data = store.get('notehistory')
   if (data) {
-    if (typeof data === 'string') { data = JSON.parse(data) }
+    if (typeof data === 'string') {
+      data = JSON.parse(data)
+    }
+    return data
+  }
+  return []
+}
+
+export function getStorageHistory(callback) {
+  let data = store.get('notehistory')
+  if (data) {
+    if (typeof data === 'string') {
+      data = JSON.parse(data)
+    }
     callback(data)
   }
   // eslint-disable-next-line standard/no-callback-literal
   callback([])
 }
 
-export function parseHistory (list, callback) {
+export function parseHistory(list, callback) {
   checkIfAuth(
     () => {
       parseServerToHistory(list, callback)
@@ -198,7 +232,7 @@ export function parseHistory (list, callback) {
   )
 }
 
-export function parseServerToHistory (list, callback) {
+export function parseServerToHistory(list, callback) {
   $.get(`${serverurl}/history`)
     .done(data => {
       if (data.history) {
@@ -210,16 +244,18 @@ export function parseServerToHistory (list, callback) {
     })
 }
 
-export function parseStorageToHistory (list, callback) {
+export function parseStorageToHistory(list, callback) {
   let data = store.get('notehistory')
   if (data) {
-    if (typeof data === 'string') { data = JSON.parse(data) }
+    if (typeof data === 'string') {
+      data = JSON.parse(data)
+    }
     parseToHistory(list, data, callback)
   }
   parseToHistory(list, [], callback)
 }
 
-function parseToHistory (list, notehistory, callback) {
+function parseToHistory(list, notehistory, callback) {
   if (!callback) return
   else if (!list || !notehistory) callback(list, notehistory)
   else if (notehistory && notehistory.length > 0) {
@@ -242,29 +278,53 @@ function parseToHistory (list, notehistory, callback) {
       notehistory[i].text = escapeHTML(notehistory[i].text)
       notehistory[i].tags = (notehistory[i].tags && notehistory[i].tags.length > 0) ? escapeHTML(notehistory[i].tags).split(',') : []
       // add to list
-      if (notehistory[i].id && list.get('id', notehistory[i].id).length === 0) { list.add(notehistory[i]) }
+      if (notehistory[i].id && list.get('id', notehistory[i].id).length === 0) {
+        list.add(notehistory[i])
+      }
     }
   }
   callback(list, notehistory)
 }
 
-export function postHistoryToServer (noteId, data, callback) {
-  $.post(`${serverurl}/history/${noteId}`, data)
-    .done(result => callback(null, result))
-    .fail((xhr, status, error) => {
-      console.error(xhr.responseText)
-      return callback(error, null)
-    })
+interface HistoryUpdatePayload {
+  pinned: boolean
 }
 
-export function deleteServerHistory (noteId, callback) {
-  $.ajax({
-    url: `${serverurl}/history${noteId ? '/' + noteId : ''}`,
-    type: 'DELETE'
+export function postHistoryToServerAsync(noteId: string, data ?: HistoryUpdatePayload) {
+  return new Promise((resolve, reject) => {
+    $.post(`${serverurl}/history/${noteId}`, data as any)
+      .done(result => resolve(result))
+      .fail((xhr, status, error) => {
+        console.error(xhr.responseText)
+        return reject(error)
+      })
   })
-    .done(result => callback(null, result))
-    .fail((xhr, status, error) => {
-      console.error(xhr.responseText)
-      return callback(error, null)
+}
+
+export function deleteServerHistoryAsync(noteId: string) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${serverurl}/history/${noteId}`,
+      type: 'DELETE'
     })
+      .done(result => resolve(result))
+      .fail((xhr, status, error) => {
+        console.error(xhr.responseText)
+        return reject(error)
+      })
+  })
+}
+
+export function clearServerHistoryAsync() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: `${serverurl}/history`,
+      type: 'DELETE'
+    })
+      .done(result => resolve(result))
+      .fail((xhr, status, error) => {
+        console.error(xhr.responseText)
+        return reject(error)
+      })
+  })
 }
