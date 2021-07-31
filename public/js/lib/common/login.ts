@@ -7,7 +7,7 @@ let checkAuth = false
 let profile = null
 let lastLoginState = getLoginState()
 let lastUserId = getUserId()
-var loginStateChangeEvent = null
+let loginStateChangeEvent = null
 
 export function setloginStateChangeEvent (func) {
   loginStateChangeEvent = func

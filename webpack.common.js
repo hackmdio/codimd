@@ -406,6 +406,7 @@ module.exports = {
   },
 
   resolve: {
+    extensions: ['.js', '.ts'],
     alias: {
       codemirror: path.join(__dirname, 'node_modules/@hackmd/codemirror/codemirror.min.js'),
       inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
@@ -452,10 +453,7 @@ module.exports = {
 
   module: {
     rules: [{
-      test: /\.mjs$/,
-      type: 'javascript/auto'
-    }, {
-      test: /\.js$/,
+      test: /\.(m?js|ts)$/,
       use: [{ loader: 'babel-loader' }],
       exclude: [
         path.resolve(__dirname, 'node_modules'),

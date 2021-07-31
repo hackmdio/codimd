@@ -7,7 +7,8 @@
         "node": "6",
         "uglify": true
       }
-    }]
+    }],
+    "@babel/preset-typescript"
   ],
   "plugins": [
     "@babel/plugin-transform-runtime"
