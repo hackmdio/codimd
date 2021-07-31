@@ -3,6 +3,7 @@
 
 import { preventXSS } from './render'
 import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
+import { RevealMarkdown } from './reveal-markdown'
 
 require('../css/extra.css')
 require('../css/site.css')

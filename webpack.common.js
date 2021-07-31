@@ -12,7 +12,10 @@ gracefulFs.gracefulify(fs)
 module.exports = {
   name: 'app',
   plugins: [
-    new webpack.EnvironmentPlugin(['NODE_ENV', 'NODE_DEBUG']),
+    new webpack.DefinePlugin({
+      "process.env.NODE_DEBUG": process.env.NODE_ENV || 'development',
+      "process.env.NODE_DEBUG": "false"
+    }),
     new webpack.ProvidePlugin({
       Visibility: 'visibilityjs',
       Cookies: 'js-cookie',
@@ -217,7 +220,8 @@ module.exports = {
       'bootstrap'
     ],
     cover: [
-      'babel-polyfill',
+      'core-js',
+      'regenerator-runtime/runtime',
       path.join(__dirname, 'public/js/cover.js')
     ],
     'cover-styles-pack': [
@@ -227,14 +231,16 @@ module.exports = {
       path.join(__dirname, 'node_modules/select2/select2-bootstrap.css')
     ],
     'cover-pack': [
-      'babel-polyfill',
+      'core-js',
+      'regenerator-runtime/runtime',
       'bootstrap-validator',
       'expose-loader?exposes=select2!select2',
       'expose-loader?exposes=moment!moment',
       path.join(__dirname, 'public/js/cover.js')
     ],
     index: [
-      'babel-polyfill',
+      'core-js',
+      'regenerator-runtime/runtime',
       'script-loader!jquery-ui-resizable',
       'script-loader!codemirror',
       'script-loader!inlineAttachment',
@@ -243,7 +249,6 @@ module.exports = {
       'script-loader!ot',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/index.js')
     ],
     'index-styles': [
@@ -281,7 +286,8 @@ module.exports = {
       path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
     'index-pack': [
-      'babel-polyfill',
+      'core-js',
+      'regenerator-runtime/runtime',
       'script-loader!jquery-ui-resizable',
       'bootstrap-validator',
       'expose-loader?exposes=jsyaml!js-yaml',
@@ -305,15 +311,14 @@ module.exports = {
       'script-loader!vega-lite',
       'script-loader!vega-embed',
       'expose-loader?exposes=io!socket.io-client',
-      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
       'expose-loader?exposes=L|L|true!leaflet',
       path.join(__dirname, 'public/js/index.js')
     ],
     pretty: [
-      'babel-polyfill',
+      'core-js',
+      'regenerator-runtime/runtime',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
     ],
     'pretty-styles': [
@@ -328,7 +333,8 @@ module.exports = {
       path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
     'pretty-pack': [
-      'babel-polyfill',
+      'core-js',
+      'regenerator-runtime/runtime',
       'expose-loader?exposes=jsyaml!js-yaml',
       'script-loader!mermaid',
       'expose-loader?exposes=moment!moment',
@@ -344,16 +350,15 @@ module.exports = {
       'script-loader!vega',
       'script-loader!vega-lite',
       'script-loader!vega-embed',
-      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
       'expose-loader?exposes=L|L|true!leaflet',
       path.join(__dirname, 'public/js/pretty.js')
     ],
     slide: [
-      'babel-polyfill',
+      'core-js',
+      'regenerator-runtime/runtime',
       'bootstrap-tooltip',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/slide.js')
     ],
     'slide-styles': [
@@ -367,7 +372,8 @@ module.exports = {
       path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
     'slide-pack': [
-      'babel-polyfill',
+      'core-js',
+      'regenerator-runtime/runtime',
       'expose-loader?exposes=$,jQuery!jquery',
       'velocity-animate',
       'imports-loader?$=jquery!jquery-mousewheel',
@@ -388,7 +394,6 @@ module.exports = {
       'script-loader!vega-lite',
       'script-loader!vega-embed',
       'expose-loader?exposes=Reveal!reveal.js',
-      'expose-loader?exposes=RevealMarkdown!reveal-markdown',
       'expose-loader?exposes=L|L|true!leaflet',
       path.join(__dirname, 'public/js/slide.js')
     ]

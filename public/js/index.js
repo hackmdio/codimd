@@ -81,6 +81,8 @@ import { emojifyImageDir } from './lib/editor/constants'
 import modeType from './lib/modeType'
 import appState from './lib/appState'
 
+import {RevealMarkdown} from './reveal-markdown'
+
 require('../vendor/showup/showup')
 
 require('../css/index.css')
@@ -2792,9 +2794,9 @@ function updateViewInner () {
       separator: '^(\r\n?|\n)---(\r\n?|\n)$',
       verticalSeparator: '^(\r\n?|\n)----(\r\n?|\n)$'
     }
-    var slides = window.RevealMarkdown.slidify(editor.getValue(), slideOptions)
+    var slides = RevealMarkdown.slidify(editor.getValue(), slideOptions)
     ui.area.markdown.html(slides)
-    window.RevealMarkdown.initialize()
+    RevealMarkdown.initialize()
     // prevent XSS
     ui.area.markdown.html(preventXSS(ui.area.markdown.html()))
     ui.area.markdown.addClass('slides')

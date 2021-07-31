@@ -8,15 +8,7 @@ import { md } from './extra'
  * markdown inside of presentations as well as loading
  * of external markdown documents.
  */
-(function (root, factory) {
-  if (typeof exports === 'object') {
-    module.exports = factory()
-  } else {
-    // Browser globals (root is window)
-    root.RevealMarkdown = factory()
-    root.RevealMarkdown.initialize()
-  }
-}(this, function () {
+function factory() {
   var DEFAULT_SLIDE_SEPARATOR = '^\r?\n---\r?\n$'
   var DEFAULT_NOTES_SEPARATOR = '^note:'
   var DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\.element\\s*?(.+?)$'
@@ -209,10 +201,10 @@ import { md } from './extra'
               })
             } else {
               section.outerHTML = '<section data-state="alert">' +
-              'ERROR: The attempt to fetch ' + url + ' failed with HTTP status ' + xhr.status + '.' +
-              'Check your browser\'s JavaScript console for more details.' +
-              '<p>Remember that you need to serve the presentation HTML from a HTTP server.</p>' +
-              '</section>'
+                'ERROR: The attempt to fetch ' + url + ' failed with HTTP status ' + xhr.status + '.' +
+                'Check your browser\'s JavaScript console for more details.' +
+                '<p>Remember that you need to serve the presentation HTML from a HTTP server.</p>' +
+                '</section>'
             }
           }
         }
@@ -326,11 +318,11 @@ import { md } from './extra'
         var result = window.postProcess(rendered)
         section.innerHTML = result[0].outerHTML
         addAttributes(section, section, null, section.getAttribute('data-element-attributes') ||
-        section.parentNode.getAttribute('data-element-attributes') ||
-        DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR,
-        section.getAttribute('data-attributes') ||
-        section.parentNode.getAttribute('data-attributes') ||
-        DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR)
+          section.parentNode.getAttribute('data-element-attributes') ||
+          DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR,
+          section.getAttribute('data-attributes') ||
+          section.parentNode.getAttribute('data-attributes') ||
+          DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR)
 
         // If there were notes, we need to re-add them after
         // having overwritten the section's HTML
@@ -352,4 +344,5 @@ import { md } from './extra'
     convertSlides: convertSlides,
     slidify: slidify
   }
-}))
+}
+export const RevealMarkdown = factory()

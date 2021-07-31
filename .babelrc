@@ -1,6 +1,8 @@
 {
   "presets": [
-    ["env", {
+    ["@babel/preset-env", {
+      "useBuiltIns": "entry",
+      "corejs": 2,
       "targets": {
         "node": "6",
         "uglify": true
@@ -8,6 +10,6 @@
     }]
   ],
   "plugins": [
-    "transform-runtime"
+    "@babel/plugin-transform-runtime"
   ]
 }
