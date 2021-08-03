@@ -143,7 +143,7 @@
     "jquery": "~3.4.1",
     "jquery-mousewheel": "~3.1.13",
     "jquery-ui": "~1.12.1",
-    "js-cookie": "~2.2.0",
+    "js-cookie": "^3.0.0",
     "js-yaml": "~3.13.1",
     "jsonlint": "~1.6.2",
     "keymaster": "~1.6.2",
