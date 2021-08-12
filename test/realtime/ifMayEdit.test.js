@@ -38,7 +38,8 @@ describe('realtime#ifMayEdit', function () {
     Limited: 'limited',
     Locked: 'locked',
     Protected: 'protected',
-    Private: 'private'
+    Private: 'private',
+    Password: 'password'
   }
 
   const testcases = [
@@ -59,8 +60,10 @@ describe('realtime#ifMayEdit', function () {
     { role: Role.Owner, permission: Permission.Protected, canEdit: true },
     { role: Role.Guest, permission: Permission.Private, canEdit: false },
     { role: Role.LoggedIn, permission: Permission.Private, canEdit: false },
-    { role: Role.Owner, permission: Permission.Private, canEdit: true }
-    // TODO: add password test
+    { role: Role.Owner, permission: Permission.Private, canEdit: true },
+    { role: Role.Guest, permission: Permission.Password, canEdit: true },
+    { role: Role.LoggedIn, permission: Permission.Password, canEdit: true },
+    { role: Role.Owner, permission: Permission.Password, canEdit: true }
   ]
 
   const noteOwnerId = 'owner'

@@ -1585,7 +1585,6 @@ ui.infobar.permission.password.click(function () {
 })
 $('.ui-set-password-confirm').click(function () {
   const password = $('#password').val()
-  console.log(`password = ${password}`)
   emitPasswordPermission(password)
 })
 
@@ -1666,6 +1665,7 @@ function havePermission () {
   var bool = false
   switch (permission) {
     case 'freely':
+    case 'password':
       bool = true
       break
     case 'editable':
@@ -2023,7 +2023,6 @@ socket.on('permission', function (data) {
 
 var permission = null
 socket.on('refresh', function (data) {
-  console.log('on refresh')
   // console.log(data);
   editorInstance.config.docmaxlength = data.docmaxlength
   editor.setOption('maxLength', editorInstance.config.docmaxlength)
