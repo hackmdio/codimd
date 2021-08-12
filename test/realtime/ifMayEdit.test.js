@@ -38,8 +38,7 @@ describe('realtime#ifMayEdit', function () {
     Limited: 'limited',
     Locked: 'locked',
     Protected: 'protected',
-    Private: 'private',
-    Password: 'password'
+    Private: 'private'
   }
 
   const testcases = [
