@@ -1578,6 +1578,11 @@ ui.infobar.permission.limited.click(function () {
 ui.infobar.permission.protected.click(function () {
   emitPermission('protected')
 })
+// password
+ui.infobar.permission.password.click(function () {
+  // XXX: real password should get from user input
+  emitPasswordPermission('xxx')
+})
 // delete note
 ui.infobar.delete.click(function () {
   $('.delete-modal').modal('show')
@@ -1609,6 +1614,9 @@ function emitPermission (_permission) {
     socket.emit('permission', _permission)
   }
 }
+function emitPasswordPermission (password) {
+  socket.emit('passwordPermission', password)
+}
 
 function updatePermission (newPermission) {
   if (permission !== newPermission) {
@@ -1634,6 +1642,9 @@ function updatePermission (newPermission) {
       break
     case 'private':
       $('#permissionLabelPrivate').show()
+      break
+    case 'password':
+      $('#permissionLabelPassword').show()
       break
   }
   if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
@@ -1693,6 +1704,9 @@ var emit = socket.emit
 socket.emit = function () {
   if (!checkLoginStateChanged() && !needRefresh) { emit.apply(socket, arguments) }
 }
+socket.on('reload', function (data) {
+  location.reload()
+})
 socket.on('info', function (data) {
   console.error(data)
   switch (data.code) {
@@ -2003,6 +2017,7 @@ socket.on('permission', function (data) {
 
 var permission = null
 socket.on('refresh', function (data) {
+  console.log('on refresh')
   // console.log(data);
   editorInstance.config.docmaxlength = data.docmaxlength
   editor.setOption('maxLength', editorInstance.config.docmaxlength)
