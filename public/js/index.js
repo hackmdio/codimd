@@ -1579,13 +1579,16 @@ ui.infobar.permission.protected.click(function () {
   emitPermission('protected')
 })
 
-var count = 0
-// password
+// set password
 ui.infobar.permission.password.click(function () {
-  // XXX: real password should get from user input
-  emitPasswordPermission('xxx' + count)
-  count++
+  $('.password-modal').modal('show')
 })
+$('.ui-set-password-confirm').click(function () {
+  const password = $('#password').val()
+  console.log(`password = ${password}`)
+  emitPasswordPermission(password)
+})
+
 // delete note
 ui.infobar.delete.click(function () {
   $('.delete-modal').modal('show')
@@ -1707,7 +1710,7 @@ var emit = socket.emit
 socket.emit = function () {
   if (!checkLoginStateChanged() && !needRefresh) { emit.apply(socket, arguments) }
 }
-socket.on('reload', function (data) {
+socket.on('reload', function () {
   location.reload()
 })
 socket.on('info', function (data) {

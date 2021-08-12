@@ -2,7 +2,8 @@
 
 function setUpSubmitEvent () {
   const form = document.getElementById('form')
-  form.setAttribute('action', window.location.origin + window.location.pathname + '/tryPassword')
+  const location = window.location
+  form.setAttribute('action', `${location.origin}/${location.pathname.split('/')[1]}/tryPassword`)
 }
 
 setUpSubmitEvent()
