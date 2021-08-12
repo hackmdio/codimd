@@ -1578,10 +1578,13 @@ ui.infobar.permission.limited.click(function () {
 ui.infobar.permission.protected.click(function () {
   emitPermission('protected')
 })
+
+var count = 0
 // password
 ui.infobar.permission.password.click(function () {
   // XXX: real password should get from user input
-  emitPasswordPermission('xxx')
+  emitPasswordPermission('xxx' + count)
+  count++
 })
 // delete note
 ui.infobar.delete.click(function () {
