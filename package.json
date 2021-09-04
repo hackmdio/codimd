@@ -85,7 +85,7 @@
     "passport-saml": "~1.0.0",
     "passport-twitter": "~1.0.4",
     "passport.socketio": "~3.7.0",
-    "pg": "~6.1.2",
+    "pg": "~8.0.3",
     "pg-hstore": "~2.3.2",
     "prom-client": "^12.0.0",
     "prometheus-api-metrics": "^2.2.5",
