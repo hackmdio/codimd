@@ -332,19 +332,6 @@ gantt
     anther task      : 24d
 ```
 
-### Abc
-```abc
-X:1
-T:Speed the Plough
-M:4/4
-C:Trad.
-K:G
-|:GABc dedB|dedB dedB|c2ec B2dB|c2A2 A2BA|
-GABc dedB|dedB dedB|c2ec B2dB|A2F2 G4:|
-|:g2gf gdBd|g2f2 e2d2|c2ec B2dB|c2A2 A2df|
-g2gf g2Bd|g2f2 e2d2|c2ec B2dB|A2F2 G4:|
-```
-
 ### PlantUML
 ```plantuml
 start
@@ -375,18 +362,6 @@ stop
     "color": {"field": "site", "type": "nominal"}
   }
 }
-```
-
-### Fretboard
-
-```fretboard {title="horizontal, 6 frets, with nut", type="h6"}
--oO-*-
---o-o-
--o-oo-
--o-oO-
--oo-o-
--*O-o-
-  3
 ```
 
 ### Mindmap
@@ -442,6 +417,33 @@ Oh No! :fire:
 :::spoiler Click to show details
 You found me :stuck_out_tongue_winking_eye:
 :::
+
+## Music
+
+### Abc
+```abc
+X:1
+T:Speed the Plough
+M:4/4
+C:Trad.
+K:G
+|:GABc dedB|dedB dedB|c2ec B2dB|c2A2 A2BA|
+GABc dedB|dedB dedB|c2ec B2dB|A2F2 G4:|
+|:g2gf gdBd|g2f2 e2d2|c2ec B2dB|c2A2 A2df|
+g2gf g2Bd|g2f2 e2d2|c2ec B2dB|A2F2 G4:|
+```
+
+### Fretboard
+
+```fretboard {title="horizontal, 6 frets, with nut", type="h6"}
+-oO-*-
+--o-o-
+-o-oo-
+-o-oO-
+-oo-o-
+-*O-o-
+  3
+```
 
 ## Typography
 
