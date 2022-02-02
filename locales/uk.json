@@ -5,7 +5,6 @@
 	"Intro": "Головна",
 	"History": "Історія",
 	"New guest note": "Документ в режимі гостя",
-	"Collaborate with URL": "Співпраця за посиланням",
 	"Support charts and MathJax": "Підтримка зображень та формул",
 	"Support slide mode": "Підтримка режиму презентації",
 	"Sign In": "Увійти",
@@ -118,5 +117,11 @@
 	"Register": "Реєстрація",
 	"You have no rights to edit this note": "Ви не маєте права редагувати цей документ",
 	"Export with pandoc": "Export with pandoc",
-	"Select output format": "Select output format"
+	"Select output format": "Select output format",
+	"Automatic content formatting": "Автоматичне форматування контенту",
+	"Collaborate with URL": "Спільний режим перегляду та редагування",
+	"Creating presentations": "Створення презентацій",
+	"Integration of third-party resources": "Інтеграція сторонніх ресурсів",
+	"Export in different formats": "Експорт у різних форматах",
+	"Unified Markdown content": "Уніфікований Markdown-контент"
 }

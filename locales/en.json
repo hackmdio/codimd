@@ -118,5 +118,10 @@
 	"Register": "Register",
 	"Export with pandoc": "Export with pandoc",
 	"Select output format": "Select output format",
-	"You have no rights to edit this note": "You have no rights to edit this note"
+	"You have no rights to edit this note": "You have no rights to edit this note",
+	"Automatic content formatting": "Automatic content formatting",
+	"Creating presentations": "Creating presentations",
+	"Integration of third-party resources": "Integration of third-party resources",
+	"Export in different formats": "Export in different formats",
+	"Unified Markdown content": "Unified Markdown content"
 }

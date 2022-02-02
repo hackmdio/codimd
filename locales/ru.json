@@ -5,7 +5,6 @@
 	"Intro": "Главная",
 	"History": "История",
 	"New guest note": "Новый гостевой документ",
-	"Collaborate with URL": "Совместная работа по ссылке",
 	"Support charts and MathJax": "Поддержка рисунков и формул",
 	"Support slide mode": "Поддержка режима презентации",
 	"Sign In": "Войти",
@@ -118,5 +117,11 @@
 	"Register": "Регистрация",
 	"You have no rights to edit this note": "У вас нет прав редактировать эту заметку",
 	"Export with pandoc": "Export with pandoc",
-	"Select output format": "Select output format"
+	"Select output format": "Select output format",
+	"Automatic content formatting": "Автоматическое форматирование контента",
+	"Collaborate with URL": "Совместный режим просмотра и редактирования",
+	"Creating presentations": "Создание презентаций",
+	"Integration of third-party resources": "Интеграция сторонних ресурсов",
+	"Export in different formats": "Экспорт в разных форматах",
+	"Unified Markdown content": "Унифицированный Markdown-контент"
 }
