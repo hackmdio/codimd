@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="<%= getLocale() %>">
     <head>
         <meta charset="utf-8">
         <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,14 +21,14 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.9.2/css/reveal.min.css" integrity="sha256-h2NhWerL2k7KAzo6YqYMo1T5B6+QT2Bb/CprRV2aW20=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous" />
-        <%- include build/slide-header %>
-        <%- include shared/polyfill %>
+        <%- include('build/slide-header') %>
+        <%- include('shared/polyfill') %>
         <% } else { %>
         <link rel="stylesheet" href="<%- serverURL %>/build/reveal.js/css/reveal.css">
         <link rel="stylesheet" href='<%- serverURL %>/build/emojify.js/dist/css/basic/emojify.min.css'>
         <link rel="stylesheet" href='<%- serverURL %>/css/font.css'>
         <link rel="stylesheet" href='<%- serverURL %>/build/fork-awesome/css/fork-awesome.min.css'>
-        <%- include build/slide-pack-header %>
+        <%- include('build/slide-pack-header') %>
         <% } %>
 
         <!-- For reveal.js theme -->
@@ -83,7 +83,7 @@
                 </div>
                 <% if(typeof disqus !== 'undefined' && disqus) { %>
                 <div class="slides-disqus">
-                    <%- include shared/disqus %>
+                    <%- include('shared/disqus') %>
                 </div>
                 <% } %>
             </div>
@@ -100,7 +100,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-immzXfCGLhnx3Zfi9F/dUcqxEM8K3o3oTFy9Bh6HCwg=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/config/Safe.js" integrity="sha256-0ygBUDksNDXZS4vm5HMNH1a33KUu6QT1cdNTN+ZLF+4=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js" integrity="sha256-AdQN98MVZs44Eq2yTwtoKufhnU+uZ7v2kXnD5vqzZVo=" crossorigin="anonymous" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.6.4/mermaid.min.js" integrity="sha512-kaov70mb/084wHYwVZLxTsCaq04AED9ksQaxgXXxbciHDdD8HAR8z7wNEfLLg8LgM5eu4J+tCfAsaIFoYsdVfw==" crossorigin="anonymous" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.10.2/mermaid.min.js" integrity="sha512-UjRGY3wuX8Jnhbf5r71wM8QtR/xr/BzflZ8znqfCuBOxeuzNjGmfjaU3AIeHph7fZuqx1bEbZ6Iq2zBsrHAIsQ==" crossorigin="anonymous" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/js/emojify-browser.min.js" integrity="sha256-swgfXtqk2bC98KzPoE8tXRz5tmrzpjJWhhXlhYo/wRA=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js" integrity="sha256-ngJY93C4H39YbmrWhnLzSyiepRuQDVKDNCWO2iyMzFw=" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous" defer></script>
@@ -112,14 +112,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/4.17.0/vega-lite.min.js" integrity="sha512-GUsnbKvdacPXIFZvHFFFnWEulYU74fanU2z9aie8g3/F/xcX9vxZuQFLwv9NjdV261fxj9SyAJ3Cf65jvYWMxw==" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/6.14.2/vega-embed.min.js" integrity="sha512-Nhf4uoYFL/Mu9UESXLF9Mo22qmhuWEhAQWHAZOHpNntSvtzjsg5dWn8PBQN6l573WPNWgL6F7VwzTY9Y+l+RPg==" crossorigin="anonymous" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" integrity="sha256-fNoRrwkP2GuYPbNSJmMJOCyfRB2DhPQe0rGTgzRsyso=" crossorigin="anonymous" defer></script>
-        <%- include build/slide-scripts %>
+        <%- include('build/slide-scripts') %>
         <% } else { %>
         <script src="<%- serverURL %>/build/MathJax/MathJax.js" defer></script>
         <script src="<%- serverURL %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
         <script src="<%- serverURL %>/build/MathJax/config/Safe.js" defer></script>
-        <%- include build/slide-pack-scripts %>
+        <%- include('build/slide-pack-scripts') %>
         <% } %>
     </body>
 </html>
 
-<%- include shared/ga %>
+<%- include('shared/ga') %>

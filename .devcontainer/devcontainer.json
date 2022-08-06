@@ -1,0 +1,58 @@
+{
+	"name": "CodiMD",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/zsh",
+		"sqltools.connections": [{
+			"name": "Container Database",
+			"driver": "PostgreSQL",
+			"previewLimit": 50,
+			"server": "localhost",
+			"port": 5432,
+			"database": "codimd",
+			"username": "codimd",
+			"password": "codimd"
+		}],
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"dbaeumer.vscode-eslint",
+		"visualstudioexptteam.vscodeintellicode",
+		"christian-kohler.path-intellisense",
+		"standard.vscode-standard",
+		"mtxr.sqltools",
+		"mtxr.sqltools-driver-pg",
+		"eamodio.gitlens",
+		"codestream.codestream", 
+		"github.vscode-pull-request-github",
+		"cschleiden.vscode-github-actions",
+		"hbenl.vscode-mocha-test-adapter",
+		"hbenl.vscode-test-explorer"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	"portsAttributes": {
+		"3000": {
+			"label": "CodiMD server",
+			"onAutoForward": "notify"
+		},
+		"5432": {
+			"label": "PostgreSQL",
+			"onAutoForward": "notify"
+		}
+	},
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "yarn install",
+	"postCreateCommand": "sudo chown -R node:node node_modules && /workspace/bin/setup",
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "node"
+}

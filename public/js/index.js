@@ -237,21 +237,9 @@ const supportExtraTags = [
   }
 ]
 const statusType = {
-  connected: {
-    msg: 'CONNECTED',
-    label: 'label-warning',
-    fa: 'fa-wifi'
-  },
-  online: {
-    msg: 'ONLINE',
-    label: 'label-primary',
-    fa: 'fa-users'
-  },
-  offline: {
-    msg: 'OFFLINE',
-    label: 'label-danger',
-    fa: 'fa-plug'
-  }
+  connected: 1,
+  online: 2,
+  offline: 3
 }
 
 // global vars
@@ -723,43 +711,23 @@ function checkTocStyle () {
 
 function showStatus (type, num) {
   currentStatus = type
-  var shortStatus = ui.toolbar.shortStatus
-  var status = ui.toolbar.status
-  var label = $('<span class="label"></span>')
-  var fa = $('<i class="fa"></i>')
-  var msg = ''
-  var shortMsg = ''
 
-  shortStatus.html('')
-  status.html('')
+  ui.toolbar.statusConnected.hide()
+  ui.toolbar.statusOnline.hide()
+  ui.toolbar.statusOffline.hide()
 
   switch (currentStatus) {
     case statusType.connected:
-      label.addClass(statusType.connected.label)
-      fa.addClass(statusType.connected.fa)
-      msg = statusType.connected.msg
+      ui.toolbar.statusConnected.show()
       break
     case statusType.online:
-      label.addClass(statusType.online.label)
-      fa.addClass(statusType.online.fa)
-      shortMsg = num
-      msg = num + ' ' + statusType.online.msg
+      ui.toolbar.statusShortMsg.text(num)
+      ui.toolbar.statusOnline.show()
       break
     case statusType.offline:
-      label.addClass(statusType.offline.label)
-      fa.addClass(statusType.offline.fa)
-      msg = statusType.offline.msg
+      ui.toolbar.statusOffline.show()
       break
   }
-
-  label.append(fa)
-  var shortLabel = label.clone()
-
-  shortLabel.append(' ' + shortMsg)
-  shortStatus.append(shortLabel)
-
-  label.append(' ' + msg)
-  status.append(label)
 }
 
 function toggleMode () {
@@ -1647,41 +1615,34 @@ function updatePermission (newPermission) {
     permission = newPermission
     if (window.loaded) refreshView()
   }
-  var label = null
-  var title = null
+  ui.infobar.permission.label.hide()
   switch (permission) {
     case 'freely':
-      label = '<i class="fa fa-leaf"></i> Freely'
-      title = 'Anyone can edit'
+      $('#permissionLabelFreely').show()
       break
     case 'editable':
-      label = '<i class="fa fa-shield"></i> Editable'
-      title = 'Signed people can edit'
+      $('#permissionLabelEditable').show()
       break
     case 'limited':
-      label = '<i class="fa fa-id-card"></i> Limited'
-      title = 'Signed people can edit (forbid guest)'
+      $('#permissionLabelLimited').show()
       break
     case 'locked':
-      label = '<i class="fa fa-lock"></i> Locked'
-      title = 'Only owner can edit'
+      $('#permissionLabelLocked').show()
       break
     case 'protected':
-      label = '<i class="fa fa-umbrella"></i> Protected'
-      title = 'Only owner can edit (forbid guest)'
+      $('#permissionLabelProtected').show()
       break
     case 'private':
-      label = '<i class="fa fa-hand-stop-o"></i> Private'
-      title = 'Only owner can view & edit'
+      $('#permissionLabelPrivate').show()
       break
   }
   if (personalInfo.userid && window.owner && personalInfo.userid === window.owner) {
-    label += ' <i class="fa fa-caret-down"></i>'
+    ui.infobar.permission.labelCaretDown.show()
     ui.infobar.permission.label.removeClass('disabled')
   } else {
+    ui.infobar.permission.labelCaretDown.hide()
     ui.infobar.permission.label.addClass('disabled')
   }
-  ui.infobar.permission.label.html(label).attr('title', title)
 }
 
 function havePermission () {
@@ -3137,7 +3098,7 @@ function checkInContainerSyntax () {
 
 function matchInContainer (text) {
   var match
-  match = text.match(/:{3,}/g)
+  match = text.match(/^:::/gm)
   if (match && match.length % 2) {
     return true
   } else {

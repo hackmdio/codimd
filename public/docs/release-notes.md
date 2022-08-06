@@ -1,6 +1,37 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.4.2 <i class="fa fa-clock-o"></i> 2022-08-06
+---
+
+## Security Fixes
+- **[Security Issue]** Upgrade flowchart.js to version 1.15.0
+- **[Security Issue]** Upgrade mermaid to 8.10.2
+- **[Security Issue]** Strip HTML tags for gist id to avoid stored XSS on showing error
+- **[Security Issue]** Add CSRF token in export API to prevent security issue
+- **[Security Issue]** Upgrade CodeMirror to 5.63.2
+
+## Fixes
+- Fix container syntax not parsed correctly
+- Handle request url has no valid referer case
+- Fix S3 client config passing for image upload
+- Fix array access index may out of bound
+- Remove unused uglifyjs webpack plugin dependency
+
+## Enhancements
+- Set lang attributes via user locale
+- Use include function instead of directives
+- Extract more keyword for i18n translate
+- Avoid append zero suffix on exporting user data
+- Add TeX mhchem extensions for MathJax
+- Support arm64 docker image
+- Refactor Sequelize model import mechanism due to sequelize.import is deprecated
+- Better german translation
+
+## DX
+- Support DevContainer for GitHub Codespaces and VSCode remote container
+- Run CI with GitHub Actions
+
 <i class="fa fa-tag"></i> 2.4.0 Papilio maraho <i class="fa fa-clock-o"></i> 2021-05-11
 ---
 
