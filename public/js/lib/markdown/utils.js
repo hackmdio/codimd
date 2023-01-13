@@ -9,7 +9,7 @@ export function parseFenceCodeParams (lang) {
       if (param[0] === '#') {
         params.id = param.slice(1)
       } else if (param[0] === '.') {
-        if (params.class) params.class = []
+        if (!params.class) params.class = []
         params.class = params.class.concat(param.slice(1))
       } else {
         const offset = param.indexOf('=')
