@@ -320,7 +320,19 @@ export function finishView (view) {
       imgPlayiframe(this, '//player.vimeo.com/video/')
     })
     .each((key, value) => {
-      jsonp(`//vimeo.com/api/v2/video/${$(value).attr('data-videoid')}.json`, function (data) {
+      const videoId = $(value).attr('data-videoid')
+      let urlForJsonp = ''
+      try {
+        const url = new URL(`https://vimeo.com/api/v2/video/${videoId}.json`)
+        if (!url.pathname.startsWith('/api/v2/video/')) {
+          throw new Error(`Invalid vimeo video id: ${videoId}`)
+        }
+        urlForJsonp = `//${url.origin}${url.pathname}`
+      } catch (err) {
+        console.error(err)
+        return
+      }
+      jsonp(urlForJsonp, function (data) {
         const thumbnailSrc = data[0].thumbnail_large
         const image = `<img src="${thumbnailSrc}" />`
         $(value).prepend(image)
