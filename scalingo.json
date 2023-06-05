@@ -80,6 +80,14 @@
             "description": "GitHub API client secret",
             "required": false
         },
+        "CMD_GITHUB_ORGANIZATIONS": {
+            "description": "GitHub whitelist of orgs",
+            "required": false
+        },
+        "CMD_GITHUB_SCOPES": {
+            "description": "GitHub OAuth API scopes",
+            "required": false
+        },
         "CMD_BITBUCKET_CLIENTID": {
             "description": "Bitbucket API client id",
             "required": false

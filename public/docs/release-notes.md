@@ -1,7 +1,7 @@
 Release Notes
 ===
 
-<i class="fa fa-tag"></i> 2.4.1 <i class="fa fa-clock-o"></i> 2022-01-18
+<i class="fa fa-tag"></i> 2.4.2 <i class="fa fa-clock-o"></i> 2022-08-06
 ---
 
 ## Security Fixes
