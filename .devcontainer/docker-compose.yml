@@ -6,7 +6,7 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
       args:
-        VARIANT: 12-buster
+        VARIANT: 14-buster
     environment:
       - CMD_DB_URL=postgres://codimd:codimd@localhost/codimd
       - CMD_USECDN=false
