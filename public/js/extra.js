@@ -11,8 +11,8 @@ import unescapeHTML from 'lodash/unescape'
 
 import isURL from 'validator/lib/isURL'
 
-import { transform } from 'markmap-lib/dist/transform.common'
-import { markmap } from 'markmap-lib/dist/view.common'
+import { transform } from 'markmap-lib/dist/transform'
+import { markmap } from 'markmap-lib/dist/view'
 
 import { stripTags } from '../../utils/string'
 
