@@ -31,8 +31,10 @@ import {
   DROPBOX_APP_KEY,
   noteid,
   noteurl,
+  noteAlias,
   urlpath,
-  version
+  version,
+  updateNoteAliasConfig
 } from './lib/config'
 
 import {
@@ -1234,6 +1236,64 @@ $('#revisionModalRevert').click(function () {
   editor.setValue(revision.content)
   ui.modal.revision.modal('hide')
 })
+
+// custom note url modal
+const updateNoteAlias = (newAlias = '') => {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      method: 'PATCH',
+      url: `/api/notes/${noteid}/alias`,
+      dataType: 'json',
+      contentType: 'application/json;charset=utf-8',
+      data: JSON.stringify({
+        alias: newAlias
+      }),
+      success: resolve,
+      error: reject
+    })
+  })
+}
+
+ui.modal.changeNoteAliasModal.on('show.bs.modal', function (e) {
+  ui.modal.changeNoteAliasModal.find('[name="note-alias"]').val(noteAlias)
+})
+
+ui.modal.changeNoteAliasModal.on('submit', function (e) {
+  e.preventDefault()
+  const showErrorMessage = (msg) => {
+    ui.modal.changeNoteAliasModal.find('.js-error-message').text(msg)
+    ui.modal.changeNoteAliasModal.find('.js-error-alert').show()
+  }
+  const hideErrorMessage = () => ui.modal.changeNoteAliasModal.find('.js-error-alert').hide()
+
+  const newNoteAlias = ui.modal.changeNoteAliasModal.find('[name="note-alias"]').val()
+  if (!/^[0-9a-z-_]+$/.test(newNoteAlias)) {
+    showErrorMessage('The url must be lowercase letters, decimal digits, hyphen or underscore.')
+    return
+  }
+
+  updateNoteAlias(newNoteAlias)
+    .then(
+      ({ status }) => {
+        if (status === 'ok') {
+          hideErrorMessage()
+          ui.modal.changeNoteAliasModal.modal('hide')
+        }
+      }
+    )
+    .catch((err) => {
+      if (err.status === 400 && err.responseJSON.message) {
+        showErrorMessage(err.responseJSON.message)
+        return
+      }
+      if (err.status === 403) {
+        showErrorMessage('Only note owner can edit custom url.')
+        return
+      }
+      showErrorMessage('Something wrong.')
+    })
+})
+
 // snippet projects
 ui.modal.snippetImportProjects.change(function () {
   var accesstoken = $('#snippetImportModalAccessToken').val()
@@ -1764,6 +1824,7 @@ socket.on('version', function (data) {
     }
   }
 })
+
 var authors = []
 var authorship = []
 var authorMarks = {} // temp variable
@@ -2176,6 +2237,12 @@ socket.on('cursor blur', function (data) {
   if (cursor.length > 0) {
     cursor.stop(true).fadeOut()
   }
+})
+
+socket.on('alias updated', function (data) {
+  const alias = data.alias
+  history.replaceState({}, '', alias)
+  updateNoteAliasConfig(alias)
 })
 
 var options = {
