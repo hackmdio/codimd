@@ -19,7 +19,7 @@
                                 <button class="btn btn-sm btn-success ui-signin" data-toggle="modal" data-target=".signin-modal"><%= __('Sign In') %></button>
                                 <% } %>
                             </div>
-                            <form name="exportNoteData" action="<%- serverURL %>/me/export" method="post">
+                            <form name="exportNoteData" action="<%- serverURL %>/me/export" method="post" style="display: none;">
                                 <input type="hidden" name="_csrf" value="<%- csrfToken %>">
                             </form>
                             <div class="ui-signout" style="float: right; margin-top: 8px;<% if(!signin) { %> display: none;<% } %>">

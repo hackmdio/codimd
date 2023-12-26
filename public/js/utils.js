@@ -26,3 +26,23 @@ export function decodeNoteId (encodedId) {
   idParts.push(id.substr(20, 12))
   return idParts.join('-')
 }
+
+/**
+ * sanitize url to prevent XSS
+ * @see {@link https://github.com/braintree/sanitize-url/issues/52#issue-1593777166}
+ *
+ * @param {string} rawUrl
+ * @returns {string} sanitized url
+ */
+export function sanitizeUrl (rawUrl) {
+  try {
+    const url = new URL(rawUrl)
+    if (url.protocol === 'http:' || url.protocol === 'https:') {
+      return url.toString()
+    }
+
+    throw new Error('Invalid protocol')
+  } catch (error) {
+    return 'about:blank'
+  }
+}

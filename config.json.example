@@ -53,7 +53,9 @@
         },
         "github": {
             "clientID": "change this",
-            "clientSecret": "change this"
+            "clientSecret": "change this",
+            "organizations": ["names of github organizations allowed, optional"],
+            "scopes": ["defaults to 'read:user' scope for auth user"]
         },
         "gitlab": {
             "baseURL": "change this",

@@ -11,8 +11,8 @@ import unescapeHTML from 'lodash/unescape'
 
 import isURL from 'validator/lib/isURL'
 
-import { transform } from 'markmap-lib/dist/transform.common'
-import { markmap } from 'markmap-lib/dist/view.common'
+import { transform } from 'markmap-lib/dist/transform'
+import { Markmap } from 'markmap-lib/dist/view'
 
 import { stripTags } from '../../utils/string'
 
@@ -28,6 +28,7 @@ import './lib/renderer/lightbox'
 import { renderCSVPreview } from './lib/renderer/csvpreview'
 
 import { escapeAttrValue } from './render'
+import { sanitizeUrl } from './utils'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
@@ -320,7 +321,19 @@ export function finishView (view) {
       imgPlayiframe(this, '//player.vimeo.com/video/')
     })
     .each((key, value) => {
-      jsonp(`//vimeo.com/api/v2/video/${$(value).attr('data-videoid')}.json`, function (data) {
+      const videoId = $(value).attr('data-videoid')
+      let urlForJsonp = ''
+      try {
+        const url = new URL(`https://vimeo.com/api/v2/video/${videoId}.json`)
+        if (!url.pathname.startsWith('/api/v2/video/')) {
+          throw new Error(`Invalid vimeo video id: ${videoId}`)
+        }
+        urlForJsonp = `//${url.origin}${url.pathname}`
+      } catch (err) {
+        console.error(err)
+        return
+      }
+      jsonp(urlForJsonp, function (data) {
         const thumbnailSrc = data[0].thumbnail_large
         const image = `<img src="${thumbnailSrc}" />`
         $(value).prepend(image)
@@ -549,11 +562,11 @@ export function finishView (view) {
     const content = $value.text()
     $value.unwrap()
     try {
-      const data = transform(content)
+      const { root: data } = transform(content)
       $elem.html('<div class="markmap-container"><svg></svg></div>')
-      markmap($elem.find('svg')[0], data, {
+      Markmap.create($elem.find('svg')[0], {
         duration: 0
-      })
+      }, data)
     } catch (err) {
       $elem.html(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
@@ -618,10 +631,11 @@ export function finishView (view) {
   view.find('div.pdf.raw').removeClass('raw')
     .each(function (key, value) {
       const url = $(value).attr('data-pdfurl')
+      const cleanUrl = sanitizeUrl(url)
       const inner = $('<div></div>')
       $(this).append(inner)
       setTimeout(() => {
-        PDFObject.embed(url, inner, {
+        PDFObject.embed(cleanUrl, inner, {
           height: '400px'
         })
       }, 1)
