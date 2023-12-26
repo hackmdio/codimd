@@ -1,14 +1,20 @@
 Release Notes
 ===
 
-<i class="fa fa-tag"></i> 2.5.0 <i class="fa fa-clock-o"></i> 2023-12-26
+<i class="fa fa-tag"></i> 2.5.0 The Formosan hare <i class="fa fa-clock-o"></i> 2023-12-26
 ---
 
----
-tags: releases
----
+<div style="text-align: center; margin-bottom: 1em;">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Lepus_sinensis_formosus.jpg/640px-Lepus_sinensis_formosus.jpg" width="600">
+  <small style="display: block;">The Formosan hare</small>
+</div>
 
-# CodiMD 2.5.0
+> The Formosan hare (scientific name: Lepus sinensis formosus), a species of the rabbit family, is a subspecies unique to Taiwan. It measures 30-40 centimeters in length, with a tail that's 5-6 centimeters long and ears that are 8-10 centimeters long. Smaller than the Chinese hare, it has brownish eyes.
+> [Wikipedia](https://zh.wikipedia.org/wiki/%E5%8F%B0%E7%81%A3%E9%87%8E%E5%85%94?oldformat=true)
+
+[Check out the complete release note][v2_5_0]. Thank you CodiMD community and all our contributors. ❤️
+
+[v2_5_0]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_5_0
 
 ## Security Fixes
 * **\[Security Issue]** Strip HTML tags for gist id to avoid stored XSS on showing error [Security Issue]
