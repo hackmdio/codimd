@@ -43,6 +43,8 @@ Release Notes
 * fix: use encoded note id to update history
 * 🐛 [fix] modify replacement rule for disqus short-name
 * Fix history page nav
+* Fix the uploadimage form
+* Add the logout callback to prevent exception
 
 ## Enhancements
 * Add TeX mhchem extensions for MathJax
