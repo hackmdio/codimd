@@ -1,6 +1,68 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.5.0 <i class="fa fa-clock-o"></i> 2023-12-26
+---
+
+---
+tags: releases
+---
+
+# CodiMD 2.5.0
+
+## Security Fixes
+* **\[Security Issue]** Strip HTML tags for gist id to avoid stored XSS on showing error [Security Issue]
+* **\[Security Issue]** Upgrade mermaid to version 8.10.2 to avoid prototype pollution
+* **\[Security Issue]** potential XSS in vimeo embed
+* **\[Security Issue]** FIX: pandoc security issue
+* **\[Security Issue]** fix: sanitize pdf url to prevent XSS on inline PDFs
+
+## Fixes
+* Avoid append zero suffix on exporting user data
+* Handle when request url has no valid referer
+* Fix S3 client config passing for image upload
+* Set a proper "lang" attribute on <html>
+* Fix matchInContainer false positives
+* Convert "include" directives to functions
+* Move HTML-related code from JS to EJS to enable more i18n
+* fix: may referernce out of bound index in clearDuplicatedHistory
+* Feat/csrf export user data
+* sequelize.import deprecation
+* chore: remove unused uglifyjs-webpack-plugin dep
+* fix: should not clear guest history when guest pin note
+* Fix: s3 api supported multiple cloud providers. fixes: https://github.com/hackmdio/codimd/issues/1761
+* Fix: Code Fence parameter parsing
+* Update README.md to remove IE from supporting list
+* FIX: server crash when filename too long
+* fix: use encoded note id to update history
+* 🐛 [fix] modify replacement rule for disqus short-name
+* Fix history page nav
+
+## Enhancements
+* Add TeX mhchem extensions for MathJax
+* Upgrade flowchart.js to version 1.15.0
+* Upgrade codemirror to 5.63.2
+* Update de.json in
+* Documentation - add Music section and move abc abd fretboard to this section
+* chore: bump meta-marked to 0.5.0
+* Typos + Better translation for "Externals"
+* feat: Migrate to gtag and support GA4
+* 【fix】reword japanese
+* upgrading pg to 8.8.0 to support new scram-sha-256 authentication
+* feat: add organizations whitelist to GitHub OAuth
+* Add oauth2 authorization
+* Update both Traditional and Simplified Chinese locales
+
+## DX
+* Run CI with GitHub Actions
+* Add dev container for GitHub Codespaces and VSCode remote container
+* Add arm64 docker image build.
+* fix(buildpacks): replace custom buildpack with APT buildpack
+* Update minimum required node.js version to v12 with npm package dependencies
+* Upgrade Node.js version
+* Update node.js version in .nvmrc
+* Update npm dependencies
+
 <i class="fa fa-tag"></i> 2.4.2 <i class="fa fa-clock-o"></i> 2022-08-06
 ---
 
