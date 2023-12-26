@@ -11,8 +11,8 @@ import unescapeHTML from 'lodash/unescape'
 
 import isURL from 'validator/lib/isURL'
 
-import { transform } from 'markmap-lib/dist/transform.common'
-import { markmap } from 'markmap-lib/dist/view.common'
+import { transform } from 'markmap-lib/dist/transform'
+import { Markmap } from 'markmap-lib/dist/view'
 
 import { stripTags } from '../../utils/string'
 
@@ -561,11 +561,11 @@ export function finishView (view) {
     const content = $value.text()
     $value.unwrap()
     try {
-      const data = transform(content)
+      const { root: data } = transform(content)
       $elem.html('<div class="markmap-container"><svg></svg></div>')
-      markmap($elem.find('svg')[0], data, {
+      Markmap.create($elem.find('svg')[0], {
         duration: 0
-      })
+      }, data)
     } catch (err) {
       $elem.html(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
