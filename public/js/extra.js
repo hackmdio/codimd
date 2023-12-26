@@ -28,6 +28,7 @@ import './lib/renderer/lightbox'
 import { renderCSVPreview } from './lib/renderer/csvpreview'
 
 import { escapeAttrValue } from './render'
+import { sanitizeUrl } from './utils'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
@@ -630,10 +631,11 @@ export function finishView (view) {
   view.find('div.pdf.raw').removeClass('raw')
     .each(function (key, value) {
       const url = $(value).attr('data-pdfurl')
+      const cleanUrl = sanitizeUrl(url)
       const inner = $('<div></div>')
       $(this).append(inner)
       setTimeout(() => {
-        PDFObject.embed(url, inner, {
+        PDFObject.embed(cleanUrl, inner, {
           height: '400px'
         })
       }, 1)
