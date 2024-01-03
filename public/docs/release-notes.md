@@ -1,6 +1,24 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.5.1 <i class="fa fa-clock-o"></i> 2024-01-03
+---
+
+[Check out the complete release note][v2_5_1]. Thank you CodiMD community and all our contributors. ❤️
+
+[v2_5_1]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_5_1
+
+
+## Security Fixes
+
+- **\[Security Issue]** Bump `@hackmd/pandoc.js` version to 0.2.0
+
+## Fixes
+
+- Replace mattermost-redux with mattermost/client
+- Fix dependency resolving with prom-client v12
+
+
 <i class="fa fa-tag"></i> 2.5.0 The Formosan hare <i class="fa fa-clock-o"></i> 2023-12-26
 ---
 
