@@ -35,7 +35,7 @@
     "@hackmd/imgur": "~0.5.0",
     "@hackmd/lz-string": "~1.4.4",
     "@hackmd/meta-marked": "~0.5.0",
-    "@hackmd/pandoc.js": "^0.1.9",
+    "@hackmd/pandoc.js": "^0.2.0",
     "@passport-next/passport-openid": "~1.0.0",
     "archiver": "~3.1.1",
     "async": "^3.2.4",
