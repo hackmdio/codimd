@@ -43,7 +43,7 @@ jobs:
           images: ${{ env.REGISTRY_IMAGE }}
           tags: |
             type=match,pattern=\d.\d.\d
-            type=sha
+            type=sha,prefix=
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
