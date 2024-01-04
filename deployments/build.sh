@@ -18,4 +18,3 @@ DOCKER_TAG="${GIT_TAG:-$GIT_SHORT_ID}"
 
 docker build --build-arg RUNTIME=$1 --build-arg BUILDPACK=$2 -t "hackmdio/hackmd:$DOCKER_TAG" -f "$CURRENT_DIR/Dockerfile" "$CURRENT_DIR/.."
 
-docker build --build-arg RUNTIME=$1 --build-arg BUILDPACK=$2 -t "hackmdio/hackmd:$DOCKER_TAG-cjk" -f "$CURRENT_DIR/Dockerfile" "$CURRENT_DIR/.."
