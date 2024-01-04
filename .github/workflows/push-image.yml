@@ -41,9 +41,6 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
-          tags: |
-            type=match,pattern=\d.\d.\d
-            type=sha,prefix=
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -64,7 +61,7 @@ jobs:
           context: .
           file: ./deployments/Dockerfile
           platforms: ${{ matrix.platform }}
-          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
           build-args: |
             RUNTIME=${{ github.event.inputs.runtime || 'hackmdio/runtime:16.20.2-58224661' }}
@@ -105,6 +102,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
+          tags: |
+            type=match,pattern=\d.\d.\d
+            type=sha,prefix=
       -
         name: Login to Docker Hub
         uses: docker/login-action@v3
