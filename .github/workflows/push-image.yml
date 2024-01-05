@@ -8,11 +8,11 @@ on:
       runtime:
         description: 'Runtime image'
         required: true
-        default: 'hackmdio/runtime:16.20.2-58224661'
+        default: 'hackmdio/runtime:16.20.2-35fe7e39'
       buildpack:
         description: 'Buildpack image'
         required: true
-        default: 'hackmdio/buildpack:16.20.2-58224661'
+        default: 'hackmdio/buildpack:16.20.2-35fe7e39'
 
 env:
   REGISTRY_IMAGE: hackmdio/hackmd
@@ -64,8 +64,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
           build-args: |
-            RUNTIME=${{ github.event.inputs.runtime || 'hackmdio/runtime:16.20.2-58224661' }}
-            BUILDPACK=${{ github.event.inputs.buildpack || 'hackmdio/buildpack:16.20.2-58224661' }}
+            RUNTIME=${{ github.event.inputs.runtime || 'hackmdio/runtime:16.20.2-35fe7e39' }}
+            BUILDPACK=${{ github.event.inputs.buildpack || 'hackmdio/buildpack:16.20.2-35fe7e39' }}
       -
         name: Export digest
         run: |
