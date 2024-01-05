@@ -1,6 +1,24 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.5.2 <i class="fa fa-clock-o"></i> 2024-01-05
+---
+
+[Check out the complete release note][v2_5_2]. Thank you CodiMD community and all our contributors. ❤️
+
+[v2_5_2]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_5_2
+
+This is another recovery release that fixes the pandoc DoS issue.
+
+## Enhancements
+
+- Build docker image using github actions
+
+## Fixes
+
+- **\[Security Issue]** address denial of service issue in actionPandoc
+
+
 <i class="fa fa-tag"></i> 2.5.1 <i class="fa fa-clock-o"></i> 2024-01-03
 ---
 
