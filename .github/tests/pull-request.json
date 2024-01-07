@@ -1,0 +1,10 @@
+{
+  "pull_request": {
+    "head": {
+      "ref": "release/1.2.3"
+    },
+    "base": {
+      "ref": "master"
+    }
+  }
+}
