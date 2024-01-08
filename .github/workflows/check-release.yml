@@ -1,0 +1,41 @@
+name: Release PR Checks
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check-release-pr:
+    if: startsWith(github.head_ref, 'release/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check for release-notes updates
+        run: |
+          if ! git diff --exit-code origin/develop -- public/docs/release-notes.md; then
+            echo "Release notes updated."
+          else
+            echo "Error: Release notes not updated in the PR."
+            exit 1
+          fi
+
+      - name: Compare package.json version with master
+        run: |
+          git fetch origin master
+          MASTER_PACKAGE_VERSION=$(git show origin/master:package.json | jq -r '.version')
+          BRANCH_PACKAGE_VERSION=$(jq -r '.version' package.json)
+
+          if [ "$BRANCH_PACKAGE_VERSION" != "$MASTER_PACKAGE_VERSION" ]; then
+            echo "Version bumped in package.json."
+          else
+            echo "Error: Version in package.json has not been bumped."
+            exit 1
+          fi
+
