@@ -1,6 +1,20 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.5.3 <i class="fa fa-clock-o"></i> 2024-01-08
+---
+
+[Check out the complete release note][v2_5_3]. Thank you CodiMD community and all our contributors. ❤️
+
+[v2_5_3]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_5_3
+
+It's a minor fix release that bumps the version number in `package.json`
+
+## Enhancements
+
+- Add `codeium-chrome` extension support [#1851](https://github.com/hackmdio/codimd/pull/1851)
+- Add `check-release` GitHub action workflow that prevents us from forgetting to update the `package.json` during releases again [#1852](https://github.com/hackmdio/codimd/pull/1852)
+
 <i class="fa fa-tag"></i> 2.5.2 <i class="fa fa-clock-o"></i> 2024-01-05
 ---
 
