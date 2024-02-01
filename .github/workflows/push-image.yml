@@ -43,6 +43,12 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
+
+      -
+        name: Setup docker on macos
+        if: startsWith(matrix.os, 'macos')
+        uses: douglascamata/setup-docker-macos-action@v1-alpha
+
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
