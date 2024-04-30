@@ -136,7 +136,6 @@ app.use(i18n.init)
 // static files
 app.use('/', express.static(path.join(__dirname, '/public'), { maxAge: config.staticCacheTime, index: false }))
 app.use('/docs', express.static(path.resolve(__dirname, config.docsPath), { maxAge: config.staticCacheTime }))
-app.use('/uploads', express.static(path.resolve(__dirname, config.uploadsPath), { maxAge: config.staticCacheTime }))
 app.use('/default.md', express.static(path.resolve(__dirname, config.defaultNotePath), { maxAge: config.staticCacheTime }))
 app.use(require('./lib/metrics').router)
 
@@ -171,6 +170,12 @@ app.use(flash())
 // passport
 app.use(passport.initialize())
 app.use(passport.session())
+
+// routes with sessions
+app.use('/uploads', (req, res, next) => {
+  if (req.isAuthenticated()) next()
+  else response.errorNotFound(req, res)
+}, express.static(path.resolve(__dirname, config.uploadsPath), { maxAge: config.staticCacheTime }))
 
 // check uri is valid before going further
 app.use(require('./lib/middleware/checkURIValid'))
