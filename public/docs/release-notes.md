@@ -1,6 +1,23 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.5.4 <i class="fa fa-clock-o"></i> 2024-06-06
+---
+
+[Check out the complete release note][v2_5_4]. Thank you CodiMD community and all our contributors. ❤️
+
+[v2_5_4]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_5_4
+
+## Enhancements
+
+- Add index at revision table for improving system performance [#1856](https://github.com/hackmdio/codimd/pull/1856)
+- Refactor to reuse random filename in filesystem image provider [#1867](https://github.com/hackmdio/codimd/pull/1867)
+
+## Fixes
+
+- Fix exclusion of name attribute from iframe filterXSS allowlist [#1865](https://github.com/hackmdio/codimd/pull/1865)
+- Fix typo: "opened source" -> "open sourced" [#1869](https://github.com/hackmdio/codimd/pull/1869)
+
 <i class="fa fa-tag"></i> 2.5.3 <i class="fa fa-clock-o"></i> 2024-01-08
 ---
 
