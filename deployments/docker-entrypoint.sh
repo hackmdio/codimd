@@ -17,7 +17,8 @@ fi
 # Install sqlite3 if required
 if [[ $CMD_DB_URL == "sqlite"* ]] ;
 then
-    npm install sqlite3
+    echo "Installing sqlite3 package..."
+    npm install -s sqlite3
 fi
 
 # run DB migrate
