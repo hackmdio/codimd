@@ -1490,3 +1490,31 @@ md.use(pdfPlugin)
 export default {
   md
 }
+// Function to determine the Mermaid theme based on system or custom theme settings
+function getMermaidTheme() {
+  // Check if dark mode is preferred
+  const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return isDarkMode ? 'dark' : 'default';  // 'dark' for dark mode, 'default' for light mode
+}
+
+// Function to initialize Mermaid with the correct theme
+function initializeMermaid() {
+  // Initialize Mermaid with the chosen theme
+  window.mermaid.initialize({
+    theme: getMermaidTheme(),
+  });
+
+  // Select Mermaid elements and re-initialize them
+  const $ele = document.querySelectorAll('.mermaid'); // Adjust selector as needed
+  $ele.forEach(ele => {
+    window.mermaid.init(undefined, ele); // Re-render each diagram
+  });
+}
+
+// Call the initialize function once the page has fully loaded
+document.addEventListener('DOMContentLoaded', initializeMermaid);
+
+// Listen for changes in the system's color scheme and re-render the diagrams accordingly
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  initializeMermaid();  // Re-initialize with the new theme
+});
