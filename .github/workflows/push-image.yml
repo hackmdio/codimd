@@ -26,7 +26,7 @@ jobs:
         run: echo "PLATFORM_PAIR=linux-amd64" >> $GITHUB_ENV
       -
         name: Execute Build Steps
-        uses: ./.github/workflows/build-steps.yml
+        uses: ./.github/actions/build-steps
         with:
           platform: linux/amd64
 
@@ -38,7 +38,7 @@ jobs:
         run: echo "PLATFORM_PAIR=linux-arm64" >> $GITHUB_ENV
       -
         name: Execute Build Steps
-        uses: ./.github/workflows/build-steps.yml
+        uses: ./.github/actions/build-steps
         with:
           platform: linux/arm64
 
