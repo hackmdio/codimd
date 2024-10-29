@@ -30,6 +30,9 @@ jobs:
         uses: ./.github/actions/build-steps
         with:
           platform: linux/amd64
+          registry_image: ${{ env.REGISTRY_IMAGE }}
+          runtime: ${{ github.event.inputs.runtime }}
+          buildpack: ${{ github.event.inputs.buildpack }}
 
   build-arm64:
     runs-on: macos-latest
@@ -43,6 +46,9 @@ jobs:
         uses: ./.github/actions/build-steps
         with:
           platform: linux/arm64
+          registry_image: ${{ env.REGISTRY_IMAGE }}
+          runtime: ${{ github.event.inputs.runtime }}
+          buildpack: ${{ github.event.inputs.buildpack }}
 
   merge:
     runs-on: ubuntu-latest

@@ -6,13 +6,22 @@ on:
       platform:
         required: true
         type: string
+      registry_image:
+        required: true
+        type: string
+      runtime:
+        required: true
+        type: string
+      buildpack:
+        required: true
+        type: string
 
 jobs:
   build:
     runs-on: ${{ inputs.platform == 'linux/arm64' && 'macos-latest' || 'ubuntu-latest' }}
     steps:
       -
-        name: Prepare
+        name: Prepare Platform Environment
         run: |
           echo "PLATFORM_PAIR=${{ inputs.platform//\//- }}" >> $GITHUB_ENV
       -
@@ -23,7 +32,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY_IMAGE }}
+          images: ${{ inputs.registry_image }}
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -45,10 +54,10 @@ jobs:
           file: ./deployments/Dockerfile
           platforms: ${{ inputs.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=${{ inputs.registry_image }},push-by-digest=true,name-canonical=true,push=true
           build-args: |
-            RUNTIME=${{ github.event.inputs.runtime || 'hackmdio/runtime:16.20.2-35fe7e39' }}
-            BUILDPACK=${{ github.event.inputs.buildpack || 'hackmdio/buildpack:16.20.2-35fe7e39' }}
+            RUNTIME=${{ inputs.runtime }}
+            BUILDPACK=${{ inputs.buildpack }}
       -
         name: Export digest
         run: |
