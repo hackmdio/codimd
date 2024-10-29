@@ -21,6 +21,7 @@ jobs:
   build-amd64:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       -
         name: Set Platform Variable
         run: echo "PLATFORM_PAIR=linux-amd64" >> $GITHUB_ENV
@@ -33,6 +34,7 @@ jobs:
   build-arm64:
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v4
       -
         name: Set Platform Variable
         run: echo "PLATFORM_PAIR=linux-arm64" >> $GITHUB_ENV
