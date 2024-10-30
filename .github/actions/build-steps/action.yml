@@ -6,6 +6,9 @@ on:
       platform:
         required: true
         type: string
+      platform_pair:
+        required: true
+        type: string
       registry_image:
         required: true
         type: string
@@ -23,11 +26,6 @@ jobs:
   build:
     runs-on: ${{ inputs.runs_on }}
     steps:
-      -
-        name: Prepare Platform Environment
-        run: |
-          platform=${{ inputs.platform }}
-          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
       -
         name: Checkout
         uses: actions/checkout@v4
@@ -72,7 +70,7 @@ jobs:
         name: Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ env.PLATFORM_PAIR }}
+          name: digests-${{ inputs.platform_pair }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1

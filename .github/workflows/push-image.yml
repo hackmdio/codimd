@@ -23,6 +23,7 @@ jobs:
     secrets: inherit
     with:
       platform: linux/amd64
+      platform_pair: linux_amd64
       registry_image: ${{ env.REGISTRY_IMAGE }}
       runtime: ${{ github.event.inputs.runtime }}
       buildpack: ${{ github.event.inputs.buildpack }}
@@ -33,6 +34,7 @@ jobs:
     secrets: inherit
     with:
       platform: linux/arm64
+      platform_pair: linux_arm64
       registry_image: ${{ env.REGISTRY_IMAGE }}
       runtime: ${{ github.event.inputs.runtime }}
       buildpack: ${{ github.event.inputs.buildpack }}
