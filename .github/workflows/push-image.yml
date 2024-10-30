@@ -15,7 +15,7 @@ on:
         default: 'hackmdio/buildpack:16.20.2-35fe7e39'
       registry_image:
         description: 'image name'
-        required: false
+        required: true
         default: 'hackmdio/hackmd'
 
 jobs:
