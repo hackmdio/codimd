@@ -19,38 +19,24 @@ env:
 
 jobs:
   build-amd64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      -
-        name: Set Platform Variable
-        run: echo "PLATFORM_PAIR=linux-amd64" >> $GITHUB_ENV
-      -
-        name: Execute Build Steps
-        uses: ./.github/actions/build-steps
-        with:
-          platform: linux/amd64
-          registry_image: ${{ env.REGISTRY_IMAGE }}
-          runtime: ${{ github.event.inputs.runtime }}
-          buildpack: ${{ github.event.inputs.buildpack }}
-        secrets: inherit
+    uses: ./.github/workflows/build-steps.yml
+    secrets: inherit
+    with:
+      platform: linux/amd64
+      registry_image: ${{ env.REGISTRY_IMAGE }}
+      runtime: ${{ github.event.inputs.runtime }}
+      buildpack: ${{ github.event.inputs.buildpack }}
+      runs_on: ubuntu-latest
 
   build-arm64:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      -
-        name: Set Platform Variable
-        run: echo "PLATFORM_PAIR=linux-arm64" >> $GITHUB_ENV
-      -
-        name: Execute Build Steps
-        uses: ./.github/actions/build-steps
-        with:
-          platform: linux/arm64
-          registry_image: ${{ env.REGISTRY_IMAGE }}
-          runtime: ${{ github.event.inputs.runtime }}
-          buildpack: ${{ github.event.inputs.buildpack }}
-        secrets: inherit
+    uses: ./.github/workflows/build-steps.yml
+    secrets: inherit
+    with:
+      platform: linux/arm64
+      registry_image: ${{ env.REGISTRY_IMAGE }}
+      runtime: ${{ github.event.inputs.runtime }}
+      buildpack: ${{ github.event.inputs.buildpack }}
+      runs_on: macos-latest
 
   merge:
     runs-on: ubuntu-latest

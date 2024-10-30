@@ -15,13 +15,9 @@ on:
       buildpack:
         required: true
         type: string
-      runs_on:
-        required: true
-        type: string
 
 jobs:
   build:
-    runs-on: ${{ inputs.runs_on }}
     steps:
       -
         name: Prepare Platform Environment
