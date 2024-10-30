@@ -23,7 +23,8 @@ runs:
     -
       name: Prepare Platform Environment
       run: |
-        echo "PLATFORM_PAIR=${{ inputs.platform//\//- }}" >> $GITHUB_ENV
+        platform=${{ inputs.platform }}
+        echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
     -
       name: Checkout
       uses: actions/checkout@v4

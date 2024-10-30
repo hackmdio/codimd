@@ -33,6 +33,7 @@ jobs:
           registry_image: ${{ env.REGISTRY_IMAGE }}
           runtime: ${{ github.event.inputs.runtime }}
           buildpack: ${{ github.event.inputs.buildpack }}
+        secrets: inherit
 
   build-arm64:
     runs-on: macos-latest
@@ -49,6 +50,7 @@ jobs:
           registry_image: ${{ env.REGISTRY_IMAGE }}
           runtime: ${{ github.event.inputs.runtime }}
           buildpack: ${{ github.event.inputs.buildpack }}
+        secrets: inherit
 
   merge:
     runs-on: ubuntu-latest
