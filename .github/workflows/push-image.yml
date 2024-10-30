@@ -13,9 +13,10 @@ on:
         description: 'Buildpack image'
         required: true
         default: 'hackmdio/buildpack:16.20.2-35fe7e39'
-
-env:
-  REGISTRY_IMAGE: hackmdio/hackmd
+      registry_image:
+        description: 'image name'
+        required: false
+        default: 'hackmdio/hackmd'
 
 jobs:
   build-amd64:
@@ -24,7 +25,7 @@ jobs:
     with:
       platform: linux/amd64
       platform_pair: linux_amd64
-      registry_image: ${{ env.REGISTRY_IMAGE }}
+      registry_image: ${{ github.event.inputs.registry_image }}
       runtime: ${{ github.event.inputs.runtime }}
       buildpack: ${{ github.event.inputs.buildpack }}
       runs_on: ubuntu-latest
@@ -35,7 +36,7 @@ jobs:
     with:
       platform: linux/arm64
       platform_pair: linux_arm64
-      registry_image: ${{ env.REGISTRY_IMAGE }}
+      registry_image: ${{ github.event.inputs.registry_image }}
       runtime: ${{ github.event.inputs.runtime }}
       buildpack: ${{ github.event.inputs.buildpack }}
       runs_on: macos-latest
@@ -61,7 +62,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY_IMAGE }}
+          images: ${{ github.event.inputs.registry_image }}
           tags: |
             type=match,pattern=\d.\d.\d
             type=sha,prefix=
@@ -76,8 +77,8 @@ jobs:
         working-directory: /tmp/digests
         run: |
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+            $(printf '${{ github.event.inputs.registry_image }}@sha256:%s ' *)
       -
         name: Inspect image
         run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect ${{ github.event.inputs.registry_image }}:${{ steps.meta.outputs.version }}
