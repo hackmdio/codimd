@@ -1,0 +1,11 @@
+'use strict'
+
+module.exports = {
+  up: async function (queryInterface, Sequelize) {
+    await queryInterface.changeColumn('Users', 'history', { type: Sequelize.TEXT('long') })
+  },
+
+  down: async function (queryInterface, Sequelize) {
+    await queryInterface.changeColumn('Users', 'history', { type: Sequelize.TEXT })
+  }
+}
