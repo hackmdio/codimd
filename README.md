@@ -69,7 +69,7 @@ All contributions are welcome! Even asking a question helps.
 | ------- | ------------------ | ------------------ |
 |**CodiMD**|:couple: Community chat|[Gitter][gitter-url]|
 ||:bug: Issues, bugs, and feature requests|[Issue tracker](https://github.com/hackmdio/codimd/issues)|
-||:books: Improve documentation|[Documentations](https://hackmd.io/c/codimd-documentation)|
+||:books: Improve documentation|[Documentations](https://github.com/hackmdio/codimd-docs)|
 ||:pencil: Translation|[POEditor][poeditor-url]|
 ||:coffee: Donation|[Buy us coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=KDGS4PREHX6QQ&lc=US&item_name=HackMD&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)|
 |**HackMD**|:question: Issues related to [HackMD](https://hackmd.io/)|[Issue tracker](https://github.com/hackmdio/hackmd-io-issues/issues)|
