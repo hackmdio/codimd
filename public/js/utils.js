@@ -1,3 +1,4 @@
+/* global fetch */
 import base64url from 'base64url'
 
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -44,5 +45,17 @@ export function sanitizeUrl (rawUrl) {
     throw new Error('Invalid protocol')
   } catch (error) {
     return 'about:blank'
+  }
+}
+
+// Check if URL is a PDF based on Content-Type header
+export async function isPdfUrl (url) {
+  try {
+    const response = await fetch(url, { method: 'HEAD' })
+    const contentType = response.headers.get('Content-Type')
+    return contentType === 'application/pdf'
+  } catch (error) {
+    console.warn('Error checking PDF content type:', error)
+    return false
   }
 }
