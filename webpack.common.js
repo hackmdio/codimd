@@ -167,6 +167,11 @@ module.exports = {
         to: 'reveal.js/plugin'
       },
       {
+        context: path.join(__dirname, 'public/js'),
+        from: 'revealjs-plugins',
+        to: 'revealjs-plugins'
+      },
+      {
         context: path.join(__dirname, 'node_modules/dictionary-de'),
         from: '*',
         to: 'dictionary-de/'
