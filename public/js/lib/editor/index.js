@@ -11,6 +11,39 @@ import CodeMirrorSpellChecker, { supportLanguages, supportLanguageCodes } from '
 import { initTableEditor } from './table-editor'
 import { availableThemes } from './constants'
 
+// Storage utility class for localStorage operations
+class Storage {
+  static get(key, defaultValue = null) {
+    try {
+      const value = localStorage.getItem(key)
+      return value !== null ? value : defaultValue
+    } catch (e) {
+      console.error('Error getting from localStorage:', e)
+      return defaultValue
+    }
+  }
+
+  static set(key, value, options = {}) {
+    try {
+      localStorage.setItem(key, value)
+      return true
+    } catch (e) {
+      console.error('Error setting to localStorage:', e)
+      return false
+    }
+  }
+
+  static remove(key) {
+    try {
+      localStorage.removeItem(key)
+      return true
+    } catch (e) {
+      console.error('Error removing from localStorage:', e)
+      return false
+    }
+  }
+}
+
 /* config section */
 const isMac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault
 const defaultEditorMode = 'gfm'
@@ -182,6 +215,39 @@ export default class Editor {
 
     CodeMirror.defineMode('markmap', function (config, modeConfig) {
       return CodeMirror.overlayMode(CodeMirror.getMode(config, 'gfm'), ignoreOverlay)
+    })
+    
+    // Migrate preferences from cookies to localStorage
+    this.migratePreferences()
+  }
+
+  // Migrate preferences from cookies to localStorage
+  migratePreferences() {
+    // Only run migration if window and localStorage are available
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined' || typeof Cookies === 'undefined') {
+      return
+    }
+
+    const preferencesToMigrate = [
+      'indent_type',
+      'tab_size',
+      'space_units',
+      'keymap',
+      'theme',
+      'spellcheck',
+      'linter',
+      'preferences-override-browser-keymap',
+      'preferences-disable-table-shortcuts'
+    ]
+
+    preferencesToMigrate.forEach(key => {
+      // Check if preference exists in cookies but not in localStorage
+      const cookieValue = Cookies.get(key)
+      if (cookieValue !== undefined && Storage.get(key) === null) {
+        // Migrate the preference to localStorage
+        Storage.set(key, cookieValue)
+        console.log(`Migrated preference ${key} from cookies to localStorage`)
+      }
     })
   }
 
@@ -423,24 +489,24 @@ export default class Editor {
   }
 
   setIndent () {
-    var cookieIndentType = Cookies.get('indent_type')
-    var cookieTabSize = parseInt(Cookies.get('tab_size'))
-    var cookieSpaceUnits = parseInt(Cookies.get('space_units'))
-    if (cookieIndentType) {
-      if (cookieIndentType === 'tab') {
+    var storedIndentType = Storage.get('indent_type')
+    var storedTabSize = parseInt(Storage.get('tab_size'))
+    var storedSpaceUnits = parseInt(Storage.get('space_units'))
+    if (storedIndentType) {
+      if (storedIndentType === 'tab') {
         this.editor.setOption('indentWithTabs', true)
-        if (cookieTabSize) {
-          this.editor.setOption('indentUnit', cookieTabSize)
+        if (storedTabSize) {
+          this.editor.setOption('indentUnit', storedTabSize)
         }
-      } else if (cookieIndentType === 'space') {
+      } else if (storedIndentType === 'space') {
         this.editor.setOption('indentWithTabs', false)
-        if (cookieSpaceUnits) {
-          this.editor.setOption('indentUnit', cookieSpaceUnits)
+        if (storedSpaceUnits) {
+          this.editor.setOption('indentUnit', storedSpaceUnits)
         }
       }
     }
-    if (cookieTabSize) {
-      this.editor.setOption('tabSize', cookieTabSize)
+    if (storedTabSize) {
+      this.editor.setOption('tabSize', storedTabSize)
     }
 
     var type = this.statusIndicators.find('.indent-type')
@@ -449,14 +515,10 @@ export default class Editor {
 
     const setType = () => {
       if (this.editor.getOption('indentWithTabs')) {
-        Cookies.set('indent_type', 'tab', {
-          expires: 365
-        })
+        Storage.set('indent_type', 'tab')
         type.text('Tab Size:')
       } else {
-        Cookies.set('indent_type', 'space', {
-          expires: 365
-        })
+        Storage.set('indent_type', 'space')
         type.text('Spaces:')
       }
     }
@@ -465,13 +527,9 @@ export default class Editor {
     const setUnit = () => {
       var unit = this.editor.getOption('indentUnit')
       if (this.editor.getOption('indentWithTabs')) {
-        Cookies.set('tab_size', unit, {
-          expires: 365
-        })
+        Storage.set('tab_size', unit)
       } else {
-        Cookies.set('space_units', unit, {
-          expires: 365
-        })
+        Storage.set('space_units', unit)
       }
       widthLabel.text(unit)
     }
@@ -480,16 +538,16 @@ export default class Editor {
     type.click(() => {
       if (this.editor.getOption('indentWithTabs')) {
         this.editor.setOption('indentWithTabs', false)
-        cookieSpaceUnits = parseInt(Cookies.get('space_units'))
-        if (cookieSpaceUnits) {
-          this.editor.setOption('indentUnit', cookieSpaceUnits)
+        storedSpaceUnits = parseInt(Storage.get('space_units'))
+        if (storedSpaceUnits) {
+          this.editor.setOption('indentUnit', storedSpaceUnits)
         }
       } else {
         this.editor.setOption('indentWithTabs', true)
-        cookieTabSize = parseInt(Cookies.get('tab_size'))
-        if (cookieTabSize) {
-          this.editor.setOption('indentUnit', cookieTabSize)
-          this.editor.setOption('tabSize', cookieTabSize)
+        storedTabSize = parseInt(Storage.get('tab_size'))
+        if (storedTabSize) {
+          this.editor.setOption('indentUnit', storedTabSize)
+          this.editor.setOption('tabSize', storedTabSize)
         }
       }
       setType()
@@ -525,9 +583,9 @@ export default class Editor {
   }
 
   setKeymap () {
-    var cookieKeymap = Cookies.get('keymap')
-    if (cookieKeymap) {
-      this.editor.setOption('keyMap', cookieKeymap)
+    var storedKeymap = Storage.get('keymap')
+    if (storedKeymap) {
+      this.editor.setOption('keyMap', storedKeymap)
     }
 
     var label = this.statusIndicators.find('.ui-keymap-label')
@@ -537,9 +595,7 @@ export default class Editor {
 
     const setKeymapLabel = () => {
       var keymap = this.editor.getOption('keyMap')
-      Cookies.set('keymap', keymap, {
-        expires: 365
-      })
+      Storage.set('keymap', keymap)
       label.text(keymap)
       this.restoreOverrideEditorKeymap()
       this.setOverrideBrowserKeymap()
@@ -572,17 +628,15 @@ export default class Editor {
 
     const setTheme = theme => {
       this.editor.setOption('theme', theme)
-      Cookies.set('theme', theme, {
-        expires: 365
-      })
+      Storage.set('theme', theme)
       this.statusIndicators.find('.status-theme li').removeClass('active')
       this.statusIndicators.find(`.status-theme li[value="${theme}"]`).addClass('active')
     }
 
-    const cookieTheme = Cookies.get('theme')
-    if (cookieTheme && availableThemes.find(theme => cookieTheme === theme.value)) {
-      setTheme(cookieTheme)
-      activateThemeListItem(cookieTheme)
+    const storedTheme = Storage.get('theme')
+    if (storedTheme && availableThemes.find(theme => storedTheme === theme.value)) {
+      setTheme(storedTheme)
+      activateThemeListItem(storedTheme)
     } else {
       activateThemeListItem(this.editor.getOption('theme'))
     }
@@ -613,10 +667,10 @@ export default class Editor {
   }
 
   getExistingSpellcheckLang () {
-    const cookieSpellcheck = Cookies.get('spellcheck')
+    const storedSpellcheck = Storage.get('spellcheck')
 
-    if (cookieSpellcheck) {
-      return cookieSpellcheck === 'false' ? undefined : cookieSpellcheck
+    if (storedSpellcheck) {
+      return storedSpellcheck === 'false' ? undefined : storedSpellcheck
     } else {
       return undefined
     }
@@ -637,18 +691,18 @@ export default class Editor {
       return $(`<li value="${lang.value}"><a>${lang.name}</a></li>`)
     }))
 
-    const cookieSpellcheck = Cookies.get('spellcheck')
-    if (cookieSpellcheck) {
+    const storedSpellcheck = Storage.get('spellcheck')
+    if (storedSpellcheck) {
       let mode = null
       let lang = 'en_US'
 
-      if (cookieSpellcheck === 'false' || !cookieSpellcheck) {
+      if (storedSpellcheck === 'false' || !storedSpellcheck) {
         mode = defaultEditorMode
         this.activateSpellcheckListItem(false)
       } else {
         mode = 'spell-checker'
-        if (supportLanguageCodes.includes(cookieSpellcheck)) {
-          lang = cookieSpellcheck
+        if (supportLanguageCodes.includes(storedSpellcheck)) {
+          lang = storedSpellcheck
         }
         this.setSpellcheckLang(lang)
       }
@@ -674,17 +728,13 @@ export default class Editor {
       if (lang === 'disabled') {
         spellcheckToggle.removeClass('active')
 
-        Cookies.set('spellcheck', false, {
-          expires: 365
-        })
+        Storage.set('spellcheck', 'false')
 
         self.editor.setOption('mode', defaultEditorMode)
       } else {
         spellcheckToggle.addClass('active')
 
-        Cookies.set('spellcheck', lang, {
-          expires: 365
-        })
+        Storage.set('spellcheck', lang)
 
         self.editor.setOption('mode', 'spell-checker')
       }
@@ -703,12 +753,10 @@ export default class Editor {
       if (!gutters.includes(lintGutter)) {
         this.editor.setOption('gutters', [lintGutter, ...gutters])
       }
-      Cookies.set('linter', true, {
-        expires: 365
-      })
+      Storage.set('linter', 'true')
     } else {
       this.editor.setOption('gutters', gutters.filter(g => g !== lintGutter))
-      Cookies.remove('linter')
+      Storage.remove('linter')
     }
     this.editor.setOption('lint', enable ? linterOptions : false)
   }
@@ -726,7 +774,7 @@ export default class Editor {
       updateLinterStatus(!lintEnable)
     })
 
-    const enable = !!Cookies.get('linter')
+    const enable = Storage.get('linter') === 'true'
     this.toggleLinter.bind(this)(enable)
     updateLinterStatus(enable)
   }
@@ -752,12 +800,10 @@ export default class Editor {
       '.ui-preferences-override-browser-keymap label > input[type="checkbox"]'
     )
     if (overrideBrowserKeymap.is(':checked')) {
-      Cookies.set('preferences-override-browser-keymap', true, {
-        expires: 365
-      })
+      Storage.set('preferences-override-browser-keymap', 'true')
       this.restoreOverrideEditorKeymap()
     } else {
-      Cookies.remove('preferences-override-browser-keymap')
+      Storage.remove('preferences-override-browser-keymap')
       this.resetEditorKeymapToBrowserKeymap()
     }
   }
@@ -766,10 +812,10 @@ export default class Editor {
     var overrideBrowserKeymap = $(
       '.ui-preferences-override-browser-keymap label > input[type="checkbox"]'
     )
-    var cookieOverrideBrowserKeymap = Cookies.get(
+    var storedOverrideBrowserKeymap = Storage.get(
       'preferences-override-browser-keymap'
     )
-    if (cookieOverrideBrowserKeymap && cookieOverrideBrowserKeymap === 'true') {
+    if (storedOverrideBrowserKeymap && storedOverrideBrowserKeymap === 'true') {
       overrideBrowserKeymap.prop('checked', true)
     } else {
       overrideBrowserKeymap.prop('checked', false)
@@ -784,10 +830,10 @@ export default class Editor {
     var disableTableShortcuts = $(
       '.ui-preferences-disable-table-shortcuts label > input[type="checkbox"]'
     )
-    var cookieDisableTableShortcuts = Cookies.get(
+    var storedDisableTableShortcuts = Storage.get(
       'preferences-disable-table-shortcuts'
     )
-    if (cookieDisableTableShortcuts && cookieDisableTableShortcuts === 'true') {
+    if (storedDisableTableShortcuts && storedDisableTableShortcuts === 'true') {
       disableTableShortcuts.prop('checked', true)
     } else {
       disableTableShortcuts.prop('checked', false)
@@ -804,11 +850,9 @@ export default class Editor {
       '.ui-preferences-disable-table-shortcuts label > input[type="checkbox"]'
     )
     if (disableTableShortcuts.is(':checked')) {
-      Cookies.set('preferences-disable-table-shortcuts', true, {
-        expires: 365
-      })
+      Storage.set('preferences-disable-table-shortcuts', 'true')
     } else {
-      Cookies.remove('preferences-disable-table-shortcuts')
+      Storage.remove('preferences-disable-table-shortcuts')
     }
     // Notify table editor about the preference change
     if (this.tableEditor) {
