@@ -106,6 +106,9 @@
     margin-bottom: -25px;
     color: #777;
 }
+.night .ui-infobar {
+  color: #ededed;
+}
 
 .toc .invisable-node {
   list-style-type: none;
@@ -454,7 +457,8 @@ small .dropdown a:focus, small .dropdown a:hover {
     color: #eee;
 }
 
-.night .navbar a{
+.night .navbar-default .navbar-nav > li > a,
+.night .navbar a {
     color: #eee;
 }
 
