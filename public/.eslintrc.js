@@ -1,7 +1,12 @@
 // this config file is used in concert with the root .eslintrc.js in the root dir.
 module.exports = {
   "env": {
-    "browser": true
+    "browser": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
   },
   "globals": {
     "$": false,
@@ -22,5 +27,8 @@ module.exports = {
     "num_loaded": false,
     "Visibility": false,
     "inlineAttachment": false
+  },
+  "rules": {
+    "no-unused-vars": "warn"
   }
 };
