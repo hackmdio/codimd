@@ -779,6 +779,41 @@ export default class Editor {
     overrideBrowserKeymap.change(() => {
       this.setOverrideBrowserKeymap()
     })
+
+    // Handle table editor shortcuts preference
+    var disableTableShortcuts = $(
+      '.ui-preferences-disable-table-shortcuts label > input[type="checkbox"]'
+    )
+    var cookieDisableTableShortcuts = Cookies.get(
+      'preferences-disable-table-shortcuts'
+    )
+    if (cookieDisableTableShortcuts && cookieDisableTableShortcuts === 'true') {
+      disableTableShortcuts.prop('checked', true)
+    } else {
+      disableTableShortcuts.prop('checked', false)
+    }
+    this.setTableShortcutsPreference()
+
+    disableTableShortcuts.change(() => {
+      this.setTableShortcutsPreference()
+    })
+  }
+
+  setTableShortcutsPreference () {
+    var disableTableShortcuts = $(
+      '.ui-preferences-disable-table-shortcuts label > input[type="checkbox"]'
+    )
+    if (disableTableShortcuts.is(':checked')) {
+      Cookies.set('preferences-disable-table-shortcuts', true, {
+        expires: 365
+      })
+    } else {
+      Cookies.remove('preferences-disable-table-shortcuts')
+    }
+    // Notify table editor about the preference change
+    if (this.tableEditor) {
+      this.tableEditor.setShortcutsEnabled(!disableTableShortcuts.is(':checked'))
+    }
   }
 
   init (textit) {
