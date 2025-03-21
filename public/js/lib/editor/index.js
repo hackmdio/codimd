@@ -1,3 +1,4 @@
+/* eslint-env browser */
 /* global CodeMirror, $, editor, Cookies */
 import { options, Alignment, FormatType } from '@susisu/mte-kernel'
 import debounce from 'lodash/debounce'
@@ -13,7 +14,7 @@ import { availableThemes } from './constants'
 
 // Storage utility class for localStorage operations
 class Storage {
-  static get(key, defaultValue = null) {
+  static get (key, defaultValue = null) {
     try {
       const value = localStorage.getItem(key)
       return value !== null ? value : defaultValue
@@ -23,7 +24,7 @@ class Storage {
     }
   }
 
-  static set(key, value, options = {}) {
+  static set (key, value, options = {}) {
     try {
       localStorage.setItem(key, value)
       return true
@@ -33,7 +34,7 @@ class Storage {
     }
   }
 
-  static remove(key) {
+  static remove (key) {
     try {
       localStorage.removeItem(key)
       return true
@@ -216,13 +217,13 @@ export default class Editor {
     CodeMirror.defineMode('markmap', function (config, modeConfig) {
       return CodeMirror.overlayMode(CodeMirror.getMode(config, 'gfm'), ignoreOverlay)
     })
-    
+
     // Migrate preferences from cookies to localStorage
     this.migratePreferences()
   }
 
   // Migrate preferences from cookies to localStorage
-  migratePreferences() {
+  migratePreferences () {
     // Only run migration if window and localStorage are available
     if (typeof window === 'undefined' || typeof localStorage === 'undefined' || typeof Cookies === 'undefined') {
       return
