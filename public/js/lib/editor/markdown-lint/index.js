@@ -1,45 +1,46 @@
-/* global CodeMirror */
-
 // load CM lint plugin explicitly
 import '@hackmd/codemirror/addon/lint/lint'
 
 import '@hackmd/codemirror/addon/hint/show-hint.css'
-import helpers from 'markdownlint-rule-helpers'
+
+// import CodeMirror from '@hackmd/codemirror'
+// import helpers from 'markdownlint-rule-helpers'
 // Import markdownlint directly (assuming it exposes a global or can be used via alias)
-import 'markdownlint'
+// import 'markdownlint'
 
-window.markdownit = require('markdown-it'); // Ensure semicolon
+// import markdownit from 'markdown-it'
+// window.markdownit = markdownit
 
-(function (mod) {
-  mod(CodeMirror)
-})(function (CodeMirror) { // Call immediately after first part
-  function validator (text) {
-    return lint(text).map(error => {
-      const {
-        ruleNames,
-        ruleDescription,
-        lineNumber: ln,
-        errorRange
-      } = error
-      const lineNumber = ln - 1
+// (function (mod) {
+//   mod(CodeMirror)
+// })(function (CodeMirror) { // Call immediately after first part
+//   function validator (text) {
+//     return lint(text).map(error => {
+//       const {
+//         ruleNames,
+//         ruleDescription,
+//         lineNumber: ln,
+//         errorRange
+//       } = error
+//       const lineNumber = ln - 1
 
-      let start = 0; let end = -1
-      if (errorRange) {
-        [start, end] = errorRange.map(r => r - 1)
-      }
+//       let start = 0; let end = -1
+//       if (errorRange) {
+//         [start, end] = errorRange.map(r => r - 1)
+//       }
 
-      return {
-        messageHTML: `${ruleNames.join('/')}: ${ruleDescription} <small>markdownlint(${ruleNames[0]})</small>`,
-        severity: 'error',
-        from: CodeMirror.Pos(lineNumber, start),
-        to: CodeMirror.Pos(lineNumber, end),
-        __error: error
-      }
-    })
-  }
+//       return {
+//         messageHTML: `${ruleNames.join('/')}: ${ruleDescription} <small>markdownlint(${ruleNames[0]})</small>`,
+//         severity: 'error',
+//         from: CodeMirror.Pos(lineNumber, start),
+//         to: CodeMirror.Pos(lineNumber, end),
+//         __error: error
+//       }
+//     })
+//   }
 
-  CodeMirror.registerHelper('lint', 'markdown', validator)
-})
+//   CodeMirror.registerHelper('lint', 'markdown', validator)
+// })
 
 export const linterOptions = {
   fixedTooltip: true,

@@ -1,8 +1,14 @@
 /* eslint-env browser, jquery */
-/* global CodeMirror, Cookies, moment, serverurl,
+/* global Cookies, moment, serverurl,
    key, Dropbox, ot, hex2rgb, Visibility, inlineAttachment */
 
+import CodeMirror from '@hackmd/codemirror'
 import TurndownService from 'turndown'
+import Cookies from 'js-cookie'
+import '@vendor/inlineAttachment/inline-attachment'
+import '@vendor/inlineAttachment/codemirror.inline-attachment'
+import Visibility from 'visibilityjs'
+import '@vendor/ot/ot.min.js'
 
 import { saveAs } from 'file-saver'
 import randomColor from 'randomcolor'
@@ -20,6 +26,7 @@ import List from 'list.js'
 import Idle from '@hackmd/idle-js'
 
 import { Spinner } from 'spin.js'
+import io from 'socket.io-client'
 
 import {
   checkLoginStateChanged,
@@ -72,7 +79,7 @@ import {
   removeHistory
 } from './history'
 
-import { preventXSS } from './render'
+import * as renderUtils from './render' // Import namespace
 
 import Editor from './lib/editor'
 
@@ -1235,6 +1242,7 @@ function selectRevision (time) {
 function initRevisionViewer () {
   if (revisionViewer) return
   var revisionViewerTextArea = document.getElementById('revisionViewer')
+  // Use the imported CodeMirror instead of the global one
   revisionViewer = CodeMirror.fromTextArea(revisionViewerTextArea, {
     mode: defaultEditorMode,
     viewportMargin: viewportMargin,
@@ -1707,7 +1715,6 @@ function havePermission () {
 window.havePermission = havePermission
 
 // socket.io actions
-var io = require('socket.io-client')
 var socket = io.connect({
   path: urlpath ? '/' + urlpath + '/socket.io/' : '',
   query: {
@@ -2789,7 +2796,7 @@ function updateViewInner () {
     ui.area.markdown.html(slides)
     window.RevealMarkdown.initialize()
     // prevent XSS
-    ui.area.markdown.html(preventXSS(ui.area.markdown.html()))
+    ui.area.markdown.html(renderUtils.preventXSS(ui.area.markdown.html()))
     ui.area.markdown.addClass('slides')
     appState.syncscroll = false
     checkSyncToggle()
@@ -2806,7 +2813,7 @@ function updateViewInner () {
       rendered = md.render(value)
     }
     // prevent XSS
-    rendered = preventXSS(rendered)
+    rendered = renderUtils.preventXSS(rendered)
     var result = postProcess(rendered).children().toArray()
     partialUpdate(result, lastResult, ui.area.markdown.children().toArray())
     if (result && lastResult && result.length !== lastResult.length) { updateDataAttrs(result, ui.area.markdown.children().toArray()) }

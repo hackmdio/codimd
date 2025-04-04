@@ -25,12 +25,12 @@ import {
 
 import { saveAs } from 'file-saver'
 import List from 'list.js'
-import unescapeHTML from 'lodash/unescape'
+import { unescape as unescapeHTML } from 'lodash'
 
-require('./locale')
+import './locale'
 
-require('../css/cover.css')
-require('../css/site.css')
+import '../css/cover.css'
+import '../css/site.css'
 
 const options = {
   valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],

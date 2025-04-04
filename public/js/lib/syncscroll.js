@@ -1,5 +1,4 @@
 /* eslint-env browser, jquery */
-/* global _ */
 // Inject line numbers for sync scroll.
 
 import markdownitContainer from 'markdown-it-container'
@@ -9,6 +8,8 @@ import modeType from './modeType'
 import appState from './appState'
 import { renderCSVPreview } from './renderer/csvpreview'
 import { parseFenceCodeParams } from './markdown/utils'
+
+import { throttle } from 'lodash'
 
 function addPart (tokens, idx) {
   if (tokens[idx].map && tokens[idx].level === 0) {
@@ -178,8 +179,8 @@ export function setupSyncAreas (edit, view, markdown, _editor) {
 
   editor = _editor
 
-  editArea.on('scroll', _.throttle(syncScrollToView, editScrollThrottle))
-  viewArea.on('scroll', _.throttle(syncScrollToEdit, viewScrollThrottle))
+  editArea.on('scroll', throttle(syncScrollToView, editScrollThrottle))
+  viewArea.on('scroll', throttle(syncScrollToEdit, viewScrollThrottle))
 }
 
 let scrollMap, lineHeightMap, viewTop, viewBottom
@@ -192,7 +193,7 @@ export function clearMap () {
 }
 window.viewAjaxCallback = clearMap
 
-const buildMap = _.throttle(buildMapInner, buildMapThrottle)
+const buildMap = throttle(buildMapInner, buildMapThrottle)
 
 // Build offsets for each line (lines can be wrapped)
 // That's a bit dirty to process each line everytime, but ok for demo.

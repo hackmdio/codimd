@@ -1,4 +1,5 @@
 /* global CodeMirror, $ */
+import CodeMirror from '@hackmd/codemirror'
 import { TableEditor, Point, options, Alignment, FormatType } from '@susisu/mte-kernel'
 
 // port of the code from: https://github.com/susisu/mte-demo/blob/master/src/main.js

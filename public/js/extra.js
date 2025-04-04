@@ -14,7 +14,7 @@ import isURL from 'validator/lib/isURL'
 import { transform } from 'markmap-lib/dist/transform'
 import { Markmap } from 'markmap-lib/dist/view'
 
-import { stripTags } from '../../utils/string'
+import * as stringUtils from './lib/utils/string' // Import namespace
 
 import getUIElements from './lib/editor/ui-elements'
 import { emojifyImageDir } from './lib/editor/constants'
@@ -27,28 +27,43 @@ import { renderFretBoard } from './lib/renderer/fretboard/fretboard'
 import './lib/renderer/lightbox'
 import { renderCSVPreview } from './lib/renderer/csvpreview'
 
-import { escapeAttrValue } from './render'
+import * as renderUtils from './render' // Import namespace
 import { sanitizeUrl } from './utils'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
+import markdownitAbbr from 'markdown-it-abbr'
+import markdownitFootnote from 'markdown-it-footnote'
+import markdownitDeflist from 'markdown-it-deflist'
+import markdownitMark from 'markdown-it-mark'
+import markdownitIns from 'markdown-it-ins'
+import markdownitSub from 'markdown-it-sub'
+import markdownitSup from 'markdown-it-sup'
+import markdownitMathjax from 'markdown-it-mathjax'
+import markdownitRuby from 'markdown-it-ruby'
+
+import '@hackmd/emojify.js'
 
 /* Defined regex markdown it plugins */
 import Plugin from 'markdown-it-regexp'
 
-require('prismjs/themes/prism.css')
-require('prismjs/components/prism-wiki')
-require('prismjs/components/prism-haskell')
-require('prismjs/components/prism-go')
-require('prismjs/components/prism-typescript')
-require('prismjs/components/prism-jsx')
-require('prismjs/components/prism-makefile')
-require('prismjs/components/prism-gherkin')
+import plantumlEncoder from 'plantuml-encoder'
 
-require('./lib/common/login')
-require('../vendor/md-toc')
-let viz = new window.Viz()
-const plantumlEncoder = require('plantuml-encoder')
+import 'prismjs/themes/prism.css'
+import 'prismjs/components/prism-wiki'
+import 'prismjs/components/prism-haskell'
+import 'prismjs/components/prism-go'
+import 'prismjs/components/prism-typescript'
+import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-makefile'
+import 'prismjs/components/prism-gherkin'
+
+import './lib/common/login'
+import '../vendor/md-toc'
+import { instance as vizInstance } from '@viz-js/viz'
+
+let viz = null
+vizInstance().then(instance => { viz = instance })
 
 const ui = getUIElements()
 
@@ -186,7 +201,7 @@ export function renderTags (view) {
 
 function slugifyWithUTF8 (text) {
   // remove HTML tags and trim spaces
-  let newText = stripTags(text.toString().trim())
+  let newText = stringUtils.stripTags(text.toString().trim()) // Use namespace
   // replace space between words with dashes
   newText = newText.replace(/\s+/g, '-')
   // slugify string to make it valid as an attribute
@@ -345,15 +360,15 @@ export function finishView (view) {
     if ($(value).children().length === 0) {
       // strip HTML tags to avoid stored XSS
       const gistid = value.getAttribute('data-gist-id')
-      value.setAttribute('data-gist-id', stripTags(gistid))
+      value.setAttribute('data-gist-id', stringUtils.stripTags(gistid)) // Use namespace
       const gistfile = value.getAttribute('data-gist-file')
-      if (gistfile) value.setAttribute('data-gist-file', stripTags(gistfile))
+      if (gistfile) value.setAttribute('data-gist-file', stringUtils.stripTags(gistfile)) // Use namespace
       const gistline = value.getAttribute('data-gist-line')
-      if (gistline) value.setAttribute('data-gist-line', stripTags(gistline))
+      if (gistline) value.setAttribute('data-gist-line', stringUtils.stripTags(gistline)) // Use namespace
       const gisthighlightline = value.getAttribute('data-gist-highlight-line')
-      if (gisthighlightline) value.setAttribute('data-gist-highlight-line', stripTags(gisthighlightline))
+      if (gisthighlightline) value.setAttribute('data-gist-highlight-line', stringUtils.stripTags(gisthighlightline)) // Use namespace
       const gistshowloading = value.getAttribute('data-gist-show-loading')
-      if (gistshowloading) value.setAttribute('data-gist-show-loading', stripTags(gistshowloading))
+      if (gistshowloading) value.setAttribute('data-gist-show-loading', stringUtils.stripTags(gistshowloading)) // Use namespace
       $(value).gist(window.viewAjaxCallback)
     }
   })
@@ -406,13 +421,13 @@ export function finishView (view) {
   })
   // graphviz
   var graphvizs = view.find('div.graphviz.raw').removeClass('raw')
-  graphvizs.each(function (key, value) {
+  graphvizs.each(async function (key, value) {
     try {
       var $value = $(value)
       const options = deserializeParamAttributeFromElement(value)
       var $ele = $(value).parent().parent()
       $value.unwrap()
-      viz.renderString($value.text(), options)
+      viz.viz.renderSVGElement($value.text(), options)
         .then(graphviz => {
           if (!graphviz) throw Error('viz.js output empty graph')
           $value.html(graphviz)
@@ -420,13 +435,13 @@ export function finishView (view) {
           $ele.addClass('graphviz')
           $value.children().unwrap()
         })
-        .catch(err => {
-          viz = new window.Viz()
+        .catch(async err => {
+          viz = await vizInstance()
           $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
           console.warn(err)
         })
     } catch (err) {
-      viz = new window.Viz()
+      viz = await vizInstance()
       $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
@@ -830,8 +845,8 @@ export function exportToHTML (view) {
         html: src[0].outerHTML,
         'ui-toc': toc.html(),
         'ui-toc-affix': tocAffix.html(),
-        lang: (md && md.meta && md.meta.lang) ? `lang="${escapeAttrValue(md.meta.lang)}"` : null,
-        dir: (md && md.meta && md.meta.dir) ? `dir="${escapeAttrValue(md.meta.dir)}"` : null
+        lang: (md && md.meta && md.meta.lang) ? `lang="${renderUtils.escapeAttrValue(md.meta.lang)}"` : null, // Use namespace
+        dir: (md && md.meta && md.meta.dir) ? `dir="${renderUtils.escapeAttrValue(md.meta.dir)}"` : null // Use namespace
       }
       const html = template(context)
       //        console.log(html);
@@ -1192,14 +1207,14 @@ export const md = markdownit('default', {
 })
 window.md = md
 
-md.use(require('markdown-it-abbr'))
-md.use(require('markdown-it-footnote'))
-md.use(require('markdown-it-deflist'))
-md.use(require('markdown-it-mark'))
-md.use(require('markdown-it-ins'))
-md.use(require('markdown-it-sub'))
-md.use(require('markdown-it-sup'))
-md.use(require('markdown-it-mathjax')({
+md.use(markdownitAbbr)
+md.use(markdownitFootnote)
+md.use(markdownitDeflist)
+md.use(markdownitMark)
+md.use(markdownitIns)
+md.use(markdownitSub)
+md.use(markdownitSup)
+md.use(markdownitMathjax({
   beforeMath: '<span class="mathjax raw">',
   afterMath: '</span>',
   beforeInlineMath: '<span class="mathjax raw">\\(',
@@ -1207,8 +1222,7 @@ md.use(require('markdown-it-mathjax')({
   beforeDisplayMath: '<span class="mathjax raw">\\[',
   afterDisplayMath: '\\]</span>'
 }))
-md.use(require('markdown-it-imsize'))
-md.use(require('markdown-it-ruby'))
+md.use(markdownitRuby)
 
 window.emojify.setConfig({
   blacklist: {
@@ -1421,11 +1435,17 @@ const pdfPlugin = new Plugin(
   }
 )
 
+// Helper function to escape characters with special meaning in RegExp
+function escapeRegExp (string) {
+  // $& means the whole matched string
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 const emojijsPlugin = new Plugin(
   // regexp to match emoji shortcodes :something:
   // We generate an universal regex that guaranteed only contains the
   // emojies we have available. This should prevent all false-positives
-  new RegExp(':(' + window.emojify.emojiNames.map((item) => { return RegExp.escape(item) }).join('|') + '):', 'i'),
+  new RegExp(':(' + window.emojify.emojiNames.map((item) => { return escapeRegExp(item) }).join('|') + '):', 'i'),
 
   (match, utils) => {
     const emoji = match[1].toLowerCase()
