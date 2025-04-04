@@ -5,14 +5,14 @@ import '@hackmd/codemirror/addon/lint/lint'
 
 import '@hackmd/codemirror/addon/hint/show-hint.css'
 import helpers from 'markdownlint-rule-helpers'
+// Import markdownlint directly (assuming it exposes a global or can be used via alias)
+import 'markdownlint'
 
-window.markdownit = require('markdown-it')
-// eslint-disable-next-line
-require('script-loader!markdownlint');
+window.markdownit = require('markdown-it'); // Ensure semicolon
 
 (function (mod) {
   mod(CodeMirror)
-})(function (CodeMirror) {
+})(function (CodeMirror) { // Call immediately after first part
   function validator (text) {
     return lint(text).map(error => {
       const {

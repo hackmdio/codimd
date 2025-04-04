@@ -7,7 +7,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js" integrity="sha256-AdQN98MVZs44Eq2yTwtoKufhnU+uZ7v2kXnD5vqzZVo=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-url/2.3.0/url.min.js" integrity="sha256-HOZJz4x+1mn1Si84WT5XKXPtOlTytmZLnMb6n1v4+5Q=" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.8/validator.min.js" integrity="sha256-LHeY7YoYJ0SSXbCx7sR14Pqna+52moaH3bhv0Mjzd/M=" crossorigin="anonymous" defer></script>
-<%- include('../build/cover-scripts') %>
+<%# Old webpack includes removed %>
 <% } else { %>
-<%- include('../build/cover-pack-scripts') %>
+<%# Old webpack includes removed %>
 <% } %>
+<%# Inject Vite JS assets for the 'index' entry point %>
+<%- generateTags(viteAssets('cover')).jsTags %>

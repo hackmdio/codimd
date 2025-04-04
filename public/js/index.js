@@ -81,15 +81,47 @@ import { emojifyImageDir } from './lib/editor/constants'
 import modeType from './lib/modeType'
 import appState from './lib/appState'
 
-require('../vendor/showup/showup')
+// Import CSS using aliases
+// Font
+import '@css/google-font.css'
+// Index Styles Pack
+import 'bootstrap/dist/css/bootstrap.min.css'
+import '@css/bootstrap-social.css'
+import 'ionicons/css/ionicons.min.css'
+import 'leaflet/dist/leaflet.css'
+// Index Styles
+import '@vendor/jquery-ui/jquery-ui.min.css'
+import '@vendor/codemirror-spell-checker/spell-checker.min.css'
+import '@hackmd/codemirror/lib/codemirror.css'
+import '@hackmd/codemirror/addon/fold/foldgutter.css'
+import '@hackmd/codemirror/addon/display/fullscreen.css'
+import '@hackmd/codemirror/addon/dialog/dialog.css'
+import '@hackmd/codemirror/addon/scroll/simplescrollbars.css'
+import '@hackmd/codemirror/addon/search/matchesonscrollbar.css'
+import '@hackmd/codemirror/theme/monokai.css'
+import '@hackmd/codemirror/theme/one-dark.css'
+import '@hackmd/codemirror/theme/dracula.css'
+import '@hackmd/codemirror/theme/material.css'
+import '@hackmd/codemirror/theme/nord.css'
+import '@hackmd/codemirror/theme/panda-syntax.css'
+import '@hackmd/codemirror/theme/solarized.css'
+import '@css/codemirror-extend/ayu-dark.css'
+import '@css/codemirror-extend/ayu-mirage.css'
+import '@css/codemirror-extend/tomorrow-night-bright.css'
+import '@css/codemirror-extend/tomorrow-night-eighties.css'
+import '@hackmd/codemirror/mode/tiddlywiki/tiddlywiki.css'
+import '@hackmd/codemirror/mode/mediawiki/mediawiki.css'
+import '@css/github-extract.css'
+import '@vendor/showup/showup.css'
+import '@css/mermaid.css'
+import '@css/markdown.css'
+import '@css/slide-preview.css'
+import '@css/index.css'
+import '@css/extra.css'
+import '@css/site.css'
+import 'spin.js/spin.css'
 
-require('../css/index.css')
-require('../css/extra.css')
-require('../css/slide-preview.css')
-require('../css/site.css')
-require('spin.js/spin.css')
-
-require('highlight.js/styles/github-gist.css')
+// require('highlight.js/styles/github-gist.css') // Duplicate, removed
 
 var defaultTextHeight = 20
 var viewportMargin = 20

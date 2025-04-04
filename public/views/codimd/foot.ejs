@@ -25,10 +25,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/4.17.0/vega-lite.min.js" integrity="sha512-GUsnbKvdacPXIFZvHFFFnWEulYU74fanU2z9aie8g3/F/xcX9vxZuQFLwv9NjdV261fxj9SyAJ3Cf65jvYWMxw==" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/6.14.2/vega-embed.min.js" integrity="sha512-Nhf4uoYFL/Mu9UESXLF9Mo22qmhuWEhAQWHAZOHpNntSvtzjsg5dWn8PBQN6l573WPNWgL6F7VwzTY9Y+l+RPg==" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" integrity="sha256-fNoRrwkP2GuYPbNSJmMJOCyfRB2DhPQe0rGTgzRsyso=" crossorigin="anonymous" defer></script>
-<%- include('../build/index-scripts') %>
+<!-- <%- include('../build/index-scripts') %> -->
 <% } else { %>
 <script src="<%- serverURL %>/build/MathJax/MathJax.js" defer></script>
 <script src="<%- serverURL %>/build/MathJax/config/TeX-AMS-MML_HTMLorMML.js" defer></script>
 <script src="<%- serverURL %>/build/MathJax/config/Safe.js" defer></script>
-<%- include('../build/index-pack-scripts') %>
+<!-- <%- include('../build/index-pack-scripts') %> -->
 <% } %>
+
+<%- generateTags(viteAssets('index')).jsTags %>

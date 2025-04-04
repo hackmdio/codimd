@@ -4,6 +4,17 @@
 import { preventXSS } from './render'
 import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
 
+// Import CSS previously handled by Webpack entry points
+// Slide Styles Pack (assuming non-CDN usage)
+import 'ionicons/css/ionicons.min.css'
+import 'leaflet/dist/leaflet.css'
+// Slide Styles
+import '../../public/vendor/bootstrap/tooltip.min.css'
+import '../../public/css/github-extract.css'
+import '../../public/css/mermaid.css'
+import '../../public/css/markdown.css'
+
+// Existing CSS requires (keep non-duplicates)
 require('../css/extra.css')
 require('../css/site.css')
 

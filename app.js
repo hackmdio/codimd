@@ -1,7 +1,9 @@
 'use strict'
+console.log('Starting app.js with Node version:', process.version) // Removed semicolon
 // app
 // external modules
 var express = require('express')
+const vite = require('vite') // Import Vite
 
 var ejs = require('ejs')
 var passport = require('passport')
@@ -25,11 +27,14 @@ var logger = require('./lib/logger')
 var response = require('./lib/response')
 var models = require('./lib/models')
 var csp = require('./lib/csp')
+var realtime = require('./lib/realtime/realtime.js') // Moved require to top
 const { Environment } = require('./lib/config/enum')
 
 const { versionCheckMiddleware, checkVersion } = require('./lib/web/middleware/checkVersion')
+const viteHelpers = require('./lib/vite-helpers') // Add Vite helpers
+// Removed proxy middleware require
 
-function createHttpServer () {
+function createHttpServer (expressApp) { // Pass app instance
   if (config.useSSL) {
     const ca = (function () {
       let i, len
@@ -47,212 +52,244 @@ function createHttpServer () {
       requestCert: false,
       rejectUnauthorized: false
     }
-    return require('https').createServer(options, app)
+    return require('https').createServer(options, expressApp) // Use passed app
   } else {
-    return require('http').createServer(app)
+    return require('http').createServer(expressApp) // Use passed app
   }
 }
 
-// server setup
-var app = express()
-var server = createHttpServer()
+let io = null // Declare io in the top-level scope
 
-// API and process monitoring with Prometheus for Node.js micro-service
-app.use(apiMetrics({
-  metricsPath: '/metrics/router',
-  excludeRoutes: ['/metrics/codimd']
-}))
+// Wrap main setup in an async function to await Vite
+async function initializeApp () {
+  const app = express() // Create app instance inside async function
+  // Removed inner io declaration
 
-// logger
-app.use(morgan('combined', {
-  stream: logger.stream
-}))
+  // Create and add Vite middleware first in development
+  let viteServer = null
+  if (process.env.NODE_ENV !== 'production') {
+    logger.info('Setting up Vite in development mode...')
+    try {
+      viteServer = await vite.createServer({
+        server: { middlewareMode: true },
+        appType: 'custom',
+        root: __dirname, // Ensure root is set
+        base: '/'
+      })
+      // Use vite's connect instance as middleware *before* anything else
+      app.use(viteServer.middlewares)
+      logger.info('Vite middleware enabled.')
+    } catch (e) {
+      logger.error('Failed to create Vite server:', e)
+      process.exit(1)
+    }
+  }
 
-// socket io
-var io = require('socket.io')(server)
-io.engine.ws = new (require('ws').Server)({
-  noServer: true,
-  perMessageDeflate: false
-})
+  const server = createHttpServer(app) // Create server *after* potential Vite setup
 
-// others
-var realtime = require('./lib/realtime/realtime.js')
+  // Attach Vite HMR to the HTTP server
+  if (viteServer) {
+    viteServer.httpServer = server
+  }
 
-// assign socket io to realtime
-realtime.io = io
+  // --- Start of original middleware setup ---
 
-// methodOverride
-app.use(methodOverride('_method'))
-
-// session store
-var sessionStore = new SequelizeStore({
-  db: models.sequelize
-})
-
-// use hsts to tell https users stick to this
-if (config.hsts.enable) {
-  app.use(helmet.hsts({
-    maxAge: config.hsts.maxAgeSeconds,
-    includeSubdomains: config.hsts.includeSubdomains,
-    preload: config.hsts.preload
+  // API and process monitoring with Prometheus for Node.js micro-service
+  app.use(apiMetrics({
+    metricsPath: '/metrics/router',
+    excludeRoutes: ['/metrics/codimd']
   }))
-} else if (config.useSSL) {
-  logger.info('Consider enabling HSTS for extra security:')
-  logger.info('https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security')
-}
 
-// Add referrer policy to improve privacy
-app.use(
-  helmet.referrerPolicy({
-    policy: 'same-origin'
+  // logger
+  app.use(morgan('combined', {
+    stream: logger.stream
+  }))
+
+  // socket io
+  io = require('socket.io')(server) // Initialize io here
+  io.engine.ws = new (require('ws').Server)({
+    noServer: true,
+    perMessageDeflate: false
   })
-)
 
-// Generate a random nonce per request, for CSP with inline scripts
-app.use(csp.addNonceToLocals)
+  // assign socket io to realtime
+  realtime.io = io
 
-// use Content-Security-Policy to limit XSS, dangerous plugins, etc.
-// https://helmetjs.github.io/docs/csp/
-if (config.csp.enable) {
-  app.use(helmet.contentSecurityPolicy({
-    directives: csp.computeDirectives()
+  // methodOverride
+  app.use(methodOverride('_method'))
+
+  // session store
+  var sessionStore = new SequelizeStore({
+    db: models.sequelize
+  })
+
+  // HSTS, Referrer Policy, CSP, i18n, cookieParser, static files...
+  // (Keep all existing middleware setup here)
+  if (config.hsts.enable) {
+    app.use(helmet.hsts({
+      maxAge: config.hsts.maxAgeSeconds,
+      includeSubdomains: config.hsts.includeSubdomains,
+      preload: config.hsts.preload
+    }))
+  } else if (config.useSSL) {
+    logger.info('Consider enabling HSTS for extra security:')
+    logger.info('https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security')
+  }
+
+  app.use(
+    helmet.referrerPolicy({
+      policy: 'same-origin'
+    })
+  )
+
+  app.use(csp.addNonceToLocals)
+
+  if (config.csp.enable) {
+    app.use(helmet.contentSecurityPolicy({
+      directives: csp.computeDirectives()
+    }))
+  } else {
+    logger.info('Content-Security-Policy is disabled. This may be a security risk.')
+  }
+
+  i18n.configure({
+    locales: ['en', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da', 'ko', 'id', 'sr'],
+    cookie: 'locale',
+    directory: path.join(__dirname, '/locales'),
+    updateFiles: config.updateI18nFiles
+  })
+
+  app.use(cookieParser())
+
+  app.use(i18n.init)
+
+  // routes without sessions
+  app.use('/', express.static(path.join(__dirname, '/public'), { maxAge: config.staticCacheTime, index: false }))
+  app.use('/docs', express.static(path.resolve(__dirname, config.docsPath), { maxAge: config.staticCacheTime }))
+  app.use('/uploads', express.static(path.resolve(__dirname, config.uploadsPath), { maxAge: config.staticCacheTime }))
+  app.use('/default.md', express.static(path.resolve(__dirname, config.defaultNotePath), { maxAge: config.staticCacheTime }))
+  app.use(require('./lib/metrics').router)
+
+  // session
+  app.use(session({
+    name: config.sessionName,
+    secret: config.sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+    rolling: true,
+    cookie: {
+      maxAge: config.sessionLife
+    },
+    store: sessionStore
   }))
-} else {
-  logger.info('Content-Security-Policy is disabled. This may be a security risk.')
+
+  // session resumption
+  var tlsSessionStore = {}
+  server.on('newSession', function (id, data, cb) {
+    tlsSessionStore[id.toString('hex')] = data
+    cb()
+  })
+  server.on('resumeSession', function (id, cb) {
+    cb(null, tlsSessionStore[id.toString('hex')] || null)
+  })
+
+  app.use(require('./lib/middleware/tooBusy'))
+  app.use(flash())
+  app.use(passport.initialize())
+  app.use(passport.session())
+  app.use(require('./lib/middleware/checkURIValid'))
+  app.use(require('./lib/middleware/redirectWithoutTrailingSlashes'))
+  app.use(require('./lib/middleware/codiMDVersion'))
+
+  if (config.autoVersionCheck && process.env.NODE_ENV === Environment.production) {
+    checkVersion(app)
+    app.use(versionCheckMiddleware)
+  }
+
+  // routes need sessions
+  app.set('views', config.viewPath)
+  app.engine('ejs', ejs.renderFile)
+  app.set('view engine', 'ejs')
+  app.locals.useCDN = config.useCDN
+  app.locals.serverURL = config.serverURL
+  app.locals.sourceURL = config.sourceURL
+  app.locals.privacyPolicyURL = config.privacyPolicyURL
+  app.locals.allowAnonymous = config.allowAnonymous
+  app.locals.allowAnonymousEdits = config.allowAnonymousEdits
+  app.locals.permission = config.permission
+  app.locals.allowPDFExport = config.allowPDFExport
+  app.locals.authProviders = {
+    facebook: config.isFacebookEnable,
+    twitter: config.isTwitterEnable,
+    github: config.isGitHubEnable,
+    bitbucket: config.isBitbucketEnable,
+    gitlab: config.isGitLabEnable,
+    mattermost: config.isMattermostEnable,
+    dropbox: config.isDropboxEnable,
+    google: config.isGoogleEnable,
+    ldap: config.isLDAPEnable,
+    ldapProviderName: config.ldap.providerName,
+    saml: config.isSAMLEnable,
+    oauth2: config.isOAuth2Enable,
+    oauth2ProviderName: config.oauth2.providerName,
+    openID: config.isOpenIDEnable,
+    email: config.isEmailEnable,
+    allowEmailRegister: config.allowEmailRegister
+  }
+  app.locals.versionInfo = {
+    latest: true,
+    versionItem: null
+  }
+  app.locals.viteAssets = viteHelpers.getViteAssets
+  app.locals.generateTags = viteHelpers.generateTags
+  app.locals.enableDropBoxSave = config.isDropboxEnable
+  app.locals.enableGitHubGist = config.isGitHubEnable
+  app.locals.enableGitlabSnippets = config.isGitlabSnippetsEnable
+
+  app.use(require('./lib/routes').router)
+
+  app.get('*', function (req, res) {
+    response.errorNotFound(req, res)
+  })
+
+  // socket.io secure & auth
+  io.use(realtime.secure)
+  io.use(passportSocketIo.authorize({
+    cookieParser: cookieParser,
+    key: config.sessionName,
+    secret: config.sessionSecret,
+    store: sessionStore,
+    success: realtime.onAuthorizeSuccess,
+    fail: realtime.onAuthorizeFail
+  }))
+  io.set('heartbeat interval', config.heartbeatInterval)
+  io.set('heartbeat timeout', config.heartbeatTimeout)
+  io.sockets.on('connection', realtime.connection)
+
+  // --- End of original middleware setup ---
+
+  // sync db first
+  await models.sequelize.sync()
+
+  // check if realtime is ready
+  if (!realtime.isReady()) {
+    throw new Error('Realtime is not ready after db synced')
+  }
+
+  // Check revisions before starting listen
+  await new Promise((resolve, reject) => {
+    models.Revision.checkAllNotesRevision(function (err, notes) {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+
+  // Now start listening
+  startListen(server) // Pass server instance
 }
 
-i18n.configure({
-  locales: ['en', 'zh-CN', 'zh-TW', 'fr', 'de', 'ja', 'es', 'ca', 'el', 'pt', 'it', 'tr', 'ru', 'nl', 'hr', 'pl', 'uk', 'hi', 'sv', 'eo', 'da', 'ko', 'id', 'sr'],
-  cookie: 'locale',
-  directory: path.join(__dirname, '/locales'),
-  updateFiles: config.updateI18nFiles
-})
-
-app.use(cookieParser())
-
-app.use(i18n.init)
-
-// routes without sessions
-// static files
-app.use('/', express.static(path.join(__dirname, '/public'), { maxAge: config.staticCacheTime, index: false }))
-app.use('/docs', express.static(path.resolve(__dirname, config.docsPath), { maxAge: config.staticCacheTime }))
-app.use('/uploads', express.static(path.resolve(__dirname, config.uploadsPath), { maxAge: config.staticCacheTime }))
-app.use('/default.md', express.static(path.resolve(__dirname, config.defaultNotePath), { maxAge: config.staticCacheTime }))
-app.use(require('./lib/metrics').router)
-
-// session
-app.use(session({
-  name: config.sessionName,
-  secret: config.sessionSecret,
-  resave: false, // don't save session if unmodified
-  saveUninitialized: true, // always create session to ensure the origin
-  rolling: true, // reset maxAge on every response
-  cookie: {
-    maxAge: config.sessionLife
-  },
-  store: sessionStore
-}))
-
-// session resumption
-var tlsSessionStore = {}
-server.on('newSession', function (id, data, cb) {
-  tlsSessionStore[id.toString('hex')] = data
-  cb()
-})
-server.on('resumeSession', function (id, cb) {
-  cb(null, tlsSessionStore[id.toString('hex')] || null)
-})
-
-// middleware which blocks requests when we're too busy
-app.use(require('./lib/middleware/tooBusy'))
-
-app.use(flash())
-
-// passport
-app.use(passport.initialize())
-app.use(passport.session())
-
-// check uri is valid before going further
-app.use(require('./lib/middleware/checkURIValid'))
-// redirect url without trailing slashes
-app.use(require('./lib/middleware/redirectWithoutTrailingSlashes'))
-app.use(require('./lib/middleware/codiMDVersion'))
-
-if (config.autoVersionCheck && process.env.NODE_ENV === Environment.production) {
-  checkVersion(app)
-  app.use(versionCheckMiddleware)
-}
-
-// routes need sessions
-// template files
-app.set('views', config.viewPath)
-// set render engine
-app.engine('ejs', ejs.renderFile)
-// set view engine
-app.set('view engine', 'ejs')
-// set generally available variables for all views
-app.locals.useCDN = config.useCDN
-app.locals.serverURL = config.serverURL
-app.locals.sourceURL = config.sourceURL
-app.locals.privacyPolicyURL = config.privacyPolicyURL
-app.locals.allowAnonymous = config.allowAnonymous
-app.locals.allowAnonymousEdits = config.allowAnonymousEdits
-app.locals.permission = config.permission
-app.locals.allowPDFExport = config.allowPDFExport
-app.locals.authProviders = {
-  facebook: config.isFacebookEnable,
-  twitter: config.isTwitterEnable,
-  github: config.isGitHubEnable,
-  bitbucket: config.isBitbucketEnable,
-  gitlab: config.isGitLabEnable,
-  mattermost: config.isMattermostEnable,
-  dropbox: config.isDropboxEnable,
-  google: config.isGoogleEnable,
-  ldap: config.isLDAPEnable,
-  ldapProviderName: config.ldap.providerName,
-  saml: config.isSAMLEnable,
-  oauth2: config.isOAuth2Enable,
-  oauth2ProviderName: config.oauth2.providerName,
-  openID: config.isOpenIDEnable,
-  email: config.isEmailEnable,
-  allowEmailRegister: config.allowEmailRegister
-}
-app.locals.versionInfo = {
-  latest: true,
-  versionItem: null
-}
-
-// Export/Import menu items
-app.locals.enableDropBoxSave = config.isDropboxEnable
-app.locals.enableGitHubGist = config.isGitHubEnable
-app.locals.enableGitlabSnippets = config.isGitlabSnippetsEnable
-
-app.use(require('./lib/routes').router)
-
-// response not found if no any route matxches
-app.get('*', function (req, res) {
-  response.errorNotFound(req, res)
-})
-
-// socket.io secure
-io.use(realtime.secure)
-// socket.io auth
-io.use(passportSocketIo.authorize({
-  cookieParser: cookieParser,
-  key: config.sessionName,
-  secret: config.sessionSecret,
-  store: sessionStore,
-  success: realtime.onAuthorizeSuccess,
-  fail: realtime.onAuthorizeFail
-}))
-// socket.io heartbeat
-io.set('heartbeat interval', config.heartbeatInterval)
-io.set('heartbeat timeout', config.heartbeatTimeout)
-// socket.io connection
-io.sockets.on('connection', realtime.connection)
-
-// listen
-function startListen () {
+// listen (modified to accept server instance)
+function startListen (httpServer) {
   var address
   var listenCallback = function () {
     var schema = config.useSSL ? 'HTTPS' : 'HTTP'
@@ -260,29 +297,18 @@ function startListen () {
     realtime.maintenance = false
   }
 
-  // use unix domain socket if 'path' is specified
   if (config.path) {
     address = config.path
-    server.listen(config.path, listenCallback)
+    httpServer.listen(config.path, listenCallback) // Use passed server
   } else {
     address = config.host + ':' + config.port
-    server.listen(config.port, config.host, listenCallback)
+    httpServer.listen(config.port, config.host, listenCallback) // Use passed server
   }
 }
 
-// sync db then start listen
-models.sequelize.sync().then(function () {
-  // check if realtime is ready
-  if (realtime.isReady()) {
-    models.Revision.checkAllNotesRevision(function (err, notes) {
-      if (err) throw new Error(err)
-      if (!notes || notes.length <= 0) return startListen()
-    })
-  } else {
-    throw new Error('server still not ready after db synced')
-  }
-}).catch(err => {
-  logger.error('Can\'t sync database')
+// Call the async initialization function
+initializeApp().catch(err => {
+  logger.error('Application initialization failed:')
   logger.error(err.stack)
   logger.error('Process will exit now.')
   process.exit(1)

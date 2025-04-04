@@ -18,11 +18,23 @@ import {
 
 import { preventXSS } from './render'
 
+// Import CSS previously handled by Webpack entry points
+// Pretty Styles Pack (assuming non-CDN usage)
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'ionicons/css/ionicons.min.css'
+import 'leaflet/dist/leaflet.css'
+// Pretty Styles
+import '../../public/css/github-extract.css'
+import '../../public/css/mermaid.css'
+import '../../public/css/markdown.css'
+import '../../public/css/slide-preview.css' // Already required below, keep one
+
+// Existing CSS requires (keep non-duplicates)
 require('../css/extra.css')
-require('../css/slide-preview.css')
+// require('../css/slide-preview.css') // Duplicate, removed
 require('../css/site.css')
 
-require('highlight.js/styles/github-gist.css')
+// require('highlight.js/styles/github-gist.css') // Duplicate, removed
 
 const markdown = $('#doc.markdown-body')
 const text = markdown.text()
