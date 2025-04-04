@@ -125,6 +125,7 @@ export default defineConfig({
   // Define global constants like webpack DefinePlugin (if needed)
   define: {
     // Example: 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    __dirname: '""', // Define __dirname as empty string for browser compatibility
     global: 'globalThis' // Explicitly define global for Vite
   },
   root: __dirname,
@@ -144,7 +145,10 @@ export default defineConfig({
       'list.js',
       '@hackmd/idle-js',
       'spin.js',
-      'ot'
+      // Explicitly include the OT files being imported
+      '@hackmd/ot/lib/editor-client.js',
+      '@hackmd/ot/lib/socketio-adapter.js',
+      '@hackmd/ot/lib/codemirror-adapter.js'
     ]
   },
   server: {

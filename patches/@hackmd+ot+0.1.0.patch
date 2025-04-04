@@ -1,0 +1,11 @@
+diff --git a/node_modules/@hackmd/ot/lib/index.js b/node_modules/@hackmd/ot/lib/index.js
+index 0b16a6b..ad64c70 100644
+--- a/node_modules/@hackmd/ot/lib/index.js
++++ b/node_modules/@hackmd/ot/lib/index.js
+@@ -8,5 +8,5 @@ exports.Selection            = require('./selection');
+ exports.EditorSocketIOServer = require('./editor-socketio-server');
+ 
+ // app.use("/ot", express.static(ot.scriptsDir))
+-exports.scriptsDir           = require("path").resolve(__dirname, "../") + "/dist";
++// exports.scriptsDir           = require("path").resolve(__dirname, "../") + "/dist";
+ 

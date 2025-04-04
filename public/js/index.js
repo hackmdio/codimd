@@ -1,6 +1,6 @@
 /* eslint-env browser, jquery */
 /* global Cookies, moment, serverurl,
-   key, Dropbox, ot, hex2rgb, Visibility, inlineAttachment */
+   key, Dropbox, ot, hex2rgb, inlineAttachment */
 
 import CodeMirror from '@hackmd/codemirror'
 import TurndownService from 'turndown'
@@ -8,7 +8,10 @@ import Cookies from 'js-cookie'
 import '@vendor/inlineAttachment/inline-attachment'
 import '@vendor/inlineAttachment/codemirror.inline-attachment'
 import Visibility from 'visibilityjs'
-import '@vendor/ot/ot.min.js'
+// Import the original vendor file
+import ot from '@hackmd/ot'
+import $ from 'jquery'
+import '@vendor/jquery-textcomplete/jquery.textcomplete'
 
 import { saveAs } from 'file-saver'
 import randomColor from 'randomcolor'
@@ -2078,6 +2081,7 @@ socket.on('refresh', function (data) {
   if (editor.getOption('readOnly')) { editor.setOption('readOnly', false) }
 })
 
+// Ensure var assignments using the global 'ot' object are present
 var EditorClient = ot.EditorClient
 var SocketIOAdapter = ot.SocketIOAdapter
 var CodeMirrorAdapter = ot.CodeMirrorAdapter
@@ -2112,6 +2116,7 @@ socket.on('doc', function (obj) {
   }
 
   if (!cmClient) {
+    // Use the global 'ot' object provided by the imported bundle
     cmClient = window.cmClient = new EditorClient(
       obj.revision, obj.clients,
       new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
