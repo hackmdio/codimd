@@ -1,3 +1,31 @@
+diff --git a/node_modules/@hackmd/ot/lib/client.js b/node_modules/@hackmd/ot/lib/client.js
+index 7ee19fd..8dfc6c6 100644
+--- a/node_modules/@hackmd/ot/lib/client.js
++++ b/node_modules/@hackmd/ot/lib/client.js
+@@ -1,9 +1,5 @@
+ // translation of https://github.com/djspiewak/cccp/blob/master/agent/src/main/scala/com/codecommit/cccp/agent/state.scala
+ 
+-if (typeof ot === 'undefined') {
+-  var ot = {};
+-}
+-
+ ot.Client = (function (global) {
+   'use strict';
+ 
+diff --git a/node_modules/@hackmd/ot/lib/editor-client.js b/node_modules/@hackmd/ot/lib/editor-client.js
+index 6e57349..a2d6632 100644
+--- a/node_modules/@hackmd/ot/lib/editor-client.js
++++ b/node_modules/@hackmd/ot/lib/editor-client.js
+@@ -356,3 +356,9 @@ ot.EditorClient = (function () {
+ 
+   return EditorClient;
+ }());
++
++
++if (typeof module === 'object') {
++  module.exports = ot.EditorClient;
++}
++
 diff --git a/node_modules/@hackmd/ot/lib/index.js b/node_modules/@hackmd/ot/lib/index.js
 index 0b16a6b..ad64c70 100644
 --- a/node_modules/@hackmd/ot/lib/index.js
@@ -8,4 +36,81 @@ index 0b16a6b..ad64c70 100644
  // app.use("/ot", express.static(ot.scriptsDir))
 -exports.scriptsDir           = require("path").resolve(__dirname, "../") + "/dist";
 +// exports.scriptsDir           = require("path").resolve(__dirname, "../") + "/dist";
+ 
+diff --git a/node_modules/@hackmd/ot/lib/selection.js b/node_modules/@hackmd/ot/lib/selection.js
+index 72bf8bd..a5ddafa 100644
+--- a/node_modules/@hackmd/ot/lib/selection.js
++++ b/node_modules/@hackmd/ot/lib/selection.js
+@@ -1,8 +1,3 @@
+-if (typeof ot === 'undefined') {
+-  // Export for browsers
+-  var ot = {};
+-}
+-
+ ot.Selection = (function (global) {
+   'use strict';
+ 
+diff --git a/node_modules/@hackmd/ot/lib/server.js b/node_modules/@hackmd/ot/lib/server.js
+index 9988a34..bd89164 100644
+--- a/node_modules/@hackmd/ot/lib/server.js
++++ b/node_modules/@hackmd/ot/lib/server.js
+@@ -1,7 +1,3 @@
+-if (typeof ot === 'undefined') {
+-  var ot = {};
+-}
+-
+ ot.Server = (function (global) {
+   'use strict';
+ 
+diff --git a/node_modules/@hackmd/ot/lib/simple-text-operation.js b/node_modules/@hackmd/ot/lib/simple-text-operation.js
+index 6db296e..592eee1 100644
+--- a/node_modules/@hackmd/ot/lib/simple-text-operation.js
++++ b/node_modules/@hackmd/ot/lib/simple-text-operation.js
+@@ -1,8 +1,3 @@
+-if (typeof ot === 'undefined') {
+-  // Export for browsers
+-  var ot = {};
+-}
+-
+ ot.SimpleTextOperation = (function (global) {
+ 
+   var TextOperation = global.ot ? global.ot.TextOperation : require('./text-operation');
+diff --git a/node_modules/@hackmd/ot/lib/text-operation.js b/node_modules/@hackmd/ot/lib/text-operation.js
+index d546849..7d793dc 100644
+--- a/node_modules/@hackmd/ot/lib/text-operation.js
++++ b/node_modules/@hackmd/ot/lib/text-operation.js
+@@ -1,8 +1,3 @@
+-if (typeof ot === 'undefined') {
+-  // Export for browsers
+-  var ot = {};
+-}
+-
+ ot.TextOperation = (function () {
+   'use strict';
+ 
+diff --git a/node_modules/@hackmd/ot/lib/undo-manager.js b/node_modules/@hackmd/ot/lib/undo-manager.js
+index 19e89f1..96eda4a 100644
+--- a/node_modules/@hackmd/ot/lib/undo-manager.js
++++ b/node_modules/@hackmd/ot/lib/undo-manager.js
+@@ -1,8 +1,3 @@
+-if (typeof ot === 'undefined') {
+-  // Export for browsers
+-  var ot = {};
+-}
+-
+ ot.UndoManager = (function () {
+   'use strict';
+ 
+diff --git a/node_modules/@hackmd/ot/lib/wrapped-operation.js b/node_modules/@hackmd/ot/lib/wrapped-operation.js
+index 91050f4..8dd5dd5 100644
+--- a/node_modules/@hackmd/ot/lib/wrapped-operation.js
++++ b/node_modules/@hackmd/ot/lib/wrapped-operation.js
+@@ -1,8 +1,3 @@
+-if (typeof ot === 'undefined') {
+-  // Export for browsers
+-  var ot = {};
+-}
+-
+ ot.WrappedOperation = (function (global) {
+   'use strict';
  

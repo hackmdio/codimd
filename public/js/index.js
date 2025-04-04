@@ -9,9 +9,19 @@ import '@vendor/inlineAttachment/inline-attachment'
 import '@vendor/inlineAttachment/codemirror.inline-attachment'
 import Visibility from 'visibilityjs'
 // Import the original vendor file
-import ot from '@hackmd/ot'
-import $ from 'jquery'
+
+import '@hackmd/ot'
+import '@hackmd/ot/lib/socketio-adapter'
+import '@hackmd/ot/lib/codemirror-adapter'
+import '@hackmd/ot/lib/undo-manager'
+// import '@hackmd/ot/lib/client'
+import '@hackmd/ot/lib/editor-client'
+
+import mousewhell from 'jquery-mousewheel'
 import '@vendor/jquery-textcomplete/jquery.textcomplete'
+import '@vendor/jquery-ui/jquery-ui.min.js'
+import '@vendor/bootstrap/tooltip.min.js'
+import '@vendor/showup/showup.js'
 
 import { saveAs } from 'file-saver'
 import randomColor from 'randomcolor'
@@ -130,6 +140,11 @@ import '@css/index.css'
 import '@css/extra.css'
 import '@css/site.css'
 import 'spin.js/spin.css'
+
+mousewhell($)
+
+// ot.Client = Client
+// ot.EditorClient = EditorClient
 
 // require('highlight.js/styles/github-gist.css') // Duplicate, removed
 

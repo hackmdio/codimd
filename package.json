@@ -112,6 +112,7 @@
     "@hackmd/emojify.js": "^2.1.0",
     "@hackmd/idle-js": "~1.0.1",
     "@hackmd/js-sequence-diagrams": "~0.0.1-alpha.3",
+    "@rollup/plugin-inject": "^5.0.5",
     "@susisu/mte-kernel": "^2.1.0",
     "@vitejs/plugin-legacy": "^6.0.2",
     "@viz-js/viz": "^3.12.0",

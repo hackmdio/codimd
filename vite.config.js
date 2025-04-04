@@ -4,6 +4,7 @@ import copy from 'rollup-plugin-copy'
 import EnvironmentPlugin from 'vite-plugin-environment'
 import string from 'vite-plugin-string' // Import string plugin
 import viteCommonjs from 'vite-plugin-commonjs' // Import commonjs plugin
+import inject from "@rollup/plugin-inject"
 import path from 'path'
 
 // https://vitejs.dev/config/
@@ -12,6 +13,16 @@ export default defineConfig({
     viteCommonjs(), // Add commonjs plugin usage
     legacy({
       targets: ['defaults', 'not IE 11'] // Similar target as babel-preset-env might use
+    }),
+    inject({
+      // Inject global variables for legacy builds
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      'window.$': 'jquery',
+      key: 'keymaster',
+      'window.key': 'keymaster',
+      // Add any other globals you need to inject
     }),
     string({ // Add string plugin
       include: '**/*.html' // Load all .html files as strings
@@ -126,7 +137,8 @@ export default defineConfig({
   define: {
     // Example: 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     __dirname: '""', // Define __dirname as empty string for browser compatibility
-    global: 'globalThis' // Explicitly define global for Vite
+    global: 'globalThis', // Explicitly define global for Vite
+    ot: {}, // Define ot as empty object for browser compatibility
   },
   root: __dirname,
   base: '/',
@@ -146,9 +158,10 @@ export default defineConfig({
       '@hackmd/idle-js',
       'spin.js',
       // Explicitly include the OT files being imported
-      '@hackmd/ot/lib/editor-client.js',
-      '@hackmd/ot/lib/socketio-adapter.js',
-      '@hackmd/ot/lib/codemirror-adapter.js'
+      // '@hackmd/ot/lib/client.js',
+      // '@hackmd/ot/lib/editor-client.js',
+      // '@hackmd/ot/lib/socketio-adapter.js',
+      // '@hackmd/ot/lib/codemirror-adapter.js'
     ]
   },
   server: {
