@@ -102,7 +102,7 @@ import '@hackmd/ot/lib/undo-manager'
 // import '@hackmd/ot/lib/client'
 import '@hackmd/ot/lib/editor-client'
 
-import mousewhell from 'jquery-mousewheel'
+import * as mousewheel from 'jquery-mousewheel'
 import '@vendor/jquery-textcomplete/jquery.textcomplete'
 import '@vendor/jquery-ui/jquery-ui.min.js'
 import '@vendor/bootstrap/tooltip.min.js'
@@ -226,7 +226,8 @@ import '@css/extra.css'
 import '@css/site.css'
 import 'spin.js/spin.css'
 
-mousewhell($)
+const mw = mousewheel.default || mousewheel // Fix for mousewheel import
+mw($)
 
 // ot.Client = Client
 // ot.EditorClient = EditorClient
