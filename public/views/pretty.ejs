@@ -36,7 +36,7 @@
   <% } %>
   
   <%# Add CSS order fixer script (only active in development mode) %>
-  <%- generateCssOrderFixer(['link[href*="fork-awesome.min.css"]'], cspNonce) %>
+  <%- generateCssOrderFixer(['link[href*="fork-awesome.min.css"]'], nonce) %>
   
   <%# Inject Vite CSS assets for the 'pretty' entry point %>
   <%- generateTags(viteAssets('pretty')).cssTags %>

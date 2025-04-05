@@ -32,7 +32,7 @@
         <% } %>
         
         <%# Add CSS order fixer script (only active in development mode) %>
-        <%- generateCssOrderFixer(['link#theme', 'link[href*="zenburn.css"]', 'link[href*="slide.css"]'], cspNonce) %>
+        <%- generateCssOrderFixer(['link#theme', 'link[href*="zenburn.css"]', 'link[href*="slide.css"]'], nonce) %>
         
         <%- generateTags(viteAssets('slide')).cssTags %>
 
