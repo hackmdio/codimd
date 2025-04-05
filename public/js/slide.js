@@ -1,6 +1,10 @@
 /* eslint-env browser, jquery */
 /* global serverurl, Reveal, RevealMarkdown */
 
+import 'bootstrap'
+import Reveal from 'reveal.js'
+import RevealMarkdown from '@/reveal-markdown.js'
+
 import { preventXSS } from './render'
 import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
 
@@ -9,14 +13,18 @@ import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
 import 'ionicons/css/ionicons.min.css'
 import 'leaflet/dist/leaflet.css'
 // Slide Styles
-import '../../public/vendor/bootstrap/tooltip.min.css'
-import '../../public/css/github-extract.css'
-import '../../public/css/mermaid.css'
-import '../../public/css/markdown.css'
+
+import '@vendor/bootstrap/tooltip.min.css'
+import '@css/github-extract.css'
+import '@css/mermaid.css'
+import '@css/markdown.css'
 
 // Existing CSS requires (keep non-duplicates)
-require('../css/extra.css')
-require('../css/site.css')
+import '@css/extra.css'
+import '@css/site.css'
+
+window.Reveal = Reveal
+window.RevealMarkdown = RevealMarkdown
 
 const body = preventXSS($('.slides').text())
 
