@@ -21,11 +21,12 @@ export default defineConfig({
       key: 'keymaster',
       'window.key': 'keymaster',
       CodeMirror: '@hackmd/codemirror',
-      moment: 'moment'
-      // Add any other globals you need to inject
+      moment: 'moment',
+      // Add exclude for HTML files to prevent inject plugin from processing them
+      exclude: ['**/*.html', '**/*.css']
     }),
-    string({ // Add string plugin
-      include: '**/*.html' // Load all .html files as strings
+    string({
+      include: '**/*.html'
     }),
     copy({
       targets: [
@@ -130,7 +131,8 @@ export default defineConfig({
         cover: path.resolve(__dirname, 'public/js/cover.js'),
         pretty: path.resolve(__dirname, 'public/js/pretty.js'),
         slide: path.resolve(__dirname, 'public/js/slide.js')
-      }
+      },
+      external: [/\.html$/]
     }
   },
   // Define global constants like webpack DefinePlugin (if needed)
