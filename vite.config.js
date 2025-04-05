@@ -159,11 +159,6 @@ export default defineConfig({
       'list.js',
       '@hackmd/idle-js',
       'spin.js'
-      // Explicitly include the OT files being imported
-      // '@hackmd/ot/lib/client.js',
-      // '@hackmd/ot/lib/editor-client.js',
-      // '@hackmd/ot/lib/socketio-adapter.js',
-      // '@hackmd/ot/lib/codemirror-adapter.js'
     ]
   },
   server: {
