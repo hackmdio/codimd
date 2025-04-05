@@ -1,6 +1,8 @@
 /* eslint-env browser, jquery */
 /* global refreshView */
 
+import 'bootstrap'
+
 import {
   autoLinkify,
   deduplicatedHeaderId,
@@ -24,15 +26,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'ionicons/css/ionicons.min.css'
 import 'leaflet/dist/leaflet.css'
 // Pretty Styles
-import '../../public/css/github-extract.css'
-import '../../public/css/mermaid.css'
-import '../../public/css/markdown.css'
-import '../../public/css/slide-preview.css' // Already required below, keep one
-
-// Existing CSS requires (keep non-duplicates)
-require('../css/extra.css')
-// require('../css/slide-preview.css') // Duplicate, removed
-require('../css/site.css')
+import '@css/github-extract.css'
+import '@css/mermaid.css'
+import '@css/markdown.css'
+import '@css/slide-preview.css' // Already required below, keep one
+import '@css/extra.css'
+import '@css/site.css'
 
 // require('highlight.js/styles/github-gist.css') // Duplicate, removed
 
