@@ -25,9 +25,9 @@ export default defineConfig({
       // Add exclude for HTML files to prevent inject plugin from processing them
       exclude: ['**/*.html', '**/*.css']
     }),
-    string({
-      include: '**/*.html'
-    }),
+    // string({
+    //   include: '**/*.html'
+    // }),
     copy({
       targets: [
         {
@@ -143,7 +143,7 @@ export default defineConfig({
     ot: {} // Define ot as empty object for browser compatibility
   },
   root: __dirname,
-  base: '/',
+  base: '/.vite/', // Updated to match our custom base path in app.js
   publicDir: false, // Let Vite handle all assets through middleware
   appType: 'custom',
   optimizeDeps: {
@@ -166,14 +166,15 @@ export default defineConfig({
     ws: true,
     hmr: {
       protocol: 'ws',
-      host: 'localhost'
+      host: 'localhost',
+      path: '/.vite/hmr' // Specify a custom HMR path
     },
     fs: {
+      strict: true, // Only serve explicitly allowed files
       allow: [
         path.resolve(__dirname),
         path.resolve(__dirname, 'node_modules')
-      ],
-      strict: false
+      ]
     }
   }
 })

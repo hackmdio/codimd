@@ -3,7 +3,7 @@
 
 import Prism from 'prismjs'
 import hljs from 'highlight.js'
-import * as PDFObject from 'pdfobject'
+import PDFObject from 'pdfobject'
 import { saveAs } from 'file-saver'
 
 import escapeHTML from 'lodash/escape'

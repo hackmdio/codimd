@@ -114,5 +114,6 @@
 <%# Old webpack includes removed %>
 <% } %>
 <%# Inject Vite JS assets for the 'pretty' entry point %>
+<script src="<%- serverURL %>/config"></script>
 <%- generateTags(viteAssets('pretty')).jsTags %>
 <%- include('shared/ga') %>

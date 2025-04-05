@@ -102,7 +102,7 @@ import '@hackmd/ot/lib/undo-manager'
 // import '@hackmd/ot/lib/client'
 import '@hackmd/ot/lib/editor-client'
 
-import * as mousewhell from 'jquery-mousewheel'
+import mousewhell from 'jquery-mousewheel'
 import '@vendor/jquery-textcomplete/jquery.textcomplete'
 import '@vendor/jquery-ui/jquery-ui.min.js'
 import '@vendor/bootstrap/tooltip.min.js'

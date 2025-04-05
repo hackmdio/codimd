@@ -125,6 +125,7 @@
         <%# Old webpack includes removed %>
         <% } %>
         <%# Inject Vite JS assets for the 'slide' entry point %>
+        <script src="<%- serverURL %>/config"></script>
         <%- generateTags(viteAssets('slide')).jsTags %>
     </body>
 </html>

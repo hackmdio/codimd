@@ -71,14 +71,27 @@ async function initializeApp () {
     try {
       const vite = require('vite')
       viteServer = await vite.createServer({
-        server: { middlewareMode: true },
+        server: {
+          middlewareMode: true,
+          fs: {
+            strict: true, // Strict file serving
+            allow: [__dirname] // Only allow serving from the project root
+          }
+        },
         appType: 'custom',
-        root: __dirname, // Ensure root is set
-        base: '/'
+        root: __dirname,
+        base: '/.vite/' // Set custom base path for Vite assets
       })
-      // Use vite's connect instance as middleware *before* anything else
-      app.use(viteServer.middlewares)
-      logger.info('Vite middleware enabled.')
+
+      // Only use Vite middleware for paths that start with /.vite/
+      app.use((req, res, next) => {
+        if (req.path.startsWith('/.vite/')) {
+          return viteServer.middlewares(req, res, next)
+        }
+        next()
+      })
+
+      logger.info('Vite middleware enabled for /.vite/ path only.')
     } catch (e) {
       logger.error('Failed to create Vite server:', e)
       process.exit(1)

@@ -12,4 +12,5 @@
 <%# Old webpack includes removed %>
 <% } %>
 <%# Inject Vite JS assets for the 'index' entry point %>
+<script src="<%- serverURL %>/config"></script>
 <%- generateTags(viteAssets('cover')).jsTags %>
