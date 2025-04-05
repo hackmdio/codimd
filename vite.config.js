@@ -22,6 +22,7 @@ export default defineConfig({
       'window.$': 'jquery',
       key: 'keymaster',
       'window.key': 'keymaster',
+      CodeMirror: '@hackmd/codemirror',
       // Add any other globals you need to inject
     }),
     string({ // Add string plugin
