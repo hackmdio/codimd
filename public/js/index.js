@@ -2,6 +2,7 @@
 /* global Cookies, moment, serverurl,
    key, Dropbox, ot, hex2rgb, inlineAttachment */
 
+import 'bootstrap'
 import CodeMirror from '@hackmd/codemirror'
 import TurndownService from 'turndown'
 import Cookies from 'js-cookie'
