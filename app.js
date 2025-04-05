@@ -3,7 +3,6 @@ console.log('Starting app.js with Node version:', process.version) // Removed se
 // app
 // external modules
 var express = require('express')
-const vite = require('vite') // Import Vite
 
 var ejs = require('ejs')
 var passport = require('passport')
@@ -70,6 +69,7 @@ async function initializeApp () {
   if (process.env.NODE_ENV !== 'production') {
     logger.info('Setting up Vite in development mode...')
     try {
+      const vite = require('vite')
       viteServer = await vite.createServer({
         server: { middlewareMode: true },
         appType: 'custom',
