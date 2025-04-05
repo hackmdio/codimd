@@ -88,8 +88,6 @@ import '@hackmd/codemirror/keymap/emacs.js'
 import '@hackmd/codemirror/keymap/sublime.js'
 import '@hackmd/codemirror/keymap/vim.js'
 
-
-
 import TurndownService from 'turndown'
 import Cookies from 'js-cookie'
 import '@vendor/inlineAttachment/inline-attachment'
