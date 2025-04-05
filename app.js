@@ -242,6 +242,7 @@ async function initializeApp () {
   }
   app.locals.viteAssets = viteHelpers.getViteAssets
   app.locals.generateTags = viteHelpers.generateTags
+  app.locals.generateCssOrderFixer = viteHelpers.generateCssOrderFixer
   app.locals.enableDropBoxSave = config.isDropboxEnable
   app.locals.enableGitHubGist = config.isGitHubEnable
   app.locals.enableGitlabSnippets = config.isGitlabSnippetsEnable

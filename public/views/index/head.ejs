@@ -22,5 +22,9 @@
   <link rel="stylesheet" href='<%- serverURL %>/build/fork-awesome/css/fork-awesome.min.css'>
 <%# Old webpack includes removed %>
 <% } %>
+
+<%# Add CSS order fixer script (only active in development mode) %>
+<%- generateCssOrderFixer(['link[href*="fork-awesome.min.css"]'], cspNonce) %>
+
 <%# Inject Vite CSS assets for the 'cover' entry point %>
 <%- generateTags(viteAssets('cover')).cssTags %>

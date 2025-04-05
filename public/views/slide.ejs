@@ -30,7 +30,10 @@
         <link rel="stylesheet" href='<%- serverURL %>/build/fork-awesome/css/fork-awesome.min.css'>
         <%# Old webpack includes removed %>
         <% } %>
-        <%# Inject Vite CSS assets for the 'slide' entry point %>
+        
+        <%# Add CSS order fixer script (only active in development mode) %>
+        <%- generateCssOrderFixer(['link#theme', 'link[href*="zenburn.css"]', 'link[href*="slide.css"]'], cspNonce) %>
+        
         <%- generateTags(viteAssets('slide')).cssTags %>
 
         <!-- For reveal.js theme -->
