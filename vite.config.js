@@ -4,7 +4,7 @@ import copy from 'rollup-plugin-copy'
 import EnvironmentPlugin from 'vite-plugin-environment'
 import string from 'vite-plugin-string' // Import string plugin
 import viteCommonjs from 'vite-plugin-commonjs' // Import commonjs plugin
-import inject from "@rollup/plugin-inject"
+import inject from '@rollup/plugin-inject'
 import path from 'path'
 
 // https://vitejs.dev/config/
@@ -18,11 +18,10 @@ export default defineConfig({
       // Inject global variables for legacy builds
       $: 'jquery',
       jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-      'window.$': 'jquery',
       key: 'keymaster',
       'window.key': 'keymaster',
       CodeMirror: '@hackmd/codemirror',
+      moment: 'moment'
       // Add any other globals you need to inject
     }),
     string({ // Add string plugin
@@ -139,7 +138,7 @@ export default defineConfig({
     // Example: 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     __dirname: '""', // Define __dirname as empty string for browser compatibility
     global: 'globalThis', // Explicitly define global for Vite
-    ot: {}, // Define ot as empty object for browser compatibility
+    ot: {} // Define ot as empty object for browser compatibility
   },
   root: __dirname,
   base: '/',
@@ -157,7 +156,7 @@ export default defineConfig({
       'wurl',
       'list.js',
       '@hackmd/idle-js',
-      'spin.js',
+      'spin.js'
       // Explicitly include the OT files being imported
       // '@hackmd/ot/lib/client.js',
       // '@hackmd/ot/lib/editor-client.js',
