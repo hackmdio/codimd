@@ -1,11 +1,31 @@
 /* eslint-env browser, jquery */
 /* global serverurl, Reveal, RevealMarkdown */
 
+import 'bootstrap'
+import Reveal from 'reveal.js'
+import RevealMarkdown from '@/reveal-markdown.js'
+
 import { preventXSS } from './render'
 import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
 
-require('../css/extra.css')
-require('../css/site.css')
+// Import CSS previously handled by Webpack entry points
+// Slide Styles Pack (assuming non-CDN usage)
+import 'ionicons/css/ionicons.min.css'
+import 'leaflet/dist/leaflet.css'
+// Slide Styles
+
+import 'fork-awesome/css/fork-awesome.min.css'
+import '@vendor/bootstrap/tooltip.min.css'
+import '@css/github-extract.css'
+import '@css/mermaid.css'
+import '@css/markdown.css'
+
+// Existing CSS requires (keep non-duplicates)
+import '@css/extra.css'
+import '@css/site.css'
+
+window.Reveal = Reveal
+window.RevealMarkdown = RevealMarkdown
 
 const body = preventXSS($('.slides').text())
 

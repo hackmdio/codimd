@@ -1,5 +1,5 @@
 /* eslint-env browser, jquery */
-/* global Cookies */
+import Cookies from 'js-cookie'
 
 import { serverurl } from '../config'
 

@@ -1,7 +1,7 @@
 /* eslint-env browser, jquery */
 // allow some attributes
 
-var filterXSS = require('xss')
+import filterXSS from 'xss'
 
 var whiteListAttr = ['id', 'class', 'style']
 window.whiteListAttr = whiteListAttr
@@ -67,12 +67,10 @@ var filterXSSOptions = {
   }
 }
 
-function preventXSS (html) {
+export function preventXSS (html) {
   return filterXSS(html, filterXSSOptions)
 }
 window.preventXSS = preventXSS
 
-module.exports = {
-  preventXSS: preventXSS,
-  escapeAttrValue: filterXSS.escapeAttrValue
-}
+export const escapeAttrValue = filterXSS.escapeAttrValue
+

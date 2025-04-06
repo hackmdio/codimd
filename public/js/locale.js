@@ -1,6 +1,8 @@
 /* eslint-env browser, jquery */
 /* global Cookies */
 
+import Cookies from 'js-cookie'
+
 var lang = 'en'
 var userLang = navigator.language || navigator.userLanguage
 var userLangCode = userLang.split('-')[0]

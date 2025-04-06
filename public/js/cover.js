@@ -1,6 +1,16 @@
 /* eslint-env browser, jquery */
 /* global moment, serverurl */
 
+import 'bootstrap'
+
+import 'fork-awesome/css/fork-awesome.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'select2/select2.css'
+import 'select2/select2-bootstrap.css'
+
+import '@css/cover.css'
+import '@css/site.css'
+
 import {
   checkIfAuth,
   clearLoginState,
@@ -25,12 +35,10 @@ import {
 
 import { saveAs } from 'file-saver'
 import List from 'list.js'
-import unescapeHTML from 'lodash/unescape'
+import { unescape as unescapeHTML } from 'lodash'
+import 'select2/select2.js'
 
-require('./locale')
-
-require('../css/cover.css')
-require('../css/site.css')
+import './locale'
 
 const options = {
   valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],

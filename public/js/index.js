@@ -1,8 +1,113 @@
 /* eslint-env browser, jquery */
-/* global CodeMirror, Cookies, moment, serverurl,
-   key, Dropbox, ot, hex2rgb, Visibility, inlineAttachment */
+/* global Cookies, moment, serverurl,
+   key, Dropbox, ot, hex2rgb, inlineAttachment */
+
+import 'bootstrap'
+
+import CodeMirror from '@hackmd/codemirror'
+import '@hackmd/codemirror/addon/mode/overlay.js'
+import '@hackmd/codemirror/addon/mode/simple.js'
+import '@hackmd/codemirror/addon/mode/multiplex.js'
+import '@hackmd/codemirror/addon/selection/active-line.js'
+import '@hackmd/codemirror/addon/search/searchcursor.js'
+import '@hackmd/codemirror/addon/search/search.js'
+import '@hackmd/codemirror/addon/search/jump-to-line.js'
+import '@hackmd/codemirror/addon/search/matchesonscrollbar.js'
+import '@hackmd/codemirror/addon/search/match-highlighter.js'
+import '@hackmd/codemirror/addon/scroll/simplescrollbars.js'
+import '@hackmd/codemirror/addon/scroll/annotatescrollbar.js'
+import '@hackmd/codemirror/addon/display/panel.js'
+import '@hackmd/codemirror/addon/display/placeholder.js'
+import '@hackmd/codemirror/addon/display/fullscreen.js'
+import '@hackmd/codemirror/addon/display/autorefresh.js'
+import '@hackmd/codemirror/addon/dialog/dialog.js'
+import '@hackmd/codemirror/addon/edit/matchbrackets.js'
+import '@hackmd/codemirror/addon/edit/closebrackets.js'
+import '@hackmd/codemirror/addon/edit/matchtags.js'
+import '@hackmd/codemirror/addon/edit/closetag.js'
+import '@hackmd/codemirror/addon/edit/continuelist.js'
+import '@hackmd/codemirror/addon/comment/comment.js'
+import '@hackmd/codemirror/addon/comment/continuecomment.js'
+import '@hackmd/codemirror/addon/wrap/hardwrap.js'
+import '@hackmd/codemirror/addon/fold/foldcode.js'
+import '@hackmd/codemirror/addon/fold/brace-fold.js'
+import '@hackmd/codemirror/addon/fold/foldgutter.js'
+import '@hackmd/codemirror/addon/fold/markdown-fold.js'
+import '@hackmd/codemirror/addon/fold/xml-fold.js'
+import '@hackmd/codemirror/addon/merge/merge.js'
+import '@hackmd/codemirror/mode/xml/xml.js'
+import '@hackmd/codemirror/mode/markdown/markdown_math.js'
+import '@hackmd/codemirror/mode/gfm/gfm.js'
+import '@hackmd/codemirror/mode/javascript/javascript.js'
+import '@hackmd/codemirror/mode/typescript/typescript.js'
+import '@hackmd/codemirror/mode/jsx/jsx.js'
+import '@hackmd/codemirror/mode/css/css.js'
+import '@hackmd/codemirror/mode/htmlmixed/htmlmixed.js'
+import '@hackmd/codemirror/mode/htmlembedded/htmlembedded.js'
+import '@hackmd/codemirror/mode/clike/clike.js'
+import '@hackmd/codemirror/mode/clojure/clojure.js'
+import '@hackmd/codemirror/mode/diff/diff.js'
+import '@hackmd/codemirror/mode/ruby/ruby.js'
+import '@hackmd/codemirror/mode/rust/rust.js'
+import '@hackmd/codemirror/mode/python/python.js'
+import '@hackmd/codemirror/mode/plantuml/plantuml.js'
+import '@hackmd/codemirror/mode/csv/csv.js'
+import '@hackmd/codemirror/mode/shell/shell.js'
+import '@hackmd/codemirror/mode/php/php.js'
+import '@hackmd/codemirror/mode/sas/sas.js'
+import '@hackmd/codemirror/mode/stex/stex.js'
+import '@hackmd/codemirror/mode/sql/sql.js'
+import '@hackmd/codemirror/mode/haskell/haskell.js'
+import '@hackmd/codemirror/mode/coffeescript/coffeescript.js'
+import '@hackmd/codemirror/mode/yaml/yaml.js'
+import '@hackmd/codemirror/mode/yaml-frontmatter/yaml-frontmatter.js'
+import '@hackmd/codemirror/mode/pug/pug.js'
+import '@hackmd/codemirror/mode/lua/lua.js'
+import '@hackmd/codemirror/mode/cmake/cmake.js'
+import '@hackmd/codemirror/mode/nginx/nginx.js'
+import '@hackmd/codemirror/mode/perl/perl.js'
+import '@hackmd/codemirror/mode/sass/sass.js'
+import '@hackmd/codemirror/mode/r/r.js'
+import '@hackmd/codemirror/mode/dockerfile/dockerfile.js'
+import '@hackmd/codemirror/mode/tiddlywiki/tiddlywiki.js'
+import '@hackmd/codemirror/mode/mediawiki/mediawiki.js'
+import '@hackmd/codemirror/mode/go/go.js'
+import '@hackmd/codemirror/mode/graphviz/graphviz.js'
+import '@hackmd/codemirror/mode/groovy/groovy.js'
+import '@hackmd/codemirror/mode/gherkin/gherkin.js'
+import '@hackmd/codemirror/mode/mllike/mllike.js'
+import '@hackmd/codemirror/mode/swift/swift.js'
+import '@hackmd/codemirror/mode/solidity/solidity.js'
+import '@hackmd/codemirror/mode/verilog/verilog.js'
+import '@hackmd/codemirror/mode/mermaid/mermaid.js'
+import '@hackmd/codemirror/mode/protobuf/protobuf.js'
+import '@hackmd/codemirror/mode/vb/vb.js'
+import '@hackmd/codemirror/mode/vhdl/vhdl.js'
+import '@hackmd/codemirror/mode/toml/toml.js'
+import '@hackmd/codemirror/keymap/emacs.js'
+import '@hackmd/codemirror/keymap/sublime.js'
+import '@hackmd/codemirror/keymap/vim.js'
 
 import TurndownService from 'turndown'
+import Cookies from 'js-cookie'
+import '@vendor/inlineAttachment/inline-attachment'
+import '@vendor/inlineAttachment/codemirror.inline-attachment'
+import Visibility from 'visibilityjs'
+// Import the original vendor file
+
+import './global-ot'
+import '@hackmd/ot'
+import '@hackmd/ot/lib/socketio-adapter'
+import '@hackmd/ot/lib/codemirror-adapter'
+import '@hackmd/ot/lib/undo-manager'
+import '@hackmd/ot/lib/client'
+import '@hackmd/ot/lib/editor-client'
+
+import * as mousewheel from 'jquery-mousewheel'
+import '@vendor/jquery-textcomplete/jquery.textcomplete'
+import '@vendor/jquery-ui/jquery-ui.min.js'
+import '@vendor/bootstrap/tooltip.min.js'
+import '@vendor/showup/showup.js'
 
 import { saveAs } from 'file-saver'
 import randomColor from 'randomcolor'
@@ -20,6 +125,7 @@ import List from 'list.js'
 import Idle from '@hackmd/idle-js'
 
 import { Spinner } from 'spin.js'
+import io from 'socket.io-client'
 
 import {
   checkLoginStateChanged,
@@ -72,7 +178,7 @@ import {
   removeHistory
 } from './history'
 
-import { preventXSS } from './render'
+import * as renderUtils from './render' // Import namespace
 
 import Editor from './lib/editor'
 
@@ -81,15 +187,53 @@ import { emojifyImageDir } from './lib/editor/constants'
 import modeType from './lib/modeType'
 import appState from './lib/appState'
 
-require('../vendor/showup/showup')
+// Import CSS using aliases
+// Font
+import 'fork-awesome/css/fork-awesome.min.css'
+import '@css/google-font.css'
+// Index Styles Pack
+import 'bootstrap/dist/css/bootstrap.min.css'
+import '@css/bootstrap-social.css'
+import 'ionicons/css/ionicons.min.css'
+import 'leaflet/dist/leaflet.css'
+// Index Styles
+import '@vendor/jquery-ui/jquery-ui.min.css'
+import '@vendor/codemirror-spell-checker/spell-checker.min.css'
+import '@hackmd/codemirror/lib/codemirror.css'
+import '@hackmd/codemirror/addon/fold/foldgutter.css'
+import '@hackmd/codemirror/addon/display/fullscreen.css'
+import '@hackmd/codemirror/addon/dialog/dialog.css'
+import '@hackmd/codemirror/addon/scroll/simplescrollbars.css'
+import '@hackmd/codemirror/addon/search/matchesonscrollbar.css'
+import '@hackmd/codemirror/theme/monokai.css'
+import '@hackmd/codemirror/theme/one-dark.css'
+import '@hackmd/codemirror/theme/dracula.css'
+import '@hackmd/codemirror/theme/material.css'
+import '@hackmd/codemirror/theme/nord.css'
+import '@hackmd/codemirror/theme/panda-syntax.css'
+import '@hackmd/codemirror/theme/solarized.css'
+import '@css/codemirror-extend/ayu-dark.css'
+import '@css/codemirror-extend/ayu-mirage.css'
+import '@css/codemirror-extend/tomorrow-night-bright.css'
+import '@css/codemirror-extend/tomorrow-night-eighties.css'
+import '@hackmd/codemirror/mode/tiddlywiki/tiddlywiki.css'
+import '@hackmd/codemirror/mode/mediawiki/mediawiki.css'
+import '@css/github-extract.css'
+import '@vendor/showup/showup.css'
+import '@css/mermaid.css'
+import '@css/markdown.css'
+import '@css/slide-preview.css'
+import '@css/index.css'
+import '@css/extra.css'
+import '@css/site.css'
+import 'spin.js/spin.css'
 
-require('../css/index.css')
-require('../css/extra.css')
-require('../css/slide-preview.css')
-require('../css/site.css')
-require('spin.js/spin.css')
+mousewheel?.default?.($)
 
-require('highlight.js/styles/github-gist.css')
+// ot.Client = Client
+// ot.EditorClient = EditorClient
+
+// require('highlight.js/styles/github-gist.css') // Duplicate, removed
 
 var defaultTextHeight = 20
 var viewportMargin = 20
@@ -1203,6 +1347,7 @@ function selectRevision (time) {
 function initRevisionViewer () {
   if (revisionViewer) return
   var revisionViewerTextArea = document.getElementById('revisionViewer')
+  // Use the imported CodeMirror instead of the global one
   revisionViewer = CodeMirror.fromTextArea(revisionViewerTextArea, {
     mode: defaultEditorMode,
     viewportMargin: viewportMargin,
@@ -1675,7 +1820,6 @@ function havePermission () {
 window.havePermission = havePermission
 
 // socket.io actions
-var io = require('socket.io-client')
 var socket = io.connect({
   path: urlpath ? '/' + urlpath + '/socket.io/' : '',
   query: {
@@ -2039,6 +2183,7 @@ socket.on('refresh', function (data) {
   if (editor.getOption('readOnly')) { editor.setOption('readOnly', false) }
 })
 
+// Ensure var assignments using the global 'ot' object are present
 var EditorClient = ot.EditorClient
 var SocketIOAdapter = ot.SocketIOAdapter
 var CodeMirrorAdapter = ot.CodeMirrorAdapter
@@ -2073,6 +2218,7 @@ socket.on('doc', function (obj) {
   }
 
   if (!cmClient) {
+    // Use the global 'ot' object provided by the imported bundle
     cmClient = window.cmClient = new EditorClient(
       obj.revision, obj.clients,
       new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
@@ -2757,7 +2903,7 @@ function updateViewInner () {
     ui.area.markdown.html(slides)
     window.RevealMarkdown.initialize()
     // prevent XSS
-    ui.area.markdown.html(preventXSS(ui.area.markdown.html()))
+    ui.area.markdown.html(renderUtils.preventXSS(ui.area.markdown.html()))
     ui.area.markdown.addClass('slides')
     appState.syncscroll = false
     checkSyncToggle()
@@ -2774,7 +2920,7 @@ function updateViewInner () {
       rendered = md.render(value)
     }
     // prevent XSS
-    rendered = preventXSS(rendered)
+    rendered = renderUtils.preventXSS(rendered)
     var result = postProcess(rendered).children().toArray()
     partialUpdate(result, lastResult, ui.area.markdown.children().toArray())
     if (result && lastResult && result.length !== lastResult.length) { updateDataAttrs(result, ui.area.markdown.children().toArray()) }

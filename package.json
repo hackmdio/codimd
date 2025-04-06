@@ -15,8 +15,7 @@
   "license": "AGPL-3.0",
   "main": "app.js",
   "scripts": {
-    "build": "webpack --config webpack.prod.js --display errors-only -p",
-    "dev": "webpack --config webpack.dev.js --progress --colors --watch",
+    "build": "vite build",
     "doctoc": "doctoc --title='# Table of Contents' README.md",
     "lint": "standard",
     "jsonlint": "find . -type f -not -ipath \"./.devcontainer/*\" -not -ipath \"./node_modules/*\" -not -ipath \"./.vscode/*\" \\( -name \"*.json\" -o -name \"*.json.*\" \\) | xargs -n 1 -I{} -- bash -c 'echo {}; jq . {} > /dev/null;'",
@@ -35,6 +34,7 @@
     "@hackmd/imgur": "~0.5.0",
     "@hackmd/lz-string": "~1.4.4",
     "@hackmd/meta-marked": "~0.5.0",
+    "@hackmd/ot": "^0.1.0",
     "@hackmd/pandoc.js": "0.3.4",
     "@mattermost/client": "^9.2.0",
     "@passport-next/passport-openid": "~1.0.0",
@@ -110,7 +110,10 @@
     "@hackmd/emojify.js": "^2.1.0",
     "@hackmd/idle-js": "~1.0.1",
     "@hackmd/js-sequence-diagrams": "~0.0.1-alpha.3",
+    "@rollup/plugin-inject": "^5.0.5",
     "@susisu/mte-kernel": "^2.1.0",
+    "@vitejs/plugin-legacy": "^6.0.2",
+    "@viz-js/viz": "^3.12.0",
     "acorn": "~6.1.1",
     "babel-core": "~6.26.3",
     "babel-loader": "~7.1.4",
@@ -138,6 +141,7 @@
     "handlebars": "^4.7.7",
     "highlight.js": "~9.15.9",
     "html-webpack-plugin": "~4.0.0-beta.2",
+    "http-proxy-middleware": "^3.0.3",
     "imports-loader": "~0.8.0",
     "intelli-espower-loader": "~1.0.1",
     "ionicons": "~2.0.1",
@@ -175,12 +179,14 @@
     "nyc": "~14.0.0",
     "optimize-css-assets-webpack-plugin": "~5.0.0",
     "papaparse": "^5.2.0",
+    "patch-package": "^8.0.0",
     "pdfobject": "~2.2.4",
     "plantuml-encoder": "^1.2.5",
     "power-assert": "~1.6.1",
     "prismjs": "^1.29.0",
     "raphael": "~2.2.8",
     "reveal.js": "~3.9.2",
+    "rollup-plugin-copy": "^3.5.0",
     "script-loader": "~0.7.2",
     "select2": "~3.5.2-browserify",
     "sinon": "~7.3.2",
@@ -199,6 +205,10 @@
     "vega-lite": "~4.17.0",
     "velocity-animate": "~1.5.2",
     "visibilityjs": "~2.0.2",
+    "vite": "^6.2.5",
+    "vite-plugin-commonjs": "^0.10.4",
+    "vite-plugin-environment": "^1.1.3",
+    "vite-plugin-string": "^1.2.3",
     "viz.js": "~2.1.2",
     "webpack": "~4.39.0",
     "webpack-cli": "~3.3.6",
@@ -212,7 +222,7 @@
     "utf-8-validate": "~5.0.1"
   },
   "engines": {
-    "node": ">=14.0.0 <17.0.0"
+    "node": ">=18.0.0"
   },
   "maintainers": [
     {
