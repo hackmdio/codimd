@@ -74,14 +74,14 @@ export default defineConfig({
           src: path.join(__dirname, 'node_modules/leaflet/dist'),
           dest: path.join(__dirname, 'public/build/leaflet')
         },
-        {
-          src: path.join(__dirname, 'node_modules/fork-awesome/fonts'),
-          dest: path.join(__dirname, 'public/build/fork-awesome/fonts')
-        },
-        {
-          src: path.join(__dirname, 'node_modules/fork-awesome/css'),
-          dest: path.join(__dirname, 'public/build/fork-awesome/css')
-        }
+        // {
+        //   src: path.join(__dirname, 'node_modules/fork-awesome/fonts/*'),
+        //   dest: path.join(__dirname, 'public/build/fork-awesome/fonts')
+        // },
+        // {
+        //   src: path.join(__dirname, 'node_modules/fork-awesome/css/*'),
+        //   dest: path.join(__dirname, 'public/build/fork-awesome/css')
+        // }
       ],
       hook: 'writeBundle' // Run copy after bundle is written
     }),
@@ -151,7 +151,7 @@ export default defineConfig({
     // ot: {} // Define ot as empty object for browser compatibility
   },
   root: __dirname,
-  base: '/.vite/', // Updated to match our custom base path in app.js
+  base: process.env.NODE_ENV === 'production' ? '/build' : '/.vite/',
   publicDir: false, // Let Vite handle all assets through middleware
   appType: 'custom',
   optimizeDeps: {

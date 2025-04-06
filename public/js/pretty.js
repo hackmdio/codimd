@@ -22,6 +22,7 @@ import { preventXSS } from './render'
 
 // Import CSS previously handled by Webpack entry points
 // Pretty Styles Pack (assuming non-CDN usage)
+import 'fork-awesome/css/fork-awesome.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'ionicons/css/ionicons.min.css'
 import 'leaflet/dist/leaflet.css'

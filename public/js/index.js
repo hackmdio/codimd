@@ -189,6 +189,7 @@ import appState from './lib/appState'
 
 // Import CSS using aliases
 // Font
+import 'fork-awesome/css/fork-awesome.min.css'
 import '@css/google-font.css'
 // Index Styles Pack
 import 'bootstrap/dist/css/bootstrap.min.css'

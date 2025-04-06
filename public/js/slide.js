@@ -14,6 +14,7 @@ import 'ionicons/css/ionicons.min.css'
 import 'leaflet/dist/leaflet.css'
 // Slide Styles
 
+import 'fork-awesome/css/fork-awesome.min.css'
 import '@vendor/bootstrap/tooltip.min.css'
 import '@css/github-extract.css'
 import '@css/mermaid.css'
