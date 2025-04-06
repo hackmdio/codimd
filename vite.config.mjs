@@ -140,7 +140,7 @@ export default defineConfig({
         pretty: path.resolve(__dirname, 'public/js/pretty.js'),
         slide: path.resolve(__dirname, 'public/js/slide.js')
       },
-      external: [/\.html$/]
+      external: [/\.html$/],
     }
   },
   // Define global constants like webpack DefinePlugin (if needed)

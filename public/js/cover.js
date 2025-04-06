@@ -3,6 +3,14 @@
 
 import 'bootstrap'
 
+import 'fork-awesome/css/fork-awesome.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'select2/select2.css'
+import 'select2/select2-bootstrap.css'
+
+import '@css/cover.css'
+import '@css/site.css'
+
 import {
   checkIfAuth,
   clearLoginState,
@@ -30,15 +38,7 @@ import List from 'list.js'
 import { unescape as unescapeHTML } from 'lodash'
 import 'select2/select2.js'
 
-import 'fork-awesome/css/fork-awesome.min.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'select2/select2.css'
-import 'select2/select2-bootstrap.css'
-
 import './locale'
-
-import '@css/cover.css'
-import '@css/site.css'
 
 const options = {
   valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
