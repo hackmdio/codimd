@@ -95,11 +95,12 @@ import '@vendor/inlineAttachment/codemirror.inline-attachment'
 import Visibility from 'visibilityjs'
 // Import the original vendor file
 
+import './global-ot'
 import '@hackmd/ot'
 import '@hackmd/ot/lib/socketio-adapter'
 import '@hackmd/ot/lib/codemirror-adapter'
 import '@hackmd/ot/lib/undo-manager'
-// import '@hackmd/ot/lib/client'
+import '@hackmd/ot/lib/client'
 import '@hackmd/ot/lib/editor-client'
 
 import * as mousewheel from 'jquery-mousewheel'
@@ -226,8 +227,7 @@ import '@css/extra.css'
 import '@css/site.css'
 import 'spin.js/spin.css'
 
-const mw = mousewheel.default || mousewheel // Fix for mousewheel import
-mw($)
+mousewheel?.default?.($)
 
 // ot.Client = Client
 // ot.EditorClient = EditorClient

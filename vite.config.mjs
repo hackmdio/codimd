@@ -125,6 +125,14 @@ export default defineConfig({
     emptyOutDir: true, // Clean the output directory before building
     manifest: true, // Generate manifest.json
     rollupOptions: {
+      moduleContext: (id) => {
+        const modules = ['pdfobject', 'jquery-mousewheel']
+
+        if (modules.some(module => id.includes(module))) {
+          return 'window' // Set context for specific modules
+        }
+        return undefined
+      },
       input: {
         // Define JS entry points
         index: path.resolve(__dirname, 'public/js/index.js'),
@@ -140,7 +148,7 @@ export default defineConfig({
     // Example: 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     __dirname: '""', // Define __dirname as empty string for browser compatibility
     global: 'globalThis', // Explicitly define global for Vite
-    ot: {} // Define ot as empty object for browser compatibility
+    // ot: {} // Define ot as empty object for browser compatibility
   },
   root: __dirname,
   base: '/.vite/', // Updated to match our custom base path in app.js

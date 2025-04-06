@@ -3,8 +3,7 @@
 
 import Prism from 'prismjs'
 import hljs from 'highlight.js'
-// Fix PDFObject import to work with both dev and prod builds
-import * as PDFObjectModule from 'pdfobject'
+import * as PDFObject from 'pdfobject'
 
 import { saveAs } from 'file-saver'
 
@@ -66,8 +65,6 @@ import { instance as vizInstance } from '@viz-js/viz'
 
 let viz = null
 vizInstance().then(instance => { viz = instance })
-
-const PDFObject = PDFObjectModule.default || PDFObjectModule
 
 const ui = getUIElements()
 
