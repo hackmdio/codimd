@@ -141,12 +141,6 @@ export function initTableEditor (editor) {
     }
   }
 
-  // Check cookie for saved preference
-  const cookieDisableTableShortcuts = window.Cookies && window.Cookies.get('preferences-disable-table-shortcuts')
-  if (cookieDisableTableShortcuts && cookieDisableTableShortcuts === 'true') {
-    shortcutsEnabled = false
-  }
-
   // keymap of the commands
   // from https://github.com/susisu/mte-demo/blob/master/src/main.js
   const keyMap = CodeMirror.normalizeKeyMap({
