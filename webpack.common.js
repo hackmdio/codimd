@@ -275,6 +275,7 @@ module.exports = {
       path.join(__dirname, 'public/css/codemirror-extend/ayu-mirage.css'),
       path.join(__dirname, 'public/css/codemirror-extend/tomorrow-night-bright.css'),
       path.join(__dirname, 'public/css/codemirror-extend/tomorrow-night-eighties.css'),
+      path.join(__dirname, 'public/css/codemirror-extend/one-dark.css'),
       path.join(__dirname, 'node_modules/@hackmd/codemirror/mode/tiddlywiki/tiddlywiki.css'),
       path.join(__dirname, 'node_modules/@hackmd/codemirror/mode/mediawiki/mediawiki.css'),
       path.join(__dirname, 'public/css/github-extract.css'),
