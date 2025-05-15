@@ -15,7 +15,7 @@
   "license": "AGPL-3.0",
   "main": "app.js",
   "scripts": {
-    "build": "webpack --config webpack.prod.js --display errors-only -p",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js --display errors-only -p",
     "dev": "webpack --config webpack.dev.js --progress --colors --watch",
     "doctoc": "doctoc --title='# Table of Contents' README.md",
     "lint": "standard",
@@ -120,6 +120,7 @@
     "bootstrap": "~3.4.0",
     "bootstrap-validator": "~0.11.8",
     "copy-webpack-plugin": "~4.5.2",
+    "cross-env": "^7.0.3",
     "css-loader": "~1.0.0",
     "dictionary-de": "^2.0.3",
     "dictionary-de-at": "^2.0.3",

@@ -202,7 +202,14 @@ module.exports = {
         to: 'fork-awesome/css'
       }
     ]),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(
+      process.env.NODE_ENV === 'production'
+      ? {
+          filename: '[name].[contenthash].css',
+          chunkFilename: '[name].[contenthash].css',
+        }
+      : {},
+    )
   ],
 
   entry: {
