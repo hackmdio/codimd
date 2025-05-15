@@ -1,3 +1,4 @@
+/* eslint-disable */
 var RevealSpotlight = window.RevealSpotlight || (function () {
 
   //configs
