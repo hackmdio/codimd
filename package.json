@@ -106,7 +106,7 @@
     "ws": "~7.1.1"
   },
   "devDependencies": {
-    "@hackmd/codemirror": "~5.63.2",
+    "@hackmd/codemirror": "^5.65.8",
     "@hackmd/emojify.js": "^2.1.0",
     "@hackmd/idle-js": "~1.0.1",
     "@hackmd/js-sequence-diagrams": "~0.0.1-alpha.3",
