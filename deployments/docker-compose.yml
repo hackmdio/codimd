@@ -12,9 +12,14 @@ services:
   codimd:
     # you can use image or custom build below,
     image: nabo.codimd.dev/hackmdio/hackmd:2.5.3
+    # Using the following command to trigger the build
+    # docker-compose -f deployments/docker-compose.yml up --build
     # build:
     #   context: ..
     #   dockerfile: ./deployments/Dockerfile
+    #   args:
+    #     RUNTIME: hackmdio/runtime:16.20.2-35fe7e39
+    #     BUILDPACK: hackmdio/buildpack:16.20.2-35fe7e39
     environment:
       - CMD_DB_URL=postgres://codimd:change_password@database/codimd
       - CMD_USECDN=false
