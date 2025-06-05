@@ -254,7 +254,10 @@ function replaceExtraTags (html) {
 }
 
 if (typeof window.mermaid !== 'undefined' && window.mermaid) {
-  window.mermaid.startOnLoad = false
+  window.mermaid.initialize({
+    startOnLoad: false
+  })
+
   window.mermaid.parseError = function (err, hash) {
     console.warn(err)
   }
@@ -433,7 +436,7 @@ export function finishView (view) {
   })
   // mermaid
   const mermaids = view.find('div.mermaid.raw').removeClass('raw')
-  mermaids.each((key, value) => {
+  mermaids.each(async (key, value) => {
     try {
       var $value = $(value)
       const $ele = $(value).closest('pre')
@@ -444,7 +447,9 @@ export function finishView (view) {
         $ele.addClass('mermaid')
         $ele.text(text)
         // render the diagram
-        window.mermaid.init(undefined, $ele)
+        await window.mermaid.run({
+          nodes: [$ele[0]]
+        })
       }
     } catch (err) {
       $value.unwrap()

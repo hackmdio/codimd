@@ -205,6 +205,11 @@ module.exports = {
         context: path.join(__dirname, 'node_modules/fork-awesome'),
         from: 'css',
         to: 'fork-awesome/css'
+      },
+      {
+        context: path.join(__dirname, 'node_modules/mermaid'),
+        from: 'dist/mermaid.min.js',
+        to: 'mermaid/mermaid.min.js'
       }
     ]),
     new MiniCssExtractPlugin(
@@ -295,7 +300,6 @@ module.exports = {
       'script-loader!jquery-ui-resizable',
       'bootstrap-validator',
       'expose-loader?jsyaml!js-yaml',
-      'script-loader!mermaid',
       'expose-loader?moment!moment',
       'script-loader!handlebars',
       'expose-loader?hljs!highlight.js',
@@ -340,7 +344,6 @@ module.exports = {
     'pretty-pack': [
       'babel-polyfill',
       'expose-loader?jsyaml!js-yaml',
-      'script-loader!mermaid',
       'expose-loader?moment!moment',
       'script-loader!handlebars',
       'expose-loader?hljs!highlight.js',
@@ -383,7 +386,6 @@ module.exports = {
       'imports-loader?$=jquery!jquery-mousewheel',
       'bootstrap-tooltip',
       'expose-loader?jsyaml!js-yaml',
-      'script-loader!mermaid',
       'expose-loader?moment!moment',
       'script-loader!handlebars',
       'expose-loader?hljs!highlight.js',
@@ -419,7 +421,6 @@ module.exports = {
       jqueryTextcomplete: path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
       codemirrorInlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
       ot: path.join(__dirname, 'public/vendor/ot/ot.min.js'),
-      mermaid: path.join(__dirname, 'node_modules/mermaid/dist/mermaid.min.js'),
       handlebars: path.join(__dirname, 'node_modules/handlebars/dist/handlebars.min.js'),
       'jquery-ui-resizable': path.join(__dirname, 'public/vendor/jquery-ui/jquery-ui.min.js'),
       'gist-embed': path.join(__dirname, 'node_modules/gist-embed/gist-embed.min.js'),
