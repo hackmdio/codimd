@@ -437,23 +437,25 @@ export function finishView (view) {
   // mermaid
   const mermaids = view.find('div.mermaid.raw').removeClass('raw')
   mermaids.each(async (key, value) => {
+    const $value = $(value)
+    const $ele = $value.closest('pre')
     try {
-      var $value = $(value)
-      const $ele = $(value).closest('pre')
-
       const text = $value.text()
       // validate the syntax first
       if (window.mermaid.parse(text)) {
         $ele.addClass('mermaid')
         $ele.text(text)
         // render the diagram
-        await window.mermaid.run({
-          nodes: [$ele[0]]
-        })
+        const id = `mermaid-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+        const { svg, bindFunctions } = await window.mermaid.render(id, text, $ele[0])
+        $ele.html(svg)
+        if (bindFunctions) {
+          bindFunctions($ele[0])
+        }
       }
     } catch (err) {
       $value.unwrap()
-      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err.str)}</div>`)
+      $ele.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
   })
