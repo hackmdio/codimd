@@ -1,6 +1,6 @@
 {
   "name": "codimd",
-  "version": "2.5.4",
+  "version": "2.6.0",
   "description": "Realtime collaborative markdown notes on all platforms.",
   "keywords": [
     "Collaborative",
@@ -15,7 +15,7 @@
   "license": "AGPL-3.0",
   "main": "app.js",
   "scripts": {
-    "build": "webpack --config webpack.prod.js --display errors-only -p",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js --display errors-only -p",
     "dev": "webpack --config webpack.dev.js --progress --colors --watch",
     "doctoc": "doctoc --title='# Table of Contents' README.md",
     "lint": "standard",
@@ -106,7 +106,7 @@
     "ws": "~7.1.1"
   },
   "devDependencies": {
-    "@hackmd/codemirror": "~5.63.2",
+    "@hackmd/codemirror": "^5.65.8",
     "@hackmd/emojify.js": "^2.1.0",
     "@hackmd/idle-js": "~1.0.1",
     "@hackmd/js-sequence-diagrams": "~0.0.1-alpha.3",
@@ -120,6 +120,7 @@
     "bootstrap": "~3.4.0",
     "bootstrap-validator": "~0.11.8",
     "copy-webpack-plugin": "~4.5.2",
+    "cross-env": "^7.0.3",
     "css-loader": "~1.0.0",
     "dictionary-de": "^2.0.3",
     "dictionary-de-at": "^2.0.3",
@@ -168,7 +169,7 @@
     "markdownlint-rule-helpers": "^0.13.0",
     "markmap-lib": "^0.9.3",
     "mathjax": "~2.7.5",
-    "mermaid": "~8.10.2",
+    "mermaid": "~11.5.0",
     "mini-css-extract-plugin": "~0.4.1",
     "mocha": "~5.2.0",
     "mock-require": "~3.0.3",

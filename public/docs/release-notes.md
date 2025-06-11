@@ -1,6 +1,37 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.6.0 <i class="fa fa-clock-o"></i> 2025-06-10
+---
+
+[Check out the complete release note][v2_6_0].
+
+[v2_6_0]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_6_0
+
+This minor release includes several enhancements and fixes to improve the overall functionality and performance of CodiMD.
+
+## Enhancements
+
+- Update GitHub Actions to use the latest versions [#1895](https://github.com/hackmdio/codimd/pull/1895)
+- Update ESLint configuration for ES6 support [#1900](https://github.com/hackmdio/codimd/pull/1900)
+- Add preference to disable table editor shortcuts and migrate preferences to localStorage [#1901](https://github.com/hackmdio/codimd/pull/1901)
+- Add PDF URL validation and content type check [#1896](https://github.com/hackmdio/codimd/pull/1896)
+- Upgrade mermaid to the latest version [#1894](https://github.com/hackmdio/codimd/pull/1894)
+- Add baseURL configuration option to S3 modules [#1876](https://github.com/hackmdio/codimd/pull/1876)
+- Improve contrast on certain elements [#1899](https://github.com/hackmdio/codimd/pull/1899)
+- Bump codemirror version to 5.65.8 [#1908](https://github.com/hackmdio/codimd/pull/1908)
+- Add state parameter to OAuth strategies for enhanced security [#1902](https://github.com/hackmdio/codimd/pull/1902)
+- Configure MiniCssExtractPlugin for production environment in webpack [#1897](https://github.com/hackmdio/codimd/pull/1897)
+- Refactor plugin paths and move custom reveal plugin [#1898](https://github.com/hackmdio/codimd/pull/1898)
+- Update dependencies for abcjs and mermaid.js [#1914](https://github.com/hackmdio/codimd/pull/1914)
+- VSCode: update image to allow development on MBP ARM chips [#1913](https://github.com/hackmdio/codimd/pull/1913)
+
+## Fixes
+
+- Fix: login email should be case insensitive [#1911](https://github.com/hackmdio/codimd/pull/1911)
+- Fix: Lost schema of S3 URL [#1893](https://github.com/hackmdio/codimd/pull/1893)
+- Chore: update docker-compose.yml with build instructions for codimd service [#1917](https://github.com/hackmdio/codimd/pull/1917)
+
 <i class="fa fa-tag"></i> 2.5.4 <i class="fa fa-clock-o"></i> 2024-06-06
 ---
 

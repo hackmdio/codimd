@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     # from https://stackoverflow.com/a/69649733
     - name: Reconfigure git to use HTTP authentication
@@ -21,14 +21,14 @@ jobs:
         git config --global url."https://github.com/".insteadOf
         ssh://git@github.com/
 
-    - uses: actions/cache@v2
+    - uses: actions/cache@v4
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
 
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v4
       name: Use Node.js ${{ matrix.node-version }}
       with:
         node-version: ${{ matrix.node-version }}
@@ -43,8 +43,8 @@ jobs:
     if: github.ref == 'refs/heads/master' || github.event.pull_request
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       name: Use Node.js 14
       with:
         node-version: 14

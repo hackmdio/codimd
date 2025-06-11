@@ -1,0 +1,13 @@
+.cm-s-one-dark .CodeMirror-linenumber {
+  color: #676767;
+}
+
+.cm-s-one-dark.CodeMirror-focused
+  .CodeMirror-activeline
+  .CodeMirror-gutter-elt {
+  color: #b0b0b0;
+}
+
+.cm-s-one-dark .cm-comment {
+  color: #818895;
+}

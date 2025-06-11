@@ -85,13 +85,13 @@ delete options.dependencies
 
 if (Object.hasOwnProperty.call(options, 'spotlight')) {
   defaultOptions.dependencies.push({
-    src: `${serverurl}/build/reveal.js/plugin/spotlight/spotlight.js`
+    src: `${serverurl}/build/revealjs-plugins/spotlight/spotlight.js`
   })
 }
 
 if (Object.hasOwnProperty.call(options, 'allottedTime') || Object.hasOwnProperty.call(options, 'allottedMinutes')) {
   defaultOptions.dependencies.push({
-    src: `${serverurl}/build/reveal.js/plugin/elapsed-time-bar/elapsed-time-bar.js`
+    src: `${serverurl}/build/revealjs-plugins/elapsed-time-bar/elapsed-time-bar.js`
   })
   if (Object.hasOwnProperty.call(options, 'allottedMinutes')) {
     options.allottedTime = options.allottedMinutes * 60 * 1000

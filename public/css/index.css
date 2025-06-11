@@ -329,6 +329,11 @@ body.night{
     background: #000;
 
 }
+
+.night .navbar-default .btn-link {
+  color: #bbb;
+}
+
 .dropdown-menu > li > a {
     cursor: pointer;
     text-overflow: ellipsis;
@@ -343,6 +348,10 @@ body.night{
 .night .dropdown-menu > li > a:focus,
 .night .dropdown-menu > li > a:hover {
   color: #262626
+}
+
+.night .status-bar .dropdown-menu > li > a:focus, .status-bar .dropdown-menu > li > a:hover {
+    color: #ccc;
 }
 
 .night .dropdown-menu {

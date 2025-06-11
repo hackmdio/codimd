@@ -1,5 +1,5 @@
 # [Choice] Node.js version: 16, 14
-ARG VARIANT=14-buster
+ARG VARIANT=14-bullseye
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 
 # [Optional] Uncomment this section to install additional OS packages.

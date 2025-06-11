@@ -28,7 +28,7 @@ import './lib/renderer/lightbox'
 import { renderCSVPreview } from './lib/renderer/csvpreview'
 
 import { escapeAttrValue } from './render'
-import { sanitizeUrl } from './utils'
+import { sanitizeUrl, isPdfUrl } from './utils'
 
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
@@ -254,7 +254,10 @@ function replaceExtraTags (html) {
 }
 
 if (typeof window.mermaid !== 'undefined' && window.mermaid) {
-  window.mermaid.startOnLoad = false
+  window.mermaid.initialize({
+    startOnLoad: false
+  })
+
   window.mermaid.parseError = function (err, hash) {
     console.warn(err)
   }
@@ -433,22 +436,26 @@ export function finishView (view) {
   })
   // mermaid
   const mermaids = view.find('div.mermaid.raw').removeClass('raw')
-  mermaids.each((key, value) => {
+  mermaids.each(async (key, value) => {
+    const $value = $(value)
+    const $ele = $value.closest('pre')
     try {
-      var $value = $(value)
-      const $ele = $(value).closest('pre')
-
       const text = $value.text()
       // validate the syntax first
       if (window.mermaid.parse(text)) {
         $ele.addClass('mermaid')
         $ele.text(text)
         // render the diagram
-        window.mermaid.init(undefined, $ele)
+        const id = `mermaid-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+        const { svg, bindFunctions } = await window.mermaid.render(id, text, $ele[0])
+        $ele.html(svg)
+        if (bindFunctions) {
+          bindFunctions($ele[0])
+        }
       }
     } catch (err) {
       $value.unwrap()
-      $value.parent().append(`<div class="alert alert-warning">${escapeHTML(err.str)}</div>`)
+      $ele.append(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
     }
   })
@@ -634,11 +641,41 @@ export function finishView (view) {
       const cleanUrl = sanitizeUrl(url)
       const inner = $('<div></div>')
       $(this).append(inner)
-      setTimeout(() => {
-        PDFObject.embed(cleanUrl, inner, {
-          height: '400px'
+
+      // First check URL format
+      const isPDFByExtension = /\.pdf(\?.*)?$/i.test(cleanUrl) || cleanUrl.includes('pdf')
+
+      if (isPDFByExtension) {
+        // Show loading message while we check content type
+        const loadingMessage = $('<div class="alert alert-info">Verifying PDF file...</div>')
+        inner.html(loadingMessage)
+
+        // Perform additional validation with HEAD request
+        isPdfUrl(cleanUrl).then(isPDFByContentType => {
+          if (isPDFByContentType) {
+            // Valid PDF by content type, embed it
+            PDFObject.embed(cleanUrl, inner, {
+              height: '400px'
+            })
+          } else {
+            // URL format looks like PDF but content type doesn't match
+            inner.html('<div class="alert alert-warning">The URL looks like a PDF but the server didn\'t confirm it has a PDF content type.</div>')
+            console.warn('URL has PDF extension but content type is not application/pdf:', cleanUrl)
+
+            // Try to embed anyway as a fallback
+            setTimeout(() => {
+              PDFObject.embed(cleanUrl, inner, {
+                height: '400px',
+                fallbackLink: 'This doesn\'t appear to be a valid PDF. <a href="[url]">Click here to try downloading it directly</a>.'
+              })
+            }, 1)
+          }
         })
-      }, 1)
+      } else {
+        // Not a valid PDF URL by extension
+        inner.html('<div class="alert alert-danger">Invalid PDF URL. The URL must point to a PDF file.</div>')
+        console.warn('Invalid PDF URL format:', cleanUrl)
+      }
     })
     // syntax highlighting
   view.find('code.raw').removeClass('raw')

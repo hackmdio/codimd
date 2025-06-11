@@ -125,6 +125,22 @@ export function initTableEditor (editor) {
     smartCursor: true,
     formatType: FormatType.NORMAL
   })
+
+  // Flag to track if shortcuts are enabled
+  let shortcutsEnabled = true
+
+  // Method to enable/disable shortcuts
+  tableEditor.setShortcutsEnabled = function (enabled) {
+    shortcutsEnabled = enabled
+    // If shortcuts are disabled and currently active, remove the keymap
+    if (!enabled && lastActive) {
+      editor.removeKeyMap(keyMap)
+    } else if (enabled && lastActive) {
+      // If shortcuts are enabled and cursor is in table, add the keymap back
+      editor.addKeyMap(keyMap)
+    }
+  }
+
   // keymap of the commands
   // from https://github.com/susisu/mte-demo/blob/master/src/main.js
   const keyMap = CodeMirror.normalizeKeyMap({
@@ -178,7 +194,10 @@ export function initTableEditor (editor) {
     if (active) {
       tableTools.show()
       tableTools.parent().scrollLeft(tableTools.parent()[0].scrollWidth)
-      editor.addKeyMap(keyMap)
+      // Only add keymap if shortcuts are enabled
+      if (shortcutsEnabled) {
+        editor.addKeyMap(keyMap)
+      }
     } else {
       tableTools.hide()
       editor.removeKeyMap(keyMap)

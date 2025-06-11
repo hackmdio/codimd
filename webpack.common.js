@@ -167,6 +167,11 @@ module.exports = {
         to: 'reveal.js/plugin'
       },
       {
+        context: path.join(__dirname, 'public/js'),
+        from: 'revealjs-plugins',
+        to: 'revealjs-plugins'
+      },
+      {
         context: path.join(__dirname, 'node_modules/dictionary-de'),
         from: '*',
         to: 'dictionary-de/'
@@ -200,9 +205,21 @@ module.exports = {
         context: path.join(__dirname, 'node_modules/fork-awesome'),
         from: 'css',
         to: 'fork-awesome/css'
+      },
+      {
+        context: path.join(__dirname, 'node_modules/mermaid'),
+        from: 'dist/mermaid.min.js',
+        to: 'mermaid/mermaid.min.js'
       }
     ]),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(
+      process.env.NODE_ENV === 'production'
+      ? {
+          filename: '[name].[contenthash].css',
+          chunkFilename: '[name].[contenthash].css',
+        }
+      : {},
+    )
   ],
 
   entry: {
@@ -263,6 +280,7 @@ module.exports = {
       path.join(__dirname, 'public/css/codemirror-extend/ayu-mirage.css'),
       path.join(__dirname, 'public/css/codemirror-extend/tomorrow-night-bright.css'),
       path.join(__dirname, 'public/css/codemirror-extend/tomorrow-night-eighties.css'),
+      path.join(__dirname, 'public/css/codemirror-extend/one-dark.css'),
       path.join(__dirname, 'node_modules/@hackmd/codemirror/mode/tiddlywiki/tiddlywiki.css'),
       path.join(__dirname, 'node_modules/@hackmd/codemirror/mode/mediawiki/mediawiki.css'),
       path.join(__dirname, 'public/css/github-extract.css'),
@@ -282,7 +300,6 @@ module.exports = {
       'script-loader!jquery-ui-resizable',
       'bootstrap-validator',
       'expose-loader?jsyaml!js-yaml',
-      'script-loader!mermaid',
       'expose-loader?moment!moment',
       'script-loader!handlebars',
       'expose-loader?hljs!highlight.js',
@@ -327,7 +344,6 @@ module.exports = {
     'pretty-pack': [
       'babel-polyfill',
       'expose-loader?jsyaml!js-yaml',
-      'script-loader!mermaid',
       'expose-loader?moment!moment',
       'script-loader!handlebars',
       'expose-loader?hljs!highlight.js',
@@ -370,7 +386,6 @@ module.exports = {
       'imports-loader?$=jquery!jquery-mousewheel',
       'bootstrap-tooltip',
       'expose-loader?jsyaml!js-yaml',
-      'script-loader!mermaid',
       'expose-loader?moment!moment',
       'script-loader!handlebars',
       'expose-loader?hljs!highlight.js',
@@ -406,7 +421,6 @@ module.exports = {
       jqueryTextcomplete: path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),
       codemirrorInlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/codemirror.inline-attachment.js'),
       ot: path.join(__dirname, 'public/vendor/ot/ot.min.js'),
-      mermaid: path.join(__dirname, 'node_modules/mermaid/dist/mermaid.min.js'),
       handlebars: path.join(__dirname, 'node_modules/handlebars/dist/handlebars.min.js'),
       'jquery-ui-resizable': path.join(__dirname, 'public/vendor/jquery-ui/jquery-ui.min.js'),
       'gist-embed': path.join(__dirname, 'node_modules/gist-embed/gist-embed.min.js'),

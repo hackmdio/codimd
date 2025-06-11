@@ -1,3 +1,4 @@
+/* eslint-disable */
 var ElapsedTimeBar = {
   // default value
   barColor: 'rgb(200,0,0)',
