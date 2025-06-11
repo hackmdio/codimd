@@ -7,10 +7,11 @@ on:
 
 jobs:
   test-and-build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         node-version: [16.x]
+        os: [ubuntu-latest, ubuntu-22.04-arm]
 
     steps:
     - uses: actions/checkout@v4
