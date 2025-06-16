@@ -65,7 +65,7 @@
     "lodash": "^4.17.21",
     "lutim": "~1.0.2",
     "markdown-it": "~10.0.0",
-    "markdown-pdf": "~9.0.0",
+    "puppeteer": "^21.0.0",
     "method-override": "~3.0.0",
     "minimist": "^1.2.8",
     "minio": "^7.1.1",
