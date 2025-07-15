@@ -11,8 +11,8 @@ import unescapeHTML from 'lodash/unescape'
 
 import isURL from 'validator/lib/isURL'
 
-import { transform } from 'markmap-lib/dist/transform'
-import { Markmap } from 'markmap-lib/dist/view'
+import { transform } from 'markmap-lib'
+import { Markmap } from 'markmap-view'
 
 import { stripTags } from '../../utils/string'
 
@@ -569,11 +569,13 @@ export function finishView (view) {
     const content = $value.text()
     $value.unwrap()
     try {
-      const { root: data } = transform(content)
+      const { root } = transform(content)
+      // Sanitize node contents to prevent XSS before rendering
+      sanitizeMarkmapNode(root)
       $elem.html('<div class="markmap-container"><svg></svg></div>')
       Markmap.create($elem.find('svg')[0], {
         duration: 0
-      }, data)
+      }, root)
     } catch (err) {
       $elem.html(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
@@ -1526,4 +1528,26 @@ md.use(pdfPlugin)
 
 export default {
   md
+}
+
+// Add helper to sanitize markmap nodes against XSS using the global preventXSS
+function sanitizeMarkmapNode (node) {
+  if (!node || typeof node !== 'object') return
+  if (typeof node.content === 'string') {
+    try {
+      node.content = window.preventXSS(node.content)
+    } catch (e) {
+      // fallback: strip potentially dangerous characters
+      node.content = node.content.replace(/[<>]/g, '')
+    }
+  }
+  // remove dangerous href like javascript:
+  if (node.payload && typeof node.payload === 'object' && typeof node.payload.href === 'string') {
+    if (/^\s*javascript:/i.test(node.payload.href)) {
+      delete node.payload.href
+    }
+  }
+  if (Array.isArray(node.children)) {
+    node.children.forEach(sanitizeMarkmapNode)
+  }
 }
