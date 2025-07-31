@@ -464,6 +464,18 @@ module.exports = {
       type: 'javascript/auto',
       include: /node_modules/
     }, {
+      test: /node_modules\/markmap-[^/]+\/.*\.mjs$/,
+      use: [{ loader: 'babel-loader' }]
+    }, {
+      test: /node_modules\/markmap-[^/]+\/.*\.js$/,
+      use: [{ loader: 'babel-loader' }]
+    }, {
+      test: /node_modules\/yaml\/browser\/dist\/.*\.js$/,
+      use: [{ loader: 'babel-loader' }]
+    }, {
+      test: /node_modules\/@vscode\/markdown-it-katex\/.*\.js$/,
+      use: [{ loader: 'babel-loader' }]
+    }, {
       test: /\.js$/,
       use: [{ loader: 'babel-loader' }],
       exclude: [

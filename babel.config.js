@@ -12,6 +12,7 @@ module.exports = {
     ['@babel/plugin-transform-runtime', {
       corejs: 3
     }],
-    '@babel/plugin-transform-nullish-coalescing-operator'
+    '@babel/plugin-transform-nullish-coalescing-operator',
+    '@babel/plugin-transform-optional-chaining'
   ]
 }
