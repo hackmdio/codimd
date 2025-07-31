@@ -5,7 +5,8 @@ module.exports = {
         node: '14'
       },
       useBuiltIns: 'usage',
-      corejs: 3
+      corejs: 3,
+      modules: 'auto'
     }]
   ],
   plugins: [

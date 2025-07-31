@@ -422,7 +422,7 @@ module.exports = {
 
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.js'],
+    extensions: ['.js', '.mjs'],
     alias: {
       codemirror: path.join(__dirname, 'node_modules/@hackmd/codemirror/codemirror.min.js'),
       inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
@@ -464,17 +464,39 @@ module.exports = {
       type: 'javascript/auto',
       include: /node_modules/
     }, {
-      test: /node_modules\/markmap-[^/]+\/.*\.mjs$/,
-      use: [{ loader: 'babel-loader' }]
+      test: /node_modules\/markmap.*\/.*\.mjs$/,
+      use: [{ loader: 'babel-loader' }],
+      type: 'javascript/auto'
     }, {
-      test: /node_modules\/markmap-[^/]+\/.*\.js$/,
-      use: [{ loader: 'babel-loader' }]
+      test: /node_modules\/markmap.*\/.*\.js$/,
+      use: [{
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['@babel/preset-env', {
+              modules: 'cjs'
+            }]
+          ]
+        }
+      }]
     }, {
       test: /node_modules\/yaml\/browser\/dist\/.*\.js$/,
       use: [{ loader: 'babel-loader' }]
     }, {
       test: /node_modules\/@vscode\/markdown-it-katex\/.*\.js$/,
-      use: [{ loader: 'babel-loader' }]
+      use: [{
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['@babel/preset-env', {
+              modules: 'cjs'
+            }]
+          ],
+          plugins: [
+            '@babel/plugin-transform-optional-chaining'
+          ]
+        }
+      }]
     }, {
       test: /\.js$/,
       use: [{ loader: 'babel-loader' }],
