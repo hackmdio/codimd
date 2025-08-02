@@ -1,4 +1,5 @@
 /* eslint-env browser, jquery */
+/* global globalThis */
 
 import { preventXSS, escapeAttrValue } from './render'
 import { md } from './extra'
