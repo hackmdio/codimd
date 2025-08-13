@@ -11,8 +11,8 @@ import unescapeHTML from 'lodash/unescape'
 
 import isURL from 'validator/lib/isURL'
 
-import { transform } from 'markmap-lib'
-import { Markmap } from 'markmap-view'
+import { Transformer } from 'markmap-lib'
+import { Markmap, loadCSS, loadJS } from 'markmap-view'
 
 import { stripTags } from '../../utils/string'
 
@@ -51,6 +51,9 @@ let viz = new window.Viz()
 const plantumlEncoder = require('plantuml-encoder')
 
 const ui = getUIElements()
+
+// Initialize markmap transformer
+const markmapTransformer = new Transformer()
 
 // auto update last change
 window.createtime = null
@@ -569,12 +572,20 @@ export function finishView (view) {
     const content = $value.text()
     $value.unwrap()
     try {
-      const { root } = transform(content)
+      const { root, features } = markmapTransformer.transform(content)
       // Sanitize node contents to prevent XSS before rendering
       sanitizeMarkmapNode(root)
+
+      // Load required assets
+      const { styles, scripts } = markmapTransformer.getUsedAssets(features)
+
+      if (styles) loadCSS(styles)
+      if (scripts) loadJS(scripts, { getMarkmap: () => ({ Markmap }) })
+
       $elem.html('<div class="markmap-container"><svg></svg></div>')
       Markmap.create($elem.find('svg')[0], {
-        duration: 0
+        duration: 0,
+        maxWidth: 0
       }, root)
     } catch (err) {
       $elem.html(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
