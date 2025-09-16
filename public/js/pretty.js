@@ -1,5 +1,6 @@
 /* eslint-env browser, jquery */
 /* global refreshView */
+import RevealMarkdown from './reveal-markdown'
 
 import {
   autoLinkify,
@@ -35,9 +36,9 @@ if (md.meta.type && md.meta.type === 'slide') {
     separator: '^(\r\n?|\n)---(\r\n?|\n)$',
     verticalSeparator: '^(\r\n?|\n)----(\r\n?|\n)$'
   }
-  const slides = window.RevealMarkdown.slidify(text, slideOptions)
+  const slides = RevealMarkdown.slidify(text, slideOptions)
   markdown.html(slides)
-  window.RevealMarkdown.initialize()
+  RevealMarkdown.initialize()
   // prevent XSS
   markdown.html(preventXSS(markdown.html()))
   markdown.addClass('slides')

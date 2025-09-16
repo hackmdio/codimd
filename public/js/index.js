@@ -2749,13 +2749,14 @@ function updateViewInner () {
   delete md.metaError
   var rendered = md.render(value)
   if (md.meta.type && md.meta.type === 'slide') {
+    var RevealMarkdown = require('./reveal-markdown').default
     var slideOptions = {
       separator: '^(\r\n?|\n)---(\r\n?|\n)$',
       verticalSeparator: '^(\r\n?|\n)----(\r\n?|\n)$'
     }
-    var slides = window.RevealMarkdown.slidify(editor.getValue(), slideOptions)
+    var slides = RevealMarkdown.slidify(editor.getValue(), slideOptions)
     ui.area.markdown.html(slides)
-    window.RevealMarkdown.initialize()
+    RevealMarkdown.initialize()
     // prevent XSS
     ui.area.markdown.html(preventXSS(ui.area.markdown.html()))
     ui.area.markdown.addClass('slides')
