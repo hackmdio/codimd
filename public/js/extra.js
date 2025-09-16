@@ -11,8 +11,8 @@ import unescapeHTML from 'lodash/unescape'
 
 import isURL from 'validator/lib/isURL'
 
-import { transform } from 'markmap-lib/dist/transform'
-import { Markmap } from 'markmap-lib/dist/view'
+import { Transformer } from 'markmap-lib'
+import { Markmap, loadCSS, loadJS } from 'markmap-view'
 
 import { stripTags } from '../../utils/string'
 
@@ -51,6 +51,9 @@ let viz = new window.Viz()
 const plantumlEncoder = require('plantuml-encoder')
 
 const ui = getUIElements()
+
+// Initialize markmap transformer
+const markmapTransformer = new Transformer()
 
 // auto update last change
 window.createtime = null
@@ -569,11 +572,21 @@ export function finishView (view) {
     const content = $value.text()
     $value.unwrap()
     try {
-      const { root: data } = transform(content)
+      const { root, features } = markmapTransformer.transform(content)
+      // Sanitize node contents to prevent XSS before rendering
+      sanitizeMarkmapNode(root)
+
+      // Load required assets
+      const { styles, scripts } = markmapTransformer.getUsedAssets(features)
+
+      if (styles) loadCSS(styles)
+      if (scripts) loadJS(scripts, { getMarkmap: () => ({ Markmap }) })
+
       $elem.html('<div class="markmap-container"><svg></svg></div>')
       Markmap.create($elem.find('svg')[0], {
-        duration: 0
-      }, data)
+        duration: 0,
+        maxWidth: 0
+      }, root)
     } catch (err) {
       $elem.html(`<div class="alert alert-warning">${escapeHTML(err)}</div>`)
       console.warn(err)
@@ -1526,4 +1539,26 @@ md.use(pdfPlugin)
 
 export default {
   md
+}
+
+// Add helper to sanitize markmap nodes against XSS using the global preventXSS
+function sanitizeMarkmapNode (node) {
+  if (!node || typeof node !== 'object') return
+  if (typeof node.content === 'string') {
+    try {
+      node.content = window.preventXSS(node.content)
+    } catch (e) {
+      // fallback: strip potentially dangerous characters
+      node.content = node.content.replace(/[<>]/g, '')
+    }
+  }
+  // remove dangerous href like javascript:
+  if (node.payload && typeof node.payload === 'object' && typeof node.payload.href === 'string') {
+    if (/^\s*javascript:/i.test(node.payload.href)) {
+      delete node.payload.href
+    }
+  }
+  if (Array.isArray(node.children)) {
+    node.children.forEach(sanitizeMarkmapNode)
+  }
 }

@@ -231,7 +231,8 @@ module.exports = {
       'bootstrap'
     ],
     cover: [
-      'babel-polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       path.join(__dirname, 'public/js/cover.js')
     ],
     'cover-styles-pack': [
@@ -241,14 +242,16 @@ module.exports = {
       path.join(__dirname, 'node_modules/select2/select2-bootstrap.css')
     ],
     'cover-pack': [
-      'babel-polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       'bootstrap-validator',
       'expose-loader?select2!select2',
       'expose-loader?moment!moment',
       path.join(__dirname, 'public/js/cover.js')
     ],
     index: [
-      'babel-polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       'script-loader!jquery-ui-resizable',
       'script-loader!codemirror',
       'script-loader!inlineAttachment',
@@ -296,7 +299,8 @@ module.exports = {
       path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
     'index-pack': [
-      'babel-polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       'script-loader!jquery-ui-resizable',
       'bootstrap-validator',
       'expose-loader?jsyaml!js-yaml',
@@ -324,7 +328,8 @@ module.exports = {
       path.join(__dirname, 'public/js/index.js')
     ],
     pretty: [
-      'babel-polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
       'expose-loader?RevealMarkdown!reveal-markdown',
@@ -342,7 +347,8 @@ module.exports = {
       path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
     'pretty-pack': [
-      'babel-polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       'expose-loader?jsyaml!js-yaml',
       'expose-loader?moment!moment',
       'script-loader!handlebars',
@@ -362,7 +368,8 @@ module.exports = {
       path.join(__dirname, 'public/js/pretty.js')
     ],
     slide: [
-      'babel-polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       'bootstrap-tooltip',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
@@ -380,7 +387,8 @@ module.exports = {
       path.join(__dirname, 'node_modules/leaflet/dist/leaflet.css')
     ],
     'slide-pack': [
-      'babel-polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       'expose-loader?jQuery!expose-loader?$!jquery',
       'velocity-animate',
       'imports-loader?$=jquery!jquery-mousewheel',
@@ -414,7 +422,7 @@ module.exports = {
 
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.js'],
+    extensions: ['.js', '.mjs'],
     alias: {
       codemirror: path.join(__dirname, 'node_modules/@hackmd/codemirror/codemirror.min.js'),
       inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
@@ -453,7 +461,42 @@ module.exports = {
   module: {
     rules: [{
       test: /\.mjs$/,
+      type: 'javascript/auto',
+      include: /node_modules/
+    }, {
+      test: /node_modules\/markmap.*\/.*\.mjs$/,
+      use: [{ loader: 'babel-loader' }],
       type: 'javascript/auto'
+    }, {
+      test: /node_modules\/markmap.*\/.*\.js$/,
+      use: [{
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['@babel/preset-env', {
+              modules: 'cjs'
+            }]
+          ]
+        }
+      }]
+    }, {
+      test: /node_modules\/yaml\/browser\/dist\/.*\.js$/,
+      use: [{ loader: 'babel-loader' }]
+    }, {
+      test: /node_modules\/@vscode\/markdown-it-katex\/.*\.js$/,
+      use: [{
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['@babel/preset-env', {
+              modules: 'cjs'
+            }]
+          ],
+          plugins: [
+            '@babel/plugin-transform-optional-chaining'
+          ]
+        }
+      }]
     }, {
       test: /\.js$/,
       use: [{ loader: 'babel-loader' }],
