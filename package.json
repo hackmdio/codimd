@@ -38,7 +38,7 @@
     "@hackmd/pandoc.js": "0.3.4",
     "@mattermost/client": "^9.2.0",
     "@passport-next/passport-openid": "~1.0.0",
-    "archiver": "~3.1.1",
+    "archiver": "^7.0.1",
     "async": "^3.2.4",
     "azure-storage": "~2.10.3",
     "base64url": "~3.0.1",
