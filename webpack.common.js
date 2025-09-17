@@ -260,7 +260,6 @@ module.exports = {
       'script-loader!ot',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/index.js')
     ],
     'index-styles': [
@@ -323,7 +322,6 @@ module.exports = {
       'script-loader!vega-lite',
       'script-loader!vega-embed',
       'expose-loader?io!socket.io-client',
-      'expose-loader?RevealMarkdown!reveal-markdown',
       'expose-loader?L!leaflet',
       path.join(__dirname, 'public/js/index.js')
     ],
@@ -332,7 +330,6 @@ module.exports = {
       'regenerator-runtime/runtime',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/pretty.js')
     ],
     'pretty-styles': [
@@ -363,7 +360,6 @@ module.exports = {
       'script-loader!vega',
       'script-loader!vega-lite',
       'script-loader!vega-embed',
-      'expose-loader?RevealMarkdown!reveal-markdown',
       'expose-loader?L!leaflet',
       path.join(__dirname, 'public/js/pretty.js')
     ],
@@ -373,7 +369,6 @@ module.exports = {
       'bootstrap-tooltip',
       'flowchart.js',
       'imports-loader?Raphael=raphael!js-sequence-diagrams',
-      'expose-loader?RevealMarkdown!reveal-markdown',
       path.join(__dirname, 'public/js/slide.js')
     ],
     'slide-styles': [
@@ -408,7 +403,6 @@ module.exports = {
       'script-loader!vega-lite',
       'script-loader!vega-embed',
       'expose-loader?Reveal!reveal.js',
-      'expose-loader?RevealMarkdown!reveal-markdown',
       'expose-loader?L!leaflet',
       path.join(__dirname, 'public/js/slide.js')
     ]

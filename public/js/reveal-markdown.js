@@ -354,3 +354,14 @@ import { md } from './extra'
     slidify: slidify
   }
 }))
+
+// ES Module export for modern imports
+const RevealMarkdownAPI = (function () {
+  if (typeof window !== 'undefined' && window.RevealMarkdown) {
+    return window.RevealMarkdown
+  }
+  // Fallback - shouldn't happen in normal usage
+  return {}
+})()
+
+export default RevealMarkdownAPI

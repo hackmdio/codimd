@@ -1,5 +1,7 @@
 /* eslint-env browser, jquery */
-/* global serverurl, Reveal, RevealMarkdown */
+/* global serverurl, Reveal */
+
+import RevealMarkdown from './reveal-markdown'
 
 import { preventXSS } from './render'
 import { md, updateLastChange, removeDOMEvents, finishView } from './extra'
