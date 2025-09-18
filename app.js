@@ -69,7 +69,9 @@ app.use(morgan('combined', {
 }))
 
 // socket io
-var io = require('socket.io')(server)
+var io = require('socket.io')(server, config.urlPath ? {
+  path: `/${config.urlPath}/socket.io`
+} : {})
 io.engine.ws = new (require('ws').Server)({
   noServer: true,
   perMessageDeflate: false
@@ -132,13 +134,24 @@ app.use(cookieParser())
 
 app.use(i18n.init)
 
+// Handle URL path configuration
+// Compute URL path prefix (empty string if no urlPath configured)
+const urlPathPrefix = config.urlPath ? `/${config.urlPath}` : ''
+
+// Redirect root to URL path when configured
+if (config.urlPath) {
+  app.get('/', function (req, res) {
+    res.redirect(301, `${urlPathPrefix}/`)
+  })
+}
+
 // routes without sessions
-// static files
-app.use('/', express.static(path.join(__dirname, '/public'), { maxAge: config.staticCacheTime, index: false }))
-app.use('/docs', express.static(path.resolve(__dirname, config.docsPath), { maxAge: config.staticCacheTime }))
-app.use('/uploads', express.static(path.resolve(__dirname, config.uploadsPath), { maxAge: config.staticCacheTime }))
-app.use('/default.md', express.static(path.resolve(__dirname, config.defaultNotePath), { maxAge: config.staticCacheTime }))
-app.use(require('./lib/metrics').router)
+// static files (mounted with urlPathPrefix, which is '' if no urlPath)
+app.use(urlPathPrefix + '/', express.static(path.join(__dirname, '/public'), { maxAge: config.staticCacheTime, index: false }))
+app.use(urlPathPrefix + '/docs', express.static(path.resolve(__dirname, config.docsPath), { maxAge: config.staticCacheTime }))
+app.use(urlPathPrefix + '/uploads', express.static(path.resolve(__dirname, config.uploadsPath), { maxAge: config.staticCacheTime }))
+app.use(urlPathPrefix + '/default.md', express.static(path.resolve(__dirname, config.defaultNotePath), { maxAge: config.staticCacheTime }))
+app.use(urlPathPrefix, require('./lib/metrics').router)
 
 // session
 app.use(session({
@@ -227,7 +240,7 @@ app.locals.enableDropBoxSave = config.isDropboxEnable
 app.locals.enableGitHubGist = config.isGitHubEnable
 app.locals.enableGitlabSnippets = config.isGitlabSnippetsEnable
 
-app.use(require('./lib/routes').router)
+app.use(urlPathPrefix, require('./lib/routes').router)
 
 // response not found if no any route matxches
 app.get('*', function (req, res) {
