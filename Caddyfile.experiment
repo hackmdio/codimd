@@ -8,47 +8,43 @@
 }
 
 :8080 {
-	# Handle Socket.IO separately - rewrite path for WebSocket upgrade
-	handle /codimd/socket.io/* {
+	# Enable logging for debugging
+	log {
+		output stdout
+		level INFO
+		format console
+	}
+	
+	# Route order matters! Use route directive for proper matching
+	
+	# 1. Redirect exact /codimd to /codimd/
+	route {
+		@codimd_exact path_regexp ^/codimd$
+		redir @codimd_exact /codimd/ 301
+	}
+	
+	# 2. Redirect root to /codimd/
+	route {
+		@root path_regexp ^/$
+		redir @root /codimd/ 301
+	}
+	
+	# 3. Handle Socket.IO - rewrite path for WebSocket upgrade
+	route /codimd/socket.io/* {
 		uri strip_prefix /codimd
 		reverse_proxy localhost:3000 {
-			# WebSocket support
-			header_up X-Forwarded-For {remote_host}
-			header_up X-Forwarded-Proto {scheme}
-			header_up X-Forwarded-Host {host}
 			header_up X-Forwarded-Prefix /codimd
 		}
 	}
 	
-	# Handle all /codimd/* requests
-	handle /codimd/* {
+	# 4. Handle all other /codimd/* requests
+	route /codimd/* {
 		# Strip /codimd prefix before forwarding
 		uri strip_prefix /codimd
 		
 		# Reverse proxy to app running at root
 		reverse_proxy localhost:3000 {
-			# Pass headers for proxy awareness
-			header_up X-Forwarded-For {remote_host}
-			header_up X-Forwarded-Proto {scheme}
-			header_up X-Forwarded-Host {host}
 			header_up X-Forwarded-Prefix /codimd
 		}
-	}
-	
-	# Handle /codimd without trailing slash
-	handle_path /codimd {
-		redir /codimd/ 301
-	}
-	
-	# Redirect root to /codimd/
-	handle / {
-		redir /codimd/ 301
-	}
-	
-	# Enable logging for debugging
-	log {
-		output stdout
-		level DEBUG
-		format console
 	}
 }
