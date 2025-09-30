@@ -46,9 +46,31 @@ Caddy will:
 
 3. Access at: `http://localhost:8080/codimd/`
 
-## Expected Issues to Solve
+## Test Results ✅
 
-1. ❓ Socket.IO path - needs special Caddy handling
-2. ❓ OAuth redirects - may need adjustment
-3. ❓ Asset URLs - should work if templates use serverURL correctly
-4. ❓ API calls - client-side code needs to use serverURL
+All tests passing! The reverse proxy path rewriting approach works:
+
+1. ✅ **Root redirect** - `/` → `/codimd/` (301)
+2. ✅ **Path redirect** - `/codimd` → `/codimd/` (301)
+3. ✅ **Main app** - Accessible at `/codimd/`
+4. ✅ **Static assets** - `/codimd/favicon.png` works
+5. ✅ **Build assets** - `/codimd/build/...` works
+6. ✅ **Path stripping** - Caddy strips `/codimd` before forwarding
+7. ✅ **Headers** - `X-Forwarded-Prefix: /codimd` passed to app
+
+## Key Learnings
+
+### What Works
+
+- **Caddy `route` directive** for proper path matching (order-sensitive)
+- **`path_regexp`** for exact path matching (avoid wildcards conflicting)
+- **`uri strip_prefix`** successfully strips path before forwarding
+- **App runs at root** but generates URLs with `/codimd` prefix (via serverURL config)
+- **Static assets** work because templates use `serverURL` correctly
+
+### Potential Issues (To Test)
+
+1. ⚠️ **Socket.IO** - Path rewriting configured, needs live testing
+2. ⚠️ **OAuth redirects** - Callback URLs may need adjustment  
+3. ⚠️ **Standalone mode** - App REQUIRES reverse proxy (won't work without it)
+4. ⚠️ **Cookie paths** - May need to check if session cookies work correctly
