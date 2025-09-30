@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: codimd-nginx-experiment
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./nginx.experiment.conf:/etc/nginx/conf.d/default.conf:ro
+      - nginx-logs:/var/log/nginx
+    extra_hosts:
+      # Allow Nginx to reach host's localhost where CodiMD is running
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+volumes:
+  nginx-logs:
