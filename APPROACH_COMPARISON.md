@@ -252,11 +252,13 @@ server {
 }
 ```
 
-### Approach 2: Nginx with Path Stripping
+### Approach 2: Nginx with Path Stripping ✅
+
+**Status: WORKING!** Use the provided `start-nginx-experiment.sh` script.
 
 ```nginx
 server {
-    listen 8080;
+    listen 8081;
     server_name localhost;
     
     # Redirect root
@@ -272,7 +274,8 @@ server {
     # Strip /codimd and forward
     location /codimd/ {
         rewrite ^/codimd/(.*)$ /$1 break;
-        proxy_pass http://localhost:3000;
+        proxy_pass http://host.docker.internal:3000;  # For Docker
+        # proxy_pass http://localhost:3000;  # For bare metal
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -281,6 +284,8 @@ server {
     }
 }
 ```
+
+**Start with:** `./start-nginx-experiment.sh` (uses `docker run`, works on macOS)
 
 ---
 
