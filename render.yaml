@@ -1,0 +1,94 @@
+services:
+  - name: codimd
+    type: web
+    runtime: node
+    plan: starter
+    buildCommand: npm install && npm run build
+    preDeployCommand: npx sequelize db:migrate
+    startCommand: node app.js
+    healthCheckPath: /status
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NPM_CONFIG_PRODUCTION
+        value: "false"
+      - key: CMD_DB_URL
+        fromDatabase:
+          name: codimd-db
+          property: connectionString
+      - key: CMD_PORT
+        value: "3000"
+      - key: CMD_SESSION_SECRET
+        generateValue: true
+      - key: CMD_DOMAIN
+        sync: false
+      - key: CMD_URL_PATH
+        sync: false
+      - key: CMD_ALLOW_ORIGIN
+        value: localhost
+      - key: CMD_PROTOCOL_USESSL
+        sync: false
+      - key: CMD_URL_ADDPORT
+        sync: false
+      - key: CMD_HSTS_ENABLE
+        sync: false
+      - key: CMD_HSTS_MAX_AGE
+        sync: false
+      - key: CMD_HSTS_INCLUDE_SUBDOMAINS
+        sync: false
+      - key: CMD_HSTS_PRELOAD
+        sync: false
+      - key: CMD_FACEBOOK_CLIENTID
+        sync: false
+      - key: CMD_FACEBOOK_CLIENTSECRET
+        sync: false
+      - key: CMD_TWITTER_CONSUMERKEY
+        sync: false
+      - key: CMD_TWITTER_CONSUMERSECRET
+        sync: false
+      - key: CMD_GITHUB_CLIENTID
+        sync: false
+      - key: CMD_GITHUB_CLIENTSECRET
+        sync: false
+      - key: CMD_GITHUB_ORGANIZATIONS
+        sync: false
+      - key: CMD_GITHUB_SCOPES
+        sync: false
+      - key: CMD_BITBUCKET_CLIENTID
+        sync: false
+      - key: CMD_BITBUCKET_CLIENTSECRET
+        sync: false
+      - key: CMD_GITLAB_BASEURL
+        sync: false
+      - key: CMD_GITLAB_CLIENTID
+        sync: false
+      - key: CMD_GITLAB_CLIENTSECRET
+        sync: false
+      - key: CMD_GITLAB_SCOPE
+        sync: false
+      - key: CMD_MATTERMOST_BASEURL
+        sync: false
+      - key: CMD_MATTERMOST_CLIENTID
+        sync: false
+      - key: CMD_MATTERMOST_CLIENTSECRET
+        sync: false
+      - key: CMD_DROPBOX_CLIENTID
+        sync: false
+      - key: CMD_DROPBOX_CLIENTSECRET
+        sync: false
+      - key: CMD_DROPBOX_APP_KEY
+        sync: false
+      - key: CMD_GOOGLE_CLIENTID
+        sync: false
+      - key: CMD_GOOGLE_CLIENTSECRET
+        sync: false
+      - key: CMD_IMGUR_CLIENTID
+        sync: false
+      - key: CMD_ALLOW_PDF_EXPORT
+        sync: false
+
+databases:
+  - name: codimd-db
+    plan: basic-256mb
+    postgresMajorVersion: "14"
+    ipAllowList: []
