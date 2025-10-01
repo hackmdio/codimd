@@ -1,4 +1,5 @@
 /* eslint-env browser, jquery */
+/* global globalThis */
 
 import { preventXSS, escapeAttrValue } from './render'
 import { md } from './extra'
@@ -16,7 +17,7 @@ import { md } from './extra'
     root.RevealMarkdown = factory()
     root.RevealMarkdown.initialize()
   }
-}(this, function () {
+}(typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : this, function () {
   var DEFAULT_SLIDE_SEPARATOR = '^\r?\n---\r?\n$'
   var DEFAULT_NOTES_SEPARATOR = '^note:'
   var DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\.element\\s*?(.+?)$'
@@ -353,3 +354,14 @@ import { md } from './extra'
     slidify: slidify
   }
 }))
+
+// ES Module export for modern imports
+const RevealMarkdownAPI = (function () {
+  if (typeof window !== 'undefined' && window.RevealMarkdown) {
+    return window.RevealMarkdown
+  }
+  // Fallback - shouldn't happen in normal usage
+  return {}
+})()
+
+export default RevealMarkdownAPI
