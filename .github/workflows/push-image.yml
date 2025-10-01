@@ -13,78 +13,39 @@ on:
         description: 'Buildpack image'
         required: true
         default: 'hackmdio/buildpack:16.20.2-35fe7e39'
-
-env:
-  REGISTRY_IMAGE: hackmdio/hackmd
+      registry_image:
+        description: 'image name'
+        required: true
+        default: 'hackmdio/hackmd'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - linux/amd64
-          - linux/arm64
-    steps:
-      -
-        name: Prepare
-        run: |
-          platform=${{ matrix.platform }}
-          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
-      -
-        name: Checkout
-        uses: actions/checkout@v4
-      -
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY_IMAGE }}
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push by digest
-        id: build
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./deployments/Dockerfile
-          platforms: ${{ matrix.platform }}
-          labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
-          build-args: |
-            RUNTIME=${{ github.event.inputs.runtime || 'hackmdio/runtime:16.20.2-35fe7e39' }}
-            BUILDPACK=${{ github.event.inputs.buildpack || 'hackmdio/buildpack:16.20.2-35fe7e39' }}
-      -
-        name: Export digest
-        run: |
-          mkdir -p /tmp/digests
-          digest="${{ steps.build.outputs.digest }}"
-          touch "/tmp/digests/${digest#sha256:}"
-      -
-        name: Upload digest
-        uses: actions/upload-artifact@v4
-        with:
-          name: digests-${{ env.PLATFORM_PAIR }}
-          path: /tmp/digests/*
-          if-no-files-found: error
-          retention-days: 1
+  build-amd64:
+    uses: ./.github/workflows/build-steps.yml
+    secrets: inherit
+    with:
+      platform: linux/amd64
+      platform_pair: linux_amd64
+      registry_image: ${{ github.event.inputs.registry_image }}
+      runtime: ${{ github.event.inputs.runtime }}
+      buildpack: ${{ github.event.inputs.buildpack }}
+      runs_on: ubuntu-latest
+
+  build-arm64:
+    uses: ./.github/workflows/build-steps.yml
+    secrets: inherit
+    with:
+      platform: linux/arm64
+      platform_pair: linux_arm64
+      registry_image: ${{ github.event.inputs.registry_image }}
+      runtime: ${{ github.event.inputs.runtime }}
+      buildpack: ${{ github.event.inputs.buildpack }}
+      runs_on: macos-latest
 
   merge:
     runs-on: ubuntu-latest
     needs:
-      - build
+      - build-amd64
+      - build-arm64
     steps:
       -
         name: Download digests
@@ -101,7 +62,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY_IMAGE }}
+          images: ${{ github.event.inputs.registry_image }}
           tags: |
             type=match,pattern=\d.\d.\d
             type=sha,prefix=
@@ -116,8 +77,8 @@ jobs:
         working-directory: /tmp/digests
         run: |
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+            $(printf '${{ github.event.inputs.registry_image }}@sha256:%s ' *)
       -
         name: Inspect image
         run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect ${{ github.event.inputs.registry_image }}:${{ steps.meta.outputs.version }}
