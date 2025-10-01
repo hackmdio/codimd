@@ -1,6 +1,23 @@
 Release Notes
 ===
 
+<i class="fa fa-tag"></i> 2.6.1 <i class="fa fa-clock-o"></i> 2025-10-01
+---
+
+[Check out the complete release note][v2_6_1].
+
+## Enhancements
+
+- Migrate RevealMarkdown to ES module imports to modernize presentation code and fix related rendering issues. [#1941](https://github.com/hackmdio/codimd/pull/1941)
+- Update dependencies and improve Markmap integration to harden against XSS and keep third‑party libs up to date. [#1934](https://github.com/hackmdio/codimd/pull/1934)
+
+## Fixes
+
+- Prevent exporting empty notes in the user archive export. [#1942](https://github.com/hackmdio/codimd/pull/1942)
+- Fix broken Travis badge in docs. [#1940](https://github.com/hackmdio/codimd/pull/1940)
+
+[v2_6_1]: https://hackmd.io/@codimd/release-notes/%2F%40codimd%2Fv2_6_1
+
 <i class="fa fa-tag"></i> 2.6.0 <i class="fa fa-clock-o"></i> 2025-06-10
 ---
 
