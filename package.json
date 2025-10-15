@@ -100,6 +100,7 @@
     "sequelize-cli": "~5.5.1",
     "shortid": "~2.2.14",
     "socket.io": "~2.2.0",
+    "sqlite3": "^5.1.7",
     "toobusy-js": "~0.5.1",
     "uuid": "~3.3.2",
     "validator": "~11.1.0",
