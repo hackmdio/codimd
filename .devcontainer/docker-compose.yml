@@ -10,6 +10,7 @@ services:
     environment:
       - CMD_DB_URL=postgres://codimd:codimd@localhost/codimd
       - CMD_USECDN=false
+      - QT_QPA_PLATFORM=offscreen
     volumes: 
       - ..:/workspace:cached
       - node_modules:/workspace/node_modules:cached
