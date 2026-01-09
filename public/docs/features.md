@@ -204,7 +204,7 @@ var s = "JavaScript syntax highlighting";
 alert(s);
 ```
 
-> Somtimes you have a super long text without breaks. It's time to use `!` to wrap your code.
+> Sometimes you have a super long text without breaks. It's time to use `!` to wrap your code.
 
 ```!
 When you’re a carpenter making a beautiful chest of drawers, you’re not going to use a piece of plywood on the back.
