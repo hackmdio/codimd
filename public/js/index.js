@@ -446,6 +446,7 @@ $(document).ready(function () {
     $body.addClass('night')
     ui.toolbar.night.addClass('active')
   }
+  editorInstance.applyThemeForMode()
 
   // showup
   $().showUp('.navbar', {
@@ -1603,6 +1604,7 @@ function toggleNightMode () {
       expires: 365
     })
   }
+  editorInstance.applyThemeForMode()
 }
 function emitPermission (_permission) {
   if (_permission !== permission) {
