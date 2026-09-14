@@ -7,7 +7,7 @@
 a,
 a:focus,
 a:hover {
-    color: #fff;
+    color: #337ab7;
 }
 /* Custom default button */
 
@@ -18,7 +18,7 @@ a:hover {
     text-shadow: none;
     /* Prevent inheritence from `body` */
     background-color: #fff;
-    border: 1px solid #fff;
+    border: 1px solid #ccc;
 }
 /*
  * Base structure
@@ -28,13 +28,12 @@ html {
 }
 html,
 body {
-    background-color: #333;
+    background-color: #f6f6f6;
 }
 body {
     min-height: 100%;
-    color: #fff;
+    color: #333;
     text-align: center;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
 }
 /* Extra markup and styles for table-esque vertical and horizontal centering */
 
@@ -45,8 +44,6 @@ body {
     height: 100vh;
     /* For at least Firefox */
     min-height: 100%;
-    -webkit-box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
-    box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
 }
 .site-wrapper-inner {
     display: table-cell;
@@ -96,22 +93,19 @@ body {
     padding-left: 0;
     font-size: 16px;
     font-weight: bold;
-    color: #fff;
-    /* IE8 proofing */
-    color: rgba(255, 255, 255, .75);
+    color: rgba(0, 0, 0, .6);
     border-bottom: 2px solid transparent;
 }
 .masthead-nav > li > a:hover,
 .masthead-nav > li > a:focus {
     background-color: transparent;
-    border-bottom-color: #a9a9a9;
-    border-bottom-color: rgba(255, 255, 255, .25);
+    border-bottom-color: rgba(0, 0, 0, .25);
 }
 .masthead-nav > .active > a,
 .masthead-nav > .active > a:hover,
 .masthead-nav > .active > a:focus {
-    color: #fff;
-    border-bottom-color: #fff;
+    color: #333;
+    border-bottom-color: #333;
 }
 @media (min-width: 768px) {
     .masthead-brand {
@@ -140,9 +134,7 @@ body {
  */
 
 .mastfoot {
-    color: #999;
-    /* IE8 proofing */
-    color: rgba(255, 255, 255, .5);
+    color: rgba(0, 0, 0, .5);
 }
 /*
  * Affix and center
@@ -241,9 +233,10 @@ input {
 .list li .item {
     padding: 5px 25px;
     margin: 10px 0;
-    background: white;
+    background: #fff;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    color: black;
+    color: #333;
     text-shadow: none;
     min-height: 134px;
     display: table;
@@ -351,7 +344,7 @@ input {
 }
 
 .btn-link, .btn-link:hover, .btn-link:focus, .btn-link:active {
-    color: white;
+    color: #337ab7;
 }
 
 .screenshot {
@@ -425,4 +418,66 @@ a.btn.btn-login-method > i.oauth-icon > img {
     width: 100%;
     height: 100%;
     line-height: inherit;
+}
+
+/*
+ * Night mode, sharing its setting with the editor page
+ */
+
+html.night,
+body.night {
+    background-color: #333;
+}
+
+body.night {
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+}
+
+.night a,
+.night a:focus,
+.night a:hover {
+    color: #fff;
+}
+
+.night .btn-default,
+.night .btn-default:hover,
+.night .btn-default:focus {
+    border-color: #fff;
+}
+
+.night .btn-link,
+.night .btn-link:hover,
+.night .btn-link:focus,
+.night .btn-link:active {
+    color: #fff;
+}
+
+.night .site-wrapper {
+    -webkit-box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
+}
+
+.night .masthead-nav > li > a {
+    color: rgba(255, 255, 255, .75);
+}
+
+.night .masthead-nav > li > a:hover,
+.night .masthead-nav > li > a:focus {
+    border-bottom-color: rgba(255, 255, 255, .25);
+}
+
+.night .masthead-nav > .active > a,
+.night .masthead-nav > .active > a:hover,
+.night .masthead-nav > .active > a:focus {
+    color: #fff;
+    border-bottom-color: #fff;
+}
+
+.night .mastfoot {
+    color: rgba(255, 255, 255, .5);
+}
+
+.night .list li .item {
+    border-color: transparent;
 }

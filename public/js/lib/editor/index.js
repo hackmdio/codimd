@@ -10,7 +10,7 @@ import toolBarTemplate from './toolbar.html'
 import { linterOptions } from './markdown-lint'
 import CodeMirrorSpellChecker, { supportLanguages, supportLanguageCodes } from './spellcheck'
 import { initTableEditor } from './table-editor'
-import { availableThemes } from './constants'
+import { availableThemes, defaultLightTheme, defaultNightTheme } from './constants'
 
 // Storage utility class for localStorage operations
 class Storage {
@@ -51,6 +51,41 @@ const defaultEditorMode = 'gfm'
 const viewportMargin = 20
 
 const jumpToAddressBarKeymapName = isMac ? 'Cmd-L' : 'Ctrl-L'
+
+// night mode is only put on the body when the page is ready, so before that
+// the value index.js stored is the only way to know about it
+function isNightMode () {
+  return $('body').hasClass('night') ||
+    Storage.get('nightMode') === 'true' ||
+    Cookies.get('nightMode') === 'true'
+}
+
+// the editor theme is remembered per mode, so switching to light mode brings
+// back a light editor instead of keeping the dark one
+function themeStorageKey () {
+  return isNightMode() ? 'theme_night' : 'theme_light'
+}
+
+function getThemeForMode () {
+  const stored = Storage.get(themeStorageKey())
+  if (stored && availableThemes.some(theme => theme.value === stored)) {
+    return stored
+  }
+  return isNightMode() ? defaultNightTheme : defaultLightTheme
+}
+
+// a single theme used to be shared by both modes
+function migrateStoredTheme () {
+  const stored = Storage.get('theme')
+  if (!stored) return
+  Storage.remove('theme')
+  const known = availableThemes.find(theme => theme.value === stored)
+  if (!known) return
+  const key = known.light ? 'theme_light' : 'theme_night'
+  if (!Storage.get(key)) {
+    Storage.set(key, stored)
+  }
+}
 
 export default class Editor {
   constructor () {
@@ -469,7 +504,7 @@ export default class Editor {
       this.statusLength.css('color', 'orange')
       this.statusLength.attr('title', 'This document is nearly full, consider splitting it or creating a new one.')
     } else {
-      this.statusLength.css('color', 'white')
+      this.statusLength.css('color', '')
       this.statusLength.attr('title', 'You can write up to ' + config.docmaxlength + ' characters in this document.')
     }
   }
@@ -617,35 +652,30 @@ export default class Editor {
     })
   }
 
+  activateThemeListItem (theme) {
+    $('.status-theme li').removeClass('active')
+    $(`.status-theme li[value="${theme}"]`).addClass('active')
+  }
+
+  // called again whenever the light/night mode changes
+  applyThemeForMode () {
+    if (!this.editor) return
+    const theme = getThemeForMode()
+    this.editor.setOption('theme', theme)
+    this.activateThemeListItem(theme)
+  }
+
   setTheme () {
     this.statusIndicators.find('.status-theme ul.dropdown-menu').append(availableThemes.map(theme => {
       return $(`<li value="${theme.value}"><a>${theme.name}</a></li>`)
     }))
 
-    const activateThemeListItem = (theme) => {
-      this.statusIndicators.find('.status-theme li').removeClass('active')
-      this.statusIndicators.find(`.status-theme li[value="${theme}"]`).addClass('active')
-    }
+    this.applyThemeForMode()
 
-    const setTheme = theme => {
-      this.editor.setOption('theme', theme)
-      Storage.set('theme', theme)
-      this.statusIndicators.find('.status-theme li').removeClass('active')
-      this.statusIndicators.find(`.status-theme li[value="${theme}"]`).addClass('active')
-    }
-
-    const storedTheme = Storage.get('theme')
-    if (storedTheme && availableThemes.find(theme => storedTheme === theme.value)) {
-      setTheme(storedTheme)
-      activateThemeListItem(storedTheme)
-    } else {
-      activateThemeListItem(this.editor.getOption('theme'))
-    }
-
-    this.statusIndicators.find('.status-theme li').click(function () {
-      const theme = $(this).attr('value')
-      setTheme(theme)
-      activateThemeListItem(theme)
+    $('.status-theme li').click((e) => {
+      // the pick only applies to the mode it was made in
+      Storage.set(themeStorageKey(), $(e.currentTarget).attr('value'))
+      this.applyThemeForMode()
     })
   }
 
@@ -862,6 +892,7 @@ export default class Editor {
   }
 
   init (textit) {
+    migrateStoredTheme()
     this.editor = CodeMirror.fromTextArea(textit, {
       mode: defaultEditorMode,
       backdrop: defaultEditorMode,
@@ -874,7 +905,7 @@ export default class Editor {
       highlightSelectionMatches: true,
       indentUnit: 4,
       continueComments: 'Enter',
-      theme: 'one-dark',
+      theme: getThemeForMode(),
       inputStyle: 'textarea',
       matchBrackets: true,
       autoCloseBrackets: true,

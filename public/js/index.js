@@ -1,12 +1,11 @@
 /* eslint-env browser, jquery */
-/* global CodeMirror, Cookies, moment, serverurl,
+/* global CodeMirror, moment, serverurl,
    key, Dropbox, ot, hex2rgb, Visibility, inlineAttachment */
 
 import TurndownService from 'turndown'
 
 import { saveAs } from 'file-saver'
 import randomColor from 'randomcolor'
-import store from 'store'
 import hljs from 'highlight.js'
 
 import isURL from 'validator/lib/isURL'
@@ -25,6 +24,8 @@ import {
   checkLoginStateChanged,
   setloginStateChangeEvent
 } from './lib/common/login'
+
+import { getNightMode, setNightMode } from './lib/common/night'
 
 import {
   debug,
@@ -442,10 +443,11 @@ $(document).ready(function () {
   }
 
   // Re-enable nightmode
-  if (store.get('nightMode') || Cookies.get('nightMode')) {
+  if (getNightMode()) {
     $body.addClass('night')
     ui.toolbar.night.addClass('active')
   }
+  editorInstance.applyThemeForMode()
 
   // showup
   $().showUp('.navbar', {
@@ -1596,13 +1598,8 @@ function toggleNightMode () {
     $body.addClass('night')
     appState.nightMode = true
   }
-  if (store.enabled) {
-    store.set('nightMode', !isActive)
-  } else {
-    Cookies.set('nightMode', !isActive, {
-      expires: 365
-    })
-  }
+  setNightMode(!isActive)
+  editorInstance.applyThemeForMode()
 }
 function emitPermission (_permission) {
   if (_permission !== permission) {

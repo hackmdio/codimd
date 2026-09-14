@@ -21,8 +21,8 @@ body.night{
 }
 
 .toolbar {
-  background-color: #1c1c1e;
-  border: 1px solid #343434;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
 }
 
 .toolbar > .btn-toolbar {
@@ -42,23 +42,24 @@ body.night{
 .toolbar > .btn-toolbar > .btn-group > span {
   display: inline-block;
   float: left;
-  color: #fff;
+  color: #333;
   padding: 5px;
   line-height: 22px;
 }
 
 .toolbar > .btn-toolbar > .btn-group > span.separator {
-  color: #4d4d4d;
+  color: #ccc;
 }
 
 .toolbar > .btn-toolbar > .btn-group > .btn {
-  background-color: #1c1c1e;
+  background-color: #f7f7f7;
+  color: #333;
   padding: 5px;
   font-size: 1em;
 }
 
 .toolbar > .btn-toolbar > .btn-group > .btn:hover {
-  background-color: #383a3e;
+  background-color: #e6e6e6;
 
   padding: 5px;
 }
@@ -350,7 +351,8 @@ body.night{
   color: #262626
 }
 
-.night .status-bar .dropdown-menu > li > a:focus, .status-bar .dropdown-menu > li > a:hover {
+.night .status-bar .dropdown-menu > li > a:focus,
+.night .status-bar .dropdown-menu > li > a:hover {
     color: #ccc;
 }
 
@@ -500,9 +502,9 @@ div[contenteditable]:empty:not(:focus):before{
 }
 
 .status-bar {
-    background: #1c1c1e;
-    border-top: 1px solid #343434;
-    color: #ccc;
+    background: #f7f7f7;
+    border-top: 1px solid #ddd;
+    color: #555;
     position: relative;
     display: block;
     box-sizing: border-box;
@@ -512,7 +514,7 @@ div[contenteditable]:empty:not(:focus):before{
 }
 
 .status-bar .status-info {
-    color: #ccc;
+    color: #555;
     left: 10px;
     position: absolute;
     white-space: nowrap;
@@ -526,12 +528,12 @@ div[contenteditable]:empty:not(:focus):before{
 }
 
 .status-bar .status-file {
-    color: #9a9a9a;
+    color: #888;
 }
 
 .status-bar .status-indicators {
-    background: #1c1c1e;
-    color: #ccc;
+    background: #f7f7f7;
+    color: #555;
     position: absolute;
     right: 0;
     text-align: right;
@@ -542,7 +544,7 @@ div[contenteditable]:empty:not(:focus):before{
 .status-bar .status-indicators > div {
     float: right;
     padding: 0 10px;
-    border-left: 1px solid #343434;
+    border-left: 1px solid #ddd;
 }
 
 .status-bar .status-indicators .status-keymap > a,
@@ -606,7 +608,6 @@ div[contenteditable]:empty:not(:focus):before{
     height: 18px;
     line-height: 1;
     vertical-align: middle;
-    color: #ccc;
     margin: 0;
     padding: 0 0 2px;
     position: relative;
@@ -614,9 +615,9 @@ div[contenteditable]:empty:not(:focus):before{
     top: -1px;
     width: 18px;
     transition: .1s linear all;
-    background-color: #555;
-    border: 1px solid #202020;
-    color: #fff;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #333;
     box-shadow: inset 0 1px 0 rgba(0,0,0,0.06);
     border-radius: 3px;
     text-align: center;
@@ -645,20 +646,95 @@ div[contenteditable]:empty:not(:focus):before{
 }
 
 .status-bar .dropdown-menu {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+
+.status-bar .dropdown-menu .divider {
+    background-color: #e5e5e5;
+}
+
+.status-bar .dropdown-menu > li > a {
+    color: #333;
+}
+
+.status-bar .dropdown-menu > li > a:focus, .status-bar .dropdown-menu > li > a:hover {
+    background-color: #f5f5f5;
+}
+
+/* night mode keeps the dark editor chrome */
+.night .toolbar {
+    background-color: #1c1c1e;
+    border: 1px solid #343434;
+}
+
+.night .toolbar > .btn-toolbar > .btn-group > span {
+    color: #fff;
+}
+
+.night .toolbar > .btn-toolbar > .btn-group > span.separator {
+    color: #4d4d4d;
+}
+
+.night .toolbar > .btn-toolbar > .btn-group > .btn {
+    background-color: #1c1c1e;
+    color: #5EB7E0;
+}
+
+.night .toolbar > .btn-toolbar > .btn-group > .btn:hover {
+    background-color: #383a3e;
+}
+
+.night .status-bar {
+    background: #1c1c1e;
+    border-top: 1px solid #343434;
+    color: #ccc;
+}
+
+.night .status-bar .status-info {
+    color: #ccc;
+}
+
+.night .status-bar .status-file {
+    color: #9a9a9a;
+}
+
+.night .status-bar .status-indicators {
+    background: #1c1c1e;
+    color: #ccc;
+}
+
+.night .status-bar .status-indicators > div {
+    border-left: 1px solid #343434;
+}
+
+.night .status-bar .indent-width-input {
+    background-color: #555;
+    border: 1px solid #202020;
+    color: #fff;
+}
+
+.night .status-bar .indent-width-input:focus {
+    border: 1px solid #2893ef;
+}
+
+.night .status-bar .dropdown-menu {
     background-color: #000;
     color: #fff;
     border: 1px solid rgba(255,255,255,0.09) !important;
 }
 
-.status-bar .dropdown-menu .divider {
+.night .status-bar .dropdown-menu .divider {
     background-color: #343434;
 }
 
-.status-bar .dropdown-menu > li > a {
+.night .status-bar .dropdown-menu > li > a {
     color: #ccc;
 }
 
-.status-bar .dropdown-menu > li > a:focus, .status-bar .dropdown-menu > li > a:hover {
+.night .status-bar .dropdown-menu > li > a:focus,
+.night .status-bar .dropdown-menu > li > a:hover {
     background-color: #212121;
 }
 
