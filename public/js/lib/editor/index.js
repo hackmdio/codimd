@@ -6,11 +6,19 @@ import debounce from 'lodash/debounce'
 import * as utils from './utils'
 import config from './config'
 import statusBarTemplate from './statusbar.html'
+import indentModalTemplate from './indentmodal.html'
 import toolBarTemplate from './toolbar.html'
 import { linterOptions } from './markdown-lint'
 import CodeMirrorSpellChecker, { supportLanguages, supportLanguageCodes } from './spellcheck'
 import { initTableEditor } from './table-editor'
 import { availableThemes } from './constants'
+
+// Tablets and phones get bigger hit areas and a dialog instead of the inline
+// number input, matching the touch breakpoint used in index.css
+function isTouchStatusBar () {
+  if (!window.matchMedia) return false
+  return window.matchMedia('(max-width: 1024px), (pointer: coarse)').matches
+}
 
 // Storage utility class for localStorage operations
 class Storage {
@@ -427,6 +435,8 @@ export default class Editor {
 
   addStatusBar () {
     this.statusBar = $(statusBarTemplate)
+    this.indentModal = $(indentModalTemplate)
+    $('body').append(this.indentModal)
     this.statusCursor = this.statusBar.find('.status-cursor > .status-line-column')
     this.statusSelection = this.statusBar.find('.status-cursor > .status-selection')
     this.statusFile = this.statusBar.find('.status-file')
@@ -514,14 +524,23 @@ export default class Editor {
     var widthLabel = this.statusIndicators.find('.indent-width-label')
     var widthInput = this.statusIndicators.find('.indent-width-input')
 
+    var modalSpace = this.indentModal.find('.indent-modal-space')
+    var modalTab = this.indentModal.find('.indent-modal-tab')
+    var modalValue = this.indentModal.find('.indent-modal-value')
+    var modalMinus = this.indentModal.find('.indent-modal-minus')
+    var modalPlus = this.indentModal.find('.indent-modal-plus')
+
     const setType = () => {
-      if (this.editor.getOption('indentWithTabs')) {
+      var withTabs = this.editor.getOption('indentWithTabs')
+      if (withTabs) {
         Storage.set('indent_type', 'tab')
         type.text('Tab Size:')
       } else {
         Storage.set('indent_type', 'space')
         type.text('Spaces:')
       }
+      modalTab.toggleClass('btn-primary', withTabs).toggleClass('btn-default', !withTabs)
+      modalSpace.toggleClass('btn-primary', !withTabs).toggleClass('btn-default', withTabs)
     }
     setType()
 
@@ -533,10 +552,13 @@ export default class Editor {
         Storage.set('space_units', unit)
       }
       widthLabel.text(unit)
+      modalValue.text(unit)
+      modalMinus.prop('disabled', unit <= 1)
+      modalPlus.prop('disabled', unit >= 10)
     }
     setUnit()
 
-    type.click(() => {
+    const toggleType = () => {
       if (this.editor.getOption('indentWithTabs')) {
         this.editor.setOption('indentWithTabs', false)
         storedSpaceUnits = parseInt(Storage.get('space_units'))
@@ -553,8 +575,34 @@ export default class Editor {
       }
       setType()
       setUnit()
+    }
+
+    const setWidth = (val) => {
+      if (!val) val = this.editor.getOption('indentUnit')
+      if (val < 1) val = 1
+      else if (val > 10) val = 10
+
+      if (this.editor.getOption('indentWithTabs')) {
+        this.editor.setOption('tabSize', val)
+      }
+      this.editor.setOption('indentUnit', val)
+      setUnit()
+    }
+
+    type.click(() => {
+      // on touch devices both parts of the indicator open the dialog,
+      // which offers the type switch as well
+      if (isTouchStatusBar()) {
+        this.indentModal.modal('show')
+        return
+      }
+      toggleType()
     })
     widthLabel.click(() => {
+      if (isTouchStatusBar()) {
+        this.indentModal.modal('show')
+        return
+      }
       if (widthLabel.is(':visible')) {
         widthLabel.addClass('hidden')
         widthInput.removeClass('hidden')
@@ -566,20 +614,24 @@ export default class Editor {
       }
     })
     widthInput.on('change', () => {
-      var val = parseInt(widthInput.val())
-      if (!val) val = this.editor.getOption('indentUnit')
-      if (val < 1) val = 1
-      else if (val > 10) val = 10
-
-      if (this.editor.getOption('indentWithTabs')) {
-        this.editor.setOption('tabSize', val)
-      }
-      this.editor.setOption('indentUnit', val)
-      setUnit()
+      setWidth(parseInt(widthInput.val()))
     })
     widthInput.on('blur', function () {
       widthLabel.removeClass('hidden')
       widthInput.addClass('hidden')
+    })
+
+    modalSpace.click(() => {
+      if (this.editor.getOption('indentWithTabs')) toggleType()
+    })
+    modalTab.click(() => {
+      if (!this.editor.getOption('indentWithTabs')) toggleType()
+    })
+    modalMinus.click(() => {
+      setWidth(this.editor.getOption('indentUnit') - 1)
+    })
+    modalPlus.click(() => {
+      setWidth(this.editor.getOption('indentUnit') + 1)
     })
   }
 
