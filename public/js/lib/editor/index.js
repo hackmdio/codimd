@@ -7,6 +7,7 @@ import * as utils from './utils'
 import config from './config'
 import statusBarTemplate from './statusbar.html'
 import indentModalTemplate from './indentmodal.html'
+import statusModalTemplate from './statusmodal.html'
 import toolBarTemplate from './toolbar.html'
 import { linterOptions } from './markdown-lint'
 import CodeMirrorSpellChecker, { supportLanguages, supportLanguageCodes } from './spellcheck'
@@ -437,6 +438,8 @@ export default class Editor {
     this.statusBar = $(statusBarTemplate)
     this.indentModal = $(indentModalTemplate)
     $('body').append(this.indentModal)
+    this.statusModal = $(statusModalTemplate)
+    $('body').append(this.statusModal)
     this.statusCursor = this.statusBar.find('.status-cursor > .status-line-column')
     this.statusSelection = this.statusBar.find('.status-cursor > .status-selection')
     this.statusFile = this.statusBar.find('.status-file')
@@ -458,6 +461,7 @@ export default class Editor {
     this.setSpellcheck()
     this.setLinter()
     this.setPreferences()
+    this.setupStatusModals()
 
     this.handleStatusBarResize()
   }
@@ -497,6 +501,56 @@ export default class Editor {
     $(window).resize(onResize)
 
     onResize()
+  }
+
+  // on touch devices the drop-up menus are hard to hit, so the menu is moved
+  // into a dialog instead. Moving (not copying) keeps every handler that was
+  // bound to its items working.
+  setupStatusModals () {
+    const menus = [
+      { selector: '.status-preferences', title: 'Preferences', keepOpen: true },
+      { selector: '.status-keymap', title: 'Keymap' },
+      { selector: '.status-theme', title: 'Theme' },
+      { selector: '.status-spellcheck', title: 'Spellcheck' }
+    ]
+
+    const modalBody = this.statusModal.find('.modal-body')
+    const modalTitle = this.statusModal.find('.modal-title')
+    var current = null
+
+    const restoreMenu = () => {
+      if (!current) return
+      current.container.append(current.menu)
+      modalBody.removeClass(current.className)
+      current = null
+    }
+
+    this.statusModal.on('hidden.bs.modal', restoreMenu)
+
+    menus.forEach(({ selector, title, keepOpen }) => {
+      const container = this.statusIndicators.find(selector)
+      const menu = container.find('ul.dropdown-menu')
+      const className = selector.substring(1)
+
+      container.find('[data-toggle="dropdown"]').on('click', (e) => {
+        if (!isTouchStatusBar()) return
+        // keep bootstrap from opening the drop-up behind the dialog
+        e.preventDefault()
+        e.stopPropagation()
+
+        restoreMenu()
+        current = { container, menu, className, keepOpen }
+        modalTitle.text(title)
+        // the class lets the menu still be found by its usual selector
+        modalBody.addClass(className)
+        modalBody.append(menu)
+        this.statusModal.modal('show')
+      })
+    })
+
+    modalBody.on('click', 'li', () => {
+      if (current && !current.keepOpen) this.statusModal.modal('hide')
+    })
   }
 
   setIndent () {
@@ -675,15 +729,15 @@ export default class Editor {
     }))
 
     const activateThemeListItem = (theme) => {
-      this.statusIndicators.find('.status-theme li').removeClass('active')
-      this.statusIndicators.find(`.status-theme li[value="${theme}"]`).addClass('active')
+      $('.status-theme li').removeClass('active')
+      $(`.status-theme li[value="${theme}"]`).addClass('active')
     }
 
     const setTheme = theme => {
       this.editor.setOption('theme', theme)
       Storage.set('theme', theme)
-      this.statusIndicators.find('.status-theme li').removeClass('active')
-      this.statusIndicators.find(`.status-theme li[value="${theme}"]`).addClass('active')
+      $('.status-theme li').removeClass('active')
+      $(`.status-theme li[value="${theme}"]`).addClass('active')
     }
 
     const storedTheme = Storage.get('theme')
@@ -694,7 +748,7 @@ export default class Editor {
       activateThemeListItem(this.editor.getOption('theme'))
     }
 
-    this.statusIndicators.find('.status-theme li').click(function () {
+    $('.status-theme li').click(function () {
       const theme = $(this).attr('value')
       setTheme(theme)
       activateThemeListItem(theme)
@@ -712,7 +766,7 @@ export default class Editor {
       return
     }
 
-    const langName = this.statusIndicators.find(`.status-spellcheck li[value="${lang}"]`).text()
+    const langName = $(`.status-spellcheck li[value="${lang}"]`).text()
     this.statusIndicators.find('.spellcheck-lang').text(langName)
 
     this.spellchecker.setDictLang(lang)
@@ -730,12 +784,12 @@ export default class Editor {
   }
 
   activateSpellcheckListItem (lang) {
-    this.statusIndicators.find('.status-spellcheck li').removeClass('active')
+    $('.status-spellcheck li').removeClass('active')
 
     if (lang) {
-      this.statusIndicators.find(`.status-spellcheck li[value="${lang}"]`).addClass('active')
+      $(`.status-spellcheck li[value="${lang}"]`).addClass('active')
     } else {
-      this.statusIndicators.find('.status-spellcheck li[value="disabled"]').addClass('active')
+      $('.status-spellcheck li[value="disabled"]').addClass('active')
     }
   }
 
@@ -775,7 +829,7 @@ export default class Editor {
     }
 
     const self = this
-    this.statusIndicators.find('.status-spellcheck li').click(function () {
+    $('.status-spellcheck li').click(function () {
       const lang = $(this).attr('value')
 
       if (lang === 'disabled') {

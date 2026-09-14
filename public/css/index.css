@@ -688,6 +688,49 @@ div[contenteditable]:empty:not(:focus):before{
     font-weight: 500;
 }
 
+/* status bar drop-up menus shown as a dialog on touch devices */
+.status-modal .modal-body {
+    padding: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.status-modal .modal-body .dropdown-menu {
+    display: block;
+    position: static;
+    float: none;
+    width: 100%;
+    max-height: none !important;
+    margin: 0;
+    padding: 5px 0;
+    border: 0 !important;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+}
+
+.status-modal .modal-body .dropdown-menu > li > a {
+    padding: 12px 20px;
+    font-size: 15px;
+    max-width: none;
+    white-space: normal;
+}
+
+.status-modal .modal-body.status-preferences .dropdown-menu > li > a {
+    cursor: default;
+}
+
+.status-modal .modal-body.status-preferences .dropdown-menu label {
+    font: inherit;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.status-modal .modal-body.status-preferences .dropdown-menu label > input[type="checkbox"] {
+    vertical-align: middle;
+    margin: -3px 0 0;
+}
+
 /* touch devices: enlarge the status bar so its items are easier to tap */
 @media (max-width: 1024px), (pointer: coarse) {
     .status-bar {
