@@ -1311,7 +1311,11 @@ function generateScrollspy () {
   })
   $(document.body).scrollspy('refresh')
   ui.area.view.scrollspy('refresh')
-  if (enoughForAffixToc) {
+  // without any heading the table of content is an empty box, so hide it
+  if ($('#ui-toc').find('.toc a').length === 0) {
+    ui.toc.toc.hide()
+    ui.toc.affix.hide()
+  } else if (enoughForAffixToc) {
     ui.toc.toc.hide()
     ui.toc.affix.show()
   } else {
