@@ -504,7 +504,7 @@ export default class Editor {
       this.statusLength.css('color', 'orange')
       this.statusLength.attr('title', 'This document is nearly full, consider splitting it or creating a new one.')
     } else {
-      this.statusLength.css('color', 'white')
+      this.statusLength.css('color', '')
       this.statusLength.attr('title', 'You can write up to ' + config.docmaxlength + ' characters in this document.')
     }
   }
