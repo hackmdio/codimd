@@ -23,6 +23,8 @@ import {
   saveStorageHistoryToServer
 } from './history'
 
+import { getNightMode, setNightMode } from './lib/common/night'
+
 import { saveAs } from 'file-saver'
 import List from 'list.js'
 import unescapeHTML from 'lodash/unescape'
@@ -31,6 +33,20 @@ require('./locale')
 
 require('../css/cover.css')
 require('../css/site.css')
+
+// night mode, sharing its setting with the editor page. Applied as soon as
+// the script runs so the page does not flash in the wrong colours.
+function applyNightMode (enable) {
+  $('html, body').toggleClass('night', enable)
+}
+
+applyNightMode(getNightMode())
+
+$('.ui-night').click(() => {
+  const enable = !getNightMode()
+  setNightMode(enable)
+  applyNightMode(enable)
+})
 
 const options = {
   valueNames: ['id', 'text', 'timestamp', 'fromNow', 'time', 'tags', 'pinned'],
