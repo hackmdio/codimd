@@ -136,7 +136,16 @@ app.use(i18n.init)
 // static files
 app.use('/', express.static(path.join(__dirname, '/public'), { maxAge: config.staticCacheTime, index: false }))
 app.use('/docs', express.static(path.resolve(__dirname, config.docsPath), { maxAge: config.staticCacheTime }))
-app.use('/uploads', express.static(path.resolve(__dirname, config.uploadsPath), { maxAge: config.staticCacheTime }))
+app.use('/uploads', express.static(path.resolve(__dirname, config.uploadsPath), {
+  maxAge: config.staticCacheTime,
+  setHeaders: function (res, filePath) {
+    res.setHeader('X-Content-Type-Options', 'nosniff')
+    if (path.extname(filePath).toLowerCase() === '.svg') {
+      // defense in depth: an SVG opened directly must not run scripts or load resources
+      res.setHeader('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+    }
+  }
+}))
 app.use('/default.md', express.static(path.resolve(__dirname, config.defaultNotePath), { maxAge: config.staticCacheTime }))
 app.use(require('./lib/metrics').router)
 
